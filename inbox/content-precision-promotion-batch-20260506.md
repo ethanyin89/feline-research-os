@@ -9,7 +9,7 @@ verification_status: provisional
 decision_grade: no
 language_qa_status: light_checked
 owner: codex
-status: staged
+status: processed
 ---
 
 # Content Precision Promotion Batch, 2026-05-06
@@ -250,4 +250,22 @@ Run an official-source precision batch for FIP regulatory current status:
 1. current Animal Drugs @ FDA / Green Book check for FIP antiviral entries
 2. GS-441524 office-stock nomination / list-status check
 3. EMA Article 23 eligibility screen for baseline GS-441524 FIP indication
+
+## Processing Record
+
+**Processed: 2026-05-07**
+
+The recommended official-source precision batch has been completed:
+
+| Item | Status | Result |
+|------|--------|--------|
+| FDA Animal Drugs / Green Book | ✅ Done (2026-05-06) | No FDA-approved FIP antivirals |
+| GS-441524 office-stock | ✅ Done (2026-05-06) | Not authorized; patient-specific only |
+| EMA Article 23 | ✅ Done (2026-05-07) | Cats are major species; FIP eligibility via "infrequent disease" criterion |
+| China implementing notices | ✅ Done (2026-05-07) | No approved FIP antivirals; GS-441524 sales illegal |
+| UK route mapping | ✅ Done (2026-05-07) | Legal since 2021 via Bova Specials UK |
+
+All findings written to `topics/fip/regulatory-brief.md`.
+
+This inbox file can be archived.
 
