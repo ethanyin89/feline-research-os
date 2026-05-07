@@ -1,0 +1,233 @@
+{
+  "main": {
+    "id": "8d5e4e7fa6eb3a23",
+    "type": "split",
+    "children": [
+      {
+        "id": "140c10388a1637da",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16b3b5c9f65eb488",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b2f63a2052c61807",
+    "type": "split",
+    "children": [
+      {
+        "id": "b2b031d737a24298",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ef5fc6089d54eddf",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "6607f4d59a727f25",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "ffb994f53690e0fb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 368.5,
+    "collapsed": true
+  },
+  "right": {
+    "id": "845146070663cef0",
+    "type": "split",
+    "children": [
+      {
+        "id": "1ebc07b6d53a8216",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1440abbbe9861334",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "73cc5989773b86a7",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "outputs/dossiers/out-ckd-dossier-20260408-v1.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from out-ckd-dossier-20260408-v1"
+            }
+          },
+          {
+            "id": "9bf912bfa9009b3c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "76396bfd3e26facc",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "05e965f69bcc7636",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "outputs/dossiers/out-ckd-dossier-20260408-v1.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of out-ckd-dossier-20260408-v1"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "16b3b5c9f65eb488",
+  "lastOpenFiles": [
+    "system/indexes/content-precision-sample-run-20260506.md",
+    "system/indexes/content-precision-promotion-workflow.md",
+    "system/health-checks/health-report-20260506.md",
+    "inbox/content-precision-sample-run-20260506.md",
+    "HANDOFF-2026-04-24-SESSION.md",
+    "system/indexes/src-fcv-020-deep-extraction-round1.md",
+    "system/indexes/src-fcv-021-deep-extraction-round1.md",
+    "topics/diabetes/synthesis-index.md",
+    "topics/diabetes/sglt2-label-control.md",
+    "topics/diabetes/epidemiology-and-breed-risk.md",
+    "topics/diabetes/complications-neuropathy.md",
+    "topics/diabetes/pancreatitis-comorbidity.md",
+    "topics/diabetes/endocrine-secondary-diabetes.md",
+    "topics/diabetes/obesity-and-body-condition.md",
+    "topics/diabetes/diagnostic-monitoring-workup.md",
+    "topics/diabetes/treatment-branch-map.md",
+    "topics/diabetes/remission-boundaries.md",
+    "topics/diabetes/diet-architecture.md",
+    "start.md",
+    "raw/images/diabetes/README.md",
+    "raw/images/diabetes/src-diabetes-023-figure-4-insulin-resistance-mechanism.png",
+    "raw/images/diabetes",
+    "raw/images/ibd/src-ibd-019-figure-1-pca-heatmap-ce-vs-control.png",
+    "raw/images/hcm/src-hcm-011-fig-3-myk461-sam-lvot-gradient.png",
+    "raw/images/fip/src-fip-003-figure-2-ascites-radiograph-kidney-ihc-panel.png",
+    "system/health-checks/health-report-20260422.md",
+    "scripts/__pycache__/health.cpython-313.pyc",
+    "scripts/health.py",
+    "HANDOFF-NEXT-2026-04-22.md",
+    "system/health-checks/ask-the-vault-acceptance-report-20260422.md",
+    "system/indexes/ibd-source-depth-map.md",
+    "system/indexes/fip-source-depth-map.md",
+    "system/indexes/diabetes-source-depth-map.md",
+    "scripts/__pycache__/check_markdown_links.cpython-313.pyc",
+    "raw/images/ckd/src-ckd-022-pathology-histopath-findings-table.png",
+    "outputs/figures/maturity-bar.png",
+    "outputs/figures/source-coverage-ckd.png",
+    "outputs/figures/endpoint-radar-ckd.png",
+    "scripts/charts.py",
+    "scripts/mcp_server.py",
+    "scripts/__pycache__/compile_trigger.cpython-313.pyc",
+    "scripts/compile_trigger.py",
+    "scripts/__pycache__/search.cpython-313.pyc",
+    "scripts/search.py",
+    "raw/images/ckd/src-ckd-022-outcome-time-course-gfr-creatinine-table.png",
+    "raw/images/ckd/src-ckd-024-outcome-biomarker-comparison-table.png",
+    "Untitled 1.canvas",
+    "Untitled.canvas"
+  ]
+}

@@ -1,0 +1,14 @@
+# Feline Research OS — pinned runtime dependencies
+# Python 3.9+
+#
+# Install:
+#   pip install -r requirements.txt
+#
+# To upgrade and re-pin:
+#   pip install --upgrade anthropic openai streamlit
+#   pip freeze | grep -E 'anthropic|openai|streamlit' > requirements.txt
+
+anthropic>=0.94.0
+openai>=1.50.0
+streamlit>=1.40.0
+matplotlib>=3.9.0

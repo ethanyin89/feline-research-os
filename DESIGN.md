@@ -1,0 +1,447 @@
+# Design System — Feline Research OS
+
+## Product Context
+- **What this is:** Internal veterinary research intelligence tool — a Streamlit chat UI for querying a structured knowledge vault (Karpathy-style LLM wiki) about feline diseases
+- **Who it's for:** Researchers and analysts working daily on CKD, FIP, HCM, IBD; internal use only
+- **Space/industry:** Veterinary research, biomedical knowledge management
+- **Project type:** Internal research instrument (not a consumer product)
+
+## Aesthetic Direction
+- **Direction:** Industrial / Utilitarian
+- **Decoration level:** Minimal — typography and the provenance badge system carry all visual weight; no gradients, no illustrations, no decorative shapes
+- **Mood:** Precision research instrument. The tool should feel like something Karpathy would build for himself: dense, purposeful, no visual noise. Every element earns its place.
+- **Key constraint:** The three provenance badge colors (green / amber / gray) are the ONLY semantic accent colors in the entire UI. Nothing competes with them.
+
+## Typography
+- **Display/Hero:** Geist Sans 600 — page titles, section headings
+- **Body:** Geist Sans 400, 15px, line-height 1.7 — answer text, expander content, help text
+- **UI/Labels:** Geist Sans 500, 13px — sidebar labels, selectbox text, button text, captions
+- **Data/Metadata:** Geist Mono 400/500, 11–12px — source IDs (src-ckd-001), file paths, token counts, hop counts, confidence values, all `st.code()` content
+- **Code:** Geist Mono (same as Data)
+- **Loading:** Google Fonts — `https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap`
+- **Scale:**
+  - xs: 11px (mono metadata, badge text)
+  - sm: 13px (UI labels, sidebar captions)
+  - md: 15px (body text, answer prose)
+  - lg: 18px (section subheadings)
+  - xl: 24px (page title)
+  - 2xl: 32px (hero)
+
+## Color
+- **Approach:** Restrained dark-mode-first; badge colors carry all semantic weight
+- **Background:** `#0f1117` — primary page background (Streamlit dark, barely warm)
+- **Surface:** `#1a1d27` — sidebar, cards, expanders, input backgrounds
+- **Surface 2:** `#222535` — hover states, code blocks, nested surfaces
+- **Border:** `#2d3147` — all dividers, input borders, expander borders
+- **Primary text:** `#e8eaf0` — main readable text
+- **Muted text:** `#8b90a0` — labels, captions, placeholder text, metadata
+- **Subtle text:** `#4a4f64` — secondary metadata, disabled states
+
+### Provenance Accents (the ONLY accent colors — do not add more)
+| Role | Foreground | Background tint | Border tint |
+|---|---|---|---|
+| `quoted_fact` | `#16a34a` | `rgba(22,163,74,0.12)` | `rgba(22,163,74,0.25)` |
+| `source_supported_conclusion` | `#ca8a04` | `rgba(202,138,4,0.12)` | `rgba(202,138,4,0.25)` |
+| `llm_inference` | `#6b7280` | `rgba(107,114,128,0.12)` | `rgba(107,114,128,0.25)` |
+
+### Confidence Colors (derived from badge accents)
+| Level | Color |
+|---|---|
+| high | `#16a34a` |
+| medium | `#ca8a04` |
+| low | `#ef4444` |
+
+- **Dark mode:** This IS dark mode. No light mode variant needed for internal use.
+
+## Spacing
+- **Base unit:** 8px
+- **Density:** Comfortable (information-dense but not cramped; provenance badges need breathing room)
+- **Scale:**
+  - 2xs: 2px
+  - xs: 4px
+  - sm: 8px
+  - md: 16px
+  - lg: 24px
+  - xl: 32px
+  - 2xl: 48px
+  - 3xl: 64px
+
+## Layout
+- **Approach:** Grid-disciplined; sidebar/main split is fixed
+- **Sidebar width:** 240px (Streamlit default — do not override)
+- **Main content max-width:** 720px (chat area; prevents wall-of-text on wide displays)
+- **Grid:** N/A (Streamlit manages layout; override only via CSS injection)
+- **Border radius:**
+  - sm: 4px (badges, inline code, small tags)
+  - md: 6px (inputs, buttons, expanders)
+  - lg: 10px (cards, full app container when demoing)
+  - full: 9999px (only for circular elements like avatars)
+
+## Motion
+- **Approach:** Minimal-functional — only the `st.status()` spinner is intentional motion; no entrance animations
+- **Easing:** ease-out (enter), ease-in (exit)
+- **Duration:**
+  - micro: 50–100ms (hover state color changes)
+  - short: 150–200ms (expander open/close)
+  - Spinner: 0.8s linear infinite
+
+## Streamlit Implementation
+
+### config.toml
+Create `.streamlit/config.toml`:
+
+```toml
+[theme]
+base = "dark"
+backgroundColor = "#0f1117"
+secondaryBackgroundColor = "#1a1d27"
+textColor = "#e8eaf0"
+primaryColor = "#16a34a"
+font = "monospace"
+```
+
+Note: `font = "monospace"` is the closest Streamlit built-in to a monospace-accented stack. Geist requires CSS injection.
+
+### CSS Injection (app.py — canonical, as of 2026-04-18)
+
+```python
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+
+/* Base font */
+html, body, [class*="css"] {
+  font-family: 'Geist', system-ui, sans-serif !important;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Monospace: code, source IDs, file paths */
+code, pre, .stCode, [data-testid="stCode"] {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 12px !important;
+}
+
+/* Captions and metadata in muted mono */
+.stCaption, [data-testid="stCaptionContainer"] {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  color: #8b90a0 !important;
+}
+
+/* Chat answer max-width */
+[data-testid="stChatMessageContent"] {
+  max-width: 720px;
+}
+
+/* Figure captions under st.image() */
+[data-testid="stImage"] figcaption,
+[data-testid="stImageCaption"] {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  color: #8b90a0 !important;
+  margin-top: 4px;
+}
+</style>
+""", unsafe_allow_html=True)
+```
+
+**Important:** Google Fonts serves this as `family=Geist` (not `Geist+Sans`). The CSS `font-family` value is `'Geist'` not `'Geist Sans'`.
+
+## Provenance Badges — Explicit Spec
+
+Badges are rendered via `render_provenance()` in `app.py:73-77` using inline HTML spans. These are the only accent elements in the UI.
+
+| Property | Value |
+|----------|-------|
+| `font-size` | `0.75em` (≈ 11px at body 15px) |
+| `font-family` | inherit (Geist, not Mono) |
+| `font-weight` | 400 |
+| `padding` | `1px 6px` |
+| `border-radius` | `3px` (sm: 4px from border-radius scale — 3px is current; align to 4px if restyling) |
+| `white-space` | `nowrap` |
+| `vertical-align` | `middle` (implicit via inline) |
+
+Badge color values are defined in the Color section above. Do not add new badge types or accent colors without explicitly updating this section and the Color section.
+
+## Figures (Vision Layer — added 2026-04-18)
+
+Figures are displayed inline in the assistant chat bubble via `st.image()` when `described_in_answer: true` in the synthesis response. This section defines how they should look.
+
+### Figure Container
+
+- Display: below the answer text, separated by `st.divider()` (renders as a 1px `#2d3147` line)
+- Layout: up to 3 figures in a column grid (`st.columns(min(n, 3))`)
+- Max columns: 3; overflow wraps to next row
+- No figure border or card treatment — images float directly on `#0f1117`
+
+### Figure Captions
+
+Format: `[src-ckd-001]` — source ID only, no descriptive text in caption
+- Font: Geist Mono 400, 11px
+- Color: `#8b90a0` (muted text)
+- Margin-top: 4px from image bottom
+
+Rationale: the source ID is the provenance anchor. Adding a description would duplicate the answer text that already described the figure.
+
+### Figure Sizing
+
+- `st.image()` uses container width by default — do not set `width=` explicitly
+- For narrow figures (mechanism schematics, flow diagrams): they will naturally render smaller inside the column container. That's correct.
+- For wide figures (outcome tables, forest plots): they expand to fill the column. That's also correct.
+
+### CSS Targeting (already in CSS injection)
+
+```css
+[data-testid="stImage"] figcaption,
+[data-testid="stImageCaption"] {
+  font-family: 'Geist Mono', monospace !important;
+  font-size: 11px !important;
+  color: #8b90a0 !important;
+  margin-top: 4px;
+}
+```
+
+## Empty State
+
+When no conversation exists yet, the chat area shows a structured empty state instead of a blank page. This is the user's first impression and their 30-second orientation.
+
+### Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│              Ask the vault                      │  ← st.title, Geist 600, xl (24px)
+│                                                 │
+│  96 source cards · 74 topic pages · 4 diseases  │  ← Geist Mono 400, 11px, #8b90a0
+│                                                 │
+│  ┌─────────────────────────────────────────┐    │
+│  │  Try asking:                            │    │  ← Geist 400, 13px, #8b90a0
+│  │                                         │    │
+│  │  ○ CKD 的 SDMA 作为早期 biomarker       │    │  ← clickable example chips
+│  │    的证据有多强？                        │    │
+│  │  ○ Compare FIP treatment options:       │    │
+│  │    GS-441524 vs molnupiravir            │    │
+│  │  ○ IBD 的诊断排除流程是什么？            │    │
+│  │  ○ What HCM screening endpoints         │    │
+│  │    are usable today?                    │    │
+│  │                                         │    │
+│  └─────────────────────────────────────────┘    │
+│                                                 │
+│  ┌──────────────────────────────────────┐       │
+│  │  Provenance guide:                   │       │  ← Geist 400, 13px, #8b90a0
+│  │  ■ quoted_fact     — direct quote    │       │  ← #16a34a badge
+│  │  ■ supported       — evidence-based  │       │  ← #ca8a04 badge
+│  │  ■ llm_inference   — beyond evidence │       │  ← #6b7280 badge
+│  └──────────────────────────────────────┘       │
+│                                                 │
+│  [Ask a research question...              ]     │  ← st.chat_input
+└─────────────────────────────────────────────────┘
+```
+
+### Example Question Chips
+
+- Rendered as `st.button()` with `use_container_width=False`
+- Font: Geist 400, 13px, `#e8eaf0`
+- Background: `#1a1d27` (Surface)
+- Border: 1px solid `#2d3147`
+- Border-radius: md (6px)
+- Hover: background shifts to `#222535` (Surface 2)
+- On click: populates `st.chat_input` and triggers `run_query()`
+- 4 examples, one per disease, bilingual mix (reflects actual vault content)
+
+### Vault Stats Line
+
+- Rendered below the title via `st.caption()`
+- Font: Geist Mono 400, 11px
+- Color: `#8b90a0` (muted text)
+- Content: dynamically computed from `len(source_index)`, topic page count, disease count
+- Format: `{n} source cards · {m} topic pages · 4 diseases`
+- Separator: ` · ` (middle dot, not bullet)
+
+### Provenance Guide
+
+- Rendered as a compact block below example chips
+- Each badge type shown with its actual rendered badge + one-line explanation
+- Only appears in empty state, not after conversation starts
+- This is the only place the system explains what the colors mean
+
+## Search UI
+
+`search.py` currently exists as CLI only. The Streamlit UI should expose vault search as a sidebar feature so users can keyword-search without formulating a full question.
+
+### Placement
+
+- Sidebar, below the Backend/Disease/Max hops controls
+- Above the "Files loaded" expander
+- Separated by `st.divider()`
+
+### Components
+
+```
+┌─── Sidebar ──────────────┐
+│  ...existing controls...  │
+│  ─────────────────────── │
+│  Search vault             │  ← Geist 500, 13px
+│  [keyword...        ] 🔍 │  ← st.text_input + button
+│  Scope: ○ All ○ Raw      │  ← st.radio, horizontal
+│         ○ Topics          │
+│                           │
+│  ┌──────────────────────┐│
+│  │ src-ckd-004 (12 hits)││  ← search result cards
+│  │ ISFM CKD Guidelines  ││
+│  │ "...phosphorus..."   ││  ← snippet, Geist Mono 11px
+│  ├──────────────────────┤│
+│  │ src-ckd-001 (8 hits) ││
+│  │ ...                  ││
+│  └──────────────────────┘│
+│  ─────────────────────── │
+│  Files loaded (3)    ▶   │
+│  ...                      │
+└──────────────────────────┘
+```
+
+### Search Result Cards
+
+- Container: `st.expander()` or stacked `st.container()` blocks
+- Title: source ID in Geist Mono 400, 12px, `#e8eaf0`
+- Subtitle: paper title in Geist 400, 11px, `#8b90a0`
+- Snippet: matched text with keyword highlighted, Geist Mono 400, 11px
+- Hit count: Geist Mono 400, 11px, `#4a4f64`
+- Max results displayed: 5 (matches `search.py` default `--limit 5`)
+- Click behavior: opens the source card in a new main-area panel, or loads it as context for the next question
+
+### Scope Radio
+
+- Options: All / Raw / Topics
+- Maps to `search.py --scope` parameter
+- Default: All
+- Style: `st.radio(horizontal=True)`, follows Streamlit dark theme
+
+### Integration with Query
+
+- When a user searches and then asks a question, the search results should inform the query context
+- This mirrors the existing `search pre-heat` in `query.py` but makes it visible and user-controlled
+
+## Onboarding / First Run
+
+The first time a user opens the Streamlit app, they need to understand 3 things in 30 seconds:
+
+1. **What this does** — ask a research question, get a sourced answer
+2. **What the colors mean** — green = quoted, amber = supported, gray = beyond evidence
+3. **How to start** — click an example or type a question
+
+### Implementation
+
+The empty state (defined above) IS the onboarding. No separate onboarding flow, no modal, no tutorial wizard. The empty state communicates everything a new user needs.
+
+If additional context is needed:
+- A collapsible "How this works" section below the provenance guide in empty state
+- Content: 3-4 sentences max
+- "This tool searches 96 research papers about feline CKD, FIP, HCM, and IBD. Ask a question and the system routes it to relevant source cards, synthesizes an answer, and tags every claim with its evidence level. Green tags are direct quotes. Amber tags are supported conclusions. Gray tags mean the answer goes beyond loaded evidence."
+- Font: Geist 400, 13px, `#8b90a0`
+- Collapsed by default after first visit (use `st.session_state` or localStorage)
+
+### What NOT to build
+
+- No account creation or login
+- No multi-step tutorial
+- No tooltip tour
+- No "getting started" modal
+- The tool should be self-evident from the empty state alone
+
+## Error & Edge States
+
+Currently, errors render as generic Streamlit `st.error()` / `st.warning()` boxes. These should be more informative and actionable.
+
+### Disease Detection Failure
+
+**Current:** `"Could not detect disease from your question. Select a disease in the sidebar and try again."`
+
+**Improved:**
+- Icon: none (Streamlit warning box is sufficient)
+- Message: "I couldn't figure out which disease you're asking about. Try selecting **CKD**, **FIP**, **HCM**, or **IBD** in the sidebar, then ask again."
+- Below the warning: re-display the example question chips (same as empty state) so the user has an immediate next action
+- Font: follows Streamlit warning box defaults (Geist injection applies)
+
+### API / Backend Failure
+
+**Current:** `"Query failed: {e}"`
+
+**Improved format:**
+```
+Query failed: [error type]
+
+What happened: [1-sentence plain English explanation]
+What to try:
+  · Check your API key is set correctly
+  · Try switching to Ollama (local) in the sidebar
+  · If using Ollama, make sure it's running: ollama serve
+```
+
+- Render as `st.error()` with the structured message
+- Include the raw error in a collapsed `st.expander("Technical details")`
+- Font: body text in Geist 400, technical details in Geist Mono 11px
+
+### Empty Results / Low Confidence
+
+When the system returns an answer but with `confidence: low`:
+- Show the answer normally
+- Below the answer, add a muted note: `st.caption("⚠ Low confidence — this answer relies heavily on LLM inference beyond the loaded evidence.")`
+- Font: Geist Mono 400, 11px, `#ca8a04` (amber, matching the supported conclusion badge)
+
+### No Source Cards Loaded
+
+If the routing step finds 0 relevant source cards:
+- Do not synthesize (garbage in, garbage out)
+- Show: "No source cards matched your question. Try rephrasing, or select a specific disease in the sidebar."
+- Re-display example chips
+
+## Copy / Export Actions
+
+Users get a good answer and want to share it with colleagues. Currently there's no way to do this from the UI.
+
+### Copy Markdown Button
+
+- Placement: below each assistant message, right-aligned
+- Label: "Copy markdown" (Geist 400, 11px, `#8b90a0`)
+- Style: text button (no background, no border), hover color `#e8eaf0`
+- Behavior: copies the raw markdown answer (with provenance tags intact) to clipboard via `st.components.v1.html()` with a clipboard JS snippet
+- Feedback: button text changes to "Copied" for 2 seconds, color `#16a34a`
+
+### Export to File
+
+- Placement: sidebar, in the "Last query debug" expander
+- Label: "Save as .md"
+- Behavior: writes the answer to `outputs/qa/` using the existing `write_back()` function
+- This already exists as the "Write answer to outputs/qa/" checkbox, but it should also be available as a one-click action after seeing the answer
+
+### What NOT to build
+
+- No PDF export (over-engineering for internal tool)
+- No "share link" (no server, no URLs)
+- No email integration
+- Keep it simple: copy to clipboard + save to vault
+
+## Decisions Log
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-04-17 | Dark-mode-first | Internal research tool; less eye strain for evening/night work; signals precision instrument over clinical portal |
+| 2026-04-17 | Geist for entire stack | Code-adjacent content (source IDs, file paths, hop counts) is scattered throughout; one font family handles both prose and technical strings coherently |
+| 2026-04-17 | Badge colors as only accents | The provenance system (quoted_fact / supported / llm_inference) is the primary differentiating UI element; making it the only accent source makes it feel intentional and primary, not incidental |
+| 2026-04-17 | No interactive accent color (no blue primary) | Streamlit handles button/interactive states; custom blue would compete with badge accents; primary color in config.toml set to #16a34a (quoted_fact green) to keep interactive states coherent |
+| 2026-04-17 | 720px max-width for chat area | Research answers are prose-dense; unconstrained width produces difficult reading lines on wide displays |
+| 2026-04-18 | Corrected font import to `family=Geist` | Google Fonts serves the Vercel Geist font as `Geist`, not `Geist+Sans`. The earlier injection used the wrong identifier and would silently fall back to system-ui. |
+| 2026-04-18 | Body 15px/1.7 and caption 11px/Mono codified in CSS | Makes the typographic scale explicit at the DOM level rather than relying on Streamlit defaults, which differ across versions. |
+| 2026-04-18 | Source ID as sole figure caption | Keeps provenance atomic — the source ID is the reference; any description lives in the answer text already. Adding a second description would create duplication. |
+| 2026-04-18 | No border/card treatment for inline figures | Figures sit on the raw `#0f1117` background. A card would add visual weight and make figures feel like embedded embeds rather than evidence integrated into the answer. |
+| 2026-04-18 | Empty state with example chips | New users see a blank page and don't know what to ask. Clickable examples give them a 30-second path to their first meaningful query. |
+| 2026-04-18 | Provenance guide in empty state only | The badge color system is the core differentiator but never explained in-app. Showing it once in empty state (not persistently) teaches without cluttering. |
+| 2026-04-18 | Search UI in sidebar | search.py exists as CLI only. Sidebar search covers "I want to find a keyword" without formulating a full question. Different intent than Q&A. |
+| 2026-04-18 | No onboarding wizard | The empty state IS the onboarding. Modal tutorials and tooltip tours add friction for a tool that should be self-evident. |
+| 2026-04-18 | Structured error messages | Generic "Query failed: {e}" is useless to non-developers. Plain English + actionable next steps + collapsed technical details. |
+| 2026-04-18 | Copy markdown button per answer | Researchers need to share findings with colleagues. Clipboard copy with provenance tags intact is the minimal viable export. |
+| 2026-04-27 | Research-lite output mode | Normal users get cleaner answers: inline provenance badges preserved (they're the value), but technical footers (Files loaded, Source cards cited) removed. Sources section shows paper titles instead of src-xxx IDs. Section heading "Uncertainty / Limits" softened to "What we don't know yet". |
+| 2026-04-27 | Figure captions as paper titles | Figure captions now show paper title (e.g., "ISFM CKD Guidelines") instead of source ID (e.g., "src-ckd-001"). More readable for ordinary users. |
+| 2026-04-27 | Clean Sources section | New Sources section at end of each answer shows unique paper titles, not technical IDs. Audit trail preserved in sidebar metadata for power users. |
+| 2026-04-27 | Source weighting system | Combined score = evidence_level × verification_status. Tiers: high (7-10) for guidelines/reviews with deep extraction, medium (4-7) for original studies, low (0-4) for case reports or abstract-only. Synthesis prompt instructs model to prefer higher-weighted sources when conflicting; acknowledge limitations when citing low-weight sources. |
