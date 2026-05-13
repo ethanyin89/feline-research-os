@@ -12,7 +12,7 @@ evidence_level: review
 year: 2024
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, overweight, epidemiology, risk-factors, associated-pathologies]
@@ -22,20 +22,37 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata identifies this as a 2024 Journal of Feline Medicine and Surgery article."
-    - "The title frames domestic-cat overweight and obesity around epidemiological risk factors and associated pathologies."
+    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
+    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2024."
   source_supported_conclusion:
-    - "This is a Tier A candidate for updating obesity epidemiology and comorbidity architecture."
-    - "It should not support specific associated-disease claims until abstract or full text has been extracted."
+    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
+    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
-    - "The source is likely important because it is feline-specific and recent, but its exact evidence type must be confirmed."
+    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
 
 # Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies
 
 ## Evidence-Depth Caveat
 
-This card is title-and-metadata weighted. It identifies a likely high-value source, but no article-level findings have been extracted yet.
+This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+
+## Source Check, 2026-05-13
+
+Crossref metadata was checked as a repeatable second-pass intake step.
+
+- DOI metadata resolved: yes
+- Container: Journal of Feline Medicine and Surgery
+- Year: 2024
+- Abstract available in Crossref: yes
+
+Use boundary:
+
+- This card may guide navigation and extraction priority.
+- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+
+Abstract lead for scope check only: The domestic cat has evolved in various aspects in its journey from original domestication to the present day. Many domestic cats today lead a sedentary indoor lifestyle with low...
+
 
 ## One-Line Summary
 

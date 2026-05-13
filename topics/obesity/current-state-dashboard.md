@@ -11,7 +11,7 @@ confidence: low
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-05-13 checked as source-indexed dashboard; partial/title-only source boundary is visible and no clinical guidance claims are made."
+language_qa_notes: "2026-05-13 checked as source-indexed dashboard; partial/title-only/abstract-weighted source boundary is visible and no clinical guidance claims are made."
 owner: codex
 status: active
 ---
@@ -22,7 +22,7 @@ status: active
 
 `source-indexed`
 
-The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified, de-duplicated, and fully first-pass ingested as source cards. These are partial cards, not deep-extracted evidence.
+The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified, de-duplicated, and fully first-pass ingested as source cards. Four cards are now abstract-weighted after a repeatable source-check sample, but the obesity corpus is still partial and not deep-extracted evidence.
 
 ## What Exists
 
@@ -31,7 +31,7 @@ The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus 
 | Google Sheet intake | done | 227 non-empty rows classified |
 | Obesity candidate set | done | 87 obesity source cards now exist |
 | Shared-source control | done | 10 shared existing rows marked for cross-linking after bootstrap |
-| Obesity source cards | first-pass complete | `src-obesity-001` through `src-obesity-087`; partial and mostly title-only |
+| Obesity source cards | first-pass complete + sample source-check | `src-obesity-001` through `src-obesity-087`; 83 title-only, 4 abstract-weighted |
 | Obesity source index | active | source index and depth map exist, but deep extraction is still pending |
 | Obesity topic pages | shell only | index, navigation, dashboard |
 
@@ -59,7 +59,7 @@ See [obesity bootstrap source queue](../../system/indexes/obesity-bootstrap-sour
 
 The module can move from `source-indexed` to `compiled starter` after:
 
-1. `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008` are deep-extracted.
+1. `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008` are deep-extracted or have structured full abstract worksheets.
 2. Shared diabetes-obesity source handling is documented in the first compiled obesity page.
 3. A first narrow obesity owner exists, preferably risk/assessment, prevention, or obesity-diabetes bridge.
 4. Markdown and source-card checks pass.

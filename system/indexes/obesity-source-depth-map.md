@@ -28,14 +28,14 @@ Use this map to decide which obesity source cards need deep extraction before an
 
 | Disease | Source Cards | partial | full | title_only | abstract_weighted | deep_extracted |
 |---|---:|---:|---:|---:|---:|---:|
-| Obesity | 87 | 87 | 0 | 85 | 2 | 0 |
+| Obesity | 87 | 87 | 0 | 83 | 4 | 0 |
 
 ## Tier 1 — Bootstrap Anchors
 
 | Source ID | Title Short | Current Role | Depth | Verification | Priority | Key Gap |
 |---|---|---|---|---|---|---|
 | src-obesity-001 | Feline obesity broad review | shell / assessment | partial | title_only | HIGH | needs abstract/full-text extraction before prevalence or assessment claims |
-| src-obesity-004 | Domestic cat overweight/obesity risk and pathologies | risk / associated pathologies | partial | title_only | HIGH | needs extraction before risk-factor and pathology ranking |
+| src-obesity-004 | Domestic cat overweight/obesity risk and pathologies | risk / associated pathologies | partial | abstract_weighted | HIGH | needs full abstract/full-text extraction before risk-factor and pathology ranking |
 | src-obesity-005 | Target population and prevention | prevention | partial | abstract_weighted | HIGH | needs full abstract/full-text extraction before prevention claims |
 | src-obesity-008 | Insulin sensitivity decreases with obesity | mechanism / diabetes bridge | partial | abstract_weighted | HIGH | needs methods/results extraction before numeric or predictive claims |
 
@@ -47,6 +47,7 @@ Use this map to decide which obesity source cards need deep extraction before an
 | src-obesity-003 | Canine/Feline obesity management | management | partial | title_only | MEDIUM | split species and evidence strength |
 | src-obesity-006 | Management of obesity in cats | feline management | partial | title_only | MEDIUM | extract currentness and evidence basis |
 | src-obesity-007 | Environment and behavior modification | behavior / environment branch | partial | title_only | MEDIUM | verify species scope and recommendation basis |
+| src-obesity-080 | Weight loss diet / activity / microbiota | weight-loss study | partial | abstract_weighted | MEDIUM | needs methods/results extraction before diet or activity claims |
 
 ## Immediate Queue
 
@@ -59,6 +60,8 @@ First deep-extract:
 3. `src-obesity-005`
 4. `src-obesity-008`
 
+Then source-check or extract `src-obesity-080` if the first compiled obesity page needs a weight-loss intervention bridge.
+
 Then decide whether the first compiled obesity page should be:
 
 - risk-and-recognition
@@ -68,4 +71,4 @@ Then decide whether the first compiled obesity page should be:
 
 ## Maintenance
 
-Update this map after every obesity source-card ingest or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`, but these cards remain partial / title-only and do not change the deep-extraction priority order.
+Update this map after every obesity source-card ingest, source-check, or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`; the first 10-card source-check sample upgraded `src-obesity-004` and `src-obesity-080` to `abstract_weighted` while `src-obesity-001` stayed `title_only` because Crossref did not provide an abstract.

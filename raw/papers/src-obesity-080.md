@@ -9,9 +9,10 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2018
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, effects, weight, loss, moderate-protein, high-fiber, diet, body]
@@ -21,19 +22,37 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Effects of weight loss with a moderate-protein, high-fiber diet on body composition, voluntary physical activity, and fecal microbiota of obese cats."
-    - "The intake sheet locator is: 10.2460/ajvr.79.2.181."
+    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
+    - "Crossref container: American Journal of Veterinary Research; year: 2018."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
+    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
 
 # Effects of weight loss with a moderate-protein, high-fiber diet on body composition, voluntary physical activity, and fecal microbiota of obese cats
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+
+## Source Check, 2026-05-13
+
+Crossref metadata was checked as a repeatable second-pass intake step.
+
+- DOI metadata resolved: yes
+- Container: American Journal of Veterinary Research
+- Year: 2018
+- Abstract available in Crossref: yes
+
+Use boundary:
+
+- This card may guide navigation and extraction priority.
+- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+
+Abstract lead for scope check only: Abstract OBJECTIVE To determine effects of restriction feeding of a moderate-protein, high-fiber diet on loss of body weight (BW), voluntary physical activity, body composition, a...
+
 
 ## One-Line Summary
 

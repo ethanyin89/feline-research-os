@@ -6,12 +6,12 @@ species: feline
 disease: diabetes mellitus
 question_type: state-dashboard
 source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-004, src-diabetes-005, src-diabetes-006, src-diabetes-007, src-diabetes-008, src-diabetes-009, src-diabetes-010, src-diabetes-011, src-diabetes-012, src-diabetes-013, src-diabetes-014, src-diabetes-015, src-diabetes-016, src-diabetes-017, src-diabetes-018, src-diabetes-019, src-diabetes-020, src-diabetes-021, src-diabetes-022, src-diabetes-023, src-diabetes-024, src-reg-010, src-reg-011, src-reg-012, src-reg-013]
-last_compiled_at: 2026-05-06
+last_compiled_at: 2026-05-13
 confidence: medium
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-05-06 mechanism, risk-recognition, and endpoint pages recompiled to handbook status with key-claim traceability; dashboard remains compiled orientation, not decision-grade clinical guidance."
+language_qa_notes: "2026-05-13 updated for diabetes/obesity sheet intake and source-check status; dashboard remains compiled orientation, not decision-grade clinical guidance."
 owner: codex
 status: active
 ---
@@ -22,7 +22,7 @@ status: active
 
 Feline diabetes has entered the vault as the fifth 24-source disease module. All 24 paper sources now have round-1 worksheets, all 24 paper source cards have been promoted to explicit full source-card depth, all 24 paper cards are now `verification_status: deep_extracted`, 4 U.S. SGLT2 regulatory/label source cards have been added, the narrow memo layer now includes treatment, obesity, diagnostic/workup, and label-control owners, the first briefing/dossier/slides output set now exists across `working-en / en / zh`, the first verified diabetes image asset has been linked from `src-diabetes-023`, 10 memo-derived topic pages now expose the compiled layer, and the mechanism, risk-recognition, and endpoint pages are now handbook pages with key-claim traceability. The module remains starter Level 5 because output surfaces exist, but the next gap is no longer paper-card depth rescue; it is topic/output-level clinical compression and stronger branch-order precision where concrete outputs need it.
 
-The 2026-05-13 diabetes / obesity sheet added a diabetes extension layer: `src-diabetes-025` through `src-diabetes-118` now exist as conservative first-pass source cards. They are `title_only` / `partial` intake cards, so they do not replace the canonical deep-extracted 24-source diabetes corpus and should not control topic-page claims until selective source-check or deep extraction.
+The 2026-05-13 diabetes / obesity sheet added a diabetes extension layer: `src-diabetes-025` through `src-diabetes-118` now exist as conservative first-pass source cards. A 10-card priority source-check upgraded four diabetes extension cards to `abstract_weighted` (`src-diabetes-035`, `src-diabetes-050`, `src-diabetes-087`, `src-diabetes-091`), while `src-diabetes-046` stayed `title_only` because Crossref did not provide an abstract. The extension layer does not replace the canonical deep-extracted 24-source diabetes corpus and should not control topic-page claims until full abstract extraction or deep extraction.
 
 ## Strongest Early Branches
 

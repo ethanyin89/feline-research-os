@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 976 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 977 markdown files, no local link issues found. |
 | Query tests | PASS | 102 passed  \|  0 failed  \|  102 total |
 | Paper source cards | PASS | 325 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
@@ -45,7 +45,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Inbox backlog | PASS | 0 active files, 12 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260513.md; mode=route-only; status=route_pass |
-| Compile trigger | PASS | 181 changed source cards, 15 downstream files |
+| Compile trigger | PASS | 181 changed source cards, 16 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
@@ -56,9 +56,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | fip | 24 | full: 24 | deep_extracted: 24 |
 | hcm | 24 | full: 24 | deep_extracted: 24 |
 | ibd | 24 | full: 24 | deep_extracted: 24 |
-| diabetes | 118 | full: 24, partial: 94 | deep_extracted: 24, title_only: 94 |
+| diabetes | 118 | full: 24, partial: 94 | abstract_weighted: 4, deep_extracted: 24, title_only: 90 |
 | fcv | 24 | full: 24 | deep_extracted: 24 |
-| obesity | 87 | partial: 87 | abstract_weighted: 2, title_only: 85 |
+| obesity | 87 | partial: 87 | abstract_weighted: 4, title_only: 83 |
 
 ## Image Reality
 
@@ -93,8 +93,8 @@ Rejected / audit notes:
 ## Thin Source Usage
 
 `abstract_weighted` and `title_only` sources can support cautious synthesis, but should not be read as full-text or decision-grade proof.
-- topics/obesity/current-state-dashboard.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (title_only), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
-- topics/obesity/index.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (title_only), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
+- topics/obesity/current-state-dashboard.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (abstract_weighted), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
+- topics/obesity/index.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (abstract_weighted), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
 
 ## Next Actions
 

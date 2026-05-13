@@ -72,6 +72,7 @@ Durable workflow exists:
 - [feline literature sheet intake workflow](feline-literature-sheet-intake-workflow.md)
 - [scripts/literature_sheet_intake.py](../../scripts/literature_sheet_intake.py)
 - [scripts/literature_source_card_bootstrap.py](../../scripts/literature_source_card_bootstrap.py)
+- [scripts/source_metadata_check.py](../../scripts/source_metadata_check.py)
 
 Required sample exists:
 
@@ -165,6 +166,27 @@ Result:
 - diabetes extension now spans `src-diabetes-025` through `src-diabetes-118`
 - obesity now spans `src-obesity-001` through `src-obesity-087`
 - all generated cards are `extraction_depth: partial`, `verification_status: title_only`, and `decision_grade: no`
+
+## Source-Check Sample Completed
+
+The reusable source metadata / abstract check has been run on 10 high-priority cards:
+
+```bash
+python3 scripts/source_metadata_check.py \
+  --repo-root . \
+  --source-ids src-diabetes-050,src-diabetes-087,src-diabetes-046,src-diabetes-035,src-diabetes-091,src-obesity-001,src-obesity-004,src-obesity-005,src-obesity-008,src-obesity-080 \
+  --source-label "diabetes/obesity priority sample 2026-05-13" \
+  --out system/indexes/feline-diabetes-obesity-source-check-sample-20260513.md \
+  --update-cards
+```
+
+Result:
+
+- report: [feline diabetes / obesity source-check sample](feline-diabetes-obesity-source-check-sample-20260513.md)
+- 10 DOI metadata records resolved
+- 8 cards have Crossref abstracts and are now `abstract_weighted`
+- 2 cards remain `title_only`: `src-diabetes-046`, `src-obesity-001`
+- no cards were promoted to `source_checked`, `deep_extracted`, or decision-grade evidence
 
 ## Next Non-One-Off Step
 

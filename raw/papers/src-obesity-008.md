@@ -22,21 +22,37 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata identifies this as a 2001 Journal of Feline Medicine and Surgery article."
-    - "The Crossref abstract begins by describing a study quantifying effects of marked weight gain on glucose and insulin metabolism in 16 cats."
-    - "The title states that insulin sensitivity decreases with obesity."
+    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
+    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2001."
   source_supported_conclusion:
-    - "This is a high-value obesity-diabetes bridge source because it directly connects weight gain, insulin sensitivity, and glucose tolerance in cats."
-    - "It should not yet be used for numeric effect sizes until the full abstract or article is extracted."
+    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
+    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
-    - "This source likely belongs near the top of the obesity mechanism queue and may connect to the existing diabetes obesity/body-condition memo."
+    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
 
 # Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain
 
 ## Evidence-Depth Caveat
 
-This card uses Crossref metadata and the accessible abstract opening. It is not a full extraction of the study methods, results, or numeric effect sizes.
+This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+
+## Source Check, 2026-05-13
+
+Crossref metadata was checked as a repeatable second-pass intake step.
+
+- DOI metadata resolved: yes
+- Container: Journal of Feline Medicine and Surgery
+- Year: 2001
+- Abstract available in Crossref: yes
+
+Use boundary:
+
+- This card may guide navigation and extraction priority.
+- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+
+Abstract lead for scope check only: This study quantifies the effects of marked weight gain on glucose and insulin metabolism in 16 cats which increased their weight by an average of 44.2% over 10 months. Significan...
+
 
 ## One-Line Summary
 

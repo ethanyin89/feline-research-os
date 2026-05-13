@@ -22,20 +22,37 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata identifies this as a 2024 Journal of Feline Medicine and Surgery article."
-    - "The Crossref abstract begins by framing feline obesity as a priority health and welfare issue."
+    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
+    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2024."
   source_supported_conclusion:
-    - "This source is likely important for prevention and target-population architecture."
-    - "It should control prevention framing only after fuller abstract/full-text extraction."
+    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
+    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
-    - "This may become the first obesity prevention owner because it is feline-specific, recent, and target-population focused."
+    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
 
 # Identifying the target population and preventive strategies to combat feline obesity
 
 ## Evidence-Depth Caveat
 
-This first-pass card uses DOI metadata and the available Crossref abstract opening. It is not yet a full abstract extraction or full-text read.
+This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+
+## Source Check, 2026-05-13
+
+Crossref metadata was checked as a repeatable second-pass intake step.
+
+- DOI metadata resolved: yes
+- Container: Journal of Feline Medicine and Surgery
+- Year: 2024
+- Abstract available in Crossref: yes
+
+Use boundary:
+
+- This card may guide navigation and extraction priority.
+- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+
+Abstract lead for scope check only: Feline obesity continues to be a priority health and welfare issue. Most research surrounding obesity currently focuses on obesity treatment. However, treatment for feline obesity...
+
 
 ## One-Line Summary
 
