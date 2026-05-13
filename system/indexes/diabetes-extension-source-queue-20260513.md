@@ -15,16 +15,16 @@ status: active
 
 This queue is derived from [feline diabetes / obesity intake manifest](feline-diabetes-obesity-intake-manifest-20260513.md).
 
-It does not replace the current 24-source diabetes corpus. The current corpus remains the canonical diabetes module until new rows are first-pass ingested and reviewed.
+It does not replace the current 24-source diabetes corpus. The current corpus remains the canonical diabetes module until extension rows are source-checked or deep-extracted and reviewed.
 
 ## Current Intake Read
 
 | Class | Count | Handling |
 |---|---:|---|
 | existing diabetes seed / duplicate-to-seed rows | 35 | no new source card |
-| new diabetes candidates | 94 | queue for first-pass ingest |
-| shared diabetes-obesity existing rows | 5 | cross-link / owner note, not duplicate evidence text |
-| duplicate-in-sheet rows | 5 | hold behind first occurrence |
+| diabetes extension source cards | 94 | first-pass ingested as `src-diabetes-025` through `src-diabetes-118`; title-only, not evidence-usable |
+| shared diabetes-obesity existing rows | 10 | cross-link / owner note, not duplicate evidence text |
+| duplicate-in-sheet rows | 0 remaining | resolved into existing/shared rows after first-pass bootstrap |
 
 ## Tier A — Read First
 
@@ -45,7 +45,7 @@ These rows are most likely to change branch order, treatment boundaries, or outp
 
 ## Tier B — Read Next
 
-These should be first-pass ingested after Tier A because they deepen already-existing branches.
+These are now first-pass ingested after Tier A because they deepen already-existing branches.
 
 | Branch | Candidate Rows |
 |---|---|
@@ -66,15 +66,17 @@ Do not prioritize these until a specific output needs them:
 - case reports unless they expose a rescue/failure mode
 - duplicate DOI rows that appear again in the obesity segment
 
-## First-Pass Ingest Rule
+## First-Pass Ingest State
 
-When creating `src-diabetes-025+` cards:
+`src-diabetes-025` through `src-diabetes-118` now exist.
 
-1. Use source cards only after verifying at least title, locator, year, source family, and claim-fit.
-2. Leave `quoted_fact` empty unless exact source text has been read.
-3. Use `verification_status: title_only`, `abstract_weighted`, `source_checked`, or stricter only when true. Do not invent new verification labels.
-4. Do not promote claims to topic pages in the same pass unless the card has enough source support.
-5. Run markdown link checks and source-card required-field checks after writes.
+They are deliberately conservative:
+
+1. `extraction_depth: partial`
+2. `verification_status: title_only`
+3. `decision_grade: no`
+4. no new topic-page claims promoted from these cards
+5. no treatment / monitoring / remission ranking should rely on them until source-check or deep extraction
 
 ## Deep Extraction Candidates
 

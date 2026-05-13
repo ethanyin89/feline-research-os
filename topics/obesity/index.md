@@ -22,7 +22,7 @@ status: active
 
 This is a bootstrap shell for the new feline obesity corpus from the 2026-05-13 sheet intake.
 
-Do not treat this page as compiled obesity guidance yet. The first Tier A obesity source cards exist, but they remain partial and mostly title-only.
+Do not treat this page as compiled obesity guidance yet. All 87 obesity source cards now exist, but they remain partial and mostly title-only.
 
 ## Topic Pages
 

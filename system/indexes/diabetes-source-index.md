@@ -29,6 +29,17 @@
 | src-diabetes-023 | Comparative occurrence of diabetes in canine, feline, and few wild animals and association with pancreatic disease | epidemiology | original-study | deep-extracted round 1, full source-card depth |
 | src-diabetes-024 | Insulin glargine 300 U/ml for the treatment of feline diabetes mellitus | treatment | original-study | deep-extracted round 1, full source-card depth |
 
+## Extension Corpus, 2026-05-13
+
+The diabetes / obesity sheet added `94` diabetes extension cards:
+
+- `src-diabetes-025` through `src-diabetes-118`
+- all are `extraction_depth: partial`
+- all are `verification_status: title_only`
+- none should control topic-page claims until source-check or deep extraction
+
+Use [diabetes extension source queue](diabetes-extension-source-queue-20260513.md) for priority order. The canonical compiled diabetes module still rests on the 24 deep-extracted seed papers plus regulatory/label controls.
+
 ## First-Pass Reading Priorities
 
 ### Tier A

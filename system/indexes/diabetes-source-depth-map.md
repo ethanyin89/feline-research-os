@@ -30,6 +30,7 @@ Verification-status overlay:
 | verification_status | Count | Read |
 |---|---:|---|
 | deep_extracted | 24 | Diabetes now has a clean deep-extracted paper-card overlay. The remaining gap is no longer abstract-led card rescue; it is branch-order compression, protocol comparison, and output-level clinical/regulatory precision. |
+| title_only | 94 | The 2026-05-13 diabetes extension cards `src-diabetes-025` through `src-diabetes-118` are first-pass intake cards only. They do not change compiled diabetes claims until selective source-check or deep extraction. |
 
 ---
 
@@ -82,13 +83,14 @@ Verification-status overlay:
 
 | Disease | Total Source Cards | full | partial | stub | verification_status read | Coverage |
 |---|---:|---:|---:|---:|---|---|
-| Diabetes | 24 | 24 | 0 | 0 | 24 deep_extracted | 100% full |
+| Diabetes seed corpus | 24 | 24 | 0 | 0 | 24 deep_extracted | 100% full |
+| Diabetes extension corpus | 94 | 0 | 94 | 0 | 94 title_only | 0% evidence-usable |
 
 ---
 
 ## Immediate Queue
 
-No Diabetes source-card partials remain.
+No Diabetes seed-corpus source-card partials remain. The extension corpus has 94 partial intake cards, but those are queue objects, not compiled evidence.
 
 Completed on the 2026-04-21 Diabetes thickening pass:
 

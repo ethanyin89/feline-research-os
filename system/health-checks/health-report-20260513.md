@@ -20,9 +20,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 803 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 976 markdown files, no local link issues found. |
 | Query tests | PASS | 102 passed  \|  0 failed  \|  102 total |
-| Paper source cards | PASS | 152 strict disease paper cards; baseline >= 144 |
+| Paper source cards | PASS | 325 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
 | Source IDs | PASS | 0 duplicates, 0 missing ids |
 | Low-word paper cards | PASS | 0 cards below 700 words |
@@ -45,7 +45,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Inbox backlog | PASS | 0 active files, 12 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260513.md; mode=route-only; status=route_pass |
-| Compile trigger | PASS | 8 changed source cards, 9 downstream files |
+| Compile trigger | PASS | 181 changed source cards, 15 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
@@ -56,9 +56,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | fip | 24 | full: 24 | deep_extracted: 24 |
 | hcm | 24 | full: 24 | deep_extracted: 24 |
 | ibd | 24 | full: 24 | deep_extracted: 24 |
-| diabetes | 24 | full: 24 | deep_extracted: 24 |
+| diabetes | 118 | full: 24, partial: 94 | deep_extracted: 24, title_only: 94 |
 | fcv | 24 | full: 24 | deep_extracted: 24 |
-| obesity | 8 | partial: 8 | abstract_weighted: 2, title_only: 6 |
+| obesity | 87 | partial: 87 | abstract_weighted: 2, title_only: 85 |
 
 ## Image Reality
 

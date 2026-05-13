@@ -22,17 +22,17 @@ status: active
 
 `source-indexed`
 
-The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified and queued, and the first Tier A obesity source cards now exist. They are partial cards, not deep-extracted evidence.
+The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified, de-duplicated, and fully first-pass ingested as source cards. These are partial cards, not deep-extracted evidence.
 
 ## What Exists
 
 | Layer | Status | Read |
 |---|---|---|
 | Google Sheet intake | done | 227 non-empty rows classified |
-| Obesity candidate set | done | 87 new obesity candidates identified; 79 remain queued after the first 8 Tier A cards |
-| Shared-source control | done | 5 shared existing diabetes rows marked for cross-linking |
-| Obesity source cards | started | 8 partial `src-obesity-*` cards |
-| Obesity source index | started | first Tier A source index and depth map exist |
+| Obesity candidate set | done | 87 obesity source cards now exist |
+| Shared-source control | done | 10 shared existing rows marked for cross-linking after bootstrap |
+| Obesity source cards | first-pass complete | `src-obesity-001` through `src-obesity-087`; partial and mostly title-only |
+| Obesity source index | active | source index and depth map exist, but deep extraction is still pending |
 | Obesity topic pages | shell only | index, navigation, dashboard |
 
 ## Tier A Bootstrap Read
@@ -50,7 +50,7 @@ See [obesity bootstrap source queue](../../system/indexes/obesity-bootstrap-sour
 
 ## Do Not Say Yet
 
-- do not give obesity prevalence numbers from this new corpus until source cards exist
+- do not give obesity prevalence numbers from this new corpus until source cards are source-checked or deep-extracted
 - do not rank weight-loss interventions
 - do not make owner-facing feeding recommendations
 - do not merge obesity into diabetes, and do not treat diabetes-obesity bridge evidence as the whole obesity module

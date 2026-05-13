@@ -17,9 +17,19 @@ status: active
 
 The obesity module started from the 2026-05-13 diabetes / obesity spreadsheet intake.
 
-This index currently tracks only first-pass obesity source cards. The full obesity sheet contains more candidates, but they remain in the queue until ingested.
+This index tracks the first-pass obesity source-card layer. The full obesity sheet has now been ingested as conservative partial cards.
+
+## Coverage Summary
+
+| Scope | Count | State |
+|---|---:|---|
+| First-pass obesity cards | 87 | `src-obesity-001` through `src-obesity-087` |
+| Deep-extracted obesity cards | 0 | no obesity source is evidence-usable yet |
+| Shared diabetes/obesity sources | 10 | cross-link to existing disease-owner cards |
 
 ## First-Pass Source Cards
+
+The table below keeps the original Tier A shell visible. The remaining `src-obesity-009` through `src-obesity-087` cards are title-only / partial intake cards and should be read through the [obesity bootstrap source queue](obesity-bootstrap-source-queue-20260513.md) until they are source-checked or deep-extracted.
 
 | ID | Title | Primary Layer | Evidence Level | Status |
 |---|---|---|---|---|
@@ -48,7 +58,7 @@ The first-pass obesity card set is intentionally cautious.
 
 It proves:
 
-- a standalone obesity corpus exists
+- a standalone obesity corpus exists and has been fully first-pass ingested
 - the first shell should include prevalence/risk, assessment, management, prevention, environment/behavior, and insulin-sensitivity bridge logic
 - obesity should not be collapsed into diabetes
 - shared diabetes-obesity sources should be cross-linked rather than duplicated

@@ -21,9 +21,9 @@ The obesity section is new relative to the original 120-source project scope. Tr
 
 | Class | Count | Handling |
 |---|---:|---|
-| new obesity candidates | 87 original / 79 remaining | queue for obesity bootstrap; 8 Tier A cards now first-pass ingested |
-| shared-existing diabetes rows | 5 | cross-link to existing diabetes source cards |
-| duplicate-in-sheet obesity rows | 5 | hold behind first occurrence |
+| obesity source cards | 87 | first-pass ingested as `src-obesity-001` through `src-obesity-087`; partial, mostly title-only |
+| shared-existing diabetes rows | 10 | cross-link to existing disease-owner source cards |
+| duplicate-in-sheet obesity rows | 0 remaining | resolved into existing/shared rows after first-pass bootstrap |
 | section label | 1 | not a source |
 
 ## Tier A — Obesity Shell Anchors
@@ -83,7 +83,7 @@ The first obesity topic layer now exists:
 2. `topics/obesity/navigation.md`
 3. `topics/obesity/current-state-dashboard.md`
 
-Do not create mechanism / recognition / endpoint / translation pages until Tier 1 obesity cards have deep extraction or a narrow compiled owner exists.
+Do not create mechanism / recognition / endpoint / translation pages until Tier 1 obesity cards have deep extraction or a narrow compiled owner exists. The fact that all 87 obesity source cards now exist does not make the module evidence-usable.
 
 ## Deep Extraction Candidates
 

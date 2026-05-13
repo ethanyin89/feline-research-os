@@ -28,7 +28,7 @@ Use this map to decide which obesity source cards need deep extraction before an
 
 | Disease | Source Cards | partial | full | title_only | abstract_weighted | deep_extracted |
 |---|---:|---:|---:|---:|---:|---:|
-| Obesity | 8 | 8 | 0 | 6 | 2 | 0 |
+| Obesity | 87 | 87 | 0 | 85 | 2 | 0 |
 
 ## Tier 1 — Bootstrap Anchors
 
@@ -68,4 +68,4 @@ Then decide whether the first compiled obesity page should be:
 
 ## Maintenance
 
-Update this map after every obesity source-card ingest or deep extraction.
+Update this map after every obesity source-card ingest or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`, but these cards remain partial / title-only and do not change the deep-extraction priority order.
