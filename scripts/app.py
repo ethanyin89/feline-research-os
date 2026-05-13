@@ -158,12 +158,12 @@ def queue_question(question: str) -> None:
     st.session_state.pending_question = question
 
 
-def render_example_question_chips(prefix: str, disabled: bool = False) -> None:
+def render_example_question_chips(prefix: str) -> None:
     """Render clickable example questions."""
     cols = st.columns(2)
     for i, question in enumerate(EXAMPLE_QUESTIONS):
         with cols[i % 2]:
-            if st.button(question, key=f"{prefix}-example-{i}", use_container_width=True, disabled=disabled):
+            if st.button(question, key=f"{prefix}-example-{i}", use_container_width=True):
                 queue_question(question)
 
 
@@ -497,7 +497,7 @@ def render_empty_state() -> None:
         unsafe_allow_html=True,
     )
     st.markdown("<div class='vault-panel'><div class='vault-panel-label'>Try asking</div></div>", unsafe_allow_html=True)
-    render_example_question_chips("empty", disabled=backend_blocker is not None)
+    render_example_question_chips("empty")
     render_saved_answers_panel("empty")
     render_provenance_guide()
     render_how_it_works()
@@ -538,6 +538,25 @@ def openrouter_budget_help_html() -> str:
         "Restart this app with the budget guard in the same shell: "
         f"<code>{html.escape(OPENROUTER_STREAMLIT_COMMAND)}</code>"
     )
+
+
+def render_setup_required(what_happened: str, technical_detail: str, extra_action_html: str = "") -> None:
+    """Render expected local setup blockers without making the app look broken."""
+    safe_detail = sanitize_error_detail(technical_detail)
+    extra_action = f"<div style='margin-top:6px'>{extra_action_html}</div>" if extra_action_html else ""
+    render_notice(
+        f"""
+        <div class="vault-panel-label">Setup required</div>
+        <div><strong>What happened:</strong> {html.escape(what_happened)}</div>
+        <div style="margin-top:8px"><strong>What to do:</strong></div>
+        <div style="margin-top:6px">Check the selected backend in the sidebar, or restart the app with the required environment variables.</div>
+        {extra_action}
+        """,
+        tone="amber",
+    )
+    if safe_detail:
+        with st.expander("Setup details", expanded=False):
+            st.code(safe_detail, language=None)
 
 
 def render_query_error(what_happened: str, technical_detail: str, extra_action_html: str = "") -> None:
@@ -1303,7 +1322,7 @@ for i, msg in enumerate(st.session_state.messages):
 def run_query(question: str) -> bool:
     """Route, hop, synthesize, render, optionally write back."""
     if backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
-        render_query_error(
+        render_setup_required(
             what_happened="Anthropic is selected, but ANTHROPIC_API_KEY is not set in this shell.",
             technical_detail="ANTHROPIC_API_KEY not set",
         )
@@ -1311,7 +1330,7 @@ def run_query(question: str) -> bool:
         return False
 
     if backend == "openrouter" and not os.environ.get("OPENROUTER_API_KEY"):
-        render_query_error(
+        render_setup_required(
             what_happened="OpenRouter is selected, but OPENROUTER_API_KEY is not set in this shell.",
             technical_detail="OPENROUTER_API_KEY not set",
         )
@@ -1322,7 +1341,7 @@ def run_query(question: str) -> bool:
         try:
             validate_openrouter_budget()
         except ValueError as exc:
-            render_query_error(
+            render_setup_required(
                 what_happened=(
                     "OpenRouter is selected, but this Streamlit process was started without "
                     "the project-side daily budget guard."
@@ -1334,7 +1353,7 @@ def run_query(question: str) -> bool:
             return False
 
     if backend == "ollama" and not is_ollama_reachable():
-        render_query_error(
+        render_setup_required(
             what_happened="Ollama is selected, but the local Ollama server is not reachable.",
             technical_detail="Ollama not reachable at http://localhost:11434. Run `ollama serve`, then ask again.",
         )
@@ -1493,14 +1512,8 @@ def run_query(question: str) -> bool:
 # Input
 # ---------------------------------------------------------------------------
 
-input_placeholder = (
-    "Set the selected backend key/budget guard before asking."
-    if backend_blocker
-    else "Ask a natural feline health question..."
-)
 user_question = st.session_state.pending_question or st.chat_input(
-    input_placeholder,
-    disabled=backend_blocker is not None,
+    "Ask a natural feline health question...",
 )
 if user_question:
     st.session_state.pending_question = None
