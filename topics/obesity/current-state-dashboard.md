@@ -29,7 +29,7 @@ The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus 
 | Layer | Status | Read |
 |---|---|---|
 | Google Sheet intake | done | 227 non-empty rows classified |
-| Obesity candidate set | done | 87 new obesity candidates |
+| Obesity candidate set | done | 87 new obesity candidates identified; 79 remain queued after the first 8 Tier A cards |
 | Shared-source control | done | 5 shared existing diabetes rows marked for cross-linking |
 | Obesity source cards | started | 8 partial `src-obesity-*` cards |
 | Obesity source index | started | first Tier A source index and depth map exist |

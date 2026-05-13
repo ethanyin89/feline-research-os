@@ -122,3 +122,4 @@ Literature sheet intake is event-driven. Add cron only if the user turns a sprea
 - Installed Codex skill: `~/.codex/skills/feline-literature-intake/SKILL.md`
 - First sample: [feline diabetes / obesity sheet sample](feline-diabetes-obesity-sheet-intake-sample-20260513.md)
 - First full manifest: [feline diabetes / obesity intake manifest](feline-diabetes-obesity-intake-manifest-20260513.md)
+- Current done definition: [feline diabetes / obesity processing definition](feline-diabetes-obesity-processing-definition-20260513.md)

@@ -21,7 +21,7 @@ The obesity section is new relative to the original 120-source project scope. Tr
 
 | Class | Count | Handling |
 |---|---:|---|
-| new obesity candidates | 87 | queue for obesity bootstrap; 8 Tier A cards now first-pass ingested |
+| new obesity candidates | 87 original / 79 remaining | queue for obesity bootstrap; 8 Tier A cards now first-pass ingested |
 | shared-existing diabetes rows | 5 | cross-link to existing diabetes source cards |
 | duplicate-in-sheet obesity rows | 5 | hold behind first occurrence |
 | section label | 1 | not a source |

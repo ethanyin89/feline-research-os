@@ -13,7 +13,7 @@ status: pending-review
 
 # Feline Literature Intake Manifest, 2026-05-13
 
-Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
+Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13; refreshed after obesity Tier A ingest`
 
 ## Summary
 
@@ -25,9 +25,9 @@ Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
 | Classification | Count |
 |---|---:|
 | `duplicate-in-sheet` | 5 |
-| `existing` | 35 |
+| `existing` | 43 |
 | `new-diabetes` | 94 |
-| `new-obesity` | 87 |
+| `new-obesity` | 79 |
 | `section-label` | 1 |
 | `shared-existing` | 5 |
 
@@ -165,9 +165,9 @@ Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
 | 129 | `diabetes` | `new-diabetes` |  | `10.1177/0300985815603434` | Exocrine Pancreas in Cats With Diabetes Mellitus | https://journals.sagepub.com/doi/10.1177/0300985815603434 | Candidate for extended diabetes source index. |
 | 130 | `diabetes` | `new-diabetes` |  | `10.1111/jsap.12295` | Diabetes mellitus and pancreatitis – cause or effect? | https://onlinelibrary.wiley.com/doi/10.1111/jsap.12295 | Candidate for extended diabetes source index. |
 | 133 | `section-label` | `section-label` |  |  | feline obesity |  | Section marker, not a source. |
-| 134 | `obesity` | `new-obesity` |  | `10.1016/j.cvsm.2021.01.005` | Canine and Feline Obesity Management. | 10.1016/J.CVSM.2021.01.005 | Candidate for obesity source index. |
-| 135 | `obesity` | `new-obesity` |  | `10.2147/vmrr.s40868` | Canine and feline obesity: a review of pathophysiology, epidemiology, and clinical management | 10.2147/VMRR.S40868 | Candidate for obesity source index. |
-| 136 | `obesity` | `new-obesity` |  | `10.17221/145/2015-vetmed` | Feline obesity - prevalence, risk factors, pathogenesis, associated conditions and assessment: a review | 10.17221/145/2015-VETMED | Candidate for obesity source index. |
+| 134 | `obesity` | `existing` | `src-obesity-003` | `10.1016/j.cvsm.2021.01.005` | Canine and Feline Obesity Management. | 10.1016/J.CVSM.2021.01.005 | Matches existing src-obesity-003. |
+| 135 | `obesity` | `existing` | `src-obesity-002` | `10.2147/vmrr.s40868` | Canine and feline obesity: a review of pathophysiology, epidemiology, and clinical management | 10.2147/VMRR.S40868 | Matches existing src-obesity-002. |
+| 136 | `obesity` | `existing` | `src-obesity-001` | `10.17221/145/2015-vetmed` | Feline obesity - prevalence, risk factors, pathogenesis, associated conditions and assessment: a review | 10.17221/145/2015-VETMED | Matches existing src-obesity-001. |
 | 137 | `obesity` | `shared-existing` | `src-diabetes-005` | `10.1177/1098612x211021540` | Feline comorbidities: Pathophysiology and management of the obese diabetic cat: | 10.1177/1098612X211021540 | Matches existing src-diabetes-005. |
 | 138 | `obesity` | `new-obesity` |  | `10.1007/s11259-022-09940-5` | Feline obesity causes hematological and biochemical changes and oxidative stress – a pilot study | 10.1007/S11259-022-09940-5 | Candidate for obesity source index. |
 | 139 | `obesity` | `new-obesity` |  | `10.1016/j.prevetmed.2012.05.006` | A cross-sectional study to compare changes in the prevalence and risk factors for feline obesity between 1993 and 2007 in New Zealand | 10.1016/J.PREVETMED.2012.05.006 | Candidate for obesity source index. |
@@ -177,7 +177,7 @@ Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
 | 143 | `obesity` | `new-obesity` |  | `10.1371/journal.pone.0234190` | Positive attitudes towards feline obesity are strongly associated with ownership of obese cats | 10.1371/JOURNAL.PONE.0234190 | Candidate for obesity source index. |
 | 144 | `obesity` | `new-obesity` |  | `10.1016/j.prevetmed.2015.07.011` | Risk factors identified for owner-reported feline obesity at around one year of age: Dry diet and indoor lifestyle. | 10.1016/J.PREVETMED.2015.07.011 | Candidate for obesity source index. |
 | 145 | `obesity` | `duplicate-in-sheet` |  | `10.3390/vetsci1020121` | Comparative Aspects of Human, Canine, and Feline Obesity and Factors Predicting Progression to Diabetes | 10.3390/VETSCI1020121 | Same normalized DOI appeared earlier in this sheet. |
-| 146 | `obesity` | `new-obesity` |  | `10.1177/1098612x241228042` | Identifying the target population and preventive strategies to combat feline obesity. | 10.1177/1098612X241228042 | Candidate for obesity source index. |
+| 146 | `obesity` | `existing` | `src-obesity-005` | `10.1177/1098612x241228042` | Identifying the target population and preventive strategies to combat feline obesity. | 10.1177/1098612X241228042 | Matches existing src-obesity-005. |
 | 147 | `obesity` | `new-obesity` |  | `10.1016/j.vetimm.2007.10.015` | The effects of obesity and fatty acids on the feline immune system. | 10.1016/J.VETIMM.2007.10.015 | Candidate for obesity source index. |
 | 148 | `obesity` | `new-obesity` |  | `10.1136/vr.g7521` | Canine and feline obesity: a One Health perspective | 10.1136/VR.G7521 | Candidate for obesity source index. |
 | 149 | `obesity` | `new-obesity` |  |  | Effectiveness of feline body mass index (fBMI) as new diagnostic tool for obesity. | https://pubmed.ncbi.nlm.nih.gov/27348888/ | Candidate for obesity source index. |
@@ -204,8 +204,8 @@ Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
 | 170 | `obesity` | `new-obesity` |  | `10.1016/s1098-612x-07-00016-2` | From Anorexia to Obesity: The Role of Nutrition in Feline Diseases: | 10.1016/S1098-612X-07-00016-2 | Candidate for obesity source index. |
 | 171 | `obesity` | `duplicate-in-sheet` |  | `10.1079/pavsnnr201914017` | Feline obesity and diabetes: a One Health perspective. | 10.1079/PAVSNNR201914017 | Same normalized DOI appeared earlier in this sheet. |
 | 172 | `obesity` | `new-obesity` |  | `10.1016/j.cvsm.2014.03.007` | Macronutrients in feline health | 10.1016/J.CVSM.2014.03.007 | Candidate for obesity source index. |
-| 173 | `obesity` | `new-obesity` |  | `10.1177/1098612x241285519` | Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies | 10.1177/1098612X241285519 | Candidate for obesity source index. |
-| 174 | `obesity` | `new-obesity` |  | `10.2147/vmrr.s40869` | Management of obesity in cats | 10.2147/VMRR.S40869 | Candidate for obesity source index. |
+| 173 | `obesity` | `existing` | `src-obesity-004` | `10.1177/1098612x241285519` | Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies | 10.1177/1098612X241285519 | Matches existing src-obesity-004. |
+| 174 | `obesity` | `existing` | `src-obesity-006` | `10.2147/vmrr.s40869` | Management of obesity in cats | 10.2147/VMRR.S40869 | Matches existing src-obesity-006. |
 | 175 | `obesity` | `new-obesity` |  | `10.1177/1098612x241305924` | Prevalence and factors associated with overweight and obesity in cats in veterinary hospitals in France during the COVID-19 pandemic | 10.1177/1098612X241305924 | Candidate for obesity source index. |
 | 176 | `obesity` | `new-obesity` |  | `10.2460/javma.235.5.518` | The role of key adipokines in obesity and insulin resistance in cats. | 10.2460/JAVMA.235.5.518 | Candidate for obesity source index. |
 | 177 | `obesity` | `new-obesity` |  | `10.1111/j.1439-0396.2005.00611_1.x` | Using Environmental and Feeding Enrichment to Facilitate Feline Weight Loss | 10.1111/J.1439-0396.2005.00611_1.X | Candidate for obesity source index. |
@@ -221,7 +221,7 @@ Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
 | 187 | `obesity` | `new-obesity` |  | `10.3390/ani15010091` | Changes in Serum Proteins in Cats with Obesity: A Proteomic Approach | 10.3390/ANI15010091 | Candidate for obesity source index. |
 | 188 | `obesity` | `new-obesity` |  | `10.1016/j.jfms.2010.08.005` | Assessment of feline abdominal adipose tissue using computed tomography | 10.1016/J.JFMS.2010.08.005 | Candidate for obesity source index. |
 | 189 | `obesity` | `new-obesity` |  | `10.1677/joe-07-0064` | Obesity increases free thyroxine proportionally to nonesterified fatty acid concentrations in adult neutered female cats. | 10.1677/JOE-07-0064 | Candidate for obesity source index. |
-| 190 | `obesity` | `new-obesity` |  | `10.1016/j.cvsm.2016.04.009` | Obesity Treatment: Environment and Behavior Modification. | 10.1016/J.CVSM.2016.04.009 | Candidate for obesity source index. |
+| 190 | `obesity` | `existing` | `src-obesity-007` | `10.1016/j.cvsm.2016.04.009` | Obesity Treatment: Environment and Behavior Modification. | 10.1016/J.CVSM.2016.04.009 | Matches existing src-obesity-007. |
 | 191 | `obesity` | `new-obesity` |  | `10.1007/s11259-025-10700-4` | Missense variants in MC4R gene are associated with obesity in cats | 10.1007/S11259-025-10700-4 | Candidate for obesity source index. |
 | 192 | `obesity` | `new-obesity` |  | `10.1016/j.cvsm.2009.10.004` | Endocrinology of obesity. | 10.1016/J.CVSM.2009.10.004 | Candidate for obesity source index. |
 | 193 | `obesity` | `new-obesity` |  | `10.1016/s0167-5877(00)00147-1` | A cross-sectional study of risk factors for obesity in cats in New Zealand. | 10.1016/S0167-5877(00)00147-1 | Candidate for obesity source index. |
@@ -247,7 +247,7 @@ Source: `Google Sheet feline diabetes & obesity, 工作表1 A:B, 2026-05-13`
 | 213 | `obesity` | `new-obesity` |  | `10.1080/01652176.2020.1759844` | Kidney function and glucose metabolism in overweight and obese cats. | 10.1080/01652176.2020.1759844 | Candidate for obesity source index. |
 | 214 | `obesity` | `new-obesity` |  | `10.1016/j.cvsm.2014.03.004` | Pet Obesity Management: Beyond Nutrition | 10.1016/J.CVSM.2014.03.004 | Candidate for obesity source index. |
 | 215 | `obesity` | `new-obesity` |  | `10.1177/1098612x18791877` | Feline feeding programs: Addressing behavioural needs to improve feline health and wellbeing | 10.1177/1098612X18791877 | Candidate for obesity source index. |
-| 216 | `obesity` | `new-obesity` |  | `10.1053/jfms.2001.0138` | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | 10.1053/JFMS.2001.0138 | Candidate for obesity source index. |
+| 216 | `obesity` | `existing` | `src-obesity-008` | `10.1053/jfms.2001.0138` | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | 10.1053/JFMS.2001.0138 | Matches existing src-obesity-008. |
 | 217 | `obesity` | `new-obesity` |  | `10.1177/1098612x16660605` | Risk of obesity in the neutered cat | 10.1177/1098612X16660605 | Candidate for obesity source index. |
 | 218 | `obesity` | `new-obesity` |  | `10.1017/jns.2014.36` | Long-term follow-up after weight management in obese cats* | 10.1017/JNS.2014.36 | Candidate for obesity source index. |
 | 219 | `obesity` | `new-obesity` |  | `10.1016/j.cvsm.2016.04.002` | Development of Obesity: Mechanisms and Physiology. | 10.1016/J.CVSM.2016.04.002 | Candidate for obesity source index. |
