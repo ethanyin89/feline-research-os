@@ -2,7 +2,7 @@
 
 ## Product Context
 - **What this is:** Internal veterinary research intelligence tool — a Streamlit chat UI for querying a structured knowledge vault (Karpathy-style LLM wiki) about feline diseases
-- **Who it's for:** Researchers and analysts working daily on CKD, FIP, HCM, IBD; internal use only
+- **Who it's for:** Researchers, analysts, and ordinary readers who need a sourced first answer across CKD, FIP, HCM, IBD, Diabetes, and FCV; internal use only
 - **Space/industry:** Veterinary research, biomedical knowledge management
 - **Project type:** Internal research instrument (not a consumer product)
 
@@ -213,29 +213,26 @@ When no conversation exists yet, the chat area shows a structured empty state in
 │                                                 │
 │              Ask the vault                      │  ← st.title, Geist 600, xl (24px)
 │                                                 │
-│  96 source cards · 74 topic pages · 4 diseases  │  ← Geist Mono 400, 11px, #8b90a0
+│  158 sources · 140 topic pages · 6 diseases     │  ← Geist Mono 400, 11px, #8b90a0
 │                                                 │
 │  ┌─────────────────────────────────────────┐    │
 │  │  Try asking:                            │    │  ← Geist 400, 13px, #8b90a0
 │  │                                         │    │
-│  │  ○ CKD 的 SDMA 作为早期 biomarker       │    │  ← clickable example chips
-│  │    的证据有多强？                        │    │
-│  │  ○ Compare FIP treatment options:       │    │
-│  │    GS-441524 vs molnupiravir            │    │
-│  │  ○ IBD 的诊断排除流程是什么？            │    │
-│  │  ○ What HCM screening endpoints         │    │
-│  │    are usable today?                    │    │
+│  │  ○ 解释CKD                               │    │  ← clickable example chips
+│  │  ○ FIP怎么识别                           │    │
+│  │  ○ IBD和淋巴瘤怎么区分                   │    │
+│  │  ○ HCM是什么，为什么危险                 │    │
 │  │                                         │    │
 │  └─────────────────────────────────────────┘    │
 │                                                 │
 │  ┌──────────────────────────────────────┐       │
-│  │  Provenance guide:                   │       │  ← Geist 400, 13px, #8b90a0
-│  │  ■ quoted_fact     — direct quote    │       │  ← #16a34a badge
-│  │  ■ supported       — evidence-based  │       │  ← #ca8a04 badge
-│  │  ■ llm_inference   — beyond evidence │       │  ← #6b7280 badge
+│  │  Evidence labels:                    │       │  ← Geist 400, 13px, #8b90a0
+│  │  ■ quote     — source wording        │       │  ← #16a34a badge
+│  │  ■ supported — supported synthesis   │       │  ← #ca8a04 badge
+│  │  ■ inference — beyond direct support │       │  ← #6b7280 badge
 │  └──────────────────────────────────────┘       │
 │                                                 │
-│  [Ask a research question...              ]     │  ← st.chat_input
+│  [Ask a natural feline health question...]      │  ← st.chat_input
 └─────────────────────────────────────────────────┘
 ```
 
@@ -248,7 +245,7 @@ When no conversation exists yet, the chat area shows a structured empty state in
 - Border-radius: md (6px)
 - Hover: background shifts to `#222535` (Surface 2)
 - On click: populates `st.chat_input` and triggers `run_query()`
-- 4 examples, one per disease, bilingual mix (reflects actual vault content)
+- 4 examples, drawn from the ordinary-user acceptance set (kept to 4 by user decision)
 
 ### Vault Stats Line
 
@@ -256,7 +253,7 @@ When no conversation exists yet, the chat area shows a structured empty state in
 - Font: Geist Mono 400, 11px
 - Color: `#8b90a0` (muted text)
 - Content: dynamically computed from `len(source_index)`, topic page count, disease count
-- Format: `{n} source cards · {m} topic pages · 4 diseases`
+- Format: `{n} sources · {m} topic pages · 6 diseases`
 - Separator: ` · ` (middle dot, not bullet)
 
 ### Provenance Guide
@@ -327,7 +324,7 @@ When no conversation exists yet, the chat area shows a structured empty state in
 
 The first time a user opens the Streamlit app, they need to understand 3 things in 30 seconds:
 
-1. **What this does** — ask a research question, get a sourced answer
+1. **What this does** — ask a natural feline disease question, get a compact sourced answer
 2. **What the colors mean** — green = quoted, amber = supported, gray = beyond evidence
 3. **How to start** — click an example or type a question
 
@@ -338,7 +335,7 @@ The empty state (defined above) IS the onboarding. No separate onboarding flow, 
 If additional context is needed:
 - A collapsible "How this works" section below the provenance guide in empty state
 - Content: 3-4 sentences max
-- "This tool searches 96 research papers about feline CKD, FIP, HCM, and IBD. Ask a question and the system routes it to relevant source cards, synthesizes an answer, and tags every claim with its evidence level. Green tags are direct quotes. Amber tags are supported conclusions. Gray tags mean the answer goes beyond loaded evidence."
+- "This tool searches six feline disease modules in the vault. It routes to compiled topic pages and source cards, writes a compact answer, and tags each claim with its evidence level. Green tags are close to source wording. Amber tags are supported synthesis. Gray tags mean the answer goes beyond the loaded sources."
 - Font: Geist 400, 13px, `#8b90a0`
 - Collapsed by default after first visit (use `st.session_state` or localStorage)
 
@@ -360,7 +357,7 @@ Currently, errors render as generic Streamlit `st.error()` / `st.warning()` boxe
 
 **Improved:**
 - Icon: none (Streamlit warning box is sufficient)
-- Message: "I couldn't figure out which disease you're asking about. Try selecting **CKD**, **FIP**, **HCM**, or **IBD** in the sidebar, then ask again."
+- Message: "I couldn't figure out which disease you're asking about. Try selecting **CKD**, **FIP**, **HCM**, **IBD**, **Diabetes**, or **FCV** in the sidebar, then ask again."
 - Below the warning: re-display the example question chips (same as empty state) so the user has an immediate next action
 - Font: follows Streamlit warning box defaults (Geist injection applies)
 

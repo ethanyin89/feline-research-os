@@ -55,6 +55,11 @@ BACKEND_LABELS = {
     "ollama": "Ollama (local)",
 }
 AVAILABLE_BACKENDS = ["anthropic", "openrouter"] + (["ollama"] if ENABLE_OLLAMA else [])
+OPENROUTER_STREAMLIT_COMMAND = (
+    "OPENROUTER_DAILY_BUDGET_USD=1.00 "
+    "OPENROUTER_MODEL=openai/gpt-4.1-mini "
+    ".venv/bin/python -m streamlit run scripts/app.py"
+)
 
 # ---------------------------------------------------------------------------
 # Provenance badge rendering
@@ -85,27 +90,28 @@ BADGE_PATTERNS = [
 ]
 
 EXAMPLE_QUESTIONS = [
-    "CKD 的 SDMA 作为早期 biomarker 的证据有多强？",
-    "Compare FIP treatment options: GS-441524 vs molnupiravir",
-    "IBD 的诊断排除流程是什么？",
-    "What HCM screening endpoints are usable today?",
+    "解释CKD",
+    "FIP怎么识别",
+    "IBD和淋巴瘤怎么区分",
+    "HCM是什么，为什么危险",
 ]
 
 PROVENANCE_GUIDE_HTML = """
 <div class="vault-panel" style="margin-top:24px">
-  <div class="vault-panel-label">Provenance guide</div>
-  <div class="vault-guide-row"><span class="prov-badge prov-quoted">quote</span><span>direct quote from source</span></div>
-  <div class="vault-guide-row"><span class="prov-badge prov-supported">supported</span><span>supported by the cited sources</span></div>
-  <div class="vault-guide-row"><span class="prov-badge prov-inference">inference</span><span>goes beyond the cited sources</span></div>
+  <div class="vault-panel-label">Evidence labels</div>
+  <div class="vault-guide-row"><span class="prov-badge prov-quoted">quote</span><span>source wording or close paraphrase</span></div>
+  <div class="vault-guide-row"><span class="prov-badge prov-supported">supported</span><span>synthesis supported by loaded sources</span></div>
+  <div class="vault-guide-row"><span class="prov-badge prov-inference">inference</span><span>reasoning beyond direct source support</span></div>
 </div>
 """
 
 EMPTY_STATE_INTRO_HTML = """
 <div class="vault-hero">
-  <div class="vault-kicker">RESEARCH INSTRUMENT</div>
+  <div class="vault-kicker">SOURCE-AWARE FELINE WIKI</div>
   <h1>Ask the vault</h1>
-  <p>Ask a research question. Get a sourced answer with clear support labels.</p>
-  <div class="vault-statline">129 sources · 83 topic pages · 5 diseases</div>
+  <p>Ask a natural feline disease question. Get a compact answer that separates evidence, supported synthesis, uncertainty, and the next page worth reading.</p>
+  <p>Unlike a generic wiki page, each answer starts from this vault's disease pages and source cards, then shows where the answer is strong and where it is only an inference.</p>
+  <div class="vault-statline">0 sources · 0 topic pages · 0 diseases</div>
 </div>
 """
 
@@ -124,19 +130,19 @@ NOTICE_TEMPLATE = """
 
 HOW_IT_WORKS_HTML = """
 <div class="vault-panel">
-  <div class="vault-panel-label">How this works</div>
+  <div class="vault-panel-label">Why this exists</div>
   <p class="vault-panel-copy">
-    The system pulls from relevant topic pages and source notes, synthesizes an answer,
-    and marks each claim as a direct quote, a supported conclusion, or a step beyond the cited sources.
+    The vault turns dense veterinary literature into a first answer surface: practical explanation first,
+    source support visible immediately, uncertainty kept in the answer instead of hidden in footnotes.
   </p>
 </div>
 """
 
 HOW_IT_WORKS_COPY = (
-    "This tool searches feline CKD, FIP, HCM, and IBD papers in the vault. "
-    "Ask a question and the system routes to relevant source notes, synthesizes an answer, "
-    "and tags each claim with its evidence level. Green tags are direct quotes. "
-    "Amber tags are supported conclusions. Gray tags mean the answer goes beyond the cited sources."
+    "This tool searches six feline disease modules in the vault. It routes to compiled topic pages "
+    "and source cards, writes a compact answer, and tags each claim with its evidence level. "
+    "Green tags are close to source wording. Amber tags are supported synthesis. "
+    "Gray tags mean the answer goes beyond the loaded sources."
 )
 
 
@@ -363,26 +369,38 @@ def strip_legacy_footer(answer: str) -> str:
     return "\n".join(cleaned).rstrip()
 
 
+def readable_source_titles(source_ids: list[str], limit: int = 4) -> tuple[list[str], int]:
+    """Return unique readable source titles plus the hidden remainder count."""
+    if not source_ids:
+        return [], 0
+    source_titles = get_source_titles()
+    titles: list[str] = []
+    for sid in source_ids:
+        title = source_titles.get(sid)
+        if title and title not in titles:
+            titles.append(title)
+    return titles[:limit], max(0, len(titles) - limit)
+
+
 def render_sources_section(source_ids: list[str]) -> None:
     """Render a clean Sources section with paper titles."""
     if not source_ids:
         return
-    source_titles = get_source_titles()
-    titles_to_show: list[str] = []
-    for sid in source_ids:
-        title = source_titles.get(sid)
-        if title:
-            titles_to_show.append(title)
+    titles_to_show, hidden_count = readable_source_titles(source_ids, limit=6)
     if not titles_to_show:
         return
-    unique_titles = list(dict.fromkeys(titles_to_show))
     st.markdown(
         "<div class='vault-panel-label' style='margin-top:20px;margin-bottom:8px'>Sources</div>",
         unsafe_allow_html=True,
     )
-    for title in unique_titles:
+    for title in titles_to_show:
         st.markdown(
             f"<div style='font-size:13px;color:#8b90a0;margin-bottom:4px'>· {html.escape(title)}</div>",
+            unsafe_allow_html=True,
+        )
+    if hidden_count:
+        st.markdown(
+            f"<div style='font-size:12px;color:#8b90a0;margin-top:4px'>+ {hidden_count} more source titles loaded</div>",
             unsafe_allow_html=True,
         )
 
@@ -418,8 +436,15 @@ def render_trust_block(answer: str, confidence: str, source_ids: list[str], load
         )
 
     readings = loaded_count or len(source_ids)
+    title_source_ids = loaded_source_ids or source_ids
+    titles, hidden_count = readable_source_titles(title_source_ids, limit=3)
+    title_line = ""
+    if titles:
+        safe_titles = "; ".join(html.escape(title) for title in titles)
+        extra = f" + {hidden_count} more." if hidden_count else "."
+        title_line = f"<div style='margin-top:6px'>Readable sources: {safe_titles}{extra}</div>"
     render_notice(
-        f"Confidence: {confidence}. {reason} Readings loaded: {readings}.",
+        f"Confidence: {confidence}. {reason} Readings loaded: {readings}.{title_line}",
         tone=tone,
     )
 
@@ -467,7 +492,7 @@ def render_empty_state() -> None:
     topic_count = len(list((VAULT_ROOT / "topics").rglob("*.md")))
     disease_count = len([p for p in (VAULT_ROOT / "topics").iterdir() if p.is_dir()])
     st.markdown(
-        EMPTY_STATE_INTRO_HTML.replace("129 sources · 83 topic pages · 5 diseases",
+        EMPTY_STATE_INTRO_HTML.replace("0 sources · 0 topic pages · 0 diseases",
                                        f"{len(source_index)} sources · {topic_count} topic pages · {disease_count} diseases"),
         unsafe_allow_html=True,
     )
@@ -507,9 +532,18 @@ def render_main_header() -> None:
         )
 
 
-def render_query_error(what_happened: str, technical_detail: str) -> None:
+def openrouter_budget_help_html() -> str:
+    """Return the exact local action needed for OpenRouter budget guard failures."""
+    return (
+        "Restart this app with the budget guard in the same shell: "
+        f"<code>{html.escape(OPENROUTER_STREAMLIT_COMMAND)}</code>"
+    )
+
+
+def render_query_error(what_happened: str, technical_detail: str, extra_action_html: str = "") -> None:
     """Render a user-friendly query failure block."""
     safe_detail = sanitize_error_detail(technical_detail)
+    extra_action = f"<div>{extra_action_html}</div>" if extra_action_html else ""
     render_notice(
         f"""
         <div class="vault-panel-label">Query failed</div>
@@ -517,6 +551,7 @@ def render_query_error(what_happened: str, technical_detail: str) -> None:
         <div style="margin-top:8px"><strong>What to try:</strong></div>
         <div style="margin-top:6px">Check your API key is set correctly</div>
         <div>Try switching between Anthropic (API) and OpenRouter (API) in the sidebar</div>
+        {extra_action}
         <div>If local Ollama is intentionally enabled, make sure it's running: <code>ollama serve</code></div>
         """,
         tone="red",
@@ -1021,7 +1056,7 @@ with st.sidebar:
         <div class="vault-panel" style="margin-bottom:12px">
           <div class="vault-kicker">Feline Research OS</div>
           <div style="font-size:20px;font-weight:600;color:#e8eaf0;line-height:1.15">Ask the vault</div>
-          <div style="font-size:13px;color:#8b90a0;margin-top:8px">Ask a question. Get a sourced answer.</div>
+          <div style="font-size:13px;color:#8b90a0;margin-top:8px">Ask a natural question. Get evidence, uncertainty, and a next step.</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1061,7 +1096,10 @@ with st.sidebar:
             try:
                 openrouter_budget = validate_openrouter_budget()
             except ValueError as exc:
-                render_notice(str(exc), tone="amber")
+                render_notice(
+                    f"{html.escape(str(exc))}<div style='margin-top:8px'>{openrouter_budget_help_html()}</div>",
+                    tone="amber",
+                )
             else:
                 render_notice(
                     f"OpenRouter key loaded. Project daily budget guard: ${openrouter_budget:.2f}.",
@@ -1075,7 +1113,7 @@ with st.sidebar:
     st.markdown("<div class='vault-panel-label'>Condition</div>", unsafe_allow_html=True)
     disease_choice = st.selectbox(
         "Condition",
-        options=["Auto-detect", "CKD", "HCM", "FIP", "IBD", "Diabetes"],
+        options=["Auto-detect", "CKD", "HCM", "FIP", "IBD", "Diabetes", "FCV"],
         index=0,
         help="Leave on Auto-detect to let the router determine the disease from your question.",
         label_visibility="collapsed",
@@ -1280,10 +1318,11 @@ def run_query(question: str) -> bool:
         except ValueError as exc:
             render_query_error(
                 what_happened=(
-                    "OpenRouter is selected, but the project-side daily budget guard is not set. "
-                    "Set the matching $1/day limit in the OpenRouter dashboard first."
+                    "OpenRouter is selected, but this Streamlit process was started without "
+                    "the project-side daily budget guard."
                 ),
                 technical_detail=str(exc),
+                extra_action_html=openrouter_budget_help_html(),
             )
             render_example_question_chips("openrouter-budget-missing")
             return False
@@ -1321,7 +1360,7 @@ def run_query(question: str) -> bool:
         except SystemExit:
             status.update(label="Could not detect disease", state="error", expanded=True)
             render_notice(
-                "I couldn't figure out which disease you're asking about. Try selecting CKD, FIP, HCM, IBD, or Diabetes in the sidebar, then ask again.",
+                "I couldn't figure out which disease you're asking about. Try selecting CKD, FIP, HCM, IBD, Diabetes, or FCV in the sidebar, then ask again.",
                 tone="amber",
             )
             render_example_question_chips("disease-detect")
@@ -1448,7 +1487,7 @@ def run_query(question: str) -> bool:
 # Input
 # ---------------------------------------------------------------------------
 
-user_question = st.session_state.pending_question or st.chat_input("Ask a research question...")
+user_question = st.session_state.pending_question or st.chat_input("Ask a natural feline health question...")
 if user_question:
     st.session_state.pending_question = None
     st.session_state.messages.append({"role": "user", "content": user_question})

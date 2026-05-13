@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 783 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 782 markdown files, no local link issues found. |
 | Query tests | PASS | 102 passed  \|  0 failed  \|  102 total |
 | Paper source cards | PASS | 144 strict disease paper cards |
 | Regulation source cards | PASS | 14 regulation cards |
@@ -42,9 +42,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | High-visibility language QA | PASS | 0 high-visibility pages unchecked or missing |
 | Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
-| Inbox backlog | WARN | 1 active files, 11 rejected audit files |
+| Inbox backlog | PASS | 0 active files, 12 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
-| Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260507.md; mode=route-only; status=route_pass |
+| Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260507.md; mode=executed; status=pass |
 | Compile trigger | PASS | 0 changed source cards, 0 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
@@ -72,7 +72,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 ## Inbox Backlog
 
-- inbox/content-precision-promotion-batch-20260506.md
+- No active inbox files outside `.gitkeep`.
 
 Rejected / audit notes:
 - inbox/rejected/nested-users-absolute-path-tree-20260421/README.md
@@ -86,7 +86,8 @@ Rejected / audit notes:
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/mechanism-overview.md
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/model-summary.md
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/navigation.md
+- inbox/rejected/processed/content-precision-promotion-batch-20260506.md
 
 ## Next Actions
 
-- Clear active inbox files by promote / reject / keep-with-blocker.
+- No immediate structural action from this report.

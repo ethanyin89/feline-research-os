@@ -53,11 +53,11 @@ This workflow is now linked from:
 
 ### 2. First real promotion batch was staged
 
-The first real batch using the new workflow is staged at:
+The first real batch using the new workflow was staged, processed, and archived at:
 
-- [inbox/content-precision-promotion-batch-20260506.md](inbox/content-precision-promotion-batch-20260506.md)
+- [inbox/rejected/processed/content-precision-promotion-batch-20260506.md](inbox/rejected/processed/content-precision-promotion-batch-20260506.md)
 
-Do not treat this as canonical truth yet. It is an approval gate.
+Do not treat the archived inbox note as a live backlog item. Its accepted findings were written into canonical targets later.
 
 Batch decisions:
 
@@ -104,7 +104,7 @@ Result:
 
 - health report generated at [system/health-checks/health-report-20260506.md](system/health-checks/health-report-20260506.md)
 - status active
-- only warning: one active inbox file, which is expected because the batch is staged
+- historical note: this session originally had one active inbox file; it has since been processed and archived
 
 ## Next Move
 
@@ -134,7 +134,7 @@ until the staged official-source batch is coherent.
 
 1. [HANDOFF.md](HANDOFF.md)
 2. [system/indexes/content-precision-promotion-workflow.md](system/indexes/content-precision-promotion-workflow.md)
-3. [inbox/content-precision-promotion-batch-20260506.md](inbox/content-precision-promotion-batch-20260506.md)
+3. [inbox/rejected/processed/content-precision-promotion-batch-20260506.md](inbox/rejected/processed/content-precision-promotion-batch-20260506.md)
 4. [topics/fip/regulatory-brief.md](topics/fip/regulatory-brief.md)
 5. [system/indexes/fip-antiviral-product-archetype-route-boundary-memo.md](system/indexes/fip-antiviral-product-archetype-route-boundary-memo.md)
 6. [system/indexes/fip-baseline-gs-us-conditional-approval-eligibility-memo.md](system/indexes/fip-baseline-gs-us-conditional-approval-eligibility-memo.md)
@@ -154,4 +154,3 @@ until the staged official-source batch is coherent.
 ## One-Line State
 
 The system now knows how to handle repeated post-full-source-card content promotion. The next model should run the official-source FIP regulatory precision batch and stage it, not write canonical route claims directly.
-

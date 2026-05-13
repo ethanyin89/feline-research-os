@@ -16,16 +16,17 @@ The user rule is binding:
 
 ## Current Reality
 
-- This directory is not a git repo in the current shell.
+- This directory is now a git repo on branch `main`.
 - Latest health report: [system/health-checks/health-report-20260507.md](system/health-checks/health-report-20260507.md)
 - Health status is `active`.
 - Query tests: `102 passed | 0 failed`.
-- Markdown links: PASS, `781` markdown files.
-- Ordinary-user acceptance is currently `route-only` pass, not post-sanitizer live pass:
+- Markdown links: PASS, `782` markdown files.
+- Ordinary-user acceptance has now passed the live OpenRouter suite:
   - [system/health-checks/ordinary-user-acceptance-report-20260507.md](system/health-checks/ordinary-user-acceptance-report-20260507.md)
-  - `Execution mode: route-only`
-  - `Acceptance status: route_pass`
-- The only health warning is the active inbox backlog.
+  - Earlier durable route-only baseline: `6/6 route_pass`
+  - Latest live OpenRouter rerun: `executed / pass`
+  - Result: `6/6 automated pass-leaning answers`, `0` execution failures, `0` provenance misses, `0` route misses
+- Current health warnings: none from inbox or ordinary-user acceptance.
 
 ## Product Judgment
 
@@ -45,6 +46,21 @@ The answer direction is:
 The next work should make that value obvious in the first screen and answer flow.
 
 ## What Changed Recently
+
+### Ordinary-User Presentation Follow-Up
+
+[scripts/app.py](scripts/app.py) now makes the ordinary-reader value proposition visible on first load:
+
+- First screen says this is a source-aware feline wiki, not just a research chat.
+- Example prompts now use 4 real ordinary-user acceptance questions:
+  - `解释CKD`
+  - `FIP怎么识别`
+  - `IBD和淋巴瘤怎么区分`
+  - `HCM是什么，为什么危险`
+- Evidence labels are phrased for readers: quote / supported / inference.
+- The trust block now shows readable source titles in addition to confidence and reading counts.
+- The condition selector includes `FCV`, matching the sixth disease module now present in the vault.
+- The chat input now asks for a natural feline health question instead of a research question.
 
 ### Ask The Vault Overview
 
@@ -103,19 +119,30 @@ It also classifies runtime blockers:
 
 If a live run reports `blocked-runtime:backend-auth`, fix OpenRouter auth. Do not change content or routing in response to that report.
 
-## Why Live Acceptance Is Not Currently Final
+[scripts/app.py](scripts/app.py) now also shows the exact Streamlit restart command when OpenRouter is selected without the local budget guard:
+
+```bash
+OPENROUTER_DAILY_BUDGET_USD=1.00 OPENROUTER_MODEL=openai/gpt-4.1-mini .venv/bin/python -m streamlit run scripts/app.py
+```
+
+This addresses the UI failure mode where the sidebar says `OPENROUTER_DAILY_BUDGET_USD not set` and the user has no copyable local action.
+
+## Live Acceptance Status
 
 Before the latest sanitizer changes, a full OpenRouter ordinary-user run reached `5/6` pass-leaning. The only miss was OU4 (`IBD和淋巴瘤怎么区分`) using informal Chinese source formatting rather than machine-readable source tags.
 
 That sanitizer issue has now been fixed in code and tested.
 
-A targeted live rerun of OU4 after the fix was blocked by OpenRouter:
+A full ordinary-user live rerun on 2026-05-07 now passes with OpenRouter:
 
 ```text
-401 User not found
+OPENROUTER_DAILY_BUDGET_USD=1.00 OPENROUTER_MODEL=openai/gpt-4.1-mini .venv/bin/python scripts/run_acceptance_checklist.py --suite ordinary-user --backend openrouter
+→ executed / pass
+→ 6/6 automated pass-leaning answers
+→ 0 execution failures, 0 provenance misses, 0 route misses
 ```
 
-So the latest durable report was reset to route-only `route_pass`. Do not claim post-sanitizer full live pass until OpenRouter auth is stable and the full suite runs.
+Route-only can still be rerun to verify deterministic routing, but the current durable report is a live executed pass.
 
 ## Six Ordinary-User Acceptance Prompts
 
@@ -141,14 +168,13 @@ Pass means:
 
 Do this in order.
 
-1. Stabilize OpenRouter auth and rerun the full ordinary-user live suite.
-2. If live suite passes, keep compact overview context as default.
-3. Inspect the actual Streamlit ordinary-user page with the 6 prompts.
-4. Improve the first-screen value proposition and answer readability without changing source truth:
+1. Keep compact overview context as default.
+2. Inspect the actual Streamlit ordinary-user page with the 6 prompts during normal UI QA.
+3. Continue answer readability improvements without changing source truth:
    - make “why this instead of Wikipedia” visible in the answer flow
    - make evidence/uncertainty/next-step cues readable to non-experts
    - keep source details available without forcing ordinary users to parse source IDs
-5. Only after multiple clean live runs should any deterministic scheduled check be considered.
+4. Only after multiple clean live runs should any deterministic scheduled check be considered.
 
 ## Do Not Do
 
@@ -175,9 +201,10 @@ python3 -m py_compile scripts/query.py scripts/test_query.py scripts/run_accepta
 Expected current baseline:
 
 - query tests: `102 passed | 0 failed`
-- ordinary-user route-only: `route_pass`
+- ordinary-user route-only: `route_pass` when run in route-only mode
+- ordinary-user live OpenRouter: `executed / pass`
 - markdown links: PASS
-- health: `active`
+- health: `active`, ordinary-user acceptance PASS
 
 ## Files To Read First
 
@@ -192,4 +219,4 @@ Expected current baseline:
 
 ## One Line
 
-The next model should make the ordinary-user value visible in content and presentation, but first must rerun the full live suite after OpenRouter auth is stable; route-only pass is not final product proof.
+The next model should continue ordinary-user presentation QA from a passing live OpenRouter baseline; route-only remains useful for deterministic routing, but the current durable report is live executed pass.
