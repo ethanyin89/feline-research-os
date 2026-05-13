@@ -158,12 +158,12 @@ def queue_question(question: str) -> None:
     st.session_state.pending_question = question
 
 
-def render_example_question_chips(prefix: str) -> None:
+def render_example_question_chips(prefix: str, disabled: bool = False) -> None:
     """Render clickable example questions."""
     cols = st.columns(2)
     for i, question in enumerate(EXAMPLE_QUESTIONS):
         with cols[i % 2]:
-            if st.button(question, key=f"{prefix}-example-{i}", use_container_width=True):
+            if st.button(question, key=f"{prefix}-example-{i}", use_container_width=True, disabled=disabled):
                 queue_question(question)
 
 
@@ -497,7 +497,7 @@ def render_empty_state() -> None:
         unsafe_allow_html=True,
     )
     st.markdown("<div class='vault-panel'><div class='vault-panel-label'>Try asking</div></div>", unsafe_allow_html=True)
-    render_example_question_chips("empty")
+    render_example_question_chips("empty", disabled=backend_blocker is not None)
     render_saved_answers_panel("empty")
     render_provenance_guide()
     render_how_it_works()
@@ -1050,6 +1050,8 @@ if "last_answer_payload" not in st.session_state:
 # Sidebar
 # ---------------------------------------------------------------------------
 
+backend_blocker: Optional[str] = None
+
 with st.sidebar:
     st.markdown(
         """
@@ -1090,12 +1092,14 @@ with st.sidebar:
         if is_ollama_reachable():
             render_notice("Ollama connected.", tone="green")
         else:
+            backend_blocker = "Ollama is not reachable. Run `ollama serve` before asking."
             render_notice("Ollama not reachable. Run <code>ollama serve</code>.", tone="amber")
     elif backend == "openrouter":
         if os.environ.get("OPENROUTER_API_KEY"):
             try:
                 openrouter_budget = validate_openrouter_budget()
             except ValueError as exc:
+                backend_blocker = str(exc)
                 render_notice(
                     f"{html.escape(str(exc))}<div style='margin-top:8px'>{openrouter_budget_help_html()}</div>",
                     tone="amber",
@@ -1106,8 +1110,10 @@ with st.sidebar:
                     tone="green",
                 )
         else:
+            backend_blocker = "OPENROUTER_API_KEY is not set in this shell."
             render_notice("OPENROUTER_API_KEY not set. Switch backend or set the key before asking.", tone="amber")
     elif backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
+        backend_blocker = "ANTHROPIC_API_KEY is not set in this shell."
         render_notice("ANTHROPIC_API_KEY not set. Switch backend or set the key before asking.", tone="amber")
 
     st.markdown("<div class='vault-panel-label'>Condition</div>", unsafe_allow_html=True)
@@ -1487,7 +1493,15 @@ def run_query(question: str) -> bool:
 # Input
 # ---------------------------------------------------------------------------
 
-user_question = st.session_state.pending_question or st.chat_input("Ask a natural feline health question...")
+input_placeholder = (
+    "Set the selected backend key/budget guard before asking."
+    if backend_blocker
+    else "Ask a natural feline health question..."
+)
+user_question = st.session_state.pending_question or st.chat_input(
+    input_placeholder,
+    disabled=backend_blocker is not None,
+)
 if user_question:
     st.session_state.pending_question = None
     st.session_state.messages.append({"role": "user", "content": user_question})

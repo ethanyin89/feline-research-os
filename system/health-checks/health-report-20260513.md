@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 801 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 802 markdown files, no local link issues found. |
 | Query tests | PASS | 102 passed  \|  0 failed  \|  102 total |
 | Paper source cards | PASS | 152 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
@@ -44,7 +44,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
 | Inbox backlog | PASS | 0 active files, 12 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
-| Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260507.md; mode=executed; status=pass |
+| Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260513.md; mode=route-only; status=route_pass |
 | Compile trigger | PASS | 8 changed source cards, 7 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 

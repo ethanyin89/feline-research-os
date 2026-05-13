@@ -21,7 +21,7 @@ Current scope:
 ```bash
 cd /Users/jiawei/Desktop/insclaude/feline-research-os
 source .venv/bin/activate
-OPENROUTER_API_KEY='your-key' OPENROUTER_DAILY_BUDGET_USD=1.00 python -m streamlit run scripts/app.py
+OPENROUTER_API_KEY='your-key' scripts/run_test_page.sh
 ```
 
 更多日常操作路径见 [memory/project/GBRAIN_STATUS.md](memory/project/GBRAIN_STATUS.md)
@@ -54,7 +54,7 @@ ANTHROPIC_API_KEY=<key> python -m streamlit run scripts/app.py
 
 **Option B — OpenRouter**
 ```bash
-OPENROUTER_API_KEY=<key> OPENROUTER_DAILY_BUDGET_USD=1.00 OPENROUTER_MODEL=openai/gpt-4.1-mini python -m streamlit run scripts/app.py
+OPENROUTER_API_KEY=<key> scripts/run_test_page.sh
 ```
 
 **Option C — Ollama (local, hidden by default)**
