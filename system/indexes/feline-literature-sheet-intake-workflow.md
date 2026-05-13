@@ -119,6 +119,7 @@ Literature sheet intake is event-driven. Add cron only if the user turns a sprea
 ## Current Implementation
 
 - Repo script: [scripts/literature_sheet_intake.py](../../scripts/literature_sheet_intake.py)
+- Source-card bootstrap script: [scripts/literature_source_card_bootstrap.py](../../scripts/literature_source_card_bootstrap.py)
 - Installed Codex skill: `~/.codex/skills/feline-literature-intake/SKILL.md`
 - First sample: [feline diabetes / obesity sheet sample](feline-diabetes-obesity-sheet-intake-sample-20260513.md)
 - First full manifest: [feline diabetes / obesity intake manifest](feline-diabetes-obesity-intake-manifest-20260513.md)

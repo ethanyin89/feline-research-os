@@ -74,6 +74,7 @@ Durable workflow exists:
 
 - [feline literature sheet intake workflow](feline-literature-sheet-intake-workflow.md)
 - [scripts/literature_sheet_intake.py](../../scripts/literature_sheet_intake.py)
+- [scripts/literature_source_card_bootstrap.py](../../scripts/literature_source_card_bootstrap.py)
 
 Required sample exists:
 
@@ -126,7 +127,7 @@ Those would be false.
 
 The next reusable step is not another manual spreadsheet pass.
 
-The next step is to extend the existing intake script or add a companion script that can turn approved manifest rows into conservative first-pass source cards.
+The next step is to use the companion source-card bootstrap script to turn approved manifest rows into conservative first-pass source cards.
 
 Before that script writes all queued rows, it should be tested on 3-10 rows:
 
@@ -145,6 +146,22 @@ Expected behavior:
 - create only title-only / abstract-weighted cards unless the source text was actually read
 - never promote new claims to topic pages in the same pass
 - keep shared diabetes-obesity rows as cross-links unless a later claim-fit review needs a second owner
+
+Sample dry-run completed on 2026-05-13:
+
+```bash
+python3 scripts/literature_source_card_bootstrap.py \
+  --csv /tmp/feline-diabetes-obesity-20260513.csv \
+  --repo-root . \
+  --rows 62,99,47,58,103,139,146,173,223,137,145
+```
+
+Result:
+
+- planned 7 new first-pass cards
+- skipped existing / shared / duplicate sample rows
+- next diabetes IDs start at `src-diabetes-025`
+- next obesity IDs start at `src-obesity-009`
 
 ## Cron Decision
 
