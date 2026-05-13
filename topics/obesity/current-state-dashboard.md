@@ -5,13 +5,13 @@ topic: obesity
 species: feline
 disease: obesity
 question_type: dashboard
-source_ids: [src-diabetes-005]
+source_ids: [src-obesity-001, src-obesity-002, src-obesity-003, src-obesity-004, src-obesity-005, src-obesity-006, src-obesity-007, src-obesity-008, src-diabetes-005]
 last_compiled_at: 2026-05-13
 confidence: low
-verification_status: bootstrap
+verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-05-13 checked as bootstrap dashboard; source_ids points only to existing diabetes-obesity bridge while new obesity corpus remains queued, not compiled."
+language_qa_notes: "2026-05-13 checked as source-indexed dashboard; partial/title-only source boundary is visible and no clinical guidance claims are made."
 owner: codex
 status: active
 ---
@@ -20,9 +20,9 @@ status: active
 
 ## State
 
-`bootstrap`
+`source-indexed`
 
-The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified and queued, but source cards have not yet been created.
+The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified and queued, and the first Tier A obesity source cards now exist. They are partial cards, not deep-extracted evidence.
 
 ## What Exists
 
@@ -31,7 +31,8 @@ The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus 
 | Google Sheet intake | done | 227 non-empty rows classified |
 | Obesity candidate set | done | 87 new obesity candidates |
 | Shared-source control | done | 5 shared existing diabetes rows marked for cross-linking |
-| Obesity source cards | not started | no `src-obesity-*` cards yet |
+| Obesity source cards | started | 8 partial `src-obesity-*` cards |
+| Obesity source index | started | first Tier A source index and depth map exist |
 | Obesity topic pages | shell only | index, navigation, dashboard |
 
 ## Tier A Bootstrap Read
@@ -56,9 +57,9 @@ See [obesity bootstrap source queue](../../system/indexes/obesity-bootstrap-sour
 
 ## Next Exit Condition
 
-The module can move from `bootstrap` to `source-indexed` after:
+The module can move from `source-indexed` to `compiled starter` after:
 
-1. Tier A `src-obesity-*` source cards exist.
-2. Each Tier A card has source family and claim-fit judgment.
-3. Shared diabetes-obesity source handling is documented.
+1. `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008` are deep-extracted.
+2. Shared diabetes-obesity source handling is documented in the first compiled obesity page.
+3. A first narrow obesity owner exists, preferably risk/assessment, prevention, or obesity-diabetes bridge.
 4. Markdown and source-card checks pass.

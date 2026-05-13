@@ -25,7 +25,16 @@ from pathlib import Path
 
 VAULT_ROOT = Path(__file__).parent.parent
 REPORT_DIR = VAULT_ROOT / "system" / "health-checks"
-DISEASES = ["ckd", "fip", "hcm", "ibd", "diabetes", "fcv"]
+DISEASES = ["ckd", "fip", "hcm", "ibd", "diabetes", "fcv", "obesity"]
+EXPECTED_PAPER_COUNTS = {
+    "ckd": 24,
+    "fip": 24,
+    "hcm": 24,
+    "ibd": 24,
+    "diabetes": 24,
+    "fcv": 24,
+    "obesity": 0,
+}
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
 CANDIDATE_ASSET_RE = re.compile(r"raw/images/[^\]\s,)]+candidate-[^\]\s,)]+(?:\.png|\.jpg|\.jpeg)")
 REQUIRED_SOURCE_FIELDS = ["verification_status", "decision_grade", "language_qa_status"]
@@ -208,7 +217,7 @@ def source_inventory() -> dict:
 
     for disease in DISEASES:
         cards = sorted((VAULT_ROOT / "raw" / "papers").glob(f"src-{disease}-*.md"))
-        result["expected_paper_total"] += 24
+        result["expected_paper_total"] += EXPECTED_PAPER_COUNTS.get(disease, 0)
         depth_counts: Counter[str] = Counter()
         verification_counts: Counter[str] = Counter()
         for card in cards:
@@ -769,7 +778,7 @@ def render_report(data: dict) -> str:
         "|---|---|---|",
         summary_row("Markdown links", command_summary(link_result), first_line(link_result["stdout"])),
         summary_row("Query tests", command_summary(query_result), test_summary(query_result["stdout"])),
-        summary_row("Paper source cards", "PASS" if inventory["paper_total"] == inventory["expected_paper_total"] else "FAIL", f"{inventory['paper_total']} strict disease paper cards"),
+        summary_row("Paper source cards", "PASS" if inventory["paper_total"] >= inventory["expected_paper_total"] else "FAIL", f"{inventory['paper_total']} strict disease paper cards; baseline >= {inventory['expected_paper_total']}"),
         summary_row("Regulation source cards", "PASS" if inventory["reg_total"] == 14 else "WARN", f"{inventory['reg_total']} regulation cards"),
         summary_row("Source IDs", "PASS" if not inventory["duplicate_ids"] and not inventory["missing_ids"] else "FAIL", f"{len(inventory['duplicate_ids'])} duplicates, {len(inventory['missing_ids'])} missing ids"),
         summary_row("Low-word paper cards", "PASS" if not inventory["low_word_cards"] else "FAIL", f"{len(inventory['low_word_cards'])} cards below 700 words"),

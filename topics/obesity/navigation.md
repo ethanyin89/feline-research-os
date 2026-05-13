@@ -25,10 +25,12 @@ status: active
 ## Intake And Source Control
 
 - [obesity bootstrap source queue](../../system/indexes/obesity-bootstrap-source-queue-20260513.md)
+- [obesity source index](../../system/indexes/obesity-source-index.md)
+- [obesity source depth map](../../system/indexes/obesity-source-depth-map.md)
 - [feline diabetes / obesity intake manifest](../../system/indexes/feline-diabetes-obesity-intake-manifest-20260513.md)
 
 ## Current Boundaries
 
 - This module is not yet an answer surface.
-- Do not route ordinary obesity questions here until Tier A source cards exist.
+- Do not route ordinary obesity questions here until Tier A source cards are deep-extracted or a compiled obesity page exists.
 - For diabetes-obesity overlap, use [diabetes obesity and body condition](../diabetes/obesity-and-body-condition.md).

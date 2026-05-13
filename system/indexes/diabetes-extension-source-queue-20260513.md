@@ -72,7 +72,7 @@ When creating `src-diabetes-025+` cards:
 
 1. Use source cards only after verifying at least title, locator, year, source family, and claim-fit.
 2. Leave `quoted_fact` empty unless exact source text has been read.
-3. Use `verification_status: title_locator_verified` or stricter only when true.
+3. Use `verification_status: title_only`, `abstract_weighted`, `source_checked`, or stricter only when true. Do not invent new verification labels.
 4. Do not promote claims to topic pages in the same pass unless the card has enough source support.
 5. Run markdown link checks and source-card required-field checks after writes.
 

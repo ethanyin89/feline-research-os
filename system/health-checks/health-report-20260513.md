@@ -20,9 +20,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 791 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 801 markdown files, no local link issues found. |
 | Query tests | PASS | 102 passed  \|  0 failed  \|  102 total |
-| Paper source cards | PASS | 144 strict disease paper cards |
+| Paper source cards | PASS | 152 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
 | Source IDs | PASS | 0 duplicates, 0 missing ids |
 | Low-word paper cards | PASS | 0 cards below 700 words |
@@ -33,7 +33,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Source quoted-fact discipline | PASS | 0 quoted_fact items look interpretive |
 | Compiled source refs | PASS | 0 invalid source refs |
 | Reader page source_ids | PASS | 0 missing, 0 empty |
-| Thin source usage | PASS | 0 reader/high-visibility pages use abstract-weighted or title-only sources |
+| Thin source usage | WARN | 2 reader/high-visibility pages use abstract-weighted or title-only sources |
 | Thin source caveats | PASS | 0 thin-source pages without visible evidence-depth caveat |
 | Title-only caveats | PASS | 0 pages cite title-only sources without visible caveat |
 | Key-claim traceability | PASS | 0 high-value pages missing traceability table |
@@ -45,7 +45,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Inbox backlog | PASS | 0 active files, 12 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260507.md; mode=executed; status=pass |
-| Compile trigger | PASS | 0 changed source cards, 0 downstream files |
+| Compile trigger | PASS | 8 changed source cards, 7 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
@@ -58,6 +58,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | ibd | 24 | full: 24 | deep_extracted: 24 |
 | diabetes | 24 | full: 24 | deep_extracted: 24 |
 | fcv | 24 | full: 24 | deep_extracted: 24 |
+| obesity | 8 | partial: 8 | abstract_weighted: 2, title_only: 6 |
 
 ## Image Reality
 
@@ -69,6 +70,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | ibd | 1 | 0 | 0 |
 | diabetes | 1 | 0 | 0 |
 | fcv | 0 | 0 | 0 |
+| obesity | 0 | 0 | 0 |
 
 ## Inbox Backlog
 
@@ -87,6 +89,12 @@ Rejected / audit notes:
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/model-summary.md
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/navigation.md
 - inbox/rejected/processed/content-precision-promotion-batch-20260506.md
+
+## Thin Source Usage
+
+`abstract_weighted` and `title_only` sources can support cautious synthesis, but should not be read as full-text or decision-grade proof.
+- topics/obesity/current-state-dashboard.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (title_only), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
+- topics/obesity/index.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (title_only), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
 
 ## Next Actions
 
