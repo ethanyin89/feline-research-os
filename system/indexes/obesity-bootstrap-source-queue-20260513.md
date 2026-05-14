@@ -96,3 +96,14 @@ Start with:
 5. row 223, weight-loss body composition / activity / microbiota study
 
 These should define the first obesity spine: prevalence/risk, mechanism, management, diabetes bridge, and weight-loss endpoints.
+
+## 2026-05-14 Availability Note
+
+Full-text availability was sampled for the leading obesity candidates in [feline diabetes / obesity full-text availability sample](feline-diabetes-obesity-fulltext-availability-sample-20260514.md).
+
+Current read:
+
+- `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, `src-obesity-008`, and `src-obesity-080` all have Crossref full-text/TDM links.
+- HEAD probes were reachable for `src-obesity-001` and `src-obesity-080`.
+- `src-obesity-004`, `src-obesity-005`, and `src-obesity-008` still need landing-page or browser-level access verification before full-text extraction.
+- No source-card status was promoted by this check.

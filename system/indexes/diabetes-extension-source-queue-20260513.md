@@ -89,3 +89,14 @@ Start with:
 5. row 103, survival/remission/QoL study
 
 These are the only rows currently strong enough to pre-commit as likely deep-extraction candidates.
+
+## 2026-05-14 Availability Note
+
+Full-text availability was sampled for the Tier A diabetes candidates in [feline diabetes / obesity full-text availability sample](feline-diabetes-obesity-fulltext-availability-sample-20260514.md).
+
+Current read:
+
+- `src-diabetes-035`, `src-diabetes-046`, `src-diabetes-050`, `src-diabetes-087`, and `src-diabetes-091` all have Crossref full-text/TDM links.
+- HEAD probes were reachable for `src-diabetes-035`, `src-diabetes-046`, and `src-diabetes-087`.
+- `src-diabetes-050` and `src-diabetes-091` still need landing-page or browser-level access verification before full-text extraction.
+- No source-card status was promoted by this check.

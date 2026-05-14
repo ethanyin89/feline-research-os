@@ -37,6 +37,7 @@ For this batch, "processed" has three levels.
 | Level 2: source-ingested | A first-pass `raw/papers/src-*.md` card exists with title / locator / claim-fit caveats, or the row is explicitly shared/section-only. | done |
 | Level 2.5: source-checked | DOI metadata / Crossref abstract availability has been checked for the diabetes extension and obesity corpus. | done |
 | Level 2.75: structured-abstract extracted | Abstract-only worksheets exist for every abstract-available diabetes extension and obesity card. | done for 103 abstract-weighted cards |
+| Level 2.9: full-text availability sampled | High-priority deep-extraction candidates have Crossref full-text/TDM link and HEAD-probe availability checked. | sample done |
 | Level 3: evidence-usable | The source has enough structured abstract/full-text extraction to support topic-page claims. | selective only |
 
 The current sheet is processed at Level 2.5.
@@ -267,9 +268,34 @@ Result:
 - no source card was promoted above `abstract_weighted`
 - no topic pages were updated from these worksheets
 
+## Full-Text Availability Sample Completed
+
+Before any full-text deep extraction, a 10-source availability sample was run:
+
+```bash
+python3 scripts/source_fulltext_availability.py \
+  --repo-root . \
+  --source-ids src-diabetes-050,src-diabetes-087,src-diabetes-046,src-diabetes-035,src-diabetes-091,src-obesity-001,src-obesity-004,src-obesity-005,src-obesity-008,src-obesity-080 \
+  --source-label 'diabetes obesity deep-extraction candidate availability sample 2026-05-14' \
+  --report-id feline-diabetes-obesity-fulltext-availability-sample-20260514 \
+  --out system/indexes/feline-diabetes-obesity-fulltext-availability-sample-20260514.md \
+  --probe-links \
+  --probe-limit 2
+```
+
+Result:
+
+- report: [feline diabetes / obesity full-text availability sample](feline-diabetes-obesity-fulltext-availability-sample-20260514.md)
+- 10 Crossref metadata records resolved
+- 10/10 had Crossref full-text/TDM links
+- 9/10 had license metadata
+- 5/10 had at least one reachable HEAD probe
+- no article body was downloaded or stored
+- no source card was promoted above `abstract_weighted` / `title_only`
+
 ## Next Non-One-Off Step
 
-The next reusable step is running full-text deep extraction for the highest-value branch owners. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
+The next reusable step is running full-text deep extraction for the highest-value branch owners whose article access has been verified. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
 
 ## Cron Decision
 
