@@ -22,7 +22,7 @@ status: active
 | ID | Claim | Level | Source ids | Boundary |
 |---|---|---|---|---|
 | FE1 | Glycemic control is the core treatment-response endpoint family across diet, insulin, and adjunct branches. | B | src-diabetes-008, src-diabetes-015, src-diabetes-024 | monitoring architecture, not protocol ranking |
-| FE2 | Remission is a core endpoint, but current evidence blocks single-predictor or single-protocol claims. | B | src-diabetes-007 | remission boundary, not predictor hierarchy |
+| FE2 | Remission is a high-value endpoint in the right study context, but should not be treated as the universal core endpoint for every diabetes question. | B | src-diabetes-007 | remission boundary, not predictor hierarchy |
 | FE3 | Diet endpoints must separate carbohydrate, fiber, protein, insulin independence, insulin-dose reduction, and evidence quality. | B | src-diabetes-006, src-diabetes-015, src-diabetes-016, src-diabetes-022 | diet architecture, not universal prescription |
 | FE4 | SGLT2 safety and current-label endpoints must preserve candidate selection and ketoacidosis/euglycemic-DKA monitoring. | B | src-diabetes-011 | treatment-safety boundary, not route-convenience claim |
 | FE5 | Neuropathy and microvascular pathology are complication endpoints that should not disappear behind remission or glycemic-control framing. | B | src-diabetes-004, src-diabetes-018 | complication branch, not treatment-ranking endpoint |
@@ -33,7 +33,7 @@ This page sits on a fully deep-extracted diabetes source-card layer (24/24 paper
 
 ## Core Takeaway
 
-Diabetes endpoints should stay split by job: glycemic control, remission/insulin independence, diet-response architecture, treatment safety, body-condition state, and complication status. The page should not turn endpoint visibility into treatment ranking.
+Diabetes endpoints should stay split by job: glycemic control, clinical-sign response, conditional remission/insulin independence, diet-response architecture, treatment safety, body-condition state, and complication status. The page should not turn endpoint visibility into treatment ranking.
 
 ## Endpoint Hierarchy
 
@@ -45,11 +45,11 @@ Glycemic markers and insulin needs are central response endpoints across diet, i
 
 **Lead sources:** `src-diabetes-008`, `src-diabetes-015`, `src-diabetes-024`
 
-### Endpoint 2: Remission And Insulin Independence
+### Endpoint 2: Conditional Remission And Insulin Independence
 
-Remission is real and important, but evidence quality is moderate-to-poor and no single factor predicts remission. Non-insulin-dependent state should be tracked carefully but not automatically equated with a standardized remission endpoint.
+Remission is real and important, but it is not automatically the primary endpoint for every diabetes study or answer. For newly diagnosed cats, insulin/diet protocols, or work focused on reversing glucotoxicity and preserving beta-cell function, remission can be a high-value endpoint. For SGLT2 safety, routine monitoring, complicated diabetes, or comparative model questions, glycemic control, clinical signs, candidate selection, and safety endpoints usually lead. Non-insulin-dependent state should be tracked carefully but not automatically equated with a standardized drug-free remission endpoint.
 
-**Key boundary:** endpoint visibility, not predictor or protocol ranking.
+**Key boundary:** conditional high-value endpoint, not predictor hierarchy or universal protocol target.
 
 **Lead sources:** `src-diabetes-007`, `src-diabetes-015`
 
@@ -117,7 +117,7 @@ Do not use endpoints to rank treatments by superiority. Glycemic control, remiss
 ## What The Module Can Say Safely
 
 - glycemic control is the core response endpoint family
-- remission is important but predictor-weak
+- remission is important but conditional and predictor-weak
 - diet endpoints require evidence labels and endpoint separation
 - SGLT2 endpoints must preserve ketoacidosis and candidate-selection gates
 - neuropathy and microvascular pathology are real complication endpoints

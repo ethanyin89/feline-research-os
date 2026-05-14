@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 1086 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 1087 markdown files, no local link issues found. |
 | Query tests | PASS | 102 passed  \|  0 failed  \|  102 total |
 | Paper source cards | PASS | 325 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
@@ -42,7 +42,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | High-visibility language QA | PASS | 0 high-visibility pages unchecked or missing |
 | Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
-| Inbox backlog | PASS | 0 active files, 12 rejected audit files |
+| Inbox backlog | PASS | 0 active files, 13 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260514.md; mode=route-only; status=route_pass |
 | Compile trigger | PASS | 176 changed source cards, 124 downstream files |
@@ -89,6 +89,7 @@ Rejected / audit notes:
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/model-summary.md
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/navigation.md
 - inbox/rejected/processed/content-precision-promotion-batch-20260506.md
+- inbox/rejected/processed/expert-answer-review-sample-001-20260514.md
 
 ## Thin Source Usage
 

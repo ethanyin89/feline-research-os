@@ -119,6 +119,14 @@ narrow owner should promote upward into dashboard/topic/output layers, use:
 
 - [content precision promotion workflow](content-precision-promotion-workflow.md)
 
+If the query produced an Ask the vault answer and a domain-expert review of that
+answer, use:
+
+- [expert answer review prototype](expert-answer-review-prototype-20260514.md)
+
+That prototype is still in `1/3-10` manual-sample state. Do not turn expert review
+into a final skill or automatic workflow until more samples prove the pattern.
+
 If you want real `promote / hold / partial promotion` examples, use:
 
 - [promotion examples index](promotion-examples-index.md)

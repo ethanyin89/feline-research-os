@@ -43,7 +43,7 @@ That worksheet supports four useful facts:
 
 Remission can mean:
 
-- a core endpoint in feline diabetes
+- a high-value endpoint in scenario-appropriate feline diabetes studies
 - a reason to track insulin independence or non-insulin-dependent state separately from short-term glycemic improvement
 - a legitimate treatment goal when evidence and monitoring are explicit
 - a branch that interacts with diet, insulin, obesity, pancreatitis, and endocrine-secondary disease
@@ -57,6 +57,7 @@ Remission should not mean:
 - remission rates can be compared across studies without checking definitions and design
 - remission potential erases chronic beta-cell failure or secondary endocrine disease
 - non-insulin-dependence is automatically identical to a fully defined remission endpoint
+- the primary endpoint for every feline diabetes project, including SGLT2 safety, complicated diabetes, or comparative-model questions
 
 ## Interaction With Diet And Insulin Sources
 
@@ -73,6 +74,7 @@ So the current read is:
 When a diabetes page mentions remission, it should include one of these labels:
 
 - `endpoint`: remission is being tracked as an outcome
+- `conditional endpoint`: remission is high-value only for the specified study context
 - `signal`: a study reports insulin independence or remission-like outcome
 - `boundary`: evidence quality blocks protocol ranking
 - `not established`: a predictor or hierarchy is being proposed but not yet source-supported
