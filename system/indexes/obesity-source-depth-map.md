@@ -71,6 +71,11 @@ Then source-check or extract `src-obesity-080` if the first compiled obesity pag
 
 These worksheets help branch placement only; cards remain `abstract_weighted`.
 
+The 2026-05-14 full structured abstract run then created abstract-only worksheets for all 44 obesity `abstract_weighted` cards:
+
+- report: [feline diabetes / obesity structured abstract full index](feline-diabetes-obesity-structured-abstract-full-20260514.md)
+- 43 obesity cards remain `title_only` with no structured abstract worksheet
+
 Then decide whether the first compiled obesity page should be:
 
 - risk-and-recognition

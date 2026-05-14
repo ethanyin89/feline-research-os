@@ -20,6 +20,7 @@ from source_metadata_check import (
     check_source,
     load_source_card,
     md_escape,
+    selected_source_cards,
     short,
 )
 
@@ -189,14 +190,15 @@ Short abstract lead for scope check only:
 """
 
 
-def render_index(worksheets: list[AbstractWorksheet], source_label: str) -> str:
+def render_index(worksheets: list[AbstractWorksheet], source_label: str, index_id: str | None = None) -> str:
     today = date.today().isoformat()
+    stable_id = index_id or f"feline-structured-abstract-sample-{today.replace('-', '')}"
     lines = [
         "---",
-        f"id: feline-structured-abstract-sample-{today.replace('-', '')}",
+        f"id: {stable_id}",
         "type: system",
         "topic: content-pipeline",
-        "question_type: structured-abstract-sample",
+        "question_type: structured-abstract-index",
         "language: zh",
         f"last_compiled_at: {today}",
         "verification_status: compiled",
@@ -205,13 +207,13 @@ def render_index(worksheets: list[AbstractWorksheet], source_label: str) -> str:
         "status: active",
         "---",
         "",
-        f"# Feline Structured Abstract Sample, {today}",
+        f"# Feline Structured Abstract Index, {today}",
         "",
         f"Source set: `{source_label}`",
         "",
         "## Rule",
         "",
-        "This is a 3-10 source sample after full source-check. It creates abstract-only worksheets, not full-text deep extractions.",
+        "This is a structured abstract worksheet run after source-check. It creates abstract-only worksheets, not full-text deep extractions.",
         "",
         "## Sample Table",
         "",
@@ -237,7 +239,7 @@ def render_index(worksheets: list[AbstractWorksheet], source_label: str) -> str:
             "## Boundary",
             "",
             "- Cards remain `abstract_weighted` unless a later full-text/deep-extraction pass changes them.",
-            "- This sample can justify a reusable structured-abstract workflow if the worksheet shape is useful.",
+            "- This index can guide branch placement and extraction priority.",
             "- No topic pages should be updated from this sample alone.",
         ]
     )
@@ -247,8 +249,22 @@ def render_index(worksheets: list[AbstractWorksheet], source_label: str) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, default=Path("."))
-    parser.add_argument("--source-ids", required=True, help="Comma-separated source IDs.")
+    parser.add_argument("--source-ids", help="Comma-separated source IDs.")
+    parser.add_argument("--source-id-file", type=Path, help="Path with one source ID per line.")
+    parser.add_argument(
+        "--source-glob",
+        action="append",
+        default=[],
+        help="Repo-relative glob for source cards. Can be repeated.",
+    )
+    parser.add_argument(
+        "--status",
+        action="append",
+        choices=["title_only", "abstract_weighted", "source_checked", "deep_extracted", "audited"],
+        help="Only select cards currently at this verification_status. Can be repeated.",
+    )
     parser.add_argument("--source-label", default="manual structured abstract sample")
+    parser.add_argument("--index-id", help="Stable frontmatter id for the generated index.")
     parser.add_argument("--out-dir", type=Path, default=Path("system/indexes"))
     parser.add_argument("--index-out", type=Path, help="Optional sample index path.")
     parser.add_argument("--timeout", type=float, default=20.0)
@@ -260,16 +276,21 @@ def main() -> int:
     args = parse_args()
     repo_root = args.repo_root.resolve()
     out_dir = args.out_dir if args.out_dir.is_absolute() else repo_root / args.out_dir
-    source_ids = [item.strip() for item in args.source_ids.split(",") if item.strip()]
+    statuses = set(args.status) if args.status else None
+    if args.source_ids or args.source_id_file or args.source_glob:
+        cards = selected_source_cards(repo_root, args.source_ids, args.source_id_file, args.source_glob, statuses)
+    else:
+        print("No source cards selected.", file=sys.stderr)
+        return 2
     worksheets: list[AbstractWorksheet] = []
 
-    for source_id in source_ids:
-        check = check_source(load_source_card(repo_root, source_id), args.timeout)
+    for card in cards:
+        check = check_source(card, args.timeout)
         if not check.abstract_available:
             reason = check.error or "no Crossref abstract available"
-            print(f"Skipping {source_id}: {reason}", file=sys.stderr)
+            print(f"Skipping {card.source_id}: {reason}", file=sys.stderr)
             continue
-        path = out_dir / f"{source_id}-structured-abstract-round1.md"
+        path = out_dir / f"{card.source_id}-structured-abstract-round1.md"
         worksheets.append(AbstractWorksheet(check=check, path=path))
         if args.write:
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -279,11 +300,11 @@ def main() -> int:
         index_path = args.index_out if args.index_out.is_absolute() else repo_root / args.index_out
         if args.write:
             index_path.parent.mkdir(parents=True, exist_ok=True)
-            index_path.write_text(render_index(worksheets, args.source_label), encoding="utf-8")
+            index_path.write_text(render_index(worksheets, args.source_label, args.index_id), encoding="utf-8")
         else:
-            sys.stdout.write(render_index(worksheets, args.source_label))
+            sys.stdout.write(render_index(worksheets, args.source_label, args.index_id))
     elif not args.write:
-        sys.stdout.write(render_index(worksheets, args.source_label))
+        sys.stdout.write(render_index(worksheets, args.source_label, args.index_id))
 
     print(f"Planned {len(worksheets)} structured abstract worksheets.", file=sys.stderr)
     return 0

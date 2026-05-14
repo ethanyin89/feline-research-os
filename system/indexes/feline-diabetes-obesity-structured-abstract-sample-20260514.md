@@ -35,5 +35,5 @@ This is a 3-10 source sample after full source-check. It creates abstract-only w
 ## Boundary
 
 - Cards remain `abstract_weighted` unless a later full-text/deep-extraction pass changes them.
-- This sample can justify a reusable structured-abstract workflow if the worksheet shape is useful.
+- This sample justified the reusable structured-abstract workflow shape; broader use still must preserve the same boundaries.
 - No topic pages should be updated from this sample alone.

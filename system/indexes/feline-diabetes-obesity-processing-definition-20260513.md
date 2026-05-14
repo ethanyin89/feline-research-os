@@ -36,7 +36,7 @@ For this batch, "processed" has three levels.
 | Level 1: intake-processed | Every non-empty sheet row has been read, classified, de-duplicated, assigned an owner path, or explicitly held. | done |
 | Level 2: source-ingested | A first-pass `raw/papers/src-*.md` card exists with title / locator / claim-fit caveats, or the row is explicitly shared/section-only. | done |
 | Level 2.5: source-checked | DOI metadata / Crossref abstract availability has been checked for the diabetes extension and obesity corpus. | done |
-| Level 2.75: structured-abstract sampled | A high-priority 3-10 source sample has abstract-only worksheets for branch placement and extraction planning. | sample done |
+| Level 2.75: structured-abstract extracted | Abstract-only worksheets exist for every abstract-available diabetes extension and obesity card. | done for 103 abstract-weighted cards |
 | Level 3: evidence-usable | The source has enough structured abstract/full-text extraction to support topic-page claims. | selective only |
 
 The current sheet is processed at Level 2.5.
@@ -240,9 +240,36 @@ Result:
 - no topic pages were promoted from these worksheets
 - no card was promoted to `source_checked`, `deep_extracted`, or decision-grade evidence
 
+## Full Structured Abstract Run Completed
+
+After the 8-source sample proved usable, the same reusable script was run across all abstract-weighted diabetes extension and obesity cards:
+
+```bash
+python3 scripts/structured_abstract_extraction.py \
+  --repo-root . \
+  --source-glob 'raw/papers/src-diabetes-0*.md' \
+  --source-glob 'raw/papers/src-diabetes-1*.md' \
+  --source-glob 'raw/papers/src-obesity-*.md' \
+  --status abstract_weighted \
+  --source-label 'diabetes extension and obesity structured abstract full run 2026-05-14' \
+  --index-id feline-diabetes-obesity-structured-abstract-full-20260514 \
+  --index-out system/indexes/feline-diabetes-obesity-structured-abstract-full-20260514.md \
+  --write
+```
+
+Result:
+
+- report: [feline diabetes / obesity structured abstract full index](feline-diabetes-obesity-structured-abstract-full-20260514.md)
+- 103 structured abstract worksheets exist
+- all 59 diabetes extension `abstract_weighted` cards have abstract-only worksheets
+- all 44 obesity `abstract_weighted` cards have abstract-only worksheets
+- 78 title-only cards remain without structured abstract worksheets because Crossref did not expose an abstract or DOI resolution failed
+- no source card was promoted above `abstract_weighted`
+- no topic pages were updated from these worksheets
+
 ## Next Non-One-Off Step
 
-The next reusable step is either approving this structured abstract worksheet shape for broader use or running full-text deep extraction for the highest-value branch owners. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
+The next reusable step is running full-text deep extraction for the highest-value branch owners. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
 
 ## Cron Decision
 
@@ -254,6 +281,6 @@ This sheet is event-driven, not a living scheduled queue. Cron would be noise un
 
 This batch improves the `Data ingest`, `Retrieval hygiene`, and `Compile discipline` layers of the Karpathy-style LLM wiki.
 
-It improves source discoverability because many title-only cards are now abstract-weighted, and the structured abstract sample improves branch placement for 8 high-priority sources. It still does not create sentence-level auditability or decision-grade claim lookup for the new rows, because abstract-only worksheets are not full-text deep extraction.
+It improves source discoverability because many title-only cards are now abstract-weighted, and structured abstract worksheets improve branch placement for 103 abstract-available sources. It still does not create sentence-level auditability or decision-grade claim lookup for the new rows, because abstract-only worksheets are not full-text deep extraction.
 
 The product-quality next move is selective deep extraction with health checks, not another one-off hand conversion.
