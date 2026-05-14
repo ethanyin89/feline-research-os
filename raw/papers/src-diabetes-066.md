@@ -9,9 +9,10 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2006
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [diabetes, prevalence, cataract, results, cross-sectional, study, normal, animals]
@@ -21,19 +22,36 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Prevalence of feline cataract: results of a cross-sectional study of 2000 normal animals, 50 cats with diabetes and one hundred cats following dehydrational crises."
-    - "The intake sheet locator is: 10.1111/j.1463-5224.2006.00497.x."
+    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
+    - "Crossref container: Veterinary Ophthalmology; year: 2006."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
+    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
 
 # Prevalence of feline cataract: results of a cross-sectional study of 2000 normal animals, 50 cats with diabetes and one hundred cats following dehydrational crises
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+
+## Source Check, 2026-05-14
+
+Crossref metadata was checked as a repeatable second-pass intake step.
+
+- DOI metadata resolved: yes
+- Container: Veterinary Ophthalmology
+- Year: 2006
+- Abstract available in Crossref: yes
+
+Use boundary:
+
+- This card may guide navigation and extraction priority.
+- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+
+Abstract lead for scope check only: Abstract Objective In this study 2000 normal cats, 50 cats with diabetes and 100 cats with a history of dehydrational crises were examined ophthalmoscopically to determine presenc...
 
 ## One-Line Summary
 

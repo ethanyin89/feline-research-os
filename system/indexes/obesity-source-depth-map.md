@@ -4,7 +4,7 @@ type: index
 topic: obesity
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-05-13
+last_compiled_at: 2026-05-14
 verification_status: compiled
 decision_grade: no
 owner: codex
@@ -28,7 +28,7 @@ Use this map to decide which obesity source cards need deep extraction before an
 
 | Disease | Source Cards | partial | full | title_only | abstract_weighted | deep_extracted |
 |---|---:|---:|---:|---:|---:|---:|
-| Obesity | 87 | 87 | 0 | 83 | 4 | 0 |
+| Obesity | 87 | 87 | 0 | 43 | 44 | 0 |
 
 ## Tier 1 — Bootstrap Anchors
 
@@ -71,4 +71,4 @@ Then decide whether the first compiled obesity page should be:
 
 ## Maintenance
 
-Update this map after every obesity source-card ingest, source-check, or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`; the first 10-card source-check sample upgraded `src-obesity-004` and `src-obesity-080` to `abstract_weighted` while `src-obesity-001` stayed `title_only` because Crossref did not provide an abstract.
+Update this map after every obesity source-card ingest, source-check, or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`; the 2026-05-14 full source-check leaves obesity at 44 `abstract_weighted` and 43 `title_only`, with no deep-extracted obesity source yet.

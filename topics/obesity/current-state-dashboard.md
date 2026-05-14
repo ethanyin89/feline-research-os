@@ -22,7 +22,7 @@ status: active
 
 `source-indexed`
 
-The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified, de-duplicated, and fully first-pass ingested as source cards. Four cards are now abstract-weighted after a repeatable source-check sample, but the obesity corpus is still partial and not deep-extracted evidence.
+The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus has been classified, de-duplicated, fully first-pass ingested as source cards, and fully source-checked against Crossref metadata / abstract availability. Forty-four cards are now abstract-weighted, but the obesity corpus is still partial and not deep-extracted evidence.
 
 ## What Exists
 
@@ -31,7 +31,7 @@ The 2026-05-13 sheet introduced a standalone feline obesity section. The corpus 
 | Google Sheet intake | done | 227 non-empty rows classified |
 | Obesity candidate set | done | 87 obesity source cards now exist |
 | Shared-source control | done | 10 shared existing rows marked for cross-linking after bootstrap |
-| Obesity source cards | first-pass complete + sample source-check | `src-obesity-001` through `src-obesity-087`; 83 title-only, 4 abstract-weighted |
+| Obesity source cards | first-pass complete + full source-check | `src-obesity-001` through `src-obesity-087`; 43 title-only, 44 abstract-weighted |
 | Obesity source index | active | source index and depth map exist, but deep extraction is still pending |
 | Obesity topic pages | shell only | index, navigation, dashboard |
 

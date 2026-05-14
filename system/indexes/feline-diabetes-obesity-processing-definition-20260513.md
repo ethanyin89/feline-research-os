@@ -35,9 +35,10 @@ For this batch, "processed" has three levels.
 |---|---|---|
 | Level 1: intake-processed | Every non-empty sheet row has been read, classified, de-duplicated, assigned an owner path, or explicitly held. | done |
 | Level 2: source-ingested | A first-pass `raw/papers/src-*.md` card exists with title / locator / claim-fit caveats, or the row is explicitly shared/section-only. | done |
-| Level 3: evidence-usable | The source has enough abstract/full-text extraction to support topic-page claims. | selective only |
+| Level 2.5: source-checked | DOI metadata / Crossref abstract availability has been checked for the diabetes extension and obesity corpus. | done |
+| Level 3: evidence-usable | The source has enough structured abstract/full-text extraction to support topic-page claims. | selective only |
 
-The current sheet is processed at Level 2.
+The current sheet is processed at Level 2.5.
 
 It is not fully Level 3, and it should not be described that way.
 
@@ -188,9 +189,37 @@ Result:
 - 2 cards remain `title_only`: `src-diabetes-046`, `src-obesity-001`
 - no cards were promoted to `source_checked`, `deep_extracted`, or decision-grade evidence
 
+## Full Source-Check Completed
+
+After the 10-card sample, the same reusable script was run across all diabetes extension and obesity cards:
+
+```bash
+python3 scripts/source_metadata_check.py \
+  --repo-root . \
+  --source-glob 'raw/papers/src-diabetes-0*.md' \
+  --source-glob 'raw/papers/src-diabetes-1*.md' \
+  --source-glob 'raw/papers/src-obesity-*.md' \
+  --status title_only \
+  --status abstract_weighted \
+  --source-label 'diabetes extension and obesity full source-check 2026-05-14' \
+  --report-id feline-diabetes-obesity-source-check-full-20260514 \
+  --out system/indexes/feline-diabetes-obesity-source-check-full-20260514.md \
+  --update-cards
+```
+
+Result:
+
+- report: [feline diabetes / obesity full source-check](feline-diabetes-obesity-source-check-full-20260514.md)
+- 181 cards checked: 94 diabetes extension cards and 87 obesity cards
+- 167 DOI metadata records resolved
+- 103 cards had Crossref abstracts and were kept or upgraded to `abstract_weighted`
+- diabetes final status: 59 `abstract_weighted`, 35 `title_only`, plus the canonical 24 `deep_extracted` seed cards
+- obesity final status: 44 `abstract_weighted`, 43 `title_only`
+- no card was promoted to `source_checked`, `deep_extracted`, or decision-grade evidence by this step
+
 ## Next Non-One-Off Step
 
-The next reusable step is selective deep extraction for the high-priority cards already listed in the diabetes and obesity queues. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
+The next reusable step is selective structured abstract extraction or deep extraction for the high-priority cards already listed in the diabetes and obesity queues. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
 
 ## Cron Decision
 
@@ -200,8 +229,8 @@ This sheet is event-driven, not a living scheduled queue. Cron would be noise un
 
 ## Karpathy Gap Read
 
-This batch improves the `Data ingest` and `Compile discipline` layers of the Karpathy-style LLM wiki.
+This batch improves the `Data ingest`, `Retrieval hygiene`, and `Compile discipline` layers of the Karpathy-style LLM wiki.
 
-It does not yet improve sentence-level auditability or claim lookup for the new rows, because the new first-pass cards remain title-only rather than deep-extracted.
+It improves source discoverability because many title-only cards are now abstract-weighted. It still does not create sentence-level auditability or decision-grade claim lookup for the new rows, because abstract availability is not the same as structured extraction.
 
 The product-quality next move is selective deep extraction with health checks, not another one-off hand conversion.

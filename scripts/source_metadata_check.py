@@ -86,6 +86,58 @@ def load_source_card(repo_root: Path, source_id: str) -> SourceCard:
     )
 
 
+def load_source_card_path(path: Path) -> SourceCard:
+    text = path.read_text(encoding="utf-8")
+    source_id = parse_frontmatter_value(text, "id") or path.stem
+    title = parse_frontmatter_value(text, "title")
+    doi = normalize_doi(parse_frontmatter_value(text, "doi"))
+    if not doi:
+        doi = normalize_doi(text)
+    return SourceCard(
+        source_id=source_id,
+        path=path,
+        title=title,
+        doi=doi,
+        verification_status=parse_frontmatter_value(text, "verification_status") or "title_only",
+    )
+
+
+def selected_source_cards(
+    repo_root: Path,
+    source_ids: str | None,
+    source_id_file: Path | None,
+    source_globs: list[str],
+    statuses: set[str] | None,
+) -> list[SourceCard]:
+    cards_by_id: dict[str, SourceCard] = {}
+
+    if source_ids:
+        for source_id in source_ids.split(","):
+            source_id = source_id.strip()
+            if source_id:
+                card = load_source_card(repo_root, source_id)
+                cards_by_id[card.source_id] = card
+
+    if source_id_file:
+        id_path = source_id_file if source_id_file.is_absolute() else repo_root / source_id_file
+        for line in id_path.read_text(encoding="utf-8").splitlines():
+            source_id = line.strip()
+            if source_id and not source_id.startswith("#"):
+                card = load_source_card(repo_root, source_id)
+                cards_by_id[card.source_id] = card
+
+    for pattern in source_globs:
+        for path in sorted(repo_root.glob(pattern)):
+            if path.is_file():
+                card = load_source_card_path(path)
+                cards_by_id[card.source_id] = card
+
+    cards = sorted(cards_by_id.values(), key=lambda card: card.source_id)
+    if statuses is not None:
+        cards = [card for card in cards if card.verification_status in statuses]
+    return cards
+
+
 def strip_jats(value: str) -> str:
     text = TAG_RE.sub(" ", value)
     text = html.unescape(text)
@@ -159,11 +211,17 @@ def short(value: str, limit: int = 220) -> str:
     return value[: limit - 1].rstrip() + "..."
 
 
-def render_report(checks: list[CrossrefCheck], source_label: str) -> str:
+def slugify(value: str) -> str:
+    slug = re.sub(r"[^a-zA-Z0-9]+", "-", value.strip().lower()).strip("-")
+    return slug or "source-check"
+
+
+def render_report(checks: list[CrossrefCheck], source_label: str, report_id: str | None = None) -> str:
     today = date.today().isoformat()
+    stable_id = report_id or f"feline-source-metadata-check-{today.replace('-', '')}-{slugify(source_label)[:48]}"
     lines = [
         "---",
-        f"id: feline-source-metadata-check-{today.replace('-', '')}",
+        f"id: {stable_id}",
         "type: system",
         "topic: content-pipeline",
         "question_type: source-check-report",
@@ -181,7 +239,7 @@ def render_report(checks: list[CrossrefCheck], source_label: str) -> str:
         "",
         "## Rule",
         "",
-        "This report is a second-pass sample check. It does not make clinical claims.",
+        "This report is a repeatable second-pass source check. It does not make clinical claims.",
         "",
         "- DOI metadata alone does not upgrade a card.",
         "- Abstract availability can justify `abstract_weighted` only for navigation and extraction priority.",
@@ -340,8 +398,22 @@ def update_card(check: CrossrefCheck) -> bool:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, default=Path("."))
-    parser.add_argument("--source-ids", required=True, help="Comma-separated source IDs to check.")
+    parser.add_argument("--source-ids", help="Comma-separated source IDs to check.")
+    parser.add_argument("--source-id-file", type=Path, help="Path with one source ID per line.")
+    parser.add_argument(
+        "--source-glob",
+        action="append",
+        default=[],
+        help="Repo-relative glob for source cards, e.g. 'raw/papers/src-obesity-*.md'. Can be repeated.",
+    )
+    parser.add_argument(
+        "--status",
+        action="append",
+        choices=["title_only", "abstract_weighted", "source_checked", "deep_extracted", "audited"],
+        help="Only check cards currently at this verification_status. Can be repeated.",
+    )
     parser.add_argument("--source-label", default="manual priority sample")
+    parser.add_argument("--report-id", help="Stable frontmatter id for the generated report.")
     parser.add_argument("--out", type=Path, help="Write a Markdown report to this path.")
     parser.add_argument("--update-cards", action="store_true", help="Upgrade cards with Crossref abstracts to abstract_weighted.")
     parser.add_argument("--timeout", type=float, default=20.0)
@@ -351,9 +423,13 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     repo_root = args.repo_root.resolve()
-    source_ids = [item.strip() for item in args.source_ids.split(",") if item.strip()]
-    checks = [check_source(load_source_card(repo_root, source_id), args.timeout) for source_id in source_ids]
-    report = render_report(checks, args.source_label)
+    statuses = set(args.status) if args.status else None
+    cards = selected_source_cards(repo_root, args.source_ids, args.source_id_file, args.source_glob, statuses)
+    if not cards:
+        print("No source cards selected.", file=sys.stderr)
+        return 2
+    checks = [check_source(card, args.timeout) for card in cards]
+    report = render_report(checks, args.source_label, args.report_id)
 
     if args.out:
         out_path = args.out if args.out.is_absolute() else repo_root / args.out

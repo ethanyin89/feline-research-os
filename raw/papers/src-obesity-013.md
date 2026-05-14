@@ -9,9 +9,10 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2012
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, investigation, epidemiology, great, britain, results, cross-sectional, study]
@@ -21,19 +22,36 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: An investigation into the epidemiology of feline obesity in Great Britain: results of a cross-sectional study of 47 companion animal practises."
-    - "The intake sheet locator is: 10.1136/vr.100953."
+    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
+    - "Crossref container: Veterinary Record; year: 2012."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
+    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
 
 # An investigation into the epidemiology of feline obesity in Great Britain: results of a cross-sectional study of 47 companion animal practises
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+
+## Source Check, 2026-05-14
+
+Crossref metadata was checked as a repeatable second-pass intake step.
+
+- DOI metadata resolved: yes
+- Container: Veterinary Record
+- Year: 2012
+- Abstract available in Crossref: yes
+
+Use boundary:
+
+- This card may guide navigation and extraction priority.
+- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+
+Abstract lead for scope check only: Previous epidemiological studies of feline obesity have been restricted to small geographical areas of Great Britain. This study represents the first published description of the...
 
 ## One-Line Summary
 

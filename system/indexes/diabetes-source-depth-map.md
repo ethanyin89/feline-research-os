@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-05-13
+last_compiled_at: 2026-05-14
 confidence: medium
 verification_status: compiled
 owner: codex
@@ -30,8 +30,8 @@ Verification-status overlay:
 | verification_status | Count | Read |
 |---|---:|---|
 | deep_extracted | 24 | Diabetes still has a clean deep-extracted seed-corpus overlay. The remaining seed-corpus gap is branch-order compression, protocol comparison, and output-level clinical/regulatory precision. |
-| abstract_weighted | 4 | The 2026-05-13 source-check sample found Crossref abstracts for `src-diabetes-035`, `src-diabetes-050`, `src-diabetes-087`, and `src-diabetes-091`; these cards can guide navigation, not topic-page claims. |
-| title_only | 90 | The remaining diabetes extension cards are first-pass intake cards only. They do not change compiled diabetes claims until selective source-check or deep extraction. |
+| abstract_weighted | 59 | The 2026-05-14 full source-check found Crossref abstracts for 59 diabetes extension cards; these cards can guide navigation and extraction priority, not topic-page claims. |
+| title_only | 35 | The remaining diabetes extension cards lack Crossref abstract text or a resolvable DOI in this pass. They remain first-pass intake cards only. |
 
 ---
 
@@ -85,19 +85,25 @@ Verification-status overlay:
 | Disease | Total Source Cards | full | partial | stub | verification_status read | Coverage |
 |---|---:|---:|---:|---:|---|---|
 | Diabetes seed corpus | 24 | 24 | 0 | 0 | 24 deep_extracted | 100% full |
-| Diabetes extension corpus | 94 | 0 | 94 | 0 | 4 abstract_weighted, 90 title_only | source-check sample only; 0% decision-grade |
+| Diabetes extension corpus | 94 | 0 | 94 | 0 | 59 abstract_weighted, 35 title_only | full source-check complete; 0% decision-grade |
 
 ---
 
 ## Immediate Queue
 
-No Diabetes seed-corpus source-card partials remain. The extension corpus has 94 partial cards; 4 have Crossref abstract scope checks and 90 remain title-only queue objects. None of the extension cards are compiled evidence yet.
+No Diabetes seed-corpus source-card partials remain. The extension corpus has 94 partial cards; 59 have Crossref abstract scope checks and 35 remain title-only queue objects. None of the extension cards are compiled evidence yet.
 
 2026-05-13 source-check sample:
 
 - upgraded to `abstract_weighted`: `src-diabetes-035`, `src-diabetes-050`, `src-diabetes-087`, `src-diabetes-091`
 - remained `title_only` because Crossref had no abstract: `src-diabetes-046`
 - report: [feline diabetes / obesity source-check sample](feline-diabetes-obesity-source-check-sample-20260513.md)
+
+2026-05-14 full source-check:
+
+- checked all 94 diabetes extension cards plus all 87 obesity cards
+- diabetes extension result: 59 `abstract_weighted`, 35 `title_only`
+- report: [feline diabetes / obesity full source-check](feline-diabetes-obesity-source-check-full-20260514.md)
 
 Completed on the 2026-04-21 Diabetes thickening pass:
 

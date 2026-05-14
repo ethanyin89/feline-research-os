@@ -37,7 +37,7 @@ evidence_policy:
 
 This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
 
-## Source Check, 2026-05-13
+## Source Check, 2026-05-14
 
 Crossref metadata was checked as a repeatable second-pass intake step.
 
