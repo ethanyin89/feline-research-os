@@ -105,6 +105,12 @@ No Diabetes seed-corpus source-card partials remain. The extension corpus has 94
 - diabetes extension result: 59 `abstract_weighted`, 35 `title_only`
 - report: [feline diabetes / obesity full source-check](feline-diabetes-obesity-source-check-full-20260514.md)
 
+2026-05-14 structured abstract sample:
+
+- worksheets created for `src-diabetes-035`, `src-diabetes-050`, `src-diabetes-087`, and `src-diabetes-091`
+- report: [feline diabetes / obesity structured abstract sample](feline-diabetes-obesity-structured-abstract-sample-20260514.md)
+- cards remain `abstract_weighted`; no topic-page claims were promoted
+
 Completed on the 2026-04-21 Diabetes thickening pass:
 
 1. Tier 1 output-controlling anchors: `src-diabetes-005`, `src-diabetes-006`, `src-diabetes-007`, `src-diabetes-011`, `src-diabetes-014`, `src-diabetes-024`

@@ -62,6 +62,15 @@ First deep-extract:
 
 Then source-check or extract `src-obesity-080` if the first compiled obesity page needs a weight-loss intervention bridge.
 
+2026-05-14 structured abstract sample worksheets now exist for:
+
+- `src-obesity-004`
+- `src-obesity-005`
+- `src-obesity-008`
+- `src-obesity-080`
+
+These worksheets help branch placement only; cards remain `abstract_weighted`.
+
 Then decide whether the first compiled obesity page should be:
 
 - risk-and-recognition

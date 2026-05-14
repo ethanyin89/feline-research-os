@@ -36,6 +36,7 @@ For this batch, "processed" has three levels.
 | Level 1: intake-processed | Every non-empty sheet row has been read, classified, de-duplicated, assigned an owner path, or explicitly held. | done |
 | Level 2: source-ingested | A first-pass `raw/papers/src-*.md` card exists with title / locator / claim-fit caveats, or the row is explicitly shared/section-only. | done |
 | Level 2.5: source-checked | DOI metadata / Crossref abstract availability has been checked for the diabetes extension and obesity corpus. | done |
+| Level 2.75: structured-abstract sampled | A high-priority 3-10 source sample has abstract-only worksheets for branch placement and extraction planning. | sample done |
 | Level 3: evidence-usable | The source has enough structured abstract/full-text extraction to support topic-page claims. | selective only |
 
 The current sheet is processed at Level 2.5.
@@ -217,9 +218,31 @@ Result:
 - obesity final status: 44 `abstract_weighted`, 43 `title_only`
 - no card was promoted to `source_checked`, `deep_extracted`, or decision-grade evidence by this step
 
+## Structured Abstract Sample Completed
+
+After full source-check, a high-priority 8-source structured abstract sample was generated:
+
+```bash
+python3 scripts/structured_abstract_extraction.py \
+  --repo-root . \
+  --source-ids src-diabetes-035,src-diabetes-050,src-diabetes-087,src-diabetes-091,src-obesity-004,src-obesity-005,src-obesity-008,src-obesity-080 \
+  --source-label 'diabetes obesity high-priority structured abstract sample 2026-05-14' \
+  --index-out system/indexes/feline-diabetes-obesity-structured-abstract-sample-20260514.md \
+  --write
+```
+
+Result:
+
+- report: [feline diabetes / obesity structured abstract sample](feline-diabetes-obesity-structured-abstract-sample-20260514.md)
+- 8 abstract-only worksheets created
+- worksheets cover guideline / consensus, treatment-control, remission / quality-of-life, obesity risk, prevention, obesity-diabetes bridge, and weight-loss intervention samples
+- cards remain `abstract_weighted`
+- no topic pages were promoted from these worksheets
+- no card was promoted to `source_checked`, `deep_extracted`, or decision-grade evidence
+
 ## Next Non-One-Off Step
 
-The next reusable step is selective structured abstract extraction or deep extraction for the high-priority cards already listed in the diabetes and obesity queues. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
+The next reusable step is either approving this structured abstract worksheet shape for broader use or running full-text deep extraction for the highest-value branch owners. Do not manually thicken random cards. Use the existing deep-extraction workflow, and update source indexes / depth maps after each extraction batch.
 
 ## Cron Decision
 
@@ -231,6 +254,6 @@ This sheet is event-driven, not a living scheduled queue. Cron would be noise un
 
 This batch improves the `Data ingest`, `Retrieval hygiene`, and `Compile discipline` layers of the Karpathy-style LLM wiki.
 
-It improves source discoverability because many title-only cards are now abstract-weighted. It still does not create sentence-level auditability or decision-grade claim lookup for the new rows, because abstract availability is not the same as structured extraction.
+It improves source discoverability because many title-only cards are now abstract-weighted, and the structured abstract sample improves branch placement for 8 high-priority sources. It still does not create sentence-level auditability or decision-grade claim lookup for the new rows, because abstract-only worksheets are not full-text deep extraction.
 
 The product-quality next move is selective deep extraction with health checks, not another one-off hand conversion.
