@@ -26,12 +26,15 @@ Ran `/autoplan` full review pipeline to analyze gap between current state and Ka
    - Behavior: Warns when source cards change and topic pages need recompilation
    - Status: ACTIVE
 
-### What Remains Blocked
+### Expert Review Codification (COMPLETED)
 
-- **Expert review skill codification**: Need 2 more samples before skill file can be created
-  - Current: 1/3-10 samples
-  - Required: 3/10 minimum
-  - Next action: Run CKD + FIP expert review samples
+- **Status**: CODIFIED — 3/3-10 samples reached
+- **Samples completed**:
+  - Sample 1: Feline diabetes endpoint comparison
+  - Sample 2: CKD phosphorus control (`inbox/ckd/2026-05-17-treatment-ckd.md`)
+  - Sample 3: FIP GS-441524 treatment (`inbox/fip/2026-05-17-treatment-fipgs441524.md`)
+- **Workflow file**: `system/prompts/expert-answer-review-workflow.md`
+- **Commit**: `8dcfee9`
 
 ### Deferred to TODOS.md
 
@@ -46,7 +49,7 @@ Ran `/autoplan` full review pipeline to analyze gap between current state and Ka
 |-----|----------|---------------------------|
 | Scheduled health checks | HIGH | **FIXED** — launchd plist active |
 | Compile auto-trigger | MEDIUM | **FIXED** — git hook active |
-| Expert-review workflow | MEDIUM | BLOCKED — need 2 more samples |
+| Expert-review workflow | MEDIUM | **FIXED** — codified at 3/3-10 samples |
 | Ask-native product feel | HIGH | DEFERRED — taste decision |
 | Obesity source depth | MEDIUM | UNCHANGED — ready for extraction |
 | Non-CKD images | MEDIUM | DEFERRED |
@@ -56,14 +59,23 @@ Ran `/autoplan` full review pipeline to analyze gap between current state and Ka
 From user's session request:
 1. **No fake data** — candidates stay gated
 2. **No one-off work** — codify or don't do
-3. **3-10 samples before skill** — expert review at 1/10
+3. **3-10 samples before skill** — expert review reached 3/10, codified
 4. **Test standard** — if asked same thing twice, you failed
 
 ## Next Session Start Point
 
-1. Run health.py manually once to verify launchd config: `python3 scripts/health.py`
-2. Continue expert review samples: need CKD and FIP samples
-3. Obesity extraction queue remains available
+1. ✓ Health.py verified — launchd active, 106 tests passing
+2. ✓ Expert review codified — `system/prompts/expert-answer-review-workflow.md`
+3. Obesity extraction queue remains available as next content work
+4. Inbox active: `inbox/obesity/content-precision-promotion-batch-20260515.md`
+
+## Commits This Session
+
+```
+24c5d74 fix: update test assertions and workflow link
+52761b2 docs: obesity content batch and source depth sync
+8dcfee9 feat: codify expert answer review workflow
+```
 
 ## Full Plan File
 
