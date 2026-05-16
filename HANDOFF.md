@@ -6,6 +6,18 @@ If you are a new model taking over this repo because of token loss, model switch
 
 Read the latest session handoff first:
 
+- [HANDOFF-2026-05-17-AUTOPLAN-KARPATHY-GAP.md](HANDOFF-2026-05-17-AUTOPLAN-KARPATHY-GAP.md)
+
+For the prior expert-review / obesity-gate handoff, read:
+
+- [HANDOFF-2026-05-16-EXPERT-REVIEW-OBESITY-GATE.md](HANDOFF-2026-05-16-EXPERT-REVIEW-OBESITY-GATE.md)
+
+For the prior expert-review / source-depth handoff, read:
+
+- [HANDOFF-2026-05-15-EXPERT-REVIEW-SOURCE-DEPTH.md](HANDOFF-2026-05-15-EXPERT-REVIEW-SOURCE-DEPTH.md)
+
+For the previous ordinary-user presentation handoff, read:
+
 - [HANDOFF-2026-05-07-CONTENT-PRESENTATION.md](HANDOFF-2026-05-07-CONTENT-PRESENTATION.md)
 
 For the longer session log behind it, read:

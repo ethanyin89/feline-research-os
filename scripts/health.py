@@ -210,6 +210,7 @@ def source_inventory() -> dict:
         "reader_quoted_fact_discipline_issues": [],
         "language_qa_gaps": [],
         "source_state_conflicts": [],
+        "obesity_compiled_guidance_gate_issues": [],
         "source_verification_by_id": {},
     }
 
@@ -424,6 +425,14 @@ def add_content_proof_inventory(result: dict, known_source_ids: set[str]) -> Non
                     "language_qa_status": language_qa_status,
                 })
 
+        if path in reader_paths and is_obesity_compiled_guidance_gate_issue(path, fm, text):
+            result["obesity_compiled_guidance_gate_issues"].append({
+                "file": rel,
+                "question_type": fm.get("question_type", "missing"),
+                "decision_grade": fm.get("decision_grade", "missing"),
+                "reason": "obesity has 0 deep-extracted source cards; only shell/source-indexed reader pages are allowed",
+            })
+
 
 def is_high_traceability_page(path: Path) -> bool:
     rel = str(path.relative_to(VAULT_ROOT))
@@ -505,6 +514,34 @@ def should_report_thin_source_usage(path: Path, fm: dict[str, str], reader_paths
     if not is_disease_content:
         return False
     return path in reader_paths or is_high_visibility_language_page(path, fm)
+
+
+def is_obesity_compiled_guidance_gate_issue(path: Path, fm: dict[str, str], text: str) -> bool:
+    """Block obesity from becoming compiled guidance before deep extraction exists."""
+    if fm.get("topic") != "obesity" and fm.get("disease") != "obesity":
+        return False
+    if path.name == "navigation.md":
+        return False
+
+    question_type = fm.get("question_type", "")
+    allowed_shell_types = {"overview", "dashboard", "navigation"}
+    if question_type not in allowed_shell_types:
+        return True
+
+    if fm.get("decision_grade") in {"yes", "provisional"}:
+        return True
+
+    boundary_patterns = (
+        r"source[- ]indexed",
+        r"shell",
+        r"not\s+(?:compiled\s+)?obesity\s+guidance",
+        r"not\s+decision[- ]grade",
+        r"not\s+deep[- ]extracted",
+        r"partial",
+        r"title[- ]only",
+        r"abstract[-_ ]?weighted",
+    )
+    return not any(re.search(pattern, text, re.I) for pattern in boundary_patterns)
 
 
 def has_title_only_boundary_note(text: str) -> bool:
@@ -796,6 +833,7 @@ def render_report(data: dict) -> str:
         summary_row("Quantified claim traceability", "PASS" if not inventory["quantified_traceability_gaps"] else "WARN", f"{len(inventory['quantified_traceability_gaps'])} quantified reader pages missing traceability table"),
         summary_row("Reader quoted-fact discipline", "PASS" if not inventory["reader_quoted_fact_discipline_issues"] else "WARN", f"{len(inventory['reader_quoted_fact_discipline_issues'])} reader quoted_fact items look interpretive"),
         summary_row("High-visibility language QA", "PASS" if not inventory["language_qa_gaps"] else "WARN", f"{len(inventory['language_qa_gaps'])} high-visibility pages unchecked or missing"),
+        summary_row("Obesity compiled guidance gate", "PASS" if not inventory["obesity_compiled_guidance_gate_issues"] else "WARN", f"{len(inventory['obesity_compiled_guidance_gate_issues'])} obesity reader pages exceed shell/source-indexed status"),
         summary_row("Decision-grade gate", "PASS" if not inventory["decision_grade_gate_violations"] else "FAIL", f"{len(inventory['decision_grade_gate_violations'])} source-card violations"),
         summary_row("Candidate image gate", "PASS" if not images["candidate_local_asset_refs"] else "WARN", f"{len(images['candidate_local_asset_refs'])} candidate refs remain gated in local_assets frontmatter"),
         summary_row("Inbox backlog", "PASS" if not inbox["active"] else "WARN", f"{len(inbox['active'])} active files, {len(inbox['rejected'])} rejected audit files"),
@@ -980,6 +1018,18 @@ def render_report(data: dict) -> str:
         if len(inventory["language_qa_gaps"]) > 80:
             lines.append(f"- ... {len(inventory['language_qa_gaps']) - 80} more pages")
 
+    if inventory["obesity_compiled_guidance_gate_issues"]:
+        lines.extend(["", "## Obesity Compiled Guidance Gate Issues", ""])
+        lines.append(
+            "Obesity currently has 0 deep-extracted source cards. Until that changes, reader pages should remain "
+            "shell/source-indexed surfaces with visible evidence-depth boundaries."
+        )
+        for item in inventory["obesity_compiled_guidance_gate_issues"]:
+            lines.append(
+                f"- {item['file']}: {item['reason']} "
+                f"(`question_type: {item['question_type']}`, `decision_grade: {item['decision_grade']}`)"
+            )
+
     if inventory["decision_grade_gate_violations"]:
         lines.extend(["", "## Decision-Grade Gate Violations", ""])
         for item in inventory["decision_grade_gate_violations"]:
@@ -1083,6 +1133,8 @@ def next_actions(data: dict) -> list[str]:
         actions.append("- Move reader-facing `quoted_fact` module/branch/layer judgments into `source_supported_conclusion` or `llm_inference`.")
     if inventory["language_qa_gaps"]:
         actions.append("- Language-QA high-visibility pages so source-supported claims do not become overstrong through wording drift.")
+    if inventory["obesity_compiled_guidance_gate_issues"]:
+        actions.append("- Demote obesity reader pages back to shell/source-indexed status or deep-extract obesity source cards before compiling guidance.")
     if inventory["decision_grade_gate_violations"]:
         actions.append("- Resolve decision-grade gate violations before using affected source cards for high-risk conclusions.")
     non_ckd_without_images = [

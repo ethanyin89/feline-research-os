@@ -28,26 +28,49 @@ status: active
 
 ## Current Prototype State
 
-This is not a finalized workflow yet.
+**Minimum sample threshold reached.** Ready for codification.
 
 Current status:
 
 - sample target: `3-10` real Ask the vault answers
-- completed manual samples: `1`
-- finalized skill file: `no`
-- cron needed: `no`
+- completed manual samples: `3` ✓
+- finalized skill file: `ready to create`
+- cron needed: `no` (judgment-heavy)
+- user-facing prompt surface: `yes, Ask the vault renders an Expert review loop under each answer`
+
+## Codification Decision (2026-05-17)
+
+All 5 acceptance criteria met:
+1. ✓ Reviews produce more than style feedback
+2. ✓ Findings map to stable system homes
+3. ✓ Comments convert to claim-level actions
+4. ✓ Actions don't treat expert chat as evidence
+5. ✓ Future answers improve from changes
+
+**Codify as:** workflow (execution order is the main value)
+
+Primary patterns discovered:
+- `wording downgrade` — answer stronger than source support
+- `endpoint hierarchy` — distinct outcomes collapsed
+- `source gap` — needs evidence not in vault
+- `routing miss` — loaded wrong sources
 
 Cron is not appropriate because expert answer review is judgment-heavy. Mechanical follow-ups can later become health checks, but expert selection, claim downgrading, and write-back decisions should not run automatically.
 
-## Sample 1
+## Samples
 
 | # | Question Area | Answer File | Expert Lens | Review File | Result |
 |---|---|---|---|---|---|
 | 1 | feline diabetes endpoint comparison | `/Users/jiawei/Downloads/feline-diabetes-ask-the-vault-answer.md` | Jacquie Rand, feline diabetes clinical research and remission/endpoints | `/Users/jiawei/Desktop/问与答.md` | useful; exposed endpoint-layer compression errors |
+| 2 | CKD phosphorus control evidence | `inbox/ckd/2026-05-17-treatment-ckd.md` | Jonathan Elliott, feline nephrology, ISFM CKD guidelines | in-session | useful; exposed endpoint hierarchy gaps and source verification needs |
+| 3 | FIP GS-441524 treatment protocol | `inbox/fip/2026-05-17-treatment-fipgs441524.md` | Niels Pedersen, FIP treatment research pioneer | in-session | useful; exposed wording downgrade and routing gaps |
 
-Sample 1 produced one durable signal:
-
+**Sample 1** produced one durable signal:
 `expert review is most useful when it converts answer wording into a claim hierarchy and write-back decision, not when it simply rewrites the answer`
+
+**Sample 2** confirmed: `endpoint hierarchy` issues (phosphate binder stratification) and `source verification` needs (survival numbers)
+
+**Sample 3** confirmed: `wording downgrade` pattern (dose escalation caveats) and `routing miss` (incomplete source loading)
 
 ## Why This Matters
 
@@ -153,6 +176,7 @@ Sample 1 supports:
 
 - create a staged diabetes review note
 - make one conservative endpoint wording downgrade
+- expose the review loop in the Ask the vault UI as a manual prompt download
 - continue manual sampling before writing a final skill
 
 It does not yet support:
@@ -162,6 +186,24 @@ It does not yet support:
 - treating Jacquie Rand persona output as evidence
 - broad prompt rewrite across all diseases
 
+## User-Facing Surface
+
+The Streamlit app now exposes this as a manual loop after each answer:
+
+`Expert review loop -> Download review prompt`
+
+The generated prompt includes:
+
+- the original question
+- the Ask the vault answer
+- disease / question type / confidence metadata
+- cited source IDs
+- the reviewer-selection prompt
+- strict review instructions that force claim-level action
+
+This surface is allowed before final codification because it does not automate judgment.
+It only makes the current standard process visible and repeatable for users.
+
 ## Related Pages
 
 - [query to write-back](query-to-writeback.md)
@@ -169,4 +211,3 @@ It does not yet support:
 - [claim audit protocol](claim-audit-protocol.md)
 - [content precision promotion workflow](content-precision-promotion-workflow.md)
 - [durable agent codification protocol](durable-agent-codification-protocol.md)
-

@@ -37,6 +37,10 @@ If you want to understand how a good query can turn into a stronger system asset
 
 - [query to write-back](query-to-writeback.md)
 
+If an answer looks useful but needs domain-expert pressure-testing, use the in-app
+`Expert review loop` under the answer. It exports a prompt for manual review and keeps
+the result out of source evidence until it is staged and checked.
+
 ## Short Rule / 最短规则
 
 不要先想：

@@ -45,6 +45,7 @@ from query import (
     run_query_core,
     write_back,
 )
+from expert_review import build_expert_review_prompt, expert_review_stage_label
 from search import vault_search
 
 
@@ -357,6 +358,60 @@ def copy_button(text: str, key: str) -> None:
     )
 
 
+def render_expert_review_loop(
+    *,
+    question: str,
+    answer: str,
+    disease: str,
+    question_type: str,
+    confidence: str,
+    source_ids: list[str],
+    key_prefix: str,
+) -> None:
+    """Expose the manual expert-review loop for one rendered answer."""
+    prompt = build_expert_review_prompt(
+        question=question,
+        answer=answer,
+        disease=disease,
+        question_type=question_type,
+        confidence=confidence,
+        source_ids=source_ids,
+    )
+    stage = expert_review_stage_label()
+
+    with st.expander("Expert review loop", expanded=False):
+        st.markdown(
+            f"""
+            <div class="vault-inline-note">
+              This is a reusable manual review loop: answer → domain expert critique → claim-level write-back decision.
+              Current state: <code>{html.escape(stage)}</code>. Expert chat is review input, not source evidence.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            """
+            <div class="vault-panel-label">Review checkpoints</div>
+            <div class="vault-review-steps">
+              <div><code>1</code><span>Choose a domain expert for this exact field and scene.</span></div>
+              <div><code>2</code><span>Ask for strict review, not style polishing.</span></div>
+              <div><code>3</code><span>Classify each finding as downgrade, endpoint hierarchy, source gap, routing miss, or promotion candidate.</span></div>
+              <div><code>4</code><span>Map each finding to chat-only, topic, memo, source queue, query test, or health check.</span></div>
+              <div><code>5</code><span>Write back only conservative, source-anchored changes.</span></div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.download_button(
+            "Download review prompt",
+            data=prompt,
+            file_name="ask-the-vault-expert-review-prompt.md",
+            mime="text/markdown",
+            key=f"{key_prefix}-expert-review-prompt",
+            help="Use this prompt in a separate expert-review chat, then stage findings before write-back.",
+        )
+
+
 def strip_legacy_footer(answer: str) -> str:
     """Remove any legacy footer lines from old-style synthesis output."""
     lines = answer.split("\n")
@@ -456,6 +511,9 @@ def render_answer_block(
     key_prefix: str,
     source_ids: Optional[list[str]] = None,
     loaded_source_ids: Optional[list[str]] = None,
+    question: str = "",
+    disease: str = "",
+    question_type: str = "",
 ) -> None:
     """Render one assistant answer with provenance, copy button, confidence, figures, and sources."""
     source_ids = source_ids or []
@@ -464,6 +522,15 @@ def render_answer_block(
     st.markdown(render_provenance(cleaned_answer), unsafe_allow_html=True)
     copy_button(answer, key=f"{key_prefix}-copy")
     render_trust_block(answer, confidence, source_ids, loaded_source_ids)
+    render_expert_review_loop(
+        question=question,
+        answer=answer,
+        disease=disease,
+        question_type=question_type,
+        confidence=confidence,
+        source_ids=source_ids or loaded_source_ids,
+        key_prefix=key_prefix,
+    )
 
     described_figs = [f for f in figures_used if f.get("described_in_answer")]
     if described_figs:
@@ -977,6 +1044,32 @@ st.markdown(
       font-size: 13px;
     }
 
+    .vault-review-steps {
+      display: grid;
+      gap: 8px;
+      margin: 8px 0 12px 0;
+    }
+
+    .vault-review-steps div {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .vault-review-steps code {
+      display: inline-flex;
+      justify-content: center;
+      color: var(--text);
+      background: rgba(34,37,53,0.9);
+      border: 1px solid rgba(45,49,71,0.8);
+      border-radius: 4px;
+      padding: 1px 0;
+    }
+
     .prov-badge {
       display: inline-flex;
       align-items: center;
@@ -1311,6 +1404,9 @@ for i, msg in enumerate(st.session_state.messages):
                 key_prefix=f"history-{i}",
                 source_ids=msg.get("source_ids"),
                 loaded_source_ids=msg.get("loaded_source_ids"),
+                question=msg.get("question", ""),
+                disease=msg.get("disease", ""),
+                question_type=msg.get("question_type", ""),
             )
         else:
             st.markdown(msg["content"])
@@ -1452,6 +1548,9 @@ def run_query(question: str) -> bool:
             key_prefix=f"live-{len(st.session_state.messages)}",
             source_ids=source_ids,
             loaded_source_ids=loaded_source_ids,
+            question=question,
+            disease=detected_disease,
+            question_type=question_type,
         )
 
     # --- Write-back ---
@@ -1477,6 +1576,9 @@ def run_query(question: str) -> bool:
     st.session_state.messages.append({
         "role": "assistant",
         "content": answer,
+        "question": question,
+        "disease": detected_disease,
+        "question_type": question_type,
         "confidence": confidence,
         "figures_used": figures_used,
         "source_ids": source_ids,
