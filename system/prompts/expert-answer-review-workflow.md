@@ -130,5 +130,5 @@ Write to `inbox/{disease}/` with:
 ## Related
 
 - [Expert review prototype](../indexes/expert-answer-review-prototype-20260514.md)
-- [Content precision promotion workflow](content-precision-promotion-workflow.md)
+- [Content precision promotion workflow](../indexes/content-precision-promotion-workflow.md)
 - [Query to writeback](../indexes/query-to-writeback.md)

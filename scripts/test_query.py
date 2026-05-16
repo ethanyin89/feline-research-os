@@ -430,7 +430,7 @@ def _test_sanitize_provenance_tags_normalizes_informal_source_brackets():
 
 def _test_expert_review_stage_label_tracks_manual_sample_gate():
     label = expert_review_stage_label()
-    assert label == "manual sample 1/3-10", label
+    assert label == "manual sample 3/3-10", label
 
 
 def _test_build_expert_review_prompt_preserves_answer_and_gate():
@@ -442,7 +442,7 @@ def _test_build_expert_review_prompt_preserves_answer_and_gate():
         confidence="medium",
         source_ids=["src-diabetes-007", "src-diabetes-011"],
     )
-    assert "manual sample 1/3-10" in prompt
+    assert "manual sample 3/3-10" in prompt
     assert "not source evidence" in prompt
     assert "猫糖尿病哪些观察指标是核心终点？" in prompt
     assert "src-diabetes-007, src-diabetes-011" in prompt
