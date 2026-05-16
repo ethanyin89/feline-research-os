@@ -47,6 +47,8 @@ from query import (
 from search import vault_search, format_results_for_llm
 from compile_trigger import find_downstream_files, build_recompile_queue
 from run_acceptance_checklist import classify_runtime_blocker
+from expert_review import build_expert_review_prompt, expert_review_stage_label
+from health import is_obesity_compiled_guidance_gate_issue
 
 VAULT_ROOT = Path(__file__).parent.parent
 
@@ -424,6 +426,41 @@ def _test_sanitize_provenance_tags_normalizes_informal_source_brackets():
     sanitized = sanitize_provenance_tags(answer, ["src-ibd-003", "src-ibd-010", "src-ibd-024"])
     assert "[source_supported_conclusion: src-ibd-003, src-ibd-024]" in sanitized
     assert "[source_supported_conclusion: src-ibd-010]" in sanitized
+
+
+def _test_expert_review_stage_label_tracks_manual_sample_gate():
+    label = expert_review_stage_label()
+    assert label == "manual sample 1/3-10", label
+
+
+def _test_build_expert_review_prompt_preserves_answer_and_gate():
+    prompt = build_expert_review_prompt(
+        question="猫糖尿病哪些观察指标是核心终点？",
+        answer="Remission is conditional. [source_supported_conclusion: src-diabetes-007]",
+        disease="diabetes",
+        question_type="endpoints",
+        confidence="medium",
+        source_ids=["src-diabetes-007", "src-diabetes-011"],
+    )
+    assert "manual sample 1/3-10" in prompt
+    assert "not source evidence" in prompt
+    assert "猫糖尿病哪些观察指标是核心终点？" in prompt
+    assert "src-diabetes-007, src-diabetes-011" in prompt
+    assert "Remission is conditional" in prompt
+
+
+def _test_obesity_guidance_gate_allows_source_indexed_shell():
+    path = Path("topics/obesity/current-state-dashboard.md")
+    fm = {"topic": "obesity", "question_type": "dashboard", "decision_grade": "no"}
+    text = "This source-indexed shell is not compiled obesity guidance. Sources remain partial."
+    assert not is_obesity_compiled_guidance_gate_issue(path, fm, text)
+
+
+def _test_obesity_guidance_gate_flags_compiled_guidance_before_deep_extraction():
+    path = Path("topics/obesity/mechanism-overview.md")
+    fm = {"topic": "obesity", "question_type": "mechanism", "decision_grade": "no"}
+    text = "Obesity mechanism overview."
+    assert is_obesity_compiled_guidance_gate_issue(path, fm, text)
 
 
 def _test_classify_runtime_blocker_auth():
@@ -1347,6 +1384,10 @@ if __name__ == "__main__":
     test("parse_source_ids: no citations", _test_parse_source_ids_none)
     test("sanitize_provenance_tags: filters invalid ids", _test_sanitize_provenance_tags_filters_invalid_ids)
     test("sanitize_provenance_tags: normalizes informal source brackets", _test_sanitize_provenance_tags_normalizes_informal_source_brackets)
+    test("expert_review: stage label tracks manual gate", _test_expert_review_stage_label_tracks_manual_sample_gate)
+    test("expert_review: prompt preserves answer and gate", _test_build_expert_review_prompt_preserves_answer_and_gate)
+    test("health: obesity guidance gate allows source-indexed shell", _test_obesity_guidance_gate_allows_source_indexed_shell)
+    test("health: obesity guidance gate flags compiled guidance", _test_obesity_guidance_gate_flags_compiled_guidance_before_deep_extraction)
     test("classify_runtime_blocker: auth", _test_classify_runtime_blocker_auth)
     test("classify_runtime_blocker: network", _test_classify_runtime_blocker_network)
     test("classify_runtime_blocker: none", _test_classify_runtime_blocker_none)

@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-04-24
+last_compiled_at: 2026-05-15
 confidence: high
 verification_status: compiled
 owner: codex
@@ -21,14 +21,21 @@ status: active
 
 Load this when deciding which source cards to prioritize under context limits.
 
-2026-04-22 reality sync:
+2026-05-15 reality sync:
 
-- The vault now has `120` paper source cards, not `96`.
-- The current user-confirmed scope is 5 disease modules x 24 paper sources:
-  [120 source processing ledger](source-processing-ledger-120-20260421.md).
+- The vault now has `325` strict disease paper source cards across CKD, FIP, HCM,
+  IBD, Diabetes, FCV, and obesity.
+- The old user-confirmed seed scope was 5 disease modules x 24 paper sources:
+  [120 source processing ledger](source-processing-ledger-120-20260421.md). That
+  seed scope remains fully explicit at source-card depth.
 - The old user-facing `96` scope is tracked separately as CKD / FIP / HCM / IBD:
   [legacy 96 source processing ledger](legacy-96-source-processing-ledger-20260421.md).
-- Every disease module has `24/24` source cards and `24/24` round-1 worksheets.
+- FCV has joined the explicit full-depth seed set: `24/24` source cards are
+  `full` and `deep_extracted`. Use [fcv-source-depth-map.md](fcv-source-depth-map.md).
+- Diabetes now has a `24`-card full seed corpus plus `94` partial extension cards.
+  Use [diabetes-source-depth-map.md](diabetes-source-depth-map.md).
+- Obesity now has `87` partial source cards and no decision-grade deep-extracted
+  cards. Use [obesity-source-depth-map.md](obesity-source-depth-map.md).
 - `status:` and `extraction_depth:` are different fields. Missing `extraction_depth`
   is schema debt, not proof that the card was never processed.
 - FIP is `24/24` explicit `full` at source-card layer after the 2026-04-22
@@ -54,32 +61,35 @@ Verification-status read:
 
 ---
 
-## 2026-04-24 Cross-Disease Snapshot
+## 2026-05-15 Cross-Disease Snapshot
 
 | Disease | Source cards | Status reality | Explicit full | Explicit partial | Missing depth field | Worksheets | Verification-status overlay | Current read |
 |---------|--------------|----------------|---------------|------------------|---------------------|------------|-----------------------------|--------------|
-| CKD | 24 | `24 extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Mature template; explicit depth and verification-status fields now clean |
+| CKD | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Mature template; explicit depth and verification-status fields clean |
 | FIP | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate FIP depth map exists; all source cards now explicit full depth |
-| HCM | 24 | `24 extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate HCM depth map exists; all source cards now explicit full depth and deep-extracted |
+| HCM | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate HCM depth map exists; all source cards now explicit full depth and deep-extracted |
 | IBD | 24 | `24 full / 0 partial` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
-| Diabetes | 24 | `24 extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Starter Level 5 module with first output layer, 20 topic pages including one bilingual dashboard, and a now-clean deep-extracted paper-card overlay; next gains come from topic/output compression rather than card-depth rescue |
+| Diabetes | 118 | `24 deep_extracted, 94 ingested` | 24 | 94 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `24 deep_extracted, 59 abstract_weighted, 35 title_only` | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
+| FCV | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
+| Obesity | 87 | `87 ingested` | 0 | 87 | 0 | 44 structured-abstract worksheets, 43 title-only cards | `44 abstract_weighted, 43 title_only` | Bootstrap extension corpus only; do not compile obesity answer surfaces until priority cards are extracted deeper |
 
 ## Default Next Moves
 
-1. **IBD:** use [ibd-source-depth-map.md](ibd-source-depth-map.md) for card-level
-   detail; all 24 IBD source cards are explicit `full`. Next gains are full-text,
-   regulatory/route-fit, image/table, or output-specific precision where it changes decisions.
-2. **FIP:** use [fip-source-depth-map.md](fip-source-depth-map.md) for card-level
-   detail; all 24 FIP source cards are explicit `full`, so next gains are full-text,
-   official-source, image/table, or output-specific precision only.
-3. **CKD:** depth-field cleanup complete as of 2026-04-21. Do not reopen CKD bootstrap.
-4. **HCM:** use [hcm-source-depth-map.md](hcm-source-depth-map.md) for card-level
-   detail; all 24 HCM source cards are explicit `full`, so next gains are full-text
-   or output-specific precision only.
-5. **Diabetes:** use [diabetes-source-depth-map.md](diabetes-source-depth-map.md)
-   for card-level detail. First output surfaces now exist and all 24 source cards
-   are explicit `full`; only add non-U.S. regulatory/full-text clinical depth where
-   it changes output or branch-order decisions.
+1. **Obesity:** use [obesity-source-depth-map.md](obesity-source-depth-map.md).
+   This is the only large corpus with `0` deep-extracted source cards; extract
+   priority obesity cards only when they will support a specific obesity/diabetes
+   bridge or first obesity answer surface.
+2. **Diabetes:** use [diabetes-source-depth-map.md](diabetes-source-depth-map.md).
+   The `24`-card seed corpus is full; the `94`-card extension corpus should stay
+   source-check/structured-abstract material until a narrow clinical, regulatory,
+   obesity, or output-order question justifies deeper extraction.
+3. **FCV:** use [fcv-source-depth-map.md](fcv-source-depth-map.md). The `24`-card
+   source layer is full; next gains are field-effectiveness, label/regulatory,
+   therapy, image, or output-specific precision.
+4. **IBD / FIP / HCM:** use their disease-specific maps. All three are explicit
+   full at seed source-card depth, so move only on full-text, official-source,
+   image/table, or output-specific precision that changes branch order.
+5. **CKD:** depth-field cleanup complete as of 2026-04-21. Do not reopen CKD bootstrap.
 
 ---
 
@@ -185,7 +195,9 @@ against the completed worksheets.
 | FIP | 24 | 24 | 0 | 0 | 0 | 100% explicit full; see FIP-specific map |
 | HCM | 24 | 24 | 0 | 0 | 0 | 100% explicit full; see HCM-specific map |
 | IBD | 24 | 24 | 0 | 0 | 0 | 100% explicit full; `src-ibd-009` is deep-extracted workflow support and remains non-decision-grade |
-| Diabetes | 24 | 24 | 0 | 0 | 0 | 100% explicit full; see Diabetes-specific map |
+| Diabetes | 118 | 24 | 94 | 0 | 0 | Seed corpus is 100% explicit full; extension corpus is partial and non-decision-grade |
+| FCV | 24 | 24 | 0 | 0 | 0 | 100% explicit full; see FCV-specific map |
+| Obesity | 87 | 0 | 87 | 0 | 0 | 0% explicit full; source-check / structured-abstract queue only |
 
 ---
 

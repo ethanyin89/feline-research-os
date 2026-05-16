@@ -1,10 +1,10 @@
 ---
-id: system-health-report-20260514
+id: system-health-report-20260515
 type: health-check
 topic: operating-system
 question_type: health
 language: bilingual
-last_compiled_at: 2026-05-14
+last_compiled_at: 2026-05-15
 verification_status: compiled
 decision_grade: provisional
 language_qa_status: light_checked
@@ -12,7 +12,7 @@ owner: codex
 status: active
 ---
 
-# Vault Health Report, 2026-05-14
+# Vault Health Report, 2026-05-15
 
 This report aggregates existing checks. It does not call an LLM and does not replace human review.
 
@@ -20,8 +20,8 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 1087 markdown files, no local link issues found. |
-| Query tests | PASS | 104 passed  \|  0 failed  \|  104 total |
+| Markdown links | PASS | PASS: checked 1090 markdown files, no local link issues found. |
+| Query tests | PASS | 106 passed  \|  0 failed  \|  106 total |
 | Paper source cards | PASS | 325 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
 | Source IDs | PASS | 0 duplicates, 0 missing ids |
@@ -40,13 +40,13 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Quantified claim traceability | PASS | 0 quantified reader pages missing traceability table |
 | Reader quoted-fact discipline | PASS | 0 reader quoted_fact items look interpretive |
 | High-visibility language QA | PASS | 0 high-visibility pages unchecked or missing |
+| Obesity compiled guidance gate | PASS | 0 obesity reader pages exceed shell/source-indexed status |
 | Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
-| Inbox backlog | PASS | 0 active files, 13 rejected audit files |
+| Inbox backlog | WARN | 1 active files, 13 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260514.md; mode=route-only; status=route_pass |
-| Expert review UI surface | PASS | Streamlit AppTest seeded answer rendered `Expert review loop` and `Download review prompt`; localhost:8502 returned HTTP 200 |
-| Compile trigger | PASS | 176 changed source cards, 124 downstream files |
+| Compile trigger | PASS | 0 changed source cards, 0 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
@@ -75,7 +75,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 ## Inbox Backlog
 
-- No active inbox files outside `.gitkeep`.
+- inbox/obesity/content-precision-promotion-batch-20260515.md
 
 Rejected / audit notes:
 - inbox/rejected/nested-users-absolute-path-tree-20260421/README.md
@@ -100,4 +100,4 @@ Rejected / audit notes:
 
 ## Next Actions
 
-- No immediate structural action from this report.
+- Clear active inbox files by promote / reject / keep-with-blocker.
