@@ -2,6 +2,7 @@
 id: src-diabetes-071
 type: source
 title: "Diagnosis and management of feline diabetes mellitus (Part I)"
+year: 2012
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

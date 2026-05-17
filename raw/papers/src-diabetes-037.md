@@ -2,6 +2,7 @@
 id: src-diabetes-037
 type: source
 title: "Risk factors for feline diabetes mellitus"
+year: 2009
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

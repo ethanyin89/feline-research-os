@@ -2,6 +2,7 @@
 id: src-diabetes-084
 type: source
 title: "Spontaneous diabetes mellitus-islet amyloid complex in adult cats"
+year: 1986
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

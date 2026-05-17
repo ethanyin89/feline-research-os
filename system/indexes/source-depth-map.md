@@ -211,7 +211,7 @@ against the completed worksheets.
 | FIP | 24/24 (100%) | Complete |
 | HCM | 24/24 (100%) | Complete |
 | IBD | 24/24 (100%) | Complete |
-| Diabetes | 110/118 (93%) | 8 cards lack DOI |
+| Diabetes | 118/118 (100%) | Complete (8 cards recovered 2026-05-17) |
 | FCV | 24/24 (100%) | Complete |
 | Obesity | 87/87 (100%) | Complete (6 cards recovered 2026-05-17) |
 

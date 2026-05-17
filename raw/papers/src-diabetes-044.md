@@ -2,6 +2,7 @@
 id: src-diabetes-044
 type: source
 title: "Feline diabetes mellitus: diagnosis, treatment, and monitoring"
+year: 2008
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

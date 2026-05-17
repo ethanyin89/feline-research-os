@@ -2,6 +2,7 @@
 id: src-diabetes-052
 type: source
 title: "Feline endocrinopathies"
+year: 2005
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

@@ -2,6 +2,7 @@
 id: src-diabetes-082
 type: source
 title: "Loose-control of diabetes mellitus with protamine zinc insulin in cats: 185 cases (2005-2015)"
+year: 2019
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

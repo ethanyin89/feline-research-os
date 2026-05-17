@@ -2,6 +2,7 @@
 id: src-diabetes-085
 type: source
 title: "Progress in feline diabetes: keys to achieve diabetic remission"
+year: 2017
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]

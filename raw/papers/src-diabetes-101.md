@@ -2,6 +2,7 @@
 id: src-diabetes-101
 type: source
 title: "Islet amyloid in type 2 human diabetes mellitus and adult diabetic cats contains a novel putative polypeptide hormone"
+year: 1987
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]
