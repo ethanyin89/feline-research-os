@@ -26,9 +26,17 @@ Completed full Tier 1 obesity bootstrap: 4 deep-extracted sources and 4 architec
 
 Fixed `health.py` obesity guidance gate to check actual deep-extracted count instead of hardcoded 0. Added `OBESITY_DEEP_EXTRACTED_THRESHOLD = 4`.
 
-## Commits This Session (12)
+## Commits This Session (17)
 
 ```
+867e344 docs(obesity): update dashboard and index for bilingual completion
+ef7a158 feat(obesity): update source cards 004/005 with deep extraction markers
+b0fd866 fix(health): add blocked/held inbox category tracking
+fda2afa chore: update health report with bilingual pages
+092aa20 feat(obesity): add bilingual architecture pages (EN/ZH)
+baf088c docs: add FCV and Obesity to question-router
+202a7bc docs: add FCV and Obesity to ask-the-vault index
+291dc09 docs: create session handoff and update navigation
 6cf2076 feat(obesity): write diabetes-bridge architecture page
 8cd98eb feat(obesity): write prevention architecture page
 b964347 feat(obesity): write risk-and-recognition architecture page
@@ -38,9 +46,6 @@ d48f7e8 docs(obesity): close content-precision-promotion batch
 73eb7fa feat(obesity): write first architecture page (mechanism-overview)
 67faf20 feat(obesity): complete Tier 1 bootstrap with src-obesity-001 deep extraction
 f3ac9f7 docs: update cross-disease snapshot with obesity deep extractions
-5278baf feat: deep extract src-obesity-004 and src-obesity-005 (2024 reviews)
-44b90f4 chore: update health report with obesity deep extraction
-124fd70 docs: update obesity source index with first deep extraction
 ```
 
 ## Current Obesity Status
@@ -49,8 +54,9 @@ f3ac9f7 docs: update cross-disease snapshot with obesity deep extractions
 |--------|-------|
 | Deep-extracted sources | 4/87 (Tier 1 complete) |
 | Architecture pages | 4 |
+| Bilingual pages | 4 (EN/ZH) |
 | Confidence | medium |
-| Health check | PASS (all 106 tests) |
+| Health check | PASS (all 107 tests) |
 
 ## Gap Summary (Updated from Autoplan Session)
 
@@ -73,10 +79,10 @@ From user's session request:
 
 ## Next Session Start Point
 
-1. ✓ Health.py verified — 106 tests passing
+1. ✓ Health.py verified — 107 tests passing
 2. ✓ Obesity Tier 1 complete — 4 sources, 4 architecture pages
-3. Obesity Tier 2 management sources available (002, 003, 006, 007, 080)
-4. Bilingual versions of obesity pages can be compiled
+3. ✓ Bilingual pages compiled — 4 EN/ZH pages with quantified claim traceability
+4. Obesity Tier 2 management sources available (002, 003, 006, 007, 080)
 5. Assessment-methods page blocked until body condition full-text extraction
 
 ## Cross-Disease Status
