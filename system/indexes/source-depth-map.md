@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-05-15
+last_compiled_at: 2026-05-17
 confidence: high
 verification_status: compiled
 owner: codex
@@ -61,7 +61,7 @@ Verification-status read:
 
 ---
 
-## 2026-05-15 Cross-Disease Snapshot
+## 2026-05-17 Cross-Disease Snapshot
 
 | Disease | Source cards | Status reality | Explicit full | Explicit partial | Missing depth field | Worksheets | Verification-status overlay | Current read |
 |---------|--------------|----------------|---------------|------------------|---------------------|------------|-----------------------------|--------------|
@@ -200,6 +200,20 @@ against the completed worksheets.
 | Obesity | 87 | 0 | 87 | 0 | 0 | 0% explicit full; source-check / structured-abstract queue only |
 
 ---
+
+## Year Metadata Coverage (2026-05-17)
+
+| Disease | Year Coverage | Notes |
+|---------|---------------|-------|
+| CKD | 24/24 (100%) | Complete |
+| FIP | 24/24 (100%) | Complete |
+| HCM | 24/24 (100%) | Complete |
+| IBD | 24/24 (100%) | Complete |
+| Diabetes | 110/118 (93%) | 8 cards lack DOI |
+| FCV | 24/24 (100%) | Complete |
+| Obesity | 81/87 (93%) | 6 cards lack DOI |
+
+Year metadata enables temporal filtering for recency-weighted extraction priority.
 
 ## Maintenance
 

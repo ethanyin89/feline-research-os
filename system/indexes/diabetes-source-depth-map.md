@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-05-14
+last_compiled_at: 2026-05-17
 confidence: medium
 verification_status: compiled
 owner: codex
@@ -122,6 +122,13 @@ Completed on the 2026-04-21 Diabetes thickening pass:
 1. Tier 1 output-controlling anchors: `src-diabetes-005`, `src-diabetes-006`, `src-diabetes-007`, `src-diabetes-011`, `src-diabetes-014`, `src-diabetes-024`
 2. Tier 2 branch anchors: `src-diabetes-001`, `src-diabetes-004`, `src-diabetes-009`, `src-diabetes-010`, `src-diabetes-012`, `src-diabetes-013`, `src-diabetes-015`, `src-diabetes-018`, `src-diabetes-020`, `src-diabetes-022`
 3. Tier 3 context / edge anchors: `src-diabetes-002`, `src-diabetes-003`, `src-diabetes-008`, `src-diabetes-016`, `src-diabetes-017`, `src-diabetes-019`, `src-diabetes-021`, `src-diabetes-023`
+
+## Metadata Quality
+
+2026-05-17 year metadata fix:
+- Year coverage: 110/118 (93%)
+- 27 cards fixed via DOI pattern inference and Crossref lookup
+- 8 cards remain without year (no DOI or not in Crossref)
 
 ## Maintenance
 
