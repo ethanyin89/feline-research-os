@@ -49,39 +49,34 @@ Use this map to decide which obesity source cards need deep extraction before an
 | src-obesity-007 | Environment and behavior modification | behavior / environment branch | partial | title_only | MEDIUM | verify species scope and recommendation basis |
 | src-obesity-080 | Weight loss diet / activity / microbiota | weight-loss study | partial | abstract_weighted | MEDIUM | needs methods/results extraction before diet or activity claims |
 
-## Immediate Queue
+## Tier 1 Completion Status (2026-05-17)
 
-Do not write obesity mechanism, risk, endpoint, translation, or management pages yet.
+All 4 Tier 1 sources deep-extracted. Architecture pages complete:
 
-First deep-extract:
+| Page | Sources | Status |
+|------|---------|--------|
+| mechanism-overview | 001, 004, 005, 008 | DONE + bilingual |
+| risk-and-recognition | 001, 004, 005 | DONE + bilingual |
+| prevention | 001, 005 | DONE + bilingual |
+| diabetes-bridge | 001, 004, 008 | DONE + bilingual |
 
-1. ~~`src-obesity-001`~~ done, 2026-05-17
-2. ~~`src-obesity-004`~~ done, 2026-05-17
-3. ~~`src-obesity-005`~~ done, 2026-05-17
-4. ~~`src-obesity-008`~~ done, 2026-05-17
+## Next Extraction Queue
 
-Then source-check or extract `src-obesity-080` if the first compiled obesity page needs a weight-loss intervention bridge.
+For Tier 2 management/intervention context (if needed):
 
-2026-05-14 structured abstract sample worksheets now exist for:
+1. `src-obesity-080` — weight-loss diet / activity / microbiota study
+2. `src-obesity-002` — broad management context
+3. `src-obesity-003` — management review
+4. `src-obesity-006` — feline management
+5. `src-obesity-007` — environment/behavior modification
 
-- `src-obesity-004`
-- `src-obesity-005`
-- `src-obesity-008`
-- `src-obesity-080`
+For assessment-methods page:
+- Requires body condition scoring full-text extraction from Tier 1 sources or additional assessment-specific sources
 
-These worksheets help branch placement only; cards remain `abstract_weighted`.
-
-The 2026-05-14 full structured abstract run then created abstract-only worksheets for all 44 obesity `abstract_weighted` cards:
+The 2026-05-14 full structured abstract run created abstract-only worksheets for all 44 obesity `abstract_weighted` cards:
 
 - report: [feline diabetes / obesity structured abstract full index](feline-diabetes-obesity-structured-abstract-full-20260514.md)
 - 43 obesity cards remain `title_only` with no structured abstract worksheet
-
-Then decide whether the first compiled obesity page should be:
-
-- risk-and-recognition
-- mechanism-overview
-- obesity-and-diabetes-bridge, now the leading narrow-owner candidate after `src-obesity-008` deep extraction
-- management-boundary memo
 
 ## Prioritized Extraction Queue (2026-05-17)
 

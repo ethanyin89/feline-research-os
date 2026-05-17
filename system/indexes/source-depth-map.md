@@ -71,15 +71,16 @@ Verification-status read:
 | IBD | 24 | `24 full / 0 partial` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
 | Diabetes | 118 | `24 deep_extracted, 94 ingested` | 24 | 94 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `24 deep_extracted, 59 abstract_weighted, 35 title_only` | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
 | FCV | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| Obesity | 87 | `4 deep_extracted, 83 ingested` | 4 | 83 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `4 deep_extracted, 40 abstract_weighted, 43 title_only` | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); can support complete 5-branch architecture |
+| Obesity | 87 | `4 deep_extracted, 83 ingested` | 4 | 83 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `4 deep_extracted, 40 abstract_weighted, 43 title_only` | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); 5-branch architecture complete with 4 pages + 4 bilingual versions |
 
 ## Default Next Moves
 
 1. **Obesity:** use [obesity-source-depth-map.md](obesity-source-depth-map.md).
-   All `4` Tier 1 priority cards deep-extracted (001, 004, 005, 008). Can support
-   complete 5-branch architecture: broad shell (001), risk-factor architecture (004),
-   prevention branch (005), diabetes-bridge mechanism (008). Next priority: Tier 2
-   management context sources if needed.
+   All `4` Tier 1 priority cards deep-extracted (001, 004, 005, 008). Architecture
+   complete: mechanism-overview, risk-and-recognition, prevention, diabetes-bridge
+   (all with bilingual versions). Next priority: Tier 2 management context sources
+   (src-obesity-080) if intervention detail is needed, or assessment-methods page
+   after body condition full-text extraction.
 2. **Diabetes:** use [diabetes-source-depth-map.md](diabetes-source-depth-map.md).
    The `24`-card seed corpus is full; the `94`-card extension corpus should stay
    source-check/structured-abstract material until a narrow clinical, regulatory,

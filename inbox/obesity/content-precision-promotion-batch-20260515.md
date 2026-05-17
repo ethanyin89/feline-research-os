@@ -273,9 +273,14 @@ python3 scripts/health.py
 
 **PASSED 2026-05-17.**
 
-All Tier 1 sources deep-extracted. First architecture page written.
+All Tier 1 sources deep-extracted. All architecture pages written. All bilingual versions compiled.
+
+Completed:
+1. ✓ mechanism-overview + bilingual
+2. ✓ risk-and-recognition + bilingual
+3. ✓ prevention + bilingual
+4. ✓ diabetes-bridge + bilingual
 
 Next moves:
-1. Write additional architecture pages (risk-and-recognition, prevention, diabetes-bridge) if needed
-2. Deep-extract Tier 2 sources (src-obesity-080, management context) if intervention detail is needed
-3. Compile bilingual versions
+1. Deep-extract Tier 2 sources (src-obesity-080, management context) if intervention detail is needed
+2. Write assessment-methods page after body condition full-text extraction
