@@ -20,8 +20,8 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 1099 markdown files, no local link issues found. |
-| Query tests | PASS | 106 passed  \|  0 failed  \|  106 total |
+| Markdown links | PASS | PASS: checked 1107 markdown files, no local link issues found. |
+| Query tests | PASS | 107 passed  \|  0 failed  \|  107 total |
 | Paper source cards | PASS | 325 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
 | Source IDs | PASS | 0 duplicates, 0 missing ids |
@@ -33,7 +33,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Source quoted-fact discipline | PASS | 0 quoted_fact items look interpretive |
 | Compiled source refs | PASS | 0 invalid source refs |
 | Reader page source_ids | PASS | 0 missing, 0 empty |
-| Thin source usage | WARN | 2 reader/high-visibility pages use abstract-weighted or title-only sources |
+| Thin source usage | PASS | 0 reader/high-visibility pages use abstract-weighted or title-only sources |
 | Thin source caveats | PASS | 0 thin-source pages without visible evidence-depth caveat |
 | Title-only caveats | PASS | 0 pages cite title-only sources without visible caveat |
 | Key-claim traceability | PASS | 0 high-value pages missing traceability table |
@@ -43,10 +43,10 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Obesity compiled guidance gate | PASS | 0 obesity reader pages exceed shell/source-indexed status |
 | Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
-| Inbox backlog | WARN | 1 active files, 15 rejected audit files |
+| Inbox backlog | PASS | 0 active files, 1 blocked/held files, 15 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260514.md; mode=route-only; status=route_pass |
-| Compile trigger | PASS | 63 changed source cards, 27 downstream files |
+| Compile trigger | PASS | 63 changed source cards, 35 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
@@ -75,6 +75,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 ## Inbox Backlog
 
+- No active inbox files outside `.gitkeep`.
+
+Blocked / held notes:
 - inbox/obesity/content-precision-promotion-batch-20260515.md
 
 Rejected / audit notes:
@@ -94,12 +97,6 @@ Rejected / audit notes:
 - inbox/rejected/processed/expert-answer-review-sample-001-20260514.md
 - inbox/rejected/processed/fip-gs441524-treatment-answer-20260517.md
 
-## Thin Source Usage
-
-`abstract_weighted` and `title_only` sources can support cautious synthesis, but should not be read as full-text or decision-grade proof.
-- topics/obesity/current-state-dashboard.md: src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-006 (title_only), src-obesity-007 (title_only)
-- topics/obesity/index.md: src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-006 (title_only), src-obesity-007 (title_only)
-
 ## Next Actions
 
-- Clear active inbox files by promote / reject / keep-with-blocker.
+- No immediate structural action from this report.
