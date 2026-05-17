@@ -29,13 +29,19 @@ This is not a canonical obesity topic write-back. It is a staged decision note.
 
 ## Execution Update, 2026-05-17
 
-One manual sample from this batch has now been executed before any durable automation:
+**BATCH COMPLETE.** All 4 Tier 1 manual samples have been executed:
 
-- `src-obesity-008` was deep-extracted from the official Sage article page.
-- The source card is now `deep_extracted`.
-- The obesity source depth map and obesity dashboard now record `src-obesity-008` as the first bounded mechanism / diabetes-bridge anchor.
-- No public obesity guidance page was created.
-- Remaining manual samples before any recurring extraction skill: `src-obesity-004`, `src-obesity-005`, and `src-obesity-001` if source access is available.
+1. `src-obesity-008` - deep-extracted (mechanism / diabetes-bridge)
+2. `src-obesity-004` - deep-extracted (risk factors / pathologies, 2024 JFMS review)
+3. `src-obesity-005` - deep-extracted (prevention / target population, 2024 JFMS review)
+4. `src-obesity-001` - deep-extracted (broad shell, 2016 comprehensive review)
+
+**First architecture page written:** `topics/obesity/mechanism-overview.md`
+- Establishes 5-branch architecture: prevalence, risk factors, pathogenesis, associated conditions, assessment
+- Key-claim traceability table with 7 bounded claims
+- Guardrails for what module can/cannot say
+
+**Status:** Tier 1 complete. Tier 2 (src-obesity-080 and management sources) remain for future extraction if management/intervention detail is needed.
 
 ## Why This Batch Exists
 
@@ -54,11 +60,11 @@ promoted.
 
 | # | Disease | Object | Precision Type | Source Anchors | Decision | Target Surfaces |
 |---|---|---|---|---|---|---|
-| 1 | obesity | broad feline obesity shell / assessment | source-access / output-specific | `src-obesity-001`; obesity dashboard; obesity depth map | needs source access | no topic write-back; keep as first extraction priority |
-| 2 | obesity | risk factors and associated pathologies | workup / recognition boundary | `src-obesity-004`; `src-obesity-004-structured-abstract-round1`; obesity dashboard | hold | no reader-facing claims; queue as risk-and-recognition owner candidate |
-| 3 | obesity | prevention and target population | prevention boundary | `src-obesity-005`; `src-obesity-005-structured-abstract-round1`; obesity dashboard | hold | no prevention advice; queue as prevention owner candidate |
-| 4 | obesity / diabetes | obesity-to-insulin-sensitivity bridge | mechanism / endpoint boundary | `src-obesity-008`; `src-obesity-008-structured-abstract-round1`; `diabetes-obesity-body-condition-memo`; `src-diabetes-005` | partial-promote | allow branch placement only; no numeric or clinical claims |
-| 5 | obesity | weight-loss diet / activity / microbiota intervention | treatment-order / endpoint boundary | `src-obesity-080`; `src-obesity-080-structured-abstract-round1`; obesity depth map | hold | queue after first obesity page proves intervention need |
+| 1 | obesity | broad feline obesity shell / assessment | source-access / output-specific | `src-obesity-001`; obesity dashboard; obesity depth map | **DONE** | deep-extracted; anchors mechanism-overview 5-branch architecture |
+| 2 | obesity | risk factors and associated pathologies | workup / recognition boundary | `src-obesity-004`; `src-obesity-004-deep-extraction-round1`; obesity dashboard | **DONE** | deep-extracted; anchors risk-factor framework (intrinsic/extrinsic) |
+| 3 | obesity | prevention and target population | prevention boundary | `src-obesity-005`; `src-obesity-005-deep-extraction-round1`; obesity dashboard | **DONE** | deep-extracted; anchors prevention target (post-neuter kittens 5-12mo) |
+| 4 | obesity / diabetes | obesity-to-insulin-sensitivity bridge | mechanism / endpoint boundary | `src-obesity-008`; `src-obesity-008-deep-extraction-round1`; `diabetes-obesity-body-condition-memo`; `src-diabetes-005` | **DONE** | deep-extracted; anchors diabetes-bridge mechanism |
+| 5 | obesity | weight-loss diet / activity / microbiota intervention | treatment-order / endpoint boundary | `src-obesity-080`; `src-obesity-080-structured-abstract-round1`; obesity depth map | hold | queue after management/intervention need is proven |
 
 ## Decisions
 
@@ -225,27 +231,15 @@ Write-back target:
 
 ## Batch Decision
 
-The first obesity content surface should not be a broad obesity overview yet.
-
-Current best read:
-
-1. `src-obesity-001` still needs source access and remains first broad-shell extraction priority.
-2. `src-obesity-004` and `src-obesity-005` are plausible first owner candidates but remain
-   too thin for claims.
-3. `src-obesity-008` is the only candidate in this batch that can safely change branch
-   placement now, because it aligns with the existing diabetes obesity/body-condition
-   memo and has an original-study worksheet.
-4. `src-obesity-080` should wait until management/intervention need is proven.
-
-Provisional first-owner ranking:
+**RESOLVED 2026-05-17.** The first obesity architecture page is now written.
 
 | Rank | Candidate Owner | Status |
 |---:|---|---|
-| 1 | obesity-and-diabetes-bridge | branch-placement candidate; needs deeper `src-obesity-008` extraction before public page |
-| 2 | risk-and-recognition | strong candidate; needs deeper `src-obesity-004` extraction |
-| 3 | prevention / target population | strong candidate; needs deeper `src-obesity-005` extraction |
-| 4 | broad shell / assessment | source-access blocker at `src-obesity-001` |
-| 5 | management / weight-loss intervention | second wave; hold `src-obesity-080` |
+| 1 | mechanism-overview (5-branch architecture) | **DONE** - `topics/obesity/mechanism-overview.md` |
+| 2 | obesity-and-diabetes-bridge | supported by `src-obesity-008` deep extraction |
+| 3 | risk-and-recognition | supported by `src-obesity-001`, `src-obesity-004` |
+| 4 | prevention / target population | supported by `src-obesity-005` |
+| 5 | management / weight-loss intervention | hold; `src-obesity-080` remains Tier 2 |
 
 ## Health Check Read
 
@@ -275,8 +269,11 @@ python3 scripts/health.py
 
 ## Approval Gate
 
-Do not write canonical obesity pages from this batch alone.
+**PASSED 2026-05-17.**
 
-The smallest approval-worthy next move is:
+All Tier 1 sources deep-extracted. First architecture page written.
 
-`deep-extract src-obesity-008 or src-obesity-001, then rerun this batch decision before writing a public obesity page`
+Next moves:
+1. Write additional architecture pages (risk-and-recognition, prevention, diabetes-bridge) if needed
+2. Deep-extract Tier 2 sources (src-obesity-080, management context) if intervention detail is needed
+3. Compile bilingual versions
