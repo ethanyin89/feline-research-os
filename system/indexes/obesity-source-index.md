@@ -24,7 +24,7 @@ This index tracks the first-pass obesity source-card layer. The full obesity she
 | Scope | Count | State |
 |---|---:|---|
 | First-pass obesity cards | 87 | `src-obesity-001` through `src-obesity-087` |
-| Deep-extracted obesity cards | 1 | `src-obesity-008` is evidence-usable for bounded mechanism / diabetes-bridge placement only |
+| Deep-extracted obesity cards | 4 | Tier 1 anchors `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008` are evidence-usable for bounded architecture only |
 | Shared diabetes/obesity sources | 10 | cross-link to existing disease-owner cards |
 
 ## First-Pass Source Cards
@@ -33,11 +33,11 @@ The table below keeps the original Tier A shell visible. The remaining `src-obes
 
 | ID | Title | Primary Layer | Evidence Level | Status |
 |---|---|---|---|---|
-| src-obesity-001 | Feline obesity - prevalence, risk factors, pathogenesis, associated conditions and assessment: a review | shell / assessment | review | first-pass partial, title-only |
+| src-obesity-001 | Feline obesity - prevalence, risk factors, pathogenesis, associated conditions and assessment: a review | shell / assessment | review | deep-extracted; broad 5-branch architecture anchor |
 | src-obesity-002 | Canine and feline obesity: a review of pathophysiology, epidemiology, and clinical management | shell / management context | review | first-pass partial, title-only |
 | src-obesity-003 | Canine and Feline Obesity Management | management | review | first-pass partial, title-only |
-| src-obesity-004 | Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies | risk / associated pathologies | review | first-pass partial, title-only |
-| src-obesity-005 | Identifying the target population and preventive strategies to combat feline obesity | prevention | review | first-pass partial, abstract-weighted |
+| src-obesity-004 | Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies | risk / associated pathologies | review | deep-extracted; risk/pathology architecture anchor |
+| src-obesity-005 | Identifying the target population and preventive strategies to combat feline obesity | prevention | review | deep-extracted; prevention target-population anchor |
 | src-obesity-006 | Management of obesity in cats | management | review | first-pass partial, title-only |
 | src-obesity-007 | Obesity Treatment: Environment and Behavior Modification | environment / behavior | review | first-pass partial, title-only |
 | src-obesity-008 | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | insulin sensitivity / diabetes bridge | original-study | deep-extracted; bounded mechanism anchor |
@@ -75,8 +75,8 @@ It does not prove:
 
 Deep extraction should start with:
 
-1. `src-obesity-001`
-2. `src-obesity-004`
-3. `src-obesity-005`
+1. ~~`src-obesity-001`~~ done, 2026-05-17; keep as broad shell / assessment architecture anchor
+2. ~~`src-obesity-004`~~ done, 2026-05-17; keep as risk-factor / associated-pathology architecture anchor
+3. ~~`src-obesity-005`~~ done, 2026-05-17; keep as prevention / target-population architecture anchor
 4. ~~`src-obesity-008`~~ done, 2026-05-17; keep as bounded mechanism anchor, not public guidance
 5. `src-obesity-003` or `src-obesity-006`, depending on whether the next output pressure is broad management or feline-only management.

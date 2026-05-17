@@ -42,7 +42,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This is a deep-extracted source card from the full Crossref abstract. It is usable for bounded prevention architecture and target-population framing, but it is not full-text extracted and should not be used for specific dietary protocols, feeding schedules, or owner-facing prevention checklists.
 
 ## Source Check, 2026-05-14
 
@@ -55,10 +55,18 @@ Crossref metadata was checked as a repeatable second-pass intake step.
 
 Use boundary:
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+- This card can support cautious prevention architecture claims and the post-gonadectomy kitten target-population frame.
+- It must not support specific dietary protocols, feeding schedules, prevention success rates, or owner-facing checklists without full-text verification.
 
 Abstract lead for scope check only: Feline obesity continues to be a priority health and welfare issue. Most research surrounding obesity currently focuses on obesity treatment. However, treatment for feline obesity...
+
+## Deep Extraction, 2026-05-17
+
+Full abstract review promoted this card from `abstract_weighted` to `deep_extracted`.
+
+- [src-obesity-005 deep extraction round 1](../../system/indexes/src-obesity-005-deep-extraction-round1.md)
+- safe use: prevention architecture and target population identification
+- unsafe use: specific prevention protocols, feeding schedules, or owner-facing checklists
 
 
 ## One-Line Summary

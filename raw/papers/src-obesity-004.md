@@ -40,7 +40,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This is a deep-extracted source card from the full Crossref abstract. It is usable for bounded risk-factor architecture and associated-pathology branch placement, but it is not full-text extracted and should not be used for specific prevalence percentages, risk ranking, or causal claims.
 
 ## Source Check, 2026-05-14
 
@@ -53,10 +53,18 @@ Crossref metadata was checked as a repeatable second-pass intake step.
 
 Use boundary:
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+- This card can support cautious architecture claims about extrinsic/intrinsic risk-factor framing and associated-pathology visibility.
+- It must not support risk-factor ranking, prevalence percentages, causal claims, or management recommendations without full-text verification.
 
 Abstract lead for scope check only: The domestic cat has evolved in various aspects in its journey from original domestication to the present day. Many domestic cats today lead a sedentary indoor lifestyle with low...
+
+## Deep Extraction, 2026-05-17
+
+Full abstract review promoted this card from `abstract_weighted` to `deep_extracted`.
+
+- [src-obesity-004 deep extraction round 1](../../system/indexes/src-obesity-004-deep-extraction-round1.md)
+- safe use: risk-factor architecture and associated-pathology visibility
+- unsafe use: prevalence percentages, risk-factor ranking, causal claims, or treatment recommendations
 
 
 ## One-Line Summary
