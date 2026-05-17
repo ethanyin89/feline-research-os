@@ -4,7 +4,7 @@ type: index
 topic: obesity
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-05-14
+last_compiled_at: 2026-05-17
 verification_status: compiled
 decision_grade: no
 owner: codex
@@ -83,6 +83,25 @@ Then decide whether the first compiled obesity page should be:
 - obesity-and-diabetes-bridge
 - management-boundary memo
 
+## Prioritized Extraction Queue (2026-05-17)
+
+Based on scoring: reviews (+5), diabetes-bridge keywords (+3), year ≥2020 (+2), endpoints present (+1).
+
+| Rank | Source ID | Year | Score | Flags |
+|---:|---|---:|---:|---|
+| 1 | src-obesity-004 | 2024 | 8 | REVIEW, RECENT |
+| 2 | src-obesity-005 | 2024 | 8 | REVIEW, RECENT |
+| 3 | src-obesity-008 | 2001 | 4 | DM-BRIDGE |
+| 4 | src-obesity-081 | 2012 | 3 | DM-BRIDGE |
+| 5 | src-obesity-046 | 2011 | 3 | DM-BRIDGE |
+| 6 | src-obesity-079 | 2009 | 3 | DM-BRIDGE |
+| 7 | src-obesity-069 | 1999 | 3 | DM-BRIDGE |
+| 8 | src-obesity-030 | 2025 | 2 | RECENT |
+| 9 | src-obesity-039 | 2025 | 2 | RECENT |
+| 10 | src-obesity-050 | 2025 | 2 | RECENT |
+
 ## Maintenance
 
 Update this map after every obesity source-card ingest, source-check, or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`; the 2026-05-14 full source-check leaves obesity at 44 `abstract_weighted` and 43 `title_only`, with no deep-extracted obesity source yet.
+
+2026-05-17 update: Added year metadata to 23 source cards by inferring from DOI patterns. 15 cards still missing year (need Crossref lookup).
