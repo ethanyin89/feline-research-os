@@ -6,12 +6,12 @@ species: feline
 disease: obesity
 question_type: overview
 source_ids: [src-obesity-001, src-obesity-002, src-obesity-003, src-obesity-004, src-obesity-005, src-obesity-006, src-obesity-007, src-obesity-008, src-diabetes-005]
-last_compiled_at: 2026-05-13
-confidence: low
+last_compiled_at: 2026-05-17
+confidence: medium
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-05-13 checked as source-indexed shell; page cites partial obesity cards but visibly states they are not compiled obesity guidance."
+language_qa_notes: "2026-05-17 upgraded to medium confidence after Tier 1 deep extraction complete (4/87 sources: 001, 004, 005, 008)."
 owner: codex
 status: active
 ---
@@ -20,12 +20,17 @@ status: active
 
 ## Current Status
 
-This is a bootstrap shell for the new feline obesity corpus from the 2026-05-13 sheet intake.
+This obesity module now has 4 deep-extracted Tier 1 source cards anchoring the 5-branch architecture:
+- **src-obesity-001**: broad shell (prevalence 11.5-63%, risk factors, associated conditions, assessment)
+- **src-obesity-004**: risk-factor architecture (extrinsic vs intrinsic framework)
+- **src-obesity-005**: prevention branch (target population: post-gonadectomy kittens 5-12mo)
+- **src-obesity-008**: diabetes-bridge mechanism (insulin sensitivity decline)
 
-Do not treat this page as compiled obesity guidance yet. All 87 obesity source cards now exist, but they remain partial and mostly title-only.
+The module can now support bounded architecture pages. Tier 2 management context sources remain partial.
 
 ## Topic Pages
 
+- [mechanism-overview](./mechanism-overview.md) — 5-branch architecture handbook
 - [navigation](./navigation.md)
 - [current-state-dashboard](./current-state-dashboard.md)
 
@@ -47,4 +52,7 @@ This source can support diabetes-obesity bridge questions, but it should not be 
 
 ## Next Move
 
-Deep-extract Tier 1 obesity sources before writing mechanism, recognition, endpoint, or translation pages.
+Tier 1 deep extraction complete. Next options:
+1. Write additional architecture pages (risk-and-recognition, prevention, diabetes-bridge)
+2. Deep-extract Tier 2 management context sources (002, 003, 006, 007, 080)
+3. Compile bilingual versions of mechanism-overview
