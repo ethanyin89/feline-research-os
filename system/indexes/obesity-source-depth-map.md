@@ -28,15 +28,15 @@ Use this map to decide which obesity source cards need deep extraction before an
 
 | Disease | Source Cards | partial | full | title_only | abstract_weighted | deep_extracted |
 |---|---:|---:|---:|---:|---:|---:|
-| Obesity | 87 | 86 | 1 | 43 | 43 | 1 |
+| Obesity | 87 | 84 | 3 | 43 | 41 | 3 |
 
 ## Tier 1 — Bootstrap Anchors
 
 | Source ID | Title Short | Current Role | Depth | Verification | Priority | Key Gap |
 |---|---|---|---|---|---|---|
 | src-obesity-001 | Feline obesity broad review | shell / assessment | partial | title_only | HIGH | needs abstract/full-text extraction before prevalence or assessment claims |
-| src-obesity-004 | Domestic cat overweight/obesity risk and pathologies | risk / associated pathologies | partial | abstract_weighted | HIGH | needs full abstract/full-text extraction before risk-factor and pathology ranking |
-| src-obesity-005 | Target population and prevention | prevention | partial | abstract_weighted | HIGH | needs full abstract/full-text extraction before prevention claims |
+| src-obesity-004 | Domestic cat overweight/obesity risk and pathologies | risk / associated pathologies | full | deep_extracted | DONE | usable for risk-factor architecture (extrinsic/intrinsic) and associated-pathology visibility; not specific prevalence or ranking |
+| src-obesity-005 | Target population and prevention | prevention | full | deep_extracted | DONE | usable for prevention architecture and target population (post-neuter kittens 5-12mo); not specific protocols |
 | src-obesity-008 | Insulin sensitivity decreases with obesity | mechanism / diabetes bridge | full | deep_extracted | DONE | usable for bounded mechanism and diabetes-bridge placement; not screening or treatment advice |
 
 ## Tier 2 — Management Context

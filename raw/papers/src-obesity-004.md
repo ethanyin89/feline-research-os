@@ -10,9 +10,9 @@ endpoints: [risk-factors, associated-pathologies, epidemiology]
 jurisdictions: []
 evidence_level: review
 year: 2024
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, overweight, epidemiology, risk-factors, associated-pathologies]
@@ -24,11 +24,16 @@ evidence_policy:
   quoted_fact:
     - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
     - "Crossref container: Journal of Feline Medicine and Surgery; year: 2024."
+    - "The abstract reports that O&O prevalence has significantly increased in the global cat population."
+    - "The abstract identifies extrinsic factors (sedentary indoor lifestyle, low environmental stimulation, processed foods, feeding patterns) and intrinsic factors (genetics, sex, breed) as risk factors."
+    - "The abstract reports associated pathologies: musculoskeletal changes, insulin resistance, type 2 diabetes, skin disorders, kidney and urinary tract diseases."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "This source is a bounded risk-factor and associated-pathology anchor."
+    - "It can support risk-factor architecture (extrinsic vs intrinsic framework) and associated-pathology branch visibility."
+    - "It must not support specific prevalence percentages, risk-factor ranking, or causal claims without full-text verification."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "This source may anchor the obesity risk-factor architecture page."
+    - "It may anchor the associated-pathology branch linking obesity to diabetes, musculoskeletal, skin, and urinary conditions."
 ---
 
 # Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies

@@ -10,9 +10,9 @@ endpoints: [prevention, target-population, risk-factors]
 jurisdictions: []
 evidence_level: review
 year: 2024
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, prevention, target-population, risk-factors, review]
@@ -24,11 +24,18 @@ evidence_policy:
   quoted_fact:
     - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
     - "Crossref container: Journal of Feline Medicine and Surgery; year: 2024."
+    - "The abstract states feline obesity continues to be a priority health and welfare issue."
+    - "The abstract states treatment for feline obesity is slow, often unsuccessful and not without consequences."
+    - "The abstract identifies post-gonadectomy kittens aged 5-12 months as the primary target population for obesity prevention."
+    - "The abstract highlights dietary and feeding management strategies for obesity prevention."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "This source is a bounded prevention anchor."
+    - "It supports prevention-focused architecture and target population identification."
+    - "It supports framing prevention as preferable to treatment due to treatment limitations."
+    - "It must not support specific dietary protocols or owner-facing prevention checklists without full-text verification."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "This source may anchor the obesity prevention branch."
+    - "It may help justify separating prevention from treatment in the obesity module architecture."
 ---
 
 # Identifying the target population and preventive strategies to combat feline obesity
