@@ -516,11 +516,43 @@ def should_report_thin_source_usage(path: Path, fm: dict[str, str], reader_paths
     return path in reader_paths or is_high_visibility_language_page(path, fm)
 
 
+def count_obesity_deep_extracted() -> int:
+    """Count obesity source cards with verification_status: deep_extracted."""
+    count = 0
+    for card in sorted((VAULT_ROOT / "raw" / "papers").glob("src-obesity-*.md")):
+        fm = frontmatter(card.read_text(encoding="utf-8"))
+        if fm.get("verification_status") == "deep_extracted":
+            count += 1
+    return count
+
+
+# Cache the count to avoid repeated filesystem reads
+_OBESITY_DEEP_EXTRACTED_COUNT: int | None = None
+
+
+def get_obesity_deep_extracted_count() -> int:
+    """Get cached count of deep-extracted obesity sources."""
+    global _OBESITY_DEEP_EXTRACTED_COUNT
+    if _OBESITY_DEEP_EXTRACTED_COUNT is None:
+        _OBESITY_DEEP_EXTRACTED_COUNT = count_obesity_deep_extracted()
+    return _OBESITY_DEEP_EXTRACTED_COUNT
+
+
+# Minimum deep-extracted sources needed before obesity can have compiled guidance pages
+OBESITY_DEEP_EXTRACTED_THRESHOLD = 4
+
+
 def is_obesity_compiled_guidance_gate_issue(path: Path, fm: dict[str, str], text: str) -> bool:
-    """Block obesity from becoming compiled guidance before deep extraction exists."""
+    """Block obesity from becoming compiled guidance before sufficient deep extraction exists."""
     if fm.get("topic") != "obesity" and fm.get("disease") != "obesity":
         return False
     if path.name == "navigation.md":
+        return False
+
+    # Check actual deep-extracted count
+    deep_extracted_count = get_obesity_deep_extracted_count()
+    if deep_extracted_count >= OBESITY_DEEP_EXTRACTED_THRESHOLD:
+        # Sufficient deep extraction exists; allow compiled guidance pages
         return False
 
     question_type = fm.get("question_type", "")
@@ -1020,9 +1052,10 @@ def render_report(data: dict) -> str:
 
     if inventory["obesity_compiled_guidance_gate_issues"]:
         lines.extend(["", "## Obesity Compiled Guidance Gate Issues", ""])
+        deep_count = get_obesity_deep_extracted_count()
         lines.append(
-            "Obesity currently has 0 deep-extracted source cards. Until that changes, reader pages should remain "
-            "shell/source-indexed surfaces with visible evidence-depth boundaries."
+            f"Obesity currently has {deep_count} deep-extracted source cards (threshold: {OBESITY_DEEP_EXTRACTED_THRESHOLD}). "
+            "Until threshold is reached, reader pages should remain shell/source-indexed surfaces with visible evidence-depth boundaries."
         )
         for item in inventory["obesity_compiled_guidance_gate_issues"]:
             lines.append(

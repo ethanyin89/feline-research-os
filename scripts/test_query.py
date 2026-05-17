@@ -48,7 +48,7 @@ from search import vault_search, format_results_for_llm
 from compile_trigger import find_downstream_files, build_recompile_queue
 from run_acceptance_checklist import classify_runtime_blocker
 from expert_review import build_expert_review_prompt, expert_review_stage_label
-from health import is_obesity_compiled_guidance_gate_issue
+from health import is_obesity_compiled_guidance_gate_issue, get_obesity_deep_extracted_count, OBESITY_DEEP_EXTRACTED_THRESHOLD
 
 VAULT_ROOT = Path(__file__).parent.parent
 
@@ -456,11 +456,18 @@ def _test_obesity_guidance_gate_allows_source_indexed_shell():
     assert not is_obesity_compiled_guidance_gate_issue(path, fm, text)
 
 
-def _test_obesity_guidance_gate_flags_compiled_guidance_before_deep_extraction():
+def _test_obesity_guidance_gate_respects_deep_extraction_threshold():
+    """Gate behavior depends on actual deep-extracted source count."""
     path = Path("topics/obesity/mechanism-overview.md")
     fm = {"topic": "obesity", "question_type": "mechanism", "decision_grade": "no"}
     text = "Obesity mechanism overview."
-    assert is_obesity_compiled_guidance_gate_issue(path, fm, text)
+    count = get_obesity_deep_extracted_count()
+    if count >= OBESITY_DEEP_EXTRACTED_THRESHOLD:
+        # With sufficient deep extraction, mechanism pages are allowed
+        assert not is_obesity_compiled_guidance_gate_issue(path, fm, text)
+    else:
+        # Without sufficient deep extraction, mechanism pages are blocked
+        assert is_obesity_compiled_guidance_gate_issue(path, fm, text)
 
 
 def _test_classify_runtime_blocker_auth():
@@ -1387,7 +1394,7 @@ if __name__ == "__main__":
     test("expert_review: stage label tracks manual gate", _test_expert_review_stage_label_tracks_manual_sample_gate)
     test("expert_review: prompt preserves answer and gate", _test_build_expert_review_prompt_preserves_answer_and_gate)
     test("health: obesity guidance gate allows source-indexed shell", _test_obesity_guidance_gate_allows_source_indexed_shell)
-    test("health: obesity guidance gate flags compiled guidance", _test_obesity_guidance_gate_flags_compiled_guidance_before_deep_extraction)
+    test("health: obesity guidance gate respects threshold", _test_obesity_guidance_gate_respects_deep_extraction_threshold)
     test("classify_runtime_blocker: auth", _test_classify_runtime_blocker_auth)
     test("classify_runtime_blocker: network", _test_classify_runtime_blocker_network)
     test("classify_runtime_blocker: none", _test_classify_runtime_blocker_none)
