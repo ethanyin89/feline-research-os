@@ -29,6 +29,13 @@ status: active
 - [prevention](./prevention.md) — prevention-over-treatment strategy
 - [diabetes-bridge](./diabetes-bridge.md) — obesity-to-T2D mechanism
 
+## Bilingual Pages
+
+- [mechanism-overview-bilingual](./mechanism-overview-bilingual.md) — 5-branch architecture (EN/ZH)
+- [risk-and-recognition-bilingual](./risk-and-recognition-bilingual.md) — risk factor framework (EN/ZH)
+- [prevention-bilingual](./prevention-bilingual.md) — prevention strategy (EN/ZH)
+- [diabetes-bridge-bilingual](./diabetes-bridge-bilingual.md) — diabetes mechanism (EN/ZH)
+
 ## Intake And Source Control
 
 - [obesity bootstrap source queue](../../system/indexes/obesity-bootstrap-source-queue-20260513.md)
