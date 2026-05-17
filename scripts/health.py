@@ -723,18 +723,21 @@ def candidate_local_assets(fm_text: str) -> set[str]:
 def inbox_inventory() -> dict:
     inbox = VAULT_ROOT / "inbox"
     active = []
+    blocked = []
     rejected = []
     if not inbox.exists():
-        return {"active": [], "rejected": []}
+        return {"active": [], "blocked": [], "rejected": []}
     for path in sorted(inbox.rglob("*")):
         if not path.is_file() or path.name == ".gitkeep":
             continue
         rel = str(path.relative_to(VAULT_ROOT))
         if rel.startswith("inbox/rejected/"):
             rejected.append(rel)
+        elif frontmatter(path.read_text(errors="ignore")).get("review_status") == "keep-with-blocker":
+            blocked.append(rel)
         else:
             active.append(rel)
-    return {"active": active, "rejected": rejected}
+    return {"active": active, "blocked": blocked, "rejected": rejected}
 
 
 def latest_acceptance_report(prefix: str = "ask-the-vault-acceptance-report") -> dict:
@@ -868,7 +871,7 @@ def render_report(data: dict) -> str:
         summary_row("Obesity compiled guidance gate", "PASS" if not inventory["obesity_compiled_guidance_gate_issues"] else "WARN", f"{len(inventory['obesity_compiled_guidance_gate_issues'])} obesity reader pages exceed shell/source-indexed status"),
         summary_row("Decision-grade gate", "PASS" if not inventory["decision_grade_gate_violations"] else "FAIL", f"{len(inventory['decision_grade_gate_violations'])} source-card violations"),
         summary_row("Candidate image gate", "PASS" if not images["candidate_local_asset_refs"] else "WARN", f"{len(images['candidate_local_asset_refs'])} candidate refs remain gated in local_assets frontmatter"),
-        summary_row("Inbox backlog", "PASS" if not inbox["active"] else "WARN", f"{len(inbox['active'])} active files, {len(inbox['rejected'])} rejected audit files"),
+        summary_row("Inbox backlog", "PASS" if not inbox["active"] else "WARN", f"{len(inbox['active'])} active files, {len(inbox['blocked'])} blocked/held files, {len(inbox['rejected'])} rejected audit files"),
         summary_row("Acceptance report", "PASS" if acceptance["mode"] == "executed" and acceptance["status"] == "pass" else "WARN", f"{acceptance['path'] or 'missing'}; mode={acceptance['mode']}; status={acceptance['status']}"),
         summary_row("Ordinary-user acceptance", "PASS" if ordinary_user_acceptance_ok(ordinary_acceptance) else "WARN", f"{ordinary_acceptance['path'] or 'missing'}; mode={ordinary_acceptance['mode']}; status={ordinary_acceptance['status']}"),
         summary_row("Compile trigger", "PASS" if compile_status.get("ok") else "FAIL", compile_read(compile_status)),
@@ -909,6 +912,10 @@ def render_report(data: dict) -> str:
         lines.extend(f"- {path}" for path in inbox["active"])
     else:
         lines.append("- No active inbox files outside `.gitkeep`.")
+    if inbox["blocked"]:
+        lines.append("")
+        lines.append("Blocked / held notes:")
+        lines.extend(f"- {path}" for path in inbox["blocked"])
     if inbox["rejected"]:
         lines.append("")
         lines.append("Rejected / audit notes:")

@@ -48,7 +48,12 @@ from search import vault_search, format_results_for_llm
 from compile_trigger import find_downstream_files, build_recompile_queue
 from run_acceptance_checklist import classify_runtime_blocker
 from expert_review import build_expert_review_prompt, expert_review_stage_label
-from health import is_obesity_compiled_guidance_gate_issue, get_obesity_deep_extracted_count, OBESITY_DEEP_EXTRACTED_THRESHOLD
+from health import (
+    is_obesity_compiled_guidance_gate_issue,
+    get_obesity_deep_extracted_count,
+    inbox_inventory,
+    OBESITY_DEEP_EXTRACTED_THRESHOLD,
+)
 
 VAULT_ROOT = Path(__file__).parent.parent
 
@@ -468,6 +473,13 @@ def _test_obesity_guidance_gate_respects_deep_extraction_threshold():
     else:
         # Without sufficient deep extraction, mechanism pages are blocked
         assert is_obesity_compiled_guidance_gate_issue(path, fm, text)
+
+
+def _test_inbox_inventory_ignores_keep_with_blocker():
+    inventory = inbox_inventory()
+    blocked_path = "inbox/obesity/content-precision-promotion-batch-20260515.md"
+    assert blocked_path not in inventory["active"]
+    assert blocked_path in inventory["blocked"]
 
 
 def _test_classify_runtime_blocker_auth():
@@ -1395,6 +1407,7 @@ if __name__ == "__main__":
     test("expert_review: prompt preserves answer and gate", _test_build_expert_review_prompt_preserves_answer_and_gate)
     test("health: obesity guidance gate allows source-indexed shell", _test_obesity_guidance_gate_allows_source_indexed_shell)
     test("health: obesity guidance gate respects threshold", _test_obesity_guidance_gate_respects_deep_extraction_threshold)
+    test("health: inbox keep-with-blocker is held", _test_inbox_inventory_ignores_keep_with_blocker)
     test("classify_runtime_blocker: auth", _test_classify_runtime_blocker_auth)
     test("classify_runtime_blocker: network", _test_classify_runtime_blocker_network)
     test("classify_runtime_blocker: none", _test_classify_runtime_blocker_none)
