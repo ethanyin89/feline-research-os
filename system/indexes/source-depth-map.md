@@ -213,7 +213,7 @@ against the completed worksheets.
 | IBD | 24/24 (100%) | Complete |
 | Diabetes | 110/118 (93%) | 8 cards lack DOI |
 | FCV | 24/24 (100%) | Complete |
-| Obesity | 81/87 (93%) | 6 cards lack DOI |
+| Obesity | 87/87 (100%) | Complete (6 cards recovered 2026-05-17) |
 
 Year metadata enables temporal filtering for recency-weighted extraction priority.
 

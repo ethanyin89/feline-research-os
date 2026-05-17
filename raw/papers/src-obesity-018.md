@@ -2,6 +2,7 @@
 id: src-obesity-018
 type: source
 title: "Effectiveness of feline body mass index (fBMI) as new diagnostic tool for obesity"
+year: 2016
 source_kind: paper
 species: feline
 diseases: [obesity]

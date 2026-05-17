@@ -2,6 +2,7 @@
 id: src-obesity-029
 type: source
 title: "Canine and feline obesity: frequently asked questions and their answers"
+year: 2011
 source_kind: paper
 species: feline
 diseases: [obesity]

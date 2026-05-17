@@ -2,6 +2,7 @@
 id: src-obesity-077
 type: source
 title: "No more fat pets : canine and feline obesity, how to win"
+year: 2003
 source_kind: paper
 species: feline
 diseases: [obesity]

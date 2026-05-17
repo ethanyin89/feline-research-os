@@ -2,6 +2,7 @@
 id: src-obesity-025
 type: source
 title: "Feline obesity: clinical recognition and management"
+year: 2009
 source_kind: paper
 species: feline
 diseases: [obesity]

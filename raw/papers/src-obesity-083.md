@@ -2,6 +2,7 @@
 id: src-obesity-083
 type: source
 title: "Assessment of canine and feline body composition by veterinary health care teams in Ontario, Canada"
+year: 2018
 source_kind: paper
 species: feline
 diseases: [obesity]

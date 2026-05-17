@@ -2,6 +2,7 @@
 id: src-obesity-047
 type: source
 title: "The Effect of Obesity and Weight Loss on the Feline Fecal Microbiota, Inflammation and Intestinal Health Markers"
+year: 2018
 source_kind: paper
 species: feline
 diseases: [obesity]
