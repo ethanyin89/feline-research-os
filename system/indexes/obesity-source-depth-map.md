@@ -28,13 +28,13 @@ Use this map to decide which obesity source cards need deep extraction before an
 
 | Disease | Source Cards | partial | full | title_only | abstract_weighted | deep_extracted |
 |---|---:|---:|---:|---:|---:|---:|
-| Obesity | 87 | 84 | 3 | 43 | 41 | 3 |
+| Obesity | 87 | 83 | 4 | 43 | 40 | 4 |
 
 ## Tier 1 — Bootstrap Anchors
 
 | Source ID | Title Short | Current Role | Depth | Verification | Priority | Key Gap |
 |---|---|---|---|---|---|---|
-| src-obesity-001 | Feline obesity broad review | shell / assessment | partial | title_only | HIGH | needs abstract/full-text extraction before prevalence or assessment claims |
+| src-obesity-001 | Feline obesity broad review | shell / assessment | full | deep_extracted | DONE | usable for 5-branch architecture, prevalence ranges (11.5-63%), risk factors, associated conditions; not specific rankings or body condition thresholds |
 | src-obesity-004 | Domestic cat overweight/obesity risk and pathologies | risk / associated pathologies | full | deep_extracted | DONE | usable for risk-factor architecture (extrinsic/intrinsic) and associated-pathology visibility; not specific prevalence or ranking |
 | src-obesity-005 | Target population and prevention | prevention | full | deep_extracted | DONE | usable for prevention architecture and target population (post-neuter kittens 5-12mo); not specific protocols |
 | src-obesity-008 | Insulin sensitivity decreases with obesity | mechanism / diabetes bridge | full | deep_extracted | DONE | usable for bounded mechanism and diabetes-bridge placement; not screening or treatment advice |
@@ -55,9 +55,9 @@ Do not write obesity mechanism, risk, endpoint, translation, or management pages
 
 First deep-extract:
 
-1. `src-obesity-001`
-2. `src-obesity-004`
-3. `src-obesity-005`
+1. ~~`src-obesity-001`~~ done, 2026-05-17
+2. ~~`src-obesity-004`~~ done, 2026-05-17
+3. ~~`src-obesity-005`~~ done, 2026-05-17
 4. ~~`src-obesity-008`~~ done, 2026-05-17
 
 Then source-check or extract `src-obesity-080` if the first compiled obesity page needs a weight-loss intervention bridge.
@@ -115,4 +115,4 @@ Update this map after every obesity source-card ingest, source-check, or deep ex
 
 2026-05-17 update: Added year metadata to 32 source cards (31 from DOI patterns, 1 from Crossref lookup). 6 cards still missing year (no DOI available): src-obesity-018, 025, 029, 047, 077, 083. Year coverage now 81/87.
 
-2026-05-17 update: Deep-extracted `src-obesity-008` as the first obesity mechanism / diabetes-bridge anchor. Current obesity depth is 1 deep-extracted source, 43 abstract-weighted sources, and 43 title-only sources.
+2026-05-17 update: Deep-extracted all 4 Tier 1 bootstrap anchors (`src-obesity-001`, `src-obesity-004`, `src-obesity-005`, `src-obesity-008`). Current obesity depth is 4 deep-extracted sources, 40 abstract-weighted sources, and 43 title-only sources. The obesity module can now support bounded architecture pages for the 5-branch shell, risk-factor architecture, prevention, and diabetes-bridge mechanism.

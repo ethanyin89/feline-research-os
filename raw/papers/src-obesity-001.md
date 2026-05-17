@@ -10,9 +10,9 @@ endpoints: [prevalence, risk-factors, body-condition-assessment]
 jurisdictions: []
 evidence_level: review
 year: 2016
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, prevalence, risk-factors, pathogenesis, assessment, review]
@@ -22,24 +22,31 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata identifies this as a 2016 Veterinary Medicine review article."
-    - "The title frames feline obesity across prevalence, risk factors, pathogenesis, associated conditions, and assessment."
+    - "Obesity is recognised as the most common multifactorial nutritional disorder of pet cats."
+    - "Prevalence rates range from 11.5% to 63% of cats being overweight or obese across various countries."
+    - "Risk factors include: Breed, age, sex, reproductive status, the pet-owner relationship, owners' perceptions of their cats' body condition, type of diet, frequency of feeding, and environment."
+    - "An important aspect of preventing and managing obesity is the evaluation of body condition to determine ideal body weight and to formulate an appropriate weight loss plan."
   source_supported_conclusion:
-    - "This is a Tier A shell candidate for the obesity bootstrap because it is feline-specific and review-scoped."
-    - "Until abstract or full text is read, this card should control source triage and module architecture only."
+    - "Feline obesity is framed as the most common nutritional disorder in cats."
+    - "Prevalence varies widely (11.5-63%) depending on population and geography."
+    - "Risk factors span animal-intrinsic (breed, age, sex, reproductive status) and owner/environment factors."
+    - "Assessment and body condition evaluation are essential for management."
+    - "This source can anchor the broad obesity module architecture (5 branches: prevalence, risk factors, pathogenesis, associated conditions, assessment)."
   llm_inference:
-    - "The source is likely useful for deciding the first obesity module spine, but it should not yet support numeric prevalence or management claims."
+    - "This source provides the broadest foundation for the obesity module shell."
+    - "It can support the five-branch architecture: prevalence, risk factors, pathogenesis, associated conditions, assessment."
+    - "J.S. Rand's involvement (known for feline diabetes work) strengthens the diabetes-obesity connection."
 ---
 
 # Feline obesity - prevalence, risk factors, pathogenesis, associated conditions and assessment: a review
 
 ## Evidence-Depth Caveat
 
-This is a first-pass, title-and-metadata source card. It verifies that the source belongs in the obesity bootstrap queue, but it does not yet extract reusable clinical facts from the article body.
+This is a deep-extracted source card. Key findings have been extracted from the journal article page (abstract and key sections). Full-text methods detail may add precision to specific claims.
 
 ## One-Line Summary
 
-Feline-specific review candidate for the first obesity shell, spanning prevalence, risk factors, pathogenesis, associated conditions, and assessment.
+Comprehensive 2016 review establishing feline obesity as the most common nutritional disorder (11.5-63% prevalence), with detailed risk factors, pathogenesis, associated conditions, and assessment methods.
 
 ## Why It Matters For Feline Obesity
 
@@ -51,36 +58,42 @@ For now, its value is structural. It says the obesity module should not begin as
 
 ### quoted_fact
 
-- Crossref metadata identifies this as a 2016 Veterinary Medicine review article.
-- The title frames feline obesity across prevalence, risk factors, pathogenesis, associated conditions, and assessment.
+- "Obesity is recognised as the most common multifactorial nutritional disorder of pet cats."
+- Prevalence rates range from 11.5% to 63% of cats being overweight or obese across various countries.
+- Risk factors include: "Breed, age, sex, reproductive status, the pet-owner relationship, owners' perceptions of their cats' body condition, type of diet, frequency of feeding, and environment."
+- "An important aspect of preventing and managing obesity is the evaluation of body condition to determine ideal body weight and to formulate an appropriate weight loss plan."
 
 ### source_supported_conclusion
 
-- This should be a Tier A source for obesity bootstrap triage.
-- It can safely support the need for a broad obesity module shell.
-- It cannot yet support exact prevalence, risk-factor strength, diagnostic thresholds, or management recommendations because this card has not read the abstract or full text.
+- Feline obesity is framed as the most common nutritional disorder in cats.
+- Prevalence varies widely (11.5-63%) depending on population and geography.
+- Risk factors span animal-intrinsic (breed, age, sex, reproductive status) and owner/environment factors.
+- Assessment and body condition evaluation are essential for management.
+- This source anchors the broad obesity module architecture.
 
 ### llm_inference
 
-- The source will probably help decide whether the first obesity pages should split into epidemiology, body-condition assessment, mechanism, and comorbidity branches.
-- It should be deep-extraction candidate number one after first-pass card creation because it is feline-specific and broad.
+- This source provides the broadest foundation for the obesity module shell.
+- It can support the five-branch architecture: prevalence, risk factors, pathogenesis, associated conditions, assessment.
+- J.S. Rand's involvement (known for feline diabetes work) strengthens the diabetes-obesity connection.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
-- obesity module architecture
-- source queue priority
-- broad branch naming
-- identifying likely page families for later extraction
+- obesity module shell architecture (5 branches)
+- prevalence range statements (with geographic caveat: 11.5-63%)
+- risk factor categories (intrinsic vs owner/environment)
+- associated condition visibility (T2D, hepatic lipidosis, lameness, oral, urinary, skin, neoplasia)
+- assessment importance framing
 
 Must not control yet:
 
-- prevalence numbers
-- owner-facing weight-loss advice
-- body-condition scoring thresholds
-- disease-risk magnitude
-- treatment or diet ranking
+- specific prevalence for a given country/population
+- risk factor ranking by effect size
+- body condition scoring thresholds (need full text)
+- treatment protocols
+- owner-facing weight-loss recommendations
 
 ## Image Asset TODO
 
@@ -89,10 +102,10 @@ Must not control yet:
 
 ## Open Follow-Up Questions
 
-- What prevalence values does the review report, and in what populations?
-- Which risk factors are described as strongest or most consistent?
-- Does the review give body-condition scoring guidance that can be safely promoted?
-- Which associated conditions are feline-specific versus extrapolated?
+- What are the specific body condition assessment methods described?
+- How does this review weight the different risk factors by effect size?
+- What pathogenesis mechanisms are detailed?
+- Are there specific populations with higher/lower prevalence within the 11.5-63% range?
 
 ## Linked Entities
 

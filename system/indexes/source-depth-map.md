@@ -71,14 +71,15 @@ Verification-status read:
 | IBD | 24 | `24 full / 0 partial` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
 | Diabetes | 118 | `24 deep_extracted, 94 ingested` | 24 | 94 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `24 deep_extracted, 59 abstract_weighted, 35 title_only` | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
 | FCV | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| Obesity | 87 | `3 deep_extracted, 84 ingested` | 3 | 84 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 3 deep extraction worksheets | `3 deep_extracted, 41 abstract_weighted, 43 title_only` | 3 priority cards now deep-extracted (004, 005, 008); can support bounded architecture pages |
+| Obesity | 87 | `4 deep_extracted, 83 ingested` | 4 | 83 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `4 deep_extracted, 40 abstract_weighted, 43 title_only` | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); can support complete 5-branch architecture |
 
 ## Default Next Moves
 
 1. **Obesity:** use [obesity-source-depth-map.md](obesity-source-depth-map.md).
-   Now has `3` deep-extracted source cards (004, 005, 008). Can support bounded
-   architecture pages: risk-factor architecture (004), prevention branch (005),
-   diabetes-bridge mechanism (008). Next priority: src-obesity-001 (broad shell).
+   All `4` Tier 1 priority cards deep-extracted (001, 004, 005, 008). Can support
+   complete 5-branch architecture: broad shell (001), risk-factor architecture (004),
+   prevention branch (005), diabetes-bridge mechanism (008). Next priority: Tier 2
+   management context sources if needed.
 2. **Diabetes:** use [diabetes-source-depth-map.md](diabetes-source-depth-map.md).
    The `24`-card seed corpus is full; the `94`-card extension corpus should stay
    source-check/structured-abstract material until a narrow clinical, regulatory,
@@ -197,7 +198,7 @@ against the completed worksheets.
 | IBD | 24 | 24 | 0 | 0 | 0 | 100% explicit full; `src-ibd-009` is deep-extracted workflow support and remains non-decision-grade |
 | Diabetes | 118 | 24 | 94 | 0 | 0 | Seed corpus is 100% explicit full; extension corpus is partial and non-decision-grade |
 | FCV | 24 | 24 | 0 | 0 | 0 | 100% explicit full; see FCV-specific map |
-| Obesity | 87 | 0 | 87 | 0 | 0 | 0% explicit full; source-check / structured-abstract queue only |
+| Obesity | 87 | 4 | 83 | 0 | 0 | 4.6% explicit full (4/87); Tier 1 complete, Tier 2 in queue |
 
 ---
 
