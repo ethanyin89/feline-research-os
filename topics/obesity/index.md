@@ -33,6 +33,7 @@ The module can now support bounded architecture pages. Tier 2 management context
 - [mechanism-overview](./mechanism-overview.md) — 5-branch architecture handbook
 - [risk-and-recognition](./risk-and-recognition.md) — risk factor framework and recognition handbook
 - [prevention](./prevention.md) — prevention-over-treatment strategy and target populations
+- [diabetes-bridge](./diabetes-bridge.md) — insulin sensitivity mechanism linking obesity to T2D
 - [navigation](./navigation.md)
 - [current-state-dashboard](./current-state-dashboard.md)
 
@@ -54,7 +55,7 @@ This source can support diabetes-obesity bridge questions, but it should not be 
 
 ## Next Move
 
-Three architecture pages complete. Next options:
-1. Write diabetes-bridge page (anchored by src-obesity-008)
-2. Deep-extract Tier 2 management context sources (002, 003, 006, 007, 080)
-3. Compile bilingual versions of architecture pages
+Four architecture pages complete (mechanism-overview, risk-and-recognition, prevention, diabetes-bridge). Next options:
+1. Deep-extract Tier 2 management context sources (002, 003, 006, 007, 080)
+2. Compile bilingual versions of architecture pages
+3. Write assessment-methods page after full-text extraction of body condition methods
