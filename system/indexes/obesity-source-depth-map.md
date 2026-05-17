@@ -104,4 +104,4 @@ Based on scoring: reviews (+5), diabetes-bridge keywords (+3), year ≥2020 (+2)
 
 Update this map after every obesity source-card ingest, source-check, or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`; the 2026-05-14 full source-check leaves obesity at 44 `abstract_weighted` and 43 `title_only`, with no deep-extracted obesity source yet.
 
-2026-05-17 update: Added year metadata to 23 source cards by inferring from DOI patterns. 15 cards still missing year (need Crossref lookup).
+2026-05-17 update: Added year metadata to 31 source cards by inferring from DOI patterns. 7 cards still missing year (no DOI or non-inferrable patterns): src-obesity-018, 025, 029, 040, 047, 077, 083.
