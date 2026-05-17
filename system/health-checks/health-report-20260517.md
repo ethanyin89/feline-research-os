@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 1096 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 1095 markdown files, no local link issues found. |
 | Query tests | PASS | 106 passed  \|  0 failed  \|  106 total |
 | Paper source cards | PASS | 325 strict disease paper cards; baseline >= 144 |
 | Regulation source cards | PASS | 14 regulation cards |
@@ -43,10 +43,10 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Obesity compiled guidance gate | PASS | 0 obesity reader pages exceed shell/source-indexed status |
 | Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
-| Inbox backlog | WARN | 3 active files, 13 rejected audit files |
+| Inbox backlog | WARN | 1 active files, 15 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260514.md; mode=route-only; status=route_pass |
-| Compile trigger | PASS | 32 changed source cards, 6 downstream files |
+| Compile trigger | PASS | 60 changed source cards, 21 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
@@ -59,7 +59,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | ibd | 24 | full: 24 | deep_extracted: 24 |
 | diabetes | 118 | full: 24, partial: 94 | abstract_weighted: 59, deep_extracted: 24, title_only: 35 |
 | fcv | 24 | full: 24 | deep_extracted: 24 |
-| obesity | 87 | partial: 87 | abstract_weighted: 44, title_only: 43 |
+| obesity | 87 | full: 1, partial: 86 | abstract_weighted: 43, deep_extracted: 1, title_only: 43 |
 
 ## Image Reality
 
@@ -75,8 +75,6 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 ## Inbox Backlog
 
-- inbox/ckd/2026-05-17-treatment-ckd.md
-- inbox/fip/2026-05-17-treatment-fipgs441524.md
 - inbox/obesity/content-precision-promotion-batch-20260515.md
 
 Rejected / audit notes:
@@ -91,14 +89,16 @@ Rejected / audit notes:
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/mechanism-overview.md
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/model-summary.md
 - inbox/rejected/nested-users-absolute-path-tree-20260421/Users/jiawei/Desktop/insclaude/feline-research-os/topics/ckd/navigation.md
+- inbox/rejected/processed/ckd-phosphorus-treatment-answer-20260517.md
 - inbox/rejected/processed/content-precision-promotion-batch-20260506.md
 - inbox/rejected/processed/expert-answer-review-sample-001-20260514.md
+- inbox/rejected/processed/fip-gs441524-treatment-answer-20260517.md
 
 ## Thin Source Usage
 
 `abstract_weighted` and `title_only` sources can support cautious synthesis, but should not be read as full-text or decision-grade proof.
-- topics/obesity/current-state-dashboard.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (abstract_weighted), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
-- topics/obesity/index.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (abstract_weighted), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only), src-obesity-008 (abstract_weighted)
+- topics/obesity/current-state-dashboard.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (abstract_weighted), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only)
+- topics/obesity/index.md: src-obesity-001 (title_only), src-obesity-002 (title_only), src-obesity-003 (title_only), src-obesity-004 (abstract_weighted), src-obesity-005 (abstract_weighted), src-obesity-006 (title_only), src-obesity-007 (title_only)
 
 ## Next Actions
 
