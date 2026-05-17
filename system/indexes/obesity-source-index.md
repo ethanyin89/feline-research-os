@@ -4,7 +4,7 @@ type: index
 topic: obesity
 question_type: source-index
 language: zh
-last_compiled_at: 2026-05-13
+last_compiled_at: 2026-05-17
 verification_status: compiled
 decision_grade: no
 owner: codex
@@ -24,7 +24,7 @@ This index tracks the first-pass obesity source-card layer. The full obesity she
 | Scope | Count | State |
 |---|---:|---|
 | First-pass obesity cards | 87 | `src-obesity-001` through `src-obesity-087` |
-| Deep-extracted obesity cards | 0 | no obesity source is evidence-usable yet |
+| Deep-extracted obesity cards | 1 | `src-obesity-008` is evidence-usable for bounded mechanism / diabetes-bridge placement only |
 | Shared diabetes/obesity sources | 10 | cross-link to existing disease-owner cards |
 
 ## First-Pass Source Cards
@@ -40,7 +40,7 @@ The table below keeps the original Tier A shell visible. The remaining `src-obes
 | src-obesity-005 | Identifying the target population and preventive strategies to combat feline obesity | prevention | review | first-pass partial, abstract-weighted |
 | src-obesity-006 | Management of obesity in cats | management | review | first-pass partial, title-only |
 | src-obesity-007 | Obesity Treatment: Environment and Behavior Modification | environment / behavior | review | first-pass partial, title-only |
-| src-obesity-008 | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | insulin sensitivity / diabetes bridge | original-study | first-pass partial, abstract-weighted |
+| src-obesity-008 | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | insulin sensitivity / diabetes bridge | original-study | deep-extracted; bounded mechanism anchor |
 
 ## Shared Existing Sources
 
@@ -78,5 +78,5 @@ Deep extraction should start with:
 1. `src-obesity-001`
 2. `src-obesity-004`
 3. `src-obesity-005`
-4. `src-obesity-008`
+4. ~~`src-obesity-008`~~ done, 2026-05-17; keep as bounded mechanism anchor, not public guidance
 5. `src-obesity-003` or `src-obesity-006`, depending on whether the next output pressure is broad management or feline-only management.
