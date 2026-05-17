@@ -6,6 +6,10 @@ If you are a new model taking over this repo because of token loss, model switch
 
 Read the latest session handoff first:
 
+- [HANDOFF-2026-05-17-OBESITY-TIER1-COMPLETE.md](HANDOFF-2026-05-17-OBESITY-TIER1-COMPLETE.md)
+
+For the prior autoplan gap analysis, read:
+
 - [HANDOFF-2026-05-17-AUTOPLAN-KARPATHY-GAP.md](HANDOFF-2026-05-17-AUTOPLAN-KARPATHY-GAP.md)
 
 For the prior expert-review / obesity-gate handoff, read:

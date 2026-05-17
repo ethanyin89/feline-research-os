@@ -5,10 +5,10 @@ topic: obesity
 species: feline
 disease: obesity
 question_type: navigation
-source_ids: []
-last_compiled_at: 2026-05-13
-confidence: low
-verification_status: bootstrap
+source_ids: [src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]
+last_compiled_at: 2026-05-17
+confidence: medium
+verification_status: compiled
 decision_grade: no
 language_qa_status: not_checked
 owner: codex
@@ -22,6 +22,13 @@ status: active
 - [topic index](./index.md)
 - [current state dashboard](./current-state-dashboard.md)
 
+## Architecture Pages
+
+- [mechanism-overview](./mechanism-overview.md) — 5-branch architecture handbook
+- [risk-and-recognition](./risk-and-recognition.md) — risk factor framework
+- [prevention](./prevention.md) — prevention-over-treatment strategy
+- [diabetes-bridge](./diabetes-bridge.md) — obesity-to-T2D mechanism
+
 ## Intake And Source Control
 
 - [obesity bootstrap source queue](../../system/indexes/obesity-bootstrap-source-queue-20260513.md)
@@ -31,6 +38,7 @@ status: active
 
 ## Current Boundaries
 
-- This module is not yet an answer surface.
-- Do not route ordinary obesity questions here until Tier A source cards are deep-extracted or a compiled obesity page exists.
-- For diabetes-obesity overlap, use [diabetes obesity and body condition](../diabetes/obesity-and-body-condition.md).
+- This module now has 4 deep-extracted Tier 1 sources and 4 architecture pages.
+- The module can support bounded architecture-level questions.
+- For specific protocols, thresholds, or treatment advice, wait for Tier 2 extraction.
+- For diabetes-obesity overlap, also see [diabetes obesity and body condition](../diabetes/obesity-and-body-condition.md).

@@ -1,0 +1,94 @@
+# Handoff: Obesity Tier 1 Complete — 2026-05-17
+
+## What Happened This Session
+
+Completed full Tier 1 obesity bootstrap: 4 deep-extracted sources and 4 architecture pages.
+
+### Deep Extractions Completed
+
+| Source | Year | Role | Method |
+|--------|------|------|--------|
+| src-obesity-001 | 2016 | Broad shell (5-branch architecture) | Czech journal page |
+| src-obesity-004 | 2024 | Risk factors (extrinsic vs intrinsic) | Crossref API |
+| src-obesity-005 | 2024 | Prevention (post-neuter 5-12mo target) | Crossref API |
+| src-obesity-008 | 2001 | Diabetes bridge (insulin sensitivity) | Sage journal page |
+
+### Architecture Pages Written
+
+| Page | Focus | Key Claims |
+|------|-------|------------|
+| mechanism-overview | 5-branch architecture | Prevalence 11.5-63%, risk factors, pathogenesis, conditions, assessment |
+| risk-and-recognition | Risk factor framework | Intrinsic vs extrinsic, owner perception gap, body condition |
+| prevention | Prevention strategy | Post-neuter kittens 5-12mo, treatment is slow/unsuccessful |
+| diabetes-bridge | Obesity-T2D mechanism | Insulin sensitivity declines 52%, individual susceptibility |
+
+### Health Check Fix
+
+Fixed `health.py` obesity guidance gate to check actual deep-extracted count instead of hardcoded 0. Added `OBESITY_DEEP_EXTRACTED_THRESHOLD = 4`.
+
+## Commits This Session (12)
+
+```
+6cf2076 feat(obesity): write diabetes-bridge architecture page
+8cd98eb feat(obesity): write prevention architecture page
+b964347 feat(obesity): write risk-and-recognition architecture page
+5dba817 fix(health): make obesity guidance gate check actual deep-extracted count
+a00f57a docs(obesity): upgrade dashboard to compiled starter status
+d48f7e8 docs(obesity): close content-precision-promotion batch
+73eb7fa feat(obesity): write first architecture page (mechanism-overview)
+67faf20 feat(obesity): complete Tier 1 bootstrap with src-obesity-001 deep extraction
+f3ac9f7 docs: update cross-disease snapshot with obesity deep extractions
+5278baf feat: deep extract src-obesity-004 and src-obesity-005 (2024 reviews)
+44b90f4 chore: update health report with obesity deep extraction
+124fd70 docs: update obesity source index with first deep extraction
+```
+
+## Current Obesity Status
+
+| Metric | Value |
+|--------|-------|
+| Deep-extracted sources | 4/87 (Tier 1 complete) |
+| Architecture pages | 4 |
+| Confidence | medium |
+| Health check | PASS (all 106 tests) |
+
+## Gap Summary (Updated from Autoplan Session)
+
+| Gap | Severity | Status After This Session |
+|-----|----------|---------------------------|
+| Scheduled health checks | HIGH | FIXED — launchd plist active |
+| Compile auto-trigger | MEDIUM | FIXED — git hook active |
+| Expert-review workflow | MEDIUM | FIXED — codified at 3/3-10 samples |
+| Ask-native product feel | HIGH | DEFERRED — taste decision |
+| **Obesity source depth** | MEDIUM | **FIXED** — Tier 1 complete (4 deep-extracted, 4 pages) |
+| Non-CKD images | MEDIUM | DEFERRED |
+
+## Binding Rules Reminder
+
+From user's session request:
+1. **No fake data** — candidates stay gated
+2. **No one-off work** — codify or don't do
+3. **3-10 samples before skill** — obesity extraction reached 4/4 Tier 1
+4. **Test standard** — if asked same thing twice, you failed
+
+## Next Session Start Point
+
+1. ✓ Health.py verified — 106 tests passing
+2. ✓ Obesity Tier 1 complete — 4 sources, 4 architecture pages
+3. Obesity Tier 2 management sources available (002, 003, 006, 007, 080)
+4. Bilingual versions of obesity pages can be compiled
+5. Assessment-methods page blocked until body condition full-text extraction
+
+## Cross-Disease Status
+
+| Disease | Source Cards | Deep-Extracted | Architecture Pages |
+|---------|--------------|----------------|-------------------|
+| CKD | 24/24 | 24 | Full module |
+| FIP | 24/24 | 24 | Full module |
+| HCM | 24/24 | 24 | Full module |
+| IBD | 24/24 | 24 | Full module |
+| Diabetes | 118 (24 seed + 94 ext) | 24 | Full module |
+| FCV | 24/24 | 24 | Full module |
+| **Obesity** | 87 | **4** | **4 pages** |
+
+Obesity is now the seventh disease module with architecture pages.
