@@ -35,7 +35,7 @@ This is a `plan`, not a narrow blocker check.
 The current repo-level job is no longer "continue only the CKD image gate".
 The current job is to hold two tracks at once:
 
-1. `120-source content pipeline`
+1. `325-source content pipeline` (7 disease modules)
 2. `ordinary-user usage surface`
 
 ## Read These 4 Files
@@ -77,7 +77,7 @@ python3 - <<'PY'
 from pathlib import Path
 import re
 root = Path('raw/papers')
-for disease in ['ckd', 'fip', 'hcm', 'ibd', 'diabetes']:
+for disease in ['ckd', 'fip', 'hcm', 'ibd', 'diabetes', 'fcv', 'obesity']:
     cards = sorted(root.glob(f'src-{disease}-*.md'))
     statuses = {}
     for p in cards:
@@ -102,7 +102,7 @@ Do not let content work drift back into presentation-only cleanup unless the use
 If no one has given a narrower instruction, the safest default is:
 
 1. continue the content line
-2. continue only full-text / official-source / image-table / output-specific precision; do not reopen generic source-card thickening for any of the five disease modules
+2. continue only full-text / official-source / image-table / output-specific precision; do not reopen generic source-card thickening for any of the seven disease modules
 3. stage write-back through `inbox/`
 4. refresh broader system owners like `source-depth-map` only after this batch is coherent
 
