@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-04-22
+last_compiled_at: 2026-05-17
 confidence: medium
 verification_status: compiled
 decision_grade: no
@@ -59,6 +59,8 @@ Open:
 - IBD: [mechanism-overview-bilingual](../../topics/ibd/mechanism-overview-bilingual.md)
 - HCM: [mechanism-overview](../../topics/hcm/mechanism-overview.md)
 - Diabetes: [mechanism-overview](../../topics/diabetes/mechanism-overview.md), [obesity-and-body-condition](../../topics/diabetes/obesity-and-body-condition.md), [endocrine-secondary-diabetes](../../topics/diabetes/endocrine-secondary-diabetes.md)
+- FCV: [mechanism-overview](../../topics/fcv/mechanism-overview.md)
+- Obesity: [mechanism-overview](../../topics/obesity/mechanism-overview.md), [diabetes-bridge](../../topics/obesity/diabetes-bridge.md)
 
 ## 2. Recognition And Workup / 识别与诊断流程
 
@@ -74,6 +76,8 @@ Open:
 - IBD: [risk-and-recognition-bilingual](../../topics/ibd/risk-and-recognition-bilingual.md)
 - HCM: [risk-and-recognition](../../topics/hcm/risk-and-recognition.md)
 - Diabetes: [risk-and-recognition](../../topics/diabetes/risk-and-recognition.md), [diagnostic-monitoring-workup](../../topics/diabetes/diagnostic-monitoring-workup.md), [epidemiology-and-breed-risk](../../topics/diabetes/epidemiology-and-breed-risk.md)
+- FCV: [risk-and-recognition](../../topics/fcv/risk-and-recognition.md)
+- Obesity: [risk-and-recognition](../../topics/obesity/risk-and-recognition.md)
 
 ## 3. Endpoints And Markers / 终点与 marker
 
@@ -89,6 +93,8 @@ Open:
 - IBD: [endpoint-handbook-bilingual](../../topics/ibd/endpoint-handbook-bilingual.md)
 - HCM: [endpoint-handbook](../../topics/hcm/endpoint-handbook.md)
 - Diabetes: [endpoint-handbook](../../topics/diabetes/endpoint-handbook.md), [remission-boundaries](../../topics/diabetes/remission-boundaries.md), [complications-neuropathy](../../topics/diabetes/complications-neuropathy.md)
+- FCV: [endpoint-handbook](../../topics/fcv/endpoint-handbook.md)
+- Obesity: (endpoint handbook not yet compiled — see [diabetes-bridge](../../topics/obesity/diabetes-bridge.md) for insulin mechanism)
 
 ## 4. Treatment And Translation / 治疗与转化
 
@@ -104,6 +110,8 @@ Open:
 - IBD: [treatment-evidence-bilingual](../../topics/ibd/treatment-evidence-bilingual.md)
 - HCM: [translation-brief](../../topics/hcm/translation-brief.md)
 - Diabetes: [translation-brief](../../topics/diabetes/translation-brief.md), [treatment-branch-map](../../topics/diabetes/treatment-branch-map.md), [diet-architecture](../../topics/diabetes/diet-architecture.md), [sglt2-label-control](../../topics/diabetes/sglt2-label-control.md)
+- FCV: [translation-brief](../../topics/fcv/translation-brief.md)
+- Obesity: [prevention](../../topics/obesity/prevention.md) (prevention-over-treatment strategy)
 
 ## 5. Regulatory / 监管
 
@@ -119,6 +127,8 @@ Open:
 - IBD: [regulatory-brief-bilingual](../../topics/ibd/regulatory-brief-bilingual.md)
 - HCM: [regulatory-brief](../../topics/hcm/regulatory-brief.md)
 - Diabetes: [regulatory-brief](../../topics/diabetes/regulatory-brief.md), [sglt2-label-control](../../topics/diabetes/sglt2-label-control.md)
+- FCV: [regulatory-brief](../../topics/fcv/regulatory-brief.md)
+- Obesity: (regulatory brief not yet compiled)
 
 ## 6. Structured Big Picture / 结构化大图
 
@@ -133,6 +143,8 @@ Open:
 - IBD: [synthesis-index-bilingual](../../topics/ibd/synthesis-index-bilingual.md)
 - HCM: [synthesis-index](../../topics/hcm/synthesis-index.md)
 - Diabetes: [synthesis-index](../../topics/diabetes/synthesis-index.md)
+- FCV: [synthesis-index](../../topics/fcv/synthesis-index.md)
+- Obesity: (synthesis index not yet compiled — use [mechanism-overview](../../topics/obesity/mechanism-overview.md) for architecture)
 
 ## 6.5 Strong / Thin / Verify Next / 哪些最强、最薄、下一步核什么
 
@@ -149,6 +161,8 @@ Open:
 - IBD: [current-state-dashboard](../../topics/ibd/current-state-dashboard.md)
 - HCM: [current-state-dashboard](../../topics/hcm/current-state-dashboard.md)
 - Diabetes: [current-state-dashboard](../../topics/diabetes/current-state-dashboard.md)
+- FCV: [current-state-dashboard](../../topics/fcv/current-state-dashboard.md)
+- Obesity: [current-state-dashboard](../../topics/obesity/current-state-dashboard.md)
 
 ## 7. Claim Verification / claim 核查
 
