@@ -9,6 +9,7 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: review
+year: 2024
 status: ingested
 extraction_depth: partial
 verification_status: title_only
