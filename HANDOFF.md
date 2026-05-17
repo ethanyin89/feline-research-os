@@ -56,19 +56,16 @@ If you are continuing the ordinary-user line specifically, also read:
 
 9. [Ordinary-user LLM wiki usability audit, 2026-04-10](system/indexes/ordinary-user-llm-wiki-usability-audit-20260410.md)
 
-## 30-Second Reality
+## 30-Second Reality (Updated 2026-05-17)
 
-- The repo has `120` paper source cards total as of the 2026-04-21 reality check: CKD / FIP / HCM / IBD / Diabetes each have `24/24` cards and `24/24` round-1 deep-extraction worksheets.
+- The repo has `325` paper source cards across 7 disease modules: CKD, FIP, HCM, IBD, Diabetes, FCV, and Obesity.
+- **Year metadata coverage**: 325/325 (100%) — all cards have year field.
+- **CKD/FIP/HCM/IBD/FCV**: 24/24 cards each, all `deep_extracted` and `full`.
+- **Diabetes**: 118 cards (24 seed + 94 extension), seed corpus is `full`, extension is `partial`.
+- **Obesity**: 87 cards, 4 deep-extracted (Tier 1 complete), 4 architecture pages + 4 bilingual versions.
 - Content work now has a fixed Karpathy-style workflow and should not require reconfirmation on every repeated step.
-- CKD is already the mature template.
-- FIP source cards are no longer the main extraction backlog: `24/24` round-1 worksheets already exist and `24/24` cards are now explicit `full`.
-- IBD source cards are also no longer a real extraction backlog: `24/24` round-1 worksheets exist and `24/24` cards are now explicit `full`.
-- FIP / IBD dashboard, synthesis, and unresolved trackers have now had a first state-sync pass from those worksheets.
-- HCM is also clean at the source-card level: `24/24` cards are `extracted`, and `24/24` are now explicit `full` after the 2026-04-22 remaining-partial promotion pass.
-- The user-facing legacy `96` scope means CKD / FIP / HCM / IBD. That scope is processed at source-card + worksheet level and is now `96/96` explicit full at source-card depth.
-- Diabetes is now present as a fifth source-card module: `24/24` cards are `extracted`, `24/24` are explicit `full`, narrow owner memos exist, U.S. SGLT2 regulatory/label controls exist, and the first briefing/dossier/slides output set now exists across `working-en / en / zh`.
 - The ordinary-user surface in `scripts/app.py` is already materially better, but the remaining gap is still "ask-native product feel", not raw frontend absence.
-- The current shell still does not have `ANTHROPIC_API_KEY`, and live Streamlit smoke test still needs a shell with `streamlit` installed.
+- Health check: 107 tests passing, all checks PASS.
 
 ## Verify In 4 Commands
 
