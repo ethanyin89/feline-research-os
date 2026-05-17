@@ -27,6 +27,16 @@ This is a manual 5-sample run under:
 
 This is not a canonical obesity topic write-back. It is a staged decision note.
 
+## Execution Update, 2026-05-17
+
+One manual sample from this batch has now been executed before any durable automation:
+
+- `src-obesity-008` was deep-extracted from the official Sage article page.
+- The source card is now `deep_extracted`.
+- The obesity source depth map and obesity dashboard now record `src-obesity-008` as the first bounded mechanism / diabetes-bridge anchor.
+- No public obesity guidance page was created.
+- Remaining manual samples before any recurring extraction skill: `src-obesity-004`, `src-obesity-005`, and `src-obesity-001` if source access is available.
+
 ## Why This Batch Exists
 
 The obesity corpus is now source-indexed but not decision-grade:

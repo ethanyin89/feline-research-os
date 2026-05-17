@@ -28,7 +28,7 @@ Use this map to decide which obesity source cards need deep extraction before an
 
 | Disease | Source Cards | partial | full | title_only | abstract_weighted | deep_extracted |
 |---|---:|---:|---:|---:|---:|---:|
-| Obesity | 87 | 87 | 0 | 43 | 44 | 0 |
+| Obesity | 87 | 86 | 1 | 43 | 43 | 1 |
 
 ## Tier 1 — Bootstrap Anchors
 
@@ -37,7 +37,7 @@ Use this map to decide which obesity source cards need deep extraction before an
 | src-obesity-001 | Feline obesity broad review | shell / assessment | partial | title_only | HIGH | needs abstract/full-text extraction before prevalence or assessment claims |
 | src-obesity-004 | Domestic cat overweight/obesity risk and pathologies | risk / associated pathologies | partial | abstract_weighted | HIGH | needs full abstract/full-text extraction before risk-factor and pathology ranking |
 | src-obesity-005 | Target population and prevention | prevention | partial | abstract_weighted | HIGH | needs full abstract/full-text extraction before prevention claims |
-| src-obesity-008 | Insulin sensitivity decreases with obesity | mechanism / diabetes bridge | partial | abstract_weighted | HIGH | needs methods/results extraction before numeric or predictive claims |
+| src-obesity-008 | Insulin sensitivity decreases with obesity | mechanism / diabetes bridge | full | deep_extracted | DONE | usable for bounded mechanism and diabetes-bridge placement; not screening or treatment advice |
 
 ## Tier 2 — Management Context
 
@@ -58,7 +58,7 @@ First deep-extract:
 1. `src-obesity-001`
 2. `src-obesity-004`
 3. `src-obesity-005`
-4. `src-obesity-008`
+4. ~~`src-obesity-008`~~ done, 2026-05-17
 
 Then source-check or extract `src-obesity-080` if the first compiled obesity page needs a weight-loss intervention bridge.
 
@@ -80,7 +80,7 @@ Then decide whether the first compiled obesity page should be:
 
 - risk-and-recognition
 - mechanism-overview
-- obesity-and-diabetes-bridge
+- obesity-and-diabetes-bridge, now the leading narrow-owner candidate after `src-obesity-008` deep extraction
 - management-boundary memo
 
 ## Prioritized Extraction Queue (2026-05-17)
@@ -100,8 +100,19 @@ Based on scoring: reviews (+5), diabetes-bridge keywords (+3), year ≥2020 (+2)
 | 9 | src-obesity-039 | 2025 | 2 | RECENT |
 | 10 | src-obesity-050 | 2025 | 2 | RECENT |
 
+## 2026-05-17 Manual Sample Result
+
+The staged 5-sample promotion batch identified `src-obesity-008` as the only candidate safe for branch-placement promotion. A manual deep-extraction sample was completed before any durable automation or skill codification.
+
+- sample completed: `src-obesity-008`
+- result: partial promote for mechanism / diabetes-bridge placement only
+- still blocked: public obesity guidance, risk ranking, prevention claims, screening thresholds, and weight-loss advice
+- next manual samples before any recurring extraction skill: `src-obesity-004`, `src-obesity-005`, and `src-obesity-001` if source access is available
+
 ## Maintenance
 
 Update this map after every obesity source-card ingest, source-check, or deep extraction. The 2026-05-13 full first-pass bootstrap created `src-obesity-009` through `src-obesity-087`; the 2026-05-14 full source-check leaves obesity at 44 `abstract_weighted` and 43 `title_only`, with no deep-extracted obesity source yet.
 
 2026-05-17 update: Added year metadata to 32 source cards (31 from DOI patterns, 1 from Crossref lookup). 6 cards still missing year (no DOI available): src-obesity-018, 025, 029, 047, 077, 083. Year coverage now 81/87.
+
+2026-05-17 update: Deep-extracted `src-obesity-008` as the first obesity mechanism / diabetes-bridge anchor. Current obesity depth is 1 deep-extracted source, 43 abstract-weighted sources, and 43 title-only sources.

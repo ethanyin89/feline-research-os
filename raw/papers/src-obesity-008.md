@@ -10,9 +10,9 @@ endpoints: [insulin-sensitivity, glucose-tolerance, weight-gain]
 jurisdictions: []
 evidence_level: original-study
 year: 2001
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, insulin-sensitivity, glucose-intolerance, weight-gain, diabetes-bridge]
@@ -24,18 +24,24 @@ evidence_policy:
   quoted_fact:
     - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
     - "Crossref container: Journal of Feline Medicine and Surgery; year: 2001."
+    - "The official article page reports 16 cats and an average weight increase of 44.2% over 10 months."
+    - "The official article page reports that obesity was accompanied by decreased tissue sensitivity to insulin and reduced glucose effectiveness."
+    - "The official article page reports that cats with lower lean-state insulin sensitivity and glucose effectiveness had higher risk of impaired glucose tolerance after weight gain."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "This source is a bounded obesity-diabetes mechanism anchor."
+    - "It can support branch placement linking feline weight gain / obesity with insulin sensitivity, glucose effectiveness, and glucose tolerance."
+    - "It supports individual-susceptibility framing rather than a universal claim that all obese cats become glucose intolerant."
+    - "It must not be converted into screening thresholds, owner-facing weight-loss advice, or a full obesity guidance page by itself."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "This source may become the first obesity mechanism anchor."
+    - "It may also sharpen the existing diabetes obesity/body-condition memo by adding a direct feline metabolic study behind the review-level bridge."
 ---
 
 # Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card now has a first deep-extraction worksheet from the official Sage article page. It is usable for bounded mechanism and branch-placement claims, but not for screening thresholds, weight-loss protocols, or owner-facing management advice.
 
 ## Source Check, 2026-05-14
 
@@ -52,6 +58,14 @@ Use boundary:
 - It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
 
 Abstract lead for scope check only: This study quantifies the effects of marked weight gain on glucose and insulin metabolism in 16 cats which increased their weight by an average of 44.2% over 10 months. Significan...
+
+## Deep Extraction, 2026-05-17
+
+Official article-page review promoted this card from `abstract_weighted` to `deep_extracted`.
+
+- [src-obesity-008 deep extraction round 1](../../system/indexes/src-obesity-008-deep-extraction-round1.md)
+- safe use: obesity-to-insulin-sensitivity mechanism branch and diabetes bridge
+- unsafe use: clinical screening rules, weight-loss prescriptions, or universal obesity-to-diabetes progression claims
 
 
 ## One-Line Summary
@@ -71,12 +85,16 @@ The title itself is already a strong signal that the source belongs in Tier A. I
 - Crossref metadata identifies this as a 2001 Journal of Feline Medicine and Surgery article.
 - The Crossref abstract begins by describing a study quantifying effects of marked weight gain on glucose and insulin metabolism in 16 cats.
 - The title states that insulin sensitivity decreases with obesity.
+- The official article page reports average weight gain of 44.2% over 10 months in 16 cats.
+- The official article page reports decreased tissue sensitivity to insulin and reduced glucose effectiveness with obesity.
+- The article links lower lean-state insulin sensitivity / glucose effectiveness with higher risk of impaired glucose tolerance after weight gain.
 
 ### source_supported_conclusion
 
 - This is a high-value source for the obesity-diabetes bridge.
 - It should be read before writing an obesity mechanism page.
-- It can safely support the existence of a feline study on weight gain, insulin sensitivity, and glucose metabolism, but not the study's exact results until extracted.
+- It can safely support the existence of a feline mechanism branch connecting weight gain / obesity with insulin sensitivity, glucose effectiveness, and glucose tolerance.
+- It supports individual-susceptibility framing rather than a universal diabetes progression claim.
 
 ### llm_inference
 

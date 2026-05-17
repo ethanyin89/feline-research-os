@@ -7,8 +7,9 @@ question_type: treatment
 source_ids: [src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-010, src-ckd-014]
 generated_at: 2026-05-17
 confidence: medium
-review_status: pending
-promoted_to: null
+review_status: rejected
+review_decision: duplicate-overstrong
+promoted_to: topics/ckd/translation-brief.md
 ---
 
 # CKD的磷控制证据有多强？哪些干预方式是有临床证据支持的？
@@ -32,3 +33,27 @@ promoted_to: null
 - 实际临床中磷控制的实施存在障碍，比如饮食接受度、监测频率、患者依从性，以及对于滤过蛋白尿和高血压等并发症综合管理对磷控制的影响程度等[quoted_fact: src-ckd-014][source_supported_conclusion: src-ckd-014]。
 
 综上，磷控制作为猫CKD治疗中的核心桥梁变量，肾脏饮食为首选并有较强生存获益证据，磷结合剂作为重要辅助手段虽证据相对较弱，但临床相关性明确；未来需加强磷结合剂的安全性和效益研究，优化个体化治疗策略，以及深入早期矿物质代谢负担的监测方法。该结论基于多篇高质量综述、指南及原创研究的综合评估[quoted_fact: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-010, src-ckd-014][source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-010, src-ckd-014].
+
+## Review Decision, 2026-05-17
+
+Decision: `reject / duplicate-overstrong`
+
+Do not promote this answer as canonical content.
+
+Why:
+
+- The safe claim is already present in [CKD translation brief](../../topics/ckd/translation-brief.md) and [CKD endpoint handbook](../../topics/ckd/endpoint-handbook.md).
+- The existing canonical wording is better: renal diet leads; phosphate-restricted diet has meaningful support; intestinal phosphate binders are relevant when diet is insufficient, but survival proof remains weaker than renal diet.
+- This answer sometimes says "phosphorus control evidence is strong" too broadly. That is safe only when narrowed to renal diet / phosphate-restricted diet logic, not binder efficacy or survival equivalence.
+- `src-ckd-014` is implementation-friction evidence, not efficacy evidence. It should not strengthen the clinical evidence grade for phosphorus control.
+
+Small reusable signal:
+
+- The user-facing question is good and should be routed to treatment / translation surfaces.
+- No canonical topic update is needed because the target pages already carry the stricter hierarchy.
+
+What not to say:
+
+- Do not flatten renal diet and binders into the same evidence tier.
+- Do not use practice frequency as efficacy proof.
+- Do not imply binder survival benefit comparable to renal diet.
