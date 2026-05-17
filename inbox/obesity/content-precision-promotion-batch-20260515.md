@@ -11,6 +11,8 @@ decision_grade: no
 language_qa_status: light_checked
 owner: codex
 status: active
+review_status: keep-with-blocker
+review_decision: tier1-complete-tier2-held
 ---
 
 # Content Precision Promotion Batch, 2026-05-15
@@ -48,9 +50,9 @@ This is not a canonical obesity topic write-back. It is a staged decision note.
 The obesity corpus is now source-indexed but not decision-grade:
 
 - `87` obesity source cards exist.
-- `0` obesity source cards are deep-extracted.
-- `44` cards are abstract-weighted.
-- `43` cards are title-only.
+- `4` obesity source cards are deep-extracted.
+- `41` cards are abstract-weighted.
+- `42` cards are title-only.
 
 Because "which obesity source should become the first real answer surface?" will recur,
 this batch uses real candidates before any durable obesity page or recurring rule is

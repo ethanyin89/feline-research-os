@@ -5,7 +5,7 @@ topic: obesity
 species: feline
 disease: obesity
 question_type: overview
-source_ids: [src-obesity-001, src-obesity-002, src-obesity-003, src-obesity-004, src-obesity-005, src-obesity-006, src-obesity-007, src-obesity-008, src-diabetes-005]
+source_ids: [src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008, src-diabetes-005]
 last_compiled_at: 2026-05-17
 confidence: medium
 verification_status: compiled
