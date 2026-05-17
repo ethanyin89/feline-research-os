@@ -46,7 +46,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Inbox backlog | PASS | 0 active files, 1 blocked/held files, 15 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260428.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260514.md; mode=route-only; status=route_pass |
-| Compile trigger | PASS | 63 changed source cards, 35 downstream files |
+| Compile trigger | PASS | 77 changed source cards, 35 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 
 ## Source Card Reality
