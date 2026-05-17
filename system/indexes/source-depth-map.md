@@ -71,14 +71,14 @@ Verification-status read:
 | IBD | 24 | `24 full / 0 partial` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
 | Diabetes | 118 | `24 deep_extracted, 94 ingested` | 24 | 94 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `24 deep_extracted, 59 abstract_weighted, 35 title_only` | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
 | FCV | 24 | `24 deep_extracted` | 24 | 0 | 0 | 24 | `24 deep_extracted` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| Obesity | 87 | `87 ingested` | 0 | 87 | 0 | 44 structured-abstract worksheets, 43 title-only cards | `44 abstract_weighted, 43 title_only` | Bootstrap extension corpus only; do not compile obesity answer surfaces until priority cards are extracted deeper |
+| Obesity | 87 | `3 deep_extracted, 84 ingested` | 3 | 84 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 3 deep extraction worksheets | `3 deep_extracted, 41 abstract_weighted, 43 title_only` | 3 priority cards now deep-extracted (004, 005, 008); can support bounded architecture pages |
 
 ## Default Next Moves
 
 1. **Obesity:** use [obesity-source-depth-map.md](obesity-source-depth-map.md).
-   This is the only large corpus with `0` deep-extracted source cards; extract
-   priority obesity cards only when they will support a specific obesity/diabetes
-   bridge or first obesity answer surface.
+   Now has `3` deep-extracted source cards (004, 005, 008). Can support bounded
+   architecture pages: risk-factor architecture (004), prevention branch (005),
+   diabetes-bridge mechanism (008). Next priority: src-obesity-001 (broad shell).
 2. **Diabetes:** use [diabetes-source-depth-map.md](diabetes-source-depth-map.md).
    The `24`-card seed corpus is full; the `94`-card extension corpus should stay
    source-check/structured-abstract material until a narrow clinical, regulatory,
