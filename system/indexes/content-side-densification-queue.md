@@ -4,7 +4,7 @@ type: system
 topic: operating-system
 question_type: workflow
 language: bilingual
-last_compiled_at: 2026-04-23
+last_compiled_at: 2026-05-17
 verification_status: compiled
 decision_grade: provisional
 language_qa_status: bilingual_checked
@@ -64,9 +64,11 @@ status: active
 
 ## Current Best Next Moves / 当前最值得继续的内容动作
 
-### Bootstrap Lane
+### Bootstrap Lane (Updated 2026-05-17)
 
-- Diabetes: first narrow memo layer, treatment branch comparison, diagnostic/monitoring workup, obesity/body-condition memo, U.S. SGLT2 FOI/current-label cards, label-section comparison, first briefing/dossier/slides output set, first high-reuse bilingual dashboard, and 24/24 explicit full source-card depth now exist; next content-side move should be non-U.S. regulatory, clinical full-text deepening, or another narrowly justified bilingual derivative only where external output or reuse pressure requires it
+- **Obesity**: Tier 1 complete with 4/87 deep-extracted sources, 4 architecture pages (mechanism-overview, risk-and-recognition, prevention, diabetes-bridge) + 4 bilingual versions; next move is Tier 2 management sources if intervention detail needed
+- **FCV**: 24/24 deep-extracted, full architecture; next gains are field-effectiveness, label/regulatory, therapy, image
+- Diabetes: 118 cards (24 seed full + 94 extension partial), full architecture; next move is non-U.S. regulatory, clinical full-text deepening, or narrowly justified bilingual derivative
 
 ### Tier A
 

@@ -4,7 +4,7 @@ type: system
 topic: operating-system
 question_type: workflow
 language: bilingual
-last_compiled_at: 2026-04-18
+last_compiled_at: 2026-05-17
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
@@ -42,17 +42,20 @@ status: active
 
 ## Current Reality / 当前现实
 
-2026-04-18 当前盘上现实；2026-04-21 复核后已更新数字：
+2026-05-17 当前盘上现实：
 
-- `raw/papers/` 有 `120` 张 paper source cards
-- CKD `24/24` source cards 已是 `status: extracted`
-- FIP `24/24` source cards 已回写为 `status: deep_extracted`
-- IBD `24/24` source cards 已回写为 `status: deep_extracted`
-- HCM `24/24` source cards 已是 `status: extracted`
-- Diabetes `24/24` source cards 已是 `status: extracted`
-- `system/indexes/` 里已有 `120` 个 round-1 deep-extraction worksheets
-- `raw/images/` 当前只有 `8` 张 verified images，全部来自 CKD
+- `raw/papers/` 有 `325` 张 paper source cards across 7 disease modules
+- CKD `24/24` source cards 已是 `status: deep_extracted`
+- FIP `24/24` source cards 已是 `status: deep_extracted`
+- IBD `24/24` source cards 已是 `status: deep_extracted`
+- HCM `24/24` source cards 已是 `status: deep_extracted`
+- Diabetes `118` source cards (24 seed + 94 extension), seed is `deep_extracted`
+- FCV `24/24` source cards 已是 `status: deep_extracted`
+- Obesity `87` source cards, 4 `deep_extracted` (Tier 1 complete), 4 architecture pages + 4 bilingual
+- Year metadata: `325/325` (100%) complete
+- `raw/images/` 当前有 `12` 张 verified images (CKD 8, FIP/HCM/IBD/Diabetes 各 1)
 - `scripts/app.py` 的普通用户前门已经补到可用，但 ask-native 产品感还没完全收口
+- Health check: 107 tests passing, all checks PASS
 
 ## Track A / 内容主线
 
@@ -62,7 +65,7 @@ status: active
 
 这条线现在的目标是：
 
-`把 120 张 source cards 按固定流程继续压成稳定的 disease module truth layer`
+`把 325 张 source cards 按固定流程继续压成稳定的 7-disease module truth layer`
 
 ### Fixed Workflow / 固定流程
 
