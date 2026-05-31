@@ -8,10 +8,12 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
+year: 2014
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 24928422
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, viral, causes, lymphoma, retroviruses, beyond]
@@ -33,11 +35,30 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is an abstract-weighted source card. 2014 review explaining why lymphoma prevalence remains high despite FeLV vaccination success, and covering FIV as an alternative viral cause.
+
+## Full Abstract (PubMed)
+
+The most widely recognised cause of feline lymphoma is the gammaretrovirus feline leukaemia virus (FeLV). Research into the mechanisms of cellular transformation employed by FeLV and other oncogenic retroviruses has provided as much information on the regulation of eukaryotic cell growth and differentiation as it has about cancer. The recognition that a cancer has a viral cause opens up the possibility of novel treatments that spare the host from cytotoxic side-effects by specifically targeting the virus, or the host's immune response to it. The ultimate prize for viral-associated cancers is their prevention. Vaccination and changes in management practices have seen the global prevalence of FeLV infection fall and, with it, the incidence of FeLV-related cancers. Remarkably, in the face of this success, the prevalence of feline lymphoma remains high. At least one other virus, the lentivirus feline immunodeficiency virus (FIV), accounts for some of these cases. Transformation by FIV involves incompletely understood mechanisms that are distinct from those employed by FeLV. This review will focus on the current understanding of FeLV-associated and FIV-associated lymphoma and consider whether yet more viral aetiologies could be waiting to be discovered.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Most recognized cause | FeLV (gammaretrovirus) | established |
+| FeLV vaccination effect | global prevalence fell, FeLV-related cancers decreased | prevention success |
+| Paradox | lymphoma prevalence remains high despite FeLV decline | key observation |
+| Alternative viral cause | FIV (lentivirus) accounts for some cases | distinct mechanism |
+| FIV transformation | incompletely understood, distinct from FeLV | knowledge gap |
+| Future direction | more viral aetiologies may be discovered | research question |
+
+**Key insight:** This review explains the "GI-shift" phenomenon — FeLV-associated lymphoma decreased but overall lymphoma incidence stayed high due to non-FeLV causes (including FIV and possibly unknown viruses).
+
+**Boundary:** This is a 2014 review. The "beyond" viruses remain incompletely characterized.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 81. Use it for triage until abstract or full-text extraction proves a stronger role.
+2014 review: FeLV vaccination success, but lymphoma stays common due to FIV and possibly undiscovered viral causes.
 
 ## Why It Matters For Feline Cancer
 

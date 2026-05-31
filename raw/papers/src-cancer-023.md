@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2024
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 39457919
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, regional, variations, key, predictors, malignancy, decade-long, retrospective]
@@ -33,11 +35,32 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is an abstract-weighted source card. 2024 Korean retrospective study (2012-2022) providing non-Western regional data on feline tumor patterns.
+
+## Full Abstract (PubMed)
+
+Feline cancer is increasingly recognized as a major cause of mortality, yet data on tumor prevalence and behavior in cats, particularly in non-Western regions, remain limited. This study analyzed a decade of feline tumor data in Korea from 2012 to 2022, focusing on age, breed, and anatomical location as predictors of malignancy. Data were collected from 683 cats, with regression analysis applied to determine significant associations. Older cats exhibited a markedly higher risk of malignancy, particularly in mast cell and mammary tumors. Tumors in the mammary gland and alimentary tract had malignancy rates exceeding 90%, underscoring the need for early detection in these regions. Interestingly, squamous cell carcinoma was rare in the skin, in stark contrast to Western studies, likely reflecting differences in environmental exposure. While breed was not a statistically significant predictor, certain breeds, including Persians and Russian Blues, showed a higher frequency of malignancy. These findings highlight the importance of regional tumor research in cats and the need for larger, multicenter datasets that incorporate environmental, genetic, and lifestyle factors.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Study population | 683 cats, Korea 2012-2022 | decade-long retrospective |
+| Age as predictor | older cats markedly higher malignancy risk | especially mast cell and mammary |
+| Mammary malignancy rate | >90% | high malignancy location |
+| Alimentary tract malignancy rate | >90% | high malignancy location |
+| Skin SCC | rare (contrast to Western studies) | **regional variation** |
+| Environmental hypothesis | differences in UV/environmental exposure | explains skin SCC rarity |
+| Breed as predictor | NOT statistically significant | population-level |
+| Higher malignancy breeds | Persians, Russian Blues | frequency, not significance |
+
+**Regional insight:** Skin SCC rarity in Korea vs Western countries suggests environmental exposure (likely indoor lifestyle) affects cancer patterns. This is important for interpreting prevalence data across regions.
+
+**Boundary:** This is a Korean single-country study. Environmental and lifestyle factors (indoor vs outdoor) may explain regional differences.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 25. Use it for triage until abstract or full-text extraction proves a stronger role.
+Korean 2024 study: >90% malignancy in mammary/alimentary tumors; skin SCC rare (vs Western), suggesting environmental exposure differences.
 
 ## Why It Matters For Feline Cancer
 

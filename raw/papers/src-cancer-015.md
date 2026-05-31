@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 1981
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 7257136
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, epidemiological, features, mammary, carcinoma]
@@ -33,11 +35,30 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is an abstract-weighted source card. Classic 1981 epidemiological study establishing breed risk and malignancy rates for feline mammary carcinoma.
+
+## Full Abstract (PubMed)
+
+An epidemiological survey involving 132 cats with mammary neoplasia, seen at 15 North American veterinary medical teaching hospitals, was conducted. The ratio of malignant to benign tumours was 9:1. There were 113 cases of carcinomas of all types (including two males), with adenocarcinoma being the predominant cell-type. Relative risk analysis indicated that the Siamese breed had twice the risk (P less than 0.01) of developing mammary carcinoma compared to all breeds combined. The age at diagnosis in Siamese females tended to be younger than in other breeds. Comparison of clinical and pathological features of breast cancer suggests that the cat is an appropriate surrogate for the experimental study of human breast cancer. The apparent lack of oestrogen dependency in feline breast cancer also suggests that the cat may be especially suited for evaluating therapeutic regimens for breast cancers that do not respond to hormonal manipulation.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Study population | 132 cats, 15 North American VMTHs | multi-center |
+| Malignant:benign ratio | 9:1 | very high malignancy rate |
+| Carcinomas | 113 cases (including 2 males) | adenocarcinoma predominant |
+| Siamese breed risk | 2x risk (P<0.01) | vs all breeds combined |
+| Siamese age at diagnosis | younger than other breeds | breed-specific pattern |
+| Estrogen dependency | apparent lack in feline breast cancer | comparative oncology insight |
+
+**Comparative oncology note:** Suggests cat is appropriate model for human breast cancer, especially hormone-independent types.
+
+**Boundary:** This is a 1981 study. Breed demographics and referral patterns may have changed. The 9:1 malignant:benign ratio is a foundational finding but should be population-labeled.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 16. Use it for triage until abstract or full-text extraction proves a stronger role.
+1981 North American study: 9:1 malignant:benign ratio; Siamese 2x risk (P<0.01) for mammary carcinoma.
 
 ## Why It Matters For Feline Cancer
 
