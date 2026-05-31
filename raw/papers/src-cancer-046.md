@@ -11,8 +11,9 @@ jurisdictions: []
 evidence_level: review
 year: 2015
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
+pmid: 26197688
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, oral, squamous, cell, carcinoma, clinical, manifestations, literature]
@@ -51,7 +52,28 @@ Use boundary:
 - This card may guide navigation and extraction priority.
 - It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
 
-Abstract lead for scope check only: Squamous cell carcinoma (SCC) is the most commonly encountered malignant oral tumor in cats. The etiology of this locally invasive tumor is likely multifactorial. Several risk fac...
+## Full Abstract (PubMed)
+
+Squamous cell carcinoma (SCC) is the most commonly encountered malignant oral tumor in cats. The etiology of this locally invasive tumor is likely multifactorial. Several risk factors have been identified, including the use of flea collars, and a history of feeding canned food and canned tuna. Clinical signs vary depending on tumor location. The tumor commonly arises from the gingiva and mucosa of the maxilla, mandible, tongue, sublingual area, or tonsillar region. Maxillary SCC commonly presents clinically as an ulcerative lesion, whereas mandibular SCC is commonly proliferative, expansile, and firm. Lingual/sublingual SCC may be ulcerative, necrotic, infiltrative, or proliferative. In general, feline oral SCC is an invasive and malignant neoplasm regardless of its location. Surgery, radiation therapy, chemotherapy and combinations thereof have been attempted with rarely a satisfactory response. Currently, cures are obtained only in a small subset of cats whose tumors are amenable to complete resection, or where resection with microscopic residual disease is followed by definitive radiation therapy. A multimodal treatment approach likely offers the best chance of success. For cats with advanced disease, palliative care may improve patients' quality of life, albeit transiently. Sequelae associated with tumor progression and local tissue destruction often result in euthanasia of feline patients with oral SCC.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Prevalence | most commonly encountered malignant oral tumor in cats | SCC #1 oral malignancy |
+| Etiology | multifactorial | not fully characterized |
+| Risk factors | flea collars, canned food, canned tuna | identified associations |
+| Location | gingiva, maxilla, mandible, tongue, sublingual, tonsillar | common sites |
+| Maxillary presentation | ulcerative lesion | location-specific pattern |
+| Mandibular presentation | proliferative, expansile, firm | location-specific pattern |
+| Lingual/sublingual presentation | ulcerative, necrotic, infiltrative, or proliferative | variable |
+| Treatment response | rarely satisfactory | poor prognosis context |
+| Cure pathway | complete resection or resection + definitive radiation | limited cases |
+| Best approach | multimodal treatment | recommendation |
+| Advanced disease | palliative care, transient improvement | realistic expectation |
+| Common outcome | euthanasia due to progression and tissue destruction | prognosis reality |
+
+**Boundary:** This is a 2015 clinical review. Treatment statements reflect the era's standard of care. "Cures are obtained only in a small subset" is qualitative, not numeric.
 
 ## One-Line Summary
 

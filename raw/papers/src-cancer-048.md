@@ -8,10 +8,12 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
+year: 2003
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 14552162
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, gastrointestinal, lymphoma]
@@ -33,7 +35,25 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is an abstract-weighted source card. The abstract provides clinical practice insights but full-text is needed for detailed treatment protocols.
+
+## Full Abstract (PubMed)
+
+Gastrointestinal lymphoma is a common cause of anorexia and weight loss in older cats, with or without vomiting or diarrhea. Most cats are feline leukemia virus-negative and feline immunodeficiency virus-negative. Low-grade gastrointestinal lymphoma may be more common than previously thought, and these cats respond better to chemotherapy agents than cats with high-grade lymphoma. The most significant prognostic indicator is initial response to chemotherapy, with cats that survive the initial induction period generally achieving long-term remission. Thus far, investigations into molecular markers and immunophenotyping have failed to identify useful prognostic indicators.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Common presentation | anorexia, weight loss ± vomiting/diarrhea in older cats | clinical presentation |
+| Viral status | most cats FeLV-negative and FIV-negative | post-FeLV era context |
+| Low-grade prevalence | may be more common than previously thought | 2003 perspective |
+| Low-grade vs high-grade | low-grade responds better to chemo | treatment-relevant |
+| Key prognostic factor | initial response to chemotherapy | strongest predictor |
+| Long-term remission | cats surviving induction generally achieve | prognosis context |
+| Molecular markers | have not identified useful prognostic indicators | 2003 limitation |
+
+**Boundary:** This is a 2003 review. Statements about molecular markers may be outdated. Treatment response statements are directional, not numeric survival ranges.
 
 ## One-Line Summary
 

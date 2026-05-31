@@ -11,8 +11,9 @@ jurisdictions: []
 evidence_level: original-study
 year: 2021
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
+pmid: 33078692
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, metastatic, mammary, prognostic, factors, outcome, comparison, different]
@@ -51,7 +52,31 @@ Use boundary:
 - This card may guide navigation and extraction priority.
 - It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
 
-Abstract lead for scope check only: Objectives Although feline mammary carcinomas (FMCs) are highly metastatic, the literature and treatment options pertaining to advanced tumours are scarce. This study aimed to inv...
+## Full Abstract (PubMed)
+
+**OBJECTIVES:** Although feline mammary carcinomas (FMCs) are highly metastatic, the literature and treatment options pertaining to advanced tumours are scarce. This study aimed to investigate the clinical outcome of metastatic FMC with or without adjuvant treatment.
+
+**METHODS:** The medical records of 73 cats with metastatic FMC (stage IV) were reviewed and included in this study. Metastatic disease was detected by distinct imaging techniques (radiography, ultrasound and CT) and confirmed by cytology and/or histopathology. Cats with adjuvant chemotherapy treatment (n = 34) were divided into three groups: group 1 (n = 9) cats receiving maximum tolerated dose chemotherapy; group 2 (n = 15) cats receiving metronomic chemotherapy; and group 3 (n = 10) cats treated with toceranib phosphate.
+
+**RESULTS:** Overall mean TTP and TSS were 23 and 44 days, respectively. Cats with clinical signs at the time of diagnosis had a lower TSS (14 days) than asymptomatic cats (128 days; P <0.001). Cats with pleural effusion had a lower TSS (16 days) than cats without (P <0.001). Median TSS was 58, 75 and 63 days in groups 1, 2 and 3, respectively (P = 0.197). Toxicity was observed in 66.7%, 20% and 30% of cats in groups 1, 2 and 3, respectively.
+
+**CONCLUSIONS:** To the best of our knowledge, this study includes the highest number of patients with metastatic FMC assessed. Despite the overall poor prognosis, some cats survived >6 months, indicating that adjuvant treatment may be an option to consider in metastatic disease.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Study population | 73 cats with stage IV FMC | largest metastatic FMC cohort reported |
+| Overall mean TTP | 23 days | across all patients |
+| Overall mean TSS | 44 days | across all patients |
+| Symptomatic vs asymptomatic TSS | 14 days vs 128 days (P<0.001) | major prognostic factor |
+| Pleural effusion TSS | 16 days vs without | major negative prognostic factor |
+| MTD chemotherapy median TSS | 58 days (n=9) | toxicity 66.7% |
+| Metronomic chemotherapy median TSS | 75 days (n=15) | toxicity 20% |
+| Toceranib phosphate median TSS | 63 days (n=10) | toxicity 30% |
+| No significant difference between treatments | P = 0.197 | treatment comparison not powered |
+
+**Boundary:** This is observational retrospective data. Treatment comparison was not powered for statistical significance. TSS values can inform prognosis discussions but not treatment ranking.
 
 
 ## One-Line Summary
