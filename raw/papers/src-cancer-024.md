@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2026
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 41763637
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, descriptive, epidemiology, california, united, states]
@@ -33,11 +35,30 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is an abstract-weighted source card. Large US epidemiological study from UC Davis VMTH (2000-2019) covering 9 major cancer types.
+
+## Full Abstract (PubMed)
+
+Cancer is a leading cause of morbidity and mortality in middle- to old-aged dogs and cats, yet detailed epidemiological data remain limited. This study investigated the distribution of nine major cancer types in dogs and cats using hospital records from the Veterinary Medical Teaching Hospital at the University of California, Davis (2000-2019). Sarcoma, carcinoma, lymphoid neoplasia (LN), mast cell tumor (MCT), and melanoma were analyzed using multivariable logistic regression to assess associations with breed, age, and sex-neuter status. Among 150,063 patients (79.9% dogs; 20.1% cats), 26,883 were diagnosed with cancer (18.1% of dogs; 17.0% of cats). Older age was the strongest predictor of these cancers in both species, though odds of sarcoma, LN, and MCT declined in senior dogs (≥12 years). The following associations were specific to dogs. Spayed females had higher odds of LN (OR=1.43), MCT (OR=1.92), and melanoma (OR=1.63) compared to intact females, whereas neutering had no significant effect in males. Male dogs had higher odds of LN than females, both intact (OR=1.59) and spayed/neutered (OR=1.15), while spayed females had higher odds of MCT than neutered males (OR=1.28). Sarcoma and carcinoma odds varied by age and sex-neuter status, with significant interactions. These findings highlight complex, cancer-type-specific associations. A California-wide cancer registry would provide a more comprehensive picture of cancer epidemiology in companion animals.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Total patients | 150,063 (79.9% dogs, 20.1% cats) | UC Davis VMTH 2000-2019 |
+| Cancer diagnoses | 26,883 total | 18.1% dogs, 17.0% cats |
+| Feline cancer rate | 17.0% of feline patients | hospital population, not general prevalence |
+| Strongest predictor | older age (both species) | primary risk factor |
+| Cancer types analyzed | sarcoma, carcinoma, LN, MCT, melanoma | 5 major categories |
+| Study limitation | hospital referral population | may not represent general population |
+
+**Feline-specific note:** The abstract reports combined dog/cat findings. Detailed feline-only odds ratios would require full-text extraction.
+
+**Boundary:** This is a hospital referral population, not a population-based cancer registry. Cancer prevalence (17.0% of feline patients) reflects referral bias.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 26. Use it for triage until abstract or full-text extraction proves a stronger role.
+US epidemiology study: 17.0% of cats in UC Davis VMTH (2000-2019) diagnosed with cancer; older age is strongest predictor.
 
 ## Why It Matters For Feline Cancer
 

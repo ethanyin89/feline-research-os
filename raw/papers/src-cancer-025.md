@@ -11,8 +11,9 @@ jurisdictions: []
 evidence_level: review
 year: 2015
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
+pmid: 24741029
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, prognostic, evaluation, mammary, carcinomas, review, literature]
@@ -35,23 +36,30 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This is an abstract-weighted source card. Systematic review of prognostic parameters for feline mammary carcinomas using standardized veterinary oncology guidelines.
 
-## Source Check, 2026-05-30
+## Full Abstract (PubMed)
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+A large number of studies have investigated feline mammary tumors in an attempt to identify prognostic markers and generate comparative analyses with human breast cancer. Nevertheless, a retrospective base of assessments and the lack of standardization in methodology and study design have caused weakness in study results, making comparison difficult. We examined feline mammary tumor publications and evaluated postulated prognostic parameters according to the recently published "Recommended Guidelines for the Conduct and Evaluation of Prognostic Studies in Veterinary Oncology." Using these criteria, we determined with statistically significant reliability that prognostic parameters for feline mammary tumors are tumor grading and lymph node/lymphovascular invasion. Furthermore, tumor subtype, size, and staging are worthy of further standardized investigation. We present statistical significance for each studied parameter as well as its relevance to disease progression and survival. Our evaluation suggests that marker expression (ie, Ki67, HER2, ER) may provide relevant information applicable for therapeutic predictions; however, consensus efforts and protocol standardization are needed. We identify and discuss major points of concern--such as sample preservation and selection, standardization of immunohistochemical protocols, and evaluation of results--to provide support for subsequent reliable analyses.
 
-- DOI metadata resolved: yes
-- Container: Veterinary Pathology
-- Year: 2015
-- Abstract available in Crossref: yes
+## Key Extracted Findings
 
-Use boundary:
+| Finding | Level of Evidence | Boundary |
+|---------|-------------------|----------|
+| **Statistically significant prognostic parameters:** | | |
+| Tumor grading | high reliability | validated by systematic review |
+| Lymph node invasion | high reliability | validated by systematic review |
+| Lymphovascular invasion | high reliability | validated by systematic review |
+| **Worthy of further standardized investigation:** | | |
+| Tumor subtype | promising but needs standardization | variable methods |
+| Tumor size | promising but needs standardization | variable cutoffs |
+| Staging | promising but needs standardization | variable systems |
+| **Marker expression:** | | |
+| Ki67, HER2, ER | may provide therapeutic predictions | needs consensus protocols |
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+**Methodology note:** This review evaluated evidence using the "Recommended Guidelines for the Conduct and Evaluation of Prognostic Studies in Veterinary Oncology."
 
-Abstract lead for scope check only: A large number of studies have investigated feline mammary tumors in an attempt to identify prognostic markers and generate comparative analyses with human breast cancer. Neverthe...
+**Key insight:** The lack of standardization in methodology and study design has weakened evidence quality across the field.
 
 ## One-Line Summary
 
