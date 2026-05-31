@@ -5,7 +5,7 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-019, src-cancer-003]
+source_ids: [src-cancer-004, src-cancer-019, src-cancer-003, src-cancer-009]
 last_compiled_at: 2026-05-30
 confidence: low
 verification_status: compiled
@@ -24,6 +24,10 @@ status: active
 | MC1 | Mammary carcinoma is an early branch in the feline cancer module because it appears in both molecular review and comparative oncology evidence | B | src-cancer-004, src-cancer-019 | branch priority, not prevalence ranking |
 | MC2 | A TNBC-like / basal-like model sub-branch is supported by marker-defined evidence in one 24-case study | B | src-cancer-019 | study-bound, not universal phenotype frequency |
 | MC3 | COX-2 can be carried as a feline mammary carcinoma prognosis-marker candidate with caveats | B | src-cancer-003 | marker caveat, not survival prediction or treatment guidance |
+| MC4 | Stage IV (metastatic) FMC has overall mean tumor-specific survival of 44 days | B | src-cancer-009 | largest metastatic cohort (n=73), retrospective |
+| MC5 | Symptomatic vs asymptomatic at diagnosis: TSS 14 vs 128 days (P<0.001) | B | src-cancer-009 | major prognostic factor |
+| MC6 | Pleural effusion predicts poor outcome (TSS 16 days vs without) | B | src-cancer-009 | major negative prognostic factor |
+| MC7 | Metronomic chemo shows lower toxicity (20%) than MTD (66.7%) | B | src-cancer-009 | toxicity comparison, not survival comparison |
 
 ## Evidence-Depth Caveat
 
@@ -70,6 +74,30 @@ Study-bound findings:
 `src-cancer-003` supports COX-2 as a feline mammary carcinoma prognosis-marker candidate, but the evidence is limited and method-sensitive.
 
 **Boundary:** do not turn COX-2 into a treatment selection rule or owner-facing survival prediction.
+
+### Metastatic Disease Outcomes (Abstract-Level)
+
+`src-cancer-009` provides the largest published cohort of metastatic FMC (n=73, stage IV):
+
+**Survival data:**
+
+| Metric | Value | Context |
+|--------|-------|---------|
+| Overall mean TTP | 23 days | time to progression |
+| Overall mean TSS | 44 days | tumor-specific survival |
+| Symptomatic TSS | 14 days | cats with clinical signs at diagnosis |
+| Asymptomatic TSS | 128 days | incidentally detected metastases |
+| With pleural effusion | 16 days | major negative prognostic factor |
+
+**Treatment modality comparison (abstract-level):**
+
+| Treatment | n | Median TSS | Toxicity |
+|-----------|---|------------|----------|
+| MTD chemotherapy | 9 | 58 days | 66.7% |
+| Metronomic chemotherapy | 15 | 75 days | 20% |
+| Toceranib phosphate | 10 | 63 days | 30% |
+
+**Boundary:** P=0.197 for treatment comparison — study was not powered to detect survival differences. Some cats survived >6 months despite overall poor prognosis.
 
 ## What The Module Can Say Safely
 

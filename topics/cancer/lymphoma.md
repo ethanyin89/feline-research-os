@@ -5,7 +5,7 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-008, src-cancer-063, src-cancer-065, src-cancer-068]
+source_ids: [src-cancer-004, src-cancer-008, src-cancer-063, src-cancer-065, src-cancer-068, src-cancer-048]
 last_compiled_at: 2026-05-30
 confidence: low
 verification_status: compiled
@@ -31,6 +31,11 @@ status: active
 | LY8 | Breed-specific anatomic presentation patterns exist | B | src-cancer-068 | Siamese, Burmilla, Australian mist, ragdoll, British shorthair noted |
 | LY9 | JAK/STAT signaling pathway is implicated in feline alimentary lymphoma | B | src-cancer-063 | molecular context, homology with human GI T-cell lymphoma |
 | LY10 | Siamese and Oriental breeds show high incidence of mediastinal lymphoma in young cats | B | src-cancer-065 | breed-specific pattern, UC Davis 21-year retrospective |
+| LY11 | GI lymphoma presents as anorexia and weight loss ± vomiting/diarrhea in older cats | B | src-cancer-048 | clinical presentation |
+| LY12 | Most GI lymphoma cats are FeLV-negative and FIV-negative | B | src-cancer-048 | post-FeLV era context |
+| LY13 | Low-grade GI lymphoma may be more common than previously thought | B | src-cancer-048 | 2003 perspective |
+| LY14 | Low-grade responds better to chemotherapy than high-grade | B | src-cancer-048 | treatment-relevant |
+| LY15 | Initial response to chemotherapy is the most significant prognostic indicator | B | src-cancer-048 | strongest predictor |
 
 ## Evidence-Depth Caveat
 
@@ -113,6 +118,26 @@ The pathology source gives alimentary lymphoma an early branch signal and sugges
 - Breeds noted: Siamese, Burmilla, Australian mist, ragdoll, British shorthair, domestic cats
 
 **Boundary:** These findings are from Australian population with potentially restricted genetic pool. Breed risk claims need population boundary caveats.
+
+### GI Lymphoma Clinical Context (Abstract-Level)
+
+`src-cancer-048` (2003 clinical review) provides foundational GI lymphoma guidance:
+
+**Presentation:**
+
+- Common cause of anorexia and weight loss in older cats
+- With or without vomiting or diarrhea
+- Most cats are FeLV-negative and FIV-negative
+
+**Grade and prognosis:**
+
+- Low-grade GI lymphoma may be more common than previously thought (2003)
+- Low-grade responds better to chemotherapy than high-grade
+- Most significant prognostic indicator: initial response to chemotherapy
+- Cats surviving initial induction generally achieve long-term remission
+- Molecular markers and immunophenotyping had not identified useful prognostic indicators as of 2003
+
+**Boundary:** This is a 2003 review. Molecular marker statements may be outdated; `src-cancer-063` provides 2026 molecular context.
 
 ### FeLV Context and the GI-Shift
 

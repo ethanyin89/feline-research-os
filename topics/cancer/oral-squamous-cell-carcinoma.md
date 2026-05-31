@@ -5,7 +5,7 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-095]
+source_ids: [src-cancer-004, src-cancer-095, src-cancer-046]
 last_compiled_at: 2026-05-30
 confidence: low
 verification_status: compiled
@@ -29,10 +29,15 @@ status: active
 | OSCC6 | Canned food associated with 4.7x increased risk | B | src-cancer-095 | single study caveat |
 | OSCC7 | Deworming collars associated with 5.3x increased risk | B | src-cancer-095 | single study caveat |
 | OSCC8 | 6.4% of FOSCC cats had concurrent oral pathology | B | src-cancer-095 | 485 cats, abstract-level |
+| OSCC9 | Maxillary SCC typically presents as ulcerative lesion | B | src-cancer-046 | location-specific pattern |
+| OSCC10 | Mandibular SCC typically presents as proliferative, expansile, firm | B | src-cancer-046 | location-specific pattern |
+| OSCC11 | Lingual/sublingual SCC may be ulcerative, necrotic, infiltrative, or proliferative | B | src-cancer-046 | variable presentation |
+| OSCC12 | Treatment rarely satisfactory; cures only in small subset with complete resection | B | src-cancer-046 | prognosis context |
+| OSCC13 | Multimodal treatment approach offers best chance of success | B | src-cancer-046 | treatment principle |
 
 ## Evidence-Depth Caveat
 
-This page is built from one abstract-weighted systematic review (`src-cancer-095`) and branch architecture from `src-cancer-004`. The systematic review covers 2000-2022 literature with PRISMA methodology. Full-text deep extraction is needed before promoting risk factor claims to owner-facing content.
+This page is built from two abstract-weighted sources (`src-cancer-095`, `src-cancer-046`) and branch architecture from `src-cancer-004`. The systematic review covers 2000-2022 literature with PRISMA methodology. Full-text deep extraction is needed before promoting risk factor claims to owner-facing content.
 
 ## Core Takeaway
 
@@ -74,6 +79,34 @@ The systematic review synthesized 26 studies from 553 initial publications (2000
 - Periodontal disease or feline chronic gingivostomatitis noted
 
 **Boundary:** These are association findings from limited studies. Do not frame as proven risk factors for owner communication.
+
+### Clinical Manifestations (Abstract-Level)
+
+`src-cancer-046` provides location-specific presentation patterns:
+
+| Location | Common Sites | Typical Presentation |
+|----------|--------------|----------------------|
+| Maxillary | gingiva, mucosa | ulcerative lesion |
+| Mandibular | gingiva, mucosa | proliferative, expansile, firm |
+| Lingual/sublingual | tongue, sublingual area | ulcerative, necrotic, infiltrative, or proliferative |
+| Tonsillar | tonsillar region | variable |
+
+**Key clinical insight:** Clinical signs vary depending on tumor location, but feline oral SCC is invasive and malignant regardless of location.
+
+### Treatment and Prognosis Context (Abstract-Level)
+
+From `src-cancer-046`:
+
+- Surgery, radiation, chemotherapy, and combinations have been attempted
+- Response is rarely satisfactory
+- Cures obtained only in small subset:
+  - Tumors amenable to complete resection
+  - Resection with microscopic residual disease + definitive radiation
+- Multimodal approach offers best chance of success
+- Advanced disease: palliative care improves quality of life transiently
+- Common outcome: euthanasia due to tumor progression and tissue destruction
+
+**Boundary:** This describes the therapeutic landscape, not treatment protocols. Do not use for treatment recommendations.
 
 ### Comparative Oncology Context
 
