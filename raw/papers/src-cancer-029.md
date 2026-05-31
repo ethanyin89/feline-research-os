@@ -11,8 +11,9 @@ jurisdictions: []
 evidence_level: original-study
 year: 1978
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
+pmid: 220774
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, frequency, defined, population]
@@ -35,23 +36,27 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This is an abstract-weighted source card. Foundational 1978 US registry study providing population-based tumor frequency data.
 
-## Source Check, 2026-05-30
+## Full Abstract (PubMed)
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+The Tulsa Registry of Canine and Feline Neoplasms was the second animal tumor registry in the United States concerned with a defined population in a delimited geographic area. Only tumors histologically confirmed by registry pathologists were included in frequency statistics based on the annual dog and cat population presented to veterinarians. During the first registry year, about 1% of the 63,504 dogs and 0.5% of the 11,909 cats had one or more primary tumors. While the incidence rate for malignant tumors in dogs was similar to that in cats, the incidence of benign tumors of dogs was over 10 times that of cats. The most common tumors were sebaceous adenoma in dogs and lymphosarcoma in cats. Mammary cancer was the most common malignant tumor in dogs.
 
-- DOI metadata resolved: yes
-- Container: Veterinary Pathology
-- Year: 1978
-- Abstract available in Crossref: yes
+## Key Extracted Findings
 
-Use boundary:
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Registry type | Tulsa Registry, defined population | second US animal tumor registry |
+| Dog tumor rate | ~1% of 63,504 dogs annually | histologically confirmed |
+| Cat tumor rate | ~0.5% of 11,909 cats annually | histologically confirmed |
+| Malignant tumor incidence | similar in dogs and cats | comparable malignancy rates |
+| Benign tumor incidence | dogs 10x more than cats | species difference |
+| Most common in cats | lymphosarcoma | #1 feline tumor type |
+| Most common malignant in dogs | mammary cancer | species comparison |
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+**Registry methodology note:** This is a population-based registry with defined denominator, making it valuable for true incidence estimates rather than referral-biased hospital populations.
 
-Abstract lead for scope check only: The Tulsa Registry of Canine and Feline Neoplasms was the second animal tumor registry in the United States concerned with a defined population in a delimited geographic area. Onl...
+**Key insight:** Lymphosarcoma (lymphoma) was the most common tumor in cats in this 1978 defined population — supports lymphoma as a major feline cancer category.
 
 ## One-Line Summary
 

@@ -5,7 +5,7 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-008, src-cancer-063, src-cancer-065, src-cancer-068, src-cancer-048]
+source_ids: [src-cancer-004, src-cancer-008, src-cancer-063, src-cancer-065, src-cancer-068, src-cancer-048, src-cancer-075, src-cancer-029]
 last_compiled_at: 2026-05-30
 confidence: low
 verification_status: compiled
@@ -36,6 +36,9 @@ status: active
 | LY13 | Low-grade GI lymphoma may be more common than previously thought | B | src-cancer-048 | 2003 perspective |
 | LY14 | Low-grade responds better to chemotherapy than high-grade | B | src-cancer-048 | treatment-relevant |
 | LY15 | Initial response to chemotherapy is the most significant prognostic indicator | B | src-cancer-048 | strongest predictor |
+| LY16 | FIV accounts for some non-FeLV lymphoma cases via distinct transformation mechanism | B | src-cancer-075 | 2014 review |
+| LY17 | More viral aetiologies beyond FeLV/FIV may exist | B | src-cancer-075 | research direction |
+| LY18 | Lymphosarcoma was most common tumor in cats in 1978 Tulsa Registry | B | src-cancer-029 | defined-population registry |
 
 ## Evidence-Depth Caveat
 
@@ -163,6 +166,23 @@ This explains why lymphoma remains common despite FeLV control: the disease shif
 The 2005 study flagged IBD and diet associations for further investigation. This aligns with `src-cancer-063`'s discussion of the inflammatory-neoplastic continuum.
 
 **Boundary:** The FeLV-shift is documented historically. Modern FeLV risk guidance needs separate, current sources. Diet recommendations are not supported by these abstracts.
+
+### Beyond FeLV: Other Viral Causes (Abstract-Level)
+
+`src-cancer-075` (2014 review) explains why lymphoma prevalence remains high despite FeLV vaccination success:
+
+**Key points:**
+
+- FeLV vaccination has reduced FeLV prevalence globally
+- FeLV-related cancers have decreased accordingly
+- BUT: feline lymphoma prevalence remains high despite this
+- FIV (feline immunodeficiency virus) accounts for some non-FeLV cases
+- FIV transformation mechanism is distinct from FeLV, incompletely understood
+- More viral aetiologies may be waiting to be discovered
+
+**Implication:** The "GI-shift" (increased alimentary lymphoma despite FeLV decline) may involve multiple factors including FIV and possibly unknown viruses, not just dietary or environmental causes.
+
+**Boundary:** FIV-associated lymphoma mechanisms remain incompletely characterized as of 2014.
 
 ## What The Module Can Say Safely
 

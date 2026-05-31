@@ -5,7 +5,7 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-019, src-cancer-003, src-cancer-009, src-cancer-012, src-cancer-025]
+source_ids: [src-cancer-004, src-cancer-019, src-cancer-003, src-cancer-009, src-cancer-012, src-cancer-025, src-cancer-015]
 last_compiled_at: 2026-05-30
 confidence: low
 verification_status: compiled
@@ -33,6 +33,9 @@ status: active
 | MC10 | Surgery type affects disease-free interval but NOT survival time | B | src-cancer-012 | conservative vs radical comparison |
 | MC11 | Validated prognostic parameters: tumor grading, lymph node/LV invasion | B | src-cancer-025 | 2015 systematic review |
 | MC12 | Ki67, HER2, ER markers may provide therapeutic predictions but need standardization | B | src-cancer-025 | evidence quality concern |
+| MC13 | Siamese breed has 2x risk (P<0.01) for mammary carcinoma | B | src-cancer-015 | 1981 North American study, 132 cats |
+| MC14 | Malignant:benign ratio is 9:1 in feline mammary tumors | B | src-cancer-015 | foundational finding |
+| MC15 | Feline mammary cancer appears estrogen-independent | B | src-cancer-015 | comparative oncology insight |
 
 ## Evidence-Depth Caveat
 
