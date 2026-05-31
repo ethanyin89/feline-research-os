@@ -5,7 +5,7 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-019, src-cancer-003, src-cancer-009]
+source_ids: [src-cancer-004, src-cancer-019, src-cancer-003, src-cancer-009, src-cancer-012, src-cancer-025]
 last_compiled_at: 2026-05-30
 confidence: low
 verification_status: compiled
@@ -28,6 +28,11 @@ status: active
 | MC5 | Symptomatic vs asymptomatic at diagnosis: TSS 14 vs 128 days (P<0.001) | B | src-cancer-009 | major prognostic factor |
 | MC6 | Pleural effusion predicts poor outcome (TSS 16 days vs without) | B | src-cancer-009 | major negative prognostic factor |
 | MC7 | Metronomic chemo shows lower toxicity (20%) than MTD (66.7%) | B | src-cancer-009 | toxicity comparison, not survival comparison |
+| MC8 | Tumor size is the most significant prognostic factor (P<0.0001) | B | src-cancer-012 | 100 cats, 1984 foundational study |
+| MC9 | Age and breed are NOT prognostic factors | B | src-cancer-012 | 1984 study finding |
+| MC10 | Surgery type affects disease-free interval but NOT survival time | B | src-cancer-012 | conservative vs radical comparison |
+| MC11 | Validated prognostic parameters: tumor grading, lymph node/LV invasion | B | src-cancer-025 | 2015 systematic review |
+| MC12 | Ki67, HER2, ER markers may provide therapeutic predictions but need standardization | B | src-cancer-025 | evidence quality concern |
 
 ## Evidence-Depth Caveat
 
@@ -74,6 +79,33 @@ Study-bound findings:
 `src-cancer-003` supports COX-2 as a feline mammary carcinoma prognosis-marker candidate, but the evidence is limited and method-sensitive.
 
 **Boundary:** do not turn COX-2 into a treatment selection rule or owner-facing survival prediction.
+
+### Prognostic Factors (Abstract-Level)
+
+Two abstract-level sources establish prognostic factor hierarchy:
+
+**From `src-cancer-012` (1984 foundational study, n=100):**
+
+| Factor | Prognostic Value | Evidence |
+|--------|------------------|----------|
+| Tumor size | **Most significant** (P<0.0001) | Small tumors (1-8 cm³) best prognosis |
+| Age | NOT prognostic | ≤10 vs >10 years, no significance |
+| Breed | NOT prognostic | no significance |
+| Surgery type | Mixed | affects DFI (P<0.01) but NOT survival |
+
+**From `src-cancer-025` (2015 systematic review):**
+
+| Factor | Evidence Level | Status |
+|--------|---------------|--------|
+| Tumor grading | High reliability | Validated prognostic parameter |
+| Lymph node invasion | High reliability | Validated prognostic parameter |
+| Lymphovascular invasion | High reliability | Validated prognostic parameter |
+| Tumor subtype | Promising | Needs standardized investigation |
+| Tumor size | Promising | Needs standardized cutoffs |
+| Staging | Promising | Needs standardized systems |
+| Ki67, HER2, ER | May predict therapy | Needs consensus protocols |
+
+**Key insight:** The field lacks standardization in methodology, weakening cross-study comparison.
 
 ### Metastatic Disease Outcomes (Abstract-Level)
 

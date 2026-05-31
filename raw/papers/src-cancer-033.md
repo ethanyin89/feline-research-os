@@ -8,10 +8,12 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
+year: 1991
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 1666070
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, leukemia, virus, infection, diseases]
@@ -33,7 +35,27 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is an abstract-weighted source card. Comprehensive 1991 review of FeLV biology, pathogenesis, and disease mechanisms.
+
+## Full Abstract (PubMed)
+
+Feline leukemia virus is a naturally occurring, contagiously transmitted and oncogenic immunosuppressive retrovirus of cats. The effects of FeLV are paradoxical, causing cytoproliferative and cytosuppressive disease (eg, lymphoma and myeloproliferative disorders vs immunodeficiency and myelosuppressive disorders). In the first few weeks after virus exposure, interactions between FeLV and hemolymphatic system cells determine whether the virus or the cat will dominate in the host/virus relationship--persistent viremia and progressive infection or self limiting, regressive infection will develop. The outcome of these early host/virus interactions is revealed in the diagnostic assays for FeLV antigenemia and viremia. The latter, in turn, predict the outcome of FeLV infection in cats. Known host resistance factors include age and immune system functional status. Known virus virulence factors are magnitude of exposure and virus genotype. Molecular analysis of FeLV strains indicated that natural virus isolates exist as mixtures of closely related virus genotypes and that minor genetic variations among FeLV strains can impart major differences in pathogenicity. The genetic coding regions responsible for cell targeting and specific disease inducing capacity (eg, thymic lymphoma, acute immunosuppression, or aplastic anemia) have been mapped to the virus surface glycoprotein and/or long terminal repeat regions for several FeLV strains. Infection by specific FeLV strains leads to either malignant transformation or cytopathic deletion of specific lymphocyte and hemopoietic cell population, changes that prefigure the onset of clinical illness. Another notable feature of the biology of FeLV is that many cats are able to effectively contain and terminate viral replication, an important example of host immunologic control of a retrovirus infection and a process that can be selectively enhanced by vaccination.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| FeLV disease paradox | causes both proliferative and suppressive disease | lymphoma vs immunodeficiency |
+| Proliferative diseases | lymphoma, myeloproliferative disorders | oncogenic pathway |
+| Suppressive diseases | immunodeficiency, myelosuppressive disorders | cytopathic pathway |
+| Infection outcome determinants | early host/virus interactions in first weeks | persistent vs regressive |
+| Host resistance factors | age, immune system functional status | predict outcome |
+| Virus virulence factors | exposure magnitude, genotype | predict outcome |
+| Disease-specific genetics | mapped to surface glycoprotein and/or LTR regions | thymic lymphoma, immunosuppression, aplastic anemia |
+| Host immune control | many cats can contain and terminate viral replication | natural resistance |
+| Vaccination effect | can selectively enhance host control of replication | immunoprophylaxis |
+
+**Boundary:** This is a 1991 review. Molecular mechanisms remain valid but specific strain characterization may have expanded since publication.
 
 ## One-Line Summary
 
