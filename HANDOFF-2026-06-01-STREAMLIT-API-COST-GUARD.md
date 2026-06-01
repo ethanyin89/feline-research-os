@@ -8,7 +8,7 @@ verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
 owner: codex
-status: active
+status: deployed
 ---
 
 # Streamlit API Cost Guard Handoff, 2026-06-01
@@ -155,53 +155,52 @@ Potentially relevant but not required for the Streamlit behavior:
 
 ## Deployment State
 
-Not deployed yet in this handoff.
+Deployed to `origin/main`.
 
-Need to update:
+Public app:
 
 `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/`
 
-Likely deployment path:
+Commits pushed:
 
-1. Determine whether Streamlit Cloud watches `main` or this feature branch. The repo default branch could not be checked via `gh repo view` under sandbox because GitHub API access hit a local proxy permission error.
-2. If Streamlit watches `main`, commit the minimal API-cost guard files and push to `origin main`, or merge/cherry-pick only those files into `main` first.
-3. If Streamlit watches `idea-chatacademia-research-workbench`, push this branch.
-4. After deploy, open the public app and verify:
-   - default engine is `Vault Search (free)`
-   - app status says `engine no API`
-   - `猫肥胖症siRNA` in free mode returns Chinese local-search/gap answer with Research trace `api_calls=0`
-   - selecting `OpenRouter (API)` shows the paid API checkbox
-   - without checking the box, a submitted query is blocked before any API call
+- `722889e fix(streamlit): gate paid APIs and add free vault search`
+- `de71015 fix(streamlit): decouple free search from query import`
 
-## Suggested Next Commands
+The first deploy showed a Streamlit Cloud `ImportError` at `scripts/app.py` line 58 while importing from `query.py`. Local `.venv` did not reproduce it. The second commit moved the free-search implementation into `scripts/app.py` and stopped importing `run_local_query_core` from `query.py`, which fixed the public startup failure.
 
-Inspect minimal diff:
+Public verification completed:
 
-```bash
-git diff -- scripts/app.py scripts/query.py README.md
-```
+- Opened `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/~/+/`.
+- Page loaded without ImportError.
+- Default answer engine: `Vault Search (free)`.
+- App status: `engine no API`.
+- Test query: `猫肥胖症siRNA`.
+- Public answer was Chinese and stated no direct `obesity + siRNA` source-card evidence exists.
+- Research trace showed:
+  - `question_type=local_search`
+  - `api_calls=0`
+  - `hops_used=0`
+- Switching to `OpenRouter (API)` displayed:
+  - `OpenRouter key loaded. Project daily budget guard: $1.00.`
+  - `Allow paid API synthesis for this session`
+  - `Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally.`
+- Submitting `猫肥胖症siRNA again` while OpenRouter was selected but the paid checkbox was not checked produced the blocker:
+  - `Setup required`
+  - `Paid API synthesis not confirmed for this session.`
 
-Commit only deployment files:
+This verifies the cost guard blocks stale `?backend=openrouter` browser state before paid synthesis.
 
-```bash
-git add scripts/app.py scripts/query.py README.md
-git commit -m "fix(streamlit): default to free vault search and gate paid APIs"
-```
+## Suggested Next Commands For Future Work
 
-Push the branch that Streamlit watches:
-
-```bash
-git push origin HEAD
-```
-
-If Streamlit watches `main`, use a clean path to bring only these files to `main`; avoid including unrelated source-card/cancer extraction changes unless the user explicitly wants that broader update deployed.
-
-## Last Local Server
-
-The last local Streamlit smoke-test server was started on port `8505`. If still running, stop it:
+Inspect current deployment commit:
 
 ```bash
-lsof -ti tcp:8505
-kill <pid>
+git log --oneline --max-count=3
 ```
 
+If the public app shows an old UI, force Streamlit Cloud to reboot from Manage app or push an empty commit:
+
+```bash
+git commit --allow-empty -m "chore: restart streamlit app"
+git push origin HEAD:main
+```
