@@ -22,6 +22,32 @@ from typing import Optional
 import streamlit as st
 
 # ---------------------------------------------------------------------------
+# Runtime config — Streamlit Cloud stores deploy variables in st.secrets, while
+# the query layer reads os.environ. Mirror known keys before importing query.py.
+# ---------------------------------------------------------------------------
+
+def sync_streamlit_secrets_to_env() -> None:
+    """Expose supported Streamlit secrets as environment variables."""
+    for key in (
+        "ANTHROPIC_API_KEY",
+        "OPENROUTER_API_KEY",
+        "OPENROUTER_DAILY_BUDGET_USD",
+        "OPENROUTER_MODEL",
+        "ENABLE_OLLAMA",
+    ):
+        if os.environ.get(key):
+            continue
+        try:
+            value = st.secrets.get(key)
+        except Exception:
+            value = None
+        if value is not None and str(value).strip():
+            os.environ[key] = str(value).strip()
+
+
+sync_streamlit_secrets_to_env()
+
+# ---------------------------------------------------------------------------
 # Path setup — allow importing query.py from the same directory
 # ---------------------------------------------------------------------------
 
@@ -42,6 +68,7 @@ from query import (
     compute_confidence,
     list_saved_answers,
     parse_source_ids_from_answer,
+    run_local_query_core,
     run_query_core,
     write_back,
 )
@@ -51,11 +78,12 @@ from search import vault_search
 
 ENABLE_OLLAMA = os.environ.get("ENABLE_OLLAMA", "").lower() in {"1", "true", "yes", "on"}
 BACKEND_LABELS = {
+    "local": "Vault Search (free)",
     "anthropic": "Anthropic (API)",
     "openrouter": "OpenRouter (API)",
     "ollama": "Ollama (local)",
 }
-AVAILABLE_BACKENDS = ["anthropic", "openrouter"] + (["ollama"] if ENABLE_OLLAMA else [])
+AVAILABLE_BACKENDS = ["local", "anthropic", "openrouter"] + (["ollama"] if ENABLE_OLLAMA else [])
 OPENROUTER_STREAMLIT_COMMAND = (
     "OPENROUTER_DAILY_BUDGET_USD=1.00 "
     "OPENROUTER_MODEL=openai/gpt-4.1-mini "
@@ -504,6 +532,46 @@ def render_trust_block(answer: str, confidence: str, source_ids: list[str], load
     )
 
 
+def render_research_trace(research_trace: Optional[list[dict]]) -> None:
+    """Render the retrieval and synthesis path behind an answer."""
+    if not research_trace:
+        return
+
+    with st.expander("Research trace", expanded=False):
+        st.markdown(
+            """
+            <div class="vault-inline-note">
+              This shows how the vault interpreted the question, searched local evidence, loaded source cards, and reached the answer. It is an audit trail, not extra evidence.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        for i, entry in enumerate(research_trace, 1):
+            step = html.escape(str(entry.get("step", f"Step {i}")))
+            detail = html.escape(str(entry.get("detail", "")))
+            st.markdown(
+                f"<div class='vault-trace-step'><code>{i}</code><strong>{step}</strong><span>{detail}</span></div>",
+                unsafe_allow_html=True,
+            )
+            items = entry.get("items") or []
+            if items:
+                rows: list[str] = []
+                for item in items[:8]:
+                    label = item.get("source_id") or item.get("id") or item.get("file") or "item"
+                    meta_parts = []
+                    if "matches" in item:
+                        meta_parts.append(f"{item['matches']} matches")
+                    if "loaded" in item:
+                        meta_parts.append("loaded" if item["loaded"] else "not loaded")
+                    if item.get("file") and label != item.get("file"):
+                        meta_parts.append(str(item["file"]))
+                    meta = " · ".join(meta_parts)
+                    rows.append(
+                        f"<div class='vault-trace-item'><span>{html.escape(str(label))}</span><em>{html.escape(meta)}</em></div>"
+                    )
+                st.markdown("".join(rows), unsafe_allow_html=True)
+
+
 def render_answer_block(
     answer: str,
     confidence: str,
@@ -514,6 +582,7 @@ def render_answer_block(
     question: str = "",
     disease: str = "",
     question_type: str = "",
+    research_trace: Optional[list[dict]] = None,
 ) -> None:
     """Render one assistant answer with provenance, copy button, confidence, figures, and sources."""
     source_ids = source_ids or []
@@ -522,6 +591,7 @@ def render_answer_block(
     st.markdown(render_provenance(cleaned_answer), unsafe_allow_html=True)
     copy_button(answer, key=f"{key_prefix}-copy")
     render_trust_block(answer, confidence, source_ids, loaded_source_ids)
+    render_research_trace(research_trace)
     render_expert_review_loop(
         question=question,
         answer=answer,
@@ -1035,6 +1105,53 @@ st.markdown(
       border: 1px solid rgba(45,49,71,0.8);
     }
 
+    .vault-trace-step {
+      display: grid;
+      grid-template-columns: 28px minmax(150px, 0.36fr) minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 8px 0;
+      border-top: 1px solid rgba(45,49,71,0.55);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .vault-trace-step code {
+      color: var(--muted);
+      background: rgba(34,37,53,0.72);
+      border: 1px solid rgba(45,49,71,0.8);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .vault-trace-step strong {
+      font-weight: 600;
+    }
+
+    .vault-trace-step span {
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .vault-trace-item {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 4px 0 4px 38px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .vault-trace-item span {
+      font-family: 'Geist Mono', monospace;
+      color: var(--text);
+    }
+
+    .vault-trace-item em {
+      color: var(--muted);
+      font-style: normal;
+    }
+
     .vault-guide-row {
       display: flex;
       align-items: center;
@@ -1129,10 +1246,10 @@ st.markdown(
 
 # Stored in query params so changing it triggers a full rerun. OpenRouter is
 # available only when selected explicitly; fresh loads default to Anthropic.
-_preferred_backend = "anthropic"
+_preferred_backend = "local"
 _backend_default = st.query_params.get("backend", _preferred_backend)
 if _backend_default not in AVAILABLE_BACKENDS:
-    _backend_default = "anthropic"
+    _backend_default = "local"
     if st.query_params.get("backend") != _backend_default:
         st.query_params["backend"] = _backend_default
         st.rerun()
@@ -1186,7 +1303,10 @@ with st.sidebar:
         help="Anthropic requires ANTHROPIC_API_KEY. OpenRouter requires OPENROUTER_API_KEY. Set ENABLE_OLLAMA=true to show local Ollama.",
         label_visibility="collapsed",
     )
-    if backend_choice.startswith("Anthropic"):
+    if backend_choice.startswith("Vault Search"):
+        backend = "local"
+        active_model = "no API"
+    elif backend_choice.startswith("Anthropic"):
         backend = "anthropic"
         active_model = MODEL
     elif backend_choice.startswith("OpenRouter"):
@@ -1200,7 +1320,12 @@ with st.sidebar:
         st.query_params["backend"] = backend
         st.rerun()
 
-    if backend == "ollama":
+    if backend == "local":
+        render_notice(
+            "Vault Search is free and does not call an API. Switch to an API engine only when you need synthesis.",
+            tone="green",
+        )
+    elif backend == "ollama":
         if is_ollama_reachable():
             render_notice("Ollama connected.", tone="green")
         else:
@@ -1222,16 +1347,35 @@ with st.sidebar:
                     tone="green",
                 )
         else:
-            backend_blocker = "OPENROUTER_API_KEY is not set in this shell."
-            render_notice("OPENROUTER_API_KEY not set. Switch backend or set the key before asking.", tone="amber")
+            backend_blocker = "OPENROUTER_API_KEY is not set in this shell or Streamlit secrets."
+            render_notice(
+                "OPENROUTER_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking.",
+                tone="amber",
+            )
     elif backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
-        backend_blocker = "ANTHROPIC_API_KEY is not set in this shell."
-        render_notice("ANTHROPIC_API_KEY not set. Switch backend or set the key before asking.", tone="amber")
+        backend_blocker = "ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets."
+        render_notice(
+            "ANTHROPIC_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking.",
+            tone="amber",
+        )
+
+    paid_api_confirmed = False
+    if backend not in {"local", "ollama"}:
+        paid_api_confirmed = st.checkbox(
+            "Allow paid API synthesis for this session",
+            value=False,
+            help="Keep this off for simple lookup. Turn it on only when you want the model to synthesize across sources and accept token cost.",
+        )
+        if not paid_api_confirmed:
+            render_notice(
+                "Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally.",
+                tone="amber",
+            )
 
     st.markdown("<div class='vault-panel-label'>Condition</div>", unsafe_allow_html=True)
     disease_choice = st.selectbox(
         "Condition",
-        options=["Auto-detect", "CKD", "HCM", "FIP", "IBD", "Diabetes", "FCV"],
+        options=["Auto-detect", "CKD", "HCM", "FIP", "IBD", "Diabetes", "FCV", "Obesity", "Cancer"],
         index=0,
         help="Leave on Auto-detect to let the router determine the disease from your question.",
         label_visibility="collapsed",
@@ -1407,6 +1551,7 @@ for i, msg in enumerate(st.session_state.messages):
                 question=msg.get("question", ""),
                 disease=msg.get("disease", ""),
                 question_type=msg.get("question_type", ""),
+                research_trace=msg.get("research_trace"),
             )
         else:
             st.markdown(msg["content"])
@@ -1417,9 +1562,22 @@ for i, msg in enumerate(st.session_state.messages):
 
 def run_query(question: str) -> bool:
     """Route, hop, synthesize, render, optionally write back."""
+    source_index = get_source_index()
+    source_weights = get_source_weights()
+
+    if backend not in {"local", "ollama"} and not paid_api_confirmed:
+        render_setup_required(
+            what_happened=(
+                "A paid API engine is selected, but paid synthesis is locked. "
+                "Use Vault Search for free lookup, or tick the paid API checkbox in the sidebar."
+            ),
+            technical_detail="Paid API synthesis not confirmed for this session.",
+        )
+        return False
+
     if backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
         render_setup_required(
-            what_happened="Anthropic is selected, but ANTHROPIC_API_KEY is not set in this shell.",
+            what_happened="Anthropic is selected, but ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets.",
             technical_detail="ANTHROPIC_API_KEY not set",
         )
         render_example_question_chips("anthropic-missing")
@@ -1427,7 +1585,7 @@ def run_query(question: str) -> bool:
 
     if backend == "openrouter" and not os.environ.get("OPENROUTER_API_KEY"):
         render_setup_required(
-            what_happened="OpenRouter is selected, but OPENROUTER_API_KEY is not set in this shell.",
+            what_happened="OpenRouter is selected, but OPENROUTER_API_KEY is not set in this shell or Streamlit secrets.",
             technical_detail="OPENROUTER_API_KEY not set",
         )
         render_example_question_chips("openrouter-missing")
@@ -1440,7 +1598,7 @@ def run_query(question: str) -> bool:
             render_setup_required(
                 what_happened=(
                     "OpenRouter is selected, but this Streamlit process was started without "
-                    "the project-side daily budget guard."
+                    "the project-side daily budget guard in the shell or Streamlit secrets."
                 ),
                 technical_detail=str(exc),
                 extra_action_html=openrouter_budget_help_html(),
@@ -1457,27 +1615,36 @@ def run_query(question: str) -> bool:
         return False
 
     try:
-        client = get_client(backend)
+        client = None if backend == "local" else get_client(backend)
     except ImportError as e:
         render_query_error(
             what_happened="A required Python package is missing for the selected backend.",
             technical_detail=str(e),
         )
         return False
-    source_index = get_source_index()
-    source_weights = get_source_weights()
 
-    with st.status("Routing question...", expanded=False) as status:
+    status_label = "Searching local vault..." if backend == "local" else "Routing question..."
+    with st.status(status_label, expanded=False) as status:
         try:
-            result = run_query_core(
-                client, question, VAULT_ROOT, source_index,
-                source_weights=source_weights,
-                disease_hint=disease_arg,
-                preferred_source_ids=st.session_state.preferred_source_ids or None,
-                max_hops=max_hops,
-                model=active_model,
-                on_status=lambda msg: status.update(label=msg, expanded=False),
-            )
+            if backend == "local":
+                result = run_local_query_core(
+                    question, VAULT_ROOT, source_index,
+                    source_weights=source_weights,
+                    disease_hint=disease_arg,
+                    preferred_source_ids=st.session_state.preferred_source_ids or None,
+                    search_limit=8,
+                    on_status=lambda msg: status.update(label=msg, expanded=False),
+                )
+            else:
+                result = run_query_core(
+                    client, question, VAULT_ROOT, source_index,
+                    source_weights=source_weights,
+                    disease_hint=disease_arg,
+                    preferred_source_ids=st.session_state.preferred_source_ids or None,
+                    max_hops=max_hops,
+                    model=active_model,
+                    on_status=lambda msg: status.update(label=msg, expanded=False),
+                )
         except SystemExit:
             status.update(label="Could not detect disease", state="error", expanded=True)
             render_notice(
@@ -1531,6 +1698,7 @@ def run_query(question: str) -> bool:
         hops_used = result["hops_used"]
         loaded_paths = result["loaded_paths"]
         loaded_source_ids = result.get("loaded_source_ids", [])
+        research_trace = result.get("research_trace", [])
         est_tokens = result["est_tokens"]
 
         status.update(label="Done", state="complete", expanded=False)
@@ -1551,6 +1719,7 @@ def run_query(question: str) -> bool:
             question=question,
             disease=detected_disease,
             question_type=question_type,
+            research_trace=research_trace,
         )
 
     # --- Write-back ---
@@ -1583,6 +1752,7 @@ def run_query(question: str) -> bool:
         "figures_used": figures_used,
         "source_ids": source_ids,
         "loaded_source_ids": loaded_source_ids,
+        "research_trace": research_trace,
     })
     st.session_state.last_files_loaded = [str(p) for p in loaded_paths]
 
@@ -1594,6 +1764,7 @@ def run_query(question: str) -> bool:
         "confidence": confidence,
         "source_ids": source_ids,
         "loaded_source_ids": loaded_source_ids,
+        "research_trace": research_trace,
         "written_to": written_to,
         "figures_used": figures_used,
         "preferred_source_ids": list(st.session_state.preferred_source_ids),

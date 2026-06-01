@@ -57,6 +57,24 @@ ANTHROPIC_API_KEY=<key> python -m streamlit run scripts/app.py
 OPENROUTER_API_KEY=<key> scripts/run_test_page.sh
 ```
 
+Preflight the OpenRouter config without making an API call:
+
+```bash
+OPENROUTER_API_KEY=<key> OPENROUTER_DAILY_BUDGET_USD=1.00 python scripts/check_openrouter_budget_guard.py
+```
+
+For Streamlit Cloud or any hosted Streamlit deploy, put the same keys in
+Streamlit secrets instead of relying on shell environment variables:
+
+```toml
+OPENROUTER_API_KEY = "sk-or-..."
+OPENROUTER_DAILY_BUDGET_USD = "1.00"
+OPENROUTER_MODEL = "openai/gpt-4.1-mini"
+```
+
+The app mirrors these secrets into the process environment at startup so the
+same OpenRouter budget guard is enforced locally and in hosted Streamlit.
+
 **Option C — Ollama (local, hidden by default)**
 ```bash
 brew install ollama
@@ -67,9 +85,13 @@ ENABLE_OLLAMA=true python -m streamlit run scripts/app.py
 # optional: --ollama-model llama3.3 to override the default model
 ```
 
-All three open `localhost:8501`. The Streamlit UI is API-first by default because older local machines may not be able to run local models comfortably. Ollama remains available for CLI and explicit local testing, but it is hidden in the UI unless `ENABLE_OLLAMA=true` is set.
+All three open `localhost:8501`. The Streamlit UI defaults to **Vault Search (free)**, which searches local source cards and topic pages without calling an API. Switch to Anthropic, OpenRouter, or Ollama only when you need generated cross-source synthesis. Ollama remains hidden in the UI unless `ENABLE_OLLAMA=true` is set.
+
+When a paid API engine is selected, the app requires the sidebar checkbox **Allow paid API synthesis for this session** before it will send a question. This prevents stale browser state such as `?backend=openrouter` from silently spending tokens.
 
 Answers include provenance badges: green `[quoted_fact]` marks direct quotes from source cards, amber `[source_supported_conclusion]` marks inferences the loaded evidence supports, and gray `[llm_inference]` marks reasoning beyond the loaded sources. The sidebar shows which files were loaded and the confidence level.
+
+Each answer also exposes a collapsed Research trace showing how the vault interpreted the question, which local surfaces it searched, which source cards it loaded, and what evidence was excluded or only used as context. Treat the trace as an audit trail, not as additional evidence. In free local-search mode the trace should show `api_calls=0`.
 
 Do not treat `candidate-*` image references as evidence. The query layer filters them out until a human has checked the article figure/table label and placed a real non-candidate file on disk.
 

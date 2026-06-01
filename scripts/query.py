@@ -32,7 +32,11 @@ try:
     from search import vault_search, format_results_for_llm
     SEARCH_AVAILABLE = True
 except ImportError:
-    SEARCH_AVAILABLE = False
+    try:
+        from .search import vault_search, format_results_for_llm
+        SEARCH_AVAILABLE = True
+    except ImportError:
+        SEARCH_AVAILABLE = False
 
 # ---------------------------------------------------------------------------
 # Config
@@ -631,11 +635,105 @@ def infer_disease_from_question(question: str) -> str:
         ("ibd", [r"(?<![a-zA-Z])ibd(?![a-zA-Z])", r"inflammatory bowel disease", r"small-cell lymphoma", r"small cell lymphoma", r"炎症性肠病", r"肠病"]),
         ("diabetes", [r"(?<![a-zA-Z])diabetes(?![a-zA-Z])", r"diabetes mellitus", r"(?<![a-zA-Z])diabetic(?![a-zA-Z])", r"(?<![a-zA-Z])sglt2(?![a-zA-Z])", r"(?<![a-zA-Z])glargine(?![a-zA-Z])", r"糖尿病"]),
         ("fcv", [r"(?<![a-zA-Z])fcv(?![a-zA-Z])", r"feline calicivirus", r"(?<![a-zA-Z])calicivirus(?![a-zA-Z])", r"杯状病毒"]),
+        ("obesity", [r"(?<![a-zA-Z])obesity(?![a-zA-Z])", r"(?<![a-zA-Z])obese(?![a-zA-Z])", r"weight loss", r"body condition", r"肥胖", r"超重", r"体况"]),
+        ("cancer", [r"(?<![a-zA-Z])cancer(?![a-zA-Z])", r"(?<![a-zA-Z])tumou?r(?![a-zA-Z])", r"carcinoma", r"lymphoma", r"sarcoma", r"肿瘤", r"癌", r"淋巴瘤"]),
     ]
     for disease, patterns in disease_patterns:
         if any(re.search(pattern, lowered) for pattern in patterns):
             return disease
     return "unknown"
+
+
+def prefers_chinese(question: str) -> bool:
+    """Return True when the user question contains CJK characters."""
+    return bool(re.search(r"[\u3400-\u9fff]", question))
+
+
+def local_search_terms(question: str) -> list[str]:
+    """Build a small deterministic search set for no-API vault lookup."""
+    terms: list[str] = []
+
+    def add(term: str) -> None:
+        term = term.strip()
+        if len(term) >= 2 and term not in terms:
+            terms.append(term)
+
+    add(question)
+    for token in re.findall(r"[A-Za-z][A-Za-z0-9+/_-]{2,}", question):
+        add(token)
+
+    lowered = question.lower()
+    domain_terms = [
+        ("sirna", "siRNA"),
+        ("肥胖", "肥胖"),
+        ("药效", "药效"),
+        ("疗效", "疗效"),
+        ("评价", "评价"),
+        ("猫", "猫"),
+        ("feline", "feline"),
+        ("obesity", "obesity"),
+        ("obese", "obese"),
+        ("body condition", "body condition"),
+        ("weight loss", "weight loss"),
+        ("cancer", "cancer"),
+        ("肿瘤", "肿瘤"),
+    ]
+    for needle, term in domain_terms:
+        if needle in lowered or needle in question:
+            add(term)
+    return terms[:8]
+
+
+def aggregate_vault_search(
+    question: str,
+    vault_root: Path,
+    scope: str = "all",
+    limit: int = 8,
+) -> tuple[list[dict], list[str]]:
+    """Search whole query plus important terms, then merge ranked results."""
+    if not SEARCH_AVAILABLE:
+        return [], []
+    terms = local_search_terms(question)
+    merged: dict[str, dict] = {}
+    for term in terms:
+        for result in vault_search(term, vault_root, scope=scope, limit=limit):
+            key = result["file"]
+            if key not in merged:
+                item = dict(result)
+                item["matched_terms"] = []
+                item["score"] = 0
+                merged[key] = item
+            merged[key]["score"] += int(result.get("matches", 0))
+            if term not in merged[key]["matched_terms"]:
+                merged[key]["matched_terms"].append(term)
+            snippets = merged[key].setdefault("snippets", [])
+            for snippet in result.get("snippets", []):
+                if snippet not in snippets and len(snippets) < 3:
+                    snippets.append(snippet)
+    results = sorted(
+        merged.values(),
+        key=lambda r: (-int(r.get("score", 0)), r["file"]),
+    )
+    return results[:limit], terms
+
+
+def source_card_disease_matches(path: Path, disease: str) -> bool:
+    """Best-effort frontmatter disease filter for local search summaries."""
+    if disease == "unknown":
+        return True
+    content = _read_file(path)
+    if not content:
+        return False
+    fm_disease = frontmatter_scalar(content, "disease")
+    fm_diseases = ""
+    if content.startswith("---"):
+        end = content.find("\n---", 3)
+        if end != -1:
+            for line in content[3:end].splitlines():
+                if line.startswith("diseases:"):
+                    fm_diseases = line.split(":", 1)[1]
+                    break
+    return disease in {fm_disease, fm_diseases} or disease in fm_diseases
 
 
 def is_broad_explanation_question(question: str) -> bool:
@@ -1053,10 +1151,10 @@ def router_call(
     hint_line = f"\nThe user specified --disease: {disease_hint}." if disease_hint else ""
 
     system = f"""You are a routing agent for a feline disease knowledge vault.
-The vault covers feline CKD, HCM, FIP, IBD, and diabetes.
+The vault covers feline CKD, HCM, FIP, IBD, diabetes, FCV, obesity, and cancer.
 Return ONLY a JSON object with these keys:
   question_type  — one of: overview, mechanism, recognition, endpoints, treatment, regulatory, synthesis, claim_verification
-  disease        — one of: ckd, hcm, fip, ibd, diabetes, unknown
+  disease        — one of: ckd, hcm, fip, ibd, diabetes, fcv, obesity, cancer, unknown
   files_to_load  — list of vault-relative paths, e.g. ["topics/ckd/mechanism-overview.md"]
   reasoning      — one sentence{hint_line}"""
 
@@ -1126,6 +1224,7 @@ def synthesis_call(
     VISION_FIGURE_CAP image files as base64 blocks alongside the text context.
     Falls back gracefully to text-only for non-Anthropic backends or empty assets.
     """
+    answer_language = "Chinese" if prefers_chinese(question) else "English"
     if answer_mode == "overview":
         structure = """Structure:
 1. Direct answer (2-4 short paragraphs, lead with the practical explanation)
@@ -1175,6 +1274,7 @@ Figure instructions (applies when images are provided):
 - Never describe figures that were not provided.
 
 Critical constraints:
+- Answer in {answer_language}. Match the user's language unless the user explicitly asks otherwise.
 - Only cite source IDs that appear in the loaded context. Never invent IDs.
 - If you cannot find a citation for a claim, tag it [llm_inference].
 - Distinguish carefully between what the evidence says and what you are inferring."""
@@ -1528,6 +1628,222 @@ class NoSourceCardsLoadedError(RuntimeError):
     """Raised when routing/search fails to load any source cards for synthesis."""
 
 
+def run_local_query_core(
+    question: str,
+    vault_root: Path,
+    source_index: dict[str, Path],
+    source_weights: Optional[dict[str, dict]] = None,
+    disease_hint: Optional[str] = None,
+    preferred_source_ids: Optional[list[str]] = None,
+    search_limit: int = 8,
+    on_status: Optional[Callable[[str], None]] = None,
+) -> dict:
+    """No-API vault lookup for simple inquiries and evidence-gap checks."""
+    def _status(msg: str) -> None:
+        if on_status:
+            on_status(msg)
+
+    chinese = prefers_chinese(question)
+    disease = disease_hint or infer_disease_from_question(question)
+    question_type = heuristic_question_type(question)
+    if question_type == "unknown":
+        question_type = "local_search"
+
+    research_trace: list[dict] = []
+
+    def add_trace(step: str, detail: str, items: Optional[list[dict]] = None) -> None:
+        entry = {"step": step, "detail": detail}
+        if items is not None:
+            entry["items"] = items
+        research_trace.append(entry)
+
+    add_trace("Interpreted query", f"disease={disease}; question_type={question_type}; engine=local")
+
+    _status("Searching local vault...")
+    disease_search_terms = {
+        "obesity": "obesity body condition weight loss",
+        "cancer": "cancer tumor carcinoma lymphoma sarcoma",
+        "diabetes": "diabetes diabetic glucose insulin",
+        "fcv": "FCV calicivirus",
+    }
+    search_question = question
+    if disease in disease_search_terms and disease_search_terms[disease] not in question.lower():
+        search_question = f"{question} {disease_search_terms[disease]}"
+    raw_results, raw_terms = aggregate_vault_search(search_question, vault_root, scope="raw", limit=search_limit)
+    topic_results, topic_terms = aggregate_vault_search(search_question, vault_root, scope="topics", limit=search_limit)
+    terms = []
+    for term in raw_terms + topic_terms:
+        if term not in terms:
+            terms.append(term)
+    results = (raw_results[: max(4, search_limit // 2)] + topic_results[: max(4, search_limit // 2)])[:search_limit]
+    add_trace(
+        "Searched vault",
+        f"terms={', '.join(terms) if terms else question}; results={len(results)}; api_calls=0",
+        [
+            {
+                "file": r["file"],
+                "id": r.get("id") or "",
+                "matches": r.get("score", r.get("matches", 0)),
+                "terms": ", ".join(r.get("matched_terms", [])),
+            }
+            for r in results[:search_limit]
+        ],
+    )
+
+    loaded_paths: set[Path] = set()
+    loaded_source_ids: list[str] = []
+    selected_results: list[dict] = []
+
+    def include_result(result: dict) -> None:
+        rel = result["file"]
+        path = (vault_root / rel).resolve()
+        try:
+            path.relative_to(vault_root.resolve())
+        except ValueError:
+            return
+        if not path.exists():
+            return
+        loaded_paths.add(path)
+        sid = result.get("id") or ""
+        if sid.startswith("src-") and sid not in loaded_source_ids:
+            loaded_source_ids.append(sid)
+        if result not in selected_results:
+            selected_results.append(result)
+
+    for result in results:
+        sid = result.get("id") or ""
+        if sid.startswith("src-"):
+            path = source_index.get(sid)
+            if path and (disease == "unknown" or source_card_disease_matches(path, disease)):
+                include_result(result)
+        elif len(selected_results) < 3:
+            include_result(result)
+        if len(selected_results) >= 6:
+            break
+
+    if preferred_source_ids:
+        preferred_items: list[dict] = []
+        for sid in preferred_source_ids:
+            path = source_index.get(sid)
+            loaded = False
+            if path and path.exists():
+                loaded_paths.add(path)
+                if sid not in loaded_source_ids:
+                    loaded_source_ids.append(sid)
+                loaded = True
+            preferred_items.append({"source_id": sid, "loaded": loaded})
+        add_trace(
+            "Applied selected source",
+            f"{sum(1 for item in preferred_items if item['loaded'])}/{len(preferred_items)} preferred sources loaded",
+            preferred_items,
+        )
+
+    add_trace(
+        "Loaded evidence",
+        f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}; api_calls=0",
+        [{"source_id": sid} for sid in loaded_source_ids[:12]],
+    )
+
+    lower_question = question.lower()
+    exact_needles = [term for term in terms if term.lower() in {"sirna", "rnai"}]
+    disease_specific_hits = [
+        sid for sid in loaded_source_ids
+        if sid in source_index and (disease == "unknown" or source_card_disease_matches(source_index[sid], disease))
+    ]
+    has_direct_rare_term_hit = False
+    for result in selected_results:
+        snippets_text = " ".join(result.get("snippets", []))
+        if any(needle.lower() in snippets_text.lower() or needle.lower() in str(result.get("title", "")).lower() for needle in exact_needles):
+            has_direct_rare_term_hit = True
+            break
+
+    cited = ", ".join(disease_specific_hits[:3])
+    if not cited and loaded_source_ids:
+        cited = ", ".join(loaded_source_ids[:3])
+
+    if chinese:
+        if exact_needles and disease != "unknown" and not has_direct_rare_term_hit:
+            direct = (
+                f"本地库里目前没有找到“{question}”的直接证据；尤其没有找到同时支持 `{disease}` 与 "
+                f"`{', '.join(exact_needles)}` 的 source card。这个结果没有调用 API。"
+            )
+        elif disease_specific_hits:
+            direct = f"本地库找到了可读证据入口，但这是检索结果，不是 API 综合回答。这个结果没有调用 API。"
+        else:
+            direct = "本地库没有找到足够匹配的 source card。这个结果没有调用 API。"
+
+        evidence_lines = []
+        for result in selected_results[:5]:
+            sid = result.get("id") or result["file"]
+            title = result.get("title") or result["file"]
+            terms_hit = ", ".join(result.get("matched_terms", []))
+            evidence_lines.append(f"- `{sid}` — {title}；命中词：{terms_hit or 'n/a'}")
+        if not evidence_lines:
+            evidence_lines.append("- 没有本地命中。")
+
+        cited_tag = " [llm_inference]" if exact_needles and not has_direct_rare_term_hit else (f" [source_supported_conclusion: {cited}]" if cited else " [llm_inference]")
+        answer = (
+            f"{direct}{cited_tag}\n\n"
+            "## 本地命中\n"
+            + "\n".join(evidence_lines)
+            + "\n\n## 和 Google 搜索的差别\n"
+            "- 这里先查的是本项目已经入库、带 source card / topic page 的材料；不会把未入库网页当证据。\n"
+            "- 免费检索模式只告诉你“库里有什么/没有什么”，不会花 OpenRouter 或 Anthropic token。\n"
+            "- 如果要做跨文献发现或生成研究判断，再切到 API synthesis；那时应把 Research trace 当作花费是否值得的审计依据。\n\n"
+            "## 下一步\n"
+            "如果目标是评估一个新方向，先补一轮 PubMed/DOI source intake；在没有 siRNA-feline-obesity 证据卡前，不应生成药效结论。"
+        )
+    else:
+        if exact_needles and disease != "unknown" and not has_direct_rare_term_hit:
+            direct = (
+                f"The local vault does not currently contain direct evidence for `{question}`, "
+                f"especially no source card that connects `{disease}` with `{', '.join(exact_needles)}`. No API call was made."
+            )
+        elif disease_specific_hits:
+            direct = "The local vault found relevant evidence entry points. This is retrieval, not API synthesis. No API call was made."
+        else:
+            direct = "The local vault did not find enough matching source-card evidence. No API call was made."
+
+        evidence_lines = []
+        for result in selected_results[:5]:
+            sid = result.get("id") or result["file"]
+            title = result.get("title") or result["file"]
+            terms_hit = ", ".join(result.get("matched_terms", []))
+            evidence_lines.append(f"- `{sid}` — {title}; matched terms: {terms_hit or 'n/a'}")
+        if not evidence_lines:
+            evidence_lines.append("- No local hits.")
+
+        cited_tag = " [llm_inference]" if exact_needles and not has_direct_rare_term_hit else (f" [source_supported_conclusion: {cited}]" if cited else " [llm_inference]")
+        answer = (
+            f"{direct}{cited_tag}\n\n"
+            "## Local hits\n"
+            + "\n".join(evidence_lines)
+            + "\n\n## Difference from Google search\n"
+            "- This searches only vault materials that already have source cards or topic pages.\n"
+            "- Free retrieval tells you what is or is not in the vault without spending API tokens.\n"
+            "- Use API synthesis only when you need a cross-source judgment and can inspect the Research trace.\n\n"
+            "## Next step\n"
+            "If this is a new research direction, run PubMed/DOI intake first; do not generate efficacy conclusions before source cards exist."
+        )
+
+    answer = sanitize_provenance_tags(answer, loaded_source_ids)
+    add_trace("Returned local answer", f"mode=free_retrieval; api_calls=0; results={len(selected_results)}")
+
+    return {
+        "answer": answer,
+        "figures_used": [],
+        "disease": disease,
+        "question_type": question_type,
+        "answer_mode": "local_search",
+        "hops_used": 0,
+        "loaded_paths": loaded_paths,
+        "loaded_source_ids": loaded_source_ids,
+        "first_family_loaded": "local-search",
+        "research_trace": research_trace,
+        "est_tokens": 0,
+    }
+
+
 def run_query_core(
     client,
     question: str,
@@ -1564,6 +1880,14 @@ def run_query_core(
     context_parts: list[str] = []
     frontmatter_source_ids: dict[Path, list[str]] = {}
     first_family_loaded: Optional[str] = None
+    research_trace: list[dict] = []
+
+    def add_trace(step: str, detail: str, items: Optional[list[dict]] = None) -> None:
+        """Record an auditable retrieval/synthesis step for the UI."""
+        entry = {"step": step, "detail": detail}
+        if items is not None:
+            entry["items"] = items
+        research_trace.append(entry)
 
     def resolve_vault_path(rel: str) -> Optional[Path]:
         direct = (vault_root / rel).resolve()
@@ -1647,6 +1971,11 @@ def run_query_core(
     disease = disease_hint or routing.get("disease", "unknown")
     question_type = routing.get("question_type", "unknown")
     initial_files = routing.get("files_to_load", [])
+    add_trace(
+        "Interpreted query",
+        f"disease={disease}; question_type={question_type}; initial_files={len(initial_files)}",
+        [{"file": str(f)} for f in initial_files[:8]],
+    )
 
     # Cross-disease queries (synthesis question_type) are allowed with unknown disease
     if disease == "unknown" and question_type != "synthesis":
@@ -1658,9 +1987,14 @@ def run_query_core(
         )
         raise SystemExit(1)
 
+    initial_loaded: list[dict] = []
     for f in initial_files:
-        if try_load_path(f):
+        loaded = try_load_path(f)
+        initial_loaded.append({"file": str(f), "loaded": loaded})
+        if loaded:
             print(f"[info] Loaded: {f}", file=sys.stderr)
+    if initial_loaded:
+        add_trace("Loaded routed files", f"{sum(1 for item in initial_loaded if item['loaded'])}/{len(initial_loaded)} files loaded", initial_loaded)
 
     # Search pre-heat: use full-text search to find relevant source cards
     # that the router might have missed. Only loads source cards (not topic pages)
@@ -1670,15 +2004,37 @@ def run_query_core(
         search_scope = "raw" if disease != "unknown" else "all"
         search_limit = 3 if question_type == "overview" else 5
         search_results = vault_search(question, vault_root, scope=search_scope, limit=search_limit)
+        search_trace_items: list[dict] = []
         for sr in search_results:
+            loaded_by_search = False
             if sr["id"] and sr["id"].startswith("src-") and sr["id"] in source_index:
                 if try_load_source(sr["id"]):
+                    loaded_by_search = True
                     print(f"[info] Search pre-loaded: {sr['id']} ({sr['matches']} matches)", file=sys.stderr)
+            search_trace_items.append({
+                "file": sr["file"],
+                "id": sr.get("id") or "",
+                "matches": sr["matches"],
+                "loaded": loaded_by_search,
+            })
+        add_trace(
+            "Searched vault",
+            f"scope={search_scope}; limit={search_limit}; results={len(search_results)}",
+            search_trace_items,
+        )
 
     if preferred_source_ids:
+        preferred_trace_items: list[dict] = []
         for sid in preferred_source_ids:
-            if sid in source_index and try_load_source(sid):
+            loaded = sid in source_index and try_load_source(sid)
+            preferred_trace_items.append({"source_id": sid, "loaded": loaded})
+            if loaded:
                 print(f"[info] User-preferred source pre-loaded: {sid}", file=sys.stderr)
+        add_trace(
+            "Applied selected source",
+            f"{sum(1 for item in preferred_trace_items if item['loaded'])}/{len(preferred_trace_items)} preferred sources loaded",
+            preferred_trace_items,
+        )
 
     # Hop loop
     history: list[dict] = []
@@ -1699,6 +2055,15 @@ def run_query_core(
         hops_used = hop + 1
 
         act = action.get("action")
+        add_trace(
+            f"Agent hop {hop + 1}",
+            f"action={act}; est_tokens={est_tokens}",
+            [
+                {"file": str(f)} for f in action.get("files", [])[:8]
+            ] + [
+                {"source_id": str(sid)} for sid in action.get("source_ids", [])[:8]
+            ],
+        )
         if act == "synthesize":
             print("[info] Agent ready to synthesize", file=sys.stderr)
             break
@@ -1731,6 +2096,11 @@ def run_query_core(
                 f"[info] Fallback source preload from compiled pages: {fallback_ids[:fallback_cap]}",
                 file=sys.stderr,
             )
+            add_trace(
+                "Fallback source preload",
+                f"found={len(fallback_ids)}; cap={fallback_cap}",
+                [{"source_id": sid} for sid in fallback_ids[:fallback_cap]],
+            )
         for sid in fallback_ids[:fallback_cap]:
             if try_load_source(sid):
                 print(f"[info] Fallback loaded source: {sid}", file=sys.stderr)
@@ -1743,6 +2113,11 @@ def run_query_core(
         raise NoSourceCardsLoadedError(
             "No source cards matched the routed context for this question."
         )
+    add_trace(
+        "Loaded evidence",
+        f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}",
+        [{"source_id": sid} for sid in loaded_source_ids[:12]],
+    )
 
     # Map question_type to preferred figure_type for relevance-sorted retrieval.
     # Note: figures with figure_type not in any value here (e.g. "pathology")
@@ -1771,6 +2146,14 @@ def run_query_core(
             )
         else:
             print("[info] Vision: no verified figures on disk yet (extract PDFs to enable)", file=sys.stderr)
+        add_trace(
+            "Checked verified figures",
+            f"available={len(resolved_assets)}; enabled={VISION_INTEGRATION_ENABLED}",
+            [
+                {"source_id": a.get("source_id", ""), "file": a.get("file", "")}
+                for a in resolved_assets[:VISION_FIGURE_CAP]
+            ],
+        )
 
     # Synthesize
     loaded_context = "\n\n".join(context_parts)
@@ -1780,6 +2163,10 @@ def run_query_core(
     print(f"[info] Synthesizing ({n_files} files, ~{est_tokens} tokens)...", file=sys.stderr)
 
     answer_mode = "overview" if question_type == "overview" else "research"
+    add_trace(
+        "Synthesized answer",
+        f"mode={answer_mode}; files={n_files}; est_tokens={est_tokens}",
+    )
     answer, figures_used = synthesis_call(
         client, question, loaded_context,
         resolved_assets=resolved_assets,
@@ -1798,6 +2185,7 @@ def run_query_core(
         "loaded_paths": loaded_paths,
         "loaded_source_ids": loaded_source_ids,
         "first_family_loaded": first_family_loaded or "unknown",
+        "research_trace": research_trace,
         "est_tokens": est_tokens,
     }
 
