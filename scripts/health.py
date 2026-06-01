@@ -790,9 +790,27 @@ def api_key_status() -> dict[str, bool]:
     }
 
 
+def ordinary_user_vault_eval_status() -> dict:
+    """Run the no-API ordinary-user answer-surface eval when local venv exists."""
+    venv_python = VAULT_ROOT / ".venv" / "bin" / "python"
+    if not venv_python.exists():
+        return {
+            "exit_code": 0,
+            "stdout": "SKIPPED: .venv/bin/python missing",
+            "stderr": "",
+            "timed_out": False,
+            "skipped": True,
+        }
+    result = run_command([str(venv_python), "scripts/ordinary_user_vault_eval.py"], timeout=90)
+    result["skipped"] = False
+    return result
+
+
 def command_summary(command_result: dict) -> str:
     if command_result["timed_out"]:
         return "TIMEOUT"
+    if command_result.get("skipped"):
+        return "WARN"
     return "PASS" if command_result["exit_code"] == 0 else "FAIL"
 
 
@@ -806,10 +824,12 @@ def render_report(data: dict) -> str:
     keys = data["api_keys"]
     link_result = data["link_check"]
     query_result = data["query_tests"]
+    ordinary_eval = data["ordinary_user_vault_eval"]
 
     has_hard_failure = (
         link_result["exit_code"] != 0
         or query_result["exit_code"] != 0
+        or (ordinary_eval["exit_code"] != 0 and not ordinary_eval.get("skipped"))
         or bool(inventory["duplicate_ids"])
         or bool(inventory["missing_ids"])
         or bool(inventory["low_word_cards"])
@@ -850,6 +870,7 @@ def render_report(data: dict) -> str:
         "|---|---|---|",
         summary_row("Markdown links", command_summary(link_result), first_line(link_result["stdout"])),
         summary_row("Query tests", command_summary(query_result), test_summary(query_result["stdout"])),
+        summary_row("Ordinary-user vault eval", command_summary(ordinary_eval), first_line(ordinary_eval["stdout"] or ordinary_eval["stderr"])),
         summary_row("Paper source cards", "PASS" if inventory["paper_total"] >= inventory["expected_paper_total"] else "FAIL", f"{inventory['paper_total']} strict disease paper cards; baseline >= {inventory['expected_paper_total']}"),
         summary_row("Regulation source cards", "PASS" if inventory["reg_total"] == 14 else "WARN", f"{inventory['reg_total']} regulation cards"),
         summary_row("Source IDs", "PASS" if not inventory["duplicate_ids"] and not inventory["missing_ids"] else "FAIL", f"{len(inventory['duplicate_ids'])} duplicates, {len(inventory['missing_ids'])} missing ids"),
@@ -1089,6 +1110,8 @@ def render_report(data: dict) -> str:
         lines.extend(["", "## Link Check Output", "", "```text", clip(link_result["stdout"] or link_result["stderr"]), "```"])
     if query_result["exit_code"] != 0:
         lines.extend(["", "## Query Test Output", "", "```text", clip(query_result["stdout"] or query_result["stderr"]), "```"])
+    if ordinary_eval["exit_code"] != 0:
+        lines.extend(["", "## Ordinary-User Vault Eval Output", "", "```text", clip(ordinary_eval["stdout"] or ordinary_eval["stderr"]), "```"])
 
     return "\n".join(lines) + "\n"
 
@@ -1145,6 +1168,10 @@ def next_actions(data: dict) -> list[str]:
         actions.append("- Review and fix the latest executed acceptance report until `Acceptance status: pass`.")
     if not ordinary_user_acceptance_ok(ordinary_acceptance):
         actions.append("- Run `python3 scripts/run_acceptance_checklist.py --suite ordinary-user --route-only` or the live ordinary-user suite so ordinary-user routing stays under health checks.")
+    if data["ordinary_user_vault_eval"].get("skipped"):
+        actions.append("- Run `.venv/bin/python scripts/ordinary_user_vault_eval.py` in a project venv so free-mode ordinary-user answer surfaces stay covered.")
+    elif data["ordinary_user_vault_eval"]["exit_code"] != 0:
+        actions.append("- Fix `scripts/ordinary_user_vault_eval.py` failures before trusting the public ordinary-user surface.")
     if inventory["by_disease"]["ckd"]["verification_status"].get("missing"):
         actions.append("- Backfill CKD `verification_status` frontmatter so mature CKD cards no longer show as `missing` in health reports.")
     if inventory["missing_required_fields"] or inventory["invalid_field_values"]:
@@ -1210,6 +1237,7 @@ def main() -> int:
         "inbox_inventory": inbox_inventory(),
         "acceptance": latest_acceptance_report(),
         "ordinary_user_acceptance": latest_acceptance_report("ordinary-user-acceptance-report"),
+        "ordinary_user_vault_eval": ordinary_user_vault_eval_status(),
         "compile_trigger": compile_trigger_status(),
         "api_keys": api_key_status(),
     }
@@ -1222,6 +1250,7 @@ def main() -> int:
     hard_fail = (
         data["link_check"]["exit_code"] != 0
         or data["query_tests"]["exit_code"] != 0
+        or (data["ordinary_user_vault_eval"]["exit_code"] != 0 and not data["ordinary_user_vault_eval"].get("skipped"))
         or bool(data["source_inventory"]["duplicate_ids"])
         or bool(data["source_inventory"]["missing_ids"])
         or bool(data["source_inventory"]["low_word_cards"])

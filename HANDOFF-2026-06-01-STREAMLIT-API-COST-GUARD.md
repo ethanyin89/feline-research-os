@@ -199,6 +199,11 @@ Second follow-up after the user clarified this is about ordinary-person product 
 - Added sample report:
   - `system/health-checks/ordinary-user-vault-sample-run-20260601.md`
 - Current local ordinary-user eval result: 6/6 PASS, all with `api_calls=0`.
+- Continued follow-up:
+  - Integrated the no-API ordinary-user eval into `scripts/health.py`.
+  - `python3 scripts/health.py` now includes `Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls.`
+  - Public Streamlit smoke still verifies load/default state (`Vault Search (free)`, `engine no API`).
+  - Browser automation can fill the Streamlit chat input, but end-to-end send remains unreliable under gstack/Streamlit control. Treat local `ordinary_user_vault_eval.py` as the current deterministic acceptance path until a public-browser test helper is hardened.
 
 Public verification completed:
 
