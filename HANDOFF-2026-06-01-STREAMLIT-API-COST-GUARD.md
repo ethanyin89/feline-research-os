@@ -18,7 +18,7 @@ status: deployed
 - Branch: `idea-chatacademia-research-workbench`
 - Base commit at session start: `edbe864 feat(cancer): upgrade Tulsa registry and update branch pages`
 - Remote: `origin https://github.com/ethanyin89/feline-research-os.git`
-- `main` and `origin/main` currently point at `3a97d09 docs: update streamlit cost guard handoff`.
+- `main` and `origin/main` currently point at `5750cfb fix(streamlit): answer CKD explanations in free mode` before this handoff-only update.
 
 ## User Problem
 
@@ -166,8 +166,22 @@ Commits pushed:
 - `722889e fix(streamlit): gate paid APIs and add free vault search`
 - `de71015 fix(streamlit): decouple free search from query import`
 - `3a97d09 docs: update streamlit cost guard handoff`
+- `b3804d0 docs: correct streamlit handoff deployment commit`
+- `5750cfb fix(streamlit): answer CKD explanations in free mode`
 
 The first deploy showed a Streamlit Cloud `ImportError` at `scripts/app.py` line 58 while importing from `query.py`. Local `.venv` did not reproduce it. The second commit moved the free-search implementation into `scripts/app.py` and stopped importing `run_local_query_core` from `query.py`, which fixed the public startup failure.
+
+Follow-up bug found after the user tested `解释CKD`:
+
+- Root cause: the new free `Vault Search (free)` path was cost-safe but too literal. It returned local hit lists for broad explanation prompts instead of a useful starter answer.
+- Fix in `scripts/app.py`: added broad explanation detection and a deterministic CKD local explanation path.
+- The CKD explanation is built from compiled vault pages/source IDs only. It does not call an API and does not invent external facts.
+- Local regression check now covers:
+  - `解释CKD` -> Chinese `overview` / `local_explanation`, `api_calls=0`
+  - `Explain CKD` -> English `overview` / `local_explanation`, `api_calls=0`
+  - `猫肥胖症siRNA` -> still returns missing-direct-evidence gap, `api_calls=0`
+- `python3 -m py_compile scripts/app.py scripts/query.py scripts/health.py` passed.
+- `python3 scripts/health.py` passed; only existing thin-source warning remains.
 
 Public verification completed:
 
