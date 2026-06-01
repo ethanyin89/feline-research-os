@@ -18,7 +18,7 @@ status: deployed
 - Branch: `idea-chatacademia-research-workbench`
 - Base commit at session start: `edbe864 feat(cancer): upgrade Tulsa registry and update branch pages`
 - Remote: `origin https://github.com/ethanyin89/feline-research-os.git`
-- `main` and `origin/main` currently point at `edbe864`.
+- `main` and `origin/main` currently point at `3a97d09 docs: update streamlit cost guard handoff`.
 
 ## User Problem
 
@@ -165,6 +165,7 @@ Commits pushed:
 
 - `722889e fix(streamlit): gate paid APIs and add free vault search`
 - `de71015 fix(streamlit): decouple free search from query import`
+- `3a97d09 docs: update streamlit cost guard handoff`
 
 The first deploy showed a Streamlit Cloud `ImportError` at `scripts/app.py` line 58 while importing from `query.py`. Local `.venv` did not reproduce it. The second commit moved the free-search implementation into `scripts/app.py` and stopped importing `run_local_query_core` from `query.py`, which fixed the public startup failure.
 
