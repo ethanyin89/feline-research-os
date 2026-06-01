@@ -261,15 +261,17 @@ def detect_chinese(text: str) -> bool:
 def infer_local_disease(question: str) -> str:
     """Small app-local disease detector for free search mode."""
     lowered = question.lower()
+    if "ibd" in lowered and any(term in lowered or term in question for term in ["lymphoma", "淋巴瘤"]):
+        return "ibd"
     patterns = [
         ("obesity", ["obesity", "obese", "body condition", "weight loss", "肥胖", "超重", "体况"]),
         ("diabetes", ["diabetes", "diabetic", "glucose", "insulin", "糖尿病"]),
-        ("cancer", ["cancer", "tumor", "tumour", "carcinoma", "lymphoma", "肿瘤", "癌", "淋巴瘤"]),
         ("ckd", ["ckd", "kidney", "renal", "sdma", "肾", "慢性肾"]),
         ("hcm", ["hcm", "cardiomyopathy", "心肌"]),
         ("fip", ["fip", "传腹", "传染性腹膜炎"]),
         ("ibd", ["ibd", "inflammatory bowel", "肠病"]),
         ("fcv", ["fcv", "calicivirus", "杯状"]),
+        ("cancer", ["cancer", "tumor", "tumour", "carcinoma", "lymphoma", "肿瘤", "癌", "淋巴瘤"]),
     ]
     for disease, needles in patterns:
         if any(needle in lowered or needle in question for needle in needles):
@@ -293,6 +295,10 @@ def local_search_terms(question: str, disease: str) -> list[str]:
         "obesity": ["obesity", "body condition", "weight", "肥胖"],
         "diabetes": ["diabetes", "insulin", "glucose", "糖尿病"],
         "cancer": ["cancer", "tumor", "carcinoma", "肿瘤"],
+        "ckd": ["CKD", "endpoint", "creatinine", "proteinuria", "phosphorus", "SDMA"],
+        "fip": ["FIP", "diagnosis", "recognition", "GS-441524"],
+        "hcm": ["HCM", "echocardiography", "biomarker", "cardiomyopathy"],
+        "ibd": ["IBD", "lymphoma", "biopsy", "chronic enteropathy"],
     }
     for term in disease_terms.get(disease, []):
         add(term)
@@ -383,6 +389,164 @@ def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     return answer, source_ids
 
 
+def build_ckd_endpoint_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic CKD endpoint starter answer."""
+    source_ids = ["src-ckd-002", "src-ckd-004", "src-ckd-010", "src-ckd-013", "src-ckd-015"]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 CKD endpoint 解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接回答\n"
+            "猫 CKD 药效评价不能只靠一个指标。这个库当前把 creatinine、USG、UPCR/蛋白尿、收缩压、phosphorus、SDMA 放在第一波可用 endpoint 短名单里；"
+            "它们分别覆盖肾功能、尿浓缩能力、蛋白尿/肾小球压力、血压负担、矿物代谢和早期检测压力。"
+            " [source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010]\n\n"
+            "## 为什么这样分\n"
+            "- proteinuria、phosphorus 和 blood pressure 不只是记录项，也能连接病理结构、预后和管理重点。 [source_supported_conclusion: src-ckd-010, src-ckd-015]\n"
+            "- 如果问题是治疗试验，endpoint 还应该包含疾病进程和 patient-level burden，不能只看实验室指标。 [source_supported_conclusion: src-ckd-013]\n"
+            "- 当前仍不能把任何单一 endpoint 写成所有 CKD 药效评价的最终胜者。 [llm_inference]\n\n"
+            "## 下一步\n"
+            "读 `topics/ckd/endpoint-handbook.md`，再用 `topics/ckd/outcome-architecture` 相关 memo 检查 trial endpoint 是否过窄。"
+        )
+    else:
+        answer = (
+            "This is a local CKD endpoint explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Answer\n"
+            "Feline CKD efficacy evaluation should not rely on one marker. The vault's first-wave endpoint shortlist is creatinine, USG, UPCR/proteinuria, systolic blood pressure, phosphorus, and SDMA. "
+            "These cover renal function, urine concentrating ability, proteinuric or glomerular pressure, blood-pressure burden, mineral metabolism, and early-detection pressure. "
+            "[source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010]\n\n"
+            "## Why This Split Matters\n"
+            "- Proteinuria, phosphorus, and blood pressure connect pathology, prognosis, and management priorities. [source_supported_conclusion: src-ckd-010, src-ckd-015]\n"
+            "- Treatment-trial endpoint architecture should include disease-course and patient-level burden, not only laboratory markers. [source_supported_conclusion: src-ckd-013]\n"
+            "- The current vault does not support naming one universal winning endpoint for all CKD efficacy questions. [llm_inference]\n\n"
+            "## Next Step\n"
+            "Read `topics/ckd/endpoint-handbook.md`, then check the CKD outcome architecture memo before designing a trial endpoint set."
+        )
+    return answer, source_ids
+
+
+def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic FIP recognition starter answer."""
+    source_ids = ["src-fip-003", "src-fip-010", "src-fip-013", "src-fip-022", "src-fip-023"]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 FIP 识别解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "FIP 不能靠一个症状或一个检测直接识别。这个库把 FIP 识别放在四个层面：风险/暴露背景、临床和实验室表现、effusive 与 non-effusive 形态、以及诊断检测的边界。"
+            "现代抗病毒治疗改变了可行动性，但没有消除诊断不确定性。 [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
+            "## 普通用户要抓住的点\n"
+            "- 识别 FIP 是组合判断，不是单项检测裁决。 [source_supported_conclusion: src-fip-010, src-fip-022]\n"
+            "- neurologic/ocular 分支需要单独看，不能和普通 FIP 工作流混成一个答案。 [source_supported_conclusion: src-fip-022, src-fip-023]\n"
+            "- GS-441524/remdesivir 时代让治疗层更有行动性，但 baseline efficacy、package logic、neurologic rescue 和 durability 不能混写。 [source_supported_conclusion: src-fip-013]\n\n"
+            "## 下一步\n"
+            "读 `topics/fip/risk-and-recognition.md` 和 `topics/fip/diagnostic` 相关页面；如果要问治疗，单独问 GS-441524 baseline、remdesivir package 或 neurologic rescue。"
+        )
+    else:
+        answer = (
+            "This is a local FIP recognition explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Answer\n"
+            "FIP recognition is a composite judgment, not a one-symptom or one-test answer. The vault separates risk and exposure context, clinical and clinicopathologic recognition, effusive versus non-effusive form, and diagnostic-test limits. "
+            "Modern antiviral treatment changed actionability, but it did not remove diagnostic ambiguity. [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
+            "## What To Watch\n"
+            "- Treat FIP diagnosis as integrated evidence, not a single assay verdict. [source_supported_conclusion: src-fip-010, src-fip-022]\n"
+            "- Neurologic or ocular extension is its own branch. [source_supported_conclusion: src-fip-022, src-fip-023]\n"
+            "- GS-441524/remdesivir-era evidence should stay separated into baseline efficacy, package logic, neurologic rescue, and durability. [source_supported_conclusion: src-fip-013]\n\n"
+            "## Next Step\n"
+            "Read `topics/fip/risk-and-recognition.md`; for treatment, ask separately about baseline GS-441524, remdesivir package logic, or neurologic rescue."
+        )
+    return answer, source_ids
+
+
+def build_hcm_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic HCM starter answer."""
+    source_ids = ["src-hcm-001", "src-hcm-008", "src-hcm-009", "src-hcm-010", "src-hcm-013", "src-hcm-024"]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 HCM 解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫 HCM 在这个库里首先是结构性心肌表型问题，而不是单一 biomarker 问题。当前最稳的入口是 phenotype definition、echocardiography/gross morphometry、genotype pressure、remodeling depth 和治疗不确定性分层。"
+            " [source_supported_conclusion: src-hcm-001, src-hcm-009, src-hcm-010, src-hcm-013, src-hcm-024]\n\n"
+            "## 为什么危险\n"
+            "- HCM 不能只理解成“左心室变厚”，remodeling、严重程度和 end-stage phenotype 都会影响解释。 [source_supported_conclusion: src-hcm-001, src-hcm-024]\n"
+            "- biomarkers 和 AI 可以辅助筛查或分层，但不应替代结构表型权重。 [source_supported_conclusion: src-hcm-009, src-hcm-010, src-hcm-013]\n"
+            "- 治疗证据真实存在，但很容易被说过头；当前库不支持把它写成最终 intervention hierarchy。 [source_supported_conclusion: src-hcm-008]\n\n"
+            "## 下一步\n"
+            "读 `topics/hcm/synthesis-index.md`；如果关心风险，继续看 HCM diagnostic-workup、endpoint separation 和 treatment evidence memos。"
+        )
+    else:
+        answer = (
+            "This is a local HCM explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Answer\n"
+            "In this vault, feline HCM starts as a structural myocardial phenotype problem, not a biomarker-only problem. The stable entry points are phenotype definition, echocardiography/gross morphometry, genotype pressure, remodeling depth, and treatment uncertainty. "
+            "[source_supported_conclusion: src-hcm-001, src-hcm-009, src-hcm-010, src-hcm-013, src-hcm-024]\n\n"
+            "## Why It Is Risky\n"
+            "- HCM should not be reduced to simple left-ventricular thickening; remodeling and end-stage phenotype change interpretation. [source_supported_conclusion: src-hcm-001, src-hcm-024]\n"
+            "- Biomarkers and AI can augment screening or severity reading, but should not outrank structural phenotype authority. [source_supported_conclusion: src-hcm-009, src-hcm-010, src-hcm-013]\n"
+            "- Treatment evidence is real but overclaim-sensitive and not a final intervention hierarchy. [source_supported_conclusion: src-hcm-008]\n\n"
+            "## Next Step\n"
+            "Read `topics/hcm/synthesis-index.md`; then use the diagnostic-workup, endpoint-separation, and treatment-evidence memos for narrower questions."
+        )
+    return answer, source_ids
+
+
+def build_ibd_lymphoma_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic IBD-versus-lymphoma starter answer."""
+    source_ids = ["src-ibd-003", "src-ibd-010", "src-ibd-011", "src-ibd-015", "src-ibd-016", "src-ibd-019"]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 IBD/淋巴瘤鉴别解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫 IBD 与小细胞/低级别 alimentary lymphoma 的区分，不应该被写成一个单项 marker 问题。这个库把它当作 diagnostic boundary 和 workup sequencing 问题：慢性肠病怀疑、影像压力、活检部位策略、整合病理，再到有限 marker 支持。"
+            " [source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-019]\n\n"
+            "## 关键边界\n"
+            "- muscularis thickening 更偏 lymphoma pressure，ileal sampling 可能改变诊断，所以采样顺序本身很重要。 [source_supported_conclusion: src-ibd-010, src-ibd-011]\n"
+            "- Bcl-2 比共享 COX-2 signal 更有分层价值，但仍不是单独裁决工具。 [source_supported_conclusion: src-ibd-015, src-ibd-016]\n"
+            "- diet-first 管理逻辑有用，但它属于 chronic enteropathy / food-response 边界内，不能直接证明 idiopathic IBD。 [source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
+            "## 下一步\n"
+            "读 `topics/ibd/synthesis-index.md` 和 IBD diagnostic-workup / boundary memos；不要把 marker、影像、活检或治疗反应单独当最终答案。"
+        )
+    else:
+        answer = (
+            "This is a local IBD-versus-lymphoma explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Answer\n"
+            "Feline IBD versus small-cell or low-grade alimentary lymphoma should not be treated as a one-marker problem. The vault frames it as diagnostic-boundary compression and workup sequencing: chronic-enteropathy suspicion, imaging pressure, biopsy-site strategy, integrated pathology, then bounded marker support. "
+            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-019]\n\n"
+            "## Key Boundaries\n"
+            "- Muscularis thickening is lymphoma-leaning, and ileal sampling can change diagnosis, so sampling strategy matters. [source_supported_conclusion: src-ibd-010, src-ibd-011]\n"
+            "- Bcl-2 is stronger than shared COX-2 signal, but still not a standalone separator. [source_supported_conclusion: src-ibd-015, src-ibd-016]\n"
+            "- Diet-first logic belongs inside chronic-enteropathy and food-response boundaries; it is not pure idiopathic-IBD proof. [source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
+            "## Next Step\n"
+            "Read `topics/ibd/synthesis-index.md` plus the diagnostic-workup and boundary memos. Do not let one marker, image, biopsy note, or treatment response become the whole answer."
+        )
+    return answer, source_ids
+
+
+def choose_local_explanation_surface(question: str, disease: str) -> Optional[str]:
+    """Pick a deterministic ordinary-user answer surface for free mode."""
+    lowered = question.lower()
+    if disease == "ckd" and any(term in lowered for term in ["endpoint", "efficacy", "trial", "outcome"]):
+        return "ckd_endpoint"
+    if disease == "ckd" and is_local_explanation_question(question):
+        return "ckd_overview"
+    if disease == "fip" and any(term in lowered or term in question for term in ["recogn", "diagnos", "识别", "诊断", "怎么看"]):
+        return "fip_recognition"
+    if disease == "hcm" and is_local_explanation_question(question):
+        return "hcm_overview"
+    if disease == "ibd" and any(term in lowered or term in question for term in ["lymphoma", "淋巴瘤", "区分", "differentiat"]):
+        return "ibd_lymphoma"
+    return None
+
+
+def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]]:
+    """Build a no-API explanation for supported high-visibility surfaces."""
+    builders = {
+        "ckd_overview": build_ckd_local_explanation,
+        "ckd_endpoint": build_ckd_endpoint_explanation,
+        "fip_recognition": build_fip_recognition_explanation,
+        "hcm_overview": build_hcm_local_explanation,
+        "ibd_lymphoma": build_ibd_lymphoma_explanation,
+    }
+    return builders[surface](chinese)
+
+
 def run_app_local_query_core(
     question: str,
     vault_root: Path,
@@ -440,9 +604,10 @@ def run_app_local_query_core(
     snippets = " ".join(" ".join(r.get("snippets", [])) + " " + str(r.get("title", "")) for r in selected_results)
     has_direct_sirna = "sirna" in snippets.lower()
     is_explanation = is_local_explanation_question(question)
+    explanation_surface = choose_local_explanation_surface(question, disease)
 
-    if is_explanation and disease == "ckd":
-        answer, explanation_source_ids = build_ckd_local_explanation(chinese)
+    if explanation_surface:
+        answer, explanation_source_ids = build_local_explanation(explanation_surface, chinese)
         for sid in explanation_source_ids:
             path = source_index.get(sid)
             if path and path.exists():
@@ -491,7 +656,7 @@ def run_app_local_query_core(
         ]
         next_line = "For a new direction, run PubMed/DOI intake first; do not generate efficacy conclusions before source cards exist."
 
-    if not (is_explanation and disease == "ckd"):
+    if not explanation_surface:
         evidence_lines: list[str] = []
         for result in selected_results[:5]:
             rid = result.get("id") or result["file"]
@@ -511,7 +676,7 @@ def run_app_local_query_core(
     research_trace = [
         {
             "step": "Interpreted query",
-            "detail": f"disease={disease}; question_type={'overview' if is_explanation else 'local_search'}; engine=local",
+            "detail": f"disease={disease}; question_type={'overview' if explanation_surface else 'local_search'}; engine=local",
         },
         {
             "step": "Searched vault",
@@ -528,7 +693,7 @@ def run_app_local_query_core(
         },
         {
             "step": "Returned local answer",
-            "detail": f"mode={'local_explanation' if is_explanation else 'free_retrieval'}; api_calls=0; results={len(selected_results)}",
+            "detail": f"mode={'local_explanation' if explanation_surface else 'free_retrieval'}; surface={explanation_surface or 'none'}; api_calls=0; results={len(selected_results)}",
         },
     ]
 
@@ -536,8 +701,8 @@ def run_app_local_query_core(
         "answer": answer,
         "figures_used": [],
         "disease": disease,
-        "question_type": "overview" if is_explanation else "local_search",
-        "answer_mode": "local_explanation" if is_explanation else "local_search",
+        "question_type": "overview" if explanation_surface else "local_search",
+        "answer_mode": "local_explanation" if explanation_surface else "local_search",
         "hops_used": 0,
         "loaded_paths": loaded_paths,
         "loaded_source_ids": loaded_source_ids,

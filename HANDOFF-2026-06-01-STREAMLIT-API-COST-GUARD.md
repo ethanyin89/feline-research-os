@@ -183,6 +183,23 @@ Follow-up bug found after the user tested `解释CKD`:
 - `python3 -m py_compile scripts/app.py scripts/query.py scripts/health.py` passed.
 - `python3 scripts/health.py` passed; only existing thin-source warning remains.
 
+Second follow-up after the user clarified this is about ordinary-person product feel, not a one-off CKD test:
+
+- Classification: check + investigation.
+- Manual sample set: 6 ordinary-user prompts before skill solidification.
+- Added deterministic no-API answer surfaces:
+  - `ckd_overview`
+  - `ckd_endpoint`
+  - `fip_recognition`
+  - `hcm_overview`
+  - `ibd_lymphoma`
+- Fixed `IBD和淋巴瘤怎么区分` routing to prefer `ibd` over generic `cancer`.
+- Added repeatable local check:
+  - `.venv/bin/python scripts/ordinary_user_vault_eval.py`
+- Added sample report:
+  - `system/health-checks/ordinary-user-vault-sample-run-20260601.md`
+- Current local ordinary-user eval result: 6/6 PASS, all with `api_calls=0`.
+
 Public verification completed:
 
 - Opened `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/~/+/`.
