@@ -301,6 +301,88 @@ def local_search_terms(question: str, disease: str) -> list[str]:
     return terms[:8]
 
 
+def is_local_explanation_question(question: str) -> bool:
+    """Detect broad user prompts that need a starter explanation, not only hits."""
+    lowered = question.lower().strip()
+    explanation_markers = [
+        "解释",
+        "说明",
+        "介绍",
+        "是什么",
+        "怎么理解",
+        "what is",
+        "explain",
+        "overview",
+        "summary",
+        "summarize",
+    ]
+    if any(marker in lowered or marker in question for marker in explanation_markers):
+        return True
+    # Very short disease-name prompts usually mean "give me the entry point."
+    compact = re.sub(r"\s+", "", lowered)
+    return compact in {"ckd", "fip", "hcm", "ibd", "fcv", "diabetes", "obesity", "cancer"}
+
+
+def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic CKD starter answer from compiled vault pages."""
+    source_ids = [
+        "src-ckd-001",
+        "src-ckd-003",
+        "src-ckd-004",
+        "src-ckd-010",
+        "src-ckd-011",
+        "src-ckd-015",
+        "src-ckd-016",
+    ]
+    if chinese:
+        answer = (
+            "这是本地 vault 解释结果，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "在这个库里，猫 CKD 可以先理解为一种以老年猫为核心场景、以肾小管间质纤维化/肾纤维化为主要机制骨架的慢性肾脏疾病。"
+            "最稳的读法不是把它归因到某一个单一原因，而是把它看成多条损伤路径最后汇合到肾功能下降和结构性病变上。"
+            " [source_supported_conclusion: src-ckd-010, src-ckd-011, src-ckd-016]\n\n"
+            "## 对普通读者意味着什么\n"
+            "- CKD 不是只看一个数字。这个库把 creatinine、USG、UPCR/蛋白尿、收缩压、phosphorus、SDMA 放在第一波 endpoint 短名单里。"
+            " [source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010]\n"
+            "- 蛋白尿、血压、磷等指标不只是“分期表格”，它们也帮助连接病理结构、预后和管理重点。"
+            " [source_supported_conclusion: src-ckd-010, src-ckd-015]\n"
+            "- 治疗/管理层目前最清楚的基线支持是 renal diet；其他干预需要继续区分“临床常用”和“证据很强”。"
+            " [source_supported_conclusion: src-ckd-003, src-ckd-006, src-ckd-007]\n\n"
+            "## 现在不能说过头的地方\n"
+            "- 不能说某一个单一机制就是猫 CKD 的主导起因。 [llm_inference]\n"
+            "- 不能把 SDMA、磷、蛋白尿或血压简化成单一胜负排名。这个库更支持多轴解释。"
+            " [source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-015]\n"
+            "- 不能把多个治疗方向直接写成已经证明的 disease-modifying therapy。 [source_supported_conclusion: src-ckd-007]\n\n"
+            "## 下一步\n"
+            "如果你只是入门，下一页读 `topics/ckd/synthesis-index-bilingual.md`；如果你关心机制，读 `topics/ckd/mechanism-overview.md`；"
+            "如果你关心药效评价或试验终点，读 `topics/ckd/endpoint-handbook.md`。"
+        )
+    else:
+        answer = (
+            "This is a local vault explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Explanation\n"
+            "In this vault, feline CKD is best introduced as a chronic kidney disease of mostly older cats, with tubulointerstitial or renal fibrosis as the safest mechanism backbone. "
+            "The current evidence map does not support a single dominant initiating cause; it supports a multi-axis disease frame that links structural kidney damage to declining function. "
+            "[source_supported_conclusion: src-ckd-010, src-ckd-011, src-ckd-016]\n\n"
+            "## What This Means\n"
+            "- CKD should not be read from one number alone. The first-wave endpoint shortlist is creatinine, USG, UPCR/proteinuria, systolic blood pressure, phosphorus, and SDMA. "
+            "[source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010]\n"
+            "- Proteinuria, blood pressure, and phosphorus help connect pathology, prognosis, and management priorities. "
+            "[source_supported_conclusion: src-ckd-010, src-ckd-015]\n"
+            "- Renal diet is the clearest baseline-supported management branch in the current treatment layer; other interventions need explicit evidence-strength labeling. "
+            "[source_supported_conclusion: src-ckd-003, src-ckd-006, src-ckd-007]\n\n"
+            "## Do Not Overstate\n"
+            "- Do not claim one single mechanism as the proven dominant cause. [llm_inference]\n"
+            "- Do not reduce SDMA, phosphorus, proteinuria, or blood pressure into one flat ranking. The vault supports multi-axis interpretation. "
+            "[source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-015]\n"
+            "- Do not turn common clinical use into strong disease-modification claims. [source_supported_conclusion: src-ckd-007]\n\n"
+            "## Next Step\n"
+            "For a broad entry point, read `topics/ckd/synthesis-index-bilingual.md`. For mechanism, read `topics/ckd/mechanism-overview.md`. "
+            "For efficacy evaluation or trial endpoints, read `topics/ckd/endpoint-handbook.md`."
+        )
+    return answer, source_ids
+
+
 def run_app_local_query_core(
     question: str,
     vault_root: Path,
@@ -357,8 +439,28 @@ def run_app_local_query_core(
     has_sirna = "sirna" in question.lower()
     snippets = " ".join(" ".join(r.get("snippets", [])) + " " + str(r.get("title", "")) for r in selected_results)
     has_direct_sirna = "sirna" in snippets.lower()
+    is_explanation = is_local_explanation_question(question)
 
-    if chinese:
+    if is_explanation and disease == "ckd":
+        answer, explanation_source_ids = build_ckd_local_explanation(chinese)
+        for sid in explanation_source_ids:
+            path = source_index.get(sid)
+            if path and path.exists():
+                loaded_paths.add(path)
+                if sid not in loaded_source_ids:
+                    loaded_source_ids.append(sid)
+        evidence_lines = []
+        for result in selected_results[:5]:
+            rid = result.get("id") or result["file"]
+            title = result.get("title") or result["file"]
+            matched = ", ".join(result.get("matched_terms", [])) or "n/a"
+            evidence_lines.append(f"- `{rid}` — {title}; matched terms: {matched}")
+        if evidence_lines:
+            if chinese:
+                answer += "\n\n## 本地命中\n" + "\n".join(evidence_lines)
+            else:
+                answer += "\n\n## Local Hits\n" + "\n".join(evidence_lines)
+    elif chinese:
         if has_sirna and not has_direct_sirna:
             lead = f"本地库目前没有找到“{question}”的直接证据，尤其没有找到 `{disease}` 与 `siRNA` 同时成立的 source card。这个结果没有调用 API。 [llm_inference]"
         else:
@@ -389,17 +491,28 @@ def run_app_local_query_core(
         ]
         next_line = "For a new direction, run PubMed/DOI intake first; do not generate efficacy conclusions before source cards exist."
 
-    evidence_lines: list[str] = []
-    for result in selected_results[:5]:
-        rid = result.get("id") or result["file"]
-        title = result.get("title") or result["file"]
-        matched = ", ".join(result.get("matched_terms", [])) or "n/a"
-        evidence_lines.append(f"- `{rid}` — {title}; matched terms: {matched}")
-    if not evidence_lines:
-        evidence_lines.append(no_hits)
+    if not (is_explanation and disease == "ckd"):
+        evidence_lines: list[str] = []
+        for result in selected_results[:5]:
+            rid = result.get("id") or result["file"]
+            title = result.get("title") or result["file"]
+            matched = ", ".join(result.get("matched_terms", [])) or "n/a"
+            evidence_lines.append(f"- `{rid}` — {title}; matched terms: {matched}")
+        if not evidence_lines:
+            evidence_lines.append(no_hits)
+
+        answer = (
+            f"{lead}\n\n"
+            f"{hit_header}\n" + "\n".join(evidence_lines) + "\n\n"
+            f"{diff_header}\n" + "\n".join(diff_lines) + "\n\n"
+            f"{next_header}\n{next_line}"
+        )
 
     research_trace = [
-        {"step": "Interpreted query", "detail": f"disease={disease}; question_type=local_search; engine=local"},
+        {
+            "step": "Interpreted query",
+            "detail": f"disease={disease}; question_type={'overview' if is_explanation else 'local_search'}; engine=local",
+        },
         {
             "step": "Searched vault",
             "detail": f"terms={', '.join(terms)}; results={len(results)}; api_calls=0",
@@ -413,22 +526,18 @@ def run_app_local_query_core(
             "detail": f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}; api_calls=0",
             "items": [{"source_id": sid} for sid in loaded_source_ids[:12]],
         },
-        {"step": "Returned local answer", "detail": f"mode=free_retrieval; api_calls=0; results={len(selected_results)}"},
+        {
+            "step": "Returned local answer",
+            "detail": f"mode={'local_explanation' if is_explanation else 'free_retrieval'}; api_calls=0; results={len(selected_results)}",
+        },
     ]
-
-    answer = (
-        f"{lead}\n\n"
-        f"{hit_header}\n" + "\n".join(evidence_lines) + "\n\n"
-        f"{diff_header}\n" + "\n".join(diff_lines) + "\n\n"
-        f"{next_header}\n{next_line}"
-    )
 
     return {
         "answer": answer,
         "figures_used": [],
         "disease": disease,
-        "question_type": "local_search",
-        "answer_mode": "local_search",
+        "question_type": "overview" if is_explanation else "local_search",
+        "answer_mode": "local_explanation" if is_explanation else "local_search",
         "hops_used": 0,
         "loaded_paths": loaded_paths,
         "loaded_source_ids": loaded_source_ids,
