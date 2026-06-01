@@ -68,7 +68,6 @@ from query import (
     compute_confidence,
     list_saved_answers,
     parse_source_ids_from_answer,
-    run_local_query_core,
     run_query_core,
     write_back,
 )
@@ -252,6 +251,191 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
             if st.button("Ask again", key=f"{prefix}-saved-answer-{i}", use_container_width=False):
                 queue_question(str(item["question"]))
                 st.rerun()
+
+
+def detect_chinese(text: str) -> bool:
+    """Return True when text contains CJK characters."""
+    return bool(re.search(r"[\u3400-\u9fff]", text))
+
+
+def infer_local_disease(question: str) -> str:
+    """Small app-local disease detector for free search mode."""
+    lowered = question.lower()
+    patterns = [
+        ("obesity", ["obesity", "obese", "body condition", "weight loss", "肥胖", "超重", "体况"]),
+        ("diabetes", ["diabetes", "diabetic", "glucose", "insulin", "糖尿病"]),
+        ("cancer", ["cancer", "tumor", "tumour", "carcinoma", "lymphoma", "肿瘤", "癌", "淋巴瘤"]),
+        ("ckd", ["ckd", "kidney", "renal", "sdma", "肾", "慢性肾"]),
+        ("hcm", ["hcm", "cardiomyopathy", "心肌"]),
+        ("fip", ["fip", "传腹", "传染性腹膜炎"]),
+        ("ibd", ["ibd", "inflammatory bowel", "肠病"]),
+        ("fcv", ["fcv", "calicivirus", "杯状"]),
+    ]
+    for disease, needles in patterns:
+        if any(needle in lowered or needle in question for needle in needles):
+            return disease
+    return "unknown"
+
+
+def local_search_terms(question: str, disease: str) -> list[str]:
+    """Build deterministic terms for no-API retrieval."""
+    terms: list[str] = []
+
+    def add(term: str) -> None:
+        term = term.strip()
+        if len(term) >= 2 and term not in terms:
+            terms.append(term)
+
+    add(question)
+    for token in re.findall(r"[A-Za-z][A-Za-z0-9+/_-]{2,}", question):
+        add(token)
+    disease_terms = {
+        "obesity": ["obesity", "body condition", "weight", "肥胖"],
+        "diabetes": ["diabetes", "insulin", "glucose", "糖尿病"],
+        "cancer": ["cancer", "tumor", "carcinoma", "肿瘤"],
+    }
+    for term in disease_terms.get(disease, []):
+        add(term)
+    if "sirna" in question.lower():
+        add("siRNA")
+    return terms[:8]
+
+
+def run_app_local_query_core(
+    question: str,
+    vault_root: Path,
+    source_index: dict[str, Path],
+    disease_hint: Optional[str] = None,
+    preferred_source_ids: Optional[list[str]] = None,
+    search_limit: int = 8,
+    on_status=None,
+) -> dict:
+    """No-API local search path used by the Streamlit app."""
+    if on_status:
+        on_status("Searching local vault...")
+
+    chinese = detect_chinese(question)
+    disease = disease_hint or infer_local_disease(question)
+    terms = local_search_terms(question, disease)
+    results_by_file: dict[str, dict] = {}
+    for scope in ("raw", "topics"):
+        for term in terms:
+            for result in vault_search(term, vault_root, scope=scope, limit=search_limit):
+                item = results_by_file.setdefault(result["file"], dict(result, score=0, matched_terms=[]))
+                item["score"] += int(result.get("matches", 0))
+                if term not in item["matched_terms"]:
+                    item["matched_terms"].append(term)
+    results = sorted(results_by_file.values(), key=lambda r: (-int(r["score"]), r["file"]))[:search_limit]
+
+    loaded_paths: set[Path] = set()
+    loaded_source_ids: list[str] = []
+    selected_results: list[dict] = []
+    for result in results:
+        rel = result["file"]
+        path = (vault_root / rel).resolve()
+        try:
+            path.relative_to(vault_root.resolve())
+        except ValueError:
+            continue
+        if path.exists():
+            loaded_paths.add(path)
+            selected_results.append(result)
+        sid = result.get("id") or ""
+        if sid.startswith("src-") and sid in source_index and sid not in loaded_source_ids:
+            loaded_source_ids.append(sid)
+        if len(selected_results) >= 6:
+            break
+
+    if preferred_source_ids:
+        for sid in preferred_source_ids:
+            path = source_index.get(sid)
+            if path and path.exists():
+                loaded_paths.add(path)
+                if sid not in loaded_source_ids:
+                    loaded_source_ids.append(sid)
+
+    has_sirna = "sirna" in question.lower()
+    snippets = " ".join(" ".join(r.get("snippets", [])) + " " + str(r.get("title", "")) for r in selected_results)
+    has_direct_sirna = "sirna" in snippets.lower()
+
+    if chinese:
+        if has_sirna and not has_direct_sirna:
+            lead = f"本地库目前没有找到“{question}”的直接证据，尤其没有找到 `{disease}` 与 `siRNA` 同时成立的 source card。这个结果没有调用 API。 [llm_inference]"
+        else:
+            lead = "这是本地 vault 检索结果，不是 API 综合回答；本次没有调用 API。 [llm_inference]"
+        hit_header = "## 本地命中"
+        diff_header = "## 和 Google 搜索的差别"
+        next_header = "## 下一步"
+        no_hits = "- 没有本地命中。"
+        diff_lines = [
+            "- 这里只查已经入库的 source cards 和 topic pages，不把未入库网页当证据。",
+            "- free mode 适合判断“库里有没有/缺什么”，不会花 OpenRouter 或 Anthropic token。",
+            "- 需要跨源判断、研究问题生成、证据链压缩时，再手动打开 API synthesis。",
+        ]
+        next_line = "如果这是新方向，先做 PubMed/DOI intake；没有 source card 前，不生成药效结论。"
+    else:
+        if has_sirna and not has_direct_sirna:
+            lead = f"The local vault does not currently contain direct evidence for `{question}`, especially no source card connecting `{disease}` with `siRNA`. No API call was made. [llm_inference]"
+        else:
+            lead = "This is local vault retrieval, not API synthesis. No API call was made. [llm_inference]"
+        hit_header = "## Local hits"
+        diff_header = "## Difference from Google search"
+        next_header = "## Next step"
+        no_hits = "- No local hits."
+        diff_lines = [
+            "- This searches only source cards and topic pages already in the vault.",
+            "- Free mode is for checking what the vault has or lacks without spending API tokens.",
+            "- Use API synthesis only when you need cross-source judgment or research-question shaping.",
+        ]
+        next_line = "For a new direction, run PubMed/DOI intake first; do not generate efficacy conclusions before source cards exist."
+
+    evidence_lines: list[str] = []
+    for result in selected_results[:5]:
+        rid = result.get("id") or result["file"]
+        title = result.get("title") or result["file"]
+        matched = ", ".join(result.get("matched_terms", [])) or "n/a"
+        evidence_lines.append(f"- `{rid}` — {title}; matched terms: {matched}")
+    if not evidence_lines:
+        evidence_lines.append(no_hits)
+
+    research_trace = [
+        {"step": "Interpreted query", "detail": f"disease={disease}; question_type=local_search; engine=local"},
+        {
+            "step": "Searched vault",
+            "detail": f"terms={', '.join(terms)}; results={len(results)}; api_calls=0",
+            "items": [
+                {"file": r["file"], "id": r.get("id") or "", "matches": r.get("score", r.get("matches", 0))}
+                for r in results[:8]
+            ],
+        },
+        {
+            "step": "Loaded evidence",
+            "detail": f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}; api_calls=0",
+            "items": [{"source_id": sid} for sid in loaded_source_ids[:12]],
+        },
+        {"step": "Returned local answer", "detail": f"mode=free_retrieval; api_calls=0; results={len(selected_results)}"},
+    ]
+
+    answer = (
+        f"{lead}\n\n"
+        f"{hit_header}\n" + "\n".join(evidence_lines) + "\n\n"
+        f"{diff_header}\n" + "\n".join(diff_lines) + "\n\n"
+        f"{next_header}\n{next_line}"
+    )
+
+    return {
+        "answer": answer,
+        "figures_used": [],
+        "disease": disease,
+        "question_type": "local_search",
+        "answer_mode": "local_search",
+        "hops_used": 0,
+        "loaded_paths": loaded_paths,
+        "loaded_source_ids": loaded_source_ids,
+        "first_family_loaded": "local-search",
+        "research_trace": research_trace,
+        "est_tokens": 0,
+    }
 
 
 def activate_search_result(result: dict) -> None:
@@ -1627,9 +1811,8 @@ def run_query(question: str) -> bool:
     with st.status(status_label, expanded=False) as status:
         try:
             if backend == "local":
-                result = run_local_query_core(
+                result = run_app_local_query_core(
                     question, VAULT_ROOT, source_index,
-                    source_weights=source_weights,
                     disease_hint=disease_arg,
                     preferred_source_ids=st.session_state.preferred_source_ids or None,
                     search_limit=8,
