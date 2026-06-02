@@ -891,11 +891,127 @@ def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     return answer, source_ids
 
 
+TREATMENT_BOUNDARY_SOURCES = {
+    "ckd": ["src-ckd-003", "src-ckd-004", "src-ckd-006", "src-ckd-007", "src-ckd-010", "src-ckd-015"],
+    "diabetes": ["src-diabetes-006", "src-diabetes-007", "src-diabetes-008", "src-diabetes-011", "src-diabetes-015", "src-diabetes-024"],
+    "fip": ["src-fip-010", "src-fip-013", "src-fip-022", "src-fip-023"],
+    "hcm": ["src-hcm-008", "src-hcm-009", "src-hcm-010", "src-hcm-013", "src-hcm-024"],
+    "obesity": ["src-obesity-001", "src-obesity-004", "src-obesity-005", "src-obesity-008"],
+    "cancer": ["src-cancer-002", "src-cancer-003", "src-cancer-004", "src-cancer-008", "src-cancer-019", "src-cancer-040"],
+    "ibd": ["src-ibd-003", "src-ibd-010", "src-ibd-011", "src-ibd-014", "src-ibd-015", "src-ibd-016", "src-ibd-019", "src-ibd-021"],
+    "fcv": ["src-fcv-003", "src-fcv-008", "src-fcv-010", "src-fcv-014", "src-fcv-018", "src-fcv-022"],
+}
+
+
+TREATMENT_BOUNDARY_COPY = {
+    "ckd": {
+        "zh_label": "猫 CKD",
+        "en_label": "feline CKD",
+        "safe": "当前最稳的治疗/管理读法是 renal diet 与 phosphorus control 作为较清楚的基线分支，同时把 proteinuria、blood pressure、potassium、anaemia、appetite 和 subcutaneous-fluid 等 supportive-care 分支分开看。",
+        "cannot": "不能把这些管理分支写成已经证明的 cure 或统一 disease-modifying therapy，也不能把单一 endpoint 变成治疗排名。",
+        "next": "`topics/ckd/translation-brief.md`、`topics/ckd/current-state-dashboard.md`，以及 CKD treatment-ranking / phosphorus-control / supportive-care memos",
+    },
+    "diabetes": {
+        "zh_label": "猫糖尿病",
+        "en_label": "feline diabetes",
+        "safe": "当前最安全的治疗读法是 branch separation：diet architecture、insulin/glargine、SGLT2 label boundary、candidate selection、ketone monitoring、remission endpoint 和安全监测要分开。",
+        "cannot": "不能把 remission 写成单一 protocol 的结果，也不能把 SGLT2 label anchoring 写成 treatment winner。",
+        "next": "`topics/diabetes/treatment-branch-map.md`、`topics/diabetes/remission-boundaries.md`、`topics/diabetes/sglt2-label-control.md`",
+    },
+    "fip": {
+        "zh_label": "猫 FIP",
+        "en_label": "feline FIP",
+        "safe": "当前最安全的治疗读法是把 GS-441524/remdesivir-era evidence 分成 baseline efficacy、package logic、neurologic rescue 和 durability。",
+        "cannot": "不能把所有抗病毒证据合并成一个不分病型、不分神经/眼部扩展、不分随访耐久性的疗效结论。",
+        "next": "`topics/fip/translation-brief.md`、FIP treatment-evidence memo、antiviral-branch comparison memo",
+    },
+    "hcm": {
+        "zh_label": "猫 HCM",
+        "en_label": "feline HCM",
+        "safe": "当前治疗层是真实但 overclaim-sensitive 的分支；应先保持 structural phenotype authority，再讨论 bounded management、targeted frontier 和证据怀疑。",
+        "cannot": "不能把 biomarker、AI screening 或单个治疗信号写成最终 intervention hierarchy。",
+        "next": "`topics/hcm/synthesis-index.md`、HCM treatment-evidence memo、treatment-branch comparison memo",
+    },
+    "obesity": {
+        "zh_label": "猫肥胖",
+        "en_label": "feline obesity",
+        "safe": "当前只能给 compiled starter 层面的治疗边界：prevention-first framing 比 weight-loss protocol 更稳，prevention target 是 post-gonadectomy kittens aged 5-12 months。",
+        "cannot": "不能给 owner-facing weight-loss protocol，不能按 effect size 排名风险因素或治疗方式。",
+        "next": "`topics/obesity/mechanism-overview.md`、`topics/obesity/prevention.md`、`topics/obesity/diabetes-bridge.md`",
+    },
+    "cancer": {
+        "zh_label": "猫肿瘤",
+        "en_label": "feline cancer",
+        "safe": "当前只能给 architecture-level treatment boundary：先走 suspected-cancer clinical workflow，包括 presentation、diagnosis、staging，再按 tumor family 分支讨论。",
+        "cannot": "不能 rank treatments，不能复用 survival/prognosis ranges，也不能把 biomarkers 推成 clinical guidance。",
+        "next": "`topics/cancer/suspected-cancer-workflow.md`、`topics/cancer/synthesis-index.md` 和对应 tumor-family branch",
+    },
+    "ibd": {
+        "zh_label": "猫 IBD / 炎症性肠病",
+        "en_label": "feline IBD",
+        "safe": "当前治疗读法必须留在 chronic enteropathy / boundary compression 里：diet response、workup sequencing、biopsy site、integrated pathology 和 lymphoma boundary 要分层。",
+        "cannot": "不能把 diet-first response、marker、影像或一次 biopsy note 单独写成 idiopathic IBD 证明或治疗结论。",
+        "next": "`topics/ibd/synthesis-index.md`、IBD diagnostic-workup / boundary memos",
+    },
+    "fcv": {
+        "zh_label": "猫杯状病毒 / FCV",
+        "en_label": "feline FCV",
+        "safe": "当前 therapy 是真实分支，但概览层应先保留 vaccine/immunity、recognition、carrier persistence 和 VS-FCV distinction。",
+        "cannot": "不能让 therapy signals 压过 prevention/vaccine evidence，也不能把治疗信号写成 owner-facing treatment guidance。",
+        "next": "`topics/fcv/synthesis-index.md`、`topics/fcv/risk-and-recognition.md`、`topics/fcv/endpoint-handbook.md`",
+    },
+}
+
+
+def is_treatment_question(question: str) -> bool:
+    """Detect treatment/management prompts that need bounded safety framing."""
+    lowered = question.lower()
+    return any(term in lowered or term in question for term in ["treatment", "therapy", "management", "怎么治疗", "治疗", "怎么治", "用药"])
+
+
+def build_treatment_boundary_explanation(disease: str, chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic no-API treatment-boundary answer."""
+    source_ids = TREATMENT_BOUNDARY_SOURCES[disease]
+    copy = TREATMENT_BOUNDARY_COPY[disease]
+    cited = ", ".join(source_ids)
+    if chinese:
+        answer = (
+            f"这是本地 {copy['zh_label']} 治疗边界解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接回答\n"
+            f"{copy['zh_label']} 的“怎么治疗”不能在这个 vault 里被直接写成处方或治疗排名。更安全的做法是先回答：库里哪些治疗/管理分支有证据、哪些只是边界或研究问题。 "
+            f"[source_supported_conclusion: {cited}]\n\n"
+            "## 当前能安全说什么\n"
+            f"{copy['safe']} [source_supported_conclusion: {cited}]\n\n"
+            "## 不能说过头的地方\n"
+            f"- {copy['cannot']} [source_supported_conclusion: {cited}]\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。 [llm_inference]\n\n"
+            "## 下一步\n"
+            f"读 {copy['next']}。如果要进入 API synthesis，应先明确是治疗证据比较、label/监管边界、endpoint 设计，还是普通管理解释。"
+        )
+    else:
+        answer = (
+            f"This is a local {copy['en_label']} treatment-boundary answer, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Answer\n"
+            f"A treatment question should not be turned into a prescription or treatment ranking in this vault. The safer first answer is which treatment or management branches have evidence, which are bounded, and which remain research questions. "
+            f"[source_supported_conclusion: {cited}]\n\n"
+            "## What Can Be Said Safely\n"
+            f"{copy['safe']} [source_supported_conclusion: {cited}]\n\n"
+            "## Do Not Overstate\n"
+            f"- {copy['cannot']} [source_supported_conclusion: {cited}]\n"
+            "- This is not veterinary medical advice and does not replace a clinician's judgment. [llm_inference]\n\n"
+            "## Next Step\n"
+            f"Read {copy['next']}. If API synthesis is needed, first specify whether the question is treatment evidence comparison, label/regulatory boundary, endpoint design, or plain management explanation."
+        )
+    return answer, source_ids
+
+
 def choose_local_explanation_surface(question: str, disease: str) -> Optional[str]:
     """Pick a deterministic ordinary-user answer surface for free mode."""
     lowered = question.lower()
     if disease == "ckd" and any(term in lowered for term in ["endpoint", "efficacy", "trial", "outcome"]):
         return "ckd_endpoint"
+    if disease in TREATMENT_BOUNDARY_SOURCES and is_treatment_question(question):
+        return f"{disease}_treatment_boundary"
     if disease == "ckd" and is_local_explanation_question(question):
         return "ckd_overview"
     if disease == "fip" and is_local_explanation_question(question):
@@ -921,6 +1037,9 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
 
 def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]]:
     """Build a no-API explanation for supported high-visibility surfaces."""
+    if surface.endswith("_treatment_boundary"):
+        disease = surface.removesuffix("_treatment_boundary")
+        return build_treatment_boundary_explanation(disease, chinese)
     builders = {
         "ckd_overview": build_ckd_local_explanation,
         "ckd_endpoint": build_ckd_endpoint_explanation,

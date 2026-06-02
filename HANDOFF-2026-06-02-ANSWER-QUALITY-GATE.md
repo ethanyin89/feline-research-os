@@ -61,6 +61,7 @@ Changed:
   - Follow-up: added four Chinese overview samples and a language-match gate so Chinese `local_explanation` prompts cannot silently return English.
   - Follow-up: manually probed common Chinese `是什么` prompts for diabetes, FCV, obesity, and cancer; all passed. Added five recurring samples including `猫癌症是什么` as a cancer alias.
   - Follow-up: added recurring samples for `猫炎症性肠病是什么` and `猫IBD是什么`; existing IBD/lymphoma boundary samples still route to `ibd_lymphoma`.
+  - Follow-up: manually probed eight Chinese treatment prompts: `猫CKD怎么治疗`, `猫糖尿病怎么治疗`, `猫FIP怎么治疗`, `猫HCM怎么治疗`, `猫肥胖怎么治疗`, `猫肿瘤怎么治疗`, `猫IBD怎么治疗`, and `猫杯状病毒怎么治疗`. Before the patch, these fell back to hit-list style local retrieval. Added bounded `*_treatment_boundary` surfaces that explain what the vault can safely say, what it must not overstate, and which topic branches to read next.
 
 This turns the screenshot lesson into a recurring gate instead of a one-off manual judgment.
 
@@ -77,8 +78,8 @@ python3 scripts/health.py
 
 Results:
 
-- ordinary-user eval: 6/6 PASS, all `api_calls=0`
-- query tests: 108 passed / 0 failed
+- ordinary-user eval: all samples PASS, all `api_calls=0`
+- query tests: 111 passed / 0 failed
 - health: PASS for `Ordinary-user vault eval`
 - health still reports the known thin-source warning unrelated to this patch
 
