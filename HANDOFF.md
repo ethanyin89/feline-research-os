@@ -6,6 +6,30 @@ If you are a new model taking over this repo because of token loss, model switch
 
 Read the latest session handoff first:
 
+- [HANDOFF-2026-06-01-STREAMLIT-API-COST-GUARD.md](HANDOFF-2026-06-01-STREAMLIT-API-COST-GUARD.md)
+
+For the prior public-test link refresh handoff, read:
+
+- [HANDOFF-2026-05-25-PUBLIC-TEST-LINK-REFRESH.md](HANDOFF-2026-05-25-PUBLIC-TEST-LINK-REFRESH.md)
+
+For the prior ordinary-user HTTP public test handoff, read:
+
+- [HANDOFF-2026-05-22-ORDINARY-USER-HTTP-PUBLIC-TEST.md](HANDOFF-2026-05-22-ORDINARY-USER-HTTP-PUBLIC-TEST.md)
+
+For the prior Streamlit public-tunnel investigation, read:
+
+- [HANDOFF-2026-05-21-ORDINARY-USER-PUBLIC-TEST.md](HANDOFF-2026-05-21-ORDINARY-USER-PUBLIC-TEST.md)
+
+For the prior public-test recovery step, read:
+
+- [HANDOFF-2026-05-20-ORDINARY-USER-PUBLIC-TEST.md](HANDOFF-2026-05-20-ORDINARY-USER-PUBLIC-TEST.md)
+
+For the prior Karpathy gap-analysis / ordinary-user prep session, read:
+
+- [HANDOFF-2026-05-17-KARPATHY-GAP-ANALYSIS.md](HANDOFF-2026-05-17-KARPATHY-GAP-ANALYSIS.md)
+
+For the prior obesity Tier 1 completion, read:
+
 - [HANDOFF-2026-05-17-OBESITY-TIER1-COMPLETE.md](HANDOFF-2026-05-17-OBESITY-TIER1-COMPLETE.md)
 
 For the prior autoplan gap analysis, read:
