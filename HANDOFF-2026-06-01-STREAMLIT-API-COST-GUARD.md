@@ -223,7 +223,11 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - Re-ran `.venv/bin/python scripts/ordinary_user_vault_eval.py`; 6/6 samples passed and all reported `api_calls=0`.
   - Confirmed local `HEAD` and `origin/main` both resolve to `d51a6e152cb6d8ad1cc329c286cb1075d0efe800`.
   - Public HTTP check: `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/~/+/` returned `HTTP/2 200`; root URL returned `HTTP/2 303` to Streamlit auth/app.
-  - Browser-content smoke was not completed in this continuation because local gstack browse failed to start with `No available port after 5 attempts in range 10000-60000`; `ps aux | rg 'gstack|browse/dist/browse|playwright|chromium'` showed no stale gstack/browser process. Treat this as a local browse-runner issue, not an app result.
+  - Sandboxed gstack browse initially failed with `No available port after 5 attempts in range 10000-60000`; non-sandboxed browse completed the public content smoke.
+  - Public snapshot confirmed the updated copy is live: `This tool searches the feline disease modules in the vault`.
+  - Public snapshot confirmed default state: `Vault Search (free)`, `engine no API`, `339 sources · 162 topic pages · 8 diseases`.
+  - Public example-button flow confirmed `解释CKD` produces a Chinese local answer starting `这是本地 vault 解释结果，不是 API 综合回答；本次没有调用 API。`
+  - Console still reports a Streamlit frontend `Recording error: Container not found` from `wavesurfer`; repo search found no app-level audio/recorder usage, so this is currently treated as a Streamlit frontend noise item unless it becomes user-visible.
 
 Public verification completed:
 
