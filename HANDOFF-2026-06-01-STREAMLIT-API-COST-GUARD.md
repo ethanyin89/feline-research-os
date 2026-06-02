@@ -227,7 +227,10 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - Public snapshot confirmed the updated copy is live: `This tool searches the feline disease modules in the vault`.
   - Public snapshot confirmed default state: `Vault Search (free)`, `engine no API`, `339 sources · 162 topic pages · 8 diseases`.
   - Public example-button flow confirmed `解释CKD` produces a Chinese local answer starting `这是本地 vault 解释结果，不是 API 综合回答；本次没有调用 API。`
-  - Console still reports a Streamlit frontend `Recording error: Container not found` from `wavesurfer`; repo search found no app-level audio/recorder usage, so this is currently treated as a Streamlit frontend noise item unless it becomes user-visible.
+  - Follow-up fix pushed to `origin/main`: `190fae7 fix(streamlit): explicitly disable chat audio input`.
+  - The fix sets `accept_audio=False` on `st.chat_input` to pin the product boundary that Ask the vault is text-only.
+  - Re-ran `python3 -m py_compile scripts/app.py` and `.venv/bin/python scripts/ordinary_user_vault_eval.py`; 6/6 samples passed with `api_calls=0`.
+  - After clearing the browser console and reloading `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/~/+/?smoke=190fae7`, public smoke showed `Vault Search (free)`, `engine no API`, the example buttons, and `(no console errors)`.
 
 Public verification completed:
 
