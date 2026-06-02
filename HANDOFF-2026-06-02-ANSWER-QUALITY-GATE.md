@@ -46,6 +46,7 @@ Changed:
   - Follow-up: manually probed diabetes, FCV, obesity, and cancer researcher prompts. All four fell back to local retrieval. Added bounded overview surfaces: `diabetes_overview`, `fcv_overview`, `obesity_overview`, and `cancer_overview`. Obesity and cancer surfaces carry explicit evidence-depth/architecture caveats to avoid fake certainty.
   - Follow-up: added a source-trace trust gate. Manual probe found CKD overview cited `src-ckd-002`, `src-ckd-006`, `src-ckd-007` without loading them, and IBD cited `src-ibd-014`, `src-ibd-021` without loading them. Builder source lists were corrected.
   - Follow-up: manually probed Chinese prompts for diabetes, FCV, obesity, and cancer. They routed correctly but returned English. Added Chinese branches for those overview builders while preserving the same source tags and caveats.
+  - Follow-up: manually probed common Chinese disease aliases. `猫炎症性肠病是什么` detected IBD but fell back to local retrieval. Added a separate `ibd_overview` surface so broad IBD overview prompts do not get forced into the IBD-vs-lymphoma boundary answer.
   - Kept the no-API disclosure and source-tag discipline.
 
 - `scripts/ordinary_user_vault_eval.py`
@@ -59,6 +60,7 @@ Changed:
   - Follow-up: `ordinary_user_vault_eval.py` now fails if any cited source ID is nonexistent, absent from `loaded_source_ids`, or missing entirely on a `local_explanation` surface.
   - Follow-up: added four Chinese overview samples and a language-match gate so Chinese `local_explanation` prompts cannot silently return English.
   - Follow-up: manually probed common Chinese `是什么` prompts for diabetes, FCV, obesity, and cancer; all passed. Added five recurring samples including `猫癌症是什么` as a cancer alias.
+  - Follow-up: added recurring samples for `猫炎症性肠病是什么` and `猫IBD是什么`; existing IBD/lymphoma boundary samples still route to `ibd_lymphoma`.
 
 This turns the screenshot lesson into a recurring gate instead of a one-off manual judgment.
 

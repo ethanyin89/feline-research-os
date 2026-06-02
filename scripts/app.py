@@ -640,6 +640,63 @@ def build_ibd_lymphoma_explanation(chinese: bool) -> tuple[str, list[str]]:
     return answer, source_ids
 
 
+def build_ibd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic IBD/chronic-enteropathy overview answer."""
+    source_ids = [
+        "src-ibd-003",
+        "src-ibd-010",
+        "src-ibd-011",
+        "src-ibd-014",
+        "src-ibd-015",
+        "src-ibd-016",
+        "src-ibd-019",
+        "src-ibd-021",
+    ]
+    if chinese:
+        answer = (
+            "这是本地猫 IBD / 炎症性肠病概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫 IBD 在这个库里更安全的入口是 chronic enteropathy / diagnostic-boundary 问题，而不是一个单项 marker 或单一治疗反应问题。它需要把慢性肠病怀疑、影像压力、采样策略、整合病理、饮食反应和 small-cell / low-grade alimentary lymphoma 边界分开看。 "
+            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014, src-ibd-015, src-ibd-016, src-ibd-019, src-ibd-021]\n\n"
+            "## 研究者视角\n"
+            "- 研究核心是 boundary compression：IBD、chronic enteropathy、food response 和 lymphoma 会在症状、影像、病理和治疗反应上互相挤压。 "
+            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014]\n"
+            "- marker、ultrasound finding、biopsy site、integrated pathology 和 diet response 不是同一级别证据，不能混成一个诊断裁决。 "
+            "[source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
+            "## 关键边界\n"
+            "- muscularis thickening 和 ileal sampling 会改变 lymphoma pressure 与诊断路径。 [source_supported_conclusion: src-ibd-010, src-ibd-011]\n"
+            "- Bcl-2 可提供分层价值，但不是 standalone separator。 [source_supported_conclusion: src-ibd-015, src-ibd-016]\n"
+            "- diet-first 逻辑有用，但它属于 chronic-enteropathy / food-response 边界，不能单独证明 idiopathic IBD。 [source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
+            "## 不能说过头的地方\n"
+            "- 不能把猫 IBD 写成“一个 marker 就能确认”的疾病。 [llm_inference]\n"
+            "- 不能把治疗反应、影像、marker 或 biopsy note 单独当最终答案。 [source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
+            "## 下一步\n"
+            "读 `topics/ibd/synthesis-index.md`；如果问题是和淋巴瘤区分，再问 `IBD 和淋巴瘤怎么区分`。"
+        )
+    else:
+        answer = (
+            "This is a local feline IBD / chronic-enteropathy overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Explanation\n"
+            "In this vault, feline IBD is safest to introduce as a chronic-enteropathy and diagnostic-boundary problem, not a one-marker or one-treatment-response problem. It requires separating chronic-enteropathy suspicion, imaging pressure, sampling strategy, integrated pathology, diet response, and the boundary with small-cell or low-grade alimentary lymphoma. "
+            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014, src-ibd-015, src-ibd-016, src-ibd-019, src-ibd-021]\n\n"
+            "## Researcher Lens\n"
+            "- The research core is boundary compression: IBD, chronic enteropathy, food response, and lymphoma overlap across symptoms, imaging, pathology, and treatment response. "
+            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014]\n"
+            "- Markers, ultrasound findings, biopsy site, integrated pathology, and diet response are not equivalent evidence layers and should not be collapsed into one diagnostic verdict. "
+            "[source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
+            "## Key Boundaries\n"
+            "- Muscularis thickening and ileal sampling can change lymphoma pressure and the diagnostic path. [source_supported_conclusion: src-ibd-010, src-ibd-011]\n"
+            "- Bcl-2 can help stratify, but it is not a standalone separator. [source_supported_conclusion: src-ibd-015, src-ibd-016]\n"
+            "- Diet-first logic belongs inside chronic-enteropathy and food-response boundaries; it is not pure idiopathic-IBD proof. [source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
+            "## Do Not Overstate\n"
+            "- Do not frame feline IBD as a disease confirmed by one marker. [llm_inference]\n"
+            "- Do not let treatment response, imaging, a marker, or one biopsy note become the whole answer. [source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
+            "## Next Step\n"
+            "Read `topics/ibd/synthesis-index.md`; if the question is lymphoma separation, ask specifically about IBD versus lymphoma."
+        )
+    return answer, source_ids
+
+
 def build_diabetes_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic diabetes overview answer for broad researcher prompts."""
     source_ids = ["src-diabetes-001", "src-diabetes-005", "src-diabetes-007", "src-diabetes-011", "src-diabetes-015", "src-diabetes-024"]
@@ -849,6 +906,8 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "hcm_overview"
     if disease == "ibd" and any(term in lowered or term in question for term in ["lymphoma", "淋巴瘤", "区分", "differentiat"]):
         return "ibd_lymphoma"
+    if disease == "ibd" and is_local_explanation_question(question):
+        return "ibd_overview"
     if disease == "diabetes" and is_local_explanation_question(question):
         return "diabetes_overview"
     if disease == "fcv" and is_local_explanation_question(question):
@@ -868,6 +927,7 @@ def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]
         "fip_overview": build_fip_local_explanation,
         "fip_recognition": build_fip_recognition_explanation,
         "hcm_overview": build_hcm_local_explanation,
+        "ibd_overview": build_ibd_local_explanation,
         "ibd_lymphoma": build_ibd_lymphoma_explanation,
         "diabetes_overview": build_diabetes_local_explanation,
         "fcv_overview": build_fcv_local_explanation,
