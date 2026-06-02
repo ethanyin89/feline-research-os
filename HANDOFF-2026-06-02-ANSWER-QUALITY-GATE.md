@@ -58,6 +58,7 @@ Changed:
   - Follow-up: added eight diabetes/FCV/obesity/cancer researcher samples. The recurring eval now covers 24 ordinary-user/researcher prompts.
   - Follow-up: `ordinary_user_vault_eval.py` now fails if any cited source ID is nonexistent, absent from `loaded_source_ids`, or missing entirely on a `local_explanation` surface.
   - Follow-up: added four Chinese overview samples and a language-match gate so Chinese `local_explanation` prompts cannot silently return English.
+  - Follow-up: manually probed common Chinese `是什么` prompts for diabetes, FCV, obesity, and cancer; all passed. Added five recurring samples including `猫癌症是什么` as a cancer alias.
 
 This turns the screenshot lesson into a recurring gate instead of a one-off manual judgment.
 
