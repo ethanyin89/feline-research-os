@@ -216,6 +216,14 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - Updated `system/health-checks/linting-schedule.md`.
   - No new cron was added because the project already documents daily launchd execution for `scripts/health.py`.
   - Since ordinary-user vault eval is now inside `health.py`, it rides the existing daily health automation.
+- 2026-06-02 continuation:
+  - Fixed stale user-facing vault copy in `scripts/app.py`: replaced `six feline disease modules` with `the feline disease modules` so the help text does not drift from the live `8 diseases` count.
+  - Commit pushed to `origin/main`: `d51a6e1 fix(streamlit): avoid stale disease count in vault copy`.
+  - Re-ran `python3 -m py_compile scripts/app.py`.
+  - Re-ran `.venv/bin/python scripts/ordinary_user_vault_eval.py`; 6/6 samples passed and all reported `api_calls=0`.
+  - Confirmed local `HEAD` and `origin/main` both resolve to `d51a6e152cb6d8ad1cc329c286cb1075d0efe800`.
+  - Public HTTP check: `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/~/+/` returned `HTTP/2 200`; root URL returned `HTTP/2 303` to Streamlit auth/app.
+  - Browser-content smoke was not completed in this continuation because local gstack browse failed to start with `No available port after 5 attempts in range 10000-60000`; `ps aux | rg 'gstack|browse/dist/browse|playwright|chromium'` showed no stale gstack/browser process. Treat this as a local browse-runner issue, not an app result.
 
 Public verification completed:
 
