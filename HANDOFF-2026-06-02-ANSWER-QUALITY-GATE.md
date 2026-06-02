@@ -40,12 +40,14 @@ Changed:
 - `scripts/app.py`
   - Expanded the deterministic CKD overview answer in both Chinese and English.
   - Added sections for recognition/diagnosis, monitoring, treatment reality, and Wikipedia comparison.
+  - Follow-up: added researcher-overview handling for phrases like `current understanding of feline CKD` and `what should a researcher know about feline CKD`, plus a `Researcher Lens` section that separates disease model, markers, endpoints, and evidence strength.
   - Kept the no-API disclosure and source-tag discipline.
 
 - `scripts/ordinary_user_vault_eval.py`
   - Added `quality_groups` to all six recurring ordinary-user samples.
   - Added `has_quality_groups(...)`.
   - The eval now fails if expected ordinary-user concepts are missing, not only if routing is wrong.
+  - Follow-up: added researcher-style CKD overview samples after manually probing eight phrasings.
 
 This turns the screenshot lesson into a recurring gate instead of a one-off manual judgment.
 

@@ -322,6 +322,9 @@ def is_local_explanation_question(question: str) -> bool:
         "overview",
         "summary",
         "summarize",
+        "current understanding",
+        "researcher know",
+        "researchers know",
     ]
     if any(marker in lowered or marker in question for marker in explanation_markers):
         return True
@@ -348,6 +351,11 @@ def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "猫 CKD 是 feline chronic kidney disease，也就是猫慢性肾脏疾病。普通读者可以先把它理解为：肾脏长期受损后，过滤、浓缩尿液、调节血压和矿物质代谢的能力逐步下降。"
             "在这个库里，最稳的机制骨架是老年猫常见场景下的肾小管间质纤维化/肾纤维化；不要把它归因到某一个单一原因，而要把它看成多条损伤路径汇合到肾功能下降和结构性病变上。"
             " [source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-011, src-ckd-016]\n\n"
+            "## 研究者视角\n"
+            "- 这个库目前把 CKD 当作 disease model 来读：机制层看纤维化和肾功能下降，评价层看多 endpoint，管理层看哪些干预证据真正够硬。"
+            " [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-010]\n"
+            "- 最容易误判的地方，是把诊断 marker、预后 marker 和治疗 endpoint 混成同一种证据。这个库更适合把它们拆开追踪。"
+            " [source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010, src-ckd-015]\n\n"
             "## 怎么发现和判断\n"
             "- CKD 不是只看一个数字。常用识别框架会把 creatinine/肌酐升高、USG/尿比重下降、病程持续性、尿检、生化、血常规、血压和影像放在一起看。"
             " [source_supported_conclusion: src-ckd-004]\n"
@@ -385,6 +393,11 @@ def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "In this vault, CKD is best introduced as a disease of mostly older cats, with tubulointerstitial or renal fibrosis as the safest mechanism backbone. "
             "The current evidence map does not support a single dominant initiating cause; it supports a multi-axis disease frame that links structural kidney damage to declining function. "
             "[source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-011, src-ckd-016]\n\n"
+            "## Researcher Lens\n"
+            "- The vault currently treats CKD as a disease model: mechanism work centers on fibrosis and functional decline, evaluation work needs multiple endpoints, and management claims need explicit evidence-strength labels. "
+            "[source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-010]\n"
+            "- The common research mistake is compressing diagnostic markers, prognostic markers, and trial endpoints into one evidence type. This vault is more useful when those layers stay separated. "
+            "[source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010, src-ckd-015]\n\n"
             "## How It Is Recognized\n"
             "- CKD should not be read from one number alone. Recognition combines creatinine, USG, persistence over time, urinalysis, serum biochemistry, hematology, blood pressure, and imaging when needed. "
             "[source_supported_conclusion: src-ckd-004]\n"
