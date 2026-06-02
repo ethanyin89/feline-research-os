@@ -2244,6 +2244,7 @@ def run_query(question: str) -> bool:
 
 user_question = st.session_state.pending_question or st.chat_input(
     "Ask a natural feline health question...",
+    accept_audio=False,
 )
 if user_question:
     st.session_state.pending_question = None
