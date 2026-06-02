@@ -167,7 +167,7 @@ HOW_IT_WORKS_HTML = """
 """
 
 HOW_IT_WORKS_COPY = (
-    "This tool searches six feline disease modules in the vault. It routes to compiled topic pages "
+    "This tool searches the feline disease modules in the vault. It routes to compiled topic pages "
     "and source cards, writes a compact answer, and tags each claim with its evidence level. "
     "Green tags are close to source wording. Amber tags are supported synthesis. "
     "Gray tags mean the answer goes beyond the loaded sources."
