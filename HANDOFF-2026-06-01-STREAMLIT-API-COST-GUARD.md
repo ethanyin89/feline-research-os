@@ -168,6 +168,10 @@ Commits pushed:
 - `3a97d09 docs: update streamlit cost guard handoff`
 - `b3804d0 docs: correct streamlit handoff deployment commit`
 - `5750cfb fix(streamlit): answer CKD explanations in free mode`
+- `e11f629 fix(streamlit): add ordinary user free-mode answer surfaces`
+- `e63f914 test: include ordinary user vault eval in health`
+- `f8b05ef docs: add ordinary user vault eval skill`
+- `d4b8749 docs: document ordinary user eval in health schedule`
 
 The first deploy showed a Streamlit Cloud `ImportError` at `scripts/app.py` line 58 while importing from `query.py`. Local `.venv` did not reproduce it. The second commit moved the free-search implementation into `scripts/app.py` and stopped importing `run_local_query_core` from `query.py`, which fixed the public startup failure.
 
@@ -208,6 +212,10 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - Added `.claude/skills/ordinary-user-vault-eval.md`.
   - Use it whenever Ask the vault ordinary-user behavior, free mode, Streamlit answer shape, or API-cost guard is touched.
   - The skill points first to `.venv/bin/python scripts/ordinary_user_vault_eval.py`, then `python3 scripts/health.py`.
+- Schedule solidification:
+  - Updated `system/health-checks/linting-schedule.md`.
+  - No new cron was added because the project already documents daily launchd execution for `scripts/health.py`.
+  - Since ordinary-user vault eval is now inside `health.py`, it rides the existing daily health automation.
 
 Public verification completed:
 
