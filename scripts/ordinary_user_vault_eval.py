@@ -25,6 +25,20 @@ SAMPLES = [
         "expected_mode": "local_explanation",
         "expected_surface": "ckd_overview",
         "min_sources": 4,
+        "quality_groups": [
+            ["猫 CKD", "慢性肾脏疾病"],
+            ["怎么发现", "判断", "recognized"],
+            ["creatinine", "肌酐"],
+            ["USG", "尿比重"],
+            ["UPCR", "蛋白尿"],
+            ["血压", "blood pressure"],
+            ["phosphorus", "磷"],
+            ["SDMA"],
+            ["renal diet", "肾脏专用饮食"],
+            ["不能", "Do not"],
+            ["Wikipedia", "维基百科"],
+            ["下一步", "Next Step"],
+        ],
     },
     {
         "question": "FIP怎么识别",
@@ -32,6 +46,14 @@ SAMPLES = [
         "expected_mode": "local_explanation",
         "expected_surface": "fip_recognition",
         "min_sources": 4,
+        "quality_groups": [
+            ["FIP"],
+            ["识别", "recognition"],
+            ["不能靠一个症状", "one-symptom", "one-test"],
+            ["effusive", "non-effusive"],
+            ["诊断", "diagnostic"],
+            ["下一步", "Next Step"],
+        ],
     },
     {
         "question": "HCM是什么，为什么危险",
@@ -39,6 +61,15 @@ SAMPLES = [
         "expected_mode": "local_explanation",
         "expected_surface": "hcm_overview",
         "min_sources": 4,
+        "quality_groups": [
+            ["HCM"],
+            ["心肌", "myocardial"],
+            ["为什么危险", "Why It Is Risky"],
+            ["echocardiography", "超声"],
+            ["biomarker"],
+            ["不能", "should not"],
+            ["下一步", "Next Step"],
+        ],
     },
     {
         "question": "IBD和淋巴瘤怎么区分",
@@ -46,6 +77,15 @@ SAMPLES = [
         "expected_mode": "local_explanation",
         "expected_surface": "ibd_lymphoma",
         "min_sources": 4,
+        "quality_groups": [
+            ["IBD"],
+            ["淋巴瘤", "lymphoma"],
+            ["区分", "鉴别", "versus"],
+            ["活检", "biopsy"],
+            ["marker"],
+            ["不能", "should not"],
+            ["下一步", "Next Step"],
+        ],
     },
     {
         "question": "猫肥胖症siRNA",
@@ -54,6 +94,12 @@ SAMPLES = [
         "expected_surface": "none",
         "min_sources": 1,
         "must_contain": "没有找到",
+        "quality_groups": [
+            ["没有找到"],
+            ["siRNA"],
+            ["本地", "local"],
+            ["Google", "未入库", "API"],
+        ],
     },
     {
         "question": "What endpoints are usable for feline CKD efficacy evaluation?",
@@ -61,6 +107,17 @@ SAMPLES = [
         "expected_mode": "local_explanation",
         "expected_surface": "ckd_endpoint",
         "min_sources": 4,
+        "quality_groups": [
+            ["endpoint"],
+            ["creatinine"],
+            ["USG"],
+            ["UPCR", "proteinuria"],
+            ["blood pressure"],
+            ["phosphorus"],
+            ["SDMA"],
+            ["should not rely on one marker"],
+            ["Next Step"],
+        ],
     },
 ]
 
@@ -82,6 +139,16 @@ def has_hit_list_failure(answer: str) -> bool:
         first_line.startswith("这是本地 vault 检索结果")
         or first_line.startswith("This is local vault retrieval")
     ) and ("## 本地命中" in answer or "## Local hits" in answer)
+
+
+def has_quality_groups(answer: str, groups: list[list[str]]) -> tuple[bool, list[str]]:
+    """Check ordinary-user answer quality by requiring one term per group."""
+    missing: list[str] = []
+    folded = answer.lower()
+    for group in groups:
+        if not any(term.lower() in folded for term in group):
+            missing.append("/".join(group))
+    return not missing, missing
 
 
 def main() -> int:
@@ -111,6 +178,10 @@ def main() -> int:
             "sections": sections >= 3,
             "not_hit_list_only": not has_hit_list_failure(answer),
         }
+        quality_missing: list[str] = []
+        if "quality_groups" in sample:
+            ok, quality_missing = has_quality_groups(answer, sample["quality_groups"])  # type: ignore[arg-type]
+            checks["answer_quality"] = ok
         if "must_contain" in sample:
             checks["must_contain"] = str(sample["must_contain"]) in answer
 
@@ -122,6 +193,8 @@ def main() -> int:
         print(f"- surface: {surface}")
         print(f"- sources: {len(result['loaded_source_ids'])}")
         print(f"- sections: {sections}")
+        if quality_missing:
+            print(f"- quality_missing: {', '.join(quality_missing)}")
         print(f"- first_line: {answer.splitlines()[0] if answer.splitlines() else ''}")
         print()
 
