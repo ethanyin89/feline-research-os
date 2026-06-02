@@ -496,6 +496,54 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
     return answer, source_ids
 
 
+def build_fip_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic FIP overview answer for broad researcher prompts."""
+    source_ids = ["src-fip-003", "src-fip-010", "src-fip-013", "src-fip-022", "src-fip-023"]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 FIP 概览解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "FIP 是猫传染性腹膜炎。这个库不把它当成一个单项检测或单一症状问题，而是把它拆成风险/暴露背景、临床和实验室识别、effusive 与 non-effusive 形态、诊断检测边界，以及抗病毒治疗时代的行动性。"
+            " [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
+            "## 研究者视角\n"
+            "- FIP 的研究入口不是“有没有一个完美检测”，而是如何把风险、表现、检测、疾病形态和治疗时机放进同一个 decision model。"
+            " [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022]\n"
+            "- GS-441524/remdesivir 时代提高了可行动性，但研究上仍要分开 baseline efficacy、package logic、neurologic rescue 和 durability。"
+            " [source_supported_conclusion: src-fip-013, src-fip-022, src-fip-023]\n\n"
+            "## 关键分层\n"
+            "- effusive 与 non-effusive 不能混成同一个诊断表面。 [source_supported_conclusion: src-fip-010, src-fip-022]\n"
+            "- neurologic/ocular 分支需要单独看，不能和普通 FIP 工作流混写。 [source_supported_conclusion: src-fip-022, src-fip-023]\n"
+            "- 诊断仍是组合判断；治疗变得更可行动，不等于诊断不确定性消失。 [source_supported_conclusion: src-fip-010, src-fip-013, src-fip-022]\n\n"
+            "## 不能说过头的地方\n"
+            "- 不能把一个症状、一个检测或一次治疗反应写成 FIP 的最终裁决。 [source_supported_conclusion: src-fip-010, src-fip-022]\n"
+            "- 不能把所有抗病毒证据合并成一个不分场景的疗效结论。 [source_supported_conclusion: src-fip-013, src-fip-023]\n\n"
+            "## 下一步\n"
+            "读 `topics/fip/risk-and-recognition.md`；如果问题转向治疗，分别问 GS-441524 baseline、remdesivir package logic、neurologic rescue 或 durability。"
+        )
+    else:
+        answer = (
+            "This is a local FIP overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## Direct Explanation\n"
+            "FIP means feline infectious peritonitis. In this vault, it is not treated as a one-test or one-symptom problem; it is separated into risk and exposure context, clinical and clinicopathologic recognition, effusive versus non-effusive form, diagnostic-test boundaries, and antiviral-era actionability. "
+            "[source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
+            "## Researcher Lens\n"
+            "- The research entry point is not whether one perfect test exists. It is how risk, presentation, testing, disease form, and treatment timing fit into a decision model. "
+            "[source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022]\n"
+            "- The GS-441524/remdesivir era improved actionability, but baseline efficacy, package logic, neurologic rescue, and durability should remain separate evidence questions. "
+            "[source_supported_conclusion: src-fip-013, src-fip-022, src-fip-023]\n\n"
+            "## Key Stratification\n"
+            "- Effusive and non-effusive FIP should not be collapsed into one diagnostic surface. [source_supported_conclusion: src-fip-010, src-fip-022]\n"
+            "- Neurologic or ocular extension needs its own branch, not a generic FIP workflow. [source_supported_conclusion: src-fip-022, src-fip-023]\n"
+            "- Diagnosis remains an integrated judgment; more actionable treatment does not erase diagnostic uncertainty. [source_supported_conclusion: src-fip-010, src-fip-013, src-fip-022]\n\n"
+            "## Do Not Overstate\n"
+            "- Do not treat one symptom, one assay, or one treatment response as the final FIP verdict. [source_supported_conclusion: src-fip-010, src-fip-022]\n"
+            "- Do not merge all antiviral evidence into one context-free efficacy claim. [source_supported_conclusion: src-fip-013, src-fip-023]\n\n"
+            "## Next Step\n"
+            "Read `topics/fip/risk-and-recognition.md`; for treatment, ask separately about baseline GS-441524, remdesivir package logic, neurologic rescue, or durability."
+        )
+    return answer, source_ids
+
+
 def build_hcm_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic HCM starter answer."""
     source_ids = ["src-hcm-001", "src-hcm-008", "src-hcm-009", "src-hcm-010", "src-hcm-013", "src-hcm-024"]
@@ -567,6 +615,8 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "ckd_endpoint"
     if disease == "ckd" and is_local_explanation_question(question):
         return "ckd_overview"
+    if disease == "fip" and is_local_explanation_question(question):
+        return "fip_overview"
     if disease == "fip" and any(term in lowered or term in question for term in ["recogn", "diagnos", "识别", "诊断", "怎么看"]):
         return "fip_recognition"
     if disease == "hcm" and is_local_explanation_question(question):
@@ -581,6 +631,7 @@ def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]
     builders = {
         "ckd_overview": build_ckd_local_explanation,
         "ckd_endpoint": build_ckd_endpoint_explanation,
+        "fip_overview": build_fip_local_explanation,
         "fip_recognition": build_fip_recognition_explanation,
         "hcm_overview": build_hcm_local_explanation,
         "ibd_lymphoma": build_ibd_lymphoma_explanation,
