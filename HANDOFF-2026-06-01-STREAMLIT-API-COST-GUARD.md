@@ -231,6 +231,10 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - The fix sets `accept_audio=False` on `st.chat_input` to pin the product boundary that Ask the vault is text-only.
   - Re-ran `python3 -m py_compile scripts/app.py` and `.venv/bin/python scripts/ordinary_user_vault_eval.py`; 6/6 samples passed with `api_calls=0`.
   - After clearing the browser console and reloading `https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/~/+/?smoke=190fae7`, public smoke showed `Vault Search (free)`, `engine no API`, the example buttons, and `(no console errors)`.
+  - Re-ran `python3 scripts/health.py`; exit code 0 and report path `system/health-checks/health-report-20260602.md`.
+  - Health summary: markdown links PASS, query tests `107 passed / 0 failed`, ordinary-user vault eval PASS, source/schema/reference gates PASS.
+  - Only health WARN: 6 high-visibility cancer pages use abstract-weighted/title-only sources; caveat gate passes. This reflects the current dirty cancer/health worktree, not the Streamlit cost-guard fix.
+  - Do not commit `scripts/health.py` or generated `system/health-checks/health-report-20260602.md` as part of this Streamlit/API-cost thread unless the next task explicitly picks up the cancer/health branch.
 
 Public verification completed:
 
