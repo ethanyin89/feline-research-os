@@ -474,6 +474,17 @@ def has_quality_groups(answer: str, groups: list[list[str]]) -> tuple[bool, list
     return not missing, missing
 
 
+def source_trace_failures(app, answer: str, loaded_source_ids: list[str], source_index: dict) -> dict[str, list[str]]:
+    """Return cited source IDs that are nonexistent or absent from loaded context."""
+    cited = app.parse_source_ids_from_answer(answer)
+    loaded = set(loaded_source_ids)
+    return {
+        "cited": cited,
+        "missing_loaded": [sid for sid in cited if sid not in loaded],
+        "nonexistent": [sid for sid in cited if sid not in source_index],
+    }
+
+
 def main() -> int:
     app = import_app()
     source_index = app.build_source_index(ROOT)
@@ -501,6 +512,12 @@ def main() -> int:
             "sections": sections >= 3,
             "not_hit_list_only": not has_hit_list_failure(answer),
         }
+        trace_failures = source_trace_failures(app, answer, result["loaded_source_ids"], source_index)
+        checks["cited_sources_exist"] = not trace_failures["nonexistent"]
+        checks["cited_sources_loaded"] = not trace_failures["missing_loaded"]
+        if sample["expected_mode"] == "local_explanation":
+            checks["has_source_tags"] = bool(trace_failures["cited"])
+
         quality_missing: list[str] = []
         if "quality_groups" in sample:
             ok, quality_missing = has_quality_groups(answer, sample["quality_groups"])  # type: ignore[arg-type]
@@ -515,9 +532,14 @@ def main() -> int:
         print(f"- mode: {result['answer_mode']}")
         print(f"- surface: {surface}")
         print(f"- sources: {len(result['loaded_source_ids'])}")
+        print(f"- cited_sources: {len(trace_failures['cited'])}")
         print(f"- sections: {sections}")
         if quality_missing:
             print(f"- quality_missing: {', '.join(quality_missing)}")
+        if trace_failures["missing_loaded"]:
+            print(f"- cited_not_loaded: {', '.join(trace_failures['missing_loaded'])}")
+        if trace_failures["nonexistent"]:
+            print(f"- cited_nonexistent: {', '.join(trace_failures['nonexistent'])}")
         print(f"- first_line: {answer.splitlines()[0] if answer.splitlines() else ''}")
         print()
 

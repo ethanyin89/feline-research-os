@@ -44,6 +44,7 @@ Changed:
   - Follow-up: manually probed nine researcher-style prompts across CKD, HCM, FIP, and IBD. HCM and IBD routed correctly; FIP broad researcher prompts fell back to local retrieval. Added `fip_overview` with risk/recognition/form/diagnostic/treatment-actionability layers.
   - Follow-up: HCM and IBD routed correctly but were thinner than CKD/FIP for researcher use. Added `Researcher Lens` sections to HCM and IBD answers so researcher prompts get disease-model and evidence-layer framing, not only the ordinary overview.
   - Follow-up: manually probed diabetes, FCV, obesity, and cancer researcher prompts. All four fell back to local retrieval. Added bounded overview surfaces: `diabetes_overview`, `fcv_overview`, `obesity_overview`, and `cancer_overview`. Obesity and cancer surfaces carry explicit evidence-depth/architecture caveats to avoid fake certainty.
+  - Follow-up: added a source-trace trust gate. Manual probe found CKD overview cited `src-ckd-002`, `src-ckd-006`, `src-ckd-007` without loading them, and IBD cited `src-ibd-014`, `src-ibd-021` without loading them. Builder source lists were corrected.
   - Kept the no-API disclosure and source-tag discipline.
 
 - `scripts/ordinary_user_vault_eval.py`
@@ -54,6 +55,7 @@ Changed:
   - Follow-up: added three FIP researcher overview samples after the cross-disease probe found FIP-specific failures.
   - Follow-up: added four HCM/IBD researcher quality samples to keep the researcher lens recurring.
   - Follow-up: added eight diabetes/FCV/obesity/cancer researcher samples. The recurring eval now covers 24 ordinary-user/researcher prompts.
+  - Follow-up: `ordinary_user_vault_eval.py` now fails if any cited source ID is nonexistent, absent from `loaded_source_ids`, or missing entirely on a `local_explanation` surface.
 
 This turns the screenshot lesson into a recurring gate instead of a one-off manual judgment.
 

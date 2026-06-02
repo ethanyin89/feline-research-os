@@ -337,8 +337,11 @@ def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic CKD starter answer from compiled vault pages."""
     source_ids = [
         "src-ckd-001",
+        "src-ckd-002",
         "src-ckd-003",
         "src-ckd-004",
+        "src-ckd-006",
+        "src-ckd-007",
         "src-ckd-010",
         "src-ckd-011",
         "src-ckd-015",
@@ -588,7 +591,16 @@ def build_hcm_local_explanation(chinese: bool) -> tuple[str, list[str]]:
 
 def build_ibd_lymphoma_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic IBD-versus-lymphoma starter answer."""
-    source_ids = ["src-ibd-003", "src-ibd-010", "src-ibd-011", "src-ibd-015", "src-ibd-016", "src-ibd-019"]
+    source_ids = [
+        "src-ibd-003",
+        "src-ibd-010",
+        "src-ibd-011",
+        "src-ibd-014",
+        "src-ibd-015",
+        "src-ibd-016",
+        "src-ibd-019",
+        "src-ibd-021",
+    ]
     if chinese:
         answer = (
             "这是本地 vault 的 IBD/淋巴瘤鉴别解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
