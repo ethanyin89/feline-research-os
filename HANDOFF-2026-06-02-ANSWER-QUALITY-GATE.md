@@ -42,6 +42,7 @@ Changed:
   - Added sections for recognition/diagnosis, monitoring, treatment reality, and Wikipedia comparison.
   - Follow-up: added researcher-overview handling for phrases like `current understanding of feline CKD` and `what should a researcher know about feline CKD`, plus a `Researcher Lens` section that separates disease model, markers, endpoints, and evidence strength.
   - Follow-up: manually probed nine researcher-style prompts across CKD, HCM, FIP, and IBD. HCM and IBD routed correctly; FIP broad researcher prompts fell back to local retrieval. Added `fip_overview` with risk/recognition/form/diagnostic/treatment-actionability layers.
+  - Follow-up: HCM and IBD routed correctly but were thinner than CKD/FIP for researcher use. Added `Researcher Lens` sections to HCM and IBD answers so researcher prompts get disease-model and evidence-layer framing, not only the ordinary overview.
   - Kept the no-API disclosure and source-tag discipline.
 
 - `scripts/ordinary_user_vault_eval.py`
@@ -50,6 +51,7 @@ Changed:
   - The eval now fails if expected ordinary-user concepts are missing, not only if routing is wrong.
   - Follow-up: added researcher-style CKD overview samples after manually probing eight phrasings.
   - Follow-up: added three FIP researcher overview samples after the cross-disease probe found FIP-specific failures.
+  - Follow-up: added four HCM/IBD researcher quality samples to keep the researcher lens recurring.
 
 This turns the screenshot lesson into a recurring gate instead of a one-off manual judgment.
 
