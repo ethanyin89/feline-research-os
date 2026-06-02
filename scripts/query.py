@@ -60,6 +60,7 @@ CONTEXT_TOKEN_LIMIT = 80_000  # estimated; force synthesize above this
 SYNTHESIS_MAX_TOKENS = 4096
 OVERVIEW_COMPACT_TOPIC_CHAR_LIMIT = 3600
 OVERVIEW_COMPACT_SOURCE_CHAR_LIMIT = 4200
+OVERVIEW_MIN_SOURCE_CARDS = 4
 
 # Vision integration — set to False to disable figure attachment entirely
 VISION_INTEGRATION_ENABLED = True
@@ -492,6 +493,26 @@ def parse_source_ids_from_frontmatter(content: str) -> list[str]:
                 if not line.startswith("    ") and not line.startswith("\t"):
                     break
     return ids
+
+
+def source_ids_from_topic_frontmatter(
+    loaded_path_order: list[Path],
+    frontmatter_source_ids: dict[Path, list[str]],
+    already_loaded_source_ids: list[str],
+    limit: int,
+) -> list[str]:
+    """Return ordered source IDs from loaded topic frontmatter, excluding already loaded cards."""
+    seen = set(already_loaded_source_ids)
+    selected: list[str] = []
+    for path in loaded_path_order:
+        for sid in frontmatter_source_ids.get(path, []):
+            if not sid.startswith("src-") or sid in seen:
+                continue
+            selected.append(sid)
+            seen.add(sid)
+            if len(selected) >= limit:
+                return selected
+    return selected
 
 
 def frontmatter_scalar(content: str, key: str) -> str:
@@ -2035,6 +2056,35 @@ def run_query_core(
             f"{sum(1 for item in preferred_trace_items if item['loaded'])}/{len(preferred_trace_items)} preferred sources loaded",
             preferred_trace_items,
         )
+
+    if question_type == "overview":
+        loaded_source_ids_now = [
+            sid for sid, src_path in source_index.items() if src_path in loaded_paths
+        ]
+        needed = max(0, OVERVIEW_MIN_SOURCE_CARDS - len(loaded_source_ids_now))
+        if needed:
+            preload_ids = source_ids_from_topic_frontmatter(
+                loaded_path_order,
+                frontmatter_source_ids,
+                loaded_source_ids_now,
+                needed,
+            )
+            preload_trace_items: list[dict] = []
+            for sid in preload_ids:
+                loaded = sid in source_index and try_load_source(sid)
+                preload_trace_items.append({"source_id": sid, "loaded": loaded})
+                if loaded:
+                    print(f"[info] Overview baseline loaded source: {sid}", file=sys.stderr)
+            if preload_trace_items:
+                add_trace(
+                    "Loaded overview baseline evidence",
+                    (
+                        f"target={OVERVIEW_MIN_SOURCE_CARDS}; "
+                        f"already={len(loaded_source_ids_now)}; "
+                        f"added={sum(1 for item in preload_trace_items if item['loaded'])}"
+                    ),
+                    preload_trace_items,
+                )
 
     # Hop loop
     history: list[dict] = []

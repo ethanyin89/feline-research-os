@@ -36,6 +36,7 @@ from query import (
     render_frontmatter,
     resolve_link,
     sanitize_provenance_tags,
+    source_ids_from_topic_frontmatter,
     validate_openrouter_budget,
     validate_frontmatter,
     write_back,
@@ -272,6 +273,21 @@ def _test_merge_routing_with_guardrails_claim_verification_prefers_verify_surfac
     assert merged["question_type"] == "claim_verification", merged
     assert merged["disease"] == "ckd", merged
     assert merged["files_to_load"][0] == "system/indexes/verify-a-claim.md", merged
+
+
+def _test_source_ids_from_topic_frontmatter_fills_overview_baseline():
+    dashboard = Path("topics/ckd/current-state-dashboard.md")
+    synthesis = Path("topics/ckd/synthesis-index.md")
+    selected = source_ids_from_topic_frontmatter(
+        [dashboard, synthesis],
+        {
+            dashboard: ["src-ckd-001", "src-ckd-002", "src-ckd-004", "topic-ckd-ignore"],
+            synthesis: ["src-ckd-003", "src-ckd-004", "src-ckd-005"],
+        },
+        ["src-ckd-004"],
+        4,
+    )
+    assert selected == ["src-ckd-001", "src-ckd-002", "src-ckd-003", "src-ckd-005"], selected
 
 
 # ---------------------------------------------------------------------------
@@ -1388,6 +1404,7 @@ if __name__ == "__main__":
     test("heuristic_files_for_route: diabetes treatment branches", _test_heuristic_files_for_route_diabetes_treatment_branches)
     test("merge_routing_with_guardrails: synthesis override", _test_merge_routing_with_guardrails_overrides_qtype_and_prefixes_files)
     test("merge_routing_with_guardrails: claim verification surface", _test_merge_routing_with_guardrails_claim_verification_prefers_verify_surface)
+    test("source_ids_from_topic_frontmatter: fills overview baseline", _test_source_ids_from_topic_frontmatter_fills_overview_baseline)
 
     test("parse_json_block: raw JSON", _test_parse_json_block_raw)
     test("parse_json_block: fenced markdown", _test_parse_json_block_fenced)
