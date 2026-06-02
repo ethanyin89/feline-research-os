@@ -628,6 +628,120 @@ def build_ibd_lymphoma_explanation(chinese: bool) -> tuple[str, list[str]]:
     return answer, source_ids
 
 
+def build_diabetes_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic diabetes overview answer for broad researcher prompts."""
+    source_ids = ["src-diabetes-001", "src-diabetes-005", "src-diabetes-007", "src-diabetes-011", "src-diabetes-015", "src-diabetes-024"]
+    answer = (
+        "This is a local feline diabetes overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+        "## Direct Explanation\n"
+        "Feline diabetes should be introduced as a mixed metabolic/endocrine syndrome, not a single remission-protocol story. The vault keeps remission, diet, insulin choice, beta-cell failure, obesity-driven insulin resistance, pancreatitis, endocrine-secondary diabetes, neuropathy, and SGLT2 safety boundaries in separate layers. "
+        "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-007, src-diabetes-011, src-diabetes-015, src-diabetes-024]\n\n"
+        "## Researcher Lens\n"
+        "- The research model is not simply `which protocol causes remission`. It is how metabolic disease, endocrine-secondary disease, obesity, pancreatitis, diet architecture, insulin strategy, and newer SGLT2 labels interact without collapsing into one winner. "
+        "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-011, src-diabetes-024]\n"
+        "- Remission is real, but current evidence blocks simple protocol ranking and single-predictor claims. "
+        "[source_supported_conclusion: src-diabetes-007, src-diabetes-015, src-diabetes-024]\n\n"
+        "## Key Boundaries\n"
+        "- SGLT2 is now anchored by primary FDA and current-label sources, but that makes candidate selection, ketone monitoring, and label boundaries more important; it does not make SGLT2 the treatment winner. "
+        "[source_supported_conclusion: src-diabetes-011]\n"
+        "- Diet variables, insulin choices, remission endpoints, neuropathy, obesity, hypersomatotropism, and pancreatitis need separate evidence labels. [llm_inference]\n\n"
+        "## Do Not Overstate\n"
+        "- Do not rank diabetes protocols as settled from this overview layer. [source_supported_conclusion: src-diabetes-024]\n"
+        "- Do not turn regulatory label anchoring into product superiority. [source_supported_conclusion: src-diabetes-011]\n\n"
+        "## Next Step\n"
+        "Read `topics/diabetes/synthesis-index.md`, then branch to diagnostic-monitoring, treatment-branch-map, remission-boundaries, diet-architecture, or SGLT2-label-control depending on the research question."
+    )
+    return answer, source_ids
+
+
+def build_fcv_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic FCV overview answer for broad researcher prompts."""
+    source_ids = [
+        "src-fcv-001",
+        "src-fcv-002",
+        "src-fcv-003",
+        "src-fcv-008",
+        "src-fcv-010",
+        "src-fcv-011",
+        "src-fcv-012",
+        "src-fcv-013",
+        "src-fcv-014",
+        "src-fcv-015",
+        "src-fcv-016",
+        "src-fcv-017",
+        "src-fcv-018",
+        "src-fcv-020",
+        "src-fcv-022",
+        "src-fcv-023",
+        "src-fcv-024",
+    ]
+    answer = (
+        "This is a local FCV overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+        "## Direct Explanation\n"
+        "Feline calicivirus is best framed in this vault as a disease module with vaccine/immunity complexity, epidemiology/recognition, therapy limits, carrier persistence, and extension/tissue-tropism branches. It should not collapse into a simple vaccination-solves-everything story. "
+        "[source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-003, src-fcv-010, src-fcv-015, src-fcv-022]\n\n"
+        "## Researcher Lens\n"
+        "- Vaccine evidence is the thickest branch, but breadth of protection, challenge models, platform design, cellular versus humoral immunity, vaccine-failure interpretation, and persistence are not interchangeable claims. "
+        "[source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-011, src-fcv-012, src-fcv-013, src-fcv-017, src-fcv-022, src-fcv-024]\n"
+        "- VS-FCV needs a distinct recognition and management frame and should not be collapsed into routine upper respiratory or oral presentation. [source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-015]\n\n"
+        "## Key Boundaries\n"
+        "- Therapy exists as a branch, but it should not outrank prevention/vaccine evidence at the overview layer. [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n"
+        "- Tissue tropism and systemic or musculoskeletal extensions widen the disease map but remain secondary to the core respiratory/oral shell. [source_supported_conclusion: src-fcv-016, src-fcv-020, src-fcv-023]\n\n"
+        "## Do Not Overstate\n"
+        "- Do not merge every vaccine finding into one protection claim. [source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-022]\n"
+        "- Do not turn therapy signals into treatment guidance from this overview layer. [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n\n"
+        "## Next Step\n"
+        "Read `topics/fcv/synthesis-index.md`, then branch to mechanism-overview, risk-and-recognition, endpoint-handbook, or regulatory-brief."
+    )
+    return answer, source_ids
+
+
+def build_obesity_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic obesity starter overview with evidence-depth caveats."""
+    source_ids = ["src-obesity-001", "src-obesity-004", "src-obesity-005", "src-obesity-008"]
+    answer = (
+        "This is a local feline obesity starter overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+        "## Direct Explanation\n"
+        "Feline obesity is currently modeled as a multifactorial nutritional disorder with intrinsic and extrinsic risk factors, wide prevalence variation, associated-condition visibility, an insulin-sensitivity diabetes bridge, prevention-first framing, and body-condition assessment. "
+        "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
+        "## Evidence-Depth Caveat\n"
+        "This is a compiled starter surface based on 4 deep-extracted Tier 1 obesity source cards from an 87-card obesity corpus. It can support architecture claims, not owner-facing weight-loss protocols or effect-size rankings. "
+        "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
+        "## Researcher Lens\n"
+        "- The safe disease model has five branches: prevalence range, risk-factor framework, pathogenesis, associated conditions, and assessment. [source_supported_conclusion: src-obesity-001, src-obesity-004]\n"
+        "- The clearest mechanism anchor is that insulin sensitivity decreases with increasing adiposity, which supports the diabetes-bridge frame. [source_supported_conclusion: src-obesity-008]\n"
+        "- Prevention is framed above treatment because treatment is slow, often unsuccessful, and not without consequences; the prevention target is post-gonadectomy kittens aged 5-12 months. [source_supported_conclusion: src-obesity-005]\n\n"
+        "## Do Not Overstate\n"
+        "- Do not rank risk factors by effect size, give population-specific prevalence, recommend protocols, or claim causal mechanisms beyond the insulin-sensitivity bridge. [llm_inference]\n\n"
+        "## Next Step\n"
+        "Read `topics/obesity/mechanism-overview.md`; for obesity-diabetes questions, also read `topics/obesity/diabetes-bridge.md` and `topics/diabetes/obesity-and-body-condition.md`."
+    )
+    return answer, source_ids
+
+
+def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return a deterministic cancer architecture overview with caveats."""
+    source_ids = ["src-cancer-002", "src-cancer-003", "src-cancer-004", "src-cancer-008", "src-cancer-019", "src-cancer-040"]
+    answer = (
+        "This is a local feline cancer architecture overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+        "## Direct Explanation\n"
+        "The cancer module should start with clinical workflow and branch architecture: presentation, diagnosis, staging, then branch-specific treatment discussion. It should split early by tumor family rather than remain one flat oncology page. "
+        "[source_supported_conclusion: src-cancer-004, src-cancer-008, src-cancer-040]\n\n"
+        "## Evidence-Depth Caveat\n"
+        "This is architecture-level only. Six deep-extracted anchors currently support workflow, branch scaffolding, mammary/TNBC-like model boundaries, lymphoma classification, COX marker caveats, and registry denominator discipline. It is not enough to rank treatments, state reusable prognosis ranges, or give tumor-specific management advice. "
+        "[source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n\n"
+        "## Researcher Lens\n"
+        "- Feline cancer research should branch early into suspected-cancer workflow, lymphoma, mammary carcinoma, oral SCC, injection-site sarcoma, COX/prognosis-marker caveats, and registry/prevalence. [source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n"
+        "- Mammary carcinoma has comparative oncology and TNBC-like/basal-like model evidence, but that is a model boundary, not treatment or prognosis guidance. [source_supported_conclusion: src-cancer-004, src-cancer-019]\n"
+        "- Registry and prevalence claims must stay denominator-labeled before numeric tumor-frequency language is reused. [source_supported_conclusion: src-cancer-002]\n\n"
+        "## Do Not Overstate\n"
+        "- Do not rank treatments, reuse survival/prognosis ranges, or promote biomarkers into clinical guidance from the current overview layer. [llm_inference]\n\n"
+        "## Next Step\n"
+        "Read `topics/cancer/synthesis-index.md`, then branch to suspected-cancer-workflow, lymphoma, mammary-carcinoma, oral-squamous-cell-carcinoma, injection-site-sarcoma, COX marker caveats, or registry-and-prevalence."
+    )
+    return answer, source_ids
+
+
 def choose_local_explanation_surface(question: str, disease: str) -> Optional[str]:
     """Pick a deterministic ordinary-user answer surface for free mode."""
     lowered = question.lower()
@@ -643,6 +757,14 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "hcm_overview"
     if disease == "ibd" and any(term in lowered or term in question for term in ["lymphoma", "淋巴瘤", "区分", "differentiat"]):
         return "ibd_lymphoma"
+    if disease == "diabetes" and is_local_explanation_question(question):
+        return "diabetes_overview"
+    if disease == "fcv" and is_local_explanation_question(question):
+        return "fcv_overview"
+    if disease == "obesity" and is_local_explanation_question(question):
+        return "obesity_overview"
+    if disease == "cancer" and is_local_explanation_question(question):
+        return "cancer_overview"
     return None
 
 
@@ -655,6 +777,10 @@ def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]
         "fip_recognition": build_fip_recognition_explanation,
         "hcm_overview": build_hcm_local_explanation,
         "ibd_lymphoma": build_ibd_lymphoma_explanation,
+        "diabetes_overview": build_diabetes_local_explanation,
+        "fcv_overview": build_fcv_local_explanation,
+        "obesity_overview": build_obesity_local_explanation,
+        "cancer_overview": build_cancer_local_explanation,
     }
     return builders[surface](chinese)
 
