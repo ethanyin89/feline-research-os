@@ -762,6 +762,7 @@ def is_broad_explanation_question(question: str) -> bool:
     lowered = question.lower().strip()
     broad_tokens = [
         "explain",
+        "explanation",
         "what is",
         "overview",
         "tell me about",

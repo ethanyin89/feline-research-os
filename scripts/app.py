@@ -318,6 +318,7 @@ def is_local_explanation_question(question: str) -> bool:
         "怎么理解",
         "what is",
         "explain",
+        "explanation",
         "overview",
         "summary",
         "summarize",

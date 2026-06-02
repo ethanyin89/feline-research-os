@@ -179,6 +179,12 @@ def _test_heuristic_question_type_overview_exact_disease():
     assert heuristic_question_type(q) == "overview"
 
 
+def _test_heuristic_question_type_overview_researcher_explanation():
+    q = "the explanation of feline CKD"
+    assert is_broad_explanation_question(q)
+    assert heuristic_question_type(q) == "overview"
+
+
 def _test_heuristic_question_type_overview_chinese_worry():
     q = "我的猫肌酐升高，这个库能告诉我什么"
     assert is_broad_explanation_question(q)
@@ -1389,6 +1395,7 @@ if __name__ == "__main__":
     test("heuristic_question_type: claim verification", _test_heuristic_question_type_claim_verification)
     test("heuristic_question_type: Chinese broad overview", _test_heuristic_question_type_overview_chinese)
     test("heuristic_question_type: exact disease overview", _test_heuristic_question_type_overview_exact_disease)
+    test("heuristic_question_type: researcher explanation overview", _test_heuristic_question_type_overview_researcher_explanation)
     test("heuristic_question_type: Chinese worry overview", _test_heuristic_question_type_overview_chinese_worry)
     test("heuristic_question_type: synthesis", _test_heuristic_question_type_synthesis)
     test("heuristic_question_type: regulatory", _test_heuristic_question_type_regulatory)
