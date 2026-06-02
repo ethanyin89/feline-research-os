@@ -204,6 +204,10 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - `python3 scripts/health.py` now includes `Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls.`
   - Public Streamlit smoke still verifies load/default state (`Vault Search (free)`, `engine no API`).
   - Browser automation can fill the Streamlit chat input, but end-to-end send remains unreliable under gstack/Streamlit control. Treat local `ordinary_user_vault_eval.py` as the current deterministic acceptance path until a public-browser test helper is hardened.
+- Skill solidification after the 6-sample manual run:
+  - Added `.claude/skills/ordinary-user-vault-eval.md`.
+  - Use it whenever Ask the vault ordinary-user behavior, free mode, Streamlit answer shape, or API-cost guard is touched.
+  - The skill points first to `.venv/bin/python scripts/ordinary_user_vault_eval.py`, then `python3 scripts/health.py`.
 
 Public verification completed:
 
