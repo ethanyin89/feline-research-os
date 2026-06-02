@@ -235,6 +235,7 @@ Second follow-up after the user clarified this is about ordinary-person product 
   - Health summary: markdown links PASS, query tests `107 passed / 0 failed`, ordinary-user vault eval PASS, source/schema/reference gates PASS.
   - Only health WARN: 6 high-visibility cancer pages use abstract-weighted/title-only sources; caveat gate passes. This reflects the current dirty cancer/health worktree, not the Streamlit cost-guard fix.
   - Do not commit `scripts/health.py` or generated `system/health-checks/health-report-20260602.md` as part of this Streamlit/API-cost thread unless the next task explicitly picks up the cancer/health branch.
+  - Current worktree still has many pre-existing material changes (`git status --short` count: 55 modified, 53 untracked). Treat them as separate content/public-test/cancer work unless the next task explicitly scopes them in.
 
 Public verification completed:
 
