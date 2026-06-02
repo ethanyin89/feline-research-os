@@ -83,6 +83,13 @@ Results:
 - health: PASS for `Ordinary-user vault eval`
 - health still reports the known thin-source warning unrelated to this patch
 
+## Current State
+
+- Latest pushed commit on `main`: `dcffe96 fix(vault): add treatment boundary answers`
+- Public Streamlit URL checked with `curl -I`; it returned HTTP `303` to Streamlit auth, so the app endpoint is alive. Streamlit may still take time to pull the latest GitHub commit.
+- The generated health report `system/health-checks/health-report-20260602.md` remains untracked and was intentionally not committed.
+- The treatment-boundary patch was already pushed to `origin/main`; this handoff update is documentation-only.
+
 ## Product Interpretation
 
 The vault should not try to beat Wikipedia by being longer or pretending to be a public encyclopedia. Its value should be:
