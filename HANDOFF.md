@@ -6,6 +6,10 @@ If you are a new model taking over this repo because of token loss, model switch
 
 Read the latest session handoff first:
 
+- [HANDOFF-2026-06-02-CANCER-ABSTRACT-SAMPLE.md](HANDOFF-2026-06-02-CANCER-ABSTRACT-SAMPLE.md)
+
+For the prior Streamlit/API-cost guard handoff, read:
+
 - [HANDOFF-2026-06-01-STREAMLIT-API-COST-GUARD.md](HANDOFF-2026-06-01-STREAMLIT-API-COST-GUARD.md)
 
 For the prior public-test link refresh handoff, read:
