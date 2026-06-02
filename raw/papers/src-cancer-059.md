@@ -9,14 +9,17 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2002
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 11896610
+doi: "10.1038/sj.onc.1205221"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, stk, gene, expression, mammary, carcinomas]
 links:
-  doi: ""
+  doi: "10.1038/sj.onc.1205221"
   url: "https://www.nature.com/articles/1205221"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,35 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-extracted source card. The abstract was fetched from PubMed (PMID 11896610) and key findings were extracted at abstract level only.
+
+## Source Check, 2026-06-02
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 11896610
+- DOI: 10.1038/sj.onc.1205221
+- Journal: Oncogene
+- Year: 2002
+
+## Abstract Summary
+
+This study identified feline `stk` and examined its expression in feline mammary cancer as a comparative model for human breast cancer receptor biology.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Target | Feline `stk`, homologous to MET-family receptor genes |
+| Expression assays | RT-PCR, Western blot, immunohistochemistry |
+| Samples | 7/8 feline mammary carcinomas and a synchronous skin metastasis by RT-PCR; 10/34 archival mammary carcinoma samples stained by antibody |
+| Interpretation | The abstract states the feline STK pattern could be superimposed on human RON receptor distribution in breast cancer |
+
+**Boundary:** This is abstract-level molecular-comparative evidence. It does not establish feline clinical biomarker utility or treatment selection.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 62. Use it for triage until abstract or full-text extraction proves a stronger role.
+PubMed abstract supports this source as feline mammary carcinoma STK/RON-comparative molecular evidence, not as a clinical biomarker recommendation.
 
 ## Why It Matters For Feline Cancer
 

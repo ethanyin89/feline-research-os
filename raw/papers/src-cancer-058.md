@@ -9,14 +9,17 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2012
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 22100245
+doi: "10.1016/j.rvsc.2011.10.016"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, myxoma, virus, induces, apoptosis, cultured, carcinoma, cells]
 links:
-  doi: ""
+  doi: "10.1016/j.rvsc.2011.10.016"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S0034528811004413?via%3Dihub"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,35 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-extracted source card. The abstract was fetched from PubMed (PMID 22100245) and key findings were extracted at abstract level only.
+
+## Source Check, 2026-06-02
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 22100245
+- DOI: 10.1016/j.rvsc.2011.10.016
+- Journal: Research in Veterinary Science
+- Year: 2012
+
+## Abstract Summary
+
+This study evaluated myxoma virus-induced oncolysis in two feline cancer cell cultures.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Model | Two feline cancer cell cultures |
+| Intervention | Myxoma virus inoculation |
+| Findings | Viral protein expression and infectious particle production were detected |
+| Cell-death signal | Primary feline cancer cells showed cell death within 48 hours after inoculation |
+
+**Boundary:** This is in vitro oncolytic-virus evidence. It supports a preclinical susceptibility signal, not treatment efficacy in cats.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 61. Use it for triage until abstract or full-text extraction proves a stronger role.
+PubMed abstract supports this source as an in vitro myxoma-virus susceptibility signal in feline carcinoma cells, not as clinical therapy evidence.
 
 ## Why It Matters For Feline Cancer
 

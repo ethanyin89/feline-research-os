@@ -9,14 +9,17 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2012
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 22366263
+doi: "10.1016/j.yexcr.2012.02.008"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, isolation, stem-like, cells, spontaneous, mammary, carcinomas, phenotypic]
 links:
-  doi: ""
+  doi: "10.1016/j.yexcr.2012.02.008"
   url: "https://www.sciencedirect.com/science/article/pii/S001448271200064X?via%3Dihub"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,35 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-extracted source card. The abstract was fetched from PubMed (PMID 22366263) and key findings were extracted at abstract level only.
+
+## Source Check, 2026-06-02
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 22366263
+- DOI: 10.1016/j.yexcr.2012.02.008
+- Journal: Experimental Cell Research
+- Year: 2012
+
+## Abstract Summary
+
+This study isolated and characterized stem/progenitor-like cells from spontaneous feline mammary carcinoma samples.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Samples | 21 feline mammary carcinoma samples |
+| Culture result | CD44-positive mammosphere-forming subpopulations isolated from 13 FMCs |
+| Assays | Immunohistochemistry for Ki67, EGFR, ER-alpha, CD44; stem-cell permissive culture; NOD/SCID mouse injection |
+| Main result | FMC stem-like cells showed self-renewal, long-lasting proliferation, in vivo tumorigenicity, and differentiation-associated loss of CD44/tumorigenic potential |
+
+**Boundary:** This is abstract-level comparative-oncology and tumor-initiating-cell model evidence. It does not establish a clinical diagnostic or treatment recommendation for client-owned cats.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 60. Use it for triage until abstract or full-text extraction proves a stronger role.
+PubMed abstract supports this source as a feline mammary carcinoma stem-like-cell / tumor-initiating-cell model paper, not as direct clinical guidance.
 
 ## Why It Matters For Feline Cancer
 

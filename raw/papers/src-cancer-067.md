@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2014
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
+pmid: 25093734
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, evaluation, new, recombinant, oncolytic, vaccinia, virus, strain]
@@ -33,11 +35,37 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a second-pass abstract-extracted source card. The abstract was fetched from PubMed (PMID 25093734) and key findings were extracted at abstract level only.
+
+## Source Check, 2026-06-02
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 25093734
+- DOI: 10.1371/journal.pone.0104337
+- Journal: PLoS One
+- Year: 2014
+- PMCID: PMC4122492
+
+## Abstract Summary
+
+This study evaluated recombinant oncolytic vaccinia virus GLV-5b451 against feline mammary carcinoma models.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Model | DT09/06 feline mammary carcinoma cell line and selected FMC xenografts |
+| Intervention | GLV-5b451 expressing anti-VEGF single-chain antibody GLAF-2 |
+| In vitro result | Virus infected, replicated in, and destroyed DT09/06 cancer cells |
+| Xenograft result | Single systemic administration significantly inhibited tumor growth compared with untreated tumor-bearing mice |
+| Mechanistic signal | Tumor-specific infection led to functional GLAF-2 production, reduced intratumoral VEGF, and inhibited angiogenesis |
+
+**Boundary:** This is preclinical cell-line/xenograft evidence with a declared conflict-of-interest statement. It does not support clinical use of GLV-5b451 in client-owned cats.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 72. Use it for triage until abstract or full-text extraction proves a stronger role.
+PubMed abstract supports this source as preclinical oncolytic-vaccinia evidence in feline mammary carcinoma models, not clinical treatment evidence.
 
 ## Why It Matters For Feline Cancer
 
