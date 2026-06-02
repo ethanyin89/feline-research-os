@@ -323,6 +323,22 @@ SAMPLES = [
         ],
     },
     {
+        "question": "解释猫糖尿病",
+        "expected_disease": "diabetes",
+        "expected_mode": "local_explanation",
+        "expected_surface": "diabetes_overview",
+        "min_sources": 4,
+        "quality_groups": [
+            ["猫糖尿病"],
+            ["研究者视角"],
+            ["mixed metabolic/endocrine syndrome"],
+            ["remission"],
+            ["SGLT2"],
+            ["不能说过头"],
+            ["下一步"],
+        ],
+    },
+    {
         "question": "what should a researcher know about feline FCV",
         "expected_disease": "fcv",
         "expected_mode": "local_explanation",
@@ -354,6 +370,22 @@ SAMPLES = [
             ["routine upper respiratory"],
             ["protection claim"],
             ["Next Step"],
+        ],
+    },
+    {
+        "question": "解释猫杯状病毒",
+        "expected_disease": "fcv",
+        "expected_mode": "local_explanation",
+        "expected_surface": "fcv_overview",
+        "min_sources": 4,
+        "quality_groups": [
+            ["猫杯状病毒"],
+            ["研究者视角"],
+            ["vaccine"],
+            ["VS-FCV"],
+            ["therapy"],
+            ["不能说过头"],
+            ["下一步"],
         ],
     },
     {
@@ -391,6 +423,22 @@ SAMPLES = [
         ],
     },
     {
+        "question": "解释猫肥胖",
+        "expected_disease": "obesity",
+        "expected_mode": "local_explanation",
+        "expected_surface": "obesity_overview",
+        "min_sources": 4,
+        "quality_groups": [
+            ["猫肥胖"],
+            ["证据深度"],
+            ["研究者视角"],
+            ["insulin sensitivity"],
+            ["post-gonadectomy kittens"],
+            ["不能说过头"],
+            ["下一步"],
+        ],
+    },
+    {
         "question": "what should a researcher know about feline cancer",
         "expected_disease": "cancer",
         "expected_mode": "local_explanation",
@@ -422,6 +470,22 @@ SAMPLES = [
             ["injection-site sarcoma"],
             ["rank treatments"],
             ["Next Step"],
+        ],
+    },
+    {
+        "question": "解释猫肿瘤",
+        "expected_disease": "cancer",
+        "expected_mode": "local_explanation",
+        "expected_surface": "cancer_overview",
+        "min_sources": 4,
+        "quality_groups": [
+            ["猫肿瘤"],
+            ["证据深度"],
+            ["研究者视角"],
+            ["clinical workflow"],
+            ["tumor family"],
+            ["不能说过头"],
+            ["下一步"],
         ],
     },
     {
@@ -485,6 +549,11 @@ def source_trace_failures(app, answer: str, loaded_source_ids: list[str], source
     }
 
 
+def has_cjk_text(text: str) -> bool:
+    """Return True when text contains Chinese/Japanese/Korean ideographs."""
+    return bool(re.search(r"[\u4e00-\u9fff]", text))
+
+
 def main() -> int:
     app = import_app()
     source_index = app.build_source_index(ROOT)
@@ -517,6 +586,8 @@ def main() -> int:
         checks["cited_sources_loaded"] = not trace_failures["missing_loaded"]
         if sample["expected_mode"] == "local_explanation":
             checks["has_source_tags"] = bool(trace_failures["cited"])
+        if app.detect_chinese(question) and sample["expected_mode"] == "local_explanation":
+            checks["language_matches_question"] = has_cjk_text(answer[:800])
 
         quality_missing: list[str] = []
         if "quality_groups" in sample:

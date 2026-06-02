@@ -643,6 +643,28 @@ def build_ibd_lymphoma_explanation(chinese: bool) -> tuple[str, list[str]]:
 def build_diabetes_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic diabetes overview answer for broad researcher prompts."""
     source_ids = ["src-diabetes-001", "src-diabetes-005", "src-diabetes-007", "src-diabetes-011", "src-diabetes-015", "src-diabetes-024"]
+    if chinese:
+        answer = (
+            "这是本地猫糖尿病概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫糖尿病在这个库里不应该被写成单一 remission protocol 故事，而应该先理解为 mixed metabolic/endocrine syndrome。这个库把 remission、diet、insulin choice、beta-cell failure、obesity-driven insulin resistance、pancreatitis、endocrine-secondary diabetes、neuropathy 和 SGLT2 safety boundaries 分层处理。 "
+            "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-007, src-diabetes-011, src-diabetes-015, src-diabetes-024]\n\n"
+            "## 研究者视角\n"
+            "- 研究模型不是简单问 `哪一个 protocol 导致 remission`，而是看 metabolic disease、endocrine-secondary disease、obesity、pancreatitis、diet architecture、insulin strategy 和新的 SGLT2 label 如何相互约束，且不能合并成一个赢家。 "
+            "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-011, src-diabetes-024]\n"
+            "- remission 真实存在，但当前证据不支持简单 protocol ranking 或 single-predictor claim。 "
+            "[source_supported_conclusion: src-diabetes-007, src-diabetes-015, src-diabetes-024]\n\n"
+            "## 关键边界\n"
+            "- SGLT2 已经有 primary FDA 和 current-label 来源锚定，但这让 candidate selection、ketone monitoring 和 label boundary 更重要；它不等于 SGLT2 是治疗赢家。 "
+            "[source_supported_conclusion: src-diabetes-011]\n"
+            "- diet variables、insulin choices、remission endpoints、neuropathy、obesity、hypersomatotropism 和 pancreatitis 需要分开标注证据强度。 [llm_inference]\n\n"
+            "## 不能说过头的地方\n"
+            "- 不能从这个概览层直接给糖尿病 protocol 排名。 [source_supported_conclusion: src-diabetes-024]\n"
+            "- 不能把 regulatory label anchoring 写成 product superiority。 [source_supported_conclusion: src-diabetes-011]\n\n"
+            "## 下一步\n"
+            "读 `topics/diabetes/synthesis-index.md`，再根据问题进入 diagnostic-monitoring、treatment-branch-map、remission-boundaries、diet-architecture 或 SGLT2-label-control。"
+        )
+        return answer, source_ids
     answer = (
         "This is a local feline diabetes overview, not API synthesis. No API call was made. [llm_inference]\n\n"
         "## Direct Explanation\n"
@@ -687,6 +709,26 @@ def build_fcv_local_explanation(chinese: bool) -> tuple[str, list[str]]:
         "src-fcv-023",
         "src-fcv-024",
     ]
+    if chinese:
+        answer = (
+            "这是本地 FCV 概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫杯状病毒/FCV 在这个库里最好被看成一个包含 vaccine/immunity complexity、epidemiology/recognition、therapy limits、carrier persistence 和 extension/tissue-tropism 分支的疾病模块。它不应该被压缩成“接种疫苗就解决一切”的简单故事。 "
+            "[source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-003, src-fcv-010, src-fcv-015, src-fcv-022]\n\n"
+            "## 研究者视角\n"
+            "- vaccine evidence 是最厚的分支，但 breadth of protection、challenge models、platform design、cellular versus humoral immunity、vaccine-failure interpretation 和 persistence 不是同一种 claim。 "
+            "[source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-011, src-fcv-012, src-fcv-013, src-fcv-017, src-fcv-022, src-fcv-024]\n"
+            "- VS-FCV 需要独立的 recognition 和 management frame，不能混进 routine upper respiratory 或 oral presentation。 [source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-015]\n\n"
+            "## 关键边界\n"
+            "- therapy 是真实分支，但在概览层不应该压过 prevention/vaccine evidence。 [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n"
+            "- tissue tropism 和 systemic / musculoskeletal extensions 会扩展疾病地图，但仍次于核心 respiratory/oral shell。 [source_supported_conclusion: src-fcv-016, src-fcv-020, src-fcv-023]\n\n"
+            "## 不能说过头的地方\n"
+            "- 不能把所有 vaccine finding 合并成一个 protection claim。 [source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-022]\n"
+            "- 不能把 therapy signals 从概览层直接写成 treatment guidance。 [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n\n"
+            "## 下一步\n"
+            "读 `topics/fcv/synthesis-index.md`，再进入 mechanism-overview、risk-and-recognition、endpoint-handbook 或 regulatory-brief。"
+        )
+        return answer, source_ids
     answer = (
         "This is a local FCV overview, not API synthesis. No API call was made. [llm_inference]\n\n"
         "## Direct Explanation\n"
@@ -711,6 +753,25 @@ def build_fcv_local_explanation(chinese: bool) -> tuple[str, list[str]]:
 def build_obesity_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic obesity starter overview with evidence-depth caveats."""
     source_ids = ["src-obesity-001", "src-obesity-004", "src-obesity-005", "src-obesity-008"]
+    if chinese:
+        answer = (
+            "这是本地猫肥胖 starter 概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫肥胖目前在这个库里被建模为 multifactorial nutritional disorder，核心包括 intrinsic and extrinsic risk factors、wide prevalence variation、associated-condition visibility、insulin-sensitivity diabetes bridge、prevention-first framing 和 body-condition assessment。 "
+            "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
+            "## 证据深度 caveat\n"
+            "这是 compiled starter surface，只基于 87-card obesity corpus 中 4 个 deep-extracted Tier 1 obesity source cards。它可以支持 architecture claims，但不能支持 owner-facing weight-loss protocols 或 effect-size rankings。 "
+            "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
+            "## 研究者视角\n"
+            "- 安全 disease model 有五个分支：prevalence range、risk-factor framework、pathogenesis、associated conditions 和 assessment。 [source_supported_conclusion: src-obesity-001, src-obesity-004]\n"
+            "- 当前最清楚的 mechanism anchor 是 insulin sensitivity decreases with increasing adiposity，因此支持 diabetes-bridge frame。 [source_supported_conclusion: src-obesity-008]\n"
+            "- prevention 被放在 treatment 前面，因为 treatment is slow, often unsuccessful, and not without consequences；prevention target 是 post-gonadectomy kittens aged 5-12 months。 [source_supported_conclusion: src-obesity-005]\n\n"
+            "## 不能说过头的地方\n"
+            "- 不能给 risk factors 按 effect size 排名，不能给 population-specific prevalence，不能推荐 protocol，也不能宣称 insulin-sensitivity bridge 之外的因果机制。 [llm_inference]\n\n"
+            "## 下一步\n"
+            "读 `topics/obesity/mechanism-overview.md`；如果问题连接肥胖和糖尿病，再读 `topics/obesity/diabetes-bridge.md` 和 `topics/diabetes/obesity-and-body-condition.md`。"
+        )
+        return answer, source_ids
     answer = (
         "This is a local feline obesity starter overview, not API synthesis. No API call was made. [llm_inference]\n\n"
         "## Direct Explanation\n"
@@ -734,6 +795,25 @@ def build_obesity_local_explanation(chinese: bool) -> tuple[str, list[str]]:
 def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a deterministic cancer architecture overview with caveats."""
     source_ids = ["src-cancer-002", "src-cancer-003", "src-cancer-004", "src-cancer-008", "src-cancer-019", "src-cancer-040"]
+    if chinese:
+        answer = (
+            "这是本地猫肿瘤 architecture 概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 直接解释\n"
+            "猫肿瘤模块应该从 clinical workflow 和 branch architecture 开始：presentation、diagnosis、staging，然后才是 branch-specific treatment discussion。它应该早期按 tumor family 拆分，而不是停留在一个 flat oncology page。 "
+            "[source_supported_conclusion: src-cancer-004, src-cancer-008, src-cancer-040]\n\n"
+            "## 证据深度 caveat\n"
+            "这只是 architecture-level only。当前 6 个 deep-extracted anchors 支持 workflow、branch scaffolding、mammary/TNBC-like model boundaries、lymphoma classification、COX marker caveats 和 registry denominator discipline。它不足以支持 treatment ranking、reusable prognosis ranges 或 tumor-specific management advice。 "
+            "[source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n\n"
+            "## 研究者视角\n"
+            "- feline cancer research 应该早期拆到 suspected-cancer workflow、lymphoma、mammary carcinoma、oral SCC、injection-site sarcoma、COX/prognosis-marker caveats 和 registry/prevalence。 [source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n"
+            "- mammary carcinoma 有 comparative oncology 和 TNBC-like/basal-like model evidence，但这是 model boundary，不是 treatment 或 prognosis guidance。 [source_supported_conclusion: src-cancer-004, src-cancer-019]\n"
+            "- registry 和 prevalence claims 必须保留 denominator-labeled，才能复用 numeric tumor-frequency language。 [source_supported_conclusion: src-cancer-002]\n\n"
+            "## 不能说过头的地方\n"
+            "- 不能从当前概览层 rank treatments、复用 survival/prognosis ranges，或把 biomarkers 推成 clinical guidance。 [llm_inference]\n\n"
+            "## 下一步\n"
+            "读 `topics/cancer/synthesis-index.md`，再进入 suspected-cancer-workflow、lymphoma、mammary-carcinoma、oral-squamous-cell-carcinoma、injection-site-sarcoma、COX marker caveats 或 registry-and-prevalence。"
+        )
+        return answer, source_ids
     answer = (
         "This is a local feline cancer architecture overview, not API synthesis. No API call was made. [llm_inference]\n\n"
         "## Direct Explanation\n"
