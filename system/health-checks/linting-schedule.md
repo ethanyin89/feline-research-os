@@ -3,7 +3,7 @@ id: linting-schedule
 type: protocol
 topic: system
 language: bilingual
-last_compiled_at: 2026-04-11
+last_compiled_at: 2026-06-02
 owner: jiawei
 status: active
 ---
@@ -16,7 +16,7 @@ status: active
 Convert health checks from event-driven (one-time bursts) to periodic maintenance.
 
 Prior pattern: 3 health check reports all on 2026-04-08, then nothing.
-Target pattern: recurring cadence at two triggers.
+Current pattern: `scripts/health.py` is the single health entrypoint and is run by the existing daily launchd job. Keep per-batch manual review for source-deepening judgment, but do not create separate cron jobs for checks already covered by `health.py`.
 
 ---
 
@@ -37,31 +37,49 @@ Estimated time: 20-30 min (1 Claude session).
 
 ---
 
-## Trigger 2 — Monthly (first of each month)
+## Trigger 2 — Daily Automated Health
 
-**When:** Monthly, approximately the 1st.
-**What to run:** Full health check using `health-check-template.md`.
-**Output file:** `system/health-checks/health-check-report-<YYYYMMDD>-round<N>.md`
+**When:** Daily via the existing launchd health job.
+**What to run:** `python3 scripts/health.py`
+**Output file:** `system/health-checks/health-report-<YYYYMMDD>.md`
 
-Full checklist (from health-check-template.md):
-- [ ] Source layer: all source cards have extraction_depth field
-- [ ] Compiled layer: topic pages reference correct source_ids; no dead links
-- [ ] Consistency: check for contradictions between topic pages on same claims
-- [ ] Gaps: identify llm_inference claims that should be upgraded to source_supported_conclusion
-- [ ] Conflicts: update conflict-register.md with new entries
-- [ ] Unresolved: update unresolved-questions.md
-- [ ] Source depth map: update tiers and priority queue
-- [ ] question-router.md: check all linked files still exist
+Current `health.py` covers:
+- [x] markdown links
+- [x] query tests
+- [x] ordinary-user vault eval for default free-mode answer surfaces
+- [x] source-card inventory and schema
+- [x] source-link proof
+- [x] compiled source refs and reader-page `source_ids`
+- [x] thin-source caveats
+- [x] traceability gates
+- [x] language-QA gates
+- [x] decision-grade gates
+- [x] inbox backlog
+- [x] acceptance report status
+- [x] compile-trigger drift
+- [x] API-key presence
 
-Estimated time: 45-60 min (1-2 Claude sessions).
+The ordinary-user vault eval is intentionally no-API. It currently runs:
+
+```bash
+.venv/bin/python scripts/ordinary_user_vault_eval.py
+```
+
+through `scripts/health.py`, and should show:
+
+```text
+Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls.
+```
+
+Estimated manual review time after a clean report: 5-10 min.
 
 ---
 
 ## Report Naming Convention
 
 ```
-health-check-report-YYYYMMDD-round1.md   — first round on that date
-health-check-report-YYYYMMDD-round2.md   — second round (if needed)
+health-report-YYYYMMDD.md                — current scripted health report
+health-check-report-YYYYMMDD-round<N>.md — older/manual round reports
 ```
 
 All reports go in `system/health-checks/`.
@@ -73,12 +91,12 @@ All reports go in `system/health-checks/`.
 | Date       | Trigger    | Rounds | Key Findings |
 |-----------|------------|--------|-------------|
 | 2026-04-08 | Event      | 3      | Initial system audit; schema and protocol established |
-| *(next)*   | Per-batch  | —      | After first source deepening batch |
+| 2026-05-17 | Daily health | —    | `scripts/health.py` established as single report entrypoint; launchd daily execution active |
+| 2026-06-02 | Daily health | —    | ordinary-user free-mode vault eval included in `health.py` |
 
 ---
 
 ## Using health-check-template.md
 
-The existing `system/health-checks/health-check-template.md` is the runbook.
-Load it + the current source-depth-map + conflict-register + the disease topic index
-as context. Ask Claude to run through the checklist and produce the report.
+The older `system/health-checks/health-check-template.md` remains useful for deep manual audits.
+For routine checks, run `python3 scripts/health.py` first and use template-driven review only when the scripted report surfaces a structural issue or a source-deepening batch needs judgment.
