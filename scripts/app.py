@@ -74,6 +74,13 @@ from query import (
 from expert_review import build_expert_review_prompt, expert_review_stage_label
 from search import vault_search
 
+# Business decision tools
+from claim_evidence import evaluate_claim, format_claim_card_markdown
+from endpoint_decision import generate_endpoint_memo, format_memo_markdown
+from opportunity_brief import generate_opportunity_brief, format_brief_markdown
+from gap_queue import GapQueue
+from local_answer_surfaces import DISEASE_MATURITY
+
 
 ENABLE_OLLAMA = os.environ.get("ENABLE_OLLAMA", "").lower() in {"1", "true", "yes", "on"}
 BACKEND_LABELS = {
@@ -268,7 +275,7 @@ def infer_local_disease(question: str) -> str:
         ("diabetes", ["diabetes", "diabetic", "glucose", "insulin", "糖尿病"]),
         ("ckd", ["ckd", "kidney", "renal", "sdma", "肾", "慢性肾"]),
         ("hcm", ["hcm", "cardiomyopathy", "心肌"]),
-        ("fip", ["fip", "传腹", "传染性腹膜炎"]),
+        ("fip", ["fip", "传腹", "传染性腹膜炎", "gs-441524", "gs441524", "remdesivir"]),
         ("ibd", ["ibd", "inflammatory bowel", "肠病"]),
         ("fcv", ["fcv", "calicivirus", "杯状"]),
         ("cancer", ["cancer", "tumor", "tumour", "carcinoma", "lymphoma", "肿瘤", "癌", "淋巴瘤"]),
@@ -314,6 +321,7 @@ def is_local_explanation_question(question: str) -> bool:
         "解释",
         "说明",
         "介绍",
+        "什么是",
         "是什么",
         "怎么理解",
         "what is",
@@ -334,101 +342,109 @@ def is_local_explanation_question(question: str) -> bool:
 
 
 def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic CKD starter answer from compiled vault pages."""
-    source_ids = [
-        "src-ckd-001",
-        "src-ckd-002",
-        "src-ckd-003",
-        "src-ckd-004",
-        "src-ckd-006",
-        "src-ckd-007",
-        "src-ckd-010",
-        "src-ckd-011",
-        "src-ckd-015",
-        "src-ckd-016",
-    ]
+    """Return a plain-language CKD explanation for ordinary users."""
+    source_ids = ["src-ckd-001", "src-ckd-003", "src-ckd-004", "src-ckd-010"]
     if chinese:
         answer = (
-            "这是本地 vault 解释结果，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫 CKD 是 feline chronic kidney disease，也就是猫慢性肾脏疾病。普通读者可以先把它理解为：肾脏长期受损后，过滤、浓缩尿液、调节血压和矿物质代谢的能力逐步下降。"
-            "在这个库里，最稳的机制骨架是老年猫常见场景下的肾小管间质纤维化/肾纤维化；不要把它归因到某一个单一原因，而要把它看成多条损伤路径汇合到肾功能下降和结构性病变上。"
-            " [source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-011, src-ckd-016]\n\n"
-            "## 研究者视角\n"
-            "- 这个库目前把 CKD 当作 disease model 来读：机制层看纤维化和肾功能下降，评价层看多 endpoint，管理层看哪些干预证据真正够硬。"
-            " [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-010]\n"
-            "- 最容易误判的地方，是把诊断 marker、预后 marker 和治疗 endpoint 混成同一种证据。这个库更适合把它们拆开追踪。"
-            " [source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010, src-ckd-015]\n\n"
-            "## 怎么发现和判断\n"
-            "- CKD 不是只看一个数字。常用识别框架会把 creatinine/肌酐升高、USG/尿比重下降、病程持续性、尿检、生化、血常规、血压和影像放在一起看。"
-            " [source_supported_conclusion: src-ckd-004]\n"
-            "- 老年猫是高关注人群；库内指南材料支持对 7 岁以上猫做更规律的健康检查，并按风险做实验室监测。"
-            " [source_supported_conclusion: src-ckd-004]\n"
-            "- SDMA 可能帮助更早发现肾功能压力，但不能单独作为筛查或诊断裁决。"
-            " [source_supported_conclusion: src-ckd-004]\n\n"
-            "## 分期和监测要看什么\n"
-            "- 这个库把 creatinine、USG、UPCR/蛋白尿、收缩压、phosphorus/磷、SDMA 放在第一波 endpoint 短名单里。"
-            " [source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010]\n"
-            "- 蛋白尿、血压、磷等指标不只是“分期表格”，它们也帮助连接病理结构、预后和管理重点。"
-            " [source_supported_conclusion: src-ckd-010, src-ckd-015]\n\n"
-            "## 治疗和管理现实\n"
-            "- 目前最清楚的基线支持是 renal diet/肾脏专用饮食，尤其是限制磷并控制肾病相关临床负担；磷控制不够时才会进入 phosphate binder/磷结合剂等管理分支。"
-            " [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007]\n"
-            "- 多数治疗是在管理肾功能下降带来的后果，而不是已经证明可以彻底逆转 CKD 的 cure。"
-            " [source_supported_conclusion: src-ckd-003]\n\n"
-            "## 现在不能说过头的地方\n"
-            "- 不能说某一个单一机制就是猫 CKD 的主导起因。 [llm_inference]\n"
-            "- 不能把 SDMA、磷、蛋白尿或血压简化成单一胜负排名。这个库更支持多轴解释。"
-            " [source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-015]\n"
-            "- 不能把多个治疗方向直接写成已经证明的 disease-modifying therapy。 [source_supported_conclusion: src-ckd-007]\n\n"
-            "## 和 Wikipedia 的差别\n"
-            "Wikipedia 更像百科入口，会覆盖定义、病因、诊断、分期和治疗的通用叙述。这个 vault 的价值应该是：把每个关键说法绑定到库内 source card，标出哪些是证据支持、哪些只是推理，并告诉你下一步该读哪一页。"
-            " [llm_inference]\n\n"
-            "## 下一步\n"
-            "如果你只是入门，下一页读 `topics/ckd/synthesis-index-bilingual.md`；如果你关心机制，读 `topics/ckd/mechanism-overview.md`；"
-            "如果你关心药效评价或试验终点，读 `topics/ckd/endpoint-handbook.md`。"
+            "这是本地 vault 的猫慢性肾病解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫慢性肾病（CKD）？\n\n"
+            "**猫慢性肾病是指猫的肾脏长期受损，逐渐失去正常功能的疾病。**\n\n"
+            "肾脏的工作是过滤血液、排出废物、调节水分和矿物质。当肾脏受损后，这些功能会慢慢下降，废物在体内堆积，引起各种健康问题。\n\n"
+            "[source_supported_conclusion: src-ckd-004]\n\n"
+            "## 有多常见？\n\n"
+            "CKD是老年猫最常见的疾病之一：\n"
+            "- **10岁以上**的猫中，约有**30-40%**患有某种程度的肾病\n"
+            "- 随着猫的寿命延长，CKD发病率也在增加\n"
+            "- 这是老年猫最常见的死亡原因之一\n\n"
+            "[source_supported_conclusion: src-ckd-001]\n\n"
+            "## 有什么症状？\n\n"
+            "| 常见症状 |\n"
+            "|----------|\n"
+            "| 喝水增多 |\n"
+            "| 排尿增多 |\n"
+            "| 体重下降 |\n"
+            "| 食欲减退 |\n"
+            "| 呕吐 |\n"
+            "| 精神变差 |\n"
+            "| 毛发粗糙 |\n\n"
+            "**注意：** 这些症状通常是渐进的，早期可能不明显。如果发现这些症状，请咨询兽医。\n\n"
+            "[source_supported_conclusion: src-ckd-004]\n\n"
+            "## 如何诊断？\n\n"
+            "CKD诊断需要综合多项检查：\n"
+            "| 检查项目 | 作用 |\n"
+            "|----------|------|\n"
+            "| 血液检查 | 评估肾功能（肌酐、尿素氮） |\n"
+            "| 尿液检查 | 评估肾脏浓缩能力 |\n"
+            "| 血压测量 | 高血压与CKD相关 |\n"
+            "| 超声波 | 观察肾脏结构 |\n\n"
+            "[source_supported_conclusion: src-ckd-004, src-ckd-010]\n\n"
+            "## 可以治疗吗？\n\n"
+            "**CKD目前无法治愈，但可以管理。**\n\n"
+            "目标是减缓病情进展、控制症状、提高生活质量。\n\n"
+            "| 管理措施 | 作用 |\n"
+            "|----------|------|\n"
+            "| 肾脏处方粮 | 最重要的基础管理 |\n"
+            "| 磷结合剂 | 控制血磷 |\n"
+            "| 抗高血压药 | 控制血压 |\n"
+            "| 补液治疗 | 维持水分平衡 |\n\n"
+            "**关键：** 肾脏处方粮是最有证据支持的管理措施。\n\n"
+            "[source_supported_conclusion: src-ckd-003, src-ckd-004]\n\n"
+            "## 早期发现很重要\n\n"
+            "- **7岁以上**的猫应该定期体检\n"
+            "- 包括血液和尿液检查\n"
+            "- 早期发现可以更早开始管理\n\n"
+            "[source_supported_conclusion: src-ckd-004]"
         )
     else:
         answer = (
-            "This is a local vault explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
-            "## Direct Explanation\n"
-            "Feline CKD means feline chronic kidney disease. For an ordinary reader, the simplest safe frame is long-running kidney damage that gradually weakens filtration, urine concentration, blood-pressure regulation, and mineral handling. "
-            "In this vault, CKD is best introduced as a disease of mostly older cats, with tubulointerstitial or renal fibrosis as the safest mechanism backbone. "
-            "The current evidence map does not support a single dominant initiating cause; it supports a multi-axis disease frame that links structural kidney damage to declining function. "
-            "[source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-011, src-ckd-016]\n\n"
-            "## Researcher Lens\n"
-            "- The vault currently treats CKD as a disease model: mechanism work centers on fibrosis and functional decline, evaluation work needs multiple endpoints, and management claims need explicit evidence-strength labels. "
-            "[source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-010]\n"
-            "- The common research mistake is compressing diagnostic markers, prognostic markers, and trial endpoints into one evidence type. This vault is more useful when those layers stay separated. "
-            "[source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010, src-ckd-015]\n\n"
-            "## How It Is Recognized\n"
-            "- CKD should not be read from one number alone. Recognition combines creatinine, USG, persistence over time, urinalysis, serum biochemistry, hematology, blood pressure, and imaging when needed. "
-            "[source_supported_conclusion: src-ckd-004]\n"
-            "- Older cats are a high-attention group; the guideline layer supports regular health checks and risk-based laboratory monitoring in cats over 7 years old. "
-            "[source_supported_conclusion: src-ckd-004]\n"
-            "- SDMA may help detect kidney stress earlier, but it should not be used as a standalone screening or diagnostic verdict. "
+            "This is a local vault CKD explanation, not API synthesis. No API call was made. [inference]\n\n"
+            "## What is Feline CKD?\n\n"
+            "**Feline chronic kidney disease (CKD) is a condition where a cat's kidneys become damaged over time and gradually lose their normal function.**\n\n"
+            "The kidneys filter blood, remove waste, and regulate water and minerals. When damaged, these functions slowly decline, waste builds up in the body, and various health problems arise.\n\n"
             "[source_supported_conclusion: src-ckd-004]\n\n"
-            "## What To Monitor\n"
-            "- The first-wave endpoint shortlist is creatinine, USG, UPCR/proteinuria, systolic blood pressure, phosphorus, and SDMA. "
-            "[source_supported_conclusion: src-ckd-002, src-ckd-004, src-ckd-010]\n"
-            "- Proteinuria, blood pressure, and phosphorus help connect pathology, prognosis, and management priorities. "
-            "[source_supported_conclusion: src-ckd-010, src-ckd-015]\n\n"
-            "## Treatment Reality\n"
-            "- Renal diet is the clearest baseline-supported management branch, especially phosphorus restriction and reduced kidney-disease burden; phosphate binders belong downstream when diet alone does not control phosphorus. "
-            "[source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007]\n"
-            "- Most treatment is management of reduced kidney-function consequences, not a proven cure that reverses CKD. "
-            "[source_supported_conclusion: src-ckd-003]\n\n"
-            "## Do Not Overstate\n"
-            "- Do not claim one single mechanism as the proven dominant cause. [llm_inference]\n"
-            "- Do not reduce SDMA, phosphorus, proteinuria, or blood pressure into one flat ranking. The vault supports multi-axis interpretation. "
-            "[source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-015]\n"
-            "- Do not turn common clinical use into strong disease-modification claims. [source_supported_conclusion: src-ckd-007]\n\n"
-            "## Difference From Wikipedia\n"
-            "Wikipedia is a broad encyclopedia entry for definition, causes, diagnosis, staging, and treatment. This vault should add value by binding each important claim to internal source cards, separating supported claims from inference, and pointing to the next reading path. "
-            "[llm_inference]\n\n"
-            "## Next Step\n"
-            "For a broad entry point, read `topics/ckd/synthesis-index-bilingual.md`. For mechanism, read `topics/ckd/mechanism-overview.md`. "
-            "For efficacy evaluation or trial endpoints, read `topics/ckd/endpoint-handbook.md`."
+            "## How Common Is It?\n\n"
+            "CKD is one of the most common diseases in older cats:\n"
+            "- About **30-40%** of cats over **10 years old** have some degree of kidney disease\n"
+            "- As cats live longer, CKD incidence increases\n"
+            "- It's one of the most common causes of death in older cats\n\n"
+            "[source_supported_conclusion: src-ckd-001]\n\n"
+            "## What Are the Signs?\n\n"
+            "| Common Signs |\n"
+            "|--------------|\n"
+            "| Increased thirst |\n"
+            "| Increased urination |\n"
+            "| Weight loss |\n"
+            "| Decreased appetite |\n"
+            "| Vomiting |\n"
+            "| Lethargy |\n"
+            "| Poor coat condition |\n\n"
+            "**Note:** These signs are usually gradual and may be subtle at first. Consult a veterinarian if you notice these signs.\n\n"
+            "[source_supported_conclusion: src-ckd-004]\n\n"
+            "## How Is It Diagnosed?\n\n"
+            "CKD diagnosis requires multiple tests:\n"
+            "| Test | Purpose |\n"
+            "|------|--------|\n"
+            "| Blood tests | Evaluate kidney function (creatinine, BUN) |\n"
+            "| Urinalysis | Evaluate concentration ability |\n"
+            "| Blood pressure | Hypertension linked to CKD |\n"
+            "| Ultrasound | View kidney structure |\n\n"
+            "[source_supported_conclusion: src-ckd-004, src-ckd-010]\n\n"
+            "## Can It Be Treated?\n\n"
+            "**CKD cannot be cured, but it can be managed.**\n\n"
+            "Goals are to slow progression, control symptoms, and improve quality of life.\n\n"
+            "| Management | Purpose |\n"
+            "|------------|--------|\n"
+            "| Renal diet | Most important base management |\n"
+            "| Phosphate binders | Control blood phosphorus |\n"
+            "| Blood pressure medication | Control hypertension |\n"
+            "| Fluid therapy | Maintain hydration |\n\n"
+            "**Key point:** Renal diet has the strongest evidence support.\n\n"
+            "[source_supported_conclusion: src-ckd-003, src-ckd-004]\n\n"
+            "## Early Detection Matters\n\n"
+            "- Cats **over 7 years old** should have regular checkups\n"
+            "- Including blood and urine tests\n"
+            "- Early detection allows earlier management\n\n"
+            "[source_supported_conclusion: src-ckd-004]"
         )
     return answer, source_ids
 
@@ -468,123 +484,444 @@ def build_ckd_endpoint_explanation(chinese: bool) -> tuple[str, list[str]]:
 
 
 def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic FIP recognition starter answer."""
-    source_ids = ["src-fip-003", "src-fip-010", "src-fip-013", "src-fip-022", "src-fip-023"]
+    """Return a plain-language FIP recognition answer for ordinary users."""
+    source_ids = ["src-fip-003", "src-fip-006", "src-fip-015"]
     if chinese:
         answer = (
-            "这是本地 vault 的 FIP 识别解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "FIP 不能靠一个症状或一个检测直接识别。这个库把 FIP 识别放在四个层面：风险/暴露背景、临床和实验室表现、effusive 与 non-effusive 形态、以及诊断检测的边界。"
-            "现代抗病毒治疗改变了可行动性，但没有消除诊断不确定性。 [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
-            "## 普通用户要抓住的点\n"
-            "- 识别 FIP 是组合判断，不是单项检测裁决。 [source_supported_conclusion: src-fip-010, src-fip-022]\n"
-            "- neurologic/ocular 分支需要单独看，不能和普通 FIP 工作流混成一个答案。 [source_supported_conclusion: src-fip-022, src-fip-023]\n"
-            "- GS-441524/remdesivir 时代让治疗层更有行动性，但 baseline efficacy、package logic、neurologic rescue 和 durability 不能混写。 [source_supported_conclusion: src-fip-013]\n\n"
+            "这是本地 vault 的 FIP 识别解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 如何识别FIP？\n\n"
+            "### 🚨 需要立即就医的情况\n"
+            "| 症状组合 | 说明 |\n"
+            "|----------|------|\n"
+            "| 肚子变大 + 精神差 | 可能是腹水，湿性FIP的典型表现 |\n"
+            "| 反复发烧 + 消瘦 | 吃退烧药也不管用的发烧 |\n"
+            "| 眼睛异常 + 发烧 | 眼睛浑浊、颜色改变 |\n"
+            "| 走路不稳 + 发烧 | 可能是神经型FIP |\n\n"
+            "[source_supported_conclusion: src-fip-006]\n\n"
+            "### 高风险猫咪\n"
+            "- **年龄**：1岁以下的幼猫风险最高\n"
+            "- **来源**：猫舍、收容所、多猫家庭\n"
+            "- **压力**：刚搬家、刚到新家、刚做手术\n\n"
+            "[source_supported_conclusion: src-fip-003]\n\n"
+            "### 早期症状\n"
+            "- 食欲下降，以前爱吃现在不想吃\n"
+            "- 精神变差，不爱玩，总是睡觉\n"
+            "- 体重下降，明显变瘦\n"
+            "- 发烧，摸起来比平时热\n\n"
+            "[source_supported_conclusion: src-fip-015]\n\n"
+            "### 重要提示\n"
+            "- 这些症状也可能是其他疾病，需要医生综合判断\n"
+            "- FIP现在有药可治（GS-441524等），早发现早治疗效果更好\n"
+            "- 如果怀疑FIP，请尽快就医\n\n"
             "## 下一步\n"
-            "读 `topics/fip/risk-and-recognition.md` 和 `topics/fip/diagnostic` 相关页面；如果要问治疗，单独问 GS-441524 baseline、remdesivir package 或 neurologic rescue。"
+            "详细了解请阅读 `topics/fip/fip-warning-signs.md` 或 `topics/fip/what-is-fip.md`。"
         )
     else:
         answer = (
-            "This is a local FIP recognition explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
-            "## Direct Answer\n"
-            "FIP recognition is a composite judgment, not a one-symptom or one-test answer. The vault separates risk and exposure context, clinical and clinicopathologic recognition, effusive versus non-effusive form, and diagnostic-test limits. "
-            "Modern antiviral treatment changed actionability, but it did not remove diagnostic ambiguity. [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
-            "## What To Watch\n"
-            "- Treat FIP diagnosis as integrated evidence, not a single assay verdict. [source_supported_conclusion: src-fip-010, src-fip-022]\n"
-            "- Neurologic or ocular extension is its own branch. [source_supported_conclusion: src-fip-022, src-fip-023]\n"
-            "- GS-441524/remdesivir-era evidence should stay separated into baseline efficacy, package logic, neurologic rescue, and durability. [source_supported_conclusion: src-fip-013]\n\n"
+            "This is a local FIP recognition explanation, not API synthesis. No API call was made. [inference]\n\n"
+            "## How to Recognize FIP?\n\n"
+            "### 🚨 Seek Immediate Veterinary Care If:\n"
+            "| Symptom Combination | What It Means |\n"
+            "|---------------------|---------------|\n"
+            "| Swollen belly + lethargy | Possible fluid buildup (wet FIP) |\n"
+            "| Persistent fever + weight loss | Fever that doesn't respond to medication |\n"
+            "| Eye changes + fever | Cloudy eyes, color changes |\n"
+            "| Unsteady walking + fever | Possible neurological FIP |\n\n"
+            "[source_supported_conclusion: src-fip-006]\n\n"
+            "### High-Risk Cats\n"
+            "- **Age**: Kittens under 1 year are at highest risk\n"
+            "- **Environment**: Catteries, shelters, multi-cat households\n"
+            "- **Stress**: Recent move, new home, recent surgery\n\n"
+            "[source_supported_conclusion: src-fip-003]\n\n"
+            "### Early Warning Signs\n"
+            "- Loss of appetite\n"
+            "- Decreased energy, sleeping more\n"
+            "- Weight loss despite eating\n"
+            "- Fever (feels warmer than usual)\n\n"
+            "[source_supported_conclusion: src-fip-015]\n\n"
+            "### Important Notes\n"
+            "- These symptoms can also indicate other diseases; a vet must evaluate\n"
+            "- FIP is now treatable (GS-441524 and similar drugs); early detection improves outcomes\n"
+            "- If you suspect FIP, see a vet immediately\n\n"
             "## Next Step\n"
-            "Read `topics/fip/risk-and-recognition.md`; for treatment, ask separately about baseline GS-441524, remdesivir package logic, or neurologic rescue."
+            "For more details, read `topics/fip/fip-warning-signs.md` or `topics/fip/what-is-fip.md`."
         )
     return answer, source_ids
 
 
 def build_fip_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic FIP overview answer for broad researcher prompts."""
-    source_ids = ["src-fip-003", "src-fip-010", "src-fip-013", "src-fip-022", "src-fip-023"]
+    """Return a plain-language FIP overview for ordinary users."""
+    source_ids = ["src-fip-003", "src-fip-005", "src-fip-006"]
     if chinese:
         answer = (
-            "这是本地 vault 的 FIP 概览解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "FIP 是猫传染性腹膜炎。这个库不把它当成一个单项检测或单一症状问题，而是把它拆成风险/暴露背景、临床和实验室识别、effusive 与 non-effusive 形态、诊断检测边界，以及抗病毒治疗时代的行动性。"
-            " [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
-            "## 研究者视角\n"
-            "- FIP 的研究入口不是“有没有一个完美检测”，而是如何把风险、表现、检测、疾病形态和治疗时机放进同一个 decision model。"
-            " [source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022]\n"
-            "- GS-441524/remdesivir 时代提高了可行动性，但研究上仍要分开 baseline efficacy、package logic、neurologic rescue 和 durability。"
-            " [source_supported_conclusion: src-fip-013, src-fip-022, src-fip-023]\n\n"
-            "## 关键分层\n"
-            "- effusive 与 non-effusive 不能混成同一个诊断表面。 [source_supported_conclusion: src-fip-010, src-fip-022]\n"
-            "- neurologic/ocular 分支需要单独看，不能和普通 FIP 工作流混写。 [source_supported_conclusion: src-fip-022, src-fip-023]\n"
-            "- 诊断仍是组合判断；治疗变得更可行动，不等于诊断不确定性消失。 [source_supported_conclusion: src-fip-010, src-fip-013, src-fip-022]\n\n"
-            "## 不能说过头的地方\n"
-            "- 不能把一个症状、一个检测或一次治疗反应写成 FIP 的最终裁决。 [source_supported_conclusion: src-fip-010, src-fip-022]\n"
-            "- 不能把所有抗病毒证据合并成一个不分场景的疗效结论。 [source_supported_conclusion: src-fip-013, src-fip-023]\n\n"
+            "这是本地 vault 的 FIP 概览解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是FIP？\n\n"
+            "**FIP（猫传染性腹膜炎）是一种由冠状病毒变异引起的猫的严重疾病。**\n\n"
+            "大多数猫感染冠状病毒后只会轻微腹泻或没有症状，但在少数猫体内，病毒会发生变异，引发全身性的严重炎症反应，这就是FIP。\n\n"
+            "[source_supported_conclusion: src-fip-003]\n\n"
+            "## 哪些猫容易得FIP？\n\n"
+            "| 高风险因素 | 说明 |\n"
+            "|-----------|------|\n"
+            "| 年龄 | 1岁以下的幼猫风险最高 |\n"
+            "| 环境 | 多猫家庭、猫舍、收容所 |\n"
+            "| 压力 | 刚到新家、手术后、其他疾病 |\n\n"
+            "[source_supported_conclusion: src-fip-005]\n\n"
+            "## FIP有什么症状？\n\n"
+            "### 湿性FIP（腹水型）\n"
+            "- 肚子变大，像气球一样鼓起来\n"
+            "- 呼吸困难\n"
+            "- 精神差、食欲下降\n"
+            "- 反复发烧\n\n"
+            "### 干性FIP（非腹水型）\n"
+            "- 眼睛问题：浑浊、颜色改变、怕光\n"
+            "- 神经症状：走路不稳、抽搐、行为异常\n"
+            "- 持续发烧、消瘦\n\n"
+            "[source_supported_conclusion: src-fip-006]\n\n"
+            "## FIP能治吗？\n\n"
+            "**是的，现在有药物可以治疗FIP。**\n"
+            "- GS-441524 和类似药物已经救活了很多FIP猫\n"
+            "- 治疗需要持续84天（12周）\n"
+            "- 早发现早治疗效果更好\n\n"
+            "**重要提示：** 治疗需要在兽医指导下进行。\n\n"
             "## 下一步\n"
-            "读 `topics/fip/risk-and-recognition.md`；如果问题转向治疗，分别问 GS-441524 baseline、remdesivir package logic、neurologic rescue 或 durability。"
+            "详细了解请阅读 `topics/fip/what-is-fip.md` 或 `topics/fip/fip-warning-signs.md`。"
         )
     else:
         answer = (
-            "This is a local FIP overview, not API synthesis. No API call was made. [llm_inference]\n\n"
-            "## Direct Explanation\n"
-            "FIP means feline infectious peritonitis. In this vault, it is not treated as a one-test or one-symptom problem; it is separated into risk and exposure context, clinical and clinicopathologic recognition, effusive versus non-effusive form, diagnostic-test boundaries, and antiviral-era actionability. "
-            "[source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022, src-fip-023]\n\n"
-            "## Researcher Lens\n"
-            "- The research entry point is not whether one perfect test exists. It is how risk, presentation, testing, disease form, and treatment timing fit into a decision model. "
-            "[source_supported_conclusion: src-fip-003, src-fip-010, src-fip-022]\n"
-            "- The GS-441524/remdesivir era improved actionability, but baseline efficacy, package logic, neurologic rescue, and durability should remain separate evidence questions. "
-            "[source_supported_conclusion: src-fip-013, src-fip-022, src-fip-023]\n\n"
-            "## Key Stratification\n"
-            "- Effusive and non-effusive FIP should not be collapsed into one diagnostic surface. [source_supported_conclusion: src-fip-010, src-fip-022]\n"
-            "- Neurologic or ocular extension needs its own branch, not a generic FIP workflow. [source_supported_conclusion: src-fip-022, src-fip-023]\n"
-            "- Diagnosis remains an integrated judgment; more actionable treatment does not erase diagnostic uncertainty. [source_supported_conclusion: src-fip-010, src-fip-013, src-fip-022]\n\n"
-            "## Do Not Overstate\n"
-            "- Do not treat one symptom, one assay, or one treatment response as the final FIP verdict. [source_supported_conclusion: src-fip-010, src-fip-022]\n"
-            "- Do not merge all antiviral evidence into one context-free efficacy claim. [source_supported_conclusion: src-fip-013, src-fip-023]\n\n"
+            "This is a local FIP overview, not API synthesis. No API call was made. [inference]\n\n"
+            "## What is FIP?\n\n"
+            "**FIP (Feline Infectious Peritonitis) is a serious disease caused by a mutated coronavirus.**\n\n"
+            "Most cats infected with coronavirus only have mild diarrhea or no symptoms. But in some cats, the virus mutates and causes a severe inflammatory response throughout the body — this is FIP.\n\n"
+            "[source_supported_conclusion: src-fip-003]\n\n"
+            "## Which Cats Are at Risk?\n\n"
+            "| Risk Factor | Details |\n"
+            "|-------------|--------|\n"
+            "| Age | Kittens under 1 year are at highest risk |\n"
+            "| Environment | Multi-cat households, catteries, shelters |\n"
+            "| Stress | New home, post-surgery, other illness |\n\n"
+            "[source_supported_conclusion: src-fip-005]\n\n"
+            "## What Are the Symptoms?\n\n"
+            "### Wet FIP (Effusive)\n"
+            "- Swollen belly (fluid buildup)\n"
+            "- Difficulty breathing\n"
+            "- Lethargy, loss of appetite\n"
+            "- Persistent fever\n\n"
+            "### Dry FIP (Non-Effusive)\n"
+            "- Eye problems: cloudiness, color changes, light sensitivity\n"
+            "- Neurological signs: unsteady walking, seizures, behavior changes\n"
+            "- Persistent fever, weight loss\n\n"
+            "[source_supported_conclusion: src-fip-006]\n\n"
+            "## Can FIP Be Treated?\n\n"
+            "**Yes, there are now drugs that can treat FIP.**\n"
+            "- GS-441524 and similar drugs have saved many cats with FIP\n"
+            "- Treatment typically lasts 84 days (12 weeks)\n"
+            "- Early detection and treatment improve outcomes\n\n"
+            "**Important:** Treatment must be supervised by a veterinarian.\n\n"
             "## Next Step\n"
-            "Read `topics/fip/risk-and-recognition.md`; for treatment, ask separately about baseline GS-441524, remdesivir package logic, neurologic rescue, or durability."
+            "For more details, read `topics/fip/what-is-fip.md` or `topics/fip/fip-warning-signs.md`."
+        )
+    return answer, source_ids
+
+
+def build_fip_endpoint_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return FIP endpoint hierarchy for research queries - structured, verifiable content."""
+    source_ids = [
+        "src-fip-002", "src-fip-003", "src-fip-006", "src-fip-010",
+        "src-fip-013", "src-fip-015", "src-fip-016", "src-fip-019",
+        "src-fip-022", "src-fip-023", "src-fip-024"
+    ]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 FIP 药效评价/诊断指标结构化回答。 [source_supported_conclusion]\n\n"
+            "## Key-Claim Traceability\n\n"
+            "| ID | Claim | Level | Sources | Boundary |\n"
+            "|---|---|---|---|---|\n"
+            "| FE1 | FIP endpoint logic 应该是分层支持，不是单一 marker 确诊 | B | src-fip-003, src-fip-006, src-fip-015 | 诊断支持框架，非最终诊断 |\n"
+            "| FE2 | 临床病理模式和疾病形态是当前最强的操作性支持 endpoint | B | src-fip-006, src-fip-015 | 建立怀疑，非确诊 |\n"
+            "| FE3 | 急性期、免疫球蛋白、渗出型免疫背景属于较低层级的背景支持 | B | src-fip-002, src-fip-007 | 背景支持，非现代主导 endpoint |\n"
+            "| FE4 | 突变相关检测只有在同时理解其效用和局限时才有用 | B | src-fip-010, src-fip-022 | 有限度强化，非闭合 |\n"
+            "| FE5 | CSF 病毒检测是神经/眼科分支的专门支持（强阳性价值，弱排除价值） | B | src-fip-023 | 分支特异性支持 |\n"
+            "| FE6 | 治疗反应、缓解、复发、存活是随访结局，不是首诊 endpoint | C | src-fip-013, src-fip-016, src-fip-019, src-fip-024 | 治疗监测分支 |\n\n"
+            "## Endpoint Hierarchy\n\n"
+            "1. **临床病理模式与疾病形态** — 主导操作层\n"
+            "   - 将非特异性担忧转为结构化 FIP workup\n"
+            "   - 区分湿性、干性、神经型\n"
+            "   - Sources: src-fip-003, src-fip-006, src-fip-015\n\n"
+            "2. **急性期蛋白、免疫球蛋白、渗出型免疫背景** — 二级支持层\n"
+            "   - 丰富 endpoint 图谱，但不应主导现代 workup\n"
+            "   - Sources: src-fip-002, src-fip-007\n\n"
+            "3. **血清学历史** — 背景层\n"
+            "   - 暴露相关背景，非现代诊断权威\n"
+            "   - Source: src-fip-011\n\n"
+            "4. **突变相关检测** — 有限强化层\n"
+            "   - 只有将效用和局限放在一起读才有意义\n"
+            "   - 应强化已有怀疑，而非替代识别架构\n"
+            "   - Sources: src-fip-010, src-fip-022\n\n"
+            "5. **CSF 病毒检测（神经/眼科分支）** — 分支特异层\n"
+            "   - 特异性 100%, PPV 100%, 总体敏感性 42.1%, NPV 57.7%\n"
+            "   - 神经/眼科亚组敏感性 85.7%\n"
+            "   - Source: src-fip-023\n\n"
+            "6. **治疗结局 endpoints** — 随访层\n"
+            "   - 反应、缓解、复发、存活\n"
+            "   - 属于治疗监测，非首诊\n"
+            "   - Sources: src-fip-013, src-fip-016, src-fip-019, src-fip-024\n\n"
+            "## 核心要点\n\n"
+            "最安全的 FIP endpoint 架构是**有序复合支持**：临床病理和疾病形态主导；\n"
+            "较低的实验室和分子通道强化但不决定；CSF 支持属于神经/眼科分支；\n"
+            "治疗结局属于随访而非诊断。\n\n"
+            "## 如何验证\n\n"
+            "- 本回答基于 FIP endpoint-handbook.md 的 Key-Claim 表格\n"
+            "- 查看详细引用：打开 `raw/papers/src-fip-XXX.md`\n"
+            "- 完整页面：`topics/fip/endpoint-handbook.md`"
+        )
+    else:
+        answer = (
+            "This is a local vault structured answer for FIP endpoint/evaluation queries. [source_supported_conclusion]\n\n"
+            "## Key-Claim Traceability\n\n"
+            "| ID | Claim | Level | Sources | Boundary |\n"
+            "|---|---|---|---|---|\n"
+            "| FE1 | FIP endpoint logic should be layered support, not one-marker certainty | B | src-fip-003, src-fip-006, src-fip-015 | diagnostic support frame, not final diagnosis |\n"
+            "| FE2 | Clinicopathologic pattern and disease form are the strongest operational endpoints | B | src-fip-006, src-fip-015 | suspicion-building, not definitive proof |\n"
+            "| FE3 | Acute-phase, immunoglobulin, effusive immune context belong in lower background support | B | src-fip-002, src-fip-007 | supportive context, not modern lead endpoints |\n"
+            "| FE4 | Mutation-related assays useful only when utility and limitation held together | B | src-fip-010, src-fip-022 | bounded strengthening, not closure |\n"
+            "| FE5 | CSF viral detection is specialized neurologic/ocular support (strong positive, weak rule-out) | B | src-fip-023 | branch-specific support |\n"
+            "| FE6 | Treatment response, remission, relapse, survival are follow-up outcomes, not first-pass diagnostic endpoints | C | src-fip-013, src-fip-016, src-fip-019, src-fip-024 | treatment-monitoring branch |\n\n"
+            "## Endpoint Hierarchy\n\n"
+            "1. **Clinicopathologic Pattern & Disease Form** — Lead operational layer\n"
+            "   - Turns non-specific concern into structured FIP workup\n"
+            "   - Distinguishes wet, dry, neurologic forms\n"
+            "   - Sources: src-fip-003, src-fip-006, src-fip-015\n\n"
+            "2. **Acute-Phase, Immunoglobulin, Effusive Immune Context** — Second-tier support\n"
+            "   - Enriches endpoint map but should not lead modern workup\n"
+            "   - Sources: src-fip-002, src-fip-007\n\n"
+            "3. **Historical Serology** — Background layer\n"
+            "   - Exposure-linked background, not modern diagnostic authority\n"
+            "   - Source: src-fip-011\n\n"
+            "4. **Mutation-Related Assays** — Bounded strengthening\n"
+            "   - Only meaningful when utility and limitation read together\n"
+            "   - Should strengthen existing suspicion, not replace recognition architecture\n"
+            "   - Sources: src-fip-010, src-fip-022\n\n"
+            "5. **CSF Viral Detection (Neurologic/Ocular)** — Branch-specific layer\n"
+            "   - Specificity 100%, PPV 100%, overall sensitivity 42.1%, NPV 57.7%\n"
+            "   - Neurologic/ocular subgroup sensitivity 85.7%\n"
+            "   - Source: src-fip-023\n\n"
+            "6. **Treatment Outcome Endpoints** — Follow-up layer\n"
+            "   - Response, remission, relapse, survival\n"
+            "   - Belongs to treatment monitoring, not initial diagnosis\n"
+            "   - Sources: src-fip-013, src-fip-016, src-fip-019, src-fip-024\n\n"
+            "## Core Takeaway\n\n"
+            "The safest FIP endpoint architecture is **ordered composite support**: clinicopathology and disease form lead;\n"
+            "lower laboratory and molecular channels strengthen but do not settle; CSF support belongs to neurologic/ocular branch;\n"
+            "treatment outcomes belong to follow-up rather than diagnosis.\n\n"
+            "## How to Verify\n\n"
+            "- This answer is based on FIP endpoint-handbook.md Key-Claim tables\n"
+            "- View detailed citations: open `raw/papers/src-fip-XXX.md`\n"
+            "- Full page: `topics/fip/endpoint-handbook.md`"
+        )
+    return answer, source_ids
+
+
+def build_fip_treatment_evidence_explanation(chinese: bool) -> tuple[str, list[str]]:
+    """Return FIP treatment evidence for research queries - structured, verifiable content."""
+    source_ids = [
+        "src-fip-003", "src-fip-013", "src-fip-016",
+        "src-fip-017", "src-fip-019", "src-fip-024"
+    ]
+    if chinese:
+        answer = (
+            "这是本地 vault 的 FIP 治疗证据结构化回答。 [source_supported_conclusion]\n\n"
+            "## Key-Claim Traceability\n\n"
+            "| ID | Claim | Level | Sources | Boundary |\n"
+            "|---|---|---|---|---|\n"
+            "| FT1 | FIP 治疗在 GS/remdesivir 时代已实质性转变 | B | src-fip-003, src-fip-013, src-fip-016, src-fip-019 | 治疗转变，非通用治愈 |\n"
+            "| FT2 | 神经型救治和方案逻辑证据不应合并到基线 GS 疗效中 | B | src-fip-017, src-fip-019, src-fip-024 | 分支分离 |\n"
+            "| FT3 | 转化应保持在诊断和监管确定性边界之下 | C | src-fip-003 | 非决策级 |\n\n"
+            "## Treatment Evidence Layers\n\n"
+            "### Layer 1: 基线 GS-441524 疗效\n"
+            "**核心来源**: src-fip-016\n"
+            "- 31 只猫入组，26 只渗出型/干转湿型，5 只非渗出型\n"
+            "- **未纳入**严重神经型和眼型\n"
+            "- 24 只猫在发表时保持健康\n"
+            "- 最佳剂量：4.0 mg/kg SC 每 24 小时，至少 12 周\n"
+            "- **边界**：支持基线疗效，不能推广到严重神经/眼型\n\n"
+            "### Layer 2: 长期缓解随访\n"
+            "**核心来源**: src-fip-013\n"
+            "- 口服 GS-441524 治疗后的长期缓解随访\n"
+            "- 支持「治疗后持久性」层\n\n"
+            "### Layer 3: 联合治疗方案\n"
+            "**核心来源**: src-fip-019\n"
+            "- Remdesivir + GS-441524 联合治疗\n"
+            "- 覆盖渗出型和非渗出型\n"
+            "- 支持「真实世界治疗方案」层\n\n"
+            "### Layer 4: 神经型救治\n"
+            "**核心来源**: src-fip-017, src-fip-024\n"
+            "- 神经型 FIP 专门的抗病毒治疗\n"
+            "- 支持「高复杂度治疗」分支\n"
+            "- **边界**：是治疗类别转变，不是基线抗病毒的强化版\n\n"
+            "## 核心要点\n\n"
+            "1. GS-441524 已转变 FIP 治疗，但不是「无摩擦治愈」\n"
+            "2. 早期死亡、复发、再治疗、剂量调整都是证据架构的一部分\n"
+            "3. 神经型救治是独立分支，不能混入基线疗效\n"
+            "4. 治疗转变不能擦除诊断仍然是支持性和复合性的事实\n\n"
+            "## 如何验证\n\n"
+            "- 基线治疗锚点：`raw/papers/src-fip-016.md`\n"
+            "- 神经型治疗：`raw/papers/src-fip-017.md`, `src-fip-024.md`\n"
+            "- 完整页面：`topics/fip/translation-brief.md`"
+        )
+    else:
+        answer = (
+            "This is a local vault structured answer for FIP treatment evidence. [source_supported_conclusion]\n\n"
+            "## Key-Claim Traceability\n\n"
+            "| ID | Claim | Level | Sources | Boundary |\n"
+            "|---|---|---|---|---|\n"
+            "| FT1 | FIP treatment materially transformed in GS/remdesivir era | B | src-fip-003, src-fip-013, src-fip-016, src-fip-019 | treatment transformation, not universal cure |\n"
+            "| FT2 | Neurologic rescue and package-logic evidence should not collapse into baseline GS efficacy | B | src-fip-017, src-fip-019, src-fip-024 | branch separation |\n"
+            "| FT3 | Translation should remain below diagnostic and regulatory certainty boundaries | C | src-fip-003 | not decision-grade |\n\n"
+            "## Treatment Evidence Layers\n\n"
+            "### Layer 1: Baseline GS-441524 Efficacy\n"
+            "**Core source**: src-fip-016\n"
+            "- 31 cats enrolled, 26 effusive/dry-to-effusive, 5 non-effusive\n"
+            "- Severe neurologic and ocular cases **not recruited**\n"
+            "- 24 cats remained healthy at publication\n"
+            "- Optimal dosage: 4.0 mg/kg SC every 24 hours for at least 12 weeks\n"
+            "- **Boundary**: supports baseline efficacy, cannot extend to severe neurologic/ocular\n\n"
+            "### Layer 2: Long-term Remission Follow-up\n"
+            "**Core source**: src-fip-013\n"
+            "- Long-term remission follow-up after oral GS-441524\n"
+            "- Supports \"post-treatment durability\" layer\n\n"
+            "### Layer 3: Combination Treatment Package\n"
+            "**Core source**: src-fip-019\n"
+            "- Remdesivir + GS-441524 combination treatment\n"
+            "- Covers effusive and non-effusive\n"
+            "- Supports \"real-world treatment package\" layer\n\n"
+            "### Layer 4: Neurologic Rescue\n"
+            "**Core sources**: src-fip-017, src-fip-024\n"
+            "- Dedicated antiviral treatment for neurologic FIP\n"
+            "- Supports \"high-complexity treatment\" branch\n"
+            "- **Boundary**: is a treatment-category shift, not intensified baseline antiviral\n\n"
+            "## Core Takeaway\n\n"
+            "1. GS-441524 transformed FIP treatment, but not \"frictionless cure\"\n"
+            "2. Early deaths, relapse, retreatment, dose escalation are part of evidence architecture\n"
+            "3. Neurologic rescue is distinct branch, should not merge into baseline efficacy\n"
+            "4. Treatment transformation should not erase that diagnosis remains supportive and composite\n\n"
+            "## How to Verify\n\n"
+            "- Baseline treatment anchor: `raw/papers/src-fip-016.md`\n"
+            "- Neurologic treatment: `raw/papers/src-fip-017.md`, `src-fip-024.md`\n"
+            "- Full page: `topics/fip/translation-brief.md`"
         )
     return answer, source_ids
 
 
 def build_hcm_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic HCM starter answer."""
-    source_ids = ["src-hcm-001", "src-hcm-008", "src-hcm-009", "src-hcm-010", "src-hcm-013", "src-hcm-024"]
+    """Return a plain-language HCM explanation for ordinary users."""
+    source_ids = ["src-hcm-001", "src-hcm-008", "src-hcm-009", "src-hcm-010"]
     if chinese:
         answer = (
-            "这是本地 vault 的 HCM 解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫 HCM 在这个库里首先是结构性心肌表型问题，而不是单一 biomarker 问题。当前最稳的入口是 phenotype definition、echocardiography/gross morphometry、genotype pressure、remodeling depth 和治疗不确定性分层。"
-            " [source_supported_conclusion: src-hcm-001, src-hcm-009, src-hcm-010, src-hcm-013, src-hcm-024]\n\n"
-            "## 研究者视角\n"
-            "- HCM 的研究入口应该先锁定 structural phenotype authority，再看 biomarker、AI screening、genotype pressure 和 treatment evidence。"
-            " [source_supported_conclusion: src-hcm-001, src-hcm-009, src-hcm-010, src-hcm-013]\n"
-            "- 最容易误判的地方，是把筛查工具、严重度分层和治疗证据混成同一个 intervention hierarchy。"
-            " [source_supported_conclusion: src-hcm-008, src-hcm-009, src-hcm-013]\n\n"
-            "## 为什么危险\n"
-            "- HCM 不能只理解成“左心室变厚”，remodeling、严重程度和 end-stage phenotype 都会影响解释。 [source_supported_conclusion: src-hcm-001, src-hcm-024]\n"
-            "- biomarkers 和 AI 可以辅助筛查或分层，但不应替代结构表型权重。 [source_supported_conclusion: src-hcm-009, src-hcm-010, src-hcm-013]\n"
-            "- 治疗证据真实存在，但很容易被说过头；当前库不支持把它写成最终 intervention hierarchy。 [source_supported_conclusion: src-hcm-008]\n\n"
-            "## 下一步\n"
-            "读 `topics/hcm/synthesis-index.md`；如果关心风险，继续看 HCM diagnostic-workup、endpoint separation 和 treatment evidence memos。"
+            "这是本地 vault 的猫心肌病解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫HCM？\n\n"
+            "**HCM（肥厚型心肌病）是猫最常见的心脏病，心肌异常增厚，影响心脏正常工作。**\n\n"
+            "心肌变厚后，心室空间变小，心脏充血和泵血能力下降，可能导致心力衰竭或血栓。\n\n"
+            "[source_supported_conclusion: src-hcm-001]\n\n"
+            "## 有多常见？\n\n"
+            "- HCM是猫最常见的心脏病\n"
+            "- 某些品种（缅因猫、布偶猫等）风险更高\n"
+            "- 可能是遗传性的\n"
+            "- 很多猫没有明显症状\n\n"
+            "[source_supported_conclusion: src-hcm-001]\n\n"
+            "## 有什么症状？\n\n"
+            "**早期可能没有症状。** 晚期可能出现：\n\n"
+            "| 症状 |\n"
+            "|------|\n"
+            "| 呼吸急促或困难 |\n"
+            "| 张口呼吸 |\n"
+            "| 精神变差 |\n"
+            "| 食欲下降 |\n"
+            "| 后腿突然瘫痪（血栓） |\n"
+            "| 突然死亡 |\n\n"
+            "**紧急情况：** 如果猫突然后腿无力、呼吸困难，立即就医！这可能是血栓。\n\n"
+            "[source_supported_conclusion: src-hcm-001, src-hcm-008]\n\n"
+            "## 如何诊断？\n\n"
+            "| 检查 | 作用 |\n"
+            "|------|------|\n"
+            "| 心脏超声 | 诊断金标准，测量心肌厚度 |\n"
+            "| 听诊 | 听心杂音（但很多HCM猫没有杂音） |\n"
+            "| 心电图 | 检查心律 |\n"
+            "| 胸片 | 检查肺部积液 |\n"
+            "| 血液检查 | 心脏标志物（可辅助筛查） |\n\n"
+            "**注意：** 心脏超声是确诊的最可靠方法。\n\n"
+            "[source_supported_conclusion: src-hcm-009, src-hcm-010]\n\n"
+            "## 可以治疗吗？\n\n"
+            "**HCM目前无法治愈，但可以管理：**\n\n"
+            "| 治疗目标 | 方式 |\n"
+            "|----------|------|\n"
+            "| 减轻心脏负担 | 药物控制心率 |\n"
+            "| 预防血栓 | 抗凝药物 |\n"
+            "| 控制心衰 | 利尿剂等 |\n"
+            "| 定期监测 | 复查超声 |\n\n"
+            "[source_supported_conclusion: src-hcm-008]\n\n"
+            "## 高风险品种\n\n"
+            "| 品种 |\n"
+            "|------|\n"
+            "| 缅因猫 |\n"
+            "| 布偶猫 |\n"
+            "| 英短 |\n"
+            "| 波斯猫 |\n\n"
+            "这些品种建议定期筛查。\n\n"
+            "[source_supported_conclusion: src-hcm-001]"
         )
     else:
         answer = (
-            "This is a local HCM explanation, not API synthesis. No API call was made. [llm_inference]\n\n"
-            "## Direct Answer\n"
-            "In this vault, feline HCM starts as a structural myocardial phenotype problem, not a biomarker-only problem. The stable entry points are phenotype definition, echocardiography/gross morphometry, genotype pressure, remodeling depth, and treatment uncertainty. "
-            "[source_supported_conclusion: src-hcm-001, src-hcm-009, src-hcm-010, src-hcm-013, src-hcm-024]\n\n"
-            "## Researcher Lens\n"
-            "- The research entry point should first lock structural phenotype authority, then place biomarkers, AI screening, genotype pressure, and treatment evidence around it. "
-            "[source_supported_conclusion: src-hcm-001, src-hcm-009, src-hcm-010, src-hcm-013]\n"
-            "- The common research mistake is compressing screening tools, severity stratification, and treatment evidence into one intervention hierarchy. "
-            "[source_supported_conclusion: src-hcm-008, src-hcm-009, src-hcm-013]\n\n"
-            "## Why It Is Risky\n"
-            "- HCM should not be reduced to simple left-ventricular thickening; remodeling and end-stage phenotype change interpretation. [source_supported_conclusion: src-hcm-001, src-hcm-024]\n"
-            "- Biomarkers and AI can augment screening or severity reading, but should not outrank structural phenotype authority. [source_supported_conclusion: src-hcm-009, src-hcm-010, src-hcm-013]\n"
-            "- Treatment evidence is real but overclaim-sensitive and not a final intervention hierarchy. [source_supported_conclusion: src-hcm-008]\n\n"
-            "## Next Step\n"
-            "Read `topics/hcm/synthesis-index.md`; then use the diagnostic-workup, endpoint-separation, and treatment-evidence memos for narrower questions."
+            "This is a local vault HCM explanation, not API synthesis. No API call was made. [inference]\n\n"
+            "## What is Feline HCM?\n\n"
+            "**HCM (Hypertrophic Cardiomyopathy) is the most common heart disease in cats. The heart muscle becomes abnormally thick, affecting how the heart works.**\n\n"
+            "When the muscle thickens, the heart chamber becomes smaller, reducing filling and pumping ability. This can lead to heart failure or blood clots.\n\n"
+            "[source_supported_conclusion: src-hcm-001]\n\n"
+            "## How Common Is It?\n\n"
+            "- HCM is the most common heart disease in cats\n"
+            "- Some breeds (Maine Coon, Ragdoll, etc.) are at higher risk\n"
+            "- Can be hereditary\n"
+            "- Many cats show no obvious symptoms\n\n"
+            "[source_supported_conclusion: src-hcm-001]\n\n"
+            "## What Are the Signs?\n\n"
+            "**Early stages may have no symptoms.** Later signs include:\n\n"
+            "| Signs |\n"
+            "|-------|\n"
+            "| Rapid or difficult breathing |\n"
+            "| Open-mouth breathing |\n"
+            "| Lethargy |\n"
+            "| Decreased appetite |\n"
+            "| Sudden hind leg paralysis (blood clot) |\n"
+            "| Sudden death |\n\n"
+            "**Emergency:** If your cat suddenly can't use back legs or has breathing difficulty, seek immediate vet care! This may be a blood clot.\n\n"
+            "[source_supported_conclusion: src-hcm-001, src-hcm-008]\n\n"
+            "## How Is It Diagnosed?\n\n"
+            "| Test | Purpose |\n"
+            "|------|--------|\n"
+            "| Echocardiogram | Gold standard, measures heart muscle thickness |\n"
+            "| Listening | Heart murmur (but many HCM cats have no murmur) |\n"
+            "| ECG | Check heart rhythm |\n"
+            "| X-ray | Check for fluid in lungs |\n"
+            "| Blood tests | Heart biomarkers (can help screen) |\n\n"
+            "**Note:** Echocardiogram is the most reliable method for diagnosis.\n\n"
+            "[source_supported_conclusion: src-hcm-009, src-hcm-010]\n\n"
+            "## Can It Be Treated?\n\n"
+            "**HCM cannot be cured, but can be managed:**\n\n"
+            "| Goal | Approach |\n"
+            "|------|----------|\n"
+            "| Reduce heart workload | Medications to control heart rate |\n"
+            "| Prevent blood clots | Anti-clotting medication |\n"
+            "| Control heart failure | Diuretics, etc. |\n"
+            "| Regular monitoring | Follow-up echocardiograms |\n\n"
+            "[source_supported_conclusion: src-hcm-008]\n\n"
+            "## High-Risk Breeds\n\n"
+            "| Breed |\n"
+            "|-------|\n"
+            "| Maine Coon |\n"
+            "| Ragdoll |\n"
+            "| British Shorthair |\n"
+            "| Persian |\n\n"
+            "Regular screening is recommended for these breeds.\n\n"
+            "[source_supported_conclusion: src-hcm-001]"
         )
     return answer, source_ids
 
@@ -641,252 +978,557 @@ def build_ibd_lymphoma_explanation(chinese: bool) -> tuple[str, list[str]]:
 
 
 def build_ibd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic IBD/chronic-enteropathy overview answer."""
-    source_ids = [
-        "src-ibd-003",
-        "src-ibd-010",
-        "src-ibd-011",
-        "src-ibd-014",
-        "src-ibd-015",
-        "src-ibd-016",
-        "src-ibd-019",
-        "src-ibd-021",
-    ]
+    """Return a plain-language IBD explanation for ordinary users."""
+    source_ids = ["src-ibd-003", "src-ibd-010", "src-ibd-014", "src-ibd-021"]
     if chinese:
         answer = (
-            "这是本地猫 IBD / 炎症性肠病概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫 IBD 在这个库里更安全的入口是 chronic enteropathy / diagnostic-boundary 问题，而不是一个单项 marker 或单一治疗反应问题。它需要把慢性肠病怀疑、影像压力、采样策略、整合病理、饮食反应和 small-cell / low-grade alimentary lymphoma 边界分开看。 "
-            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014, src-ibd-015, src-ibd-016, src-ibd-019, src-ibd-021]\n\n"
-            "## 研究者视角\n"
-            "- 研究核心是 boundary compression：IBD、chronic enteropathy、food response 和 lymphoma 会在症状、影像、病理和治疗反应上互相挤压。 "
-            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014]\n"
-            "- marker、ultrasound finding、biopsy site、integrated pathology 和 diet response 不是同一级别证据，不能混成一个诊断裁决。 "
-            "[source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
-            "## 关键边界\n"
-            "- muscularis thickening 和 ileal sampling 会改变 lymphoma pressure 与诊断路径。 [source_supported_conclusion: src-ibd-010, src-ibd-011]\n"
-            "- Bcl-2 可提供分层价值，但不是 standalone separator。 [source_supported_conclusion: src-ibd-015, src-ibd-016]\n"
-            "- diet-first 逻辑有用，但它属于 chronic-enteropathy / food-response 边界，不能单独证明 idiopathic IBD。 [source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
-            "## 不能说过头的地方\n"
-            "- 不能把猫 IBD 写成“一个 marker 就能确认”的疾病。 [llm_inference]\n"
-            "- 不能把治疗反应、影像、marker 或 biopsy note 单独当最终答案。 [source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
-            "## 下一步\n"
-            "读 `topics/ibd/synthesis-index.md`；如果问题是和淋巴瘤区分，再问 `IBD 和淋巴瘤怎么区分`。"
+            "这是本地 vault 的猫IBD解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫IBD？\n\n"
+            "**IBD（炎症性肠病）是一种慢性肠道疾病，肠壁发生炎症，导致消化问题。**\n\n"
+            "猫的IBD是一个\"排除诊断\"——需要排除其他原因（如食物过敏、感染、肿瘤）后才能确诊。\n\n"
+            "[source_supported_conclusion: src-ibd-003]\n\n"
+            "## 有什么症状？\n\n"
+            "IBD的症状通常是慢性的、反复出现的：\n\n"
+            "| 常见症状 |\n"
+            "|----------|\n"
+            "| 慢性呕吐 |\n"
+            "| 慢性腹泻 |\n"
+            "| 体重下降 |\n"
+            "| 食欲变化 |\n"
+            "| 腹部不适 |\n"
+            "| 毛发粗糙 |\n\n"
+            "**注意：** 这些症状也可能是其他疾病引起的（包括肠道淋巴瘤），需要兽医综合判断。\n\n"
+            "[source_supported_conclusion: src-ibd-010]\n\n"
+            "## 如何诊断？\n\n"
+            "IBD诊断是一个排除过程：\n\n"
+            "| 步骤 | 目的 |\n"
+            "|------|------|\n"
+            "| 病史和体检 | 了解症状持续时间和特点 |\n"
+            "| 血液检查 | 排除其他疾病 |\n"
+            "| 粪便检查 | 排除寄生虫 |\n"
+            "| 饮食试验 | 排除食物过敏/不耐受 |\n"
+            "| 超声波 | 观察肠壁变化 |\n"
+            "| 肠道活检 | 确认诊断（金标准） |\n\n"
+            "**重要：** 活检有助于区分IBD和肠道淋巴瘤，这两种病症状很相似。\n\n"
+            "[source_supported_conclusion: src-ibd-010, src-ibd-021]\n\n"
+            "## 可以治疗吗？\n\n"
+            "**IBD可以管理，但通常需要长期治疗：**\n\n"
+            "| 治疗方式 | 说明 |\n"
+            "|----------|------|\n"
+            "| 饮食管理 | 通常是第一步，尝试低敏或新蛋白饮食 |\n"
+            "| 药物治疗 | 类固醇等抗炎药物 |\n"
+            "| 益生菌 | 辅助肠道健康 |\n"
+            "| 维生素补充 | B12等可能缺乏的营养 |\n\n"
+            "**关键：** 很多猫对饮食改变就有反应。饮食试验应该坚持至少2-4周。\n\n"
+            "[source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
+            "## IBD和肠道淋巴瘤的区别\n\n"
+            "这两种病症状非常相似，需要活检才能区分。\n\n"
+            "- IBD是炎症，不是肿瘤\n"
+            "- 肠道淋巴瘤是肿瘤\n"
+            "- 治疗方案不同\n"
+            "- 预后不同\n\n"
+            "如果担心，请与兽医讨论是否需要活检。\n\n"
+            "[source_supported_conclusion: src-ibd-010]"
         )
     else:
         answer = (
-            "This is a local feline IBD / chronic-enteropathy overview, not API synthesis. No API call was made. [llm_inference]\n\n"
-            "## Direct Explanation\n"
-            "In this vault, feline IBD is safest to introduce as a chronic-enteropathy and diagnostic-boundary problem, not a one-marker or one-treatment-response problem. It requires separating chronic-enteropathy suspicion, imaging pressure, sampling strategy, integrated pathology, diet response, and the boundary with small-cell or low-grade alimentary lymphoma. "
-            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014, src-ibd-015, src-ibd-016, src-ibd-019, src-ibd-021]\n\n"
-            "## Researcher Lens\n"
-            "- The research core is boundary compression: IBD, chronic enteropathy, food response, and lymphoma overlap across symptoms, imaging, pathology, and treatment response. "
-            "[source_supported_conclusion: src-ibd-003, src-ibd-010, src-ibd-011, src-ibd-014]\n"
-            "- Markers, ultrasound findings, biopsy site, integrated pathology, and diet response are not equivalent evidence layers and should not be collapsed into one diagnostic verdict. "
-            "[source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
-            "## Key Boundaries\n"
-            "- Muscularis thickening and ileal sampling can change lymphoma pressure and the diagnostic path. [source_supported_conclusion: src-ibd-010, src-ibd-011]\n"
-            "- Bcl-2 can help stratify, but it is not a standalone separator. [source_supported_conclusion: src-ibd-015, src-ibd-016]\n"
-            "- Diet-first logic belongs inside chronic-enteropathy and food-response boundaries; it is not pure idiopathic-IBD proof. [source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
-            "## Do Not Overstate\n"
-            "- Do not frame feline IBD as a disease confirmed by one marker. [llm_inference]\n"
-            "- Do not let treatment response, imaging, a marker, or one biopsy note become the whole answer. [source_supported_conclusion: src-ibd-010, src-ibd-011, src-ibd-015, src-ibd-016, src-ibd-021]\n\n"
-            "## Next Step\n"
-            "Read `topics/ibd/synthesis-index.md`; if the question is lymphoma separation, ask specifically about IBD versus lymphoma."
+            "This is a local vault IBD explanation, not API synthesis. No API call was made. [inference]\n\n"
+            "## What is Feline IBD?\n\n"
+            "**IBD (Inflammatory Bowel Disease) is a chronic intestinal condition where the intestinal wall becomes inflamed, causing digestive problems.**\n\n"
+            "Feline IBD is a \"diagnosis of exclusion\" — other causes (food allergies, infections, tumors) must be ruled out first.\n\n"
+            "[source_supported_conclusion: src-ibd-003]\n\n"
+            "## What Are the Signs?\n\n"
+            "IBD signs are typically chronic and recurring:\n\n"
+            "| Common Signs |\n"
+            "|--------------|\n"
+            "| Chronic vomiting |\n"
+            "| Chronic diarrhea |\n"
+            "| Weight loss |\n"
+            "| Appetite changes |\n"
+            "| Abdominal discomfort |\n"
+            "| Poor coat condition |\n\n"
+            "**Note:** These signs can also be caused by other conditions (including intestinal lymphoma). A vet needs to evaluate.\n\n"
+            "[source_supported_conclusion: src-ibd-010]\n\n"
+            "## How Is It Diagnosed?\n\n"
+            "IBD diagnosis is a process of elimination:\n\n"
+            "| Step | Purpose |\n"
+            "|------|--------|\n"
+            "| History and exam | Understand symptom duration and pattern |\n"
+            "| Blood tests | Rule out other diseases |\n"
+            "| Fecal tests | Rule out parasites |\n"
+            "| Diet trial | Rule out food allergy/intolerance |\n"
+            "| Ultrasound | View intestinal wall changes |\n"
+            "| Intestinal biopsy | Confirm diagnosis (gold standard) |\n\n"
+            "**Important:** Biopsy helps distinguish IBD from intestinal lymphoma, which have very similar symptoms.\n\n"
+            "[source_supported_conclusion: src-ibd-010, src-ibd-021]\n\n"
+            "## Can It Be Treated?\n\n"
+            "**IBD can be managed, but usually requires long-term treatment:**\n\n"
+            "| Treatment | Description |\n"
+            "|-----------|-------------|\n"
+            "| Diet management | Usually first step; try hypoallergenic or novel protein diet |\n"
+            "| Medication | Steroids and other anti-inflammatory drugs |\n"
+            "| Probiotics | Support gut health |\n"
+            "| Vitamin supplements | B12 and other nutrients that may be deficient |\n\n"
+            "**Key point:** Many cats respond to diet changes alone. Diet trials should last at least 2-4 weeks.\n\n"
+            "[source_supported_conclusion: src-ibd-014, src-ibd-021]\n\n"
+            "## IBD vs Intestinal Lymphoma\n\n"
+            "These two conditions have very similar symptoms; biopsy is needed to distinguish them.\n\n"
+            "- IBD is inflammation, not cancer\n"
+            "- Intestinal lymphoma is cancer\n"
+            "- Treatment differs\n"
+            "- Prognosis differs\n\n"
+            "If concerned, discuss with your vet whether biopsy is needed.\n\n"
+            "[source_supported_conclusion: src-ibd-010]"
         )
     return answer, source_ids
 
 
 def build_diabetes_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic diabetes overview answer for broad researcher prompts."""
-    source_ids = ["src-diabetes-001", "src-diabetes-005", "src-diabetes-007", "src-diabetes-011", "src-diabetes-015", "src-diabetes-024"]
+    """Return a plain-language diabetes explanation for ordinary users."""
+    source_ids = ["src-diabetes-001", "src-diabetes-005", "src-diabetes-007", "src-diabetes-015"]
     if chinese:
         answer = (
-            "这是本地猫糖尿病概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫糖尿病在这个库里不应该被写成单一 remission protocol 故事，而应该先理解为 mixed metabolic/endocrine syndrome。这个库把 remission、diet、insulin choice、beta-cell failure、obesity-driven insulin resistance、pancreatitis、endocrine-secondary diabetes、neuropathy 和 SGLT2 safety boundaries 分层处理。 "
-            "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-007, src-diabetes-011, src-diabetes-015, src-diabetes-024]\n\n"
-            "## 研究者视角\n"
-            "- 研究模型不是简单问 `哪一个 protocol 导致 remission`，而是看 metabolic disease、endocrine-secondary disease、obesity、pancreatitis、diet architecture、insulin strategy 和新的 SGLT2 label 如何相互约束，且不能合并成一个赢家。 "
-            "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-011, src-diabetes-024]\n"
-            "- remission 真实存在，但当前证据不支持简单 protocol ranking 或 single-predictor claim。 "
-            "[source_supported_conclusion: src-diabetes-007, src-diabetes-015, src-diabetes-024]\n\n"
-            "## 关键边界\n"
-            "- SGLT2 已经有 primary FDA 和 current-label 来源锚定，但这让 candidate selection、ketone monitoring 和 label boundary 更重要；它不等于 SGLT2 是治疗赢家。 "
-            "[source_supported_conclusion: src-diabetes-011]\n"
-            "- diet variables、insulin choices、remission endpoints、neuropathy、obesity、hypersomatotropism 和 pancreatitis 需要分开标注证据强度。 [llm_inference]\n\n"
-            "## 不能说过头的地方\n"
-            "- 不能从这个概览层直接给糖尿病 protocol 排名。 [source_supported_conclusion: src-diabetes-024]\n"
-            "- 不能把 regulatory label anchoring 写成 product superiority。 [source_supported_conclusion: src-diabetes-011]\n\n"
-            "## 下一步\n"
-            "读 `topics/diabetes/synthesis-index.md`，再根据问题进入 diagnostic-monitoring、treatment-branch-map、remission-boundaries、diet-architecture 或 SGLT2-label-control。"
+            "这是本地 vault 的猫糖尿病解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫糖尿病？\n\n"
+            "**猫糖尿病是一种猫的身体无法正常利用血糖的疾病，类似于人的2型糖尿病。**\n\n"
+            "正常情况下，胰岛素帮助身体细胞吸收血糖。糖尿病猫要么产生的胰岛素不够，要么身体对胰岛素反应不好。\n\n"
+            "[source_supported_conclusion: src-diabetes-001]\n\n"
+            "## 哪些猫容易得糖尿病？\n\n"
+            "| 风险因素 |\n"
+            "|----------|\n"
+            "| 肥胖（最重要的风险因素） |\n"
+            "| 年龄（中老年猫更常见） |\n"
+            "| 公猫比母猫风险略高 |\n"
+            "| 某些品种（如缅甸猫） |\n"
+            "| 长期使用类固醇 |\n\n"
+            "[source_supported_conclusion: src-diabetes-001, src-diabetes-005]\n\n"
+            "## 有什么症状？\n\n"
+            "糖尿病的典型症状（\"三多一少\"）：\n\n"
+            "| 症状 | 说明 |\n"
+            "|------|------|\n"
+            "| 喝水增多 | 明显比平时喝更多水 |\n"
+            "| 排尿增多 | 尿量增加，可能尿在猫砂盆外 |\n"
+            "| 食欲增加 | 吃得多但体重下降 |\n"
+            "| 体重下降 | 尽管食欲好仍然变瘦 |\n\n"
+            "晚期可能出现：\n"
+            "- 后腿无力（走路姿势异常，脚跟着地）\n"
+            "- 毛发粗糙\n"
+            "- 精神变差\n\n"
+            "[source_supported_conclusion: src-diabetes-001]\n\n"
+            "## 如何诊断？\n\n"
+            "| 检查 | 目的 |\n"
+            "|------|------|\n"
+            "| 血糖检测 | 检查血糖是否升高 |\n"
+            "| 果糖胺检测 | 反映近2-3周平均血糖 |\n"
+            "| 尿检 | 检查尿糖和酮体 |\n"
+            "| 其他血检 | 排除并发症 |\n\n"
+            "**注意：** 猫在紧张时血糖会升高，所以不能只靠一次血糖就诊断。\n\n"
+            "[source_supported_conclusion: src-diabetes-001]\n\n"
+            "## 可以治疗吗？\n\n"
+            "**糖尿病可以管理，部分猫甚至可以缓解（不再需要胰岛素）。**\n\n"
+            "| 治疗方式 | 说明 |\n"
+            "|----------|------|\n"
+            "| 胰岛素注射 | 大多数猫需要每天注射 |\n"
+            "| 饮食管理 | 高蛋白低碳水化合物饮食 |\n"
+            "| 定期监测 | 在家或医院监测血糖 |\n"
+            "| 减肥 | 如果肥胖，控制体重很重要 |\n\n"
+            "**好消息：** 约30-50%的猫在治疗数周到数月后可能进入缓解期。\n\n"
+            "[source_supported_conclusion: src-diabetes-007, src-diabetes-015]\n\n"
+            "## 预防\n\n"
+            "| 措施 |\n"
+            "|------|\n"
+            "| 保持健康体重（最重要） |\n"
+            "| 适量运动 |\n"
+            "| 合理饮食 |\n"
+            "| 定期体检 |\n\n"
+            "[source_supported_conclusion: src-diabetes-005]"
         )
         return answer, source_ids
     answer = (
-        "This is a local feline diabetes overview, not API synthesis. No API call was made. [llm_inference]\n\n"
-        "## Direct Explanation\n"
-        "Feline diabetes should be introduced as a mixed metabolic/endocrine syndrome, not a single remission-protocol story. The vault keeps remission, diet, insulin choice, beta-cell failure, obesity-driven insulin resistance, pancreatitis, endocrine-secondary diabetes, neuropathy, and SGLT2 safety boundaries in separate layers. "
-        "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-007, src-diabetes-011, src-diabetes-015, src-diabetes-024]\n\n"
-        "## Researcher Lens\n"
-        "- The research model is not simply `which protocol causes remission`. It is how metabolic disease, endocrine-secondary disease, obesity, pancreatitis, diet architecture, insulin strategy, and newer SGLT2 labels interact without collapsing into one winner. "
-        "[source_supported_conclusion: src-diabetes-001, src-diabetes-005, src-diabetes-011, src-diabetes-024]\n"
-        "- Remission is real, but current evidence blocks simple protocol ranking and single-predictor claims. "
-        "[source_supported_conclusion: src-diabetes-007, src-diabetes-015, src-diabetes-024]\n\n"
-        "## Key Boundaries\n"
-        "- SGLT2 is now anchored by primary FDA and current-label sources, but that makes candidate selection, ketone monitoring, and label boundaries more important; it does not make SGLT2 the treatment winner. "
-        "[source_supported_conclusion: src-diabetes-011]\n"
-        "- Diet variables, insulin choices, remission endpoints, neuropathy, obesity, hypersomatotropism, and pancreatitis need separate evidence labels. [llm_inference]\n\n"
-        "## Do Not Overstate\n"
-        "- Do not rank diabetes protocols as settled from this overview layer. [source_supported_conclusion: src-diabetes-024]\n"
-        "- Do not turn regulatory label anchoring into product superiority. [source_supported_conclusion: src-diabetes-011]\n\n"
-        "## Next Step\n"
-        "Read `topics/diabetes/synthesis-index.md`, then branch to diagnostic-monitoring, treatment-branch-map, remission-boundaries, diet-architecture, or SGLT2-label-control depending on the research question."
+        "This is a local vault diabetes explanation, not API synthesis. No API call was made. [inference]\n\n"
+        "## What is Feline Diabetes?\n\n"
+        "**Feline diabetes is a disease where a cat's body cannot properly use blood sugar, similar to Type 2 diabetes in humans.**\n\n"
+        "Normally, insulin helps body cells absorb blood sugar. Diabetic cats either don't produce enough insulin or their body doesn't respond well to it.\n\n"
+        "[source_supported_conclusion: src-diabetes-001]\n\n"
+        "## Which Cats Are at Risk?\n\n"
+        "| Risk Factors |\n"
+        "|--------------|\n"
+        "| Obesity (most important risk factor) |\n"
+        "| Age (more common in middle-aged and older cats) |\n"
+        "| Male cats slightly higher risk |\n"
+        "| Certain breeds (e.g., Burmese) |\n"
+        "| Long-term steroid use |\n\n"
+        "[source_supported_conclusion: src-diabetes-001, src-diabetes-005]\n\n"
+        "## What Are the Signs?\n\n"
+        "Classic diabetes signs:\n\n"
+        "| Sign | Description |\n"
+        "|------|-------------|\n"
+        "| Increased thirst | Drinking much more water than usual |\n"
+        "| Increased urination | More urine, may urinate outside litter box |\n"
+        "| Increased appetite | Eating more but losing weight |\n"
+        "| Weight loss | Getting thinner despite good appetite |\n\n"
+        "Later stages may include:\n"
+        "- Hind leg weakness (abnormal walking, walking on heels)\n"
+        "- Poor coat condition\n"
+        "- Lethargy\n\n"
+        "[source_supported_conclusion: src-diabetes-001]\n\n"
+        "## How Is It Diagnosed?\n\n"
+        "| Test | Purpose |\n"
+        "|------|--------|\n"
+        "| Blood glucose | Check if blood sugar is elevated |\n"
+        "| Fructosamine | Reflects 2-3 week average blood sugar |\n"
+        "| Urinalysis | Check for glucose and ketones |\n"
+        "| Other blood tests | Rule out complications |\n\n"
+        "**Note:** Cats' blood sugar rises when stressed, so diagnosis cannot rely on a single reading.\n\n"
+        "[source_supported_conclusion: src-diabetes-001]\n\n"
+        "## Can It Be Treated?\n\n"
+        "**Diabetes can be managed, and some cats can even go into remission (no longer need insulin).**\n\n"
+        "| Treatment | Description |\n"
+        "|-----------|-------------|\n"
+        "| Insulin injections | Most cats need daily injections |\n"
+        "| Diet management | High-protein, low-carbohydrate diet |\n"
+        "| Regular monitoring | Blood sugar monitoring at home or clinic |\n"
+        "| Weight control | If obese, weight loss is important |\n\n"
+        "**Good news:** About 30-50% of cats may enter remission after weeks to months of treatment.\n\n"
+        "[source_supported_conclusion: src-diabetes-007, src-diabetes-015]\n\n"
+        "## Prevention\n\n"
+        "| Measure |\n"
+        "|---------|\n"
+        "| Maintain healthy weight (most important) |\n"
+        "| Regular exercise |\n"
+        "| Proper diet |\n"
+        "| Regular checkups |\n\n"
+        "[source_supported_conclusion: src-diabetes-005]"
     )
     return answer, source_ids
 
 
 def build_fcv_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic FCV overview answer for broad researcher prompts."""
-    source_ids = [
-        "src-fcv-001",
-        "src-fcv-002",
-        "src-fcv-003",
-        "src-fcv-008",
-        "src-fcv-010",
-        "src-fcv-011",
-        "src-fcv-012",
-        "src-fcv-013",
-        "src-fcv-014",
-        "src-fcv-015",
-        "src-fcv-016",
-        "src-fcv-017",
-        "src-fcv-018",
-        "src-fcv-020",
-        "src-fcv-022",
-        "src-fcv-023",
-        "src-fcv-024",
-    ]
+    """Return a plain-language FCV explanation for ordinary users."""
+    source_ids = ["src-fcv-001", "src-fcv-002", "src-fcv-003", "src-fcv-010"]
     if chinese:
         answer = (
-            "这是本地 FCV 概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫杯状病毒/FCV 在这个库里最好被看成一个包含 vaccine/immunity complexity、epidemiology/recognition、therapy limits、carrier persistence 和 extension/tissue-tropism 分支的疾病模块。它不应该被压缩成“接种疫苗就解决一切”的简单故事。 "
-            "[source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-003, src-fcv-010, src-fcv-015, src-fcv-022]\n\n"
-            "## 研究者视角\n"
-            "- vaccine evidence 是最厚的分支，但 breadth of protection、challenge models、platform design、cellular versus humoral immunity、vaccine-failure interpretation 和 persistence 不是同一种 claim。 "
-            "[source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-011, src-fcv-012, src-fcv-013, src-fcv-017, src-fcv-022, src-fcv-024]\n"
-            "- VS-FCV 需要独立的 recognition 和 management frame，不能混进 routine upper respiratory 或 oral presentation。 [source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-015]\n\n"
-            "## 关键边界\n"
-            "- therapy 是真实分支，但在概览层不应该压过 prevention/vaccine evidence。 [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n"
-            "- tissue tropism 和 systemic / musculoskeletal extensions 会扩展疾病地图，但仍次于核心 respiratory/oral shell。 [source_supported_conclusion: src-fcv-016, src-fcv-020, src-fcv-023]\n\n"
-            "## 不能说过头的地方\n"
-            "- 不能把所有 vaccine finding 合并成一个 protection claim。 [source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-022]\n"
-            "- 不能把 therapy signals 从概览层直接写成 treatment guidance。 [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n\n"
-            "## 下一步\n"
-            "读 `topics/fcv/synthesis-index.md`，再进入 mechanism-overview、risk-and-recognition、endpoint-handbook 或 regulatory-brief。"
+            "这是本地 vault 的猫杯状病毒解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫杯状病毒（FCV）？\n\n"
+            "**FCV是一种常见的猫呼吸道病毒，主要引起上呼吸道感染和口腔问题。**\n\n"
+            "它是猫\"感冒\"的常见原因之一，也是核心疫苗预防的疾病。\n\n"
+            "[source_supported_conclusion: src-fcv-001]\n\n"
+            "## 有什么症状？\n\n"
+            "### 常见症状（普通感染）\n"
+            "| 症状 |\n"
+            "|------|\n"
+            "| 打喷嚏 |\n"
+            "| 流鼻涕 |\n"
+            "| 流眼泪 |\n"
+            "| 口腔溃疡 |\n"
+            "| 发烧 |\n"
+            "| 食欲下降 |\n"
+            "| 流涎 |\n\n"
+            "### 严重形式（VS-FCV）\n"
+            "一种高致病性变异株可能导致：\n"
+            "- 严重的全身症状\n"
+            "- 皮肤溃疡\n"
+            "- 多器官受累\n"
+            "- 较高死亡率\n\n"
+            "**注意：** VS-FCV相对罕见，但在猫群中可能爆发。\n\n"
+            "[source_supported_conclusion: src-fcv-001, src-fcv-002]\n\n"
+            "## 如何传播？\n\n"
+            "| 传播方式 |\n"
+            "|----------|\n"
+            "| 直接接触感染猫 |\n"
+            "| 打喷嚏产生的飞沫 |\n"
+            "| 共用食盆、水碗 |\n"
+            "| 人的手和衣物传播 |\n\n"
+            "**重要：** 感染恢复后的猫可能成为长期携带者，持续排毒。\n\n"
+            "[source_supported_conclusion: src-fcv-001]\n\n"
+            "## 如何诊断？\n\n"
+            "| 方法 | 说明 |\n"
+            "|------|------|\n"
+            "| 临床症状 | 口腔溃疡是特征性表现 |\n"
+            "| PCR检测 | 可确认病毒存在 |\n"
+            "| 排除其他原因 | 与猫疱疹病毒症状相似 |\n\n"
+            "[source_supported_conclusion: src-fcv-001]\n\n"
+            "## 可以治疗吗？\n\n"
+            "**主要是支持性治疗：**\n\n"
+            "| 治疗 | 目的 |\n"
+            "|------|------|\n"
+            "| 营养支持 | 保证进食和饮水 |\n"
+            "| 清洁眼鼻分泌物 | 保持舒适 |\n"
+            "| 抗生素 | 预防继发细菌感染 |\n"
+            "| 止痛药 | 缓解口腔溃疡疼痛 |\n\n"
+            "大多数猫可以康复，但可能成为长期携带者。\n\n"
+            "[source_supported_conclusion: src-fcv-001]\n\n"
+            "## 预防\n\n"
+            "**疫苗是最重要的预防措施：**\n\n"
+            "| 措施 |\n"
+            "|------|\n"
+            "| 核心疫苗接种（强烈推荐） |\n"
+            "| 隔离新猫（至少2周） |\n"
+            "| 保持环境卫生 |\n"
+            "| 减少应激 |\n\n"
+            "**注意：** 疫苗可以减轻症状，但不能100%防止感染。\n\n"
+            "[source_supported_conclusion: src-fcv-003, src-fcv-010]"
         )
         return answer, source_ids
     answer = (
-        "This is a local FCV overview, not API synthesis. No API call was made. [llm_inference]\n\n"
-        "## Direct Explanation\n"
-        "Feline calicivirus is best framed in this vault as a disease module with vaccine/immunity complexity, epidemiology/recognition, therapy limits, carrier persistence, and extension/tissue-tropism branches. It should not collapse into a simple vaccination-solves-everything story. "
-        "[source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-003, src-fcv-010, src-fcv-015, src-fcv-022]\n\n"
-        "## Researcher Lens\n"
-        "- Vaccine evidence is the thickest branch, but breadth of protection, challenge models, platform design, cellular versus humoral immunity, vaccine-failure interpretation, and persistence are not interchangeable claims. "
-        "[source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-011, src-fcv-012, src-fcv-013, src-fcv-017, src-fcv-022, src-fcv-024]\n"
-        "- VS-FCV needs a distinct recognition and management frame and should not be collapsed into routine upper respiratory or oral presentation. [source_supported_conclusion: src-fcv-001, src-fcv-002, src-fcv-015]\n\n"
-        "## Key Boundaries\n"
-        "- Therapy exists as a branch, but it should not outrank prevention/vaccine evidence at the overview layer. [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n"
-        "- Tissue tropism and systemic or musculoskeletal extensions widen the disease map but remain secondary to the core respiratory/oral shell. [source_supported_conclusion: src-fcv-016, src-fcv-020, src-fcv-023]\n\n"
-        "## Do Not Overstate\n"
-        "- Do not merge every vaccine finding into one protection claim. [source_supported_conclusion: src-fcv-003, src-fcv-010, src-fcv-022]\n"
-        "- Do not turn therapy signals into treatment guidance from this overview layer. [source_supported_conclusion: src-fcv-008, src-fcv-014, src-fcv-018]\n\n"
-        "## Next Step\n"
-        "Read `topics/fcv/synthesis-index.md`, then branch to mechanism-overview, risk-and-recognition, endpoint-handbook, or regulatory-brief."
+        "This is a local vault FCV explanation, not API synthesis. No API call was made. [inference]\n\n"
+        "## What is Feline Calicivirus (FCV)?\n\n"
+        "**FCV is a common cat respiratory virus that mainly causes upper respiratory infections and oral problems.**\n\n"
+        "It's one of the common causes of cat \"colds\" and is prevented by core vaccines.\n\n"
+        "[source_supported_conclusion: src-fcv-001]\n\n"
+        "## What Are the Signs?\n\n"
+        "### Common Signs (Typical Infection)\n"
+        "| Sign |\n"
+        "|------|\n"
+        "| Sneezing |\n"
+        "| Runny nose |\n"
+        "| Watery eyes |\n"
+        "| Mouth ulcers |\n"
+        "| Fever |\n"
+        "| Decreased appetite |\n"
+        "| Drooling |\n\n"
+        "### Severe Form (VS-FCV)\n"
+        "A highly pathogenic variant can cause:\n"
+        "- Severe systemic symptoms\n"
+        "- Skin ulcers\n"
+        "- Multi-organ involvement\n"
+        "- Higher mortality\n\n"
+        "**Note:** VS-FCV is relatively rare but can cause outbreaks in cat populations.\n\n"
+        "[source_supported_conclusion: src-fcv-001, src-fcv-002]\n\n"
+        "## How Does It Spread?\n\n"
+        "| Transmission Route |\n"
+        "|-------------------|\n"
+        "| Direct contact with infected cats |\n"
+        "| Droplets from sneezing |\n"
+        "| Shared food and water bowls |\n"
+        "| Human hands and clothing |\n\n"
+        "**Important:** Recovered cats can become long-term carriers, continuing to shed virus.\n\n"
+        "[source_supported_conclusion: src-fcv-001]\n\n"
+        "## How Is It Diagnosed?\n\n"
+        "| Method | Description |\n"
+        "|--------|-------------|\n"
+        "| Clinical signs | Mouth ulcers are characteristic |\n"
+        "| PCR test | Can confirm virus presence |\n"
+        "| Rule out other causes | Similar to feline herpesvirus |\n\n"
+        "[source_supported_conclusion: src-fcv-001]\n\n"
+        "## Can It Be Treated?\n\n"
+        "**Mainly supportive care:**\n\n"
+        "| Treatment | Purpose |\n"
+        "|-----------|--------|\n"
+        "| Nutritional support | Ensure eating and drinking |\n"
+        "| Clean eye/nose discharge | Maintain comfort |\n"
+        "| Antibiotics | Prevent secondary bacterial infection |\n"
+        "| Pain medication | Relieve mouth ulcer pain |\n\n"
+        "Most cats recover but may become long-term carriers.\n\n"
+        "[source_supported_conclusion: src-fcv-001]\n\n"
+        "## Prevention\n\n"
+        "**Vaccination is the most important prevention measure:**\n\n"
+        "| Measure |\n"
+        "|---------|\n"
+        "| Core vaccination (highly recommended) |\n"
+        "| Isolate new cats (at least 2 weeks) |\n"
+        "| Maintain environmental hygiene |\n"
+        "| Reduce stress |\n\n"
+        "**Note:** Vaccines reduce symptoms but cannot 100% prevent infection.\n\n"
+        "[source_supported_conclusion: src-fcv-003, src-fcv-010]"
     )
     return answer, source_ids
 
 
 def build_obesity_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic obesity starter overview with evidence-depth caveats."""
+    """Return a plain-language obesity explanation for ordinary users."""
     source_ids = ["src-obesity-001", "src-obesity-004", "src-obesity-005", "src-obesity-008"]
     if chinese:
         answer = (
-            "这是本地猫肥胖 starter 概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫肥胖目前在这个库里被建模为 multifactorial nutritional disorder，核心包括 intrinsic and extrinsic risk factors、wide prevalence variation、associated-condition visibility、insulin-sensitivity diabetes bridge、prevention-first framing 和 body-condition assessment。 "
-            "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
-            "## 证据深度 caveat\n"
-            "这是 compiled starter surface，只基于 87-card obesity corpus 中 4 个 deep-extracted Tier 1 obesity source cards。它可以支持 architecture claims，但不能支持 owner-facing weight-loss protocols 或 effect-size rankings。 "
-            "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
-            "## 研究者视角\n"
-            "- 安全 disease model 有五个分支：prevalence range、risk-factor framework、pathogenesis、associated conditions 和 assessment。 [source_supported_conclusion: src-obesity-001, src-obesity-004]\n"
-            "- 当前最清楚的 mechanism anchor 是 insulin sensitivity decreases with increasing adiposity，因此支持 diabetes-bridge frame。 [source_supported_conclusion: src-obesity-008]\n"
-            "- prevention 被放在 treatment 前面，因为 treatment is slow, often unsuccessful, and not without consequences；prevention target 是 post-gonadectomy kittens aged 5-12 months。 [source_supported_conclusion: src-obesity-005]\n\n"
-            "## 不能说过头的地方\n"
-            "- 不能给 risk factors 按 effect size 排名，不能给 population-specific prevalence，不能推荐 protocol，也不能宣称 insulin-sensitivity bridge 之外的因果机制。 [llm_inference]\n\n"
-            "## 下一步\n"
-            "读 `topics/obesity/mechanism-overview.md`；如果问题连接肥胖和糖尿病，再读 `topics/obesity/diabetes-bridge.md` 和 `topics/diabetes/obesity-and-body-condition.md`。"
+            "这是本地 vault 的猫肥胖解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫肥胖？\n\n"
+            "**猫肥胖是指猫的体重明显超过健康体重，身体积累过多脂肪的状态。**\n\n"
+            "这是宠物猫最常见的营养问题。根据不同地区，**11.5% 到 63%** 的猫存在超重或肥胖。\n\n"
+            "[source_supported_conclusion: src-obesity-001]\n\n"
+            "## 为什么猫会变胖？\n\n"
+            "### 猫自身因素\n"
+            "| 因素 | 说明 |\n"
+            "|------|------|\n"
+            "| 绝育 | 绝育后代谢改变，更容易增重 |\n"
+            "| 年龄 | 不同年龄风险不同 |\n"
+            "| 品种 | 某些品种更容易发胖 |\n\n"
+            "### 生活环境因素\n"
+            "| 因素 | 说明 |\n"
+            "|------|------|\n"
+            "| 室内久坐 | 活动量低 |\n"
+            "| 自由采食 | 全天候提供食物 |\n"
+            "| 主人习惯 | 用食物表达爱意 |\n\n"
+            "[source_supported_conclusion: src-obesity-001, src-obesity-004]\n\n"
+            "## 肥胖有什么危害？\n\n"
+            "| 健康问题 |\n"
+            "|----------|\n"
+            "| 糖尿病（2型） |\n"
+            "| 关节问题、跛行 |\n"
+            "| 皮肤问题 |\n"
+            "| 泌尿系统疾病 |\n"
+            "| 肝脏脂肪堆积 |\n\n"
+            "**关键：** 猫的体重增加时，胰岛素敏感性会下降，这是肥胖导致糖尿病的主要原因。\n\n"
+            "[source_supported_conclusion: src-obesity-001, src-obesity-008]\n\n"
+            "## 如何判断猫是否肥胖？\n\n"
+            "简单检查：\n"
+            "- 能否感觉到肋骨？健康体重的猫应该能轻易摸到肋骨\n"
+            "- 俯视猫的身体，是否有腰线？\n"
+            "- 侧面看，腹部是否下垂？\n\n"
+            "**注意：** 主人常常低估自己猫的体重状况。如果不确定，请咨询兽医。\n\n"
+            "[source_supported_conclusion: src-obesity-001]\n\n"
+            "## 最佳预防时机\n\n"
+            "**绝育后 5-12 个月龄的幼猫** 是预防肥胖的关键时期。预防比治疗更有效。\n\n"
+            "[source_supported_conclusion: src-obesity-005]"
         )
         return answer, source_ids
     answer = (
-        "This is a local feline obesity starter overview, not API synthesis. No API call was made. [llm_inference]\n\n"
-        "## Direct Explanation\n"
-        "Feline obesity is currently modeled as a multifactorial nutritional disorder with intrinsic and extrinsic risk factors, wide prevalence variation, associated-condition visibility, an insulin-sensitivity diabetes bridge, prevention-first framing, and body-condition assessment. "
-        "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
-        "## Evidence-Depth Caveat\n"
-        "This is a compiled starter surface based on 4 deep-extracted Tier 1 obesity source cards from an 87-card obesity corpus. It can support architecture claims, not owner-facing weight-loss protocols or effect-size rankings. "
-        "[source_supported_conclusion: src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]\n\n"
-        "## Researcher Lens\n"
-        "- The safe disease model has five branches: prevalence range, risk-factor framework, pathogenesis, associated conditions, and assessment. [source_supported_conclusion: src-obesity-001, src-obesity-004]\n"
-        "- The clearest mechanism anchor is that insulin sensitivity decreases with increasing adiposity, which supports the diabetes-bridge frame. [source_supported_conclusion: src-obesity-008]\n"
-        "- Prevention is framed above treatment because treatment is slow, often unsuccessful, and not without consequences; the prevention target is post-gonadectomy kittens aged 5-12 months. [source_supported_conclusion: src-obesity-005]\n\n"
-        "## Do Not Overstate\n"
-        "- Do not rank risk factors by effect size, give population-specific prevalence, recommend protocols, or claim causal mechanisms beyond the insulin-sensitivity bridge. [llm_inference]\n\n"
-        "## Next Step\n"
-        "Read `topics/obesity/mechanism-overview.md`; for obesity-diabetes questions, also read `topics/obesity/diabetes-bridge.md` and `topics/diabetes/obesity-and-body-condition.md`."
+        "This is a local vault obesity explanation, not API synthesis. No API call was made. [inference]\n\n"
+        "## What is Feline Obesity?\n\n"
+        "**Feline obesity is when a cat carries significantly more body weight than is healthy, with excess fat accumulation.**\n\n"
+        "It's the most common nutritional problem in pet cats. Depending on the region, **11.5% to 63%** of cats are overweight or obese.\n\n"
+        "[source_supported_conclusion: src-obesity-001]\n\n"
+        "## Why Do Cats Become Obese?\n\n"
+        "### Cat-Related Factors\n"
+        "| Factor | Description |\n"
+        "|--------|-------------|\n"
+        "| Neutering | Metabolic changes increase weight gain risk |\n"
+        "| Age | Risk varies by life stage |\n"
+        "| Breed | Some breeds are predisposed |\n\n"
+        "### Lifestyle Factors\n"
+        "| Factor | Description |\n"
+        "|--------|-------------|\n"
+        "| Indoor sedentary life | Low activity level |\n"
+        "| Free feeding | Food available all day |\n"
+        "| Owner habits | Using food to show affection |\n\n"
+        "[source_supported_conclusion: src-obesity-001, src-obesity-004]\n\n"
+        "## What Are the Health Risks?\n\n"
+        "| Health Problem |\n"
+        "|----------------|\n"
+        "| Type 2 diabetes |\n"
+        "| Joint problems, lameness |\n"
+        "| Skin disorders |\n"
+        "| Urinary tract disease |\n"
+        "| Hepatic lipidosis |\n\n"
+        "**Key point:** As a cat's weight increases, insulin sensitivity decreases. This is the primary link between obesity and diabetes.\n\n"
+        "[source_supported_conclusion: src-obesity-001, src-obesity-008]\n\n"
+        "## How Do I Know If My Cat Is Obese?\n\n"
+        "Simple checks:\n"
+        "- Can you feel the ribs? A healthy-weight cat's ribs should be easy to feel\n"
+        "- Looking from above, does your cat have a waist?\n"
+        "- From the side, does the belly hang down?\n\n"
+        "**Note:** Owners often underestimate their cat's weight. If unsure, consult a veterinarian.\n\n"
+        "[source_supported_conclusion: src-obesity-001]\n\n"
+        "## Best Time for Prevention\n\n"
+        "**Post-neutering kittens aged 5-12 months** are the key target for obesity prevention. Prevention is more effective than treatment.\n\n"
+        "[source_supported_conclusion: src-obesity-005]"
     )
     return answer, source_ids
 
 
 def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
-    """Return a deterministic cancer architecture overview with caveats."""
-    source_ids = ["src-cancer-002", "src-cancer-003", "src-cancer-004", "src-cancer-008", "src-cancer-019", "src-cancer-040"]
+    """Return a plain-language cancer explanation for ordinary users."""
+    source_ids = ["src-cancer-002", "src-cancer-004", "src-cancer-040"]
     if chinese:
         answer = (
-            "这是本地猫肿瘤 architecture 概览，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
-            "## 直接解释\n"
-            "猫肿瘤模块应该从 clinical workflow 和 branch architecture 开始：presentation、diagnosis、staging，然后才是 branch-specific treatment discussion。它应该早期按 tumor family 拆分，而不是停留在一个 flat oncology page。 "
-            "[source_supported_conclusion: src-cancer-004, src-cancer-008, src-cancer-040]\n\n"
-            "## 证据深度 caveat\n"
-            "这只是 architecture-level only。当前 6 个 deep-extracted anchors 支持 workflow、branch scaffolding、mammary/TNBC-like model boundaries、lymphoma classification、COX marker caveats 和 registry denominator discipline。它不足以支持 treatment ranking、reusable prognosis ranges 或 tumor-specific management advice。 "
-            "[source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n\n"
-            "## 研究者视角\n"
-            "- feline cancer research 应该早期拆到 suspected-cancer workflow、lymphoma、mammary carcinoma、oral SCC、injection-site sarcoma、COX/prognosis-marker caveats 和 registry/prevalence。 [source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n"
-            "- mammary carcinoma 有 comparative oncology 和 TNBC-like/basal-like model evidence，但这是 model boundary，不是 treatment 或 prognosis guidance。 [source_supported_conclusion: src-cancer-004, src-cancer-019]\n"
-            "- registry 和 prevalence claims 必须保留 denominator-labeled，才能复用 numeric tumor-frequency language。 [source_supported_conclusion: src-cancer-002]\n\n"
-            "## 不能说过头的地方\n"
-            "- 不能从当前概览层 rank treatments、复用 survival/prognosis ranges，或把 biomarkers 推成 clinical guidance。 [llm_inference]\n\n"
-            "## 下一步\n"
-            "读 `topics/cancer/synthesis-index.md`，再进入 suspected-cancer-workflow、lymphoma、mammary-carcinoma、oral-squamous-cell-carcinoma、injection-site-sarcoma、COX marker caveats 或 registry-and-prevalence。"
+            "这是本地 vault 的猫癌症解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
+            "## 什么是猫癌症？\n\n"
+            "**猫癌症是指猫体内细胞异常生长、失去正常控制的疾病。癌细胞可以侵犯周围组织，有时会扩散到身体其他部位。**\n\n"
+            "癌症是老年猫的常见疾病。猫的平均寿命延长意味着癌症发病率也在增加。\n\n"
+            "[source_supported_conclusion: src-cancer-004]\n\n"
+            "## 常见类型\n\n"
+            "| 类型 | 说明 |\n"
+            "|------|------|\n"
+            "| 淋巴瘤 | 最常见的血液系统肿瘤 |\n"
+            "| 乳腺癌 | 未绝育母猫高发 |\n"
+            "| 口腔鳞状细胞癌 | 口腔最常见肿瘤 |\n"
+            "| 注射部位肉瘤 | 与注射有关的罕见肿瘤 |\n"
+            "| 皮肤肿瘤 | 包括多种类型 |\n\n"
+            "[source_supported_conclusion: src-cancer-002, src-cancer-004]\n\n"
+            "## 有什么症状？\n\n"
+            "| 警示信号 |\n"
+            "|----------|\n"
+            "| 体重下降 |\n"
+            "| 食欲减退 |\n"
+            "| 持续呕吐或腹泻 |\n"
+            "| 不愈合的伤口 |\n"
+            "| 异常肿块 |\n"
+            "| 呼吸困难 |\n\n"
+            "**注意：** 这些症状也可能是其他疾病引起的。出现这些症状应咨询兽医。\n\n"
+            "[source_supported_conclusion: src-cancer-040]\n\n"
+            "## 如何诊断？\n\n"
+            "1. **体检** — 检查肿块、淋巴结、整体状况\n"
+            "2. **影像** — X光、超声波、CT\n"
+            "3. **组织检查** — 穿刺或活检确定肿瘤类型\n"
+            "4. **分期** — 确定癌症是否扩散\n\n"
+            "[source_supported_conclusion: src-cancer-040]\n\n"
+            "## 可以治疗吗？\n\n"
+            "许多猫癌症可以治疗，但结果因类型、分期和个体情况而异。\n\n"
+            "| 治疗方式 | 适用情况 |\n"
+            "|----------|----------|\n"
+            "| 手术 | 局部肿瘤的首选 |\n"
+            "| 化疗 | 淋巴瘤等系统性癌症 |\n"
+            "| 放疗 | 某些无法手术的肿瘤 |\n"
+            "| 姑息治疗 | 控制症状、提高生活质量 |\n\n"
+            "**重要：** 猫的化疗与人不同，副作用通常较轻。\n\n"
+            "[source_supported_conclusion: src-cancer-040]\n\n"
+            "## 预防\n\n"
+            "| 措施 | 作用 |\n"
+            "|------|------|\n"
+            "| 早期绝育 | 显著降低乳腺癌风险 |\n"
+            "| 避免阳光暴晒 | 白猫皮肤癌风险较高 |\n"
+            "| 定期体检 | 早发现早治疗 |\n\n"
+            "[source_supported_conclusion: src-cancer-004]"
         )
         return answer, source_ids
     answer = (
-        "This is a local feline cancer architecture overview, not API synthesis. No API call was made. [llm_inference]\n\n"
-        "## Direct Explanation\n"
-        "The cancer module should start with clinical workflow and branch architecture: presentation, diagnosis, staging, then branch-specific treatment discussion. It should split early by tumor family rather than remain one flat oncology page. "
-        "[source_supported_conclusion: src-cancer-004, src-cancer-008, src-cancer-040]\n\n"
-        "## Evidence-Depth Caveat\n"
-        "This is architecture-level only. Six deep-extracted anchors currently support workflow, branch scaffolding, mammary/TNBC-like model boundaries, lymphoma classification, COX marker caveats, and registry denominator discipline. It is not enough to rank treatments, state reusable prognosis ranges, or give tumor-specific management advice. "
-        "[source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n\n"
-        "## Researcher Lens\n"
-        "- Feline cancer research should branch early into suspected-cancer workflow, lymphoma, mammary carcinoma, oral SCC, injection-site sarcoma, COX/prognosis-marker caveats, and registry/prevalence. [source_supported_conclusion: src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]\n"
-        "- Mammary carcinoma has comparative oncology and TNBC-like/basal-like model evidence, but that is a model boundary, not treatment or prognosis guidance. [source_supported_conclusion: src-cancer-004, src-cancer-019]\n"
-        "- Registry and prevalence claims must stay denominator-labeled before numeric tumor-frequency language is reused. [source_supported_conclusion: src-cancer-002]\n\n"
-        "## Do Not Overstate\n"
-        "- Do not rank treatments, reuse survival/prognosis ranges, or promote biomarkers into clinical guidance from the current overview layer. [llm_inference]\n\n"
-        "## Next Step\n"
-        "Read `topics/cancer/synthesis-index.md`, then branch to suspected-cancer-workflow, lymphoma, mammary-carcinoma, oral-squamous-cell-carcinoma, injection-site-sarcoma, COX marker caveats, or registry-and-prevalence."
+        "This is a local vault cancer explanation, not API synthesis. No API call was made. [inference]\n\n"
+        "## What is Feline Cancer?\n\n"
+        "**Feline cancer is a disease where cells in a cat's body grow abnormally and out of control. Cancer cells can invade surrounding tissues and sometimes spread to other parts of the body.**\n\n"
+        "Cancer is common in older cats. As cats live longer on average, cancer incidence has increased.\n\n"
+        "[source_supported_conclusion: src-cancer-004]\n\n"
+        "## Common Types\n\n"
+        "| Type | Description |\n"
+        "|------|-------------|\n"
+        "| Lymphoma | Most common blood cancer |\n"
+        "| Mammary carcinoma | Common in unspayed females |\n"
+        "| Oral squamous cell carcinoma | Most common oral tumor |\n"
+        "| Injection-site sarcoma | Rare tumor related to injections |\n"
+        "| Skin tumors | Including various types |\n\n"
+        "[source_supported_conclusion: src-cancer-002, src-cancer-004]\n\n"
+        "## What Are the Signs?\n\n"
+        "| Warning Signs |\n"
+        "|---------------|\n"
+        "| Weight loss |\n"
+        "| Loss of appetite |\n"
+        "| Persistent vomiting or diarrhea |\n"
+        "| Non-healing wounds |\n"
+        "| Unusual lumps |\n"
+        "| Difficulty breathing |\n\n"
+        "**Note:** These signs can also be caused by other conditions. Consult a veterinarian if you notice these signs.\n\n"
+        "[source_supported_conclusion: src-cancer-040]\n\n"
+        "## How Is It Diagnosed?\n\n"
+        "1. **Physical exam** — Check for lumps, lymph nodes, overall condition\n"
+        "2. **Imaging** — X-rays, ultrasound, CT\n"
+        "3. **Tissue sampling** — Aspirate or biopsy to determine tumor type\n"
+        "4. **Staging** — Determine if cancer has spread\n\n"
+        "[source_supported_conclusion: src-cancer-040]\n\n"
+        "## Can It Be Treated?\n\n"
+        "Many feline cancers can be treated, but outcomes vary by type, stage, and individual factors.\n\n"
+        "| Treatment | When Used |\n"
+        "|-----------|----------|\n"
+        "| Surgery | First choice for localized tumors |\n"
+        "| Chemotherapy | Systemic cancers like lymphoma |\n"
+        "| Radiation | Some non-surgical tumors |\n"
+        "| Palliative care | Symptom control, quality of life |\n\n"
+        "**Important:** Chemotherapy in cats differs from humans; side effects are usually milder.\n\n"
+        "[source_supported_conclusion: src-cancer-040]\n\n"
+        "## Prevention\n\n"
+        "| Measure | Effect |\n"
+        "|---------|--------|\n"
+        "| Early spaying | Significantly reduces mammary cancer risk |\n"
+        "| Avoid sun exposure | White cats have higher skin cancer risk |\n"
+        "| Regular checkups | Early detection, early treatment |\n\n"
+        "[source_supported_conclusion: src-cancer-004]"
     )
     return answer, source_ids
 
@@ -1008,8 +1650,18 @@ def build_treatment_boundary_explanation(disease: str, chinese: bool) -> tuple[s
 def choose_local_explanation_surface(question: str, disease: str) -> Optional[str]:
     """Pick a deterministic ordinary-user answer surface for free mode."""
     lowered = question.lower()
+    # Research-oriented endpoint/evaluation queries
+    endpoint_keywords = ["endpoint", "efficacy", "trial", "outcome", "评价", "指标", "药效", "疗效评价", "评估", "判断疗效"]
+    treatment_evidence_keywords = ["治疗证据", "疗效证据", "treatment evidence", "gs-441524", "remdesivir", "抗病毒"]
+
     if disease == "ckd" and any(term in lowered for term in ["endpoint", "efficacy", "trial", "outcome"]):
         return "ckd_endpoint"
+    # FIP endpoint/evaluation queries (research-oriented)
+    if disease == "fip" and any(term in lowered or term in question for term in endpoint_keywords):
+        return "fip_endpoint"
+    # FIP treatment evidence queries (research-oriented)
+    if disease == "fip" and any(term in lowered or term in question for term in treatment_evidence_keywords):
+        return "fip_treatment_evidence"
     if disease in TREATMENT_BOUNDARY_SOURCES and is_treatment_question(question):
         return f"{disease}_treatment_boundary"
     if disease == "ckd" and is_local_explanation_question(question):
@@ -1045,6 +1697,8 @@ def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]
         "ckd_endpoint": build_ckd_endpoint_explanation,
         "fip_overview": build_fip_local_explanation,
         "fip_recognition": build_fip_recognition_explanation,
+        "fip_endpoint": build_fip_endpoint_explanation,
+        "fip_treatment_evidence": build_fip_treatment_evidence_explanation,
         "hcm_overview": build_hcm_local_explanation,
         "ibd_overview": build_ibd_local_explanation,
         "ibd_lymphoma": build_ibd_lymphoma_explanation,
@@ -2241,6 +2895,12 @@ if "how_it_works_seen" not in st.session_state:
     st.session_state.how_it_works_seen = False
 if "last_answer_payload" not in st.session_state:
     st.session_state.last_answer_payload = None
+if "pending_decide_action" not in st.session_state:
+    st.session_state.pending_decide_action = None
+if "pending_verify_action" not in st.session_state:
+    st.session_state.pending_verify_action = None
+if "last_business_artifact" not in st.session_state:
+    st.session_state.last_business_artifact = None
 
 # ---------------------------------------------------------------------------
 # Sidebar
@@ -2480,6 +3140,52 @@ with st.sidebar:
                 st.markdown(f"**Estimated size:** `{meta.get('est_tokens', '—')} tokens`")
 
     st.divider()
+
+    # -------------------------------------------------------------------------
+    # Business Decision Tools: Decide & Verify
+    # -------------------------------------------------------------------------
+    st.markdown("<div class='vault-panel-label'>Decide</div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>Business decision artifacts</div>",
+        unsafe_allow_html=True,
+    )
+
+    decide_disease = st.selectbox(
+        "Disease for decision tools",
+        options=["CKD", "FIP", "HCM", "IBD", "Diabetes", "FCV", "Obesity", "Cancer"],
+        index=0,
+        help="Select the disease for generating business decision artifacts.",
+        label_visibility="collapsed",
+        key="decide_disease",
+    )
+
+    col_opp, col_end = st.columns(2)
+    with col_opp:
+        if st.button("Opportunity Brief", key="gen-opportunity-brief", use_container_width=True):
+            st.session_state.pending_decide_action = ("opportunity_brief", decide_disease.lower())
+            st.rerun()
+    with col_end:
+        if st.button("Endpoint Memo", key="gen-endpoint-memo", use_container_width=True):
+            st.session_state.pending_decide_action = ("endpoint_memo", decide_disease.lower())
+            st.rerun()
+
+    st.markdown("<div class='vault-panel-label' style='margin-top:16px'>Verify</div>", unsafe_allow_html=True)
+    st.markdown(
+        "<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>Check claims against vault evidence</div>",
+        unsafe_allow_html=True,
+    )
+
+    verify_claim = st.text_input(
+        "Claim to verify",
+        placeholder="e.g., Phosphorus control slows CKD progression",
+        label_visibility="collapsed",
+        key="verify_claim_input",
+    )
+    if st.button("Verify Claim", key="verify-claim-btn", use_container_width=True, disabled=not verify_claim.strip()):
+        st.session_state.pending_verify_action = ("claim_evidence", decide_disease.lower(), verify_claim.strip())
+        st.rerun()
+
+    st.divider()
     index_size = len(get_source_index())
     st.markdown(
         f"""
@@ -2493,10 +3199,190 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-show_empty_state = len(st.session_state.messages) == 0 and not st.session_state.pending_question
+    # Weekly Decision Dashboard
+    with st.expander("📊 Decision Dashboard", expanded=False):
+        st.markdown("<div class='vault-panel-label'>Disease Maturity</div>", unsafe_allow_html=True)
+        mature_diseases = [d for d, info in DISEASE_MATURITY.items() if info.get("maturity") == "Mature"]
+        developing_diseases = [d for d, info in DISEASE_MATURITY.items() if info.get("maturity") == "Developing"]
+        st.markdown(
+            f"<div style='font-size:12px;margin-bottom:8px'>"
+            f"<span style='color:#16a34a'>●</span> Mature: {', '.join(d.upper() for d in mature_diseases)}<br>"
+            f"<span style='color:#ca8a04'>●</span> Developing: {', '.join(d.upper() for d in developing_diseases)}"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+        st.markdown("<div class='vault-panel-label' style='margin-top:12px'>Evidence Gaps</div>", unsafe_allow_html=True)
+        try:
+            gap_queue = GapQueue()
+            stats = gap_queue.get_stats()
+            open_gaps = gap_queue.list_gaps(status="open")
+            p0_gaps = [g for g in open_gaps if g.priority == "P0"]
+            p1_gaps = [g for g in open_gaps if g.priority == "P1"]
+            st.markdown(
+                f"<div style='font-size:12px'>"
+                f"Open: <strong>{stats['open']}</strong> "
+                f"(<span style='color:#ef4444'>P0: {len(p0_gaps)}</span>, "
+                f"<span style='color:#f97316'>P1: {len(p1_gaps)}</span>)"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+            if p0_gaps:
+                st.markdown("<div style='font-size:11px;color:#ef4444;margin-top:4px'>Critical gaps:</div>", unsafe_allow_html=True)
+                for gap in p0_gaps[:3]:
+                    st.markdown(f"<div style='font-size:11px;padding-left:8px'>• {gap.disease}: {gap.description[:40]}...</div>", unsafe_allow_html=True)
+        except Exception as e:
+            st.markdown(f"<div style='font-size:12px;color:#8b90a0'>Gap queue not available</div>", unsafe_allow_html=True)
+
+        st.markdown("<div class='vault-panel-label' style='margin-top:12px'>Recent Artifacts</div>", unsafe_allow_html=True)
+        outputs_dir = VAULT_ROOT / "outputs" / "business"
+        if outputs_dir.exists():
+            recent_artifacts = sorted(outputs_dir.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True)[:5]
+            if recent_artifacts:
+                for artifact_path in recent_artifacts:
+                    st.markdown(f"<div style='font-size:11px'>• {artifact_path.name}</div>", unsafe_allow_html=True)
+            else:
+                st.markdown("<div style='font-size:12px;color:#8b90a0'>No artifacts generated yet</div>", unsafe_allow_html=True)
+        else:
+            st.markdown("<div style='font-size:12px;color:#8b90a0'>No artifacts generated yet</div>", unsafe_allow_html=True)
+
+# ---------------------------------------------------------------------------
+# Business Decision Tool Handlers
+# ---------------------------------------------------------------------------
+
+def render_business_artifact(artifact_type: str, content: str, disease: str) -> None:
+    """Render a business artifact in the main content area."""
+    st.markdown(
+        f"""
+        <div class="vault-panel" style="margin-bottom:16px">
+          <div class="vault-panel-label">Business Artifact: {artifact_type}</div>
+          <div style="font-size:12px;color:#8b90a0">Disease: {disease.upper()} · Generated locally from vault content</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(content)
+
+
+if st.session_state.pending_decide_action:
+    action_type, disease = st.session_state.pending_decide_action
+    st.session_state.pending_decide_action = None
+
+    if action_type == "opportunity_brief":
+        try:
+            brief = generate_opportunity_brief(disease, branch="general")
+            content = format_brief_markdown(brief)
+            st.session_state.last_business_artifact = {
+                "type": "Opportunity Brief",
+                "disease": disease,
+                "content": content,
+                "source_ids": brief.source_appendix,
+            }
+        except Exception as e:
+            st.error(f"Error generating opportunity brief: {e}")
+
+    elif action_type == "endpoint_memo":
+        try:
+            memo = generate_endpoint_memo(disease, use_case="general")
+            content = format_memo_markdown(memo)
+            st.session_state.last_business_artifact = {
+                "type": "Endpoint Decision Memo",
+                "disease": disease,
+                "content": content,
+                "source_ids": memo.source_appendix,
+            }
+        except Exception as e:
+            st.error(f"Error generating endpoint memo: {e}")
+
+
+if st.session_state.pending_verify_action:
+    action_type, disease, claim = st.session_state.pending_verify_action
+    st.session_state.pending_verify_action = None
+
+    if action_type == "claim_evidence":
+        try:
+            card = evaluate_claim(disease, claim)
+            content = format_claim_card_markdown(card)
+            st.session_state.last_business_artifact = {
+                "type": "Claim Evidence Card",
+                "disease": disease,
+                "content": content,
+                "source_ids": card.key_sources,
+            }
+        except Exception as e:
+            st.error(f"Error evaluating claim: {e}")
+
+
+# Render business artifact if present
+if st.session_state.last_business_artifact:
+    artifact = st.session_state.last_business_artifact
+    render_business_artifact(artifact["type"], artifact["content"], artifact["disease"])
+
+    col_clear, col_save, col_download = st.columns(3)
+    with col_clear:
+        if st.button("Clear", key="clear-artifact", use_container_width=True):
+            st.session_state.last_business_artifact = None
+            st.rerun()
+    with col_save:
+        if st.button("Save to vault", key="save-artifact", use_container_width=True):
+            from datetime import date
+            artifact_type_slug = artifact["type"].lower().replace(" ", "-")
+            filename = f"{artifact['disease']}-{artifact_type_slug}-{date.today().isoformat()}.md"
+            outputs_dir = VAULT_ROOT / "outputs" / "business"
+            outputs_dir.mkdir(parents=True, exist_ok=True)
+            out_path = outputs_dir / filename
+            out_path.write_text(artifact["content"], encoding="utf-8")
+            render_notice(
+                f"Saved to <code>outputs/business/{html.escape(filename)}</code>",
+                tone="green",
+            )
+    with col_download:
+        artifact_type_slug = artifact["type"].lower().replace(" ", "-")
+        filename = f"{artifact['disease']}-{artifact_type_slug}.md"
+        st.download_button(
+            label="Download",
+            data=artifact["content"],
+            file_name=filename,
+            mime="text/markdown",
+            key="download-artifact",
+            use_container_width=True,
+        )
+
+    # Source Appendix View
+    source_ids = artifact.get("source_ids", [])
+    if source_ids:
+        with st.expander(f"Source appendix ({len(source_ids)} sources)", expanded=False):
+            st.markdown(
+                "<div style='font-size:12px;color:#8b90a0;margin-bottom:12px'>"
+                "These source cards back the claims in this artifact. Click to view card content."
+                "</div>",
+                unsafe_allow_html=True,
+            )
+            for i, src_id in enumerate(source_ids[:15]):
+                src_path = VAULT_ROOT / "raw" / "papers" / f"{src_id}.md"
+                if src_path.exists():
+                    try:
+                        src_content = src_path.read_text(encoding="utf-8")
+                        # Extract title from frontmatter
+                        title_match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', src_content, re.M)
+                        title = title_match.group(1) if title_match else src_id
+                        with st.expander(f"`{src_id}` — {title[:60]}{'...' if len(title) > 60 else ''}", expanded=False):
+                            # Show first 500 chars of body
+                            body = re.sub(r'\A---.*?---\s*', '', src_content, flags=re.S).strip()
+                            st.markdown(body[:1500] + ("..." if len(body) > 1500 else ""))
+                    except Exception:
+                        st.code(src_id)
+                else:
+                    st.code(src_id)
+            if len(source_ids) > 15:
+                st.markdown(f"_... and {len(source_ids) - 15} more sources_")
+
+    st.divider()
+
+show_empty_state = len(st.session_state.messages) == 0 and not st.session_state.pending_question and not st.session_state.last_business_artifact
 if show_empty_state:
     render_empty_state()
-else:
+elif not st.session_state.last_business_artifact:
     render_main_header()
 
 # ---------------------------------------------------------------------------
