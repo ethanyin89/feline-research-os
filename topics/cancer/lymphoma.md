@@ -5,12 +5,12 @@ topic: cancer
 species: feline
 disease: cancer
 question_type: branch
-source_ids: [src-cancer-004, src-cancer-008, src-cancer-063, src-cancer-065, src-cancer-068, src-cancer-048, src-cancer-075, src-cancer-029]
-last_compiled_at: 2026-05-30
+source_ids: [src-cancer-004, src-cancer-008, src-cancer-063, src-cancer-065, src-cancer-068, src-cancer-048, src-cancer-075, src-cancer-029, src-cancer-018, src-cancer-026, src-cancer-042, src-cancer-044, src-cancer-060, src-cancer-084, src-cancer-086, src-cancer-102]
+last_compiled_at: 2026-06-03
 confidence: low
 verification_status: compiled
 decision_grade: no
-language_qa_status: not_checked
+language_qa_status: light_checked
 owner: codex
 status: active
 ---
@@ -39,6 +39,19 @@ status: active
 | LY16 | FIV accounts for some non-FeLV lymphoma cases via distinct transformation mechanism | B | src-cancer-075 | 2014 review |
 | LY17 | More viral aetiologies beyond FeLV/FIV may exist | B | src-cancer-075 | research direction |
 | LY18 | Lymphosarcoma was most common tumor in cats in 1978 Tulsa Registry | B | src-cancer-029 | defined-population registry |
+| LY19 | Feline lymphoma offers unique viral transformation research opportunities | B | src-cancer-018 | cytogenomics review, FeLV context |
+| LY20 | Chromosomal aberrations in feline lymphomas studied as model system | B | src-cancer-018 | genomic microarray applications |
+| LY21 | Early epidemiological study analyzed 221 lymphoma cases with matched controls | B | src-cancer-026 | 1972 environmental factors study |
+| LY22 | FeLV confirmed infectious via seroepidemiological study of 2000+ cats | B | src-cancer-042 | 1976 foundational FeLV research |
+| LY23 | Test-and-removal program controlled FeLV spread; 12% infection when FeLV+ remained | B | src-cancer-042 | eradication strategy basis |
+| LY24 | Experimental FeLV susceptibility decreased with age after inoculation | B | src-cancer-044 | historical SPF-cat experimental infection |
+| LY25 | FeLV-R predominantly induced thymic lymphosarcoma, while FeLV-KT caused fatal nonregenerative anemia without concurrent neoplasia | B | src-cancer-044 | strain-specific historical finding |
+| LY26 | In a 1972-1976 Boston leukemia/lymphoma cohort, 67% of cases were FeLV virus-positive by fluorescent antibody testing | B | src-cancer-060 | historical cohort, not modern prevalence |
+| LY27 | Virus-negative leukemia/lymphoma cases skewed older than virus-positive cases in that historical cohort | B | src-cancer-060 | age-at-diagnosis caveat |
+| LY28 | Age-dependent FeLV susceptibility: kittens 71% viremic by 7mo (latent 3.4mo) vs adults 11% (latent 13mo) | B | src-cancer-084 | 1980 natural infection study |
+| LY29 | FeLV-AB subgroup in 58% of lymphosarcoma cats vs 33% healthy carriers | B | src-cancer-086 | subgroup-disease association |
+| LY30 | FeLV-C rare and found only in diseased cats, not healthy carriers | B | src-cancer-086 | FeLV-C pathogenicity signal |
+| LY31 | Horizontal transmission requires viremic (gsa+) source: 85% infection from gsa+ vs 0% from gsa- cats | B | src-cancer-102 | 1977 experimental transmission |
 
 ## Evidence-Depth Caveat
 
@@ -99,9 +112,9 @@ The pathology source gives alimentary lymphoma an early branch signal and sugges
 
 **Boundary:** do not infer that surgery, chemotherapy, or watchful waiting is appropriate from these sources. The JAK/STAT pathway mention is molecular context, not treatment recommendation.
 
-### Modern Demographics (Abstract-Level)
+### Modern Demographics (Deep-Extracted)
 
-`src-cancer-068` provides Australian lymphoma demographics (1705 cases vs 85,741 reference population):
+`src-cancer-068` provides Australian lymphoma demographics (1705 cases vs 85,741 reference population). [Deep extraction worksheet](../../system/indexes/src-cancer-068-deep-extraction-round1.md).
 
 **Signalment findings:**
 
@@ -167,6 +180,44 @@ The 2005 study flagged IBD and diet associations for further investigation. This
 
 **Boundary:** The FeLV-shift is documented historically. Modern FeLV risk guidance needs separate, current sources. Diet recommendations are not supported by these abstracts.
 
+### Age-Dependent FeLV Susceptibility (Abstract-Level)
+
+`src-cancer-044` (1976 JNCI) experimentally inoculated 67 specific-pathogen-free cats at different ages with Rickard or Kawakami-Theilen FeLV strains.
+
+**Persistent viremia / FeLV-related disease by age:**
+
+| Age at inoculation | Abstract-Reported Outcome |
+|--------------------|---------------------------|
+| Newborn | 100% |
+| 2 weeks to 2 months | 85% |
+| 4 months or 1 year | 15% |
+
+**Immune-response pattern:**
+
+- Cats susceptible to FeLV leukemogenesis became persistently FeLV gsa-positive by 4 weeks post-inoculation and produced little or no FOCMA or virus-neutralizing antibody.
+- Cats resisting FeLV leukemogenesis developed persistent FOCMA and virus-neutralizing titers and did not become FeLV gsa-positive.
+
+**Strain-specific outcome:**
+
+- FeLV-R induced predominantly thymic lymphosarcoma.
+- FeLV-KT caused fatal nonregenerative anemia without concurrent neoplasia.
+
+**Boundary:** This is historical experimental-infection evidence. It should contextualize FeLV biology, not act as modern vaccination, testing, or exposure-management guidance.
+
+### Virus-Positive vs Virus-Negative Historical Cohort (Abstract-Level)
+
+`src-cancer-060` compared 184 feline leukemia and lymphoma cases diagnosed in Boston from 1972 through 1976.
+
+Study-bound findings:
+
+- 58% of cases were lymphoma and 42% were leukemia.
+- 67% of cats had positive fluorescent antibody tests for circulating FeLV; 33% were virus-negative.
+- Virus-positive and virus-negative cases were clinically and epidemiologically similar except for age at diagnosis.
+- Virus-negative cats were older on average at diagnosis (4.9 years) than virus-positive cats (3.5 years).
+- Among 22 cases diagnosed after age 8 years, 15 were virus-negative.
+
+**Boundary:** This is a historical leukemia/lymphoma cohort from one setting. It is useful for FeLV-era interpretation, not contemporary lymphoma prevalence or owner-facing FeLV risk estimates.
+
 ### Beyond FeLV: Other Viral Causes (Abstract-Level)
 
 `src-cancer-075` (2014 review) explains why lymphoma prevalence remains high despite FeLV vaccination success:
@@ -183,6 +234,55 @@ The 2005 study flagged IBD and diet associations for further investigation. This
 **Implication:** The "GI-shift" (increased alimentary lymphoma despite FeLV decline) may involve multiple factors including FIV and possibly unknown viruses, not just dietary or environmental causes.
 
 **Boundary:** FIV-associated lymphoma mechanisms remain incompletely characterized as of 2014.
+
+### FeLV Subgroups And Disease Association (Abstract-Level)
+
+`src-cancer-086` (1978 Int J Cancer) compared FeLV subgroup distribution between lymphosarcoma cats and healthy carriers:
+
+**Subgroup frequencies:**
+
+| Population | FeLV-A only | FeLV-AB | FeLV-C present |
+|------------|-------------|---------|----------------|
+| Lymphosarcoma cats | 42% | 58% | Rare |
+| Healthy carriers | 67% | 33% | Not found |
+
+**Key finding:** FeLV-AB subgroup is more common in lymphosarcoma cats than healthy carriers. FeLV-C appears only in diseased cats.
+
+**Boundary:** This supports subgroup-pathogenicity research but does not inform FeLV testing interpretation for owners.
+
+### FeLV Horizontal Transmission Requirements (Abstract-Level)
+
+`src-cancer-102` (1977 J Natl Cancer Inst) experimentally demonstrated FeLV transmission conditions:
+
+**Protocol:**
+- 37 SPF cats inoculated with Rickard strain FeLV
+- Each inoculated cat shared cage with control SPF cat for 40 weeks
+
+**Results:**
+
+| Source cat status | Contact infection rate |
+|-------------------|------------------------|
+| gsa-positive (viremic) | 85% (17/20) |
+| gsa-negative (non-viremic) | 0% (0/17) |
+
+**Key finding:** Horizontal FeLV transmission requires viremic source cat; non-viremic antibody-positive cats do not transmit.
+
+**Boundary:** This is foundational experimental evidence. It supports FeLV testing rationale but does not replace modern test-and-isolate protocols.
+
+### Age-Dependent FeLV Susceptibility (Abstract-Level)
+
+`src-cancer-084` (1980 Leukemia Research) followed natural FeLV infection in a multi-cat household:
+
+**Age-stratified outcomes:**
+
+| Age group | Viremia rate | Latent period |
+|-----------|--------------|---------------|
+| Kittens | 71% by 7 months | 3.4 months |
+| Adults | 11% | 13 months |
+
+**Key finding:** Kittens are markedly more susceptible to persistent FeLV infection than adults.
+
+**Boundary:** This informs vaccination timing rationale but does not provide modern vaccination schedules.
 
 ## What The Module Can Say Safely
 
