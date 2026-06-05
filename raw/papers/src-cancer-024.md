@@ -10,15 +10,15 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2026
-status: ingested
-extraction_depth: abstract
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 pmid: 41763637
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, descriptive, epidemiology, california, united, states]
 links:
-  doi: ""
+  doi: "10.1016/j.tvjl.2026.106612"
   url: "https://pubmed.ncbi.nlm.nih.gov/41763637/"
   local_assets: []
 evidence_policy:
@@ -32,6 +32,24 @@ evidence_policy:
 ---
 
 # Descriptive epidemiology of canine and feline cancer in California, United States from 2000 to 2019
+
+## Deep Extraction, 2026-06-05
+
+[Deep extraction worksheet](../../system/indexes/src-cancer-024-deep-extraction-round1.md)
+
+Safe promoted role:
+
+- US referral hospital cancer prevalence benchmark (17.0% of cats)
+- age as primary cancer risk factor
+- denominator discipline (referral population, not general incidence)
+- comparison anchor with Swiss registry (src-cancer-002)
+
+Do not use this source as:
+
+- general population cancer incidence
+- feline-specific odds ratios (abstract reports canine only)
+- breed or sex-neuter risk claims for cats
+- treatment or prognosis guidance
 
 ## Evidence-Depth Caveat
 

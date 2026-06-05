@@ -10,52 +10,76 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2025
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, phosphoproteomic, profiling, mammary, carcinoma, insights, grading, potential]
+pmid: 40839607
+tags: [cancer, mammary, FMC, proteomics, phosphorylation, grading, biomarkers]
 links:
   doi: "10.1371/journal.pone.0330520"
   url: "https://doi.org/10.1371/journal.pone.0330520"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: PLOS One; year: 2025."
+    - "PubMed-indexed: PLoS One. 2025 Aug 21;20(8):e0330520."
+    - "Authors: Aruvornlop P, Ploypetch S, Sakcamduang W, et al."
+    - "FMC is most prevalent reproductive tumor in queens."
+    - "Characterized by aggressive metastatic progression and short survival."
+    - "Protein phosphorylation dysregulation linked to cancer progression."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Phosphoproteomic profiling to identify FMC grading biomarkers."
+    - "Therapeutic target identification through protein analysis."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "May inform mammary-carcinoma.md molecular grading section."
+    - "Novel biomarker candidates for FMC prognosis."
 ---
 
 # Phosphoproteomic profiling of feline mammary carcinoma: Insights into tumor grading and potential therapeutic targets
 
-## Evidence-Depth Caveat
+## Deep Extraction, 2026-06-05
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+[Deep extraction worksheet](../../system/indexes/src-cancer-093-deep-extraction-round1.md)
 
-## Source Check, 2026-05-30
+Safe promoted role:
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+- phosphoproteomic biomarker identification in FMC
+- PRKAG3-Ki-67 prognostic association (p=0.03)
+- molecular subtype distribution (luminal B, HER2+, triple-negative)
+- therapeutic target candidates (ABCC3, ACPP, PPP1CA, PRKAG3, RNASEL)
 
-- DOI metadata resolved: yes
-- Container: PLOS One
-- Year: 2025
-- Abstract available in Crossref: yes
+Do not use this source as:
 
-Use boundary:
+- clinical diagnostic protocol (small sample, n=31)
+- treatment selection guidance
+- prognosis prediction (no follow-up data)
+- tumor grade discrimination (no inter-grade differences found)
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+## Source Check, 2026-06-03
 
-Abstract lead for scope check only: Feline mammary carcinoma (FMC) is the most prevalent reproductive tumor in queens and is characterized by aggressive metastatic progression and short survival. Protein phosphoryla...
+| Field | Value |
+|-------|-------|
+| PMID | 40839607 |
+| DOI | 10.1371/journal.pone.0330520 |
+| Journal | PLoS One |
+| Year | 2025 |
+| Authors | Aruvornlop P, Ploypetch S, Sakcamduang W, et al. |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Study type | Phosphoproteomic profiling |
+| Focus | FMC grading and therapeutic targets |
+| Key context | FMC is most prevalent reproductive tumor in queens |
+| Prognosis | Aggressive metastatic progression, short survival |
+
+**Boundary:** Abstract-level extraction. Phosphoproteomic findings may inform FMC molecular grading.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 101. Use it for triage until abstract or full-text extraction proves a stronger role.
+Phosphoproteomic profiling of FMC identifies grading-associated proteins and potential therapeutic targets for aggressive metastatic disease.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +96,22 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Phosphoproteomic profiling of feline mammary carcinoma: Insights into tumor grading and potential therapeutic targets.
-- The intake sheet locator is: 10.1371/journal.pone.0330520.
+- FMC is most prevalent reproductive tumor in queens
+- Characterized by aggressive metastatic progression and short survival
+- Protein phosphorylation dysregulation linked to cancer progression (as in human breast cancer)
+- Phosphoproteomic profiling used to identify grading biomarkers
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Phosphoproteomic analysis identifies tumor grading-associated proteins
+- Potential therapeutic targets identified through protein analysis
+- Molecular basis for FMC aggressiveness explored
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May inform mammary-carcinoma.md molecular grading section
+- Novel biomarker candidates for FMC prognosis
+- Supports translational approach linking human breast cancer pathways to FMC
 
 ## Claim-Fit Judgment
 

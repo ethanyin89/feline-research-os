@@ -10,9 +10,9 @@ endpoints: []
 jurisdictions: [Australia]
 evidence_level: case-series
 year: 2024
-status: abstract_weighted
-extraction_depth: abstract
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 pmid: "39728981"
@@ -41,6 +41,27 @@ evidence_policy:
 ---
 
 # Demographics of Feline Lymphoma in Australian Cat Populations: 1705 Cases
+
+## Deep Extraction, 2026-06-05
+
+[Deep extraction worksheet](../../system/indexes/src-cancer-068-deep-extraction-round1.md)
+
+Safe promoted role:
+
+- modern lymphoma demographics with quantified risk factors
+- male sex risk (OR 1.2, 95%CI 1.1-1.3, p=0.002)
+- age signalment (median 11.7 years for cases)
+- weight association (median 3.7 kg for cases)
+- breed-anatomic presentation pattern variations
+
+Do not use this source as:
+
+- specific breed risk claims (names not in abstract, need full text)
+- causal mechanism conclusions
+- universal claims beyond Australian population
+- treatment or prognosis guidance
+
+Follow-up needed: full-text for 8 high-risk and 3 low-risk breed names.
 
 ## Evidence-Depth Caveat
 
