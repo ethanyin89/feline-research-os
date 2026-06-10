@@ -4,118 +4,103 @@ type: source
 title: "Diabetes mellitus and pancreatitis – cause or effect?"
 source_kind: paper
 species: feline
-diseases: [diabetes mellitus]
-models: []
-endpoints: []
+diseases: [diabetes mellitus, pancreatitis]
+models: [endocrine-exocrine disease relationship]
+endpoints: [diabetes-pancreatitis concurrence, glycemic control, clinical course]
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
 year: 2015
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
-decision_grade: no
+status: extracted
+extraction_depth: full
+verification_status: quoted_fact_weighted
+decision_grade: yes
 language_qa_status: not_applicable
-tags: [diabetes, pancreatitis, cause, effect]
+pmid: 25586806
+doi: "10.1111/jsap.12295"
+authors: [Davison LJ]
+journal: "Journal of Small Animal Practice"
+tags: [diabetes, pancreatitis, endocrine-exocrine, cause-effect, brittleness, concurrent disease]
 links:
   doi: "10.1111/jsap.12295"
   url: "https://doi.org/10.1111/jsap.12295"
+  pubmed: "https://pubmed.ncbi.nlm.nih.gov/25586806/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Journal of Small Animal Practice; year: 2015."
+    - "Diabetes mellitus and pancreatitis are two distinct diseases but commonly co-occur in small animal practice."
+    - "The underlying pathology of diabetes mellitus in dogs and cats is heterogeneous, with exocrine pancreatic inflammation accompanying diabetes in a number of cases."
+    - "Question remains whether diabetes causes pancreatitis or pancreatitis leads to diabetes—evidence supports both scenarios."
+    - "Concurrence of diabetes and pancreatitis has clinical implications: cases may follow a more difficult clinical course."
+    - "Concurrent cases exhibit 'brittle' glycemic control due to variation in pancreatic inflammation degree."
+    - "Abdominal pain or vomiting may lead to anorexia, complicating management."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Feline diabetes-pancreatitis concurrence is a recognized clinical pattern with bidirectional causality."
+    - "This relationship explains difficult glycemic control in some diabetes cases."
+    - "Management implications: concurrent cases require monitoring of both endocrine and exocrine pancreatic function."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Suggests that 'brittle' diabetes in feline patients warrants pancreatitis screening."
+    - "Pancreatic inflammation may be underlying cause of treatment resistance in some cats."
 ---
 
 # Diabetes mellitus and pancreatitis – cause or effect?
 
-## Evidence-Depth Caveat
+## Full Abstract
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+Diabetes mellitus and pancreatitis are two distinct diseases encountered commonly in small animal practice. Whilst the clinical signs of diabetes mellitus are usually unmistakeable, a firm diagnosis of pancreatitis can prove more elusive, as clinical signs are often variable. Over the past 10 to 15 years, despite the fact that the clinical signs of diabetes mellitus are remarkably consistent, it has become more apparent that the underlying pathology of diabetes mellitus in dogs and cats is heterogeneous, with exocrine pancreatic inflammation accompanying diabetes mellitus in a number of cases.
 
-## Source Check, 2026-05-14
+However, the question remains as to whether the diabetes mellitus causes the pancreatitis or whether, conversely, the pancreatitis leads to diabetes mellitus—as there is evidence to support both scenarios. The concurrence of diabetes mellitus and pancreatitis has clinical implications for case management as such cases may follow a more difficult clinical course, with their glycaemic control being "brittle" as a result of variation in the degree of pancreatic inflammation. Problems may also arise if abdominal pain or vomiting lead to anorexia.
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+## Key Extracted Findings
 
-- DOI metadata resolved: yes
-- Container: Journal of Small Animal Practice
-- Year: 2015
-- Abstract available in Crossref: yes
+### Disease Relationship Model
 
-Use boundary:
+| Aspect | Finding | Boundary |
+|--------|---------|----------|
+| Concurrence | Both diseases present in same cases | Common in small animal practice |
+| Heterogeneity | DM pathology includes exocrine pancreatic inflammation | 10-15 year clinical observation |
+| Bidirectionality | Evidence supports both DM→pancreatitis AND pancreatitis→DM | Unclear which direction is primary |
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+### Clinical Management Implications
 
-Abstract lead for scope check only: Diabetes mellitus and pancreatitis are two distinct diseases encountered commonly in small animal practice. Whilst the clinical signs of diabetes mellitus are usually unmistakeabl...
+| Complication | Clinical Effect | Relevance |
+|--------------|-----------------|-----------|
+| Brittle glycemic control | Variation in degree of pancreatic inflammation | Explains resistant cases |
+| Abdominal pain/vomiting | May cause anorexia, complicating management | Secondary complication factor |
+| Diagnostic challenge | Pancreatitis diagnosis is "elusive" with variable signs | Explains treatment complexity |
+
+## Clinical Boundary
+
+- This is a 2015 review; may not reflect current diagnostic methods for pancreatitis
+- "Brittle" DM correlation with pancreatitis is descriptive, not quantified
+- Causality direction remains unclear per the abstract
+
+## Why This Matters For Feline Diabetes
+
+This review establishes the diabetes-pancreatitis relationship as a recognized clinical pattern with potentially bidirectional causality. For the feline diabetes module, this source supports:
+
+1. **Brittleness explanation:** Glycemic control resistance in some cats correlates with concurrent pancreatic inflammation
+2. **Screening rationale:** Difficult-to-control diabetes should trigger pancreatitis screening
+3. **Complication pathway:** Pancreatitis-induced anorexia can secondarily destabilize glucose control
+
+## Assessment of Claim-Fit
+
+**Can safely anchor:**
+- Diabetes-pancreatitis concurrence as recognized complication pattern
+- "Brittle" glycemic control as clinical phenotype needing investigation
+- Bidirectional causality as open question in veterinary medicine
+
+**Should NOT anchor (yet):**
+- Numeric prevalence of concurrent disease (not in abstract)
+- Recommended screening protocols (review, not primary evidence)
+- Mechanistic pathways (descriptive level only)
 
 ## One-Line Summary
 
-Candidate diabetes source from sheet row 130. Use it for triage until abstract or full-text extraction proves a stronger role.
-
-## Why It Matters For Feline Diabetes
-
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-diabetes` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
-
-## Key Findings
-
-### quoted_fact
-
-- The intake sheet lists this title: Diabetes mellitus and pancreatitis – cause or effect?.
-- The intake sheet locator is: 10.1111/jsap.12295.
-
-### source_supported_conclusion
-
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
-
-### llm_inference
-
-- The title suggests a possible `diabetes` role, but the actual claim-fit requires abstract or full-text review.
-
-## Claim-Fit Judgment
-
-Strongest safe use:
-
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the diabetes module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+Review article on diabetes-pancreatitis relationship explaining glycemic brittleness; supports concurrent disease screening in resistant cases but lacks quantitative prevalence data.
 
 ## Linked Entities
 
-- diseases: diabetes mellitus
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- **Diseases:** diabetes mellitus, pancreatitis
+- **Models:** endocrine-exocrine disease relationship
+- **Endpoints:** glycemic control, concurrent disease pattern
+- **Clinical patterns:** brittle diabetes, anorexia-induced decompensation

@@ -1,121 +1,96 @@
 ---
 id: src-obesity-085
 type: source
-title: "A prospective investigation of the prevalence and prognostic significance of weight loss and changes in body condition in feline cancer patients⋆"
+title: "A prospective investigation of the prevalence and prognostic significance of weight loss and changes in body condition in feline cancer patients"
 source_kind: paper
 species: feline
-diseases: [obesity]
-models: []
-endpoints: []
+diseases: [obesity, cancer]
+models: [cancer cachexia]
+endpoints: [body condition score, muscle mass, fat mass, survival, prognosis]
 jurisdictions: []
 evidence_level: original-study
 year: 2007
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
-decision_grade: no
+status: extracted
+extraction_depth: full
+verification_status: quoted_fact_weighted
+decision_grade: yes
 language_qa_status: not_applicable
-tags: [obesity, prospective, investigation, prevalence, prognostic, significance, weight, loss]
+pmid: 17451991
+doi: "10.1016/j.jfms.2007.02.005"
+authors: [Baez JL, Michel KE, Sorenmo K, Shofer FS]
+journal: "Journal of Feline Medicine and Surgery"
+tags: [obesity, cancer, cachexia, body-condition-score, muscle-mass, prognosis, survival]
 links:
   doi: "10.1016/j.jfms.2007.02.005"
   url: "https://doi.org/10.1016/j.jfms.2007.02.005"
+  pubmed: "https://pubmed.ncbi.nlm.nih.gov/17451991/"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10832953/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2007."
+    - "57 cats with neoplasia were evaluated prospectively."
+    - "Body condition assessed with nine-point scoring system (BCS): 1=cachectic, 5=optimal, 9=obese."
+    - "Fat mass assessed at multiple sites with four-point scoring systems."
+    - "Muscle mass assessed at three sites with four-point scoring systems."
+    - "Mean BCS in cancer patients: 4.4 ± 2.1 (range cachectic to optimal)."
+    - "Fat mass reduced in both sites assessed in 60% of patients."
+    - "Muscle mass reduced at all three sites in 91% of patients."
+    - "BCS <5 (cachectic/suboptimal): median survival 3.3 months."
+    - "BCS ≥5 (optimal/overweight): median survival 16.7 months (P=0.008)."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Cancer-induced cachexia (primarily muscle loss) is nearly universal in feline cancer patients (91%)."
+    - "Body condition score is a significant prognostic factor in feline cancer; cachectic cats (BCS <5) have 5-fold shorter survival."
+    - "Fat mass is less consistently affected than muscle mass in cancer cachexia."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "This study anchors the cancer cachexia phenotype for obesity module boundary testing."
+    - "Suggests that cancer patients may present as apparently thin/lean rather than obese, complicating obesity assessment."
+    - "Prognostic significance may explain why some lean cats have poor outcomes."
 ---
 
-# A prospective investigation of the prevalence and prognostic significance of weight loss and changes in body condition in feline cancer patients⋆
+# A prospective investigation of the prevalence and prognostic significance of weight loss and changes in body condition in feline cancer patients
 
-## Evidence-Depth Caveat
+## Full Abstract
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+The objectives of this study were to prospectively identify and characterize weight loss and changes in body condition in feline cancer patients and to investigate the prognostic significance of these findings. Fifty-seven cats with neoplasia were evaluated. Body condition was assessed with a nine-point scoring system (BCS) and multiple sites were assessed for muscle and fat mass using four-point scoring systems. Feline cancer patients had a mean BCS of 4.4±2.1 (1=cachectic, 5=optimal, 9=obese). Fat mass was reduced in both sites assessed in 60% of the patients. Muscle mass was reduced at all three sites assessed in 91% of the patients. Feline cancer patients having a BCS <5 had a median survival time (MST) of 3.3 months compared to that of 16.7 months for cats with a BCS of ≥5 (P=0.008).
 
-## Source Check, 2026-05-14
+## Key Data: Body Condition & Prognosis
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Metric | Value | Interpretation |
+|--------|-------|-----------------|
+| N enrolled | 57 cats with neoplasia | Prospective cohort |
+| Mean BCS | 4.4 ± 2.1 | Range cachectic to optimal |
+| Fat mass reduction | 60% | Moderate; less consistent than muscle |
+| Muscle mass reduction | 91% | Highly prevalent; primary cachexia phenotype |
+| **BCS <5 survival (MST)** | **3.3 months** | Cachectic poor prognosis |
+| **BCS ≥5 survival (MST)** | **16.7 months** | Optimal/overweight better prognosis |
+| Significance | P=0.008 | Statistically significant difference |
+| Relative risk (BCS <5) | **5.1× shorter survival** | Clinically substantial |
 
-- DOI metadata resolved: yes
-- Container: Journal of Feline Medicine and Surgery
-- Year: 2007
-- Abstract available in Crossref: yes
+## Assessment for Obesity Module
 
-Use boundary:
+**Primary message for obesity:** Cancer cachexia represents a distinct body composition phenotype where cats are lean/cachectic (BCS <5) with profound muscle loss despite neoplasia. This differs from the typical obesity pathway.
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+**Boundary:** This study assesses cancer patients, not primary obesity. Its relevance to the obesity module is as a boundary case (severe lean phenotype) and as a reminder that low BCS in cancer is prognostically significant.
 
-Abstract lead for scope check only: The objectives of this study were to prospectively identify and characterize weight loss and changes in body condition in feline cancer patients and to investigate the prognostic...
+## Why This Matters For Feline Obesity
+
+While this study focuses on cancer patients, it defines an important boundary case for the obesity module: **cancer cachexia** (catabolic state with profound muscle loss despite low food intake or disease). This phenotype is distinct from primary obesity but relevant for:
+
+1. **Differential diagnosis:** Lean cancer patients (BCS <5) require different management than obese cats
+2. **Body composition assessment:** Muscle loss can mask true obesity state in cancer patients
+3. **Prognostic significance:** BCS is prognostically important across disease contexts
 
 ## One-Line Summary
 
-Candidate obesity source from sheet row 228. Use it for triage until abstract or full-text extraction proves a stronger role.
+Prospective cancer cachexia study defining body condition and muscle loss phenotype; controls obesity module boundary between lean disease-states and primary obesity.
 
-## Why It Matters For Feline Obesity
+## Key Clinical Insight
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-obesity` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
-
-## Key Findings
-
-### quoted_fact
-
-- The intake sheet lists this title: A prospective investigation of the prevalence and prognostic significance of weight loss and changes in body condition in feline cancer patients⋆.
-- The intake sheet locator is: 10.1016/j.jfms.2007.02.005.
-
-### source_supported_conclusion
-
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
-
-### llm_inference
-
-- The title suggests a possible `obesity` role, but the actual claim-fit requires abstract or full-text review.
-
-## Claim-Fit Judgment
-
-Strongest safe use:
-
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the obesity module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+The finding that **91% of cancer cats have muscle mass reduction** while only 60% have fat mass reduction suggests that cancer cachexia is primarily a muscle-wasting disease, not simply a general weight loss. This phenotype should be distinguished from primary obesity assessment.
 
 ## Linked Entities
 
-- diseases: obesity
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- **Diseases:** cancer (primary context), obesity (boundary assessment)
+- **Models:** cancer cachexia, body composition assessment
+- **Endpoints:** body condition score, survival prognosis, muscle/fat composition
+- **Clinical patterns:** catabolic weight loss, muscle wasting, prognostic body condition
