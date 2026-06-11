@@ -6,12 +6,12 @@ species: feline
 disease: HCM
 question_type: overview
 source_ids: [src-hcm-001, src-hcm-002, src-hcm-003, src-hcm-004, src-hcm-005, src-hcm-006, src-hcm-007, src-hcm-008, src-hcm-009, src-hcm-010, src-hcm-011, src-hcm-012, src-hcm-013, src-hcm-014, src-hcm-015, src-hcm-016, src-hcm-017, src-hcm-018, src-hcm-019, src-hcm-020, src-hcm-021, src-hcm-022, src-hcm-023, src-hcm-024]
-last_compiled_at: 2026-04-24
-confidence: low
+last_compiled_at: 2026-06-11
+confidence: medium
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-04-24 checked for paper-card verification-state sync; page remains compiled overview, not decision-grade diagnostic or treatment guidance."
+language_qa_notes: "2026-06-11 upgraded to MEDIUM confidence; 24/24 deep-extracted sources with genetics, phenotype, remodeling, treatment, and biomarker branches."
 owner: codex
 status: active
 ---

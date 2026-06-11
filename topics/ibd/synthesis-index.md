@@ -6,7 +6,7 @@ species: feline
 disease: IBD
 question_type: synthesis
 source_ids: [src-ibd-001, src-ibd-002, src-ibd-003, src-ibd-004, src-ibd-005, src-ibd-006, src-ibd-007, src-ibd-008, src-ibd-009, src-ibd-010, src-ibd-011, src-ibd-012, src-ibd-013, src-ibd-014, src-ibd-015, src-ibd-016, src-ibd-017, src-ibd-018, src-ibd-019, src-ibd-020, src-ibd-021, src-ibd-022, src-ibd-023, src-ibd-024]
-last_compiled_at: 2026-04-23
+last_compiled_at: 2026-06-11
 confidence: medium
 verification_status: compiled
 decision_grade: no
