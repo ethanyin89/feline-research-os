@@ -5,13 +5,13 @@ topic: diabetes
 species: feline
 disease: diabetes mellitus
 question_type: synthesis
-source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-004, src-diabetes-005, src-diabetes-006, src-diabetes-007, src-diabetes-008, src-diabetes-009, src-diabetes-010, src-diabetes-011, src-diabetes-012, src-diabetes-013, src-diabetes-014, src-diabetes-015, src-diabetes-016, src-diabetes-017, src-diabetes-018, src-diabetes-019, src-diabetes-020, src-diabetes-021, src-diabetes-022, src-diabetes-023, src-diabetes-024, src-reg-010, src-reg-011, src-reg-012, src-reg-013]
-last_compiled_at: 2026-04-24
-confidence: low
+source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-004, src-diabetes-005, src-diabetes-006, src-diabetes-007, src-diabetes-008, src-diabetes-009, src-diabetes-010, src-diabetes-011, src-diabetes-012, src-diabetes-013, src-diabetes-014, src-diabetes-015, src-diabetes-016, src-diabetes-017, src-diabetes-018, src-diabetes-019, src-diabetes-020, src-diabetes-021, src-diabetes-022, src-diabetes-023, src-diabetes-024, src-diabetes-025, src-diabetes-085, src-diabetes-118, src-diabetes-119, src-diabetes-120, src-diabetes-121, src-reg-010, src-reg-011, src-reg-012, src-reg-013]
+last_compiled_at: 2026-06-11
+confidence: medium
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-04-24 checked for paper-card verification-state sync; synthesis remains compiled and non-decision-grade clinical guidance."
+language_qa_notes: "2026-06-11 expanded to 30 diabetes sources + 4 regulatory sources; added insulin signaling deficits, pancreatitis bidirectionality, and comparative model evidence."
 owner: codex
 status: active
 ---
@@ -23,15 +23,35 @@ status: active
 | ID | Claim | Level | Source ids | Boundary |
 |---|---|---|---|---|
 | DS1 | Feline diabetes should be treated as a mixed metabolic/endocrine syndrome, not a single remission-protocol story | B | src-diabetes-001, src-diabetes-005, src-diabetes-010, src-diabetes-013, src-diabetes-020, src-diabetes-023 | compiled synthesis; not decision-grade |
-| DS2 | Remission is real but current evidence blocks simple protocol ranking | B | src-diabetes-007, src-diabetes-015, src-diabetes-024 | not decision-grade clinical guidance |
+| DS2 | Remission is real but current evidence blocks simple protocol ranking | B | src-diabetes-007, src-diabetes-015, src-diabetes-024, src-diabetes-085 | not decision-grade clinical guidance |
 | DS3 | SGLT2 is now primary-source anchored for U.S. label/regulatory discussion, but not a treatment winner | B | src-diabetes-011, src-reg-010, src-reg-011, src-reg-012, src-reg-013 | no product superiority claim |
 | DS4 | Strong clinical recommendations still require tighter topic/output-level compression and, where needed, official-label precision | C | src-diabetes-001, src-diabetes-024 | not decision-grade |
+| DS5 | Feline diabetes is associated with ectopic lipid deposition in liver and skeletal muscle | A | src-diabetes-025 | quoted_fact from 54-cat insulin signaling study |
+| DS6 | GLUT-4 and PI3K protein abundance decrease in muscle of diabetic cats, indicating peripheral insulin resistance | A | src-diabetes-025 | molecular mechanism; parallels human T2DM |
+| DS7 | Incretin signaling (GLP-1R, GIP-R) is deficient in untreated diabetic cats | B | src-diabetes-025 | therapeutic target implication; not treatment recommendation |
+| DS8 | Diabetes-pancreatitis relationship is bidirectional; "brittle" glycemic control indicates concurrent pancreatic inflammation | B | src-diabetes-118 | comorbidity screening rationale |
+| DS9 | Feline diabetes has strong comparative value as human T2DM model but model value should not translate directly to cat management | B | src-diabetes-003, src-diabetes-121 | comparative architecture |
+| DS10 | Obese diabetic cats require dual-condition management approach (weight loss + glycemic control) | B | src-diabetes-119 | management architecture; full text needed for protocols |
 
 ## Current Synthesis
 
-Feline diabetes is best started as a reversible-potential disease with chronic metabolic and endocrine constraints. The completed 24 / 24 round-1 extraction pass sharpens the synthesis: remission is real, diet and insulin choices matter, but beta-cell failure, obesity-driven insulin resistance, pancreatitis, endocrine-secondary diabetes, neuropathy, and SGLT2 safety boundaries keep the module from becoming a single remission protocol story. The paper-card verification overlay is now clean at `24/24 deep_extracted`; the remaining gap is no longer card-depth rescue, but stronger topic/output-level compression where ranking, protocol, and recommendation language would otherwise outrun the current compiled layer.
+Feline diabetes is best started as a reversible-potential disease with chronic metabolic and endocrine constraints. The expanded 30-source synthesis sharpens the evidence base:
 
-The next compression pass adds a treatment/regulatory/workup layer: Bexacat and Senvelgo now have primary FDA FOI and DailyMed current-label source cards, so SGLT2 is no longer only a review-abstract regulatory signal. That does not make SGLT2 the treatment winner; it makes candidate selection, ketone monitoring, label wording, and route boundaries more important.
+**Core Mechanism (expanded):**
+- `src-diabetes-025` (2024): First comprehensive insulin signaling study showing GLUT-4/PI3K deficits in muscle, ectopic lipid deposition, and incretin signaling deficits (GLP-1R, GIP-R)
+- Molecular parallels to human T2DM now documented at receptor/signaling level
+- Incretin-based therapies (GLP-1 agonists) emerge as potential therapeutic avenue
+
+**Comorbidity Expansion:**
+- `src-diabetes-118`: Pancreatitis-diabetes bidirectionality with "brittle" glycemic control phenotype
+- `src-diabetes-119`: Obese diabetic cat management review
+- `src-diabetes-120`, `src-diabetes-121`: Comparative model value and species-specific corrections
+
+**Synthesis Status:**
+- 30 diabetes sources + 4 regulatory sources (34 total)
+- Mechanism-overview at HIGH confidence with molecular mechanism evidence
+- Treatment ranking and clinical protocols remain gated pending tighter compression
+- SGLT2 regulatory layer complete (Bexacat/Senvelgo primary FDA sources)
 
 ## First Synthesis Questions
 

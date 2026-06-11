@@ -5,7 +5,7 @@ topic: diabetes
 species: feline
 disease: diabetes mellitus
 question_type: mechanism
-source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-004, src-diabetes-005, src-diabetes-006, src-diabetes-007, src-diabetes-008, src-diabetes-009, src-diabetes-010, src-diabetes-013, src-diabetes-019, src-diabetes-020, src-diabetes-085, src-diabetes-118, src-diabetes-120, src-diabetes-121]
+source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-004, src-diabetes-005, src-diabetes-006, src-diabetes-007, src-diabetes-008, src-diabetes-009, src-diabetes-010, src-diabetes-013, src-diabetes-019, src-diabetes-020, src-diabetes-025, src-diabetes-085, src-diabetes-118, src-diabetes-119, src-diabetes-120, src-diabetes-121]
 last_compiled_at: 2026-06-11
 confidence: high
 verification_status: compiled
