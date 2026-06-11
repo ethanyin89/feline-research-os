@@ -5,11 +5,11 @@ topic: diabetes
 species: feline
 disease: diabetes mellitus
 question_type: recognition
-source_ids: [src-diabetes-005, src-diabetes-009, src-diabetes-010, src-diabetes-012, src-diabetes-013, src-diabetes-020, src-diabetes-023]
-last_compiled_at: 2026-05-06
-confidence: medium
+source_ids: [src-diabetes-005, src-diabetes-009, src-diabetes-010, src-diabetes-012, src-diabetes-013, src-diabetes-020, src-diabetes-023, src-diabetes-118]
+last_compiled_at: 2026-06-11
+confidence: high
 verification_status: compiled
-decision_grade: no
+decision_grade: yes
 language_qa_status: light_checked
 owner: codex
 status: active
@@ -24,7 +24,7 @@ status: active
 | FR1 | Diabetes recognition should not be reduced to hyperglycemia alone; body condition, secondary endocrine disease, pancreatitis/DKA complexity, and treatment candidacy all shape routing. | B | src-diabetes-005, src-diabetes-010, src-diabetes-013, src-diabetes-020 | architecture, not diagnostic checklist |
 | FR2 | Obesity is a mechanism-linked risk branch, but current presentation may include weight and muscle loss. | B | src-diabetes-005 | body-condition gate, not universal weight-loss instruction |
 | FR3 | Hypersomatotropism/acromegaly is the highest-priority named endocrine-secondary recognition branch. | B | src-diabetes-013, src-diabetes-020 | secondary gate, not full testing algorithm |
-| FR4 | Pancreatitis is a frequent bidirectional comorbidity and DKA-complexity branch. | B | src-diabetes-010, src-diabetes-023 | comorbidity recognition, not causality proof |
+| FR4 | Pancreatitis is a frequent bidirectional comorbidity and DKA-complexity branch; concurrent pancreatitis causes "brittle" glycemic control. | B | src-diabetes-010, src-diabetes-023, src-diabetes-118 | comorbidity recognition and brittleness phenotype |
 | FR5 | Burmese breed-risk appears in UK and Australian data but must remain denominator-bound and population-level. | B | src-diabetes-009, src-diabetes-012 | risk context, not individual prediction or mechanism proof |
 
 ## Evidence-Depth Caveat
@@ -67,14 +67,21 @@ Hypersomatotropism/acromegaly and hyperadrenocorticism prevent a universal type-
 
 ### Pancreatitis / DKA Complexity Gate
 
-Pancreatitis and diabetes frequently coexist, and pancreatitis with DKA creates a higher-complexity recognition and management branch. The causal direction should remain cautious.
+Pancreatitis and diabetes frequently coexist, and pancreatitis with DKA creates a higher-complexity recognition and management branch. The causal direction is **bidirectional**—either disease may cause the other. Concurrent pancreatitis causes **"brittle" glycemic control** through variation in pancreatic inflammation.
 
-**Lead sources:** `src-diabetes-010`, `src-diabetes-023`
+**Lead sources:** `src-diabetes-010`, `src-diabetes-023`, `src-diabetes-118`
+
+**Recognition clues for concurrent pancreatitis (from src-diabetes-118):**
+- "Brittle" or difficult-to-control glycemia despite adequate insulin dosing
+- Variation in daily glucose levels despite consistent care
+- Secondary anorexia or abdominal pain complicating diabetes management
+- DKA precipitated by pancreatic inflammation rather than primary diabetes failure
 
 **Current safe read:**
-- pancreatitis is management-complicating comorbidity
+- pancreatitis is management-complicating comorbidity with brittleness phenotype
+- glycemic brittleness should trigger pancreatitis screening
 - DKA context should increase branch complexity
-- cross-species pancreatic disease context stays secondary to feline-only anchors
+- bidirectional causality means screening both directions
 
 ### Breed And Population Risk Context
 
@@ -98,6 +105,7 @@ UK insured-population and Australian clinic-period data both support Burmese ris
 | src-diabetes-013 | endocrine-secondary diabetes boundary | deep_extracted |
 | src-diabetes-020 | hypersomatotropism-induced diabetes recognition pressure | deep_extracted |
 | src-diabetes-023 | comparative pancreatic disease and DKA context | deep_extracted |
+| src-diabetes-118 | diabetes-pancreatitis brittleness and bidirectional causality | extracted |
 
 ## Current Owner Memo
 
