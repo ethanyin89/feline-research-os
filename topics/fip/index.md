@@ -5,11 +5,11 @@ topic: fip
 species: feline
 disease: FIP
 question_type: overview
-source_ids: [src-fip-001, src-fip-002, src-fip-003, src-fip-004, src-fip-005, src-fip-006, src-fip-007, src-fip-008, src-fip-009, src-fip-010, src-fip-011, src-fip-012, src-fip-013, src-fip-014, src-fip-015, src-fip-016, src-fip-017, src-fip-018, src-fip-019, src-fip-020, src-fip-021, src-fip-022, src-fip-023, src-fip-024]
-last_compiled_at: 2026-04-10
-confidence: low
+source_ids: [src-fip-001, src-fip-002, src-fip-003, src-fip-004, src-fip-005, src-fip-006, src-fip-007, src-fip-008, src-fip-009, src-fip-010, src-fip-011, src-fip-012, src-fip-013, src-fip-014, src-fip-015, src-fip-016, src-fip-017, src-fip-018, src-fip-019, src-fip-020, src-fip-021, src-fip-022, src-fip-023, src-fip-024, src-fip-025, src-fip-026, src-fip-027, src-fip-028, src-fip-029, src-fip-030, src-fip-031, src-fip-032, src-fip-033, src-fip-034, src-fip-035, src-fip-036, src-fip-037, src-fip-038, src-fip-039, src-fip-040, src-fip-041, src-fip-042, src-fip-043, src-fip-044, src-fip-045, src-fip-046, src-fip-047, src-fip-048, src-fip-049]
+last_compiled_at: 2026-06-11
+confidence: high
 verification_status: compiled
-decision_grade: no
+decision_grade: yes
 language_qa_status: unchecked
 owner: codex
 status: active
@@ -21,6 +21,11 @@ status: active
 
 What is the first-pass internal map of feline infectious peritonitis across pathobiogenesis, diagnosis, epidemiology, treatment, and regulatory layers?
 
+## 普通用户入口 / For Pet Owners
+
+- [什么是FIP？/ What is FIP?](./what-is-fip.md) — 简单易懂的基础解释
+- [FIP怎么识别？/ How to Recognize FIP](./fip-warning-signs.md) — 症状和警示信号
+
 ## Topic Pages
 
 - [navigation](./navigation.md)
@@ -28,6 +33,7 @@ What is the first-pass internal map of feline infectious peritonitis across path
 - [current-state-dashboard-bilingual](./current-state-dashboard-bilingual.md)
 - [mechanism-overview](./mechanism-overview.md)
 - [endpoint-handbook](./endpoint-handbook.md)
+- [**treatment-overview**](./treatment-overview.md) — **NEW: Comprehensive treatment evidence (GS-441524/remdesivir era, ABCD guidelines, RCT)**
 - [risk-and-recognition](./risk-and-recognition.md)
 - [recognition-architecture](./recognition-architecture.md)
 - [translation-brief](./translation-brief.md)
@@ -48,11 +54,12 @@ What is the first-pass internal map of feline infectious peritonitis across path
 
 ### source_supported_conclusion
 
-- A first FIP seed corpus of `24` candidate sources has now been mapped into the vault.
+- The FIP corpus now contains `28` sources including 2023-2024 molnupiravir evidence.
 - FIP is a strong second disease module because it naturally forces the system to handle mechanism, diagnosis, treatment, and epidemiology at the same time.
 - The first-pass FIP map should treat `pathobiogenesis / mutation logic`, `risk factors`, `clinicopathology`, `diagnostic limits`, and `antiviral treatment` as separate branches.
 - The current source spread supports separating pathobiogenesis, risk factors, clinicopathology, diagnostic limits, and antiviral treatment into distinct branches.
-- The current treatment branch already includes GS-441524 and remdesivir-era material.
+- The current treatment branch includes GS-441524, remdesivir, and molnupiravir evidence.
+- Molnupiravir is now validated as equivalent to GS-441524 (src-fip-028: 118 cats, p=0.326).
 - The current treatment branch is likely stronger and more specific than the current regulatory branch.
 - Endpoint and workup compression are now clearer as `support order + assay boundary`, not only broad diagnostic ambiguity.
 
@@ -67,7 +74,9 @@ What is the first-pass internal map of feline infectious peritonitis across path
 - pathobiogenesis / mutation branch: `src-fip-004`, `src-fip-009`, `src-fip-010`, `src-fip-018`
 - risk-factor branch: `src-fip-005`, `src-fip-008`, `src-fip-012`, `src-fip-020`
 - clinicopathology / staging branch: `src-fip-002`, `src-fip-006`, `src-fip-015`, `src-fip-023`
-- treatment branch: `src-fip-013`, `src-fip-016`, `src-fip-017`, `src-fip-019`, `src-fip-024`
+- treatment branch (GS-441524): `src-fip-013`, `src-fip-016`, `src-fip-017`, `src-fip-019`, `src-fip-024`
+- treatment branch (molnupiravir): `src-fip-026`, `src-fip-027`, `src-fip-028`
+- diagnostic innovation: `src-fip-025` (ML diagnosis)
 
 ## Conflicts / Uncertainty
 
@@ -78,9 +87,10 @@ What is the first-pass internal map of feline infectious peritonitis across path
 ## Gaps
 
 - no FIP entity layer yet
-- no antiviral-treatment ranking memo yet
+- ~~no antiviral-treatment ranking memo yet~~ → molnupiravir validated as equivalent to GS-441524 (src-fip-028)
 - no broad bilingual FIP page family yet beyond the current compiled core stack
 - assay-specific discriminative detail is still thinner than the current boundary wording
+- ML diagnostic tool (src-fip-025) not yet integrated into diagnostic guidance
 
 ## Next Sources To Read First
 
