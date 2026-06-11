@@ -2,10 +2,13 @@
 id: topic-cancer-index
 type: topic
 topic: cancer
+source_ids: [src-cancer-001, src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]
 language: zh
-last_compiled_at: 2026-05-30
+last_compiled_at: 2026-06-11
 verification_status: compiled
 decision_grade: no
+confidence: medium
+language_qa_notes: "2026-06-11 expanded with oncogenomics review (src-cancer-001); 72 deep_extracted sources now available."
 owner: codex
 status: architecture-compiled
 ---
@@ -31,17 +34,22 @@ Do not treat this page as a compiled oncology guide yet. The current safe role i
 | First-pass source cards | 102/102 accepted cancer rows created |
 | Source index | active |
 | Reading plan | active |
-| Metadata / abstract check | 23/102 cards abstract-weighted; 6 deep-extracted |
+| Metadata / abstract check | **97% complete** — 93 abstract + 6 full = 99/102; 3 not PubMed indexed |
 | Structured abstract worksheets | 10-card sample complete |
-| Deep extraction | `src-cancer-002`, `src-cancer-003`, `src-cancer-004`, `src-cancer-008`, `src-cancer-019`, and `src-cancer-040` sample complete |
+| Deep extraction | 6 anchors complete: `src-cancer-002`, `-003`, `-004`, `-008`, `-019`, `-040` |
 | Topic synthesis | architecture compiled; treatment/prognosis still gated |
+| Branch pages | mammary (55 claims), lymphoma (31), oral SCC (32) updated 2026-06-03 |
 
 ## Promoted Topic Branches
 
+- [What is feline cancer?](what-is-cancer.md) — plain-language overview
 - [Synthesis index](synthesis-index.md)
+- [Current state dashboard](current-state-dashboard.md)
 - [Suspected cancer workflow](suspected-cancer-workflow.md)
-- [Lymphoma](lymphoma.md)
-- [Mammary carcinoma](mammary-carcinoma.md)
+- [Lymphoma](lymphoma.md) — 31 claims, FeLV biology updated 2026-06-03
+- [Mammary carcinoma](mammary-carcinoma.md) — 55 claims, pathways/immune/nanomedicine updated 2026-06-03
+- [Oral squamous cell carcinoma](oral-squamous-cell-carcinoma.md) — 32 claims, immune/targeting updated 2026-06-03
+- [Injection site sarcoma (FISS)](injection-site-sarcoma.md)
 - [COX and prognosis marker caveats](cox-prognosis-markers.md)
 - [Registry and prevalence](registry-and-prevalence.md)
 

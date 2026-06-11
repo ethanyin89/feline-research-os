@@ -2,10 +2,14 @@
 id: topic-cancer-current-state-dashboard
 type: topic
 topic: cancer
+source_ids: [src-cancer-001, src-cancer-002, src-cancer-003, src-cancer-004, src-cancer-008, src-cancer-019, src-cancer-040]
 language: zh
-last_compiled_at: 2026-05-30
+last_compiled_at: 2026-06-11
 verification_status: compiled
 decision_grade: no
+confidence: medium
+language_qa_status: light_checked
+language_qa_notes: "2026-06-11 refreshed; 72 deep_extracted sources confirmed."
 owner: codex
 status: architecture-compiled
 ---
@@ -16,25 +20,25 @@ status: architecture-compiled
 
 | Area | State | Note |
 |---|---|---|
-| Intake | active | 111 sheet rows classified in the 2026-05-30 manifest |
-| Existing overlap | partial | one row matches existing `src-obesity-085` cachexia/body-condition source |
-| False positives | known risk | acronym, algorithm, gene/protein, and vector rows need exclusion review |
-| Source cards | first-pass complete | `src-cancer-001..102` exist |
-| Metadata / abstract check | complete | 29/102 cards are `abstract_weighted`; 67 remain `title_only`; 6 are `deep_extracted` |
-| Structured abstract worksheets | sample complete | 10 abstract-only worksheets exist |
-| Full-text availability | sample complete | 14 branch-control candidates checked across five samples; `src-cancer-007`, `src-cancer-021`, and `src-cancer-046` remain access/full-text blocked |
-| Deep extraction | sample complete | `src-cancer-002` is the registry denominator anchor; `src-cancer-004` is the molecular branch-map anchor; `src-cancer-008` is the lymphoma pathology anchor; `src-cancer-019` is the mammary/TNBC model anchor; `src-cancer-003` is the COX/prognosis marker anchor; `src-cancer-040` is the practitioner workflow anchor |
-| Reader-facing synthesis | architecture compiled | 8 branch pages compiled (workflow, mammary, lymphoma, oral SCC, FISS, COX, registry, index); treatment and prognosis guidance remain gated |
-| Branch-control candidates | mapped | 5 open synthesis questions mapped to candidate sources; MDPI open-access extraction priority identified |
+| Intake | **complete** | 102 source cards created |
+| Deep extraction | **72 sources complete** | 72/102 deep_extracted (71%); 30 ingested (subscription-blocked) |
+| Oncogenomics | **src-cancer-001 integrated** | TP53 mutations, c-KIT in MCT (60%), BRCA1/2, low/high-grade lymphoma response |
+| Mammary carcinoma | **55 claims / 34 sources** | TNBC model, prognostic markers, comparative oncology |
+| Lymphoma | **31 claims / 16 sources** | FeLV biology, GI shift, grade-dependent response |
+| Oral SCC | **32 claims** | Immune/targeting updated |
+| Synthesis-index | **13 claims / 72 sources** | Genomic foundation + branch architecture |
+| Reader-facing synthesis | architecture compiled | 8 branch pages (workflow, mammary, lymphoma, oral SCC, FISS, COX, registry, index) |
+| Treatment/prognosis | **gated** | Decision-grade guidance requires additional clinical outcome sources |
+| Confidence | **MEDIUM** | Comprehensive architecture; treatment selection remains gated |
 
 ## Compiled Architecture Pages
 
 - [Synthesis index](synthesis-index.md)
 - [Suspected cancer workflow](suspected-cancer-workflow.md)
-- [Lymphoma](lymphoma.md) — updated with FeLV-shift, demographics, molecular context
-- [Mammary carcinoma](mammary-carcinoma.md)
-- [Oral squamous cell carcinoma](oral-squamous-cell-carcinoma.md) — new, etiology branch
-- [Injection site sarcoma (FISS)](injection-site-sarcoma.md) — new, adjuvant hypothesis branch
+- [Lymphoma](lymphoma.md) — 31 claims, FeLV transmission/subgroups/susceptibility added 2026-06-03
+- [Mammary carcinoma](mammary-carcinoma.md) — 55 claims, AKT/CXCR4/TIL-TAM/nanomedicine added 2026-06-03
+- [Oral squamous cell carcinoma](oral-squamous-cell-carcinoma.md) — 32 claims, podoplanin/immune/MCT inhibitor added 2026-06-03
+- [Injection site sarcoma (FISS)](injection-site-sarcoma.md) — adjuvant hypothesis branch
 - [COX and prognosis marker caveats](cox-prognosis-markers.md)
 - [Registry and prevalence](registry-and-prevalence.md)
 
