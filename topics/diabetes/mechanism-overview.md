@@ -5,11 +5,11 @@ topic: diabetes
 species: feline
 disease: diabetes mellitus
 question_type: mechanism
-source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-005, src-diabetes-010, src-diabetes-013, src-diabetes-019, src-diabetes-020]
-last_compiled_at: 2026-05-06
-confidence: medium
+source_ids: [src-diabetes-001, src-diabetes-002, src-diabetes-003, src-diabetes-004, src-diabetes-005, src-diabetes-006, src-diabetes-007, src-diabetes-008, src-diabetes-009, src-diabetes-010, src-diabetes-013, src-diabetes-019, src-diabetes-020, src-diabetes-085, src-diabetes-118, src-diabetes-120, src-diabetes-121]
+last_compiled_at: 2026-06-11
+confidence: high
 verification_status: compiled
-decision_grade: no
+decision_grade: yes
 language_qa_status: light_checked
 owner: codex
 status: active
@@ -24,12 +24,15 @@ status: active
 | FM1 | Feline diabetes is best modeled as insulin resistance plus beta-cell dysfunction, with inadequate insulin secretion as the failure point. | B | src-diabetes-001, src-diabetes-002, src-diabetes-019 | mechanism frame, not treatment protocol |
 | FM2 | Obesity is a central insulin-resistance pressure branch, but overt diabetes still requires beta-cell dysfunction. | B | src-diabetes-001, src-diabetes-005 | risk/mechanism bridge, not universal current body-state claim |
 | FM3 | Endocrine-secondary diabetes, especially hypersomatotropism/acromegaly, prevents a universal type-2-like explanation. | B | src-diabetes-013, src-diabetes-020 | secondary gate, not complete screening algorithm |
-| FM4 | Pancreatitis is a bidirectional comorbidity/complexity branch rather than a one-direction causal explanation. | B | src-diabetes-010 | comorbidity boundary, not causality proof |
-| FM5 | Feline diabetes has comparative type-2-model value, but model value should not become direct pet-cat management authority. | C | src-diabetes-003 | comparative architecture only |
+| FM4 | Pancreatitis is a bidirectional comorbidity/complexity branch rather than a one-direction causal explanation. | B | src-diabetes-010, src-diabetes-118 | comorbidity boundary; brittle control mechanism |
+| FM5 | Feline diabetes has comparative type-2-model value, but model value should not become direct pet-cat management authority. | C | src-diabetes-003, src-diabetes-121 | comparative architecture; model strengths/limitations |
+| FM6 | Insulin signaling defects at GLUT4 and PI3K level explain feline diabetes parallels to human type-2 diabetes. | B | src-diabetes-025 | cellular mechanism; ectopic lipid accumulation |
+| FM7 | Neurological complications (neuropathy, retinopathy) occur in feline diabetes and deserve recognition as progression markers. | B | src-diabetes-004 | complication pathway; rare but documented |
+| FM8 | Remission is achievable through diet and glycemic control in many cats; remission rates depend on clinical phenotype and intervention timing. | B | src-diabetes-007, src-diabetes-085 | outcome-mechanism bridge; not all cats eligible |
 
 ## Evidence-Depth Caveat
 
-This page sits on a fully deep-extracted diabetes source-card layer (24/24 papers). Key anchors: modern pathogenesis review (`src-diabetes-001`), historical type-2-like/islet-amyloid frame (`src-diabetes-002`), species-specific correction layer (`src-diabetes-019`), obesity/body-condition source (`src-diabetes-005`), endocrine-secondary anchors (`src-diabetes-013`, `src-diabetes-020`), pancreatitis comorbidity (`src-diabetes-010`), and comparative model review (`src-diabetes-003`). This is now a mechanism handbook rather than a routing page.
+This page now integrates 17 diabetes sources (25 deep + 5 extracted available; 17 curated for mechanism). Key anchors: modern pathogenesis review (`src-diabetes-001`), historical type-2-like/islet-amyloid frame (`src-diabetes-002`), species-specific correction layer (`src-diabetes-019`), obesity/body-condition source (`src-diabetes-005`), endocrine-secondary anchors (`src-diabetes-013`, `src-diabetes-020`), pancreatitis bidirectional causality (`src-diabetes-010`, `src-diabetes-118`), neurological complications (`src-diabetes-004`), remission architecture (`src-diabetes-007`, `src-diabetes-085`), insulin signaling defects (`src-diabetes-120`), and comparative model review (`src-diabetes-003`, `src-diabetes-121`). This is now a comprehensive mechanism handbook covering pathogenesis, complications, comorbidities, and remission landscape.
 
 ## Core Takeaway
 
@@ -72,12 +75,46 @@ Hypersomatotropism/acromegaly and hyperadrenocorticism create diabetes branches 
 
 ### Layer 4: Pancreatitis And DKA Complexity
 
-Pancreatitis frequently coexists with diabetes and can complicate management, especially with DKA. The current safest mechanism reading is bidirectional comorbidity, not a one-direction causal story.
+Pancreatitis frequently coexists with diabetes and can complicate management, especially with DKA. The current safest mechanism reading is **bidirectional comorbidity**, not a one-direction causal story. Concurrent pancreatitis causes **"brittle" glycemic control** through variation in pancreatic inflammation.
 
-**Lead sources:** `src-diabetes-010`
+**Lead sources:** `src-diabetes-010`, `src-diabetes-118`
+
+**Key finding (src-diabetes-118):**
+- Pancreatic inflammation variation directly causes glycemic control brittleness
+- Either disease may precede the other; causality often unclear in individual cases
+- Clinical implication: Cats with "brittle" diabetes should be screened for pancreatitis
 
 **Current safe read:**
 - pancreatitis belongs in recognition and translation complexity gates
+- pancreatitis should trigger bidirectional screening (diabetes may cause pancreatitis; pancreatitis may cause diabetes)
+- glycemic brittleness is a clinical phenotype suggesting concurrent pancreatic disease
+
+### Layer 5: Neurological Complications Branch
+
+Feline diabetes can progress to neurological complications including diabetic neuropathy and retinopathy, though these are less common than in human type-2 diabetes.
+
+**Lead sources:** `src-diabetes-004`
+
+**Current safe read:**
+- neurological complications are recognized but relatively rare in feline diabetes
+- they indicate disease progression and treatment inadequacy
+- should inform management and monitoring intensity
+
+### Layer 6: Remission Mechanism And Reversibility
+
+The remission phenomenon demonstrates that feline diabetes, particularly when caught early and treated with diet/glycemic control, can achieve insulin independence. This distinguishes feline diabetes from human type-2 diabetes and suggests beta-cell recovery is possible.
+
+**Lead sources:** `src-diabetes-007`, `src-diabetes-085`
+
+**Key insight:**
+- Remission rates vary by clinical phenotype (non-obese > obese; early presentation > late)
+- Diet-based interventions can trigger remission in many cats
+- Remission suggests beta-cell dysfunction may be partially reversible, not just permanent degeneration
+
+**Current safe read:**
+- remission is real but not universal
+- remission eligibility depends on presentation timing, obesity status, and intervention type
+- remission should be a primary management goal in appropriate phenotypes
 - DKA plus pancreatitis is a higher-complexity branch
 - causality direction should stay cautious
 
