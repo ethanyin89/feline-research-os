@@ -12,8 +12,8 @@ evidence_level: review
 year: 2015
 status: extracted
 extraction_depth: full
-verification_status: quoted_fact_weighted
-decision_grade: yes
+verification_status: abstract_weighted
+decision_grade: no
 language_qa_status: not_applicable
 pmid: 25586806
 doi: "10.1111/jsap.12295"

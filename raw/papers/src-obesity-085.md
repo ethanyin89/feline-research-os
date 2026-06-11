@@ -12,8 +12,8 @@ evidence_level: original-study
 year: 2007
 status: extracted
 extraction_depth: full
-verification_status: quoted_fact_weighted
-decision_grade: yes
+verification_status: abstract_weighted
+decision_grade: no
 language_qa_status: not_applicable
 pmid: 17451991
 doi: "10.1016/j.jfms.2007.02.005"

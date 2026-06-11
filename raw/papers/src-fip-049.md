@@ -10,11 +10,30 @@ endpoints: [nsp14, nsp16, methyltransferase, pathogenicity, attenuation, vaccine
 jurisdictions: []
 evidence_level: original-study
 status: extracted
+extraction_depth: partial
+verification_status: abstract_weighted
+decision_grade: no
+language_qa_status: not_applicable
 pmid: 40923786
 doi: 10.1128/jvi.00839-25
 year: 2025
 journal: "Journal of Virology"
 authors: [Jiao Z, Li J, Wang P, Yan Y, Fang L, Chen Y, Hu X, Shi Y, Peng G]
+links:
+  doi: "10.1128/jvi.00839-25"
+  url: "https://doi.org/10.1128/jvi.00839-25"
+  pmc: ""
+  local_assets: []
+evidence_policy:
+  quoted_fact:
+    - "FIPV MTase-deficient mutants (dnsp14, dnsp16) showed 75% mortality reduction in experimental cat infection."
+    - "dnsp14 produced high neutralizing antibody titers (>1:156) at both high and low doses."
+  source_supported_conclusion:
+    - "Live attenuated MTase-deficient FIPV mutants are immunogenic candidates for vaccine development."
+    - "Dual nsp14/nsp16 targeting provides potential for stable viral attenuation."
+  llm_inference:
+    - "Rational MTase design may overcome previous FIP vaccine challenges."
+    - "In vivo 75% mortality reduction suggests clinical promise pending further safety studies."
 ---
 
 ## Abstract

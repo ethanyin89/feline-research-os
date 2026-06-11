@@ -130,7 +130,7 @@ verification_status: deep_extracted
 ```markdown
 ## Deep Extraction, {today}
 
-[Deep extraction worksheet](../../system/indexes/{source-id}-deep-extraction-round1.md)
+`system/indexes/{source-id}-deep-extraction-round1.md`
 
 Safe promoted role:
 - {bullet points from Phase 3}

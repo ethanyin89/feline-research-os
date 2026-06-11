@@ -60,7 +60,7 @@ If new findings warrant a dedicated section:
 ```markdown
 ### {Topic Name} ({Extraction Status})
 
-`{source-id}` ({year} {journal}) {one-line description}. [Deep extraction worksheet](../../system/indexes/{source-id}-deep-extraction-round1.md).
+`{source-id}` ({year} {journal}) {one-line description}. See `system/indexes/{source-id}-deep-extraction-round1.md`.
 
 **Key findings:**
 
