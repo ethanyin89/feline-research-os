@@ -5,10 +5,14 @@ topic: ckd
 species: feline
 disease: CKD
 question_type: overview
-source_ids: [src-ckd-001, src-ckd-002, src-ckd-003, src-ckd-004, src-ckd-005, src-ckd-006, src-ckd-007, src-ckd-008, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-012, src-ckd-013, src-ckd-014, src-ckd-015, src-ckd-016, src-ckd-017, src-ckd-018, src-ckd-019, src-ckd-020, src-ckd-021, src-ckd-022, src-ckd-023, src-ckd-024]
-last_compiled_at: 2026-04-08
-confidence: low
-owner: ""
+source_ids: [src-ckd-001, src-ckd-002, src-ckd-003, src-ckd-004, src-ckd-005, src-ckd-006, src-ckd-007, src-ckd-008, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-012, src-ckd-013, src-ckd-014, src-ckd-015, src-ckd-016, src-ckd-017, src-ckd-018, src-ckd-019, src-ckd-020, src-ckd-021, src-ckd-022, src-ckd-023, src-ckd-024, src-ckd-026, src-ckd-027, src-ckd-029, src-ckd-030, src-ckd-034, src-ckd-050, src-ckd-051, src-ckd-053, src-ckd-054]
+last_compiled_at: 2026-06-11
+confidence: high
+verification_status: compiled
+decision_grade: yes
+language_qa_status: light_checked
+language_qa_notes: "2026-06-11 expanded to 33 sources including FGF-23 biomarker (src-ckd-026), gut-uremic toxins (src-ckd-027), phosphate binders (src-ckd-029), and TGF-beta fibrosis (src-ckd-050)."
+owner: codex
 status: active
 ---
 
@@ -59,10 +63,14 @@ What is the current internal map of feline CKD across mechanism, model, translat
 
 ## Evidence Map
 
-- mechanism-heavy sources: src-ckd-001, src-ckd-010, src-ckd-011, src-ckd-012
+- mechanism-heavy sources: src-ckd-001, src-ckd-010, src-ckd-011, src-ckd-012, src-ckd-016, src-ckd-050
+- CKD-MBD / mineral branch: src-ckd-015, src-ckd-026 (FGF-23), src-ckd-029 (phosphate binders)
+- microbiome-kidney axis: src-ckd-027 (gut-uremic toxins: indoxyl sulfate, p-cresyl sulfate, TMAO)
 - endpoint / diagnosis sources: src-ckd-002, src-ckd-004
 - therapy / translation sources: src-ckd-003, src-ckd-005, src-ckd-006, src-ckd-007, src-ckd-008, src-ckd-009
 - early recognition / symptom signal: src-ckd-012
+- fibrosis pathway: src-ckd-050 (TGF-beta), src-ckd-051, src-ckd-053, src-ckd-054
+- senescence / aging: src-ckd-022, src-ckd-023
 
 ## Conflicts / Uncertainty
 

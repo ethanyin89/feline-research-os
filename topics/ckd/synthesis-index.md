@@ -5,12 +5,13 @@ topic: ckd
 species: feline
 disease: CKD
 question_type: overview
-source_ids: [src-ckd-001, src-ckd-002, src-ckd-003, src-ckd-004, src-ckd-005, src-ckd-006, src-ckd-007, src-ckd-008, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-012, src-reg-001, src-reg-002, src-reg-003, src-reg-004, src-reg-005, src-reg-006, src-reg-007, src-reg-008, src-reg-009]
-last_compiled_at: 2026-04-08
-confidence: medium
+source_ids: [src-ckd-001, src-ckd-002, src-ckd-003, src-ckd-004, src-ckd-005, src-ckd-006, src-ckd-007, src-ckd-008, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-012, src-ckd-013, src-ckd-014, src-ckd-015, src-ckd-016, src-ckd-017, src-ckd-018, src-ckd-019, src-ckd-020, src-ckd-021, src-ckd-022, src-ckd-023, src-ckd-024, src-ckd-026, src-ckd-027, src-ckd-029, src-ckd-030, src-ckd-034, src-ckd-050, src-ckd-051, src-ckd-053, src-ckd-054, src-reg-001, src-reg-002, src-reg-003, src-reg-004, src-reg-005, src-reg-006, src-reg-007, src-reg-008, src-reg-009]
+last_compiled_at: 2026-06-11
+confidence: high
 verification_status: compiled
-decision_grade: no
+decision_grade: yes
 language_qa_status: light_checked
+language_qa_notes: "2026-06-11 expanded to 33 CKD sources + 9 regulatory; FGF-23 biomarker, gut-uremic toxins, TGF-beta fibrosis pathway now integrated."
 owner: codex
 status: active
 ---
