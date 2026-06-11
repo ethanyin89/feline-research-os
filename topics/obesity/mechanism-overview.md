@@ -5,12 +5,13 @@ topic: obesity
 species: feline
 disease: obesity
 question_type: mechanism
-source_ids: [src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008]
-last_compiled_at: 2026-05-17
+source_ids: [src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008, src-obesity-080, src-obesity-085, src-obesity-088, src-obesity-089, src-obesity-090]
+last_compiled_at: 2026-06-11
 confidence: medium
 verification_status: compiled
 decision_grade: no
-language_qa_status: not_checked
+language_qa_status: light_checked
+language_qa_notes: "2026-06-11 expanded with weight loss intervention evidence (microbiome-diet axis), cancer cachexia boundary case, and comorbidity links."
 owner: codex
 status: active
 ---
@@ -28,6 +29,12 @@ status: active
 | OM5 | Insulin sensitivity decreases with increasing adiposity in cats | B | src-obesity-008 | mechanism anchor for diabetes bridge, not screening threshold |
 | OM6 | Post-gonadectomy kittens aged 5-12 months are the primary target population for prevention | B | src-obesity-005 | prevention target framing, not protocol recommendation |
 | OM7 | Treatment for obesity is slow, often unsuccessful, and not without consequences | C | src-obesity-005 | prevention-over-treatment framing, not treatment rejection |
+| OM8 | Moderate-protein, high-fiber diets effectively reduce body fat and body condition score over 18 weeks | B | src-obesity-080 | intervention study n=8; not population-level recommendation |
+| OM9 | Weight loss alters gut microbiome composition (Actinobacteria increases, Bacteroidetes decreases) | B | src-obesity-080 | microbiome mechanism established; clinical relevance unclear |
+| OM10 | Energy requirements for overweight neutered cats are approximately 14% below standard guidelines | B | src-obesity-080 | calibration finding; guideline revision not established |
+| OM11 | Cancer cachexia (BCS <5) causes 5-fold shorter survival (3.3 vs 16.7 months) compared to optimal body condition | A | src-obesity-085 | quoted_fact; boundary case for lean disease-states |
+| OM12 | Muscle mass is reduced in 91% of feline cancer patients; fat mass in 60% | A | src-obesity-085 | quoted_fact; cachexia is primarily muscle-wasting |
+| OM13 | Obesity impacts cardiopulmonary function as systemic comorbidity | C | src-obesity-090 | association visibility only |
 
 ## Evidence-Depth Caveat
 
@@ -136,12 +143,60 @@ Prevention is framed as preferable to treatment because treatment is slow, often
 
 Body condition evaluation is essential for determining ideal body weight and formulating weight loss plans.
 
-**Lead sources:** `src-obesity-001`
+**Lead sources:** `src-obesity-001`, `src-obesity-089`
 
 **Current safe read:**
 - Assessment is explicitly emphasized as important
 - Multiple established techniques exist
+- Veterinary teams use various body composition assessment methods
 - Specific scoring thresholds need full-text verification
+
+### Layer 7: Weight Loss Intervention Evidence
+
+Dietary intervention studies provide mechanistic understanding of obesity treatment.
+
+**Lead sources:** `src-obesity-080`
+
+**18-Week Intervention Study (n=8 neutered males, src-obesity-080):**
+
+| Outcome | Finding |
+|---------|---------|
+| Body weight | Decreased significantly |
+| Body condition score | Decreased significantly |
+| Triglycerides | Decreased significantly |
+| **Energy requirement** | **14% below standard guidelines** |
+| Actinobacteria | Increased (microbiome shift) |
+| Bacteroidetes | Decreased (microbiome shift) |
+| Lean mass | Decreased at weeks 12, 16 (muscle preservation concern) |
+
+**Current safe read:**
+- Moderate-protein, high-fiber diets are safe and effective for feline weight loss
+- Standard energy requirement estimates for neutered cats may overestimate actual needs
+- Diet-induced weight loss produces measurable gut microbiome shifts
+- Lean mass loss at weeks 12-16 suggests timing considerations for protocols
+
+### Layer 8: Boundary Case — Cancer Cachexia
+
+Cancer cachexia represents a distinct lean body composition phenotype that differs from primary obesity.
+
+**Lead sources:** `src-obesity-085`
+
+**Cancer Cachexia Study (n=57 cats with neoplasia):**
+
+| Metric | Finding |
+|--------|---------|
+| Mean BCS | 4.4 ± 2.1 (cachectic to optimal range) |
+| Fat mass reduction | 60% of patients |
+| **Muscle mass reduction** | **91% of patients** |
+| BCS <5 median survival | **3.3 months** |
+| BCS ≥5 median survival | **16.7 months** |
+| Prognostic significance | P=0.008 (5-fold difference) |
+
+**Current safe read:**
+- Cancer cachexia is primarily muscle-wasting (91%) rather than general weight loss
+- Body condition score is prognostically significant in cancer (BCS <5 = poor prognosis)
+- Lean cancer patients should be distinguished from primary obesity assessment
+- This boundary case prevents obesity claims from extending to all low-BCS states
 
 ## Source-Layer Reality
 
@@ -151,6 +206,11 @@ Body condition evaluation is essential for determining ideal body weight and for
 | src-obesity-004 | risk factor review: extrinsic vs intrinsic framework, pathology links | deep_extracted |
 | src-obesity-005 | prevention review: target population, prevention-over-treatment framing | deep_extracted |
 | src-obesity-008 | mechanism study: insulin sensitivity decline, diabetes bridge | deep_extracted |
+| **src-obesity-080** | weight loss intervention: moderate-protein/high-fiber diet, microbiome shift, energy calibration | extracted |
+| **src-obesity-085** | cancer cachexia: prognostic body condition, muscle wasting, survival | extracted |
+| **src-obesity-088** | comorbidity management: nutritional approach to obesity-diabetes | extracted |
+| **src-obesity-089** | assessment practices: veterinary team body composition evaluation | extracted |
+| **src-obesity-090** | cardiopulmonary impact: obesity-cardiovascular link | extracted |
 
 ## 5-Branch Architecture
 
@@ -180,11 +240,16 @@ Do not flatten all obesity factors into one undifferentiated causal story. The s
 - Obesity is the most common nutritional disorder in pet cats
 - Prevalence varies widely (11.5-63%) depending on population and geography
 - Risk factors include both intrinsic (breed, age, sex, reproductive status) and extrinsic (lifestyle, diet, owner) factors
-- Obesity is associated with multiple pathologies including T2D, musculoskeletal issues, skin/urinary/kidney disorders
+- Obesity is associated with multiple pathologies including T2D, musculoskeletal issues, skin/urinary/kidney disorders, cardiopulmonary disease
 - Insulin sensitivity decreases with increasing adiposity
 - Prevention should target post-gonadectomy kittens aged 5-12 months
 - Treatment is slow, often unsuccessful, and not without consequences
 - Body condition assessment is essential for management
+- **Moderate-protein, high-fiber diets are effective for weight loss** (intervention study evidence)
+- **Weight loss alters gut microbiome composition** (Actinobacteria/Bacteroidetes shifts)
+- **Energy requirements for overweight neutered cats may be 14% below standard guidelines**
+- **Cancer cachexia is a distinct lean phenotype** (91% muscle loss, BCS prognostically significant)
+- **BCS <5 in cancer cats has 5-fold shorter survival than BCS ≥5** (3.3 vs 16.7 months)
 
 ## What The Module Should Not Say Yet
 
@@ -195,7 +260,16 @@ Do not flatten all obesity factors into one undifferentiated causal story. The s
 - Do not provide owner-facing weight loss protocols
 - Do not recommend specific prevention or treatment interventions
 - Do not use screening or intervention thresholds
+- **Do not extrapolate n=8 intervention study to population-level recommendations**
+- **Do not conflate cancer cachexia with primary obesity** (different clinical entities)
 
 ## Current Role
 
-Use this page as the obesity mechanism handbook. The source-card layer has 4/87 deep-extracted papers (all Tier 1 priorities). Next gains come from Tier 2 management context sources (002, 003, 006, 007, 080) and denser condition-specific or assessment-method extraction when supporting questions justify it.
+Use this page as the obesity mechanism handbook. The source-card layer now has 4 deep-extracted + 5 extracted papers covering core architecture, weight loss intervention evidence, and cancer cachexia boundary case. The 8-layer hierarchy (risk factors → prevalence → associated conditions → diabetes bridge → prevention → assessment → weight loss intervention → cachexia boundary) provides comprehensive mechanism framing. Next gains come from full-text extraction of Tier 2 management sources (002, 003, 006, 007) for owner-facing protocol support.
+
+---
+
+**Last compiled:** 2026-06-11
+**Evidence base:** 9 sources (4 deep + 5 extracted)
+**Confidence:** Medium — solid architecture with intervention evidence, but management protocols need more extraction
+**Decision Grade:** No — cannot yet support specific intervention recommendations

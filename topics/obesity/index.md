@@ -5,13 +5,13 @@ topic: obesity
 species: feline
 disease: obesity
 question_type: overview
-source_ids: [src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008, src-diabetes-005]
-last_compiled_at: 2026-05-17
+source_ids: [src-obesity-001, src-obesity-004, src-obesity-005, src-obesity-008, src-obesity-080, src-obesity-085, src-obesity-088, src-obesity-089, src-obesity-090, src-diabetes-005]
+last_compiled_at: 2026-06-11
 confidence: medium
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
-language_qa_notes: "2026-05-17 upgraded to medium confidence after Tier 1 deep extraction complete (4/87 sources: 001, 004, 005, 008)."
+language_qa_notes: "2026-06-11 expanded with weight loss intervention evidence, cancer cachexia boundary, comorbidity links. 4 deep + 5 extracted sources in mechanism layer."
 owner: codex
 status: active
 ---
@@ -30,6 +30,7 @@ The module can now support bounded architecture pages. Tier 2 management context
 
 ## Topic Pages
 
+- [what-is-obesity](./what-is-obesity.md) — plain-language explanation for "what is feline obesity?" queries (bilingual)
 - [mechanism-overview](./mechanism-overview.md) — 5-branch architecture handbook
 - [risk-and-recognition](./risk-and-recognition.md) — risk factor framework and recognition handbook
 - [prevention](./prevention.md) — prevention-over-treatment strategy and target populations
