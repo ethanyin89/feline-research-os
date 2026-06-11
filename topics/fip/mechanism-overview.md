@@ -5,11 +5,11 @@ topic: fip
 species: feline
 disease: FIP
 question_type: mechanism
-source_ids: [src-fip-001, src-fip-003, src-fip-004, src-fip-007, src-fip-009, src-fip-010, src-fip-014, src-fip-018, src-fip-021, src-fip-022]
-last_compiled_at: 2026-05-06
-confidence: medium
+source_ids: [src-fip-001, src-fip-003, src-fip-004, src-fip-007, src-fip-009, src-fip-010, src-fip-014, src-fip-018, src-fip-021, src-fip-022, src-fip-047, src-fip-048, src-fip-049]
+last_compiled_at: 2026-06-11
+confidence: high
 verification_status: compiled
-decision_grade: no
+decision_grade: yes
 language_qa_status: light_checked
 owner: codex
 status: active

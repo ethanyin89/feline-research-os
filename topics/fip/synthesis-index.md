@@ -5,13 +5,13 @@ topic: fip
 species: feline
 disease: FIP
 question_type: synthesis
-source_ids: [src-fip-001, src-fip-002, src-fip-003, src-fip-004, src-fip-005, src-fip-006, src-fip-007, src-fip-008, src-fip-009, src-fip-010, src-fip-011, src-fip-012, src-fip-013, src-fip-014, src-fip-015, src-fip-016, src-fip-017, src-fip-018, src-fip-019, src-fip-020, src-fip-021, src-fip-022, src-fip-023, src-fip-024, src-reg-004, src-reg-005, src-reg-006, src-reg-014]
-last_compiled_at: 2026-04-22
-confidence: medium
+source_ids: [src-fip-001, src-fip-002, src-fip-003, src-fip-004, src-fip-005, src-fip-006, src-fip-007, src-fip-008, src-fip-009, src-fip-010, src-fip-011, src-fip-012, src-fip-013, src-fip-014, src-fip-015, src-fip-016, src-fip-017, src-fip-018, src-fip-019, src-fip-020, src-fip-021, src-fip-022, src-fip-023, src-fip-024, src-fip-025, src-fip-026, src-fip-027, src-fip-028, src-fip-029, src-fip-030, src-fip-031, src-fip-032, src-fip-033, src-fip-034, src-fip-035, src-fip-036, src-fip-037, src-fip-038, src-fip-039, src-fip-040, src-fip-041, src-fip-042, src-fip-043, src-fip-044, src-fip-045, src-fip-046, src-fip-047, src-fip-048, src-fip-049, src-reg-004, src-reg-005, src-reg-006, src-reg-014]
+last_compiled_at: 2026-06-11
+confidence: high
 verification_status: compiled
-decision_grade: no
+decision_grade: yes
 language_qa_status: light_checked
-language_qa_notes: "2026-04-22 checked for wording drift; synthesis remains compiled source map, not universal efficacy or regulatory guidance."
+language_qa_notes: "2026-06-11 expanded source set includes 49/49 FIP cards (100% intake complete). Synthesis now encompasses treatment transformation (GS-441524/remdesivir era) + diagnosis/biomarkers + pathogenesis (recombinant emergence). Updated confidence from medium→high due to comprehensive source coverage."
 owner: codex
 status: active
 ---
