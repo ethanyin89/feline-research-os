@@ -97,6 +97,111 @@ WEIGHT_TIER_LABELS: dict[str, tuple[float, float]] = {
     "low": (0.0, 4.0),        # case reports or abstract-only
 }
 
+# External search integration (gated)
+try:
+    from external_search import (
+        search_pubmed,
+        search_crossref,
+        ExternalSearchConfig,
+        ExternalSearchResult,
+        ExternalSearchResponse,
+    )
+    EXTERNAL_SEARCH_AVAILABLE = True
+except ImportError:
+    try:
+        from .external_search import (
+            search_pubmed,
+            search_crossref,
+            ExternalSearchConfig,
+            ExternalSearchResult,
+            ExternalSearchResponse,
+        )
+        EXTERNAL_SEARCH_AVAILABLE = True
+    except ImportError:
+        EXTERNAL_SEARCH_AVAILABLE = False
+
+# Sparse result threshold for triggering external search
+SPARSE_RESULT_THRESHOLD = 3
+
+
+def is_local_search_sparse(
+    search_results: list,
+    loaded_source_ids: list[str],
+    threshold: int = SPARSE_RESULT_THRESHOLD,
+) -> bool:
+    """
+    Determine if local search results are too sparse to produce a good answer.
+
+    Args:
+        search_results: Results from vault_search
+        loaded_source_ids: Source IDs already loaded
+        threshold: Minimum number of useful results to avoid being sparse
+
+    Returns:
+        True if results are below threshold, suggesting external search may help
+    """
+    # Count results that actually loaded new source cards
+    useful_count = len(loaded_source_ids)
+    return useful_count < threshold
+
+
+def build_external_search_trace(
+    question: str,
+    disease: str,
+    max_results: int = 5,
+) -> dict:
+    """Search free literature APIs and return a research-trace entry."""
+    external_query = (
+        f"feline {disease} {question}"
+        if disease and disease != "unknown"
+        else f"feline cat {question}"
+    )
+    if not EXTERNAL_SEARCH_AVAILABLE:
+        return {
+            "step": "External search (PubMed/Crossref)",
+            "detail": f"query={external_query}; results=0; status=unavailable",
+            "items": [],
+        }
+
+    config = ExternalSearchConfig(allow_external=True, max_results=max_results)
+    trace_items: list[dict] = []
+    errors: list[str] = []
+    total_results = 0
+
+    for source, search_fn in (
+        ("pubmed", search_pubmed),
+        ("crossref", search_crossref),
+    ):
+        response = search_fn(external_query, config)
+        if response.error:
+            errors.append(f"{source}={response.error}")
+            continue
+        total_results += len(response.results)
+        for result in response.results[:3]:
+            trace_items.append({
+                "source": source,
+                "title": (
+                    result.title[:60] + "..."
+                    if len(result.title) > 60
+                    else result.title
+                ),
+                "pmid": result.pmid,
+                "doi": result.doi,
+                "external": True,
+            })
+
+    status = "needs_intake" if trace_items else "no_results"
+    detail = (
+        f"query={external_query}; results={total_results}; status={status}"
+    )
+    if errors:
+        detail += f"; errors={' | '.join(errors)}"
+    return {
+        "step": "External search (PubMed/Crossref)",
+        "detail": detail,
+        "items": trace_items,
+    }
+
 
 def compute_source_weight(evidence_level: str, verification_status: str) -> float:
     """Compute combined weight score for a source."""
@@ -1880,6 +1985,7 @@ def run_query_core(
     max_hops: int = 3,
     model: str = MODEL,
     on_status: Optional[Callable[[str], None]] = None,
+    allow_external_search: bool = False,
 ) -> dict:
     """
     Route, hop, and synthesize a research question.
@@ -2047,6 +2153,23 @@ def run_query_core(
             f"scope={search_scope}; limit={search_limit}; results={len(search_results)}",
             search_trace_items,
         )
+
+        # Check if local search is sparse and external search is allowed
+        loaded_source_ids_after_search = [
+            sid for sid, src_path in source_index.items() if src_path in loaded_paths
+        ]
+        if (
+            allow_external_search
+            and EXTERNAL_SEARCH_AVAILABLE
+            and is_local_search_sparse(search_results, loaded_source_ids_after_search)
+        ):
+            _status("Local results sparse, searching PubMed/Crossref...")
+            external_trace = build_external_search_trace(question, disease)
+            add_trace(
+                external_trace["step"],
+                external_trace["detail"],
+                external_trace["items"],
+            )
 
     if preferred_source_ids:
         preferred_trace_items: list[dict] = []

@@ -11,12 +11,14 @@ import os
 import tempfile
 import textwrap
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parent))
 
 from query import (
     _chat,
     build_source_index,
+    build_external_search_trace,
     build_slug,
     compact_source_card_context,
     compact_topic_page_context,
@@ -26,6 +28,7 @@ from query import (
     heuristic_files_for_route,
     heuristic_question_type,
     infer_disease_from_question,
+    is_local_search_sparse,
     is_broad_explanation_question,
     list_saved_answers,
     markdown_section,
@@ -45,6 +48,7 @@ from query import (
     _figure_type_from_filename,
     resolve_local_assets,
 )
+from external_search import ExternalSearchResponse, ExternalSearchResult
 from search import vault_search, format_results_for_llm
 from compile_trigger import find_downstream_files, build_recompile_queue
 from run_acceptance_checklist import classify_runtime_blocker
@@ -73,6 +77,61 @@ def test(name: str, fn):
         results.append((name, False, str(e)))
         print(f"  {FAIL}  {name}")
         print(f"        {e}")
+
+
+def _external_result(source: str, title: str, doi: str = "", pmid: str = ""):
+    return ExternalSearchResult(
+        source=source,
+        title=title,
+        authors=[],
+        year="2026",
+        doi=doi,
+        pmid=pmid,
+        abstract="",
+        journal="",
+        relevance_score=1.0,
+    )
+
+
+def _external_response(source: str, results: list[ExternalSearchResult]):
+    return ExternalSearchResponse(
+        query="query",
+        source=source,
+        results=results,
+        total_found=len(results),
+        search_time_ms=1,
+        gated=True,
+    )
+
+
+def _test_is_local_search_sparse_uses_loaded_sources():
+    assert is_local_search_sparse([{"id": "src-1"}] * 10, ["src-1", "src-2"])
+    assert not is_local_search_sparse([], ["src-1", "src-2", "src-3"])
+
+
+def _test_build_external_search_trace_marks_results_for_intake():
+    pubmed = _external_response(
+        "pubmed",
+        [_external_result("pubmed", "Feline hyperthyroidism trial", pmid="123")],
+    )
+    crossref = _external_response(
+        "crossref",
+        [_external_result("crossref", "Radioiodine outcomes", doi="10.1/example")],
+    )
+    with (
+        patch("query.search_pubmed", return_value=pubmed),
+        patch("query.search_crossref", return_value=crossref),
+    ):
+        trace = build_external_search_trace(
+            "hyperthyroidism treatment",
+            "unknown",
+        )
+
+    assert trace["step"] == "External search (PubMed/Crossref)"
+    assert "status=needs_intake" in trace["detail"]
+    assert "feline cat hyperthyroidism treatment" in trace["detail"]
+    assert len(trace["items"]) == 2
+    assert all(item["external"] for item in trace["items"])
 
 
 # ---------------------------------------------------------------------------
@@ -1426,6 +1485,8 @@ if __name__ == "__main__":
     test("merge_routing_with_guardrails: synthesis override", _test_merge_routing_with_guardrails_overrides_qtype_and_prefixes_files)
     test("merge_routing_with_guardrails: claim verification surface", _test_merge_routing_with_guardrails_claim_verification_prefers_verify_surface)
     test("source_ids_from_topic_frontmatter: fills overview baseline", _test_source_ids_from_topic_frontmatter_fills_overview_baseline)
+    test("external search: sparse uses loaded sources", _test_is_local_search_sparse_uses_loaded_sources)
+    test("external search: trace marks results for intake", _test_build_external_search_trace_marks_results_for_intake)
 
     test("parse_json_block: raw JSON", _test_parse_json_block_raw)
     test("parse_json_block: fenced markdown", _test_parse_json_block_fenced)

@@ -6,7 +6,7 @@ Usage:
     ANTHROPIC_API_KEY=<key> streamlit run scripts/app.py
 
 Opens localhost:8501 in your browser. Type a research question, get a
-sourced answer with provenance tags. Optionally auto-save answers from the
+sourced answer with provenance tags. Optionally save answers from the
 sidebar.
 """
 
@@ -54,6 +54,7 @@ sync_streamlit_secrets_to_env()
 SCRIPTS_DIR = Path(__file__).parent
 VAULT_ROOT = SCRIPTS_DIR.parent
 sys.path.insert(0, str(SCRIPTS_DIR))
+sys.path.insert(0, str(VAULT_ROOT))
 
 from query import (
     MODEL,
@@ -66,6 +67,8 @@ from query import (
     build_source_titles,
     build_source_weights,
     compute_confidence,
+    build_external_search_trace,
+    is_local_search_sparse,
     list_saved_answers,
     parse_source_ids_from_answer,
     run_query_core,
@@ -74,13 +77,36 @@ from query import (
 from expert_review import build_expert_review_prompt, expert_review_stage_label
 from search import vault_search
 
-# Business decision tools
-from claim_evidence import evaluate_claim, format_claim_card_markdown
-from endpoint_decision import generate_endpoint_memo, format_memo_markdown
-from opportunity_brief import generate_opportunity_brief, format_brief_markdown
-from gap_queue import GapQueue
-from local_answer_surfaces import DISEASE_MATURITY
+from local_answer_surfaces import build_ckd_researcher_overview, is_researcher_overview_question
+from research_case_ui import render_research_cases
+from research_record_ui import render_research_records
+from harness_loop import get_harness_loop, format_harness_summary
+from core import (
+    build_promotion_draft,
+    extract_claim_candidates,
+    ValidatedClaimStore,
+)
 
+# Phase 4: ResultPresentation contract (feature-flagged)
+try:
+    from core.result_presentation import (
+        build_evidence_profile,
+        build_source_displays,
+        build_result_presentation,
+        build_next_actions,
+        translate_provenance,
+        render_user_facing_provenance,
+        detect_presentation_state,
+        get_state_warning,
+        ResultPresentation,
+        SourceDisplay,
+        EvidenceProfile,
+        ActionType,
+    )
+    from core.source_metadata import load_source_metadata
+    RESULT_PRESENTATION_AVAILABLE = True
+except ImportError:
+    RESULT_PRESENTATION_AVAILABLE = False
 
 ENABLE_OLLAMA = os.environ.get("ENABLE_OLLAMA", "").lower() in {"1", "true", "yes", "on"}
 BACKEND_LABELS = {
@@ -95,6 +121,14 @@ OPENROUTER_STREAMLIT_COMMAND = (
     "OPENROUTER_MODEL=openai/gpt-4.1-mini "
     ".venv/bin/python -m streamlit run scripts/app.py"
 )
+
+# ---------------------------------------------------------------------------
+# Phase 4: Feature flag for new result presentation
+# ---------------------------------------------------------------------------
+
+# Set to True to enable new ResultPresentation-based rendering
+# The old renderer remains available for rollback
+USE_RESULT_PRESENTATION_V2 = os.environ.get("USE_RESULT_PRESENTATION_V2", "1").lower() in {"1", "true", "yes", "on"}
 
 # ---------------------------------------------------------------------------
 # Provenance badge rendering
@@ -1664,6 +1698,8 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "fip_treatment_evidence"
     if disease in TREATMENT_BOUNDARY_SOURCES and is_treatment_question(question):
         return f"{disease}_treatment_boundary"
+    if disease == "ckd" and is_researcher_overview_question(question):
+        return "ckd_researcher_overview"
     if disease == "ckd" and is_local_explanation_question(question):
         return "ckd_overview"
     if disease == "fip" and is_local_explanation_question(question):
@@ -1693,6 +1729,7 @@ def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]
         disease = surface.removesuffix("_treatment_boundary")
         return build_treatment_boundary_explanation(disease, chinese)
     builders = {
+        "ckd_researcher_overview": build_ckd_researcher_overview,
         "ckd_overview": build_ckd_local_explanation,
         "ckd_endpoint": build_ckd_endpoint_explanation,
         "fip_overview": build_fip_local_explanation,
@@ -1718,6 +1755,7 @@ def run_app_local_query_core(
     preferred_source_ids: Optional[list[str]] = None,
     search_limit: int = 8,
     on_status=None,
+    allow_external_search: bool = False,
 ) -> dict:
     """No-API local search path used by the Streamlit app."""
     if on_status:
@@ -1854,11 +1892,15 @@ def run_app_local_query_core(
             "detail": f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}; api_calls=0",
             "items": [{"source_id": sid} for sid in loaded_source_ids[:12]],
         },
-        {
-            "step": "Returned local answer",
-            "detail": f"mode={'local_explanation' if explanation_surface else 'free_retrieval'}; surface={explanation_surface or 'none'}; api_calls=0; results={len(selected_results)}",
-        },
     ]
+    if allow_external_search and is_local_search_sparse(results, loaded_source_ids):
+        if on_status:
+            on_status("Local results sparse, searching PubMed/Crossref...")
+        research_trace.append(build_external_search_trace(question, disease))
+    research_trace.append({
+        "step": "Returned local answer",
+        "detail": f"mode={'local_explanation' if explanation_surface else 'free_retrieval'}; surface={explanation_surface or 'none'}; api_calls=0; results={len(selected_results)}",
+    })
 
     return {
         "answer": answer,
@@ -2016,8 +2058,9 @@ def render_expert_review_loop(
     confidence: str,
     source_ids: list[str],
     key_prefix: str,
+    harness_result: Optional[dict] = None,
 ) -> None:
-    """Expose the manual expert-review loop for one rendered answer."""
+    """Expose harness verification results and manual expert-review loop."""
     prompt = build_expert_review_prompt(
         question=question,
         answer=answer,
@@ -2028,11 +2071,95 @@ def render_expert_review_loop(
     )
     stage = expert_review_stage_label()
 
-    with st.expander("Expert review loop", expanded=False):
+    # Determine verification status for display
+    status_icons = {
+        "passed": ("✓", "#4ade80", "Passed"),
+        "failed": ("✗", "#f87171", "Failed"),
+        "needs_human_review": ("⚠", "#fbbf24", "Needs Review"),
+        "pending": ("○", "#94a3b8", "Pending"),
+    }
+    verification_status = harness_result.get("verification_status", "pending") if harness_result else None
+    has_harness = harness_result is not None
+
+    with st.expander("验证结果 / Expert Review", expanded=has_harness and verification_status != "passed"):
+        # Show harness verification results if available
+        if has_harness:
+            icon, color, label = status_icons.get(verification_status, ("?", "#94a3b8", "Unknown"))
+            st.markdown(
+                f"""
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px;background:#1e293b;border-radius:8px;border-left:4px solid {color}">
+                  <span style="font-size:24px;color:{color}">{icon}</span>
+                  <div>
+                    <div style="font-weight:600;color:{color}">{label}</div>
+                    <div style="font-size:12px;color:#8b90a0">
+                      Task: {html.escape(harness_result.get('task_type', 'unknown'))} ·
+                      Depth: {html.escape(harness_result.get('search_depth', 'unknown'))}
+                    </div>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            # Search depth contract
+            depth_satisfied = harness_result.get("search_depth_satisfied", True)
+            depth_icon = "✓" if depth_satisfied else "⚠"
+            depth_color = "#4ade80" if depth_satisfied else "#fbbf24"
+            st.markdown(
+                f"""
+                <div style="font-size:13px;color:#8b90a0;margin-bottom:8px">
+                  <span style="color:{depth_color}">{depth_icon}</span> Search depth contract:
+                  <span style="color:{depth_color}">{'Satisfied' if depth_satisfied else 'Not satisfied'}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            # Gap descriptions
+            gap_descriptions = harness_result.get("gap_descriptions", [])
+            if gap_descriptions:
+                st.markdown(
+                    "<div class='vault-panel-label' style='margin-top:12px'>Gaps identified</div>",
+                    unsafe_allow_html=True,
+                )
+                for gap in gap_descriptions[:5]:
+                    st.markdown(
+                        f"<div style='font-size:13px;color:#fbbf24;margin-left:8px'>· {html.escape(gap)}</div>",
+                        unsafe_allow_html=True,
+                    )
+                if len(gap_descriptions) > 5:
+                    st.markdown(
+                        f"<div style='font-size:12px;color:#64748b;margin-left:8px'>...and {len(gap_descriptions) - 5} more</div>",
+                        unsafe_allow_html=True,
+                    )
+
+            # Verification messages
+            verification_messages = harness_result.get("verification_messages", [])
+            if verification_messages:
+                st.markdown(
+                    "<div class='vault-panel-label' style='margin-top:12px'>Verification checks</div>",
+                    unsafe_allow_html=True,
+                )
+                for msg in verification_messages[:6]:
+                    # Parse message format: "✓ check_name: message" or "✗ check_name: message"
+                    msg_color = "#4ade80" if msg.startswith("✓") else "#f87171" if msg.startswith("✗") else "#94a3b8"
+                    st.markdown(
+                        f"<div style='font-size:13px;color:{msg_color};margin-left:8px'>{html.escape(msg)}</div>",
+                        unsafe_allow_html=True,
+                    )
+                if len(verification_messages) > 6:
+                    st.markdown(
+                        f"<div style='font-size:12px;color:#64748b;margin-left:8px'>...and {len(verification_messages) - 6} more</div>",
+                        unsafe_allow_html=True,
+                    )
+
+            st.markdown("<hr style='border-color:#334155;margin:16px 0'>", unsafe_allow_html=True)
+
+        # Manual review section (original content)
         st.markdown(
             f"""
             <div class="vault-inline-note">
-              This is a reusable manual review loop: answer → domain expert critique → claim-level write-back decision.
+              Manual review loop: answer → domain expert critique → claim-level write-back decision.
               Current state: <code>{html.escape(stage)}</code>. Expert chat is review input, not source evidence.
             </div>
             """,
@@ -2109,6 +2236,385 @@ def render_sources_section(source_ids: list[str]) -> None:
         )
 
 
+# ---------------------------------------------------------------------------
+# Phase 4: V2 Rendering Functions (ResultPresentation contract)
+# ---------------------------------------------------------------------------
+
+def load_full_source_metadata(source_ids: list[str]) -> list[dict]:
+    """
+    Load complete source metadata including DOI, PMID, verification_status.
+
+    Returns list of dicts suitable for build_source_displays().
+    """
+    return load_source_metadata(VAULT_ROOT, source_ids)
+
+
+def render_verification_badge(harness_result: Optional[dict]) -> None:
+    """Render a compact verification status badge next to the evidence profile."""
+    if not harness_result:
+        return
+
+    status_map = {
+        "passed": ("✓", "#4ade80", "验证通过"),
+        "failed": ("✗", "#f87171", "验证失败"),
+        "needs_human_review": ("⚠", "#fbbf24", "需要审核"),
+        "pending": ("○", "#94a3b8", "待验证"),
+    }
+
+    status = harness_result.get("verification_status", "pending")
+    icon, color, label = status_map.get(status, ("?", "#94a3b8", "未知"))
+    depth_satisfied = harness_result.get("search_depth_satisfied", True)
+    depth_icon = "✓" if depth_satisfied else "⚠"
+    depth_color = "#4ade80" if depth_satisfied else "#fbbf24"
+
+    badge_html = f"""
+    <div style="display:inline-flex;align-items:center;gap:8px;margin:8px 0;padding:6px 12px;background:rgba(30,30,35,0.6);border-radius:4px;font-size:12px;">
+        <span style="color:{color};font-weight:500;">{icon} {html.escape(label)}</span>
+        <span style="color:#64748b;">|</span>
+        <span style="color:{depth_color};">{depth_icon} 深度合约{'满足' if depth_satisfied else '不满足'}</span>
+    </div>
+    """
+    st.markdown(badge_html, unsafe_allow_html=True)
+
+
+def render_depth_contract_warning(harness_result: Optional[dict]) -> None:
+    """Render a prominent warning when depth contract is not satisfied in Deep/Audit modes."""
+    if not harness_result:
+        return
+
+    depth_satisfied = harness_result.get("search_depth_satisfied", True)
+    search_depth = harness_result.get("search_depth", "standard")
+
+    # Only show prominent warning for Deep and Audit modes when contract not satisfied
+    if depth_satisfied or search_depth not in ("deep", "evidence_audit"):
+        return
+
+    depth_failures = harness_result.get("search_depth_failures", [])
+    depth_label = "深度研究" if search_depth == "deep" else "证据审计"
+
+    warning_html = f"""
+    <div style="margin:12px 0;padding:12px 16px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:20px">⚠️</span>
+            <span style="font-weight:600;color:#fbbf24">{depth_label}模式深度合约未满足</span>
+        </div>
+        <div style="font-size:13px;color:#94a3b8;margin-bottom:8px">
+            此模式要求更多来源或来源多样性，当前结果可能不够全面。
+        </div>
+    """
+
+    if depth_failures:
+        warning_html += "<div style='font-size:12px;color:#8b90a0'>"
+        for failure in depth_failures[:3]:
+            warning_html += f"<div>· {html.escape(failure)}</div>"
+        warning_html += "</div>"
+
+    warning_html += """
+        <div style="margin-top:12px;font-size:12px;color:#64748b">
+            建议: 尝试更具体的问题，或启用外部搜索获取更多来源
+        </div>
+    </div>
+    """
+    st.markdown(warning_html, unsafe_allow_html=True)
+
+
+def render_evidence_profile_v2(profile: "EvidenceProfile") -> None:
+    """Render factual evidence profile (replaces confidence badges)."""
+    if not RESULT_PRESENTATION_AVAILABLE:
+        return
+
+    summary = profile.get_summary_text()
+    authority_label = "自动生成，未经人工审核" if profile.authority_state.value == "automated" else "已经人工审核"
+
+    # Build profile HTML
+    profile_html = f"""
+    <div class="vault-evidence-profile" style="margin:12px 0;padding:12px 16px;background:rgba(30,30,35,0.8);border:1px solid rgba(255,255,255,0.08);border-radius:6px;">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:13px;color:#8b90a0;">
+            <span>{html.escape(summary)}</span>
+            <span class="evidence-depth-tag" style="font-size:11px;opacity:0.7;">{html.escape(authority_label)}</span>
+        </div>
+    """
+
+    # Add provenance breakdown if there's content
+    breakdown = profile.get_provenance_breakdown()
+    if breakdown:
+        profile_html += """
+        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:16px;font-size:12px;">
+            <span style="color:#6b7280;">答案构成:</span>
+        """
+        for item in breakdown:
+            profile_html += f"""
+            <span style="color:#8b90a0;">{item['icon']} {html.escape(item['label'])}: {item['count']}处</span>
+            """
+        profile_html += "</div>"
+
+    profile_html += "</div>"
+
+    # Add sparse warning if needed
+    if profile.is_sparse():
+        profile_html += """
+        <div style="margin:8px 0;padding:8px 12px;background:rgba(202,138,4,0.1);border-left:3px solid #ca8a04;font-size:12px;color:#ca8a04;">
+            ⚠️ 证据较薄 — 来源数量有限，建议进一步查证
+        </div>
+        """
+
+    st.markdown(profile_html, unsafe_allow_html=True)
+
+
+def render_source_card_v2(card: "SourceDisplay") -> None:
+    """Render a single source card with canonical link."""
+    if not RESULT_PRESENTATION_AVAILABLE:
+        return
+
+    # Build link element
+    link_html = ""
+    if card.has_valid_link():
+        link_text = card.get_link_text()
+        link_html = f"""<a href="{html.escape(card.canonical_url)}" target="_blank" rel="noopener"
+            style="color:#60a5fa;text-decoration:none;font-size:12px;">[{link_text} ↗]</a>"""
+    else:
+        link_html = '<span style="color:#6b7280;font-size:12px;">链接不可用</span>'
+
+    # Year text
+    year_text = f" | {card.publication_year}" if card.publication_year else ""
+
+    metadata_bits = []
+    if card.source_family_label:
+        metadata_bits.append(f"家族：{html.escape(card.source_family_label)}")
+    if card.species_label:
+        metadata_bits.append(f"种属：{html.escape(card.species_label)}")
+    if card.decision_grade_label:
+        metadata_bits.append(f"决策：{html.escape(card.decision_grade_label)}")
+    if card.safest_use:
+        metadata_bits.append(f"最安全用途：{html.escape(card.safest_use)}")
+    if not metadata_bits and card.publish_date:
+        metadata_bits.append(f"发布日期：{html.escape(card.publish_date)}")
+
+    metadata_line = ""
+    if metadata_bits:
+        metadata_line = (
+            "<div style=\"margin-top:6px;font-size:12px;color:#8b90a0;line-height:1.5;\">"
+            + " · ".join(metadata_bits)
+            + "</div>"
+        )
+
+    card_html = f"""
+    <div class="vault-source-card" style="margin:8px 0;padding:10px 14px;background:rgba(30,30,35,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:6px;">
+        <div style="font-size:14px;color:#e5e7eb;margin-bottom:4px;">{html.escape(card.title)}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:#8b90a0;">
+            <span class="depth-tag" style="background:rgba(22,163,74,0.12);color:#16a34a;padding:2px 6px;border-radius:3px;">{html.escape(card.evidence_depth_label)}</span>
+            <span>{html.escape(card.source_type_label)}{year_text}</span>
+            {link_html}
+        </div>
+        {metadata_line}
+    </div>
+    """
+    st.markdown(card_html, unsafe_allow_html=True)
+
+
+def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
+    """Render sources section with canonical links (v2)."""
+    if not source_cards:
+        return
+
+    st.markdown(
+        "<div class='vault-panel-label' style='margin-top:20px;margin-bottom:8px'>来源文献</div>",
+        unsafe_allow_html=True,
+    )
+
+    # Show first 4 expanded, rest collapsed
+    for card in source_cards[:4]:
+        render_source_card_v2(card)
+
+    if len(source_cards) > 4:
+        with st.expander(f"查看更多 ({len(source_cards) - 4} 篇)", expanded=False):
+            for card in source_cards[4:]:
+                render_source_card_v2(card)
+
+
+def render_next_actions_v2(actions: list) -> None:
+    """Render task-specific next actions."""
+    if not actions:
+        return
+
+    st.markdown(
+        "<div class='vault-panel-label' style='margin-top:20px;margin-bottom:8px'>下一步</div>",
+        unsafe_allow_html=True,
+    )
+
+    cols = st.columns(min(len(actions), 2))
+    for i, action in enumerate(actions):
+        with cols[i % 2]:
+            st.markdown(
+                f"""
+                <div style="padding:10px 14px;background:rgba(30,30,35,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:6px;margin-bottom:8px;">
+                    <span style="font-size:13px;color:#e5e7eb;">{html.escape(action.label)}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+
+def build_presentation_from_answer(
+    answer: str,
+    question: str,
+    source_ids: list[str],
+    loaded_source_ids: list[str],
+    confidence: str,
+    disease: str = "",
+    research_trace: list[dict] | None = None,
+) -> "ResultPresentation":
+    """
+    Build ResultPresentation from existing answer data.
+
+    This bridges the old query output format to the new presentation contract.
+    """
+    if not RESULT_PRESENTATION_AVAILABLE:
+        return None
+
+    # Load full source metadata
+    all_source_ids = loaded_source_ids or source_ids
+    sources = load_full_source_metadata(all_source_ids)
+
+    # Count provenance from answer
+    counts = provenance_counts(answer)
+    claims = [
+        *[{"provenance": "quoted_fact"} for _ in range(counts["quoted"])],
+        *[{"provenance": "source_supported_conclusion"} for _ in range(counts["supported"])],
+        *[{"provenance": "llm_inference"} for _ in range(counts["inference"])],
+    ]
+
+    # Strip legacy footer for clean lead
+    cleaned = strip_legacy_footer(answer)
+
+    # Build presentation
+    return build_result_presentation(
+        title="研究回答",
+        subtitle=f"基于 {len(sources)} 篇来源",
+        lead=cleaned[:500] if len(cleaned) > 500 else cleaned,
+        sources=sources,
+        claims=claims,
+        boundary_notice="",
+        topic=disease or "feline-research",
+        surface_type="vault",
+        audience="ordinary",
+        language="zh",
+        authority_state="automated",
+    )
+
+
+def render_answer_block_v2(
+    answer: str,
+    confidence: str,
+    figures_used: list[dict],
+    key_prefix: str,
+    source_ids: Optional[list[str]] = None,
+    loaded_source_ids: Optional[list[str]] = None,
+    question: str = "",
+    disease: str = "",
+    question_type: str = "",
+    research_trace: Optional[list[dict]] = None,
+    harness_result: Optional[dict] = None,
+) -> None:
+    """
+    Render answer using ResultPresentation contract (V2).
+
+    This is the new renderer that uses evidence profiles instead of confidence badges.
+    """
+    if not RESULT_PRESENTATION_AVAILABLE:
+        # Fall back to v1 if module not available
+        render_answer_block(
+            answer=answer,
+            confidence=confidence,
+            figures_used=figures_used,
+            key_prefix=key_prefix,
+            source_ids=source_ids,
+            loaded_source_ids=loaded_source_ids,
+            question=question,
+            disease=disease,
+            question_type=question_type,
+            research_trace=research_trace,
+            harness_result=harness_result,
+        )
+        return
+
+    source_ids = source_ids or []
+    loaded_source_ids = loaded_source_ids or []
+
+    # Build presentation
+    presentation = build_presentation_from_answer(
+        answer=answer,
+        question=question,
+        source_ids=source_ids,
+        loaded_source_ids=loaded_source_ids,
+        confidence=confidence,
+        disease=disease,
+        research_trace=research_trace,
+    )
+
+    # Render translated provenance with paper titles, never internal source IDs.
+    cleaned_answer = strip_legacy_footer(answer)
+    visible_answer = render_user_facing_provenance(
+        cleaned_answer,
+        presentation.source_cards,
+        html_output=True,
+    )
+    export_answer = render_user_facing_provenance(
+        cleaned_answer,
+        presentation.source_cards,
+        html_output=False,
+    )
+    st.markdown(visible_answer, unsafe_allow_html=True)
+    copy_button(export_answer, key=f"{key_prefix}-copy")
+
+    # Evidence profile (replaces trust block)
+    render_evidence_profile_v2(presentation.evidence_profile)
+
+    # Verification badge (from harness loop)
+    render_verification_badge(harness_result)
+
+    # Depth contract warning for Deep/Audit modes
+    render_depth_contract_warning(harness_result)
+
+    # Research trace (unchanged)
+    render_research_trace(research_trace)
+
+    # Expert review loop with harness results
+    render_expert_review_loop(
+        question=question,
+        answer=answer,
+        disease=disease,
+        question_type=question_type,
+        confidence=confidence,
+        source_ids=source_ids or loaded_source_ids,
+        key_prefix=key_prefix,
+        harness_result=harness_result,
+    )
+
+    # Figures (unchanged)
+    described_figs = [f for f in figures_used if f.get("described_in_answer")]
+    if described_figs:
+        st.divider()
+        source_titles = get_source_titles()
+        st.markdown(
+            "<div class='vault-panel-label' style='margin-bottom:12px'>Figures referenced in this answer</div>",
+            unsafe_allow_html=True,
+        )
+        cols = st.columns(min(len(described_figs), 3))
+        for i, fig in enumerate(described_figs):
+            fig_path = VAULT_ROOT / fig["file"]
+            if fig_path.exists():
+                with cols[i % 3]:
+                    fig_title = source_titles.get(fig["source_id"], "来源图表")
+                    st.image(str(fig_path), caption=fig_title)
+
+    # Sources with canonical links (v2)
+    render_sources_section_v2(presentation.source_cards)
+
+    # Next actions
+    render_next_actions_v2(presentation.next_actions)
+
+
 def provenance_counts(answer: str) -> dict[str, int]:
     """Count answer provenance tags for the visible trust block."""
     return {
@@ -2170,26 +2676,49 @@ def render_research_trace(research_trace: Optional[list[dict]]) -> None:
         for i, entry in enumerate(research_trace, 1):
             step = html.escape(str(entry.get("step", f"Step {i}")))
             detail = html.escape(str(entry.get("detail", "")))
+
+            # Check if this is an external search step
+            is_external_step = "External" in step or "PubMed" in step or "Crossref" in step
+            step_style = "border-left:3px solid #60a5fa;padding-left:8px" if is_external_step else ""
+
             st.markdown(
-                f"<div class='vault-trace-step'><code>{i}</code><strong>{step}</strong><span>{detail}</span></div>",
+                f"<div class='vault-trace-step' style='{step_style}'><code>{i}</code><strong>{step}</strong><span>{detail}</span></div>",
                 unsafe_allow_html=True,
             )
             items = entry.get("items") or []
             if items:
                 rows: list[str] = []
                 for item in items[:8]:
-                    label = item.get("source_id") or item.get("id") or item.get("file") or "item"
-                    meta_parts = []
-                    if "matches" in item:
-                        meta_parts.append(f"{item['matches']} matches")
-                    if "loaded" in item:
-                        meta_parts.append("loaded" if item["loaded"] else "not loaded")
-                    if item.get("file") and label != item.get("file"):
-                        meta_parts.append(str(item["file"]))
-                    meta = " · ".join(meta_parts)
-                    rows.append(
-                        f"<div class='vault-trace-item'><span>{html.escape(str(label))}</span><em>{html.escape(meta)}</em></div>"
-                    )
+                    # Handle external items with special styling
+                    is_external = item.get("external", False) or item.get("source") in ("pubmed", "crossref")
+
+                    if is_external:
+                        # External result: show title and source badge
+                        title = item.get("title", "Unknown title")
+                        source = item.get("source", "external").upper()
+                        doi = item.get("doi", "")
+                        pmid = item.get("pmid", "")
+                        ref = f"DOI:{doi}" if doi else (f"PMID:{pmid}" if pmid else "")
+                        rows.append(
+                            f"<div class='vault-trace-item' style='border-left:2px solid #60a5fa;padding-left:8px;margin-left:8px'>"
+                            f"<span style='color:#60a5fa;font-size:10px;font-weight:600;margin-right:6px'>{source}</span>"
+                            f"<span>{html.escape(str(title))}</span>"
+                            f"<em style='color:#94a3b8'>{html.escape(ref)} · needs intake</em></div>"
+                        )
+                    else:
+                        # Regular vault item
+                        label = item.get("source_id") or item.get("id") or item.get("file") or "item"
+                        meta_parts = []
+                        if "matches" in item:
+                            meta_parts.append(f"{item['matches']} matches")
+                        if "loaded" in item:
+                            meta_parts.append("loaded" if item["loaded"] else "not loaded")
+                        if item.get("file") and label != item.get("file"):
+                            meta_parts.append(str(item["file"]))
+                        meta = " · ".join(meta_parts)
+                        rows.append(
+                            f"<div class='vault-trace-item'><span>{html.escape(str(label))}</span><em>{html.escape(meta)}</em></div>"
+                        )
                 st.markdown("".join(rows), unsafe_allow_html=True)
 
 
@@ -2204,6 +2733,7 @@ def render_answer_block(
     disease: str = "",
     question_type: str = "",
     research_trace: Optional[list[dict]] = None,
+    harness_result: Optional[dict] = None,
 ) -> None:
     """Render one assistant answer with provenance, copy button, confidence, figures, and sources."""
     source_ids = source_ids or []
@@ -2221,6 +2751,7 @@ def render_answer_block(
         confidence=confidence,
         source_ids=source_ids or loaded_source_ids,
         key_prefix=key_prefix,
+        harness_result=harness_result,
     )
 
     described_figs = [f for f in figures_used if f.get("described_in_answer")]
@@ -2895,18 +3426,83 @@ if "how_it_works_seen" not in st.session_state:
     st.session_state.how_it_works_seen = False
 if "last_answer_payload" not in st.session_state:
     st.session_state.last_answer_payload = None
-if "pending_decide_action" not in st.session_state:
-    st.session_state.pending_decide_action = None
-if "pending_verify_action" not in st.session_state:
-    st.session_state.pending_verify_action = None
-if "last_business_artifact" not in st.session_state:
-    st.session_state.last_business_artifact = None
+if "last_record_draft" not in st.session_state:
+    st.session_state.last_record_draft = None
+if "last_record_saved_path" not in st.session_state:
+    st.session_state.last_record_saved_path = None
+if "last_claim_draft" not in st.session_state:
+    st.session_state.last_claim_draft = None
+if "last_promotion_result" not in st.session_state:
+    st.session_state.last_promotion_result = None
 
 # ---------------------------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------------------------
 
 backend_blocker: Optional[str] = None
+
+workspace_param = st.query_params.get("workspace", "ask")
+if workspace_param == "cases":
+    with st.sidebar:
+        workspace = st.radio(
+            "Workspace",
+            ["Ask", "Research Cases", "Research Records"],
+            index=1,
+            horizontal=True,
+            label_visibility="collapsed",
+        )
+        st.divider()
+        st.markdown(
+            """
+            <div class="vault-panel">
+              <div class="vault-kicker">Feline Research OS</div>
+              <div style="font-size:20px;font-weight:600;color:#e8eaf0">Research Cases</div>
+              <div style="font-size:13px;color:#8b90a0;margin-top:8px">
+                Durable evidence work from Frame through Challenge.
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    if workspace == "Ask":
+        st.query_params["workspace"] = "ask"
+        st.rerun()
+    elif workspace == "Research Records":
+        st.query_params["workspace"] = "records"
+        st.rerun()
+    render_research_cases(VAULT_ROOT)
+    st.stop()
+
+if workspace_param == "records":
+    with st.sidebar:
+        workspace = st.radio(
+            "Workspace",
+            ["Ask", "Research Cases", "Research Records"],
+            index=2,
+            horizontal=True,
+            label_visibility="collapsed",
+        )
+        st.divider()
+        st.markdown(
+            """
+            <div class="vault-panel">
+              <div class="vault-kicker">Feline Research OS</div>
+              <div style="font-size:20px;font-weight:600;color:#e8eaf0">Research Records</div>
+              <div style="font-size:13px;color:#8b90a0;margin-top:8px">
+                Harness loop progress and verification history.
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    if workspace == "Ask":
+        st.query_params["workspace"] = "ask"
+        st.rerun()
+    elif workspace == "Research Cases":
+        st.query_params["workspace"] = "cases"
+        st.rerun()
+    render_research_records(VAULT_ROOT)
+    st.stop()
 
 with st.sidebar:
     st.markdown(
@@ -2919,6 +3515,19 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
+    st.divider()
+    workspace = st.radio(
+        "Workspace",
+        ["Ask", "Research Cases", "Research Records"],
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+    if workspace == "Research Cases":
+        st.query_params["workspace"] = "cases"
+        st.rerun()
+    elif workspace == "Research Records":
+        st.query_params["workspace"] = "records"
+        st.rerun()
     st.divider()
 
     st.markdown("<div class='vault-panel-label'>Answer engine</div>", unsafe_allow_html=True)
@@ -3010,8 +3619,25 @@ with st.sidebar:
     disease_arg = None if disease_choice == "Auto-detect" else disease_choice.lower()
 
     with st.expander("Advanced settings", expanded=False):
+        # Search depth mode selector (II.Inc style)
+        search_depth_mode = st.radio(
+            "Search depth",
+            ["Auto", "Quick", "Standard", "Deep", "Audit"],
+            horizontal=True,
+            index=0,
+            help="Auto detects depth from question type. Quick=1-2 sources. Standard=2-3 sources. Deep=gap reflection. Audit=contrary evidence required.",
+        )
+        search_depth_labels = {
+            "Auto": None,  # Let TaskEvaluator decide
+            "Quick": "quick",
+            "Standard": "standard",
+            "Deep": "deep",
+            "Audit": "evidence_audit",
+        }
+        explicit_search_depth = search_depth_labels.get(search_depth_mode)
+
         max_hops = st.slider(
-            "Depth",
+            "Agent depth",
             min_value=1,
             max_value=5,
             value=3,
@@ -3022,6 +3648,12 @@ with st.sidebar:
             "Auto-save answers",
             value=False,
             help="Saves each answer as a markdown file in the vault after synthesis.",
+        )
+
+        allow_external_search = st.checkbox(
+            "Search PubMed/Crossref if local results sparse",
+            value=False,
+            help="When the vault has fewer than 3 matching sources, search external databases. External results are marked and need intake before becoming vault evidence.",
         )
 
     st.divider()
@@ -3098,6 +3730,139 @@ with st.sidebar:
                     f"Saved to <code>{html.escape(str(meta['written_to']))}</code>.",
                     tone="green",
                 )
+            draft_record = st.session_state.last_record_draft
+            if draft_record is not None:
+                st.markdown("**Research Record:**")
+                st.markdown(f"- **Record ID:** `{draft_record.record_id}`")
+                st.markdown(f"- **Verifier:** `{draft_record.verifier_status.value}`")
+                if draft_record.selected_evidence:
+                    st.markdown(f"- **Selected evidence:** `{len(draft_record.selected_evidence)}`")
+                if st.session_state.last_record_saved_path:
+                    st.markdown(
+                        f"- **Saved path:** `{st.session_state.last_record_saved_path}`"
+                    )
+                else:
+                    duplicate = None
+                    try:
+                        harness = get_harness_loop(VAULT_ROOT)
+                        duplicate = harness.record_store.find_equivalent_record(draft_record)
+                    except Exception:
+                        duplicate = None
+                    if duplicate:
+                        render_notice(
+                            f"An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>.",
+                            tone="amber",
+                        )
+                if st.button(
+                    "Save Research Record",
+                    key="save-research-record",
+                    use_container_width=True,
+                ):
+                    try:
+                        harness = get_harness_loop(VAULT_ROOT)
+                        out_path = harness.save_record(draft_record)
+                        saved_path = str(out_path.relative_to(VAULT_ROOT))
+                        st.session_state.last_record_saved_path = saved_path
+                        st.session_state.last_meta["research_record_saved"] = True
+                        st.session_state.last_meta["research_record_path"] = saved_path
+                        render_notice(
+                            f"Research Record saved to <code>{html.escape(saved_path)}</code>.",
+                            tone="green",
+                        )
+                        st.rerun()
+                    except Exception as e:
+                        render_notice(
+                            f"Couldn't save Research Record: {html.escape(str(e))}",
+                            tone="red",
+                        )
+            if st.session_state.last_record_saved_path and draft_record is not None:
+                claim_candidates = extract_claim_candidates(draft_record)
+                if claim_candidates:
+                    st.markdown("**Claim Selection Draft:**")
+                    candidate_labels = [
+                        f"{claim.claim_id}: {claim.text[:120]}{'...' if len(claim.text) > 120 else ''}"
+                        for claim in claim_candidates
+                    ]
+                    selected_claim_labels = st.multiselect(
+                        "Claims to validate",
+                        candidate_labels,
+                        default=candidate_labels[:1] if candidate_labels else [],
+                        key=f"claim-selection-{draft_record.record_id}",
+                    )
+                    target_choices = [
+                        f"topics/{draft_record.disease or 'general'}/validated-claims.md",
+                        f"system/indexes/{draft_record.disease or 'general'}-validated-claims.md",
+                    ]
+                    target_page = st.selectbox(
+                        "Promotion target",
+                        target_choices,
+                        key=f"claim-target-{draft_record.record_id}",
+                    )
+                    selected_claim_ids = [
+                        label.split(":", 1)[0] for label in selected_claim_labels
+                    ]
+                    draft = build_promotion_draft(
+                        draft_record,
+                        selected_claim_ids=selected_claim_ids,
+                        target_page=target_page,
+                    )
+                    st.session_state.last_claim_draft = draft
+                    st.markdown(f"- **Draft status:** `{draft.status}`")
+                    for note in draft.notes:
+                        st.markdown(f"- {note}")
+                    if draft.validation_results:
+                        for result in draft.validation_results:
+                            icon = "✓" if result.passed else "✗"
+                            st.markdown(
+                                f"- {icon} **{result.check_name}** ({result.severity}): {html.escape(result.message)}"
+                            )
+
+                    confirm_promotion = st.checkbox(
+                        "I confirm this promotion draft is ready to apply",
+                        key=f"confirm-promotion-{draft_record.record_id}",
+                        disabled=not draft.ready_for_patch,
+                    )
+                    if st.button(
+                        "Apply Promotion",
+                        key=f"apply-promotion-{draft_record.record_id}",
+                        use_container_width=True,
+                        disabled=not (draft.ready_for_patch and confirm_promotion),
+                    ):
+                        try:
+                            validated_store = ValidatedClaimStore(
+                                VAULT_ROOT / "system" / "validated-claims"
+                            )
+                            written = validated_store.promote_draft(
+                                draft,
+                                vault_root=VAULT_ROOT,
+                                validated_by="human",
+                            )
+                            target_path = written["target_path"]
+                            st.session_state.last_promotion_result = {
+                                "target": draft.target_page,
+                                "target_path": str(target_path.relative_to(VAULT_ROOT.resolve())) if target_path else draft.target_page,
+                                "claims": [claim.claim_id for claim in written["claims"]],
+                            }
+                            st.session_state.last_meta["promotion_applied"] = True
+                            st.session_state.last_meta["promotion_target"] = draft.target_page
+                            render_notice(
+                                f"Promotion applied for {len(written['claims'])} claim(s).",
+                                tone="green",
+                            )
+                            st.rerun()
+                        except Exception as e:
+                            render_notice(
+                                f"Couldn't apply promotion: {html.escape(str(e))}",
+                                tone="red",
+                            )
+                else:
+                    st.info("No promotable claims were found in this record yet.")
+            if st.session_state.last_promotion_result:
+                result = st.session_state.last_promotion_result
+                st.markdown("**Promotion Result:**")
+                st.markdown(f"- **Target:** `{result['target']}`")
+                st.markdown(f"- **Target path:** `{result['target_path']}`")
+                st.markdown(f"- **Claims:** `{', '.join(result['claims'])}`")
             figs = meta.get("figures_used") or []
             if figs:
                 described = [f for f in figs if f.get("described_in_answer")]
@@ -3141,51 +3906,6 @@ with st.sidebar:
 
     st.divider()
 
-    # -------------------------------------------------------------------------
-    # Business Decision Tools: Decide & Verify
-    # -------------------------------------------------------------------------
-    st.markdown("<div class='vault-panel-label'>Decide</div>", unsafe_allow_html=True)
-    st.markdown(
-        "<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>Business decision artifacts</div>",
-        unsafe_allow_html=True,
-    )
-
-    decide_disease = st.selectbox(
-        "Disease for decision tools",
-        options=["CKD", "FIP", "HCM", "IBD", "Diabetes", "FCV", "Obesity", "Cancer"],
-        index=0,
-        help="Select the disease for generating business decision artifacts.",
-        label_visibility="collapsed",
-        key="decide_disease",
-    )
-
-    col_opp, col_end = st.columns(2)
-    with col_opp:
-        if st.button("Opportunity Brief", key="gen-opportunity-brief", use_container_width=True):
-            st.session_state.pending_decide_action = ("opportunity_brief", decide_disease.lower())
-            st.rerun()
-    with col_end:
-        if st.button("Endpoint Memo", key="gen-endpoint-memo", use_container_width=True):
-            st.session_state.pending_decide_action = ("endpoint_memo", decide_disease.lower())
-            st.rerun()
-
-    st.markdown("<div class='vault-panel-label' style='margin-top:16px'>Verify</div>", unsafe_allow_html=True)
-    st.markdown(
-        "<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>Check claims against vault evidence</div>",
-        unsafe_allow_html=True,
-    )
-
-    verify_claim = st.text_input(
-        "Claim to verify",
-        placeholder="e.g., Phosphorus control slows CKD progression",
-        label_visibility="collapsed",
-        key="verify_claim_input",
-    )
-    if st.button("Verify Claim", key="verify-claim-btn", use_container_width=True, disabled=not verify_claim.strip()):
-        st.session_state.pending_verify_action = ("claim_evidence", decide_disease.lower(), verify_claim.strip())
-        st.rerun()
-
-    st.divider()
     index_size = len(get_source_index())
     st.markdown(
         f"""
@@ -3199,190 +3919,10 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    # Weekly Decision Dashboard
-    with st.expander("📊 Decision Dashboard", expanded=False):
-        st.markdown("<div class='vault-panel-label'>Disease Maturity</div>", unsafe_allow_html=True)
-        mature_diseases = [d for d, info in DISEASE_MATURITY.items() if info.get("maturity") == "Mature"]
-        developing_diseases = [d for d, info in DISEASE_MATURITY.items() if info.get("maturity") == "Developing"]
-        st.markdown(
-            f"<div style='font-size:12px;margin-bottom:8px'>"
-            f"<span style='color:#16a34a'>●</span> Mature: {', '.join(d.upper() for d in mature_diseases)}<br>"
-            f"<span style='color:#ca8a04'>●</span> Developing: {', '.join(d.upper() for d in developing_diseases)}"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
-
-        st.markdown("<div class='vault-panel-label' style='margin-top:12px'>Evidence Gaps</div>", unsafe_allow_html=True)
-        try:
-            gap_queue = GapQueue()
-            stats = gap_queue.get_stats()
-            open_gaps = gap_queue.list_gaps(status="open")
-            p0_gaps = [g for g in open_gaps if g.priority == "P0"]
-            p1_gaps = [g for g in open_gaps if g.priority == "P1"]
-            st.markdown(
-                f"<div style='font-size:12px'>"
-                f"Open: <strong>{stats['open']}</strong> "
-                f"(<span style='color:#ef4444'>P0: {len(p0_gaps)}</span>, "
-                f"<span style='color:#f97316'>P1: {len(p1_gaps)}</span>)"
-                f"</div>",
-                unsafe_allow_html=True,
-            )
-            if p0_gaps:
-                st.markdown("<div style='font-size:11px;color:#ef4444;margin-top:4px'>Critical gaps:</div>", unsafe_allow_html=True)
-                for gap in p0_gaps[:3]:
-                    st.markdown(f"<div style='font-size:11px;padding-left:8px'>• {gap.disease}: {gap.description[:40]}...</div>", unsafe_allow_html=True)
-        except Exception as e:
-            st.markdown(f"<div style='font-size:12px;color:#8b90a0'>Gap queue not available</div>", unsafe_allow_html=True)
-
-        st.markdown("<div class='vault-panel-label' style='margin-top:12px'>Recent Artifacts</div>", unsafe_allow_html=True)
-        outputs_dir = VAULT_ROOT / "outputs" / "business"
-        if outputs_dir.exists():
-            recent_artifacts = sorted(outputs_dir.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True)[:5]
-            if recent_artifacts:
-                for artifact_path in recent_artifacts:
-                    st.markdown(f"<div style='font-size:11px'>• {artifact_path.name}</div>", unsafe_allow_html=True)
-            else:
-                st.markdown("<div style='font-size:12px;color:#8b90a0'>No artifacts generated yet</div>", unsafe_allow_html=True)
-        else:
-            st.markdown("<div style='font-size:12px;color:#8b90a0'>No artifacts generated yet</div>", unsafe_allow_html=True)
-
-# ---------------------------------------------------------------------------
-# Business Decision Tool Handlers
-# ---------------------------------------------------------------------------
-
-def render_business_artifact(artifact_type: str, content: str, disease: str) -> None:
-    """Render a business artifact in the main content area."""
-    st.markdown(
-        f"""
-        <div class="vault-panel" style="margin-bottom:16px">
-          <div class="vault-panel-label">Business Artifact: {artifact_type}</div>
-          <div style="font-size:12px;color:#8b90a0">Disease: {disease.upper()} · Generated locally from vault content</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.markdown(content)
-
-
-if st.session_state.pending_decide_action:
-    action_type, disease = st.session_state.pending_decide_action
-    st.session_state.pending_decide_action = None
-
-    if action_type == "opportunity_brief":
-        try:
-            brief = generate_opportunity_brief(disease, branch="general")
-            content = format_brief_markdown(brief)
-            st.session_state.last_business_artifact = {
-                "type": "Opportunity Brief",
-                "disease": disease,
-                "content": content,
-                "source_ids": brief.source_appendix,
-            }
-        except Exception as e:
-            st.error(f"Error generating opportunity brief: {e}")
-
-    elif action_type == "endpoint_memo":
-        try:
-            memo = generate_endpoint_memo(disease, use_case="general")
-            content = format_memo_markdown(memo)
-            st.session_state.last_business_artifact = {
-                "type": "Endpoint Decision Memo",
-                "disease": disease,
-                "content": content,
-                "source_ids": memo.source_appendix,
-            }
-        except Exception as e:
-            st.error(f"Error generating endpoint memo: {e}")
-
-
-if st.session_state.pending_verify_action:
-    action_type, disease, claim = st.session_state.pending_verify_action
-    st.session_state.pending_verify_action = None
-
-    if action_type == "claim_evidence":
-        try:
-            card = evaluate_claim(disease, claim)
-            content = format_claim_card_markdown(card)
-            st.session_state.last_business_artifact = {
-                "type": "Claim Evidence Card",
-                "disease": disease,
-                "content": content,
-                "source_ids": card.key_sources,
-            }
-        except Exception as e:
-            st.error(f"Error evaluating claim: {e}")
-
-
-# Render business artifact if present
-if st.session_state.last_business_artifact:
-    artifact = st.session_state.last_business_artifact
-    render_business_artifact(artifact["type"], artifact["content"], artifact["disease"])
-
-    col_clear, col_save, col_download = st.columns(3)
-    with col_clear:
-        if st.button("Clear", key="clear-artifact", use_container_width=True):
-            st.session_state.last_business_artifact = None
-            st.rerun()
-    with col_save:
-        if st.button("Save to vault", key="save-artifact", use_container_width=True):
-            from datetime import date
-            artifact_type_slug = artifact["type"].lower().replace(" ", "-")
-            filename = f"{artifact['disease']}-{artifact_type_slug}-{date.today().isoformat()}.md"
-            outputs_dir = VAULT_ROOT / "outputs" / "business"
-            outputs_dir.mkdir(parents=True, exist_ok=True)
-            out_path = outputs_dir / filename
-            out_path.write_text(artifact["content"], encoding="utf-8")
-            render_notice(
-                f"Saved to <code>outputs/business/{html.escape(filename)}</code>",
-                tone="green",
-            )
-    with col_download:
-        artifact_type_slug = artifact["type"].lower().replace(" ", "-")
-        filename = f"{artifact['disease']}-{artifact_type_slug}.md"
-        st.download_button(
-            label="Download",
-            data=artifact["content"],
-            file_name=filename,
-            mime="text/markdown",
-            key="download-artifact",
-            use_container_width=True,
-        )
-
-    # Source Appendix View
-    source_ids = artifact.get("source_ids", [])
-    if source_ids:
-        with st.expander(f"Source appendix ({len(source_ids)} sources)", expanded=False):
-            st.markdown(
-                "<div style='font-size:12px;color:#8b90a0;margin-bottom:12px'>"
-                "These source cards back the claims in this artifact. Click to view card content."
-                "</div>",
-                unsafe_allow_html=True,
-            )
-            for i, src_id in enumerate(source_ids[:15]):
-                src_path = VAULT_ROOT / "raw" / "papers" / f"{src_id}.md"
-                if src_path.exists():
-                    try:
-                        src_content = src_path.read_text(encoding="utf-8")
-                        # Extract title from frontmatter
-                        title_match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', src_content, re.M)
-                        title = title_match.group(1) if title_match else src_id
-                        with st.expander(f"`{src_id}` — {title[:60]}{'...' if len(title) > 60 else ''}", expanded=False):
-                            # Show first 500 chars of body
-                            body = re.sub(r'\A---.*?---\s*', '', src_content, flags=re.S).strip()
-                            st.markdown(body[:1500] + ("..." if len(body) > 1500 else ""))
-                    except Exception:
-                        st.code(src_id)
-                else:
-                    st.code(src_id)
-            if len(source_ids) > 15:
-                st.markdown(f"_... and {len(source_ids) - 15} more sources_")
-
-    st.divider()
-
-show_empty_state = len(st.session_state.messages) == 0 and not st.session_state.pending_question and not st.session_state.last_business_artifact
+show_empty_state = len(st.session_state.messages) == 0 and not st.session_state.pending_question
 if show_empty_state:
     render_empty_state()
-elif not st.session_state.last_business_artifact:
+else:
     render_main_header()
 
 # ---------------------------------------------------------------------------
@@ -3394,7 +3934,9 @@ render_search_context_panel()
 for i, msg in enumerate(st.session_state.messages):
     with st.chat_message(msg["role"]):
         if msg["role"] == "assistant":
-            render_answer_block(
+            # Phase 4: Use v2 renderer when feature flag is enabled
+            render_fn = render_answer_block_v2 if USE_RESULT_PRESENTATION_V2 and RESULT_PRESENTATION_AVAILABLE else render_answer_block
+            render_fn(
                 answer=msg["content"],
                 confidence=msg.get("confidence", "medium"),
                 figures_used=msg.get("figures_used", []),
@@ -3405,6 +3947,7 @@ for i, msg in enumerate(st.session_state.messages):
                 disease=msg.get("disease", ""),
                 question_type=msg.get("question_type", ""),
                 research_trace=msg.get("research_trace"),
+                harness_result=msg.get("harness_result"),
             )
         else:
             st.markdown(msg["content"])
@@ -3486,6 +4029,7 @@ def run_query(question: str) -> bool:
                     preferred_source_ids=st.session_state.preferred_source_ids or None,
                     search_limit=8,
                     on_status=lambda msg: status.update(label=msg, expanded=False),
+                    allow_external_search=allow_external_search,
                 )
             else:
                 result = run_query_core(
@@ -3496,6 +4040,7 @@ def run_query(question: str) -> bool:
                     max_hops=max_hops,
                     model=active_model,
                     on_status=lambda msg: status.update(label=msg, expanded=False),
+                    allow_external_search=allow_external_search,
                 )
         except SystemExit:
             status.update(label="Could not detect disease", state="error", expanded=True)
@@ -3559,9 +4104,29 @@ def run_query(question: str) -> bool:
     confidence = compute_confidence(answer)
     source_ids = parse_source_ids_from_answer(answer)
 
+    # --- Harness Loop (Research Record) - compute before rendering ---
+    harness_result = None
+    try:
+        harness = get_harness_loop(VAULT_ROOT)
+        record = harness.evaluate_query(question, explicit_search_depth=explicit_search_depth)
+        harness_result = harness.process_query_result(
+            record=record,
+            answer=answer,
+            source_ids=source_ids,
+            disease=detected_disease,
+            question_type=question_type,
+            research_trace=research_trace,
+            loaded_source_ids=loaded_source_ids,
+        )
+    except Exception as e:
+        # Harness loop is non-blocking; log but don't fail the query
+        pass
+
     # --- Render answer ---
     with st.chat_message("assistant"):
-        render_answer_block(
+        # Phase 4: Use v2 renderer when feature flag is enabled
+        render_fn = render_answer_block_v2 if USE_RESULT_PRESENTATION_V2 and RESULT_PRESENTATION_AVAILABLE else render_answer_block
+        render_fn(
             answer=answer,
             confidence=confidence,
             figures_used=figures_used,
@@ -3572,6 +4137,7 @@ def run_query(question: str) -> bool:
             disease=detected_disease,
             question_type=question_type,
             research_trace=research_trace,
+            harness_result=harness_result,
         )
 
     # --- Write-back ---
@@ -3605,6 +4171,7 @@ def run_query(question: str) -> bool:
         "source_ids": source_ids,
         "loaded_source_ids": loaded_source_ids,
         "research_trace": research_trace,
+        "harness_result": harness_result,
     })
     st.session_state.last_files_loaded = [str(p) for p in loaded_paths]
 
@@ -3620,7 +4187,12 @@ def run_query(question: str) -> bool:
         "written_to": written_to,
         "figures_used": figures_used,
         "preferred_source_ids": list(st.session_state.preferred_source_ids),
+        "harness_result": harness_result,
+        "research_record_saved": False,
     }
+    st.session_state.last_record_saved_path = None
+    st.session_state.last_record_draft = harness_result.get("record") if harness_result else None
+    st.session_state.last_claim_draft = None
     st.session_state.last_answer_payload = {
         "answer": answer,
         "question": question,
