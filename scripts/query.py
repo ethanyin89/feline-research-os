@@ -1304,6 +1304,44 @@ def render_frontmatter(fm: dict) -> str:
 # API calls
 # ---------------------------------------------------------------------------
 
+def reformulate_query_call(
+    client,
+    question: str,
+    disease_hint: Optional[str],
+    model: str = MODEL,
+) -> dict:
+    """
+    API Call 0 — Reformulate and refine a raw query into a structured research objective.
+    Returns: { "refined_query": "...", "objectives": [...], "reasoning": "..." }
+    """
+    answer_language = "Chinese" if prefers_chinese(question) else "English"
+    
+    system = f"""You are an expert feline medicine research director.
+Your task is to analyze the user's raw query and reformulate it into a precise, professional, and structured research statement/objective.
+If the query is too brief (e.g., a simple keyword like "猫肥胖研究"), expand it into a systematic research outline covering clinical definitions, mechanisms, diagnostics, and treatment/efficacy metrics.
+If the query is already precise, structure it and outline its key investigation objectives.
+
+Return ONLY a JSON object with these keys:
+  refined_query  — a single sentence in {answer_language} that summarizes the refined research query
+  objectives     — a list of 2-4 specific research objectives in {answer_language} to investigate
+  reasoning      — a brief explanation of why this refinement is necessary
+"""
+
+    user = f"Raw Query: {question}"
+    if disease_hint:
+        user += f"\nDisease Focus: {disease_hint}"
+
+    result = parse_json_block(_chat(client, model, system,
+                                    [{"role": "user", "content": user}], 512))
+    if not result:
+        result = {
+            "refined_query": question,
+            "objectives": [question],
+            "reasoning": "Failed to parse reformulation."
+        }
+    return result
+
+
 def router_call(
     client,
     question: str,
@@ -2283,9 +2321,22 @@ def run_query_core(
             return True
         return False
 
+    # Refine/reformulate query if LLM client is available
+    refined_query = question
+    objectives = []
+    if client is not None:
+        try:
+            _status("Refining research objectives...")
+            refinement = reformulate_query_call(client, question, disease_hint, model=model)
+            refined_query = refinement.get("refined_query", question)
+            objectives = refinement.get("objectives", [])
+            print(f"[info] Refined query: {refined_query}", file=sys.stderr)
+        except Exception as e:
+            print(f"[warn] Query reformulation failed: {e}", file=sys.stderr)
+
     # Route
     _status("Routing question...")
-    routing = router_call(client, question, disease_hint, vault_root, model=model)
+    routing = router_call(client, refined_query, disease_hint, vault_root, model=model)
 
     disease = disease_hint or routing.get("disease", "unknown")
     question_type = routing.get("question_type", "unknown")
@@ -2592,6 +2643,8 @@ def run_query_core(
         "first_family_loaded": first_family_loaded or "unknown",
         "research_trace": research_trace,
         "est_tokens": est_tokens,
+        "refined_query": refined_query,
+        "objectives": objectives,
     }
 
 

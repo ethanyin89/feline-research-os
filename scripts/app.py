@@ -2729,6 +2729,53 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
                 st.markdown(content)
 
 
+def render_query_refinement(refined_query: Optional[str], objectives: Optional[list[str]]) -> None:
+    if not refined_query:
+        return
+        
+    obj_items = "".join(f"<li style='margin-bottom:4px;color:#e8eaf0'>{html.escape(obj)}</li>" for obj in objectives if obj) if objectives else ""
+    obj_html = f"<ul style='margin:4px 0 0 16px;padding:0;font-size:13px;'>{obj_items}</ul>" if obj_items else ""
+    
+    st.markdown(
+        f"""
+        <div style="padding:14px 16px;background:rgba(99,102,241,0.08);border-left:4px solid #6366f1;border-radius:0 8px 8px 0;margin-bottom:20px;">
+          <div style="font-size:11px;color:#818cf8;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:4px;">
+            🔍 研究课题精化 / Refined Research Objective
+          </div>
+          <div style="font-size:14px;color:#e8eaf0;font-weight:500;line-height:1.5;">
+            {html.escape(refined_query)}
+          </div>
+          {obj_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_local_query_evaluation(disease: Optional[str], task_type: Optional[str], subqueries: Optional[list[str]]) -> None:
+    if not disease and not task_type:
+        return
+    sub_items = "".join(f"<li style='margin-bottom:2px;color:#8b90a0'>feline {html.escape(disease)} {html.escape(sq)}</li>" for sq in subqueries if sq) if subqueries else ""
+    sub_html = f"<ul style='margin:4px 0 0 16px;padding:0;font-size:12px;list-style-type:square;'>{sub_items}</ul>" if sub_items else ""
+    
+    dis_str = disease.upper() if disease else "UNKNOWN"
+    task_str = task_type.upper() if task_type else "UNKNOWN"
+    st.markdown(
+        f"""
+        <div style="padding:12px 14px;background:rgba(94,234,212,0.06);border-left:4px solid #14b8a6;border-radius:0 6px 6px 0;margin-bottom:18px;">
+          <div style="font-size:11px;color:#14b8a6;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:4px;">
+            🔍 检索课题分类与子检索项 / Query Classification & Subqueries
+          </div>
+          <div style="font-size:13px;color:#e8eaf0;line-height:1.5;">
+            识别病种: <code style="color:#2dd4bf">{html.escape(dis_str)}</code> | 任务类型: <code style="color:#2dd4bf">{html.escape(task_str)}</code>
+          </div>
+          {sub_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def render_answer_block_v2(
     answer: str,
     confidence: str,
@@ -2743,6 +2790,8 @@ def render_answer_block_v2(
     harness_result: Optional[dict] = None,
     loaded_paths: Optional[list[str]] = None,
     backend: str = "openrouter",
+    refined_query: Optional[str] = None,
+    objectives: Optional[list[str]] = None,
 ) -> None:
     """
     Render answer using ResultPresentation contract (V2).
@@ -2765,6 +2814,8 @@ def render_answer_block_v2(
             harness_result=harness_result,
             loaded_paths=loaded_paths,
             backend=backend,
+            refined_query=refined_query,
+            objectives=objectives,
         )
         return
 
@@ -2781,6 +2832,22 @@ def render_answer_block_v2(
         disease=disease,
         research_trace=research_trace,
     )
+
+    # Render query refinement/evaluation first
+    if backend == "local":
+        try:
+            from core.task_evaluator import TaskEvaluator
+            evaluator = TaskEvaluator()
+            evaluation = evaluator.evaluate(question)
+            render_local_query_evaluation(
+                disease=evaluation.disease,
+                task_type=evaluation.task_type.value,
+                subqueries=evaluation.subqueries,
+            )
+        except Exception:
+            pass
+    else:
+        render_query_refinement(refined_query, objectives)
 
     # Render translated provenance with paper titles, never internal source IDs.
     cleaned_answer = strip_legacy_footer(answer)
@@ -2974,10 +3041,29 @@ def render_answer_block(
     harness_result: Optional[dict] = None,
     loaded_paths: Optional[list[str]] = None,
     backend: str = "openrouter",
+    refined_query: Optional[str] = None,
+    objectives: Optional[list[str]] = None,
 ) -> None:
     """Render one assistant answer with provenance, copy button, confidence, figures, and sources."""
     source_ids = source_ids or []
     loaded_source_ids = loaded_source_ids or []
+
+    # Render query refinement/evaluation first
+    if backend == "local":
+        try:
+            from core.task_evaluator import TaskEvaluator
+            evaluator = TaskEvaluator()
+            evaluation = evaluator.evaluate(question)
+            render_local_query_evaluation(
+                disease=evaluation.disease,
+                task_type=evaluation.task_type.value,
+                subqueries=evaluation.subqueries,
+            )
+        except Exception:
+            pass
+    else:
+        render_query_refinement(refined_query, objectives)
+
     cleaned_answer = strip_legacy_footer(answer)
     st.markdown(render_provenance(cleaned_answer), unsafe_allow_html=True)
     copy_button(answer, key=f"{key_prefix}-copy")
@@ -4199,6 +4285,8 @@ for i, msg in enumerate(st.session_state.messages):
                 harness_result=msg.get("harness_result"),
                 loaded_paths=msg.get("loaded_paths"),
                 backend=msg.get("backend", "openrouter"),
+                refined_query=msg.get("refined_query"),
+                objectives=msg.get("objectives"),
             )
         else:
             st.markdown(msg["content"])
@@ -4351,6 +4439,8 @@ def run_query(question: str) -> bool:
         loaded_source_ids = result.get("loaded_source_ids", [])
         research_trace = result.get("research_trace", [])
         est_tokens = result["est_tokens"]
+        refined_query = result.get("refined_query", "")
+        objectives = result.get("objectives", [])
 
         status.update(label="Done", state="complete", expanded=False)
 
@@ -4394,6 +4484,8 @@ def run_query(question: str) -> bool:
             harness_result=harness_result,
             loaded_paths=[str(p) for p in loaded_paths],
             backend=backend,
+            refined_query=refined_query,
+            objectives=objectives,
         )
 
     # --- Write-back ---
@@ -4430,6 +4522,8 @@ def run_query(question: str) -> bool:
         "harness_result": harness_result,
         "loaded_paths": [str(p) for p in loaded_paths],
         "backend": backend,
+        "refined_query": refined_query,
+        "objectives": objectives,
     })
     st.session_state.last_files_loaded = [str(p) for p in loaded_paths]
 
