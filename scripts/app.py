@@ -2671,6 +2671,12 @@ def translate_card_headings(text: str) -> str:
     return text
 
 
+def remove_relative_links(text: str) -> str:
+    # Match [link text](relative_url) where relative_url doesn't start with http, https, or mailto
+    # We replace it with bold text **link text** to keep it styled but remove the fake link
+    return re.sub(r'\[([^\]]+)\]\((?!(?:https?://|mailto:))([^\)]+)\)', r'**\1**', text)
+
+
 def read_markdown_without_frontmatter(path: Path) -> str:
     try:
         text = path.read_text(encoding="utf-8")
@@ -2678,8 +2684,8 @@ def read_markdown_without_frontmatter(path: Path) -> str:
             end = text.find("\n---", 3)
             if end != -1:
                 content = text[end + 4:].strip()
-                return translate_card_headings(content)
-        return translate_card_headings(text.strip())
+                return remove_relative_links(translate_card_headings(content))
+        return remove_relative_links(translate_card_headings(text.strip()))
     except Exception as e:
         return f"Error reading file: {e}"
 

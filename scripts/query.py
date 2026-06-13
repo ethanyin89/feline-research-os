@@ -781,8 +781,22 @@ def infer_disease_from_question(question: str) -> str:
 
 
 def prefers_chinese(question: str) -> bool:
-    """Return True when the user question contains CJK characters."""
-    return bool(re.search(r"[\u3400-\u9fff]", question))
+    """Return True when the user question contains CJK characters, or if the session has Chinese context."""
+    if bool(re.search(r"[\u3400-\u9fff]", question)):
+        return True
+    # Check if this is a continuation or short feedback query in a Chinese session
+    lowered = question.lower().strip()
+    if len(lowered) < 15:  # short queries like "continue", "next", "more detail"
+        try:
+            import streamlit as st
+            messages = st.session_state.get("messages", [])
+            for msg in reversed(messages):
+                content = msg.get("content", "")
+                if msg.get("role") == "user" and bool(re.search(r"[\u3400-\u9fff]", content)):
+                    return True
+        except Exception:
+            pass
+    return False
 
 
 def local_search_terms(question: str) -> list[str]:

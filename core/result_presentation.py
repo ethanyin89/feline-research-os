@@ -395,16 +395,16 @@ def _derive_safe_use(source_kind: str, evidence_level: str) -> tuple[str, str]:
     level = (evidence_level or "").lower().strip()
 
     if kind in {"regulation", "guidance"} or level in {"regulation", "guideline", "guidance"}:
-        return "label / jurisdiction boundary", "disease superiority or biology"
+        return "说明书/管辖边界 (label / jurisdiction boundary)", "病理机制或生物学细节 (disease superiority or biology)"
     if level == "review":
-        return "branch map / synthesis", "single-study winner claims"
+        return "分支图谱/证据综合 (branch map / synthesis)", "单一研究决定性主张 (single-study winner claims)"
     if level == "original-study":
-        return "specific endpoint / branch detail", "broad generalization or routine leadership"
+        return "特定指标/分支细节 (specific endpoint / branch detail)", "过度泛化或常规指导 (broad generalization or routine leadership)"
     if level == "case-series":
-        return "rare signal / branch visibility", "prevalence or routine hierarchy"
+        return "罕见信号/分支可见性 (rare signal / branch visibility)", "流行率或常规层级 (prevalence or routine hierarchy)"
     if level == "commentary":
-        return "context only", "decision-bearing claims"
-    return "discovery / background only", "strong conclusions"
+        return "仅限上下文背景 (context only)", "决策性主张 (decision-bearing claims)"
+    return "仅作发现/背景了解 (discovery / background only)", "强有力结论 (strong conclusions)"
 
 
 def build_evidence_profile(
@@ -557,8 +557,22 @@ def build_source_display(
     safest_use, must_not_control = _derive_safe_use(source_kind, evidence_level)
 
     species_raw = source.get("species", "")
-    species_label = species_raw or ""
-    decision_grade = source.get("decision_grade", "")
+    if isinstance(species_raw, list):
+        species_raw = ", ".join(species_raw)
+    species_map = {
+        "feline": "猫科 (feline)",
+        "canine": "犬科 (canine)",
+        "human": "人 (human)",
+    }
+    species_label = species_map.get(str(species_raw).lower().strip(), species_raw) or ""
+
+    decision_raw = source.get("decision_grade", "")
+    decision_map = {
+        "no": "非决策级 (no)",
+        "yes": "决策级 (yes)",
+        "provisional": "暂定决策级 (provisional)",
+    }
+    decision_grade = decision_map.get(str(decision_raw).lower().strip(), decision_raw) or ""
     authors = source.get("authors", [])
     if isinstance(authors, str):
         authors = [item.strip() for item in re.split(r"[;,]", authors) if item.strip()]
