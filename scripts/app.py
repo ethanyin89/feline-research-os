@@ -167,19 +167,19 @@ EXAMPLE_QUESTIONS = [
 
 PROVENANCE_GUIDE_HTML = """
 <div class="vault-panel" style="margin-top:24px">
-  <div class="vault-panel-label">Evidence labels</div>
-  <div class="vault-guide-row"><span class="prov-badge prov-quoted">quote</span><span>source wording or close paraphrase</span></div>
-  <div class="vault-guide-row"><span class="prov-badge prov-supported">supported</span><span>synthesis supported by loaded sources</span></div>
-  <div class="vault-guide-row"><span class="prov-badge prov-inference">inference</span><span>reasoning beyond direct source support</span></div>
+  <div class="vault-panel-label">证据标签指南 / Evidence labels</div>
+  <div class="vault-guide-row"><span class="prov-badge prov-quoted">直接来源 / quote</span><span>文献原文引用或近义改写 / source wording or close paraphrase</span></div>
+  <div class="vault-guide-row"><span class="prov-badge prov-supported">来源支持 / supported</span><span>基于已加载文献的综合推断 / synthesis supported by loaded sources</span></div>
+  <div class="vault-guide-row"><span class="prov-badge prov-inference">分析推断 / inference</span><span>超出文献直接范围的推理 / reasoning beyond direct source support</span></div>
 </div>
 """
 
 EMPTY_STATE_INTRO_HTML = """
 <div class="vault-hero">
-  <div class="vault-kicker">SOURCE-AWARE FELINE WIKI</div>
-  <h1>Ask the vault</h1>
-  <p>Ask a natural feline disease question. Get a compact answer that separates evidence, supported synthesis, uncertainty, and the next page worth reading.</p>
-  <p>Unlike a generic wiki page, each answer starts from this vault's disease pages and source cards, then shows where the answer is strong and where it is only an inference.</p>
+  <div class="vault-kicker">文献感知型猫科医学知识库 / SOURCE-AWARE FELINE WIKI</div>
+  <h1>Ask the vault / 知识库检索与解答</h1>
+  <p>提出一个猫科疾病相关的医学或研究问题。系统将生成一份紧凑的回答，明确区分直接证据、综合推断、不确定性，并推荐下一步阅读的主题页面。</p>
+  <p>与通用百科不同，这里的每一个回答都源自知识库的主题页面和文献卡片，并会诚实地展示回答中哪些部分有强有力的文献支持，哪些仅是合理的逻辑外推。</p>
   <div class="vault-statline">0 sources · 0 topic pages · 0 diseases</div>
 </div>
 """
@@ -199,26 +199,51 @@ NOTICE_TEMPLATE = """
 
 HOW_IT_WORKS_HTML = """
 <div class="vault-panel">
-  <div class="vault-panel-label">Why this exists</div>
+  <div class="vault-panel-label">设计初衷 / Why this exists</div>
   <p class="vault-panel-copy">
-    The vault turns dense veterinary literature into a first answer surface: practical explanation first,
-    source support visible immediately, uncertainty kept in the answer instead of hidden in footnotes.
+    知识库旨在将繁复的猫科医学文献转化为第一解答界面：实用解释优先、文献出处即时可见，且将不确定性直接保留在回答中，而非隐藏在尾注里。
   </p>
 </div>
 """
 
 HOW_IT_WORKS_COPY = (
-    "This tool searches the feline disease modules in the vault. It routes to compiled topic pages "
-    "and source cards, writes a compact answer, and tags each claim with its evidence level. "
-    "Green tags are close to source wording. Amber tags are supported synthesis. "
-    "Gray tags mean the answer goes beyond the loaded sources."
+    "本工具用于检索猫科疾病知识库。系统会自动路由到整理好的主题页面及文献卡片，生成精炼的回答，"
+    "并为每个事实性声明标记证据等级。绿色标签（直接来源）表示非常贴近文献原文表述；黄色标签（来源支持）"
+    "表示有证据支持的综合推断；灰色标签（分析推断）表示回答超出了已加载文献的直接范围。"
 )
 
 
 def render_provenance(text: str) -> str:
     """Replace provenance tags with colored HTML badges."""
-    for pattern, replacement in BADGE_PATTERNS:
-        text = re.sub(pattern, replacement, text)
+    is_zh = is_session_chinese()
+    badge_quote = "直接来源" if is_zh else "quote"
+    badge_supported = "来源支持" if is_zh else "supported"
+    badge_inference = "分析推断" if is_zh else "inference"
+
+    text = re.sub(
+        r"\[quoted_fact: ([^\]]+)\]",
+        r'<span style="background:rgba(22,163,74,0.12);color:#16a34a;padding:2px 8px;'
+        r'border:1px solid rgba(22,163,74,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
+        r'font-family:\'Geist Mono\',monospace">'
+        f'{badge_quote}: \\1</span>',
+        text
+    )
+    text = re.sub(
+        r"\[source_supported_conclusion: ([^\]]+)\]",
+        r'<span style="background:rgba(202,138,4,0.12);color:#ca8a04;padding:2px 8px;'
+        r'border:1px solid rgba(202,138,4,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
+        r'font-family:\'Geist Mono\',monospace">'
+        f'{badge_supported}: \\1</span>',
+        text
+    )
+    text = re.sub(
+        r"\[llm_inference\]",
+        r'<span style="background:rgba(107,114,128,0.12);color:#6b7280;padding:2px 8px;'
+        r'border:1px solid rgba(107,114,128,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
+        r'font-family:\'Geist Mono\',monospace">'
+        f'{badge_inference}</span>',
+        text
+    )
     return text
 
 
@@ -243,7 +268,7 @@ def render_provenance_guide() -> None:
 
 def render_how_it_works() -> None:
     """Show a lightweight onboarding explainer for first-time users."""
-    with st.expander("How this works", expanded=not st.session_state.how_it_works_seen):
+    with st.expander("工作原理 / How this works", expanded=not st.session_state.how_it_works_seen):
         st.markdown(HOW_IT_WORKS_HTML, unsafe_allow_html=True)
         st.caption(HOW_IT_WORKS_COPY)
     st.session_state.how_it_works_seen = True
@@ -255,7 +280,7 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
     if not saved_answers:
         return
 
-    with st.expander("Previously answered", expanded=False):
+    with st.expander("历史回答 / Previously answered", expanded=False):
         for i, item in enumerate(saved_answers):
             question = html.escape(str(item["question"]))
             topic = html.escape(str(item["topic"]).upper())
@@ -297,6 +322,151 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
 def detect_chinese(text: str) -> bool:
     """Return True when text contains CJK characters."""
     return bool(re.search(r"[\u3400-\u9fff]", text))
+
+
+def is_session_chinese() -> bool:
+    """Check if the current session leans towards Chinese."""
+    try:
+        if st.session_state.get("pending_question") and detect_chinese(st.session_state.pending_question):
+            return True
+        messages = st.session_state.get("messages", [])
+        for msg in reversed(messages):
+            if msg.get("role") == "user" and detect_chinese(msg.get("content", "")):
+                return True
+    except Exception:
+        pass
+    return False
+
+
+def extract_topic_paths_from_text(text: str) -> list[str]:
+    """Find all topic pages referenced in the text (e.g. topics/ckd/mechanism-overview.md)."""
+    # Match patterns like `topics/xxx/yyy.md` or topics/xxx/yyy.md
+    paths = re.findall(r'`?(topics/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+\.md)`?', text)
+    seen = set()
+    res = []
+    for p in paths:
+        p_clean = p.strip("`").strip()
+        if p_clean not in seen:
+            seen.add(p_clean)
+            res.append(p_clean)
+    return res
+
+
+
+DISEASE_GUIDE = {
+    "zh": {
+        "ckd": {
+            "name": "猫慢性肾脏病 (CKD)",
+            "queries": [
+                ("解释CKD 或 什么是CKD", "获取本地CKD病理机制与分级概述"),
+                ("CKD评价指标 或 CKD 疗效评估", "获取临床指标、实验室标志物与试验终点手册"),
+                ("CKD 治疗边界 或 猫肾衰治疗限制", "获取磷结合剂等干预措施的标签边界评估")
+            ]
+        },
+        "fip": {
+            "name": "猫传染性腹膜炎 (FIP)",
+            "queries": [
+                ("解释FIP 或 什么是FIP", "获取FIP冠状病毒突变与病理生理学概述"),
+                ("FIP怎么识别 或 FIP怎么诊断", "获取诊断标志物、临床分型与鉴别诊断"),
+                ("FIP 药效评估 或 FIP 试验终点", "获取临床试验终点与疗效指标设计"),
+                ("FIP 治疗证据 或 GS-441524 疗效", "获取抗病毒药物及支持性治疗临床证据")
+            ]
+        },
+        "ibd": {
+            "name": "猫炎症性肠病 (IBD)",
+            "queries": [
+                ("解释IBD 或 什么是IBD", "获取本地IBD慢性肠病及免疫病理学概述"),
+                ("IBD和淋巴瘤怎么区分 或 IBD 淋巴瘤鉴别", "获取IBD与低级别消化道淋巴瘤诊断鉴别指南")
+            ]
+        },
+        "hcm": {
+            "name": "猫肥厚型心肌病 (HCM)",
+            "queries": [
+                ("解释HCM 或 什么是HCM", "获取HCM心脏重构、分级及超声筛查指标概述")
+            ]
+        },
+        "diabetes": {
+            "name": "猫糖尿病 (Diabetes)",
+            "queries": [
+                ("解释糖尿病 或 什么是糖尿病", "获取胰岛素敏感性、饮食控制与长期管理概述")
+            ]
+        },
+        "fcv": {
+            "name": "猫杯状病毒 (FCV)",
+            "queries": [
+                ("解释FCV 或 什么是FCV", "获取FCV口炎、急性发热与毒株异质性概述")
+            ]
+        },
+        "obesity": {
+            "name": "猫肥胖症 (Obesity)",
+            "queries": [
+                ("解释肥胖 或 什么是肥胖", "获取体况评分(BCS)、能量限制与减重策略概述")
+            ]
+        },
+        "cancer": {
+            "name": "猫肿瘤 (Cancer)",
+            "queries": [
+                ("解释肿瘤 或 什么是肿瘤", "获取猫恶性肿瘤（乳腺癌、淋巴瘤等）病理分期概述")
+            ]
+        }
+    },
+    "en": {
+        "ckd": {
+            "name": "Feline Chronic Kidney Disease (CKD)",
+            "queries": [
+                ("What is CKD? or Explain CKD", "Access local CKD overview, staging & pathophysiology"),
+                ("CKD trial endpoints or CKD efficacy assessment", "Access clinical endpoints & lab markers handbook"),
+                ("CKD treatment boundaries", "Access labeling and intervention boundaries for phosphate binders")
+            ]
+        },
+        "fip": {
+            "name": "Feline Infectious Peritonitis (FIP)",
+            "queries": [
+                ("What is FIP? or Explain FIP", "Access FIP coronavirus mutation & pathology overview"),
+                ("How to recognize FIP? or FIP diagnosis", "Access diagnostic markers & differentiation checklist"),
+                ("FIP trial endpoints or FIP efficacy evaluation", "Access clinical trial endpoints & design standards"),
+                ("FIP treatment evidence or GS-441524 efficacy", "Access antiviral efficacy & supportive care evidence")
+            ]
+        },
+        "ibd": {
+            "name": "Feline Inflammatory Bowel Disease (IBD)",
+            "queries": [
+                ("What is IBD? or Explain IBD", "Access IBD chronic enteropathy & pathology overview"),
+                ("How to differentiate IBD and lymphoma", "Access diagnostic differentiation guide for IBD vs. LGA lymphoma")
+            ]
+        },
+        "hcm": {
+            "name": "Feline Hypertrophic Cardiomyopathy (HCM)",
+            "queries": [
+                ("What is HCM? or Explain HCM", "Access HCM staging, remodeling & screening criteria overview")
+            ]
+        },
+        "diabetes": {
+            "name": "Feline Diabetes",
+            "queries": [
+                ("What is diabetes? or Explain diabetes", "Access insulin protocol, diet & glucose curve overview")
+            ]
+        },
+        "fcv": {
+            "name": "Feline Calicivirus (FCV)",
+            "queries": [
+                ("What is FCV? or Explain FCV", "Access FCV stomatitis, acute fever & viral strain diversity")
+            ]
+        },
+        "obesity": {
+            "name": "Feline Obesity",
+            "queries": [
+                ("What is obesity? or Explain obesity", "Access Body Condition Score (BCS) & weight loss strategies")
+            ]
+        },
+        "cancer": {
+            "name": "Feline Oncology (Cancer)",
+            "queries": [
+                ("What is cancer? or Explain cancer", "Access local tumor staging, lymphoma & oncology overview")
+            ]
+        }
+    }
+}
 
 
 def infer_local_disease(question: str) -> str:
@@ -1988,13 +2158,45 @@ def run_app_local_query_core(
             rid = result.get("id") or result["file"]
             title = result.get("title") or result["file"]
             matched = ", ".join(result.get("matched_terms", [])) or "n/a"
-            evidence_lines.append(f"- `{rid}` — {title}; matched terms: {matched}")
+            line = f"- **`{rid}` — {title}** (匹配词: {matched})" if chinese else f"- **`{rid}` — {title}** (matched: {matched})"
+            snippets = result.get("snippets", [])
+            if snippets:
+                snippets_block = "\n".join(f"  > ... {s.strip()} ..." for s in snippets)
+                line += f"\n{snippets_block}"
+            evidence_lines.append(line)
         if not evidence_lines:
             evidence_lines.append(no_hits)
+
+        guide_section = ""
+        lang_key = "zh" if chinese else "en"
+        if disease in DISEASE_GUIDE[lang_key]:
+            guide = DISEASE_GUIDE[lang_key][disease]
+            if chinese:
+                guide_section = f"## 推荐提问引导\n您当前提问的内容涉及 **{guide['name']}**。若您希望获取本地 Vault 对该疾病的专家深度解答，可尝试以下推荐提问方式：\n"
+                for q, desc in guide["queries"]:
+                    guide_section += f"- **“{q}”** ({desc})\n"
+            else:
+                guide_section = f"## Recommended Queries\nYour question concerns **{guide['name']}**. For in-depth expert explanations in the local vault, try asking:\n"
+                for q, desc in guide["queries"]:
+                    guide_section += f"- **\"{q}\"** ({desc})\n"
+        else:
+            if chinese:
+                guide_section = (
+                    "## 本地知识库覆盖范围\n"
+                    "目前本地 Vault 覆盖了以下猫科疾病的主题：**猫慢性肾脏病 (CKD)**、**猫传染性腹膜炎 (FIP)**、**猫炎症性肠病 (IBD)**、**猫肥厚型心肌病 (HCM)**、**猫杯状病毒 (FCV)**、**猫糖尿病**、**猫肥胖症** 及 **猫恶性肿瘤**。\n"
+                    "如果您正在研究上述疾病之一，可以尝试输入上述疾病的名称或尝试更具体的机制问题。如果需要更广泛的文献研究，请启用 API 合成模式。"
+                )
+            else:
+                guide_section = (
+                    "## Local Vault Coverage\n"
+                    "The local Vault currently covers: **CKD**, **FIP**, **IBD**, **HCM**, **FCV**, **Diabetes**, **Obesity**, and **Cancer**.\n"
+                    "If you are researching one of these topics, please use more specific clinical terms. For broader synthesis, enable API mode."
+                )
 
         answer = (
             f"{lead}\n\n"
             f"{hit_header}\n" + "\n".join(evidence_lines) + "\n\n"
+            f"{guide_section}\n\n"
             f"{diff_header}\n" + "\n".join(diff_lines) + "\n\n"
             f"{next_header}\n{next_line}"
         )
@@ -2599,7 +2801,7 @@ def build_presentation_from_answer(
         return None
 
     # Load full source metadata
-    all_source_ids = loaded_source_ids or source_ids
+    all_source_ids = list(set((loaded_source_ids or []) + (source_ids or [])))
     sources = load_full_source_metadata(all_source_ids)
 
     # Count provenance from answer
@@ -2960,6 +3162,18 @@ def render_answer_block_v2(
     # Next actions
     render_next_actions_v2(presentation.next_actions)
 
+    # Render related topic pages preview for user accessibility
+    topic_paths = extract_topic_paths_from_text(answer)
+    if topic_paths:
+        with st.expander("📖 本地关联主题页面阅读 / Read Related Topic Pages", expanded=False):
+            selected_topic = st.selectbox("选择要阅读的文档 / Select a document to read", topic_paths, key=f"{key_prefix}-topic-selector")
+            if selected_topic:
+                content = get_search_result_preview(selected_topic, max_chars=5000)
+                if content:
+                    st.markdown(content)
+                else:
+                    st.warning(f"未能加载文档：{selected_topic}")
+
 
 def provenance_counts(answer: str) -> dict[str, int]:
     """Count answer provenance tags for the visible trust block."""
@@ -3010,21 +3224,50 @@ def render_research_trace(research_trace: Optional[list[dict]]) -> None:
     if not research_trace:
         return
 
-    with st.expander("Research trace", expanded=False):
+    is_zh = is_session_chinese()
+    title = "检索与分析轨迹 / Research trace" if is_zh else "Research trace"
+    note = (
+        "这是系统解释问题、检索本地证据、加载文献卡片并得出回答的过程。这是系统运行的审计轨迹，不是额外的临床证据。"
+        if is_zh else
+        "This shows how the vault interpreted the question, searched local evidence, loaded source cards, and reached the answer. It is an audit trail, not extra evidence."
+    )
+
+    step_translations = {
+        "Interpreted query": "解析问题 / Interpreted query",
+        "Searched vault": "检索本地库 / Searched vault",
+        "Loaded evidence": "加载证据文献 / Loaded evidence",
+        "Loaded routed files": "加载路由文件 / Loaded routed files",
+        "Applied selected source": "应用所选来源 / Applied selected source",
+        "Loaded overview baseline evidence": "加载概述基线证据 / Loaded overview baseline evidence",
+        "Fallback source preload": "预加载后备来源 / Fallback source preload",
+        "Checked verified figures": "验证图表检查 / Checked verified figures",
+        "Synthesized answer": "合成最终回答 / Synthesized answer",
+        "Returned local answer": "返回本地回答 / Returned local answer",
+    }
+
+    with st.expander(title, expanded=False):
         st.markdown(
-            """
+            f"""
             <div class="vault-inline-note">
-              This shows how the vault interpreted the question, searched local evidence, loaded source cards, and reached the answer. It is an audit trail, not extra evidence.
+              {note}
             </div>
             """,
             unsafe_allow_html=True,
         )
         for i, entry in enumerate(research_trace, 1):
-            step = html.escape(str(entry.get("step", f"Step {i}")))
+            raw_step = entry.get("step", f"Step {i}")
+            # Try to match dynamic hop names
+            if raw_step.startswith("Agent hop"):
+                step_num = raw_step.replace("Agent hop", "").strip()
+                step = f"智能导航第{step_num}步 / Agent hop {step_num}" if is_zh else raw_step
+            else:
+                step = step_translations.get(raw_step, raw_step)
+
+            step = html.escape(str(step))
             detail = html.escape(str(entry.get("detail", "")))
 
             # Check if this is an external search step
-            is_external_step = "External" in step or "PubMed" in step or "Crossref" in step
+            is_external_step = "External" in raw_step or "PubMed" in raw_step or "Crossref" in raw_step
             step_style = "border-left:3px solid #60a5fa;padding-left:8px" if is_external_step else ""
 
             st.markdown(
@@ -3149,6 +3392,18 @@ def render_answer_block(
     sources_to_show = source_ids or loaded_source_ids
     if sources_to_show:
         render_sources_section(sources_to_show)
+
+    # Render related topic pages preview for user accessibility
+    topic_paths = extract_topic_paths_from_text(answer)
+    if topic_paths:
+        with st.expander("📖 本地关联主题页面阅读 / Read Related Topic Pages", expanded=False):
+            selected_topic = st.selectbox("选择要阅读的文档 / Select a document to read", topic_paths, key=f"{key_prefix}-topic-selector")
+            if selected_topic:
+                content = get_search_result_preview(selected_topic, max_chars=5000)
+                if content:
+                    st.markdown(content)
+                else:
+                    st.warning(f"未能加载文档：{selected_topic}")
 
 
 def render_empty_state() -> None:

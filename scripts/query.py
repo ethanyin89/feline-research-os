@@ -1558,7 +1558,15 @@ Translation and Professional Terminology Rules:
   * urine specific gravity (USG) -> 尿比重
 """
 
-    system = f"""You are a research synthesis agent for a feline disease knowledge vault.
+    lang_instruction = ""
+    if answer_language == "Chinese":
+        lang_instruction = (
+            "CRITICAL LANGUAGE CONSTRAINT: The user asked in Chinese. You MUST write the ENTIRE response in Chinese (简体中文), "
+            "including all section titles, headers, bullet points, and explanations. Do NOT output paragraphs of English prose. "
+            "Only the source card IDs (e.g. `src-ckd-001`) and standard international terms with no common Chinese translation should remain in English.\n\n"
+        )
+
+    system = f"""{lang_instruction}You are a research synthesis agent for a feline disease knowledge vault.
 Write a sourced answer using only the loaded context.
 
 {structure}
@@ -2193,7 +2201,14 @@ def synthesis_revision_call(
     
     gaps_str = "\n".join(f"- {g}" for g in gaps)
     
-    system = f"""You are a senior feline medicine research reviser. 
+    lang_instruction = ""
+    if answer_language == "Chinese":
+        lang_instruction = (
+            "CRITICAL: You MUST write your entire revised response in Chinese (简体中文). "
+            "All headers, bullet points, and explanations must be in professional Chinese.\n\n"
+        )
+    
+    system = f"""{lang_instruction}You are a senior feline medicine research reviser. 
 Your task is to revise a draft research answer to address specific quality gaps.
 You must return the revised answer in {answer_language}.
 

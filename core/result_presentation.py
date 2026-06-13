@@ -683,7 +683,13 @@ def render_user_facing_provenance(
         for source_id in (item.strip() for item in source_ids.split(",")):
             card = source_map.get(source_id)
             if card is None:
-                values.append("来源信息不可用")
+                parts = source_id.split("-")
+                if len(parts) >= 2:
+                    disease_part = parts[1].upper()
+                    num_part = parts[2] if len(parts) > 2 else ""
+                    values.append(f"文献 [{disease_part}-{num_part}]" if num_part else f"文献 [{disease_part}]")
+                else:
+                    values.append(f"文献 [{source_id}]")
                 continue
             title = html_lib.escape(card.title) if use_links else card.title
             if use_links and card.has_valid_link():
