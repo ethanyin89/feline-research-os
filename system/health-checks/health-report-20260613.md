@@ -46,7 +46,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
 | Inbox backlog | PASS | 0 active files, 1 blocked/held files, 15 rejected audit files |
-| Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260613.md; mode=executed; status=pass |
+| Acceptance report | WARN | system/health-checks/ask-the-vault-acceptance-report-20260613.md; mode=template-only; status=template |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260519.md; mode=executed; status=pass |
 | Compile trigger | PASS | 1148 changed source cards, 351 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
@@ -129,4 +129,4 @@ Rejected / audit notes:
 
 ## Next Actions
 
-- No immediate structural action from this report.
+- Run live acceptance once `OPENROUTER_API_KEY` or `ANTHROPIC_API_KEY` is present.

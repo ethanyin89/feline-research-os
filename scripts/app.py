@@ -2662,6 +2662,73 @@ def build_presentation_from_answer(
     )
 
 
+def read_markdown_without_frontmatter(path: Path) -> str:
+    try:
+        text = path.read_text(encoding="utf-8")
+        if text.startswith("---"):
+            end = text.find("\n---", 3)
+            if end != -1:
+                return text[end + 4:].strip()
+        return text.strip()
+    except Exception as e:
+        return f"Error reading file: {e}"
+
+
+def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially_expanded: bool = True) -> None:
+    if not loaded_paths:
+        return
+        
+    st.markdown("<div class='vault-panel-label' style='margin-top:16px;margin-bottom:8px'>匹配的本地文献与文档内容 / Matched Documents</div>", unsafe_allow_html=True)
+    for p_str in loaded_paths:
+        path = Path(p_str)
+        if not path.exists():
+            continue
+            
+        try:
+            rel_path = str(path.relative_to(VAULT_ROOT))
+        except ValueError:
+            rel_path = path.name
+            
+        filename = path.name
+        source_id = path.stem
+        
+        is_source_card = "raw/papers" in rel_path or "raw/regulations" in rel_path or filename.startswith("src-")
+        
+        if is_source_card:
+            # Load metadata
+            meta_list = load_source_metadata(VAULT_ROOT, [source_id])
+            title = filename
+            meta_str = ""
+            if meta_list and meta_list[0].get("title"):
+                meta = meta_list[0]
+                title = f"{source_id}: {meta['title']}"
+                
+                author_str = ", ".join(meta.get("authors", []))
+                year_str = str(meta.get("year", ""))
+                evidence = meta.get("evidence_level", "")
+                verification = meta.get("verification_status", "")
+                
+                meta_parts = []
+                if author_str: meta_parts.append(f"**作者**: {author_str}")
+                if year_str: meta_parts.append(f"**年份**: {year_str}")
+                if evidence: meta_parts.append(f"**证据**: {evidence}")
+                if verification: meta_parts.append(f"**核查**: {verification}")
+                
+                meta_str = " | ".join(meta_parts)
+                
+            expander_title = f"📚 {title}"
+            with st.expander(expander_title, expanded=initially_expanded):
+                if meta_str:
+                    st.markdown(f"<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>{meta_str}</div>", unsafe_allow_html=True)
+                content = read_markdown_without_frontmatter(path)
+                st.markdown(content)
+        else:
+            expander_title = f"📄 {rel_path}"
+            with st.expander(expander_title, expanded=initially_expanded):
+                content = read_markdown_without_frontmatter(path)
+                st.markdown(content)
+
+
 def render_answer_block_v2(
     answer: str,
     confidence: str,
@@ -2674,6 +2741,8 @@ def render_answer_block_v2(
     question_type: str = "",
     research_trace: Optional[list[dict]] = None,
     harness_result: Optional[dict] = None,
+    loaded_paths: Optional[list[str]] = None,
+    backend: str = "openrouter",
 ) -> None:
     """
     Render answer using ResultPresentation contract (V2).
@@ -2694,6 +2763,8 @@ def render_answer_block_v2(
             question_type=question_type,
             research_trace=research_trace,
             harness_result=harness_result,
+            loaded_paths=loaded_paths,
+            backend=backend,
         )
         return
 
@@ -2734,6 +2805,14 @@ def render_answer_block_v2(
 
     # Depth contract warning for Deep/Audit modes
     render_depth_contract_warning(harness_result)
+
+    # Render matched documents section
+    if loaded_paths:
+        if backend == "local":
+            render_loaded_documents_section(loaded_paths, initially_expanded=True)
+        else:
+            with st.expander(f"🔍 查看本次加载的 {len(loaded_paths)} 篇本地原始文献与文档内容", expanded=False):
+                render_loaded_documents_section(loaded_paths, initially_expanded=False)
 
     # Research trace (unchanged)
     render_research_trace(research_trace)
@@ -2893,6 +2972,8 @@ def render_answer_block(
     question_type: str = "",
     research_trace: Optional[list[dict]] = None,
     harness_result: Optional[dict] = None,
+    loaded_paths: Optional[list[str]] = None,
+    backend: str = "openrouter",
 ) -> None:
     """Render one assistant answer with provenance, copy button, confidence, figures, and sources."""
     source_ids = source_ids or []
@@ -2901,6 +2982,15 @@ def render_answer_block(
     st.markdown(render_provenance(cleaned_answer), unsafe_allow_html=True)
     copy_button(answer, key=f"{key_prefix}-copy")
     render_trust_block(answer, confidence, source_ids, loaded_source_ids)
+
+    # Render matched documents section
+    if loaded_paths:
+        if backend == "local":
+            render_loaded_documents_section(loaded_paths, initially_expanded=True)
+        else:
+            with st.expander(f"🔍 查看本次加载的 {len(loaded_paths)} 篇本地原始文献与文档内容", expanded=False):
+                render_loaded_documents_section(loaded_paths, initially_expanded=False)
+
     render_research_trace(research_trace)
     render_expert_review_loop(
         question=question,
@@ -4107,6 +4197,8 @@ for i, msg in enumerate(st.session_state.messages):
                 question_type=msg.get("question_type", ""),
                 research_trace=msg.get("research_trace"),
                 harness_result=msg.get("harness_result"),
+                loaded_paths=msg.get("loaded_paths"),
+                backend=msg.get("backend", "openrouter"),
             )
         else:
             st.markdown(msg["content"])
@@ -4300,6 +4392,8 @@ def run_query(question: str) -> bool:
             question_type=question_type,
             research_trace=research_trace,
             harness_result=harness_result,
+            loaded_paths=[str(p) for p in loaded_paths],
+            backend=backend,
         )
 
     # --- Write-back ---
@@ -4334,6 +4428,8 @@ def run_query(question: str) -> bool:
         "loaded_source_ids": loaded_source_ids,
         "research_trace": research_trace,
         "harness_result": harness_result,
+        "loaded_paths": [str(p) for p in loaded_paths],
+        "backend": backend,
     })
     st.session_state.last_files_loaded = [str(p) for p in loaded_paths]
 
