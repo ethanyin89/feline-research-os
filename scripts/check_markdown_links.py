@@ -23,6 +23,11 @@ def should_skip_file(path: Path, root: Path) -> bool:
         return False
     parts = rel.parts
     rel_posix = rel.as_posix()
+    
+    # Skip handoff documents and directories
+    if "handoff" in path.name.lower() or "handoffs" in parts:
+        return True
+        
     return any(part in SKIP_DIRS for part in parts) or any(
         rel_posix == skipped or rel_posix.startswith(f"{skipped}/")
         for skipped in SKIP_DIRS

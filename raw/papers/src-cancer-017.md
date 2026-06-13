@@ -8,15 +8,18 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: review
+year: 2024
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 38914239
+doi: "10.1016/j.bbcan.2024.189144"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, advances, immunotherapy, breast, mammary, carcinoma, molecular, basis]
 links:
-  doi: ""
+  doi: "10.1016/j.bbcan.2024.189144"
   url: "https://www.sciencedirect.com/science/article/pii/S0304419X24000751?via%3Dihub"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,29 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2024 BBA Reviews on Cancer: most current immunotherapy review covering five checkpoints (CTLA-4, LAG-3, PD-1, VISTA, TIM-3). FMC is 3rd most frequent feline malignancy. Investigational, not treatment guidance. [Deep extraction worksheet](../../system/indexes/src-cancer-017-deep-extraction-round1.md).
+
+## Full Abstract (PubMed)
+
+The role of inflammation in cancer is a topic that has been investigated for many years. As established, inflammation emerges as a defining characteristic of cancer, presenting itself as a compelling target for therapeutic interventions in the realm of oncology. Controlling the tumor microenvironment (TME) has gained paramount significance, modifying not only the effectiveness of immunotherapy but also modulating the outcomes and prognoses of standard chemotherapy and other anticancer treatments. Immunotherapy has surfaced as a central focus within the domain of tumor treatments, using immune checkpoint inhibitors as cancer therapy. Immune checkpoints and their influence on the tumor microenvironment dynamic are presently under investigation, aiming to ascertain their viability as therapeutic interventions across several cancer types. Cancer presents a significant challenge in humans and cats, where female breast cancer ranks as the most prevalent malignancy and feline mammary carcinoma stands as the third most frequent. This review seeks to summarize the data about the immune checkpoints cytotoxic T-lymphocyte-associated antigen 4 (CTLA-4), lymphocyte activation gene-3 (LAG-3), programmed cell death protein-1 (PD-1), V-domain Ig suppressor of T cell activation (VISTA), and T-cell immunoglobulin and mucin domain 3 (TIM-3) respective ongoing investigations as prospective targets for therapy for human breast cancer, while also outlining findings from studies reported on feline mammary carcinoma (FMC), strengthening the rationale for employing FMC as a representative model in the exploration of human breast cancer.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| FMC prevalence ranking | 3rd most frequent feline malignancy | burden context |
+| Checkpoints reviewed | CTLA-4, LAG-3, PD-1, VISTA, TIM-3 | therapeutic targets |
+| TME importance | modifies immunotherapy effectiveness and chemo outcomes | mechanistic |
+| Model rationale | FMC as representative model for human breast cancer | comparative oncology |
+| Research status | ongoing investigations for therapeutic viability | 2024 state of field |
+
+**Key insight:** This is the most current (2024) comprehensive immunotherapy review covering five major immune checkpoints (CTLA-4, LAG-3, PD-1, VISTA, TIM-3) in both human breast cancer and FMC. Particularly valuable for understanding checkpoint inhibitor therapy directions.
+
+**Boundary:** Review-level; checkpoint inhibitor therapy for FMC remains investigational. Not treatment guidance.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 18. Use it for triage until abstract or full-text extraction proves a stronger role.
+2024 BBA Rev Cancer: immunotherapy + 5 checkpoints (CTLA-4, LAG-3, PD-1, VISTA, TIM-3) reviewed for breast cancer/FMC; FMC is 3rd most common feline malignancy.
 
 ## Why It Matters For Feline Cancer
 

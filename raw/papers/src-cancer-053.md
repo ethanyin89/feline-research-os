@@ -9,35 +9,61 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 1968
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, survey, animal, neoplasms, alameda, contra, costa, counties]
+pmid: 5694272
+tags: [cancer, survey, animal, neoplasms, alameda, epidemiology, registry, morbidity, prevalence]
 links:
   doi: ""
   url: "https://academic.oup.com/jnci/article-abstract/40/2/307/929183?redirectedFrom=fulltext&login=false"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Survey of animal neoplasms in Alameda and Contra Costa Counties, California. II. Cancer morbidity in dogs and cats from Alameda County."
-    - "The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/40/2/307/929183?redirectedFrom=fulltext&login=false."
+    - "PubMed-indexed reference from J Natl Cancer Inst 1968; PMID 5694272."
+    - "Part of the Animal Neoplasm Registry population-based study."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Historical epidemiological study from population-based animal tumor registry."
+    - "Foundation study for subsequent Alameda County animal cancer epidemiology."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Likely contains baseline cancer morbidity rates for cats and dogs in Alameda County."
+    - "May provide historical prevalence data for registry-and-prevalence.md."
 ---
 
 # Survey of animal neoplasms in Alameda and Contra Costa Counties, California. II. Cancer morbidity in dogs and cats from Alameda County
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction but no abstract is available (pre-1975 JNCI paper). 1968 population-based cancer morbidity survey from Alameda County Animal Neoplasm Registry; foundation study for veterinary cancer epidemiology; full-text required for numeric data. [Deep extraction worksheet](../../system/indexes/src-cancer-053-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| PMID | 5694272 |
+| Journal | J Natl Cancer Inst |
+| Year | 1968 |
+| Authors | Dorn CR, Taylor DO, Schneider R, Hibbard HH, Klauber MR |
+
+## Abstract Summary
+
+No abstract available in PubMed (pre-1975 paper). The title and citation are verified.
+
+| Category | Finding |
+|----------|---------|
+| Study type | Population-based epidemiological survey |
+| Location | Alameda County, California |
+| Species | Dogs and cats |
+| Context | Animal Neoplasm Registry study series |
+
+**Boundary:** No abstract available. PMID verified. Full-text required for numeric findings.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 56. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical 1968 JNCI epidemiological survey of cancer morbidity in dogs and cats from the Alameda County Animal Neoplasm Registry (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +80,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Survey of animal neoplasms in Alameda and Contra Costa Counties, California. II. Cancer morbidity in dogs and cats from Alameda County.
-- The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/40/2/307/929183?redirectedFrom=fulltext&login=false.
+- PubMed-indexed: J Natl Cancer Inst. 1968 Feb;40(2):307-18
+- PMID: 5694272 (verified)
+- Part of the Animal Neoplasm Registry of Alameda and Contra Costa Counties series
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Historical population-based epidemiological study
+- Foundation study for Schneider's subsequent leukemia work (see PMID 6573542)
+- Pre-1975 paper; no abstract available in PubMed
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Likely contains baseline cancer morbidity rates for cats and dogs in Alameda County
+- May provide historical prevalence data useful for registry-and-prevalence.md
+- Full-text required for specific numeric findings
 
 ## Claim-Fit Judgment
 

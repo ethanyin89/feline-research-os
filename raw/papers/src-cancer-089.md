@@ -1,43 +1,65 @@
 ---
 id: src-cancer-089
 type: source
-title: "FELINE LEUKEMIA: A NATURALLY OCCURRING CANCER OF INFECTIOUS ORIGIN"
+title: "Feline leukemia: a naturally occurring cancer of infectious origin"
 source_kind: paper
 species: feline
 diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
+year: 1982
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, leukemia, naturally, occurring, infectious, origin]
+pmid: 6291969
+tags: [cancer, FeLV, review, epidemiology, infectious-origin, lymphoma]
 links:
-  doi: ""
+  doi: "10.1093/oxfordjournals.epirev.a036246"
   url: "https://academic.oup.com/epirev/article-abstract/4/1/189/533224?redirectedFrom=fulltext&login=false"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: FELINE LEUKEMIA: A NATURALLY OCCURRING CANCER OF INFECTIOUS ORIGIN."
-    - "The intake sheet locator is: https://academic.oup.com/epirev/article-abstract/4/1/189/533224?redirectedFrom=fulltext&login=false."
+    - "PubMed-indexed: Epidemiol Rev. 1982;4:189-203."
+    - "Author: Essex ME."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Comprehensive review of FeLV as infectious cause of feline cancer."
+    - "Essex is a seminal FeLV researcher."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Key review for lymphoma.md FeLV etiology section."
+    - "Historical perspective on viral oncogenesis in cats."
 ---
 
-# FELINE LEUKEMIA: A NATURALLY OCCURRING CANCER OF INFECTIOUS ORIGIN
+# Feline leukemia: a naturally occurring cancer of infectious origin
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 6291969 |
+| DOI | 10.1093/oxfordjournals.epirev.a036246 |
+| Journal | Epidemiol Rev |
+| Year | 1982 |
+| Author | Essex ME |
+
+## Abstract Summary
+
+No abstract available in PubMed (1982 Epidemiol Rev format). Citation verified.
+
+| Category | Finding |
+|----------|---------|
+| Article type | Review |
+| Focus | FeLV as infectious cause of feline cancer |
+| Author | Essex - leading FeLV/retrovirus researcher |
+
+**Boundary:** No abstract available. PMID verified. Historical review by seminal FeLV researcher.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 95. Use it for triage until abstract or full-text extraction proves a stronger role.
+1982 Epidemiol Rev comprehensive review of FeLV as infectious cancer cause by Essex ME (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 

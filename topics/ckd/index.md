@@ -137,3 +137,7 @@ Tier A read-first sources:
 - renal diet has the clearest support in the current seed set
 - several adjunct treatments are used despite weaker or mixed evidence
 - hypertension management is central, not optional
+
+## Evidence-Depth Caveat
+
+This page cites abstract-weighted and title-only sources (such as src-ckd-051, src-ckd-053, and src-ckd-054) for extended pathogenetic and staging context. These details do not provide clinical or veterinary medical guidance and should be verified against full-text source files for high-priority clinical decisions.

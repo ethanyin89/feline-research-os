@@ -57,6 +57,8 @@ the result out of source evidence until it is staged and checked.
 
 如果你不想先学结构，直接从这些问题进：
 
+- `What is X?` / `什么是X？` / `解释一下X`
+  Open the disease `what-is-*` page (plain-language explanation)
 - `What is the strongest current overall read for this disease?`
   Open the disease `current-state-dashboard`
 - `What is the current best structured overview?`
@@ -70,6 +72,28 @@ the result out of source evidence until it is staged and checked.
 
 如果你已经知道问题属于哪一层，再往下选。
 
+## 0. I Want A Simple Explanation / 我想要简单解释
+
+Ask:
+
+- `What is feline obesity?` / `什么是猫肥胖？` / `解释一下猫肥胖`
+- `What is feline cancer?` / `什么是猫癌症？` / `解释一下猫癌症`
+- `What is CKD?` / `什么是猫慢性肾病？` / `解释一下猫肾病`
+- `What is FIP?` / `什么是猫传腹？` / `解释一下猫传染性腹膜炎`
+- `What is IBD?` / `什么是猫炎症性肠病？` / `解释一下猫IBD`
+- `What is diabetes?` / `什么是猫糖尿病？` / `解释一下猫糖尿病`
+
+Open the disease `what-is-*` page for plain-language explanation:
+
+- Obesity: [what-is-obesity](../../topics/obesity/what-is-obesity.md)
+- Cancer: [what-is-cancer](../../topics/cancer/what-is-cancer.md)
+- CKD: [what-is-ckd](../../topics/ckd/what-is-ckd.md)
+- FIP: [what-is-fip](../../topics/fip/what-is-fip.md)
+- IBD: (pending — currently use [current-state-dashboard](../../topics/ibd/current-state-dashboard.md))
+- HCM: (pending — currently use [current-state-dashboard](../../topics/hcm/current-state-dashboard.md))
+- Diabetes: (pending — currently use [current-state-dashboard](../../topics/diabetes/current-state-dashboard.md))
+- FCV: (pending — currently use [current-state-dashboard](../../topics/fcv/current-state-dashboard.md))
+
 ## 1. I Want The Fastest Disease Read / 我想最快读懂一个病种
 
 Ask:
@@ -81,6 +105,7 @@ Ask:
 - `What is the current strongest Diabetes reading?`
 - `What is the current strongest FCV reading?`
 - `What is the current strongest Obesity reading?`
+- `What is the current strongest Cancer reading?`
 
 Open:
 
@@ -91,6 +116,7 @@ Open:
 - Diabetes: [current-state-dashboard](../../topics/diabetes/current-state-dashboard.md)
 - FCV: [current-state-dashboard](../../topics/fcv/current-state-dashboard.md)
 - Obesity: [current-state-dashboard](../../topics/obesity/current-state-dashboard.md)
+- Cancer: [current-state-dashboard](../../topics/cancer/current-state-dashboard.md)
 
 ## 2. I Want The Current Best Structured Overview / 我想看当前最稳的大图
 
@@ -105,6 +131,7 @@ Open:
 - IBD: [synthesis-index](../../topics/ibd/synthesis-index.md)
 - HCM: [synthesis-index](../../topics/hcm/synthesis-index.md)
 - Diabetes: [synthesis-index](../../topics/diabetes/synthesis-index.md)
+- Cancer: [synthesis-index](../../topics/cancer/synthesis-index.md)
 - FCV: [synthesis-index](../../topics/fcv/synthesis-index.md)
 - Obesity: (not yet compiled — use [mechanism-overview](../../topics/obesity/mechanism-overview.md) for architecture)
 

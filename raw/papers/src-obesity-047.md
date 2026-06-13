@@ -3,7 +3,7 @@ id: src-obesity-047
 type: source
 title: "The Effect of Obesity and Weight Loss on the Feline Fecal Microbiota, Inflammation and Intestinal Health Markers"
 year: 2018
-source_kind: paper
+source_kind: thesis
 species: feline
 diseases: [obesity]
 models: []
@@ -12,60 +12,68 @@ jurisdictions: []
 evidence_level: original-study
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, effect, weight, loss, fecal, microbiota, inflammation, intestinal]
+authors: ["Tal Gavriel M"]
 links:
   doi: ""
   url: "https://atrium.lib.uoguelph.ca/items/51b27641-f44e-45bd-954c-8a516752dc5d"
+  hdl: "http://hdl.handle.net/10214/12608"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: The Effect of Obesity and Weight Loss on the Feline Fecal Microbiota, Inflammation and Intestinal Health Markers."
-    - "The intake sheet locator is: https://atrium.lib.uoguelph.ca/items/51b27641-f44e-45bd-954c-8a516752dc5d."
+    - "Obese cats displayed enriched bacterial taxa before weight loss—particularly Firmicutes members potentially involved in energy harvesting—compared to lean controls."
+    - "Higher folate-producing bacteria from the Prevotellaceae family appeared in obese cats, correlating with elevated serum folate levels that indicate compromised intestinal health."
+    - "Weight loss triggered pro-inflammatory responses including increased Flt3 and interleukin β-1."
+    - "Obesity in cats is suggested to be affiliated with energy harvesting and compromised intestinal health."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "PhD dissertation examining feline obesity effects on gut microbiota composition and inflammatory markers."
+    - "Brief ambient-temperature storage had minimal effect on fecal sample integrity."
+    - "A temporary inflammatory process is associated with weight loss in cats."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Gut microbiome composition differs between obese and lean cats, with potential implications for metabolic health."
+    - "Weight loss may transiently increase inflammation, which may be clinically relevant during weight management programs."
 ---
 
 # The Effect of Obesity and Weight Loss on the Feline Fecal Microbiota, Inflammation and Intestinal Health Markers
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This source card is based on abstract-level information from the University of Guelph thesis repository. Full-text extraction would provide detailed methodology and quantitative microbiome data.
 
 ## One-Line Summary
 
-Candidate obesity source from sheet row 183. Use it for triage until abstract or full-text extraction proves a stronger role.
+PhD dissertation demonstrating that feline obesity alters gut microbiota composition (enriched Firmicutes, elevated folate-producing Prevotellaceae) and that weight loss triggers transient pro-inflammatory responses.
 
 ## Why It Matters For Feline Obesity
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-obesity` by the intake workflow.
+This dissertation from University of Guelph provides original research on the gut-obesity axis in cats:
 
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+- Documents microbiome differences between obese and lean cats
+- Identifies Firmicutes enrichment potentially involved in energy harvesting
+- Links Prevotellaceae abundance to elevated serum folate indicating compromised intestinal health
+- Reveals that weight loss itself triggers temporary inflammation (elevated Flt3, IL-1β)
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: The Effect of Obesity and Weight Loss on the Feline Fecal Microbiota, Inflammation and Intestinal Health Markers.
-- The intake sheet locator is: https://atrium.lib.uoguelph.ca/items/51b27641-f44e-45bd-954c-8a516752dc5d.
+- Obese cats displayed enriched bacterial taxa before weight loss—particularly Firmicutes members potentially involved in energy harvesting—compared to lean controls.
+- Higher folate-producing bacteria from the Prevotellaceae family appeared in obese cats, correlating with elevated serum folate levels.
+- Weight loss triggered pro-inflammatory responses including increased Flt3 and interleukin β-1.
+- Obesity in cats is suggested to be affiliated with energy harvesting and compromised intestinal health.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Gut microbiome composition differs meaningfully between obese and lean cats.
+- Serum folate may serve as a marker for intestinal health compromise in obese cats.
+- Weight loss programs should anticipate transient inflammatory responses.
 
 ### llm_inference
 
-- The title suggests a possible `obesity` role, but the actual claim-fit requires abstract or full-text review.
+- This research suggests the gut microbiome may be both a consequence and potential therapeutic target in feline obesity management.
 
 ## Claim-Fit Judgment
 

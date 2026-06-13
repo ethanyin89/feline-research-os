@@ -1,0 +1,206 @@
+{
+  "case_id": "case-ckd-phosphorus-control",
+  "created_at": "2026-06-06T18:18:42.999246+00:00",
+  "current": {
+    "assumptions": [],
+    "blockers": [
+      {
+        "blocker_id": "blocker-human-criteria-review",
+        "created_at": "2026-06-06T18:19:15.488373+00:00",
+        "description": "A named human reviewer must define and freeze decision criteria; legacy generator output cannot supply them.",
+        "owner": "Jiawei",
+        "stage": "criteria"
+      }
+    ],
+    "challenges": [],
+    "claims": [],
+    "criteria": [],
+    "criteria_frozen_version": 0,
+    "frame": {
+      "alternatives": [
+        "advance to structured evidence review",
+        "do not advance until specified evidence gaps are resolved"
+      ],
+      "asset": "phosphorus-control research program",
+      "deadline": "2026-06-30",
+      "indication": "feline chronic kidney disease",
+      "jurisdiction": "research diligence; no automated commercial or clinical decision",
+      "owner": "Jiawei",
+      "question": "What evidence supports, limits, or blocks further research on phosphorus control in feline CKD?",
+      "reviewer": "unassigned",
+      "scope": "Local feline CKD vault evidence and the existing phosphorus-control legacy brief"
+    },
+    "gaps": [],
+    "legacy_attachments": [
+      {
+        "attachment_id": "legacy-ckd-phosphorus-brief-20260604",
+        "imported_at": "2026-06-06T18:18:43.001149+00:00",
+        "original_review_status": "not trusted for Research Case gate credit",
+        "relative_path": "outputs/business/ckd-phosphorus-control-opportunity-brief-20260604.md",
+        "sha256": "38b9a813e8a29478409ea87d75e2a2d084091d94143a23d0b55e516a1f78e981",
+        "status": "legacy_unreviewed"
+      }
+    ],
+    "stale_stages": []
+  },
+  "events": [
+    {
+      "actor_label": "migration-cli",
+      "created_at": "2026-06-06T18:18:42.999436+00:00",
+      "identity_assurance": "self_asserted",
+      "invalidated_stages": [],
+      "operation_id": "create-case-ckd-phosphorus-control",
+      "reason": "create case",
+      "revision": 1
+    },
+    {
+      "actor_label": "migration-cli",
+      "created_at": "2026-06-06T18:18:43.001857+00:00",
+      "identity_assurance": "self_asserted",
+      "invalidated_stages": [],
+      "operation_id": "import-legacy-ckd-phosphorus-brief-20260604",
+      "reason": "Admit legacy brief as unreviewed attachment",
+      "revision": 2
+    },
+    {
+      "actor_label": "migration-cli",
+      "created_at": "2026-06-06T18:19:15.489065+00:00",
+      "identity_assurance": "self_asserted",
+      "invalidated_stages": [],
+      "operation_id": "block-ckd-phosphorus-human-criteria",
+      "reason": "Record required human Criteria review",
+      "revision": 3
+    }
+  ],
+  "revision": 3,
+  "revisions": [
+    {
+      "actor_label": "migration-cli",
+      "content_hash": "35a13ad83c3e42989e512a557ab165805719499c4e6112325965cf0e1300bf70",
+      "created_at": "2026-06-06T18:18:42.999436+00:00",
+      "identity_assurance": "self_asserted",
+      "reason": "create case",
+      "revision": 1,
+      "snapshot": {
+        "assumptions": [],
+        "blockers": [],
+        "challenges": [],
+        "claims": [],
+        "criteria": [],
+        "criteria_frozen_version": 0,
+        "frame": {
+          "alternatives": [
+            "advance to structured evidence review",
+            "do not advance until specified evidence gaps are resolved"
+          ],
+          "asset": "phosphorus-control research program",
+          "deadline": "2026-06-30",
+          "indication": "feline chronic kidney disease",
+          "jurisdiction": "research diligence; no automated commercial or clinical decision",
+          "owner": "Jiawei",
+          "question": "What evidence supports, limits, or blocks further research on phosphorus control in feline CKD?",
+          "reviewer": "unassigned",
+          "scope": "Local feline CKD vault evidence and the existing phosphorus-control legacy brief"
+        },
+        "gaps": [],
+        "legacy_attachments": [],
+        "stale_stages": []
+      }
+    },
+    {
+      "actor_label": "migration-cli",
+      "content_hash": "a785c7f3f0dfe4fc0a9e2b009bea0c14f5773d52b733b60661548cdc5ce872dd",
+      "created_at": "2026-06-06T18:18:43.001857+00:00",
+      "identity_assurance": "self_asserted",
+      "reason": "Admit legacy brief as unreviewed attachment",
+      "revision": 2,
+      "snapshot": {
+        "assumptions": [],
+        "blockers": [],
+        "challenges": [],
+        "claims": [],
+        "criteria": [],
+        "criteria_frozen_version": 0,
+        "frame": {
+          "alternatives": [
+            "advance to structured evidence review",
+            "do not advance until specified evidence gaps are resolved"
+          ],
+          "asset": "phosphorus-control research program",
+          "deadline": "2026-06-30",
+          "indication": "feline chronic kidney disease",
+          "jurisdiction": "research diligence; no automated commercial or clinical decision",
+          "owner": "Jiawei",
+          "question": "What evidence supports, limits, or blocks further research on phosphorus control in feline CKD?",
+          "reviewer": "unassigned",
+          "scope": "Local feline CKD vault evidence and the existing phosphorus-control legacy brief"
+        },
+        "gaps": [],
+        "legacy_attachments": [
+          {
+            "attachment_id": "legacy-ckd-phosphorus-brief-20260604",
+            "imported_at": "2026-06-06T18:18:43.001149+00:00",
+            "original_review_status": "not trusted for Research Case gate credit",
+            "relative_path": "outputs/business/ckd-phosphorus-control-opportunity-brief-20260604.md",
+            "sha256": "38b9a813e8a29478409ea87d75e2a2d084091d94143a23d0b55e516a1f78e981",
+            "status": "legacy_unreviewed"
+          }
+        ],
+        "stale_stages": []
+      }
+    },
+    {
+      "actor_label": "migration-cli",
+      "content_hash": "fbc91f51859267d98092a2ab1f30116163ea5685af86e04c376c56f31e4339ce",
+      "created_at": "2026-06-06T18:19:15.489065+00:00",
+      "identity_assurance": "self_asserted",
+      "reason": "Record required human Criteria review",
+      "revision": 3,
+      "snapshot": {
+        "assumptions": [],
+        "blockers": [
+          {
+            "blocker_id": "blocker-human-criteria-review",
+            "created_at": "2026-06-06T18:19:15.488373+00:00",
+            "description": "A named human reviewer must define and freeze decision criteria; legacy generator output cannot supply them.",
+            "owner": "Jiawei",
+            "stage": "criteria"
+          }
+        ],
+        "challenges": [],
+        "claims": [],
+        "criteria": [],
+        "criteria_frozen_version": 0,
+        "frame": {
+          "alternatives": [
+            "advance to structured evidence review",
+            "do not advance until specified evidence gaps are resolved"
+          ],
+          "asset": "phosphorus-control research program",
+          "deadline": "2026-06-30",
+          "indication": "feline chronic kidney disease",
+          "jurisdiction": "research diligence; no automated commercial or clinical decision",
+          "owner": "Jiawei",
+          "question": "What evidence supports, limits, or blocks further research on phosphorus control in feline CKD?",
+          "reviewer": "unassigned",
+          "scope": "Local feline CKD vault evidence and the existing phosphorus-control legacy brief"
+        },
+        "gaps": [],
+        "legacy_attachments": [
+          {
+            "attachment_id": "legacy-ckd-phosphorus-brief-20260604",
+            "imported_at": "2026-06-06T18:18:43.001149+00:00",
+            "original_review_status": "not trusted for Research Case gate credit",
+            "relative_path": "outputs/business/ckd-phosphorus-control-opportunity-brief-20260604.md",
+            "sha256": "38b9a813e8a29478409ea87d75e2a2d084091d94143a23d0b55e516a1f78e981",
+            "status": "legacy_unreviewed"
+          }
+        ],
+        "stale_stages": []
+      }
+    }
+  ],
+  "schema_version": 1,
+  "status": "active",
+  "updated_at": "2026-06-06T18:19:15.489065+00:00"
+}

@@ -2,8 +2,8 @@
 id: src-diabetes-037
 type: source
 title: "Risk factors for feline diabetes mellitus"
-year: 2009
-source_kind: paper
+year: 2008
+source_kind: thesis
 species: feline
 diseases: [diabetes mellitus]
 models: []
@@ -12,7 +12,7 @@ jurisdictions: []
 evidence_level: original-study
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [diabetes, risk, factors]
@@ -20,52 +20,57 @@ links:
   doi: ""
   url: "https://dspace.library.uu.nl/items/04d73cf0-eb6f-46c2-818a-5f05b810cfe5"
   local_assets: []
+authors: ["Slingerland LI"]
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Risk factors for feline diabetes mellitus."
-    - "The intake sheet locator is: https://dspace.library.uu.nl/items/04d73cf0-eb6f-46c2-818a-5f05b810cfe5."
+    - "Physical inactivity and indoor confinement are risk factors, independent of age, body weight or body condition."
+    - "Acromegaly diagnosed in 5 of 16 diabetic cats examined."
+    - "Pituitary-dependent hypercortisolism found in 2 of 5 acromegalic cats."
+    - "The increase in glucose-induced insulin secretion is a primary dietary effect mediated by chronic effects of incretins."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "PhD dissertation examining diabetes risk factors in cats using hyperglycemic glucose clamp (HGC) for measuring β-cell function and insulin sensitivity."
+    - "Dietary macronutrient effects tested; protein exchange for fat increased glucose-induced insulin secretion."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "This thesis provides original research on feline diabetes risk factors with focus on inactivity, acromegaly comorbidity, and dietary effects on insulin secretion."
 ---
 
 # Risk factors for feline diabetes mellitus
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This source card is based on abstract-level information from the thesis repository. Full-text extraction would provide more detailed methodology and quantitative findings.
 
 ## One-Line Summary
 
-Candidate diabetes source from sheet row 49. Use it for triage until abstract or full-text extraction proves a stronger role.
+PhD dissertation establishing physical inactivity and indoor confinement as independent risk factors for feline diabetes, with findings on acromegaly comorbidity and dietary effects on insulin secretion.
 
 ## Why It Matters For Feline Diabetes
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-diabetes` by the intake workflow.
+This PhD dissertation from Utrecht University provides original research on diabetes mellitus risk factors in cats. Key contributions include:
 
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+- Development of hyperglycemic glucose clamp (HGC) technique for measuring β-cell function and insulin sensitivity in conscious cats
+- Identification of physical inactivity and indoor confinement as independent risk factors
+- Documentation of acromegaly comorbidity in diabetic cats (5/16 examined)
+- Findings on dietary macronutrient effects on glucose-induced insulin secretion
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Risk factors for feline diabetes mellitus.
-- The intake sheet locator is: https://dspace.library.uu.nl/items/04d73cf0-eb6f-46c2-818a-5f05b810cfe5.
+- Physical inactivity and indoor confinement are risk factors, independent of age, body weight or body condition.
+- Acromegaly diagnosed in 5 of 16 diabetic cats examined.
+- Pituitary-dependent hypercortisolism found in 2 of 5 acromegalic cats.
+- The increase in glucose-induced insulin secretion is a primary dietary effect mediated by chronic effects of incretins.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Indoor sedentary lifestyle increases diabetes risk independent of obesity.
+- Acromegaly may be underdiagnosed in diabetic cats (31% in this sample).
+- Dietary protein-to-fat ratio affects insulin secretion via incretin pathways.
 
 ### llm_inference
 
-- The title suggests a possible `diabetes` role, but the actual claim-fit requires abstract or full-text review.
+- This thesis suggests routine acromegaly screening may be warranted in newly diagnosed diabetic cats.
 
 ## Claim-Fit Judgment
 

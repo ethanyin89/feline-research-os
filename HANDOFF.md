@@ -2,9 +2,66 @@
 
 If you are a new model taking over this repo because of token loss, model switch, or usage limit, do this first.
 
+## Authoritative Current State
+
+Read this file before every other handoff:
+
+- [HANDOFF-2026-06-11-WORKTREE-STATE.md](HANDOFF-2026-06-11-WORKTREE-STATE.md) — authoritative dirty-worktree inventory, verified checks, known failures, and safe restart sequence
+
+The other 2026-06-11 handoffs are chronological session snapshots. Some say
+"all work committed", "production ready", or "all checks pass"; those statements
+are no longer true for the current worktree.
+
 ## Latest Session Handoff
 
-Read the latest session handoff first:
+After the authoritative worktree handoff, use these for historical context:
+
+- [HANDOFF-2026-06-12-PHASE6-PRESENTATION-CLOSEOUT.md](HANDOFF-2026-06-12-PHASE6-PRESENTATION-CLOSEOUT.md) — latest Phase 6 implementation, local page QA, hosted acceptance boundary, and restart sequence
+- [HANDOFF-2026-06-12-PHASE6-AUTOPLAN-REVIEW.md](HANDOFF-2026-06-12-PHASE6-AUTOPLAN-REVIEW.md) — approved gated plan and product-safety decisions
+- [HANDOFF-2026-06-12-POST-PHASE5.md](HANDOFF-2026-06-12-POST-PHASE5.md) — result-presentation static adapter state before Phase 6
+- [HANDOFF-2026-06-11-RESEARCH-CASE-VALIDATION.md](HANDOFF-2026-06-11-RESEARCH-CASE-VALIDATION.md) — Persisted Research Case integrity gate and real CKD case validation
+- [HANDOFF-2026-06-11-II-COMMONS-CONTINUATION.md](HANDOFF-2026-06-11-II-COMMONS-CONTINUATION.md) — Search-depth execution contract completed for the June 6 Research OS lane
+- [HANDOFF-2026-06-11-MODULE-DEEPENING.md](HANDOFF-2026-06-11-MODULE-DEEPENING.md) — committed module deepening chronology
+- [HANDOFF-2026-06-11-EXTENDED-COMPLETION.md](HANDOFF-2026-06-11-EXTENDED-COMPLETION.md) — diabetes extension chronology
+- [HANDOFF-2026-06-11-FINAL-SESSION.md](HANDOFF-2026-06-11-FINAL-SESSION.md) — earlier completion snapshot; not current worktree truth
+- [HANDOFF-2026-06-09-KARPATHY-GAP-NARROWED.md](HANDOFF-2026-06-09-KARPATHY-GAP-NARROWED.md) — Gap narrowed from 334 → 63 sources
+- [HANDOFF-2026-06-09-CHATACADEMIA-CONTENT.md](HANDOFF-2026-06-09-CHATACADEMIA-CONTENT.md) — ChatAcademia infrastructure complete
+
+For the prior CKD evidence gap review:
+
+- [HANDOFF-2026-06-08-CKD-EVIDENCE-GAP-REVIEW.md](HANDOFF-2026-06-08-CKD-EVIDENCE-GAP-REVIEW.md)
+
+For the June 6 II-Commons-Skills / Research OS direction and its cross-model
+usage-limit handoff:
+
+- [HANDOFF-2026-06-06-II-COMMONS-SKILLS.md](HANDOFF-2026-06-06-II-COMMONS-SKILLS.md)
+
+For the prior CKD material completion:
+
+- [HANDOFF-2026-06-06-CKD-MATERIAL-COMPLETION.md](HANDOFF-2026-06-06-CKD-MATERIAL-COMPLETION.md)
+
+For the original CKD sheet intake:
+
+- [HANDOFF-2026-06-05-CKD-SHEET-INTAKE.md](HANDOFF-2026-06-05-CKD-SHEET-INTAKE.md)
+
+For the prior content claim-evidence workbench pass, read:
+
+- [HANDOFF-2026-06-05-CONTENT-CLAIM-EVIDENCE.md](HANDOFF-2026-06-05-CONTENT-CLAIM-EVIDENCE.md)
+
+For the prior business-critical planning handoff, read:
+
+- [HANDOFF-2026-06-04-BUSINESS-CRITICAL-PLAN.md](HANDOFF-2026-06-04-BUSINESS-CRITICAL-PLAN.md)
+
+For the query-architecture and local answer-surface implementation handoff, read:
+
+- [HANDOFF-2026-06-04-QUERY-ARCHITECTURE.md](HANDOFF-2026-06-04-QUERY-ARCHITECTURE.md)
+
+For the two planning artifacts behind the latest product direction, read:
+
+- [PLAN-business-critical-feline-research-os.md](PLAN-business-critical-feline-research-os.md)
+- [PLAN-researcher-answer-satisfaction-ckd.md](PLAN-researcher-answer-satisfaction-ckd.md)
+
+For the prior answer quality gate handoff, read:
 
 - [HANDOFF-2026-06-02-ANSWER-QUALITY-GATE.md](HANDOFF-2026-06-02-ANSWER-QUALITY-GATE.md)
 
@@ -92,16 +149,16 @@ If you are continuing the ordinary-user line specifically, also read:
 
 9. [Ordinary-user LLM wiki usability audit, 2026-04-10](system/indexes/ordinary-user-llm-wiki-usability-audit-20260410.md)
 
-## 30-Second Reality (Updated 2026-05-17)
+## 30-Second Reality (Updated 2026-06-11)
 
-- The repo has `325` paper source cards across 7 disease modules: CKD, FIP, HCM, IBD, Diabetes, FCV, and Obesity.
-- **Year metadata coverage**: 325/325 (100%) — all cards have year field.
-- **CKD/FIP/HCM/IBD/FCV**: 24/24 cards each, all `deep_extracted` and `full`.
-- **Diabetes**: 118 cards (24 seed + 94 extension), seed corpus is `full`, extension is `partial`.
-- **Obesity**: 87 cards, 4 deep-extracted (Tier 1 complete), 4 architecture pages + 4 bilingual versions.
-- Content work now has a fixed Karpathy-style workflow and should not require reconfirmation on every repeated step.
-- The ordinary-user surface in `scripts/app.py` is already materially better, but the remaining gap is still "ask-native product feel", not raw frontend absence.
-- Health check: 107 tests passing, all checks PASS.
+- The repo has `603` strict disease paper cards across 8 disease modules.
+- Core query tests pass: `111/111`.
+- The aggregate health report is `needs_attention`; it is not a clean pass.
+- The worktree has `180` tracked changes and `474` untracked status entries.
+- Current HEAD is `803dcb7` on `idea-chatacademia-research-workbench`.
+- The current source-status breakdown and exact blockers are recorded in
+  [HANDOFF-2026-06-11-WORKTREE-STATE.md](HANDOFF-2026-06-11-WORKTREE-STATE.md).
+- Priority queue: `system/indexes/karpathy-extraction-priority-queue-20260609.md`
 
 ## Verify In 4 Commands
 

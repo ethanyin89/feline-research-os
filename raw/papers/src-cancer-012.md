@@ -10,15 +10,15 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 1984
-status: ingested
-extraction_depth: abstract
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 pmid: 6746390
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, prognostic, factors, mammary]
 links:
-  doi: ""
+  doi: "10.2460/javma.1984.185.02.201"
   url: "https://pubmed.ncbi.nlm.nih.gov/6746390/"
   local_assets: []
 evidence_policy:
@@ -35,7 +35,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is an abstract-weighted source card. Classic 1984 study establishing tumor size as the primary prognostic factor for feline mammary tumors.
+This card has deep extraction based on the full abstract. Classic 1984 study of 100 cats establishing tumor size as the primary prognostic factor (P<0.0001). Small tumors (1-8 cm³) have best prognosis. Age and breed not prognostic. [Deep extraction worksheet](../../system/indexes/src-cancer-012-deep-extraction-round1.md).
 
 ## Full Abstract (PubMed)
 

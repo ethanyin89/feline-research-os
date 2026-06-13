@@ -1,0 +1,49 @@
+{
+  "last_updated": "2026-06-04T17:05:50.435952",
+  "total_gaps": 3,
+  "open_gaps": 2,
+  "gaps": [
+    {
+      "gap_id": "GAP-C1",
+      "disease": "CKD",
+      "description": "Feline phosphate binder RCT data",
+      "impact": "Strengthens adjunct product case",
+      "priority": "P1",
+      "suggested_search": "Search for CKD studies on: Feline phosphate binder RCT da",
+      "status": "in_progress",
+      "created_at": "2026-06-04",
+      "created_from": "ckd-phosphorus-control-opportunity-brief-20260604.md",
+      "resolved_at": null,
+      "resolved_by": null,
+      "notes": "External search run on 2026-06-04. 2 stubs generated."
+    },
+    {
+      "gap_id": "GAP-C2",
+      "disease": "CKD",
+      "description": "China veterinary adjunct category guidance",
+      "impact": "Enables China market entry",
+      "priority": "P1",
+      "suggested_search": "Search for CKD studies on: China veterinary adjunct categ",
+      "status": "open",
+      "created_at": "2026-06-04",
+      "created_from": "ckd-phosphorus-control-opportunity-brief-20260604.md",
+      "resolved_at": null,
+      "resolved_by": null,
+      "notes": ""
+    },
+    {
+      "gap_id": "GAP-C3",
+      "disease": "CKD",
+      "description": "EMA/VMD feline CKD indication precedent",
+      "impact": "Clarifies EU/UK path",
+      "priority": "P2",
+      "suggested_search": "Search for CKD studies on: EMA/VMD feline CKD indication ",
+      "status": "open",
+      "created_at": "2026-06-04",
+      "created_from": "ckd-phosphorus-control-opportunity-brief-20260604.md",
+      "resolved_at": null,
+      "resolved_by": null,
+      "notes": ""
+    }
+  ]
+}

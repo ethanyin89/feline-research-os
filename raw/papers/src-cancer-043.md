@@ -10,9 +10,11 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2020
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
+pmid: 31959092
+doi: "10.1177/1010428319901052"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, identification, immune-suppressed, subtype, triple-negative, basal-like, invasive, mammary]
@@ -35,27 +37,47 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the full abstract. 2020 Tumour Biology: 180 FMC cats, 68% TNBC; peritumoral Tregs 300× more abundant; high Tregs = worse survival. Treg-enriched basal-like TNBC is immune-suppressed subtype. [Deep extraction worksheet](../../system/indexes/src-cancer-043-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-01
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+PubMed abstract fetched as a zero-cost extraction step.
 
-- DOI metadata resolved: yes
-- Container: Tumor Biology
+- PMID: 31959092
+- DOI: 10.1177/1010428319901052
+- Journal: Tumour Biology
 - Year: 2020
-- Abstract available in Crossref: yes
 
-Use boundary:
+## Abstract Summary
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+This study tested whether regulatory T cells identify an immune-suppressed subgroup of feline invasive mammary carcinoma, especially triple-negative basal-like tumors.
 
-Abstract lead for scope check only: Feline invasive mammary carcinomas are characterized by their high clinical aggressiveness, rare expression of hormone receptors, and pathological resemblance to human breast canc...
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Population | 180 female cats with feline invasive mammary carcinomas |
+| Treatment context | Surgery only |
+| Follow-up | 2-year post-mastectomy follow-up |
+| Markers assessed | FoxP3, ER, PR, Ki-67, HER2, CK14 |
+| TNBC subset | 123/180 tumors were ER-, PR-, HER2- |
+| Luminal subset | 57/180 tumors were ER+ and/or PR+ |
+
+**Key findings:**
+
+- Peritumoral regulatory T cells were more than 300 times more abundant than intratumoral regulatory T cells.
+- Peritumoral and intratumoral regulatory T cells were associated with shorter disease-free interval and overall survival in both triple-negative and luminal feline invasive mammary carcinomas.
+- In triple-negative basal-like (CK14+) tumors, a regulatory T-cell-enriched subgroup had significantly poorer disease-free interval, overall survival, and cancer-specific survival than regulatory T-cell-poor tumors.
+
+**Comparative oncology role:**
+
+The authors frame feline invasive mammary carcinomas as spontaneous models for studying immunotherapy strategies in an immune-suppressed tumor microenvironment.
+
+**Boundary:** This is prognostic and model-biology evidence from an abstract-level extraction. It does not establish an immunotherapy treatment recommendation for cats with mammary carcinoma.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 46. Use it for triage until abstract or full-text extraction proves a stronger role.
+In 180 surgically treated feline invasive mammary carcinomas, high regulatory T-cell numbers identified poorer-prognosis tumors, including an immune-suppressed triple-negative basal-like subgroup.
 
 ## Why It Matters For Feline Cancer
 

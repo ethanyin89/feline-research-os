@@ -8,13 +8,16 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: book-review
+source_kind: book-review
+year: 2007
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, geriatric, oncology, honoring, human-animal, bond]
+pmcid: PMC2034422
+tags: [cancer, geriatric, oncology, book-review, palliative-care]
 links:
   doi: ""
   url: "https://europepmc.org/article/PMC/2034422"

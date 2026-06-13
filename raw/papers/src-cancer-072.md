@@ -10,52 +10,63 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2022
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, satellite, noncoding, rnas, ncrna, biomarkers, new, insights]
+pmid: 36342778
+tags: [cancer, ncRNA, FA-SAT, biomarker, mammary, ER, Ki-67, ERBB2, c-MYC]
 links:
   doi: "10.1089/omi.2022.0114"
   url: "https://doi.org/10.1089/omi.2022.0114"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: OMICS: A Journal of Integrative Biology; year: 2022."
+    - "FA-SAT DNA levels positively correlated with lymphovascular invasion."
+    - "FA-SAT long RNA negatively correlated with Ki-67 index; positively associated with ER status."
+    - "FA-SAT small RNA positively correlated with tumor size and skin ulceration."
+    - "FA-SAT long RNA correlated with ERBB2 and c-MYC RNA levels."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "FA-SAT ncRNA offers prospects as a potential cancer biomarker in feline mammary tumors."
+    - "ncRNA profiles correlate with clinicopathological parameters."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Novel molecular biomarker research; FA-SAT is present in both cat and human genomes."
+    - "May inform mammary-carcinoma.md claims about emerging biomarkers."
 ---
 
 # Satellite Noncoding RNAs (ncRNA) as Cancer Biomarkers? New Insights from FA-SAT ncRNA Molecular and Clinical Profiles in Feline Mammary Tumors
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the full abstract. 2022 OMICS: FA-SAT satellite ncRNA studied in FMC; DNA correlates with lymphovascular invasion; long RNA correlates with ER status, ERBB2, c-MYC; small RNA correlates with tumor size; conserved in human genome; research-stage biomarker. [Deep extraction worksheet](../../system/indexes/src-cancer-072-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-02
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Field | Value |
+|-------|-------|
+| PMID | 36342778 |
+| DOI | 10.1089/omi.2022.0114 |
+| Journal | OMICS |
+| Year | 2022 |
+| Authors | Ferreira D, Soares M, Correia J, et al. |
 
-- DOI metadata resolved: yes
-- Container: OMICS: A Journal of Integrative Biology
-- Year: 2022
-- Abstract available in Crossref: yes
+## Abstract Summary
 
-Use boundary:
+| Category | Finding |
+|----------|---------|
+| Biomarker | FA-SAT satellite ncRNA (DNA and RNA levels) |
+| FA-SAT DNA | Positively correlated with lymphovascular invasion |
+| FA-SAT long RNA | Negatively correlated with Ki-67; positively with ER status |
+| FA-SAT small RNA | Positively correlated with tumor size and skin ulceration |
+| Oncogene correlation | FA-SAT long RNA correlated with ERBB2 and c-MYC |
+| Translational value | FA-SAT present in both cat and human genomes |
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Satellite noncoding RNAs (ncRNAs) are a new frontier of cancer biology research and biomarkers. While the knowledge on ncRNAs in human cancers is still limited, studies in other s...
+**Boundary:** Abstract-level extraction. Novel biomarker research; correlations reported but clinical utility not yet established.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 78. Use it for triage until abstract or full-text extraction proves a stronger role.
+FA-SAT ncRNA levels correlate with lymphovascular invasion, Ki-67, ER status, tumor size, and ERBB2/c-MYC in feline mammary tumors—potential novel biomarker.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +83,24 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Satellite Noncoding RNAs (ncRNA) as Cancer Biomarkers? New Insights from FA-SAT ncRNA Molecular and Clinical Profiles in Feline Mammary Tumors.
-- The intake sheet locator is: 10.1089/omi.2022.0114.
+- FA-SAT is the major satellite DNA of the cat genome, also present in humans
+- FA-SAT DNA levels positively correlated with lymphovascular invasion
+- FA-SAT long RNA negatively correlated with Ki-67 index
+- FA-SAT long RNA positively associated with ER status
+- FA-SAT small RNA positively correlated with tumor size and skin ulceration
+- FA-SAT long RNA correlated with ERBB2 and c-MYC RNA levels
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- FA-SAT ncRNA offers prospects as a potential cancer biomarker in cats
+- Multiple clinicopathological associations suggest prognostic relevance
+- Translational relevance: FA-SAT is conserved between cats and humans
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Novel molecular biomarker approach for feline mammary cancer
+- May complement existing markers (ER, PR, HER2, Ki-67) for FMC subtyping
+- Research-stage biomarker; clinical utility not yet validated
 
 ## Claim-Fit Judgment
 

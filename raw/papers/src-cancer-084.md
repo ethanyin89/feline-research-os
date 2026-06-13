@@ -9,35 +9,60 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 1980
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, natural, leukemia, virus, infection, immune, response, different]
+pmid: 6258787
+tags: [cancer, FeLV, age-susceptibility, immune-response, viremia, antibody, epidemiology]
 links:
   doi: ""
   url: "https://pubmed.ncbi.nlm.nih.gov/6258787/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Natural feline leukemia virus infection and the immune response of cats of different ages."
-    - "The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/6258787/."
+    - "71% of tracer kittens became viremic after 7 months exposure; 55% remained persistently infected."
+    - "11% of tracer adults became infected by 7 months; 43% by 2 years."
+    - "Mean latent periods: 3.4±1.8 months (kittens) vs 13.0±5.9 months (adults)."
+    - "95% of kittens infected within 1 year; 61% of adults within 2 years."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Kittens are more rapidly susceptible to FeLV than adults."
+    - "Adult cats remain susceptible to FeLV following long-term natural exposure."
+    - "Virus-neutralizing antibody appears in transiently viremic cats after viremia clearance."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Key reference for age-dependent FeLV susceptibility claims."
+    - "Supports lymphoma.md FeLV epidemiology section."
 ---
 
 # Natural feline leukemia virus infection and the immune response of cats of different ages
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 6258787 |
+| Journal | Cancer Res |
+| Year | 1980 |
+| Authors | Grant CK, Essex M, Gardner MB, Hardy WD Jr |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Study design | 42 kittens + 28 adults as tracers in FeLV cluster environments |
+| Kitten infection | 71% viremic by 7 months; 55% persistently infected |
+| Adult infection | 11% by 7 months; 43% by 2 years |
+| Latent period | Kittens 3.4±1.8 months vs adults 13.0±5.9 months |
+| Total infection rate | Kittens 95% within 1 year; adults 61% within 2 years |
+| Immune response | Virus-neutralizing antibody in transiently viremic cats |
+
+**Boundary:** Abstract-level extraction. Age-dependent susceptibility data can inform FeLV/lymphoma epidemiology claims.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 90. Use it for triage until abstract or full-text extraction proves a stronger role.
+FeLV natural infection study: kittens 71% viremic by 7 months (latent period 3.4mo) vs adults 11% (latent period 13mo); age-dependent susceptibility confirmed.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +79,25 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Natural feline leukemia virus infection and the immune response of cats of different ages.
-- The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/6258787/.
+- 42 kittens + 28 adults placed as tracers in FeLV cluster environments
+- 71% of kittens became viremic by 7 months; 55% remained persistently infected
+- 11% of adults became infected by 7 months; 43% by 2 years
+- Mean latent periods: kittens 3.4±1.8 months vs adults 13.0±5.9 months
+- Virus-neutralizing antibody appeared in transiently viremic cats after clearance
+- FeLV infection detectable in 95% kittens within 1 year; 61% adults within 2 years
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Kittens are significantly more susceptible to FeLV than adults
+- Adult cats remain susceptible despite apparent resistance
+- Adult "resistance" is not due to immediate protective humoral immunity
+- Virus-neutralizing antibody correlates with transient vs persistent viremia
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Key reference for age-dependent FeLV susceptibility in lymphoma.md
+- Supports young cat vaccination priority recommendations
+- Classic epidemiological study by Essex/Gardner/Hardy groups
 
 ## Claim-Fit Judgment
 

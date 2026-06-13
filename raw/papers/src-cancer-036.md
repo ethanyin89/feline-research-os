@@ -5,39 +5,99 @@ title: "Gene expression association study in feline mammary carcinomas"
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [human-breast-cancer]
+endpoints: [gene-expression, clinicopathology]
+jurisdictions: [Portugal]
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2019
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "31461477"
+pmcid: "PMC6713336"
+doi: "10.1371/journal.pone.0221776"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, gene, expression, association, study, mammary, carcinomas]
+tags: [cancer, mammary, FMC, gene-expression, CCND1, PKM2, PTBP1, TP53, c-MYC, oral-contraceptive, biomarker]
 links:
   doi: "10.1371/journal.pone.0221776"
   url: "https://doi.org/10.1371/journal.pone.0221776"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6713336/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Gene expression association study in feline mammary carcinomas."
-    - "The intake sheet locator is: 10.1371/journal.pone.0221776."
+    - "CCND1 gene is overexpressed in 52% (14/27) of FMCs."
+    - "PKM2 is overexpressed in 67% (18/27) of FMCs."
+    - "PTBP1 is increased in 46% (11/24) of FMCs."
+    - "All expression levels are correlated (r = 0.42-0.97, p < 0.044) with exception of c-MYC and PKM2."
+    - "Oral contraceptive administration showed to be positively related with the TP53, YBX1, CCND1, FUS and PTBP1 RNA levels."
+    - "Lymph node metastasis was associated with c-MYC RNA levels."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "CCND1, PKM2, and PTBP1 are frequently overexpressed in FMC vs normal tissue."
+    - "Cancer-related genes form a correlated expression network (except c-MYC/PKM2)."
+    - "Oral contraceptive history is associated with multiple gene expression levels."
+    - "c-MYC expression correlates with lymph node metastasis."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "PKM2 and CCND1 may be candidate therapeutic targets given high overexpression rates."
+    - "Oral contraceptive association suggests hormonal influence on FMC molecular profile."
+    - "Gene expression panel could inform FMC molecular subtyping."
 ---
 
 # Gene expression association study in feline mammary carcinomas
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC6713336).** This 2019 PLOS ONE study evaluated 7 cancer-related genes in FMC vs disease-free tissue. CCND1 (52%), PKM2 (67%), PTBP1 (46%) overexpressed. Oral contraceptive use associated with multiple gene levels. Evidence level: original study with RT-qPCR.
+
+## Source Check, 2026-06-09
+
+Europe PMC full text extraction.
+
+- PMID: 31461477
+- PMCID: PMC6713336
+- DOI: 10.1371/journal.pone.0221776
+- Journal: PLOS ONE
+- Year: 2019
+- Open access: yes (CC-BY)
+
+## Abstract Summary
+
+This study evaluated expression of 7 cancer-related genes in feline mammary carcinomas (FMCs) compared to disease-free tissue.
+
+**Genes evaluated:**
+- TP53 (tumor suppressor)
+- CCND1 (cyclin D1)
+- FUS (RNA-binding protein)
+- YBX1 (Y-box binding protein)
+- PTBP1 (polypyrimidine tract binding protein)
+- c-MYC (oncogene)
+- PKM2 (pyruvate kinase)
+
+**Expression findings:**
+
+| Gene | Expression in FMC |
+|------|-------------------|
+| CCND1 | **Overexpressed** |
+| PTBP1 | **Overexpressed** |
+| PKM2 | **Overexpressed** |
+| TP53 | Normal |
+| c-MYC | Normal |
+| YBX1 | Normal |
+| FUS | Normal |
+
+**Clinical associations:**
+- Oral contraceptive use → associated with TP53, YBX1, CCND1, FUS, PTBP1 RNA levels
+- Tumor size → associated with YBX1 RNA levels
+- Lymph node metastasis → associated with c-MYC RNA levels
+
+**Gene correlations:**
+Strong correlations among most cancer-related genes (exception: c-MYC and PKM2 not correlated).
+
+**Boundary:** Gene expression patterns suggest complex molecular network; these are research biomarkers, not clinical diagnostic tools.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 39. Use it for triage until abstract or full-text extraction proves a stronger role.
+CCND1, PTBP1, and PKM2 are overexpressed in FMC; oral contraceptive use associated with multiple gene expression levels.
 
 ## Why It Matters For Feline Cancer
 

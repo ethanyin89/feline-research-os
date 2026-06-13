@@ -8,54 +8,60 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
 year: 2010
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, early, detection, aggressive, therapy, optimizing, management, mammary]
+pmid: 20193912
+tags: [cancer, mammary, management, review, surgery, prognosis, fibroadenomatous-hyperplasia]
 links:
   doi: "10.1016/j.jfms.2010.01.004"
   url: "https://doi.org/10.1016/j.jfms.2010.01.004"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2010."
+    - "Approximately 80% of feline mammary masses are malignant."
+    - "Adenocarcinoma is the most common tumor type."
+    - "Surgery is the most widely used treatment for malignant tumors."
+    - "OVH or hormonal therapy are treatments of choice for fibroadenomatous hyperplasia."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Early diagnosis is essential to improve prognosis and quality of life."
+    - "Surgery routinely does not provide a cure for advanced/metastatic disease."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Review article for mammary-carcinoma.md management section."
+    - "80% malignancy rate is key clinical reference."
 ---
 
 # Early Detection, Aggressive Therapy: Optimizing the Management of Feline Mammary Masses
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+| Field | Value |
+|-------|-------|
+| PMID | 20193912 |
+| DOI | 10.1016/j.jfms.2010.01.004 |
+| Journal | J Feline Med Surg |
+| Year | 2010 |
+| Authors | Giménez F, Hecht S, Craig LE, Legendre AM |
 
-## Source Check, 2026-05-30
+## Abstract Summary
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Category | Finding |
+|----------|---------|
+| Malignancy rate | ~80% of feline mammary masses are malignant |
+| Common type | Adenocarcinoma |
+| Treatment | Surgery most widely used |
+| Prognosis | Often advanced/metastatic at diagnosis; surgery rarely curative |
+| Benign masses | Fibroadenomatous hyperplasia treated with OVH/hormonal therapy |
 
-- DOI metadata resolved: yes
-- Container: Journal of Feline Medicine and Surgery
-- Year: 2010
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Aims This article reviews the incidence, etiology, diagnosis, treatment and prognosis of mammary tumors in cats. Practical relevance Approximately 80% of feline mammary masses are...
+**Boundary:** Abstract-level extraction. Review article providing clinical management overview.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 89. Use it for triage until abstract or full-text extraction proves a stronger role.
+JFMS review: 80% of feline mammary masses are malignant (adenocarcinoma most common); surgery is standard but rarely curative for advanced disease.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +78,23 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Early Detection, Aggressive Therapy: Optimizing the Management of Feline Mammary Masses.
-- The intake sheet locator is: 10.1016/j.jfms.2010.01.004.
+- Approximately 80% of feline mammary masses are malignant
+- Adenocarcinoma is the most common tumor type
+- Surgery is the most widely used treatment for malignant tumors
+- Tumors are often advanced with metastasis at diagnosis
+- OVH or hormonal therapy are treatments of choice for fibroadenomatous hyperplasia
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Early diagnosis is essential to improve prognosis and quality of life
+- Surgery routinely does not provide cure for advanced disease
+- Fibroadenomatous hyperplasia (most common benign mass) responds to OVH/hormonal therapy
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- High-value review for mammary-carcinoma.md management section
+- 80% malignancy rate is widely cited clinical reference
+- Supports aggressive surgical approach recommendations
 
 ## Claim-Fit Judgment
 

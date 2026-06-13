@@ -24,20 +24,11 @@ import re
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from typing import Optional
+from source_inventory import format_source_inventory, get_source_inventory
 
 VAULT_ROOT = Path(__file__).parent.parent
 
-# Disease maturity levels (from business-critical-product-rubric.md)
-DISEASE_MATURITY = {
-    "ckd": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "fip": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "hcm": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "ibd": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "fcv": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "diabetes": {"sources": 118, "extraction": "partial", "maturity": "Developing"},
-    "obesity": {"sources": 87, "extraction": "partial", "maturity": "Developing"},
-    "cancer": {"sources": 102, "extraction": "partial", "maturity": "Developing"},
-}
+SUPPORTED_DISEASES = ("ckd", "fip", "hcm", "ibd", "fcv", "diabetes", "obesity", "cancer")
 
 
 @dataclass
@@ -212,7 +203,8 @@ def generate_endpoint_memo(disease: str, use_case: str = "general") -> EndpointD
         EndpointDecisionMemo with structured endpoint recommendations
     """
     disease_lower = disease.lower()
-    maturity_info = DISEASE_MATURITY.get(disease_lower, {"maturity": "Unknown"})
+    inventory = get_source_inventory(VAULT_ROOT, disease_lower)
+    inventory_label = format_source_inventory(inventory)
 
     # Load endpoint handbook
     handbook_content = load_endpoint_handbook(disease_lower)
@@ -283,13 +275,13 @@ def generate_endpoint_memo(disease: str, use_case: str = "general") -> EndpointD
         missing.append(f"No endpoint handbook found for {disease.upper()}")
     if len(core_endpoints) < 3:
         missing.append(f"Only {len(core_endpoints)} core endpoints defined")
-    if maturity_info.get("extraction") != "full":
-        missing.append(f"Source extraction is {maturity_info.get('extraction', 'unknown')}, not full")
+    if inventory["verification_status"]["title_only"] or inventory["verification_status"]["abstract_weighted"]:
+        missing.append("Some source cards remain title-only or abstract-weighted")
 
     return EndpointDecisionMemo(
         disease=disease.upper(),
         use_case=use_case,
-        maturity=maturity_info.get("maturity", "Unknown"),
+        maturity=inventory_label,
         core_endpoints=core_endpoints,
         support_endpoints=support_endpoints,
         context_endpoints=context_endpoints,
@@ -436,7 +428,7 @@ def main() -> None:
     parser.add_argument(
         "--disease", "-d",
         required=True,
-        choices=list(DISEASE_MATURITY.keys()),
+        choices=list(SUPPORTED_DISEASES),
         help="Disease code",
     )
     parser.add_argument(

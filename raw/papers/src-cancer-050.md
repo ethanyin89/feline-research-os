@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 1989
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 2817785
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, mammary, carcinomas, model, human, breast, comparison, vivo]
@@ -33,11 +35,40 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 1989 Anticancer Research: FMC adriamycin sensitivity compared in vitro (tumor islands) vs in vivo (30 mg/m² × 5 IV); 100% sensitivity at 2.00 µg/ml; recurrent tumors showed acquired resistance; validates FMC as comparative oncology drug model. [Deep extraction worksheet](../../system/indexes/src-cancer-050-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 2817785
+- DOI: not listed in PubMed abstract
+- Journal: Anticancer Research
+- Year: 1989
+
+## Abstract Summary
+
+This study compared in vitro and in vivo adriamycin sensitivity in feline mammary carcinomas as a model for human breast cancer.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| In vitro method | 20 randomly chosen tumor islands tested across 0.25-2.00 micrograms/ml adriamycin |
+| In vivo method | Primary tumor parts left in situ after surgical biopsy, then treated with five IV injections of 30 mg/m2 adriamycin |
+| Comparison target | Agreement between in vitro sensitivity and in vivo response |
+
+**Key findings:**
+
+- Best in vitro sensitivity was 100% at 2.00 micrograms/ml adriamycin.
+- Best in vitro specificity was 75% at 1.00 microgram/ml adriamycin.
+- Tumors recurring after treatment showed acquired resistance in vitro.
+
+**Boundary:** This is historical model and drug-sensitivity evidence. It does not establish a modern chemotherapy protocol or expected clinical benefit for cats.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 53. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical feline mammary carcinoma adriamycin-sensitivity work compared in vitro tumor-island testing with in vivo response and observed acquired resistance in recurrent tumors.
 
 ## Why It Matters For Feline Cancer
 

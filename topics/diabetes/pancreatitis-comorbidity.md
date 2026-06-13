@@ -76,6 +76,12 @@ Pancreatitis should appear in:
 - Managing both conditions together
 - Variable glycemic control as phenotype suggesting concurrent disease
 
+## Quantified Claim Traceability
+
+| Claim | Source IDs | Boundary |
+|---|---|---|
+| Bidirectional relationship supported by 10-15 years of clinical observation | src-diabetes-118 | Review-level observation of clinical coexistence |
+
 ## What The Module Should Not Say Yet
 
 - do not claim diabetes causes pancreatitis or pancreatitis causes diabetes as a settled one-way pathway

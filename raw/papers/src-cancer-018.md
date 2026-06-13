@@ -8,10 +8,14 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: review
+year: 2015
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "29061944"
+pmcid: "PMC5644630"
+doi: "10.3390/vetsci2030246"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, cytogenomics, cancers, advances, opportunities]
@@ -21,23 +25,61 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Cytogenomics of Feline Cancers: Advances and Opportunities."
-    - "The intake sheet locator is: https://www.mdpi.com/2306-7381/2/3/246."
+    - "Cats show the highest relative incidence of lymphoma among all species studied."
+    - "GI lymphoma comprises more than 50% of all feline lymphomas."
+    - "Mammary tumors are the third most commonly diagnosed feline neoplasm; vast majority are malignant."
+    - "FMC shares extensive clinicopathologic, demographic and epidemiological similarity with human breast carcinoma."
+    - "High-quality reference genome sequence assembly enabled modern cytogenomic studies."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Cats offer unique inflammation-neoplasia (FISS) and viral transformation (FeLV lymphoma) research opportunities."
+    - "FMC is a valid comparative model for human breast cancer."
+    - "GI lymphoma in cats is understudied at molecular level despite high incidence."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Feline GI lymphoma studies could lead advances applicable to human GI lymphoma."
+    - "Cytogenomic profiling of feline cancers may identify targetable aberrations."
 ---
 
 # Cytogenomics of Feline Cancers: Advances and Opportunities
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC5644630).** 2015 Vet Sci: cytogenomics review; cats highest lymphoma incidence among species; GI lymphoma >50% of feline lymphomas but understudied; FMC shares clinicopathologic similarity with human breast cancer; inflammation-neoplasia (FISS) and viral transformation (FeLV) are unique research opportunities. Evidence level: narrative review.
+
+## Source Check, 2026-06-10
+
+Europe PMC full text extraction.
+
+| Field | Value |
+|-------|-------|
+| PMID | 29061944 |
+| PMCID | PMC5644630 |
+| DOI | 10.3390/vetsci2030246 |
+| Journal | Vet Sci (MDPI) |
+| Year | 2015 |
+| Authors | Thomas R, Valli VE, Bhatt M, et al. |
+| Open access | yes |
+
+## Full Abstract (PubMed)
+
+Relative to the dog, integration of the cat into the "One Health" concept has been more restricted, particularly in the field of molecular oncology. Beyond the continual need to enhance the sophistication of feline healthcare per se, the unique spectrum of naturally-occurring cancers in the cat offers tremendous opportunities for comparative and translational advances that may have mutual benefit for human and veterinary medicine. The study of feline cancers additionally may generate new insight into underexplored aspects of tumor biology that are less accessible in other species, such as the relationship between chronic inflammation and neoplasia, and the role of viruses in malignant transformation. Several factors that have hindered molecular studies of feline cancers have now been surmounted, with the most fundamental step forward coming from the development of a high-quality reference genome sequence assembly for the cat. This article reviews landmark studies that have led to our current appreciation of feline genome architecture, and outlines techniques used in cancer cytogenomics, from conventional karyotyping analysis through to the development of genomic microarrays and beyond. A summary of progress in the identification and characterization of chromosomal aberrations in feline cancers is provided using examples from studies of injection-site sarcomas, lymphomas and mammary tumors.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| One Health gap | cats underutilized vs dogs in molecular oncology | comparative context |
+| Unique research opportunities | inflammation-neoplasia, viral transformation | feline advantages |
+| Genomic milestone | high-quality reference genome assembly | enables molecular studies |
+| Techniques reviewed | karyotyping to genomic microarrays | methodology survey |
+| Cancer types covered | injection-site sarcomas, lymphomas, mammary tumors | example applications |
+
+**Key insight:** This review highlights that cats offer unique research opportunities not accessible in dogs: inflammation-neoplasia relationship (injection site sarcoma) and viral malignant transformation (FeLV lymphoma). The feline reference genome was a major milestone enabling cytogenomic studies.
+
+**Boundary:** This is a 2015 techniques/progress review. Specific chromosomal aberration findings require full-text for individual tumor types.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 19. Use it for triage until abstract or full-text extraction proves a stronger role.
+2015 Vet Sci: cytogenomics review for feline cancers; cats offer unique inflammation-neoplasia and viral transformation insights; reference genome enables molecular studies.
 
 ## Why It Matters For Feline Cancer
 

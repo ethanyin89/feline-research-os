@@ -16,6 +16,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -31,6 +32,7 @@ class SourceCard:
     path: Path
     title: str
     doi: str
+    url: str
     verification_status: str
 
 
@@ -42,6 +44,7 @@ class CrossrefCheck:
     year: str = ""
     container: str = ""
     abstract: str = ""
+    metadata_source: str = ""
     error: str = ""
 
     @property
@@ -67,6 +70,11 @@ def parse_frontmatter_value(text: str, key: str) -> str:
     return match.group(1).strip() if match else ""
 
 
+def parse_indented_value(text: str, key: str) -> str:
+    match = re.search(rf"^\s+{re.escape(key)}:\s*\"?([^\"\n]*)\"?\s*$", text, re.MULTILINE)
+    return match.group(1).strip() if match else ""
+
+
 def load_source_card(repo_root: Path, source_id: str) -> SourceCard:
     candidates = sorted((repo_root / "raw").glob(f"**/{source_id}.md"))
     if not candidates:
@@ -82,6 +90,7 @@ def load_source_card(repo_root: Path, source_id: str) -> SourceCard:
         path=path,
         title=title,
         doi=doi,
+        url=parse_frontmatter_value(text, "url") or parse_indented_value(text, "url"),
         verification_status=parse_frontmatter_value(text, "verification_status") or "title_only",
     )
 
@@ -98,6 +107,7 @@ def load_source_card_path(path: Path) -> SourceCard:
         path=path,
         title=title,
         doi=doi,
+        url=parse_frontmatter_value(text, "url") or parse_indented_value(text, "url"),
         verification_status=parse_frontmatter_value(text, "verification_status") or "title_only",
     )
 
@@ -176,9 +186,96 @@ def fetch_crossref(doi: str, timeout: float = 20.0) -> dict[str, object]:
         return json.loads(response.read().decode("utf-8"))
 
 
-def check_source(source: SourceCard, timeout: float) -> CrossrefCheck:
+def pubmed_id_from_url(url: str) -> str:
+    match = re.search(r"pubmed\.ncbi\.nlm\.nih\.gov/(\d+)", url)
+    return match.group(1) if match else ""
+
+
+def element_text(element: ET.Element | None) -> str:
+    if element is None:
+        return ""
+    return re.sub(r"\s+", " ", "".join(element.itertext())).strip()
+
+
+def fetch_pubmed_record(identifier: str, timeout: float = 20.0) -> dict[str, str]:
+    """Fetch normalized PubMed metadata by DOI or PMID."""
+    pmid = identifier if identifier.isdigit() else ""
+    try:
+        if not pmid:
+            params = urllib.parse.urlencode(
+                {"db": "pubmed", "term": f"{identifier}[AID]", "retmode": "json"}
+            )
+            search_url = (
+                "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?"
+                + params
+            )
+            request = urllib.request.Request(
+                search_url, headers={"User-Agent": "feline-research-os/1.0"}
+            )
+            with urllib.request.urlopen(request, timeout=timeout) as response:
+                search_result = json.loads(response.read().decode("utf-8"))
+            id_list = search_result.get("esearchresult", {}).get("idlist", [])
+            if not id_list:
+                return {}
+            pmid = id_list[0]
+
+        params = urllib.parse.urlencode(
+            {"db": "pubmed", "id": pmid, "retmode": "xml"}
+        )
+        fetch_url = (
+            "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?"
+            + params
+        )
+        request = urllib.request.Request(fetch_url, headers={"User-Agent": "feline-research-os/1.0"})
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            root = ET.fromstring(response.read())
+
+        article = root.find(".//PubmedArticle")
+        if article is None:
+            return {}
+
+        abstract_parts: list[str] = []
+        for node in article.findall(".//Abstract/AbstractText"):
+            text = element_text(node)
+            if not text:
+                continue
+            label = node.attrib.get("Label", "").strip()
+            abstract_parts.append(f"{label}: {text}" if label else text)
+
+        year = element_text(article.find(".//JournalIssue/PubDate/Year"))
+        if not year:
+            medline_date = element_text(article.find(".//JournalIssue/PubDate/MedlineDate"))
+            match = re.search(r"\b(19|20)\d{2}\b", medline_date)
+            year = match.group(0) if match else ""
+
+        return {
+            "pmid": pmid,
+            "title": element_text(article.find(".//ArticleTitle")),
+            "container": element_text(article.find(".//Journal/Title")),
+            "year": year,
+            "abstract": " ".join(abstract_parts).strip(),
+        }
+    except (ET.ParseError, urllib.error.URLError, TimeoutError, json.JSONDecodeError):
+        return {}
+
+
+def check_source(source: SourceCard, timeout: float, pubmed_fallback: bool = True) -> CrossrefCheck:
     if not source.doi:
-        return CrossrefCheck(source=source, found=False, error="no DOI in source card")
+        pmid = pubmed_id_from_url(source.url)
+        if not pmid or not pubmed_fallback:
+            return CrossrefCheck(source=source, found=False, error="no DOI or PubMed ID in source card")
+        record = fetch_pubmed_record(pmid, timeout=timeout)
+        if not record:
+            return CrossrefCheck(source=source, found=False, error=f"PubMed lookup failed for PMID {pmid}")
+        return CrossrefCheck(
+            source=source,
+            found=True,
+            title=record.get("title", ""),
+            year=record.get("year", ""),
+            container=record.get("container", ""),
+            abstract=record.get("abstract", ""),
+            metadata_source="PubMed",
+        )
     try:
         payload = fetch_crossref(source.doi, timeout=timeout)
     except urllib.error.HTTPError as exc:
@@ -190,13 +287,24 @@ def check_source(source: SourceCard, timeout: float) -> CrossrefCheck:
     if not isinstance(message, dict):
         return CrossrefCheck(source=source, found=False, error="missing Crossref message")
 
+    abstract = strip_jats(str(message.get("abstract", "")))
+
+    # PubMed fallback for abstract if Crossref doesn't have one
+    metadata_source = "Crossref"
+    if not abstract.strip() and pubmed_fallback:
+        record = fetch_pubmed_record(source.doi, timeout=timeout)
+        abstract = record.get("abstract", "")
+        if abstract:
+            metadata_source = "Crossref + PubMed abstract"
+
     return CrossrefCheck(
         source=source,
         found=True,
         title=first_value(message.get("title")),
         year=issued_year(message),
         container=first_value(message.get("container-title")),
-        abstract=strip_jats(str(message.get("abstract", ""))),
+        abstract=abstract,
+        metadata_source=metadata_source,
     )
 
 
@@ -248,13 +356,13 @@ def render_report(checks: list[CrossrefCheck], source_label: str, report_id: str
         "## Summary",
         "",
         f"- Cards checked: `{len(checks)}`",
-        f"- Crossref metadata found: `{sum(1 for check in checks if check.found)}`",
+        f"- Metadata found: `{sum(1 for check in checks if check.found)}`",
         f"- Abstract available: `{sum(1 for check in checks if check.abstract_available)}`",
         "",
         "## Check Table",
         "",
-        "| Source | Current | Recommended | DOI | Year | Container | Abstract | Error |",
-        "|---|---|---|---|---:|---|---|---|",
+        "| Source | Current | Recommended | Provider | DOI | Year | Container | Abstract | Error |",
+        "|---|---|---|---|---|---:|---|---|---|",
     ]
     for check in checks:
         lines.append(
@@ -264,6 +372,7 @@ def render_report(checks: list[CrossrefCheck], source_label: str, report_id: str
                     f"`{check.source.source_id}`",
                     f"`{check.source.verification_status}`",
                     f"`{check.recommended_status}`",
+                    md_escape(check.metadata_source),
                     f"`{check.source.doi}`" if check.source.doi else "",
                     md_escape(check.year),
                     md_escape(short(check.container, 70)),
@@ -279,12 +388,13 @@ def render_report(checks: list[CrossrefCheck], source_label: str, report_id: str
         lines.append(f"### `{check.source.source_id}`")
         if check.abstract_available:
             lines.append("")
-            lines.append(f"- Crossref title: {md_escape(check.title or check.source.title)}")
+            lines.append(f"- Metadata provider: {md_escape(check.metadata_source)}")
+            lines.append(f"- Resolved title: {md_escape(check.title or check.source.title)}")
             lines.append(f"- Abstract lead for scope check only: {md_escape(short(check.abstract, 180))}")
             lines.append("- Card can be upgraded only to abstract-weighted; do not promote clinical claims from this note.")
         elif check.found:
             lines.append("")
-            lines.append("- Crossref metadata resolved, but no abstract was available from Crossref.")
+            lines.append(f"- {md_escape(check.metadata_source or 'Source')} metadata resolved, but no abstract was available.")
             lines.append("- Keep the card at its current status until abstract or full text is read.")
         else:
             lines.append("")
@@ -314,12 +424,13 @@ def ensure_year(text: str, year: str) -> str:
 def replace_evidence_policy(text: str, check: CrossrefCheck) -> str:
     container = check.container or "not available"
     year = check.year or "not available"
+    provider = check.metadata_source or "external metadata"
     policy = "\n".join(
         [
             "evidence_policy:",
             "  quoted_fact:",
-            f"    - {yaml_quote('Crossref metadata resolves this DOI and reports abstract availability for source scope checking.')}",
-            f"    - {yaml_quote(f'Crossref container: {container}; year: {year}.')}",
+            f"    - {yaml_quote(f'{provider} resolves metadata and reports abstract availability for source scope checking.')}",
+            f"    - {yaml_quote(f'Resolved container: {container}; year: {year}.')}",
             "  source_supported_conclusion:",
             f"    - {yaml_quote('This card is abstract-weighted only; it can guide navigation and extraction priority.')}",
             f"    - {yaml_quote('It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.')}",
@@ -333,11 +444,12 @@ def replace_evidence_policy(text: str, check: CrossrefCheck) -> str:
     return text
 
 
-def replace_evidence_depth_caveat(text: str) -> str:
+def replace_evidence_depth_caveat(text: str, check: CrossrefCheck) -> str:
+    provider = check.metadata_source or "external metadata"
     caveat = (
         "## Evidence-Depth Caveat\n\n"
-        "This is a second-pass abstract-available source card. It verifies DOI metadata "
-        "and Crossref abstract availability for source triage, but it is not a full "
+        f"This is a second-pass abstract-available source card. It verifies {provider} "
+        "abstract availability for source triage, but it is not a full "
         "abstract extraction or full-text read.\n"
     )
     pattern = re.compile(r"## Evidence-Depth Caveat\n\n.*?(?=\n## )", re.DOTALL)
@@ -348,15 +460,17 @@ def replace_evidence_depth_caveat(text: str) -> str:
 
 def upsert_source_check_section(text: str, check: CrossrefCheck) -> str:
     today = date.today().isoformat()
+    provider = check.metadata_source or "external metadata"
     section = [
         f"## Source Check, {today}",
         "",
-        "Crossref metadata was checked as a repeatable second-pass intake step.",
+        f"{provider} was checked as a repeatable second-pass intake step.",
         "",
-        f"- DOI metadata resolved: {'yes' if check.found else 'no'}",
+        f"- Metadata resolved: {'yes' if check.found else 'no'}",
+        f"- Metadata provider: {provider}",
         f"- Container: {check.container or 'not available'}",
         f"- Year: {check.year or 'not available'}",
-        f"- Abstract available in Crossref: {'yes' if check.abstract_available else 'no'}",
+        f"- Abstract available: {'yes' if check.abstract_available else 'no'}",
         "",
         "Use boundary:",
         "",
@@ -387,7 +501,7 @@ def update_card(check: CrossrefCheck) -> bool:
     updated = replace_scalar_field(text, "verification_status", "abstract_weighted")
     updated = ensure_year(updated, check.year)
     updated = replace_evidence_policy(updated, check)
-    updated = replace_evidence_depth_caveat(updated)
+    updated = replace_evidence_depth_caveat(updated, check)
     updated = upsert_source_check_section(updated, check)
     if updated == text:
         return False
@@ -415,7 +529,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source-label", default="manual priority sample")
     parser.add_argument("--report-id", help="Stable frontmatter id for the generated report.")
     parser.add_argument("--out", type=Path, help="Write a Markdown report to this path.")
-    parser.add_argument("--update-cards", action="store_true", help="Upgrade cards with Crossref abstracts to abstract_weighted.")
+    parser.add_argument("--update-cards", action="store_true", help="Upgrade cards with verified abstracts to abstract_weighted.")
     parser.add_argument("--timeout", type=float, default=20.0)
     return parser.parse_args()
 

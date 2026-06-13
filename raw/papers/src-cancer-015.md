@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 1981
-status: ingested
-extraction_depth: abstract
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 pmid: 7257136
 decision_grade: no
@@ -35,7 +35,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is an abstract-weighted source card. Classic 1981 epidemiological study establishing breed risk and malignancy rates for feline mammary carcinoma.
+This card has deep extraction based on the full abstract. Classic 1981 epidemiological study of 132 cats: 9:1 malignant/benign ratio, Siamese 2x risk (P<0.01), adenocarcinoma predominant. Apparent lack of estrogen dependency. [Deep extraction worksheet](../../system/indexes/src-cancer-015-deep-extraction-round1.md).
 
 ## Full Abstract (PubMed)
 

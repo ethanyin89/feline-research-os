@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内容呈现逻辑测试页 / Presentation Logic Test</title>
+  <style>
+    :root {
+      --bg-primary: #0f1117;
+      --bg-secondary: #1a1b23;
+      --bg-tertiary: #252630;
+      --text-primary: #e4e4e7;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --accent-green: #22c55e;
+      --accent-yellow: #eab308;
+      --accent-orange: #f97316;
+      --accent-gray: #6b7280;
+      --border: #2d2e3a;
+      --spacing-xs: 8px;
+      --spacing-sm: 12px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      --spacing-xxl: 48px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Geist Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: var(--spacing-lg);
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .sample-nav {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-xl);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--spacing-md);
+    }
+
+    .sample-nav button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .sample-nav button.active {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border-color: var(--accent-green);
+    }
+
+    .sample {
+      display: none;
+    }
+
+    .sample.active {
+      display: block;
+    }
+
+    /* Common Components */
+    .page-header {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .trust-badges {
+      display: flex;
+      gap: var(--spacing-xs);
+      margin-top: var(--spacing-sm);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+    }
+
+    .badge.verified {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--accent-green);
+    }
+
+    .section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .quick-answer {
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .expand-toggle {
+      color: var(--accent-green);
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: var(--spacing-sm);
+      display: inline-block;
+    }
+
+    /* Key Facts Cards */
+    .key-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .fact-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      text-align: center;
+    }
+
+    .fact-number {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--accent-green);
+    }
+
+    .fact-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Navigation Cards */
+    .nav-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-sm);
+    }
+
+    .nav-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .nav-card:hover {
+      border-color: var(--accent-green);
+      transform: translateY(-2px);
+    }
+
+    .nav-card-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .nav-card-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .nav-card-link {
+      font-size: 12px;
+      color: var(--accent-green);
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Trust Footer */
+    .trust-footer {
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      margin-top: var(--spacing-xxl);
+      font-size: 13px;
+    }
+
+    .trust-footer-label {
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .trust-footer ul {
+      list-style: none;
+      color: var(--text-secondary);
+    }
+
+    .trust-footer li {
+      margin-bottom: 4px;
+    }
+
+    .trust-footer code {
+      background: var(--bg-primary);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+    }
+
+    /* Boundary Notice */
+    .boundary-notice {
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.3);
+      border-radius: 8px;
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 13px;
+      color: var(--accent-yellow);
+      margin-top: var(--spacing-lg);
+    }
+
+    /* Sample 2: Treatment Ranking */
+    .evidence-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      padding: var(--spacing-sm);
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tier-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .tier-dot.t1 { background: var(--accent-green); }
+    .tier-dot.t2 { background: var(--accent-yellow); }
+    .tier-dot.t3 { background: var(--accent-orange); }
+    .tier-dot.t4 { background: var(--accent-gray); }
+
+    .tier-section {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .tier-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      margin-bottom: var(--spacing-md);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .intervention-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .intervention-title {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-weight: 500;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .intervention-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .say-block {
+      font-size: 12px;
+      padding: var(--spacing-xs);
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .say-block.can-say {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--accent-green);
+    }
+
+    .say-block.dont-say {
+      background: rgba(234, 179, 8, 0.1);
+      color: var(--accent-yellow);
+    }
+
+    .source-refs {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: var(--spacing-xs);
+    }
+
+    .collapsed-tier {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-sm) var(--spacing-md);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Sample 3: Query Response */
+    .query-echo {
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: var(--spacing-sm) var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      font-size: 14px;
+    }
+
+    .confidence-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      align-items: center;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: var(--spacing-xs);
+      font-size: 13px;
+    }
+
+    .confidence-level {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .confidence-level.high {
+      color: var(--accent-green);
+    }
+
+    .evidence-depth-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-tertiary);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .answer-block {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .answer-block ol {
+      padding-left: var(--spacing-md);
+    }
+
+    .answer-block li {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .inline-citation {
+      font-size: 11px;
+      color: var(--accent-green);
+      background: rgba(34, 197, 94, 0.1);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .inline-citation a {
+      color: var(--accent-green);
+      text-decoration: none;
+    }
+
+    .inline-citation a:hover {
+      text-decoration: underline;
+    }
+
+    .citation-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent-green);
+      font-size: 12px;
+      text-decoration: none;
+      padding: 2px 8px;
+      background: rgba(34, 197, 94, 0.1);
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+
+    .citation-link:hover {
+      background: rgba(34, 197, 94, 0.2);
+    }
+
+    .citation-link .arrow {
+      font-size: 10px;
+    }
+
+    .inference-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-tertiary);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .copy-btn {
+      float: right;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .provenance-breakdown {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .provenance-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .prov-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .prov-dot.quoted { background: var(--accent-green); }
+    .prov-dot.supported { background: var(--accent-yellow); }
+    .prov-dot.inference { background: var(--accent-gray); }
+
+    .source-cards {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .source-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .source-id {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .source-title {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .source-meta {
+      display: flex;
+      gap: var(--spacing-xs);
+      font-size: 11px;
+    }
+
+    .depth-tag {
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .depth-tag.full { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+    .depth-tag.abstract { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
+
+    .related-questions {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-md);
+    }
+
+    .related-questions ul {
+      list-style: none;
+    }
+
+    .related-questions li {
+      padding: var(--spacing-xs) 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .related-questions li:last-child {
+      border-bottom: none;
+    }
+
+    .related-questions li:hover {
+      color: var(--accent-green);
+    }
+
+    /* Quick Reference Table */
+    .quick-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: var(--spacing-lg);
+    }
+
+    .quick-table th,
+    .quick-table td {
+      padding: var(--spacing-xs) var(--spacing-sm);
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quick-table th {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="margin-bottom: 8px;">内容呈现逻辑测试</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+      3个样本的实际视觉效果 — 基于现有DESIGN.md暗色系统
+    </p>
+
+    <nav class="sample-nav">
+      <button class="active" onclick="showSample(1)">样本1: What-Is概述</button>
+      <button onclick="showSample(2)">样本2: 治疗排名</button>
+      <button onclick="showSample(3)">样本3: 查询响应</button>
+      <button onclick="showSample(4)">样本4: 状态处理</button>
+    </nav>
+
+    <!-- Sample 1: What-Is Overview -->
+    <div id="sample1" class="sample active">
+      <header class="page-header">
+        <h1 class="page-title">什么是猫慢性肾病？</h1>
+        <p class="page-subtitle">基于 4 篇专业文献的综合解释</p>
+        <div class="trust-badges">
+          <span class="badge">33篇来源</span>
+          <span class="badge">自动生成</span>
+        </div>
+      </header>
+
+      <section class="section">
+        <div class="section-label">快速回答</div>
+        <div class="quick-answer">
+          <strong>猫慢性肾病（CKD）是指猫的肾脏长期受损，逐渐失去正常功能的疾病。</strong>
+          <p style="margin-top: 12px; color: var(--text-secondary);">
+            肾脏的工作是过滤血液、排出废物、调节水分和矿物质。当肾脏受损后，这些功能会慢慢下降，废物在体内堆积，引起各种健康问题。
+          </p>
+        </div>
+        <span class="expand-toggle">展开英文版本 ▼</span>
+      </section>
+
+      <div class="key-facts">
+        <div class="fact-card">
+          <div class="fact-number">30-40%</div>
+          <div class="fact-label">老年猫患病率</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-number">10岁+</div>
+          <div class="fact-label">高发年龄</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-number">可管理</div>
+          <div class="fact-label">但无法治愈</div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-bottom: 12px;">深入了解</div>
+      <div class="nav-cards">
+        <div class="nav-card">
+          <div class="nav-card-title">📋 常见症状</div>
+          <div class="nav-card-desc">多喝多尿、体重下降、食欲减退...</div>
+          <div class="nav-card-link">查看详情 →</div>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-title">🔬 如何诊断</div>
+          <div class="nav-card-desc">血检、尿检、超声波检查...</div>
+          <div class="nav-card-link">查看详情 →</div>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-title">💊 治疗方案</div>
+          <div class="nav-card-desc">饮食管理是基础治疗...</div>
+          <div class="nav-card-link">查看详情 →</div>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-title">📊 分期说明</div>
+          <div class="nav-card-desc">IRIS 4期分期系统...</div>
+          <div class="nav-card-link">查看详情 →</div>
+        </div>
+      </div>
+
+      <div class="trust-footer">
+        <div class="trust-footer-label">本页内容基于：</div>
+        <ul>
+          <li>• <a href="https://doi.org/10.1177/1098612X19831519" target="_blank" style="color: var(--accent-green); text-decoration: none;">ISFM Consensus Guidelines on CKD (2019) ↗</a></li>
+          <li>• <a href="https://doi.org/10.1177/1098612X13495241" target="_blank" style="color: var(--accent-green); text-decoration: none;">Feline CKD: Current therapies (2014) ↗</a></li>
+        </ul>
+        <span class="expand-toggle">查看全部4篇来源 ▼</span>
+        <div style="margin-top: 12px; color: var(--text-muted); font-size: 12px;">
+          最后更新：2026-06-09
+        </div>
+      </div>
+
+      <div class="boundary-notice">
+        ⚠️ 本页不提供：具体用药建议、存活率预测、个体化治疗方案。这些需要兽医根据个体情况评估。
+      </div>
+    </div>
+
+    <!-- Sample 2: Treatment Ranking -->
+    <div id="sample2" class="sample">
+      <header class="page-header">
+        <h1 class="page-title">CKD 治疗方案证据排名</h1>
+        <div class="trust-badges">
+          <span class="badge">临床决策支持</span>
+          <span class="badge">8篇来源</span>
+          <span class="badge">2026-04-09更新</span>
+        </div>
+      </header>
+
+      <div class="evidence-legend">
+        <div class="legend-item"><span class="tier-dot t1"></span> Tier 1: 最强证据支持</div>
+        <div class="legend-item"><span class="tier-dot t2"></span> Tier 2: 重要但条件依赖</div>
+        <div class="legend-item"><span class="tier-dot t3"></span> Tier 3: 证据较薄</div>
+        <div class="legend-item"><span class="tier-dot t4"></span> Tier 4: 观察清单</div>
+      </div>
+
+      <div class="tier-section">
+        <div class="tier-header">
+          <span class="tier-dot t1"></span> TIER 1: 最强证据支持
+        </div>
+
+        <div class="intervention-card">
+          <div class="intervention-title">
+            <span class="tier-dot t1"></span> 肾脏处方粮 / Renal Diet
+          </div>
+          <div class="intervention-desc">当前最强基线支持干预</div>
+          <div class="say-block can-say">✅ 可以说：最清晰的基线支持干预</div>
+          <div class="say-block dont-say">⚠️ 不要说：已证明可逆转结构性损伤</div>
+          <div class="source-refs">
+            来源：
+            <a href="https://doi.org/10.1177/1098612X19831519" target="_blank" class="citation-link" style="margin-left: 4px;">ISFM Guidelines (2019) ↗</a>
+            <a href="https://doi.org/10.1177/1098612X13495241" target="_blank" class="citation-link">Current Therapies (2014) ↗</a>
+            <a href="https://doi.org/10.1177/1098612X13495234" target="_blank" class="citation-link">Pathophysiology (2014) ↗</a>
+          </div>
+        </div>
+
+        <div class="intervention-card">
+          <div class="intervention-title">
+            <span class="tier-dot t1"></span> 磷控制 / Phosphorus Control
+          </div>
+          <div class="intervention-desc">核心进展相关治疗分支</div>
+          <div class="say-block can-say">✅ 可以说：不只是生化指标，是核心治疗逻辑</div>
+          <div class="say-block dont-say">⚠️ 不要说：磷结合剂和饮食是同一证据层级</div>
+          <div class="source-refs">
+            来源：
+            <a href="https://doi.org/10.1177/1098612X13495241" target="_blank" class="citation-link" style="margin-left: 4px;">Current Therapies (2014) ↗</a>
+            <a href="https://doi.org/10.1177/1098612X13495234" target="_blank" class="citation-link">Pathophysiology (2014) ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-section">
+        <div class="tier-header">
+          <span class="tier-dot t2"></span> TIER 2: 重要但条件依赖
+        </div>
+        <div class="collapsed-tier">
+          🟡 降压治疗 — 高血压存在时重要<br>
+          🟡 蛋白尿导向RAAS管理 — 有意义但易过度宣称<br>
+          🟡 补钾 — 低钾时重要<br>
+          🟡 对症支持 — 生活质量相关<br>
+          <span class="expand-toggle">展开详情 ▼</span>
+        </div>
+      </div>
+
+      <table class="quick-table">
+        <thead>
+          <tr>
+            <th>干预措施</th>
+            <th>层级</th>
+            <th>证据状态</th>
+            <th>关键限制</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>肾脏处方粮</td>
+            <td><span class="tier-dot t1" style="display:inline-block"></span> T1</td>
+            <td>最强支持</td>
+            <td>依从性挑战</td>
+          </tr>
+          <tr>
+            <td>磷控制</td>
+            <td><span class="tier-dot t1" style="display:inline-block"></span> T1</td>
+            <td>强机制-结果链</td>
+            <td>产品证据较薄</td>
+          </tr>
+          <tr>
+            <td>降压治疗</td>
+            <td><span class="tier-dot t2" style="display:inline-block"></span> T2</td>
+            <td>端点逻辑强</td>
+            <td>更广结果边界模糊</td>
+          </tr>
+          <tr>
+            <td>皮下补液</td>
+            <td><span class="tier-dot t3" style="display:inline-block"></span> T3</td>
+            <td>明确弱证据</td>
+            <td>常用但支持薄</td>
+          </tr>
+          <tr>
+            <td>MR拮抗剂</td>
+            <td><span class="tier-dot t4" style="display:inline-block"></span> T4</td>
+            <td>观察清单</td>
+            <td>猫效力证据缺失</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sample 3: Query Response -->
+    <div id="sample3" class="sample">
+      <div class="query-echo">
+        🔍 CKD猫应该吃什么？
+      </div>
+
+      <div class="confidence-header">
+        <span>基于 5 篇来源</span>
+        <span>3 篇已核查全文</span>
+        <span>2 篇基于摘要</span>
+        <span class="evidence-depth-tag">自动生成，未经人工审核</span>
+      </div>
+
+      <div class="answer-block">
+        <button class="copy-btn">📋 复制答案</button>
+        <p style="margin-bottom: 16px;">CKD猫的饮食管理是最有证据支持的治疗措施之一。核心原则：</p>
+
+        <ol>
+          <li>
+            <strong>肾脏处方粮</strong>是基础
+            <ul style="margin-top: 8px; padding-left: 20px; color: var(--text-secondary);">
+              <li>限制磷含量</li>
+              <li>适度限制蛋白质</li>
+              <li>增加omega-3脂肪酸</li>
+            </ul>
+            <div style="margin-top: 8px;">
+              <a href="https://doi.org/10.1177/1098612X19831519" target="_blank" class="citation-link">ISFM CKD Guidelines (2019) <span class="arrow">↗</span></a>
+              <a href="https://doi.org/10.1177/1098612X13495241" target="_blank" class="citation-link">Current Therapies (2014) <span class="arrow">↗</span></a>
+            </div>
+          </li>
+          <li style="margin-top: 12px;">
+            <strong>磷控制</strong>优先于蛋白质限制
+            <ul style="margin-top: 8px; padding-left: 20px; color: var(--text-secondary);">
+              <li>Stage 2-3猫有明确的磷控制支持</li>
+            </ul>
+            <div style="margin-top: 8px;">
+              <a href="https://doi.org/10.1177/1098612X13495241" target="_blank" class="citation-link">Current Therapies (2014) <span class="arrow">↗</span></a>
+            </div>
+          </li>
+          <li style="margin-top: 12px;">
+            <strong>水分摄入</strong>很重要
+            <ul style="margin-top: 8px; padding-left: 20px; color: var(--text-secondary);">
+              <li>湿粮优于干粮</li>
+              <li>可考虑加水或肉汤</li>
+            </ul>
+            <span class="inference-tag">分析推断: 基于脱水管理逻辑</span>
+          </li>
+        </ol>
+      </div>
+
+      <div class="provenance-breakdown">
+        <div class="section-label">答案构成</div>
+        <div class="provenance-item">
+          <span class="prov-dot quoted"></span>
+          <span>直接来源: 2处</span>
+        </div>
+        <div class="provenance-item">
+          <span class="prov-dot supported"></span>
+          <span>来源支持: 3处</span>
+        </div>
+        <div class="provenance-item">
+          <span class="prov-dot inference"></span>
+          <span>分析推断: 1处</span>
+        </div>
+        <span class="expand-toggle">展开研究轨迹 ▼</span>
+      </div>
+
+      <div class="section-label" style="margin-bottom: 12px;">参考来源</div>
+      <div class="source-cards">
+        <div class="source-card">
+          <div class="source-title" style="display: flex; align-items: center; gap: 8px;">
+            ISFM Consensus Guidelines on Feline CKD
+            <a href="https://doi.org/10.1177/1098612X19831519" target="_blank" style="color: var(--accent-green); font-size: 11px; text-decoration: none;">DOI ↗</a>
+          </div>
+          <div class="source-meta">
+            <span class="depth-tag full">已核查全文</span>
+            <span>2019</span>
+            <span>J Feline Med Surg</span>
+          </div>
+        </div>
+        <div class="source-card">
+          <div class="source-title" style="display: flex; align-items: center; gap: 8px;">
+            Phosphorus and CKD Progression in Cats
+            <a href="https://doi.org/10.1111/jvim.15960" target="_blank" style="color: var(--accent-green); font-size: 11px; text-decoration: none;">DOI ↗</a>
+          </div>
+          <div class="source-meta">
+            <span class="depth-tag abstract">基于摘要</span>
+            <span>2020</span>
+            <span>J Vet Int Med</span>
+          </div>
+        </div>
+        <span class="expand-toggle">查看全部5篇来源 ▼</span>
+      </div>
+
+      <div class="boundary-notice" style="margin-top: 24px;">
+        ⚠️ 部分来源仅基于摘要分析，未获取全文。建议核实关键声明后再用于临床决策。
+      </div>
+
+      <div class="related-questions" style="margin-top: 24px;">
+        <div class="section-label">相关问题</div>
+        <ul>
+          <li>• CKD猫可以吃零食吗？</li>
+          <li>• 如何让挑食的CKD猫接受处方粮？</li>
+          <li>• CKD猫需要补充什么营养？</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Sample 4: State Handling -->
+    <div id="sample4" class="sample">
+      <header class="page-header">
+        <h1 class="page-title">状态处理示例 / State Handling</h1>
+        <p class="page-subtitle">State Matrix 中的关键状态视觉表现</p>
+      </header>
+
+      <!-- Loading State -->
+      <div class="section" style="margin-bottom: 24px;">
+        <div class="section-label">LOADING STATE</div>
+        <div style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);">
+          <div style="width: 16px; height: 16px; border: 2px solid var(--accent-green); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+          <span>正在检索相关文献... (2/5)</span>
+        </div>
+      </div>
+
+      <!-- Sparse Profile State -->
+      <div class="section" style="margin-bottom: 24px; border-color: var(--accent-orange);">
+        <div class="section-label" style="color: var(--accent-orange);">SPARSE-PROFILE STATE</div>
+        <div class="confidence-header" style="background: rgba(249, 115, 22, 0.1); border-color: var(--accent-orange);">
+          <span style="color: var(--accent-orange);">⚠️ 证据较薄</span>
+          <span>仅 1 篇来源</span>
+          <span>基于摘要分析</span>
+        </div>
+        <div class="answer-block" style="border-color: var(--accent-orange); margin-top: 8px;">
+          <p><strong>这是一个初步回答。</strong></p>
+          <p style="color: var(--text-secondary); margin-top: 8px;">由于相关文献较少，此回答仅供参考。建议：</p>
+          <ul style="margin-top: 8px; padding-left: 20px; color: var(--text-secondary);">
+            <li>等待更多文献收录</li>
+            <li>咨询专业兽医</li>
+          </ul>
+        </div>
+        <div style="margin-top: 12px;">
+          <button style="background: var(--accent-orange); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px;">
+            🔍 运行更深入研究
+          </button>
+        </div>
+      </div>
+
+      <!-- No Direct Evidence State -->
+      <div class="section" style="margin-bottom: 24px; border-color: var(--accent-gray);">
+        <div class="section-label" style="color: var(--accent-gray);">NO-DIRECT-EVIDENCE STATE</div>
+        <div style="padding: 24px; text-align: center; color: var(--text-secondary);">
+          <div style="font-size: 32px; margin-bottom: 12px;">📭</div>
+          <p style="font-weight: 500; color: var(--text-primary);">未找到直接相关的文献证据</p>
+          <p style="font-size: 13px; margin-top: 8px;">此问题超出当前知识库范围，或需要额外文献收录</p>
+          <div style="margin-top: 16px;">
+            <button style="background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px; margin-right: 8px;">
+              📥 启动文献收录
+            </button>
+            <button style="background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 13px;">
+              换个问法
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Source Link Missing State -->
+      <div class="section" style="margin-bottom: 24px;">
+        <div class="section-label">SOURCE-LINK-MISSING STATE</div>
+        <div class="source-cards">
+          <div class="source-card">
+            <div class="source-title" style="display: flex; align-items: center; gap: 8px;">
+              Effects of dietary phosphorus restriction in cats
+              <span style="color: var(--text-muted); font-size: 11px; background: var(--bg-tertiary); padding: 2px 6px; border-radius: 3px;">链接不可用</span>
+            </div>
+            <div class="source-meta">
+              <span class="depth-tag abstract">基于摘要</span>
+              <span>2018</span>
+              <span>Unknown Journal</span>
+            </div>
+          </div>
+          <div class="source-card" style="border-color: var(--accent-green);">
+            <div class="source-title" style="display: flex; align-items: center; gap: 8px;">
+              ISFM Consensus Guidelines on Feline CKD
+              <a href="https://doi.org/10.1177/1098612X19831519" target="_blank" style="color: var(--accent-green); font-size: 11px; text-decoration: none;">DOI ↗</a>
+            </div>
+            <div class="source-meta">
+              <span class="depth-tag full">已核查全文</span>
+              <span>2019</span>
+              <span>J Feline Med Surg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title Only State -->
+      <div class="section">
+        <div class="section-label">TITLE-ONLY STATE (仅题录)</div>
+        <div class="source-card" style="border-color: var(--accent-gray); opacity: 0.7;">
+          <div class="source-title" style="display: flex; align-items: center; gap: 8px;">
+            Novel biomarkers for early CKD detection
+            <span style="color: var(--accent-yellow); font-size: 11px; background: rgba(234, 179, 8, 0.15); padding: 2px 6px; border-radius: 3px;">仅题录信息</span>
+          </div>
+          <div class="source-meta">
+            <span style="color: var(--text-muted);">无法用于声明支持</span>
+            <span>2021</span>
+          </div>
+          <div style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">
+            ⚠️ 此来源仅有标题信息，未获取摘要或全文，不计入证据支持
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
+  <script>
+    function showSample(n) {
+      document.querySelectorAll('.sample').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.sample-nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('sample' + n).classList.add('active');
+      document.querySelectorAll('.sample-nav button')[n-1].classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: case-series
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 1979
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 225010
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, comparison, virus-positive, virus-negative, cases, leukemia, lymphoma]
@@ -33,11 +35,43 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 1979 Cancer Research: 184 leukemia/lymphoma cases Boston 1972-1976; 67% FeLV+, 33% FeLV-; FeLV- cats older (4.9 vs 3.5 years); 68% of cats >8 years were FeLV-; mean induction period 16.7 months. [Deep extraction worksheet](../../system/indexes/src-cancer-060-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 225010
+- Journal: Cancer Research
+- Year: 1979
+- DOI: not listed in PubMed abstract output
+
+## Abstract Summary
+
+This historical case series compared virus-positive and virus-negative feline leukemia and lymphoma cases diagnosed in Boston from 1972 through 1976.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Cases | 184 feline leukemia and lymphoma cases |
+| Location/time | Boston, 1972-1976 |
+| Case mix | 58% lymphoma; 42% leukemia |
+| Viral test | Fluorescent antibody test for circulating feline leukemia virus |
+
+**Findings:**
+
+- 67% of cats were virus-positive and 33% were virus-negative.
+- Virus-positive and virus-negative cases were clinically and epidemiologically similar except for age at diagnosis.
+- Virus-negative cats were older at diagnosis on average (4.9 years) than virus-positive cats (3.5 years).
+- Among 22 cases diagnosed after 8 years of age, 15 were virus-negative.
+- For 19 cats that were virus-positive and healthy at first test, the minimum mean induction period from first positive virus test to cancer diagnosis was 16.7 months, with a 2-41 month range.
+
+**Boundary:** This is a historical Boston-era leukemia/lymphoma cohort. It supports FeLV-era comparison context, not contemporary prevalence or prognosis estimates.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 64. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical Boston cohort comparing FeLV virus-positive and virus-negative feline leukemia/lymphoma cases, mainly useful for FeLV-era epidemiology context.
 
 ## Why It Matters For Feline Cancer
 
@@ -59,28 +93,29 @@ The safe current use is source ownership:
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- This source supports historical FeLV-era comparison between virus-positive and virus-negative leukemia/lymphoma cases.
+- Virus-negative cases skewed older in this cohort.
+- The cohort should not be reused as a modern prevalence estimate.
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- This source may help lymphoma synthesis explain why FeLV-era literature needs date and testing-context labels.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+- historical FeLV-era leukemia/lymphoma context
+- virus-positive versus virus-negative comparison
+- age-at-diagnosis caveat
 
 Must not control yet:
 
 - reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+- contemporary prevalence estimates
+- treatment decisions
+- current FeLV risk quantification
+- prognosis estimates
 
 ## Image Asset TODO
 
@@ -89,15 +124,14 @@ Must not control yet:
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- Does the full text separate leukemia and lymphoma sufficiently for branch-specific use?
+- What exact FeLV test method and case ascertainment limits should be carried forward?
+- How should this historical cohort be contrasted with post-test-and-removal FeLV-era sources?
 
 ## Linked Entities
 
 - diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
+- models: historical feline leukemia/lymphoma cohort
+- endpoints: FeLV status; age at diagnosis; induction interval
+- mechanisms: feline leukemia virus association
 - regulations:

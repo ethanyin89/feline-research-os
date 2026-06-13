@@ -2,22 +2,22 @@
 id: src-diabetes-085
 type: source
 title: "Progress in feline diabetes: keys to achieve diabetic remission"
-year: 2017
+year: 2016
 source_kind: paper
 species: feline
 diseases: [diabetes mellitus]
 models: []
-endpoints: []
+endpoints: [remission]
 jurisdictions: []
-evidence_level: original-study
-status: ingested
+evidence_level: conference
+status: extracted
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [diabetes, progress, keys, achieve, diabetic, remission]
+tags: [diabetes, progress, keys, achieve, diabetic, remission, conference]
 links:
-  doi: ""
+  doi: "10.5167/uzh-127483"
   url: "https://www.zora.uzh.ch/entities/publication/7acb0ba7-5236-482e-94a6-56c5a7198d5c"
   local_assets: []
 evidence_policy:

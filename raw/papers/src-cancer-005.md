@@ -10,9 +10,11 @@ endpoints: []
 jurisdictions: []
 evidence_level: review
 year: 2015
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "29061935"
+pmcid: "PMC5644631"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, comparative, oncology]
@@ -22,41 +24,63 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Veterinary Sciences; year: 2015."
+    - "SCC represents 70-80% of all oral tumors in domestic cats."
+    - "Increased risk associated with environmental tobacco smoke, flea collars, and canned food."
+    - "In cats, unlike dogs, the vast majority of mammary gland tumors are malignant."
+    - "Feline mammary tumors are more likely to be hormone (estrogen and progesterone) receptor negative."
+    - "Cats appear to have a unique propensity for sarcomagenesis associated with trauma and/or inflammation."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Feline oral SCC is a valid model for human head and neck cancer."
+    - "Feline mammary tumors offer an enriched triple-negative population for research."
+    - "Injection site sarcoma models inflammation-driven tumorigenesis."
+    - "Cats share benefits of dogs as cancer models but are underutilized."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Areas for progress: standardization of target assessments, feline-specific microarrays."
+    - "Triple-negative enrichment makes cats valuable for studying aggressive breast cancer biology."
 ---
 
 # Cats, Cancer and Comparative Oncology
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+**Deep-extracted from PMC full text (PMC5644631).** 2015 Vet Sci review: cats underutilized in One Medicine; oral SCC shares clinical + molecular features with human HHNC (tobacco risk, p53/EGFR mutations); mammary tumors enriched for triple-negative phenotype; injection site sarcoma models inflammation-driven tumorigenesis. Evidence level: narrative review.
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-09
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+Europe PMC full text extraction.
 
-- DOI metadata resolved: yes
-- Container: Veterinary Sciences
-- Year: 2015
-- Abstract available in Crossref: yes
+| Field | Value |
+|-------|-------|
+| PMID | 29061935 |
+| PMCID | PMC5644631 |
+| DOI | 10.3390/vetsci2030111 |
+| Journal | Vet Sci (MDPI) |
+| Year | 2015 |
+| Authors | Cannon CM |
+| Open access | yes |
 
-Use boundary:
+## Full Abstract (PubMed)
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+Naturally occurring tumors in dogs are well-established models for several human cancers. Domestic cats share many of the benefits of dogs as a model (spontaneous cancers developing in an immunocompetent animal sharing the same environment as humans, shorter lifespan allowing more rapid trial completion and data collection, lack of standard of care for many cancers allowing evaluation of therapies in treatment-naïve populations), but have not been utilized to the same degree in the One Medicine approach to cancer. There are both challenges and opportunities in feline compared to canine models. This review will discuss three specific tumor types where cats may offer insights into human cancers. Feline oral squamous cell carcinoma is common, shares both clinical and molecular features with human head and neck cancer and is an attractive model for evaluating new therapies. Feline mammary tumors are usually malignant and aggressive, with the 'triple-negative' phenotype being more common than in humans, offering an enriched population in which to examine potential targets and treatments. Finally, although there is not an exact corollary in humans, feline injection site sarcoma may be a model for inflammation-driven tumorigenesis, offering opportunities for studying variations in individual susceptibility as well as preventative and therapeutic strategies.
 
-Abstract lead for scope check only: Naturally occurring tumors in dogs are well-established models for several human cancers. Domestic cats share many of the benefits of dogs as a model (spontaneous cancers developi...
+## Key Extracted Findings
 
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Oral SCC model | shares clinical + molecular features with human head/neck cancer | comparative oncology |
+| Feline mammary tumors | usually malignant and aggressive | general characterization |
+| Triple-negative phenotype | more common in cats than humans | enriched population for research |
+| Injection site sarcoma | model for inflammation-driven tumorigenesis | unique feline model |
+| Cat model benefits | immunocompetent, shared environment, shorter lifespan, treatment-naïve | trial design advantages |
+| One Medicine gap | cats underutilized vs dogs | research opportunity |
+
+**Key insight:** This review establishes three distinct feline cancer types as comparative oncology models: oral SCC (for human head/neck cancer), mammary carcinoma (especially triple-negative), and injection site sarcoma (for inflammation-driven cancer). The enriched triple-negative population in cats is particularly valuable.
+
+**Boundary:** This is a 2015 review. The triple-negative enrichment claim needs validation with more recent prevalence data.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 6. Use it for triage until abstract or full-text extraction proves a stronger role.
+2015 Vet Sci review: cats underutilized in One Medicine; oral SCC models head/neck cancer, mammary tumors enriched for triple-negative phenotype, injection site sarcoma models inflammation-driven tumorigenesis.
 
 ## Why It Matters For Feline Cancer
 

@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 20086324
+year: 2010
+doi: "10.1292/jvms.09-0519"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, immunohistochemical, detection, proteins, associated, multidrug, resistance, anti-cancer]
@@ -33,11 +36,48 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the abstract. 2010 JVMS: feline pulmonary carcinomas (n=18) frequently express PGP, MRP, LRP; ~50% express MT. Inherent multidrug resistance explains poor chemotherapy response. [Deep extraction worksheet](../../system/indexes/src-cancer-035-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 20086324
+- DOI: 10.1292/jvms.09-0519
+- Journal: Journal of Veterinary Medical Science
+- Year: 2010
+
+## Abstract Summary
+
+This study evaluated multidrug resistance (MDR) protein expression in canine (n=52) and feline (n=18) primary pulmonary carcinomas.
+
+**Proteins evaluated:**
+- P-glycoprotein (PGP)
+- Multidrug resistance-related protein (MRP)
+- Lung resistance-related protein (LRP)
+- Metallothionein (MT)
+
+**Expression findings:**
+
+| Protein | Expression Pattern |
+|---------|-------------------|
+| PGP | Frequently expressed in all carcinoma types |
+| MRP | Frequently expressed in all carcinoma types |
+| LRP | Frequently expressed in all carcinoma types |
+| MT | Expressed in ~50% of each carcinoma type |
+
+**Key finding:**
+- Overlapping expression detected in all positive cases
+- Most pulmonary carcinomas show strong multidrug resistance
+
+**Clinical implication:**
+Difficult to treat canine and feline primary pulmonary carcinomas with anti-cancer drugs due to inherent MDR.
+
+**Boundary:** This is observational data on MDR expression, not treatment guidance. Does not specify which chemotherapy agents are affected.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 38. Use it for triage until abstract or full-text extraction proves a stronger role.
+Most feline pulmonary carcinomas express PGP, MRP, LRP (frequent) and MT (~50%), indicating strong inherent multidrug resistance.
 
 ## Why It Matters For Feline Cancer
 

@@ -9,14 +9,17 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2023
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 36917874
+doi: "10.1016/j.ultras.2023.106974"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, treatment, mammary, focused, ultrasound, pilot, study, patients]
 links:
-  doi: ""
+  doi: "10.1016/j.ultras.2023.106974"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S0041624X23000501?via%3Dihub"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,42 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2023 Ultrasonics: 9 dogs and cats with superficial mammary cancer; 2-MHz focused ultrasound produced coagulative necrosis in all tumors; feasibility only, not a treatment recommendation. [Deep extraction worksheet](../../system/indexes/src-cancer-045-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 36917874
+- DOI: 10.1016/j.ultras.2023.106974
+- Journal: Ultrasonics
+- Year: 2023
+
+## Abstract Summary
+
+This pilot study assessed thermal focused ultrasound (FUS) feasibility for canine and feline mammary cancer therapy.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Technology | 2-MHz single-element spherically focused ultrasonic transducer integrated with robotic positioning |
+| Preclinical validation | Rabbit thigh model used to validate tissue ablation protocol |
+| Veterinary patients | 9 dogs and cats with superficial mammary cancer |
+| Clinical protocol | FUS ablation followed by immediate surgical resection |
+| Safety selection | Animals recruited under specific safety criteria |
+
+**Key findings:**
+
+- Histopathology demonstrated well-defined coagulative necrosis in all treated tumors.
+- No off-target damage was reported in the abstract.
+- The authors state that larger studies are needed to confirm safety and feasibility, especially for complete ablation of deep-seated tumors.
+
+**Boundary:** This is a small mixed canine/feline pilot with immediate resection after FUS. It supports feasibility research only, not clinical adoption or outcome benefit.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 48. Use it for triage until abstract or full-text extraction proves a stronger role.
+Focused ultrasound produced targeted coagulative necrosis without abstract-reported off-target damage in a 9-patient canine/feline mammary cancer pilot, but remains feasibility-stage evidence.
 
 ## Why It Matters For Feline Cancer
 

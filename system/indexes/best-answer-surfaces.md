@@ -4,7 +4,7 @@ type: index
 topic: operating-system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-04-11
+last_compiled_at: 2026-06-08
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
@@ -35,6 +35,26 @@ status: active
 
 - 我现在最想要的是哪一种答案面
 
+## 0. Simple Explanation / 简单解释面
+
+Use this when your question is:
+
+- `What is X?` / `什么是X？` / `解释一下X`
+- `我想要简单了解这个病`
+
+Open:
+
+| Disease | Best answer surface | Why |
+|---|---|---|
+| CKD | [what-is-ckd](../../topics/ckd/what-is-ckd.md) | plain-language bilingual explanation |
+| FIP | [what-is-fip](../../topics/fip/what-is-fip.md) | plain-language bilingual explanation |
+| Obesity | [what-is-obesity](../../topics/obesity/what-is-obesity.md) | plain-language bilingual explanation |
+| Cancer | [what-is-cancer](../../topics/cancer/what-is-cancer.md) | plain-language bilingual explanation |
+| IBD | [what-is-ibd](../../topics/ibd/what-is-ibd.md) | plain-language bilingual explanation |
+| HCM | [what-is-hcm](../../topics/hcm/what-is-hcm.md) | plain-language bilingual explanation |
+| Diabetes | [what-is-diabetes](../../topics/diabetes/what-is-diabetes.md) | plain-language bilingual explanation |
+| FCV | [what-is-fcv](../../topics/fcv/what-is-fcv.md) | plain-language bilingual explanation |
+
 ## 1. Fastest Overall Read / 最快总览面
 
 Use this when your question is:
@@ -50,6 +70,7 @@ Open:
 | FIP | [FIP current state dashboard](../../topics/fip/current-state-dashboard.md) | fastest read of shell, outputs, and control gaps |
 | IBD | [IBD current state dashboard](../../topics/ibd/current-state-dashboard.md) | fastest read of exclusion-first spine and module maturity |
 | HCM | [HCM current state dashboard](../../topics/hcm/current-state-dashboard.md) | fastest read of phenotype spine and current module state |
+| Obesity | [Obesity current state dashboard](../../topics/obesity/current-state-dashboard.md) | 5-branch architecture and Tier 1 status |
 
 ## 2. Best Structured Overview / 最稳结构化大图
 
@@ -81,6 +102,7 @@ Open:
 | FIP | [FIP mechanism overview](../../topics/fip/mechanism-overview.md) |
 | IBD | [IBD mechanism overview bilingual](../../topics/ibd/mechanism-overview-bilingual.md) |
 | HCM | [HCM mechanism overview](../../topics/hcm/mechanism-overview.md) |
+| Obesity | [Obesity mechanism overview](../../topics/obesity/mechanism-overview.md) |
 
 ## 4. Recognition / Workup Surface / 识别与诊断答案面
 
@@ -97,6 +119,7 @@ Open:
 | FIP | [FIP risk and recognition](../../topics/fip/risk-and-recognition.md) |
 | IBD | [IBD risk and recognition bilingual](../../topics/ibd/risk-and-recognition-bilingual.md) |
 | HCM | [HCM risk and recognition](../../topics/hcm/risk-and-recognition.md) |
+| Obesity | [Obesity risk and recognition](../../topics/obesity/risk-and-recognition.md) |
 
 ## 5. Endpoint / Marker Surface / endpoint 与 marker 答案面
 

@@ -79,6 +79,16 @@ When a diabetes page mentions remission, it should include one of these labels:
 - `boundary`: evidence quality blocks protocol ranking
 - `not established`: a predictor or hierarchy is being proposed but not yet source-supported
 
+## Key-Claim Traceability
+
+| Claim ID | Key Claim | Claim Level | Supporting Source IDs | Notes |
+|---|---|---|---|---|
+| DREM1 | Feline diabetic remission is real and should remain visible as a high-value endpoint. | B | src-diabetes-007 | systematic-review anchor |
+| DREM2 | Current seed evidence does not support a single predictor, diet, insulin type, or protocol as the universal remission key. | B | src-diabetes-007, src-diabetes-015, src-diabetes-024 | remission boundary plus diet/insulin context |
+| DREM3 | Diet and insulin choices can matter for remission-related outcomes, but protocol claims defer to the systematic-review boundary. | B | src-diabetes-007, src-diabetes-015, src-diabetes-024 | prevents diet/insulin one-factor overclaim |
+| DREM4 | Non-insulin-dependent state, insulin-dose reduction, glycemic improvement, and rigorously defined remission should not be treated as interchangeable endpoints. | B | src-diabetes-007, src-diabetes-015, src-diabetes-022, src-diabetes-024 | endpoint-definition boundary |
+| DREM5 | Remission potential should not erase chronic beta-cell failure, obesity, pancreatitis, endocrine-secondary disease, or monitoring constraints. | C | src-diabetes-007, diabetes-obesity-body-condition-memo, diabetes-endocrine-secondary-diabetes-memo | compiled disease-architecture judgment |
+
 ## Best Write-Back Targets
 
 - [endpoint handbook](../../topics/diabetes/endpoint-handbook.md)

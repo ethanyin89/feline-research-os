@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2023
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 38003753
+doi: "10.3390/pathogens12111288"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, sccs, head, neck, display, partial, epithelial-mesenchymal, transition]
@@ -33,11 +36,40 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the abstract. 2023 Pathogens: feline HNSCC displays partial EMT (pEMT) at invasive fronts; CD44+/CD271+ cancer stem cells identified. Validates FOSCC as HNSCC model at molecular level. [Deep extraction worksheet](../../system/indexes/src-cancer-031-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 38003753
+- DOI: 10.3390/pathogens12111288
+- Journal: Pathogens
+- Year: 2023
+- Open access: yes (MDPI)
+
+## Abstract Summary
+
+This study investigated epithelial-mesenchymal transition (EMT) and cancer stem cell (CSC) characteristics in feline head and neck squamous cell carcinomas (HNSCC). Key findings:
+
+**EMT characterization:**
+- Feline HNSCC displays partial EMT (pEMT), not complete EMT
+- pEMT phenotype found at tumor invasive fronts
+- Co-expression of epithelial and mesenchymal markers
+
+**Cancer stem cell markers:**
+- CD44+ and CD271+ cells identified at invasive fronts
+- These markers associated with cancer stem cell-like properties
+- Suggests CSC population may drive invasion and recurrence
+
+**Comparative oncology relevance:**
+- Feline HNSCC shares molecular features with human HNSCC
+- pEMT phenotype is consistent with human head/neck cancer biology
+- Supports feline oral SCC as translational model
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 34. Use it for triage until abstract or full-text extraction proves a stronger role.
+Feline HNSCC shows partial EMT and harbors CD44+/CD271+ cancer stem cells at invasive fronts, supporting its role as a comparative oncology model.
 
 ## Why It Matters For Feline Cancer
 

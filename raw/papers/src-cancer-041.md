@@ -1,7 +1,7 @@
 ---
 id: src-cancer-041
 type: source
-title: "Prognostic Factors in Feline Mammary Carcinoma Get access Arrow"
+title: "Prognostic Factors in Feline Mammary Carcinoma"
 source_kind: paper
 species: feline
 diseases: [cancer]
@@ -9,14 +9,16 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 6572759
+year: 1983
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, prognostic, factors, mammary, carcinoma, get, access, arrow]
 links:
-  doi: ""
+  doi: "10.1093/jnci/70.4.709"
   url: "https://academic.oup.com/jnci/article-abstract/70/4/709/938577?redirectedFrom=fulltext&login=false"
   local_assets: []
 evidence_policy:
@@ -33,11 +35,47 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. Landmark 1983 JNCI study: 202 FMC cats, 6 independent prognostic factors — tumor diameter, lymph nodes, mitotic index, necrosis, age, surgical completeness. Foundational for FMC prognosis. [Deep extraction worksheet](../../system/indexes/src-cancer-041-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 6572759
+- Journal: Journal of the National Cancer Institute (JNCI)
+- Year: 1983
+
+## Abstract Summary
+
+This landmark 1983 JNCI study evaluated prognostic factors in feline mammary carcinoma using prospective follow-up of 202 surgically treated cats.
+
+**Study design:**
+- Prospective follow-up study
+- 202 cats treated by mastectomy and block dissection
+- 35 factors analyzed (general, anamnestic, clinical, histologic, therapy data)
+- Outcomes: survival, local recurrence
+
+**Univariate significant factors:** 17 factors related to survival
+
+**Independent prognostic factors (after correction):**
+
+| Factor | Relationship |
+|--------|--------------|
+| Age | Independent predictor |
+| Tumor diameter | Independent predictor |
+| Tumor-positive lymph nodes (microscopic) | Independent predictor |
+| Mitotic figures | Independent predictor |
+| Tumor necrosis | Independent predictor |
+| Completeness of surgical treatment | Independent predictor |
+
+**Comparative oncology value:**
+Authors evaluated FMC and canine mammary cancer as models for experimental therapy, comparing prognostic factors with human mammary cancer.
+
+**Boundary:** 1983 study — treatment approaches and staging may not reflect current practice. Core prognostic factors remain foundational.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 44. Use it for triage until abstract or full-text extraction proves a stronger role.
+Classic 1983 JNCI study: 6 independent prognostic factors in 202 FMC cases — tumor diameter, lymph nodes, mitotic figures, necrosis, age, surgical completeness.
 
 ## Why It Matters For Feline Cancer
 

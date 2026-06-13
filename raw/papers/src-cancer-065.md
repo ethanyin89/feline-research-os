@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: [USA]
 evidence_level: retrospective-study
 year: 2005
-status: abstract_weighted
-extraction_depth: abstract
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
@@ -46,7 +46,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This card has abstract-level extraction from PubMed (PMID: 15954547). It is a 2005 UC Davis 21-year retrospective study (1983-2003) documenting the FeLV-to-intestinal lymphoma shift. This directly addresses the open synthesis question about FeLV context.
+This card has deep extraction based on the PubMed abstract (PMID: 15954547). It is a 2005 UC Davis 21-year retrospective study (1983-2003) documenting the FeLV-to-intestinal lymphoma shift. This directly addresses the open synthesis question about FeLV context. [Deep extraction worksheet](../../system/indexes/src-cancer-065-deep-extraction-round1.md).
 
 ## One-Line Summary
 

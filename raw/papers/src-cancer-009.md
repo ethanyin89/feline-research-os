@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2021
-status: ingested
-extraction_depth: abstract
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 pmid: 33078692
 decision_grade: no
@@ -36,7 +36,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the full abstract. 2021 JFMS multicentre study of 73 metastatic FMC cats — largest reported cohort. Key findings: mean TSS 44 days, symptomatic vs asymptomatic major prognostic factor (14 vs 128 days), metronomic chemotherapy lowest toxicity. [Deep extraction worksheet](../../system/indexes/src-cancer-009-deep-extraction-round1.md).
 
 ## Source Check, 2026-05-30
 

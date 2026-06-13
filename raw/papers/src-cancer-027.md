@@ -1,7 +1,7 @@
 ---
 id: src-cancer-027
 type: source
-title: "Animal models for hormone-dependent human breast cancer"
+title: "Animal models for hormone-dependent human breast cancer. Relationship between steroid receptor profiles in canine and feline mammary tumors and survival rate"
 source_kind: paper
 species: feline
 diseases: [cancer]
@@ -9,35 +9,60 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 1984
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, animal, models, hormone-dependent, human, breast]
+pmid: 6690068
+tags: [cancer, animal, models, hormone-dependent, human, breast, steroid, receptor, ER, PR, survival, prognosis]
 links:
   doi: "10.1007/bf00255902"
   url: "https://doi.org/10.1007/bf00255902"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Animal models for hormone-dependent human breast cancer."
-    - "The intake sheet locator is: 10.1007/bf00255902."
+    - "Canine and feline mammary tumors can be polyreceptive (ER, PR, androgen, glucocorticoid, mineralocorticoid)."
+    - "Follow-up of 45 bitches with mammary carcinoma showed significantly higher survival in receptor-rich (ER and/or PR) tumors."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Canine mammary tumors are suitable animal models for hormone-dependent human breast carcinoma."
+    - "Receptor status correlates with survival in canine mammary carcinoma."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Feline mammary tumors share polyreceptive characteristics with canine and human tumors."
+    - "Historical foundation for receptor profiling in comparative mammary oncology."
 ---
 
 # Animal models for hormone-dependent human breast cancer
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the abstract. 1984 comparative oncology: canine + feline mammary tumors are polyreceptive (ER, PR, androgen, glucocorticoid, mineralocorticoid). Receptor-rich tumors show better survival in 45-bitch canine cohort. Historical foundation for receptor-based prognosis. [Deep extraction worksheet](../../system/indexes/src-cancer-027-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| PMID | 6690068 |
+| DOI | 10.1007/BF00255902 |
+| Journal | Cancer Chemother Pharmacol |
+| Year | 1984 |
+| Authors | Martin PM, Cotard M, Mialot JP, André F, Raynaud JP |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Receptor types | ER, PR, androgen, glucocorticoid, mineralocorticoid in canine/feline mammary tumors |
+| Study population | 45 bitches with mammary carcinoma (survival follow-up) |
+| Prognostic finding | Receptor-rich (ER and/or PR) tumors had significantly higher survival |
+| Model conclusion | Canine mammary tumors suitable for hormone-dependent breast cancer model |
+
+**Boundary:** Abstract-level extraction. The 45-bitch cohort provides prognostic evidence for canine; feline receptor profiles mentioned but feline-specific survival data not reported in abstract.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 29. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical 1984 study showing canine/feline mammary tumors are polyreceptive (ER, PR, androgen, glucocorticoid) with receptor-rich tumors showing better survival in canine cohort.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +79,22 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Animal models for hormone-dependent human breast cancer.
-- The intake sheet locator is: 10.1007/bf00255902.
+- Canine and feline mammary tumors can be polyreceptive
+- Receptor types include: estrogen (ER), progestin (PR), androgen, glucocorticoid, mineralocorticoid
+- 45 bitches with mammary carcinoma followed for survival analysis
+- Survival rate significantly higher in animals with receptor-rich (ER and/or PR) tumors
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Canine mammary tumors are suitable animal models for hormone-dependent human breast carcinoma
+- Receptor status is prognostically significant in canine mammary cancer
+- Both canine and feline mammary tumors share polyreceptive characteristics with human tumors
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- This 1984 study provides early foundation for receptor profiling in comparative mammary oncology
+- The feline component is less detailed than canine but establishes shared receptor biology
+- May inform mammary-carcinoma.md claims about receptor status and prognosis
 
 ## Claim-Fit Judgment
 

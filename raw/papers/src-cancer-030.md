@@ -2,42 +2,66 @@
 id: src-cancer-030
 type: source
 title: "Canine and Feline Spontaneous Mammary Tumours as Models of Human Breast Cancer"
-source_kind: paper
+source_kind: book-chapter
 species: feline
 diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: review
+year: 2020
+status: deep_extracted
+extraction_depth: deep
+verification_status: source_checked
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, spontaneous, mammary, models, human, breast]
+tags: [cancer, spontaneous, mammary, models, human, breast, comparative-oncology, book-chapter]
 links:
   doi: "10.1007/978-3-030-30734-9_9"
   url: "https://doi.org/10.1007/978-3-030-30734-9_9"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Canine and Feline Spontaneous Mammary Tumours as Models of Human Breast Cancer."
-    - "The intake sheet locator is: 10.1007/978-3-030-30734-9_9."
+    - "Book chapter (Springer) DOI: 10.1007/978-3-030-30734-9_9."
+    - "Part of Advances in Experimental Medicine and Biology series."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Book chapter format; not indexed in PubMed."
+    - "Review of comparative oncology models for mammary cancer."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Likely contains comprehensive review of canine/feline mammary cancer as human models."
+    - "Full-text required for extractable findings."
 ---
 
 # Canine and Feline Spontaneous Mammary Tumours as Models of Human Breast Cancer
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction but is reference-only. 2020 Springer book chapter on comparative oncology. Not PubMed indexed; no abstract available. Full-text required for specific claims. [Deep extraction worksheet](../../system/indexes/src-cancer-030-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| DOI | 10.1007/978-3-030-30734-9_9 |
+| Type | Book chapter (Springer) |
+| Series | Advances in Experimental Medicine and Biology |
+| PubMed Status | Not indexed |
+
+## Abstract Summary
+
+Book chapter not indexed in PubMed. DOI verified via Springer.
+
+| Category | Finding |
+|----------|---------|
+| Source type | Book chapter |
+| Topic | Comparative oncology: canine/feline mammary as human breast cancer models |
+| Evidence level | Review |
+
+**Boundary:** Book chapter format; no abstract available. Full-text required for extractable claims.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 33. Use it for triage until abstract or full-text extraction proves a stronger role.
+Springer book chapter on canine/feline mammary tumors as human breast cancer models (not PubMed indexed; full-text required).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +78,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Canine and Feline Spontaneous Mammary Tumours as Models of Human Breast Cancer.
-- The intake sheet locator is: 10.1007/978-3-030-30734-9_9.
+- Book chapter from Advances in Experimental Medicine and Biology (Springer)
+- DOI: 10.1007/978-3-030-30734-9_9 (verified)
+- Not indexed in PubMed (book chapters typically excluded)
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Comparative oncology review chapter
+- Title indicates focus on spontaneous mammary tumors as human breast cancer models
+- Full-text access required for extractable findings
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Likely contains comprehensive review of canine/feline mammary cancer biology
+- May provide model justification useful for mammary-carcinoma.md
+- Book chapters often contain more synthesis than primary research papers
 
 ## Claim-Fit Judgment
 

@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 175919
+year: 1976
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, biology, leukemia, virus, natural, environment]
@@ -33,11 +35,49 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. Foundational 1976 Cancer Research: >2000 cats tested; test-and-removal controlled FeLV spread; 12% infection rate when FeLV+ cats remained. No human FeLV infection evidence. Pre-vaccine era historical context. [Deep extraction worksheet](../../system/indexes/src-cancer-042-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 175919
+- Journal: Cancer Research
+- Year: 1976
+
+## Abstract Summary
+
+This foundational 1976 Cancer Research paper established key principles of FeLV biology and control in natural cat populations.
+
+**Historical context:**
+- FeLV discovered 1964 in cluster of cats with lymphosarcoma
+- Clustering suggested infectious etiology
+
+**Seroepidemiological study:**
+- Over 2000 cats tested using immunofluorescent test
+- Confirmed FeLV is infectious for cats
+- Finding independently confirmed using 3 different test procedures
+
+**Test-and-removal program results:**
+
+| Group | Outcome |
+|-------|---------|
+| 45 households (FeLV+ cats removed) | Spread controlled |
+| 25 households (FeLV+ cats remained) | 12% of uninfected cats became infected |
+
+**Control strategy:**
+- Simple test and removal program devised
+- Ultimate control awaits effective vaccine
+- Some cats experimentally immunized with attenuated FeLV (1976)
+
+**Human safety:**
+No evidence FeLV can infect humans.
+
+**Boundary:** 1976 data predates modern FeLV vaccines and test protocols. Historical context for FeLV-lymphoma relationship.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 45. Use it for triage until abstract or full-text extraction proves a stronger role.
+Foundational 1976 FeLV study: test-and-removal program controlled spread; 12% infection rate when FeLV+ cats remained — basis for eradication strategy.
 
 ## Why It Matters For Feline Cancer
 

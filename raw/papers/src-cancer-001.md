@@ -10,12 +10,13 @@ endpoints: []
 jurisdictions: [Canada, UK]
 evidence_level: review
 year: 2022
-status: abstract_weighted
-extraction_depth: abstract
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "36288160"
+pmcid: "PMC9609674"
 decision_grade: no
 language_qa_status: not_applicable
-pmid: "36288160"
 tags: [cancer, oncogenomics, genetics, lymphoma, mammary, SCC, sarcoma, mast-cell, hemangiosarcoma, osteosarcoma]
 links:
   doi: "10.3390/vetsci9100547"
@@ -24,24 +25,43 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Cancer is a significant cause of morbidity and mortality in domestic cats."
-    - "Investigations into understanding the genetics of feline cancers started with cytogenetics and was then expanded to studies at a gene-specific level."
-    - "A recently generated high-quality reference genome for cats enables next-generation sequencing studies."
-    - "This review summarises what is currently known of the genetics of both common and rare cancer types in cats."
+    - "Majority of feline tumours are malignant (~85% of mammary tumours)."
+    - "TP53 mutations documented in lymphoma (codon 282), mammary (codons 251-256, 273), SCC, HSA (46%), OSA."
+    - "c-KIT mutations in exons 6, 8, 9 found in 60% of feline MCT cases."
+    - "Low-grade GI lymphoma: 96% clinical response with chlorambucil + glucocorticoids, 2-3yr remission."
+    - "High-grade GI lymphoma: only 30% clinical response."
+    - "3/9 cats with mammary carcinoma carried germline BRCA1/2 variants."
+    - "HSA most recurrently mutated: TP53 (46%), NOTCH1 (15%)."
   source_supported_conclusion:
-    - "This source provides a broad genetics overview spanning multiple cancer types."
-    - "It can inform architecture decisions about which cancer branches have genetic evidence."
-    - "Comparative oncology with human cancer genetics is a recurring theme."
+    - "TP53 is recurrently mutated across multiple feline cancer types."
+    - "c-KIT mutations in feline MCT parallel canine MCT findings."
+    - "High-quality reference genome (Felis_catus_9.0) enables comprehensive oncogenomic studies."
+    - "Feline cancers have been understudied compared to canine/human cancers."
   llm_inference:
-    - "Full-text extraction would identify specific genetic mutations per cancer type."
-    - "This may be a valuable cross-branch reference for molecular mechanisms."
+    - "TP53 may be a pan-cancer therapeutic target in feline oncology."
+    - "c-KIT inhibitors (toceranib, masitinib) may have relevance for feline MCT."
+    - "BRCA1/2 testing may inform mammary cancer risk assessment."
 ---
 
 # Feline Oncogenomics: What Do We Know about the Genetics of Cancer in Domestic Cats?
 
 ## Evidence-Depth Caveat
 
-This card has abstract-level extraction from PubMed (PMID: 36288160). It is a 2022 broad genetics review covering multiple feline cancer types. Full-text extraction recommended for specific genetic mutations per cancer type.
+**Deep-extracted from PMC full text (PMC9609674).** 2022 Vet Sci: comprehensive oncogenomics review covering lymphoma, mammary tumors, SCC, soft tissue tumors (FISS), mast cell tumors, hemangiosarcoma, lung, pancreatic, and osteosarcoma. Documents TP53 mutations across cancer types; c-KIT mutations in MCT (exons 6,8,9); limited BRCA1/2 data in mammary; new high-quality reference genome (Felis_catus_9.0) enables NGS. Evidence level: narrative review.
+
+## Source Check, 2026-06-09
+
+Europe PMC full text extraction.
+
+| Field | Value |
+|-------|-------|
+| PMID | 36288160 |
+| PMCID | PMC9609674 |
+| DOI | 10.3390/vetsci9100547 |
+| Journal | Vet Sci (MDPI) |
+| Year | 2022 |
+| Authors | Willcox JL, Burneo CS, Kitchell BE, Rissetto K |
+| Open access | yes |
 
 ## One-Line Summary
 

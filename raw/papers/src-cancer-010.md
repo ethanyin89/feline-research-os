@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: review
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2014
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 24841386
+doi: "10.3390/v6052122"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, oncolytic, virotherapy]
@@ -33,11 +36,28 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2014 Viruses (MDPI) review on oncolytic virotherapy — experimental treatment using viruses that selectively lyse cancer cells and activate tumor immunity. Investigational, not standard care. [Deep extraction worksheet](../../system/indexes/src-cancer-010-deep-extraction-round1.md).
+
+## Full Abstract (PubMed)
+
+Cancer is the leading cause of disease-related death in companion animals such as dogs and cats. Despite recent progress in the diagnosis and treatment of advanced canine and feline cancer, overall patient treatment outcome has not been substantially improved. Virotherapy using oncolytic viruses is one promising new strategy for cancer therapy. Oncolytic viruses (OVs) preferentially infect and lyse cancer cells, without causing excessive damage to surrounding healthy tissue, and initiate tumor-specific immunity. The current review describes the use of different oncolytic viruses for cancer therapy and their application to canine and feline cancer.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Cancer burden | leading cause of disease-related death in companion animals | dogs and cats |
+| Treatment progress | overall outcome not substantially improved | despite diagnostic advances |
+| Oncolytic virus mechanism | preferentially infect and lyse cancer cells | spares healthy tissue |
+| Immune effect | initiates tumor-specific immunity | therapeutic mechanism |
+
+**Key insight:** This review covers emerging oncolytic virotherapy as a treatment modality for veterinary cancer. The mechanism involves selective cancer cell infection and lysis plus immune activation.
+
+**Boundary:** This is a 2014 review of experimental therapy. Full-text needed for specific virus types, trial data, and feline-specific applications. Not treatment guidance.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 11. Use it for triage until abstract or full-text extraction proves a stronger role.
+2014 Viruses review: oncolytic virotherapy for canine/feline cancer — viruses selectively lyse cancer cells and trigger tumor immunity; experimental treatment modality.
 
 ## Why It Matters For Feline Cancer
 

@@ -3,41 +3,93 @@ id: src-cancer-032
 type: source
 title: "BB-Cl-Amidine as a novel therapeutic for canine and feline mammary cancer via activation of the endoplasmic reticulum stress pathway"
 source_kind: paper
-species: feline
+species: [feline, canine]
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [mouse-xenograft]
+endpoints: [cell-viability, tumorigenicity, ER-stress]
+jurisdictions: [USA]
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2018
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "29649984"
+pmcid: "PMC5898062"
+doi: "10.1186/s12885-018-4323-8"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, bb-cl-amidine, novel, therapeutic, mammary, via, activation, endoplasmic]
+tags: [cancer, mammary, FMC, BB-Cl-Amidine, PAD-inhibitor, ER-stress, GRP78, DDIT3, in-vitro, xenograft, therapeutic]
 links:
   doi: "10.1186/s12885-018-4323-8"
   url: "https://doi.org/10.1186/s12885-018-4323-8"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5898062/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: BB-Cl-Amidine as a novel therapeutic for canine and feline mammary cancer via activation of the endoplasmic reticulum stress pathway."
-    - "The intake sheet locator is: 10.1186/s12885-018-4323-8."
+    - "BB-CLA reduced viability and tumorigenicity of canine and feline mammary cancer cell lines in vitro."
+    - "BB-CLA activates the endoplasmic reticulum stress pathway in these cells by downregulating 78 kDa Glucose-regulated Protein (GRP78) and upregulating the downstream target gene DNA Damage Inducible Transcript 3 (DDIT3)."
+    - "GRP78 is a potential target in breast cancer for molecular therapy."
+    - "We established a mouse xenograft model of both canine and feline mammary cancer in which we preliminarily tested the effects of BB-CLA in vivo."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "BB-Cl-Amidine (PAD inhibitor) is cytotoxic to feline and canine mammary cancer cells in vitro."
+    - "Mechanism: ER stress pathway activation via GRP78 downregulation and DDIT3 upregulation."
+    - "Mouse xenograft models established for future in vivo FMC/CMC therapeutic testing."
+    - "PAD inhibition represents a novel therapeutic target for companion animal mammary cancer."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "In vitro only for cytotoxicity; xenograft results described as 'preliminary' — clinical translation requires further studies."
+    - "GRP78 targeting may have broader applicability across FMC subtypes."
+    - "Combination with existing chemotherapy (doxorubicin, carboplatin) not yet tested."
 ---
 
 # BB-Cl-Amidine as a novel therapeutic for canine and feline mammary cancer via activation of the endoplasmic reticulum stress pathway
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC5898062).** This 2018 study demonstrates BB-Cl-Amidine (PAD inhibitor) reduces FMC/CMC cell viability in vitro via ER stress pathway (GRP78 downregulation, DDIT3 upregulation). Includes preliminary mouse xenograft data. Evidence level: in vitro + preliminary in vivo. Not clinical guidance.
+
+## Source Check, 2026-06-09
+
+Europe PMC full text extraction.
+
+- PMID: 29649984
+- PMCID: PMC5898062
+- DOI: 10.1186/s12885-018-4323-8
+- Journal: BMC Cancer
+- Year: 2018
+- Open access: yes
+
+## Abstract Summary
+
+This study evaluated BB-Cl-Amidine (BB-CLA), a peptidylarginine deiminase (PAD) inhibitor, as a novel therapeutic approach for canine and feline mammary cancer.
+
+**Mechanism of action:**
+- BB-Cl-Amidine inhibits PAD enzymes
+- Activates the endoplasmic reticulum (ER) stress pathway
+- Downregulates GRP78 (78 kDa Glucose-regulated Protein) — a breast cancer molecular therapy target
+- Upregulates DDIT3 (DNA Damage Inducible Transcript 3)
+- ER stress activation leads to cancer cell death
+
+**Efficacy findings:**
+- Reduces viability of canine mammary cancer cells in vitro
+- Reduces viability of feline mammary cancer cells in vitro
+- Reduces tumorigenicity in vitro
+- Preliminary in vivo testing in mouse xenograft models established
+
+**Mouse xenograft models:**
+- NSG mouse xenografts created using canine and feline mammary cancer cell lines
+- BB-CLA tested for 2 weeks in vivo (preliminary)
+
+**Therapeutic implications:**
+- PAD inhibition represents a novel therapeutic target
+- GRP78 is an actionable molecular target
+- ER stress pathway activation as anti-cancer mechanism
+- Mouse xenograft models established for future FMC/CMC therapeutic testing
+
+**Boundary:** Primarily in vitro evidence; xenograft results described as "preliminary." Not clinical guidance.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 35. Use it for triage until abstract or full-text extraction proves a stronger role.
+BB-Cl-Amidine (PAD inhibitor) reduces FMC/CMC cell viability in vitro via ER stress (GRP78↓, DDIT3↑); mouse xenograft models established for future therapeutic testing.
 
 ## Why It Matters For Feline Cancer
 

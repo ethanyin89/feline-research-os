@@ -9,14 +9,17 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2024
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 38418156
+doi: "10.21873/invivo.13478"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, immunohistochemical, expression, prognostic, value, cox-2, alpha-smooth, muscle]
 links:
-  doi: ""
+  doi: "10.21873/invivo.13478"
   url: "https://iv.iiarjournals.org/content/38/2/598"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,47 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2024 In Vivo: 50 feline malignant mammary tumors; COX-2 overexpression and α-SMA+ CAFs both associated with metastasis, vascular invasion, and poor DFS/OS; first CAF prognostic data in FMC. [Deep extraction worksheet](../../system/indexes/src-cancer-052-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 38418156
+- DOI: 10.21873/invivo.13478
+- Journal: In Vivo
+- Year: 2024
+- Open access: yes
+
+## Abstract Summary
+
+This study evaluated COX-2 immunoexpression and alpha-smooth muscle actin-positive cancer-associated fibroblasts (alpha-SMA-positive CAFs) in feline mammary cancer.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Population | 50 felines with malignant mammary tumors |
+| Markers | COX-2 and alpha-SMA-positive CAFs |
+| Outcomes | Disease-free survival and overall survival |
+| Context | Clinicopathological significance and prognostic correlation |
+
+**Key associations:**
+
+| Marker | Associated Findings |
+|--------|---------------------|
+| COX-2 overexpression | Mitotic index (p=0.031), malignancy degree (p<=0.001), lymph node metastasis (p<=0.001), vascular invasion (p=0.002), recurrence (p=0.019), distant metastasis (p=0.036) |
+| alpha-SMA-positive CAFs | Mitotic index (p=0.004), lymph node metastasis (p=0.027), vascular invasion (p=0.05), recurrence (p<=0.001), distant metastasis (p<=0.001) |
+
+**Prognostic finding:**
+
+Both markers correlated with disease-free and overall survival and emerged as poor-prognosis predictors in the abstract.
+
+**Boundary:** This is abstract-level prognostic marker evidence from a 50-cat malignant mammary tumor cohort. It does not support treatment selection or NSAID recommendations.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 55. Use it for triage until abstract or full-text extraction proves a stronger role.
+COX-2 overexpression and alpha-SMA-positive CAFs correlated with adverse clinicopathological features and poorer survival in 50 feline malignant mammary tumors.
 
 ## Why It Matters For Feline Cancer
 

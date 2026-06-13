@@ -18,7 +18,7 @@ decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, gastrointestinal, lymphoma]
 links:
-  doi: ""
+  doi: "10.1016/s0195-5616(03)00054-8"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S0195561603000548?via%3Dihub"
   local_assets: []
 evidence_policy:

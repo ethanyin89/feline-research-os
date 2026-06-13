@@ -88,6 +88,17 @@ It does not change the clinical claim to:
 - do not turn current-label dosing into patient-specific clinical instructions
 - do not collapse current label cards into comparative efficacy evidence
 
+## Key-Claim Traceability
+
+| Claim ID | Key Claim | Claim Level | Supporting Source IDs | Notes |
+|---|---|---|---|---|
+| DSG1 | Bexacat and Senvelgo are U.S. FDA-regulated SGLT2 product branches with FOI and current-label source control. | B | src-reg-010, src-reg-011, src-reg-012, src-reg-013 | U.S. regulatory/source-control claim |
+| DSG2 | Current label control preserves the otherwise-healthy, insulin-naive indication boundary for both Bexacat and Senvelgo. | B | src-reg-012, src-reg-013 | shared label boundary |
+| DSG3 | SGLT2 label control strengthens restrictions rather than supporting broad treatment-preference claims. | B | src-reg-012, src-reg-013, diabetes-sglt2-label-section-comparison-memo | current-label boundary |
+| DSG4 | DKA/euglycemic DKA warnings must govern SGLT2 treatment and owner-facing output. | B | src-reg-012, src-reg-013 | safety boundary |
+| DSG5 | Bexacat and Senvelgo should not be ranked against each other or against insulin from current-label evidence alone. | B | src-reg-012, src-reg-013 | label evidence is not comparative efficacy evidence |
+| DSG6 | Current U.S. label control does not establish global approval, complicated-diabetes use, or patient-specific dosing advice. | B | src-reg-012, src-reg-013 | scope boundary |
+
 ## Best Write-Back Targets
 
 - [regulatory brief](../../topics/diabetes/regulatory-brief.md)

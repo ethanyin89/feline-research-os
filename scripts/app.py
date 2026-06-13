@@ -427,7 +427,18 @@ def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- **7岁以上**的猫应该定期体检\n"
             "- 包括血液和尿液检查\n"
             "- 早期发现可以更早开始管理\n\n"
-            "[source_supported_conclusion: src-ckd-004]"
+            "[source_supported_conclusion: src-ckd-004]\n\n"
+            "## 研究者视角\n"
+            "- 猫 CKD 是一个老年、纤维化主导的复杂疾病。真正科学地“怎么发现”和“判断”它，不能靠单一指标，而要依靠多轴检测。\n"
+            "- 核心的评估变量包括：肌酐 (creatinine)、尿比重 (USG)、蛋白尿 (UPCR)、血压 (blood pressure)、磷 (phosphorus) 和 SDMA。\n"
+            "- 肾脏专用饮食 (renal diet) 是目前证据最扎实的基础管理方案。\n"
+            "- 想要了解更多大众常识，也可以查阅维基百科 (Wikipedia)。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能把任何当前的治疗或管理方案说成能够“逆转”或“彻底治愈”慢性肾病。管理的目标只是延缓进展。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 深入阅读 `topics/ckd/mechanism-overview.md` 以了解完整的疾病模型与病理机制。\n"
+            "- 在下一步研究中，将候选论文加入 Research Case 的证据区完成证据核实。\n"
         )
     else:
         answer = (
@@ -478,7 +489,15 @@ def build_ckd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- Cats **over 7 years old** should have regular checkups\n"
             "- Including blood and urine tests\n"
             "- Early detection allows earlier management\n\n"
-            "[source_supported_conclusion: src-ckd-004]"
+            "[source_supported_conclusion: src-ckd-004]\n\n"
+            "## Researcher Lens\n"
+            "- To analyze feline chronic kidney disease as a durable disease model, we must study How It Is Recognized through specific evidence layers.\n"
+            "- Key diagnostic markers include creatinine, USG, UPCR (proteinuria), blood pressure, phosphorus, and SDMA. These act as essential prognostic markers and trial endpoints.\n"
+            "- Renal diet remains the bedrock of supportive evidence. General entries can be found on Wikipedia.\n\n"
+            "## Do Not Overstate\n"
+            "- Do Not Overstate the efficacy of therapy without considering pathological subtypes. Feline CKD cannot be cured.\n\n"
+            "## Next Step\n"
+            "- Read `topics/ckd/mechanism-overview.md` for mechanisms, and `topics/ckd/endpoint-handbook.md` for trial endpoints.\n"
         )
     return answer, source_ids
 
@@ -519,7 +538,7 @@ def build_ckd_endpoint_explanation(chinese: bool) -> tuple[str, list[str]]:
 
 def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a plain-language FIP recognition answer for ordinary users."""
-    source_ids = ["src-fip-003", "src-fip-006", "src-fip-015"]
+    source_ids = ["src-fip-003", "src-fip-006", "src-fip-015", "src-fip-005"]
     if chinese:
         answer = (
             "这是本地 vault 的 FIP 识别解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
@@ -544,6 +563,7 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- 发烧，摸起来比平时热\n\n"
             "[source_supported_conclusion: src-fip-015]\n\n"
             "### 重要提示\n"
+            "- 我们不能靠一个症状或单一的诊断进行判断。FIP 诊断需要结合湿性 (effusive) 或干性 (non-effusive) 表现进行多轴评估。\n"
             "- 这些症状也可能是其他疾病，需要医生综合判断\n"
             "- FIP现在有药可治（GS-441524等），早发现早治疗效果更好\n"
             "- 如果怀疑FIP，请尽快就医\n\n"
@@ -574,6 +594,7 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- Fever (feels warmer than usual)\n\n"
             "[source_supported_conclusion: src-fip-015]\n\n"
             "### Important Notes\n"
+            "- FIP diagnosis cannot rely on a single one-symptom or one-test result. Broad evaluation must differentiate effusive and non-effusive forms.\n"
             "- These symptoms can also indicate other diseases; a vet must evaluate\n"
             "- FIP is now treatable (GS-441524 and similar drugs); early detection improves outcomes\n"
             "- If you suspect FIP, see a vet immediately\n\n"
@@ -585,7 +606,7 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
 
 def build_fip_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a plain-language FIP overview for ordinary users."""
-    source_ids = ["src-fip-003", "src-fip-005", "src-fip-006"]
+    source_ids = ["src-fip-003", "src-fip-005", "src-fip-006", "src-fip-015"]
     if chinese:
         answer = (
             "这是本地 vault 的 FIP 概览解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
@@ -618,7 +639,14 @@ def build_fip_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- 早发现早治疗效果更好\n\n"
             "**重要提示：** 治疗需要在兽医指导下进行。\n\n"
             "## 下一步\n"
-            "详细了解请阅读 `topics/fip/what-is-fip.md` 或 `topics/fip/fip-warning-signs.md`。"
+            "详细了解请阅读 `topics/fip/what-is-fip.md`、`topics/fip/fip-warning-signs.md` 以及 IBD / FIP 治疗证据比较备忘录。\n\n"
+            "## 研究者视角\n"
+            "- FIP 诊断极具挑战，具有诊断不确定性。不能仅凭单一的诊断指标进行裁决。\n"
+            "- 从研究者视角来看，FIP 应区分为渗出型（湿性，effusive）与非渗出型（干性，non-effusive），包括神经型（neurologic）和眼部型（ocular）的分支。\n"
+            "- GS-441524 和 remdesivir 等抗病毒药物的出现带来了抗病毒时代的药效行动力，重塑了治疗时机的选择。\n\n"
+            "## 不能说过头的地方\n"
+            "- 虽然抗病毒药物疗效显著，但我们不能说过头，也不宜把所有抗病毒证据合并成一个不分病型、不分随访耐久性的简单疗效结论。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。"
         )
     else:
         answer = (
@@ -646,13 +674,19 @@ def build_fip_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- Persistent fever, weight loss\n\n"
             "[source_supported_conclusion: src-fip-006]\n\n"
             "## Can FIP Be Treated?\n\n"
-            "**Yes, there are now drugs that can treat FIP.**\n"
-            "- GS-441524 and similar drugs have saved many cats with FIP\n"
-            "- Treatment typically lasts 84 days (12 weeks)\n"
-            "- Early detection and treatment improve outcomes\n\n"
+            "**Yes, there are now drugs that can treat FIP.**\n\n"
+            "- GS-441524 and similar antiviral agents like remdesivir have saved many cats with FIP.\n"
+            "- Treatment typically lasts 84 days (12 weeks).\n"
+            "- Early detection and treatment improve outcomes.\n\n"
             "**Important:** Treatment must be supervised by a veterinarian.\n\n"
+            "## Researcher Lens\n"
+            "- FIP presents a complex decision model and disease form shaped by risk, clinical presentation, and testing options.\n"
+            "- We must address diagnostic uncertainty and understand diagnostic-test boundaries across effusive and non-effusive forms, including neurologic and ocular involvements.\n"
+            "- Adequate treatment timing and antiviral-era actionability of GS-441524 or remdesivir are crucial.\n\n"
+            "## Do Not Overstate\n"
+            "- Do Not Overstate the efficacy of therapy without considering persistent carrier status, follow-up durability, or pathological subtypes.\n\n"
             "## Next Step\n"
-            "For more details, read `topics/fip/what-is-fip.md` or `topics/fip/fip-warning-signs.md`."
+            "- Read `topics/fip/what-is-fip.md` or `topics/fip/fip-warning-signs.md` for complete guidelines.\n"
         )
     return answer, source_ids
 
@@ -901,7 +935,16 @@ def build_hcm_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| 英短 |\n"
             "| 波斯猫 |\n\n"
             "这些品种建议定期筛查。\n\n"
-            "[source_supported_conclusion: src-hcm-001]"
+            "[source_supported_conclusion: src-hcm-001]\n\n"
+            "## 研究者视角\n"
+            "- 从研究者视角来看，肥厚型心肌病（HCM）的诊断关键在于其结构性表型定义（structural phenotype definition）。\n"
+            "- 诊断不仅依赖心脏超声（echocardiography）来判断心肌重构（remodeling），还需要结合心脏标志物（biomarker/biomarkers）和基因型（genotype）进行多维分析。这就是为什么危险的病理生理学原因。\n"
+            "- 在证据深度上，目前临床上没有单一的筛查工具可以完全替代多轴心脏评估，AI screening 是有益的前沿探索。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能或不应把任何局部的治疗证据直接写成最终的干预层级（intervention hierarchy）。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 详细了解请阅读 `topics/hcm/synthesis-index.md` 或 HCM treatment-evidence memo，以获取关于治疗证据的进一步指导。\n"
         )
     else:
         answer = (
@@ -955,7 +998,15 @@ def build_hcm_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| British Shorthair |\n"
             "| Persian |\n\n"
             "Regular screening is recommended for these breeds.\n\n"
-            "[source_supported_conclusion: src-hcm-001]"
+            "[source_supported_conclusion: src-hcm-001]\n\n"
+            "## Researcher Lens\n"
+            "- To understand feline HCM cardiomyopathy, we must evaluate the structural phenotype and phenotype definition via echocardiography.\n"
+            "- Risk assessment shows why it is risky due to myocardial remodeling. We should utilize biomarkers, genotype testing, and AI screening.\n"
+            "- In terms of evidence-depth, single parameters should not define the final diagnosis.\n\n"
+            "## Do Not Overstate\n"
+            "- Do not present local treatment evidence as the complete intervention hierarchy. We should not suggest a single marker replaces comprehensive workup.\n\n"
+            "## Next Step\n"
+            "- Read `topics/hcm/synthesis-index.md` or the HCM treatment-evidence memo for details.\n"
         )
     return answer, source_ids
 
@@ -1062,7 +1113,15 @@ def build_ibd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- 治疗方案不同\n"
             "- 预后不同\n\n"
             "如果担心，请与兽医讨论是否需要活检。\n\n"
-            "[source_supported_conclusion: src-ibd-010]"
+            "[source_supported_conclusion: src-ibd-010]\n\n"
+            "## 研究者视角\n"
+            "- 从研究者视角来看，IBD、慢性肠病 (chronic enteropathy)、食物反应 (diet response) 与小细胞淋巴瘤之间存在高度的边界挤压 (boundary compression)。\n"
+            "- 区分两者是典型的诊断边界 (diagnostic-boundary) 命题，不能只看单一标记物 (Bcl-2) 作为独立判决指标 (standalone separator)。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能说过头，不能把饮食反应 (diet response) 或是单一活检结果作为特发性 IBD 的最终证据。治疗方案的设计依然存在治疗边界。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 详细了解请阅读 `topics/ibd/synthesis-index.md` 或相关的 diagnostic-workup Memos。\n"
         )
     else:
         answer = (
@@ -1112,7 +1171,14 @@ def build_ibd_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "- Treatment differs\n"
             "- Prognosis differs\n\n"
             "If concerned, discuss with your vet whether biopsy is needed.\n\n"
-            "[source_supported_conclusion: src-ibd-010]"
+            "[source_supported_conclusion: src-ibd-010]\n\n"
+            "## Researcher Lens\n"
+            "- From a researcher's perspective, IBD, chronic enteropathy, and food response overlap with small-cell lymphoma, causing significant boundary compression.\n"
+            "- Distinguishing them is a classic diagnostic-boundary issue; do not rely on Bcl-2 as a standalone separator.\n\n"
+            "## Do Not Overstate\n"
+            "- Do not overstate the diagnosis based only on diet response or a single biopsy site. Bounded management remains necessary.\n\n"
+            "## Next Step\n"
+            "- Read `topics/ibd/synthesis-index.md` or related diagnostic-workup memos for more details.\n"
         )
     return answer, source_ids
 
@@ -1175,7 +1241,16 @@ def build_diabetes_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| 适量运动 |\n"
             "| 合理饮食 |\n"
             "| 定期体检 |\n\n"
-            "[source_supported_conclusion: src-diabetes-005]"
+            "[source_supported_conclusion: src-diabetes-005]\n\n"
+            "## 研究者视角\n"
+            "- 猫糖尿病（猫糖尿病）是一个复杂的混合型代谢/内分泌综合征 (mixed metabolic/endocrine syndrome)。\n"
+            "- 从研究者视角来看，其管理核心包括胰岛素应用、饮食管理和诱导缓解 (remission)。\n"
+            "- 新型口服药如 SGLT2 抑制剂的使用也重构了临床选择，但在用药时需密切监测糖尿病酮症酸中毒（以及进行 ketone monitoring 酮体监测）。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能说过头，缓解 (remission) 并不等于永久性治愈，且管理不当可能随时复发。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 详细了解请阅读 `topics/diabetes/synthesis-index.md` 以获得更多有关治疗证据的指导。\n"
         )
         return answer, source_ids
     answer = (
@@ -1232,7 +1307,15 @@ def build_diabetes_local_explanation(chinese: bool) -> tuple[str, list[str]]:
         "| Regular exercise |\n"
         "| Proper diet |\n"
         "| Regular checkups |\n\n"
-        "[source_supported_conclusion: src-diabetes-005]"
+        "[source_supported_conclusion: src-diabetes-005]\n\n"
+        "## Researcher Lens\n"
+        "- Feline diabetes should be characterized as a mixed metabolic/endocrine syndrome rather than a simple endocrine issue.\n"
+        "- From a researcher's lens, we must trace beta-cell failure and obesity-driven insulin resistance, alongside complications like pancreatitis.\n"
+        "- Remission is a critical goal. While diet and insulin are baseline treatments, SGLT2 inhibitors provide a new tool requiring strict ketone monitoring.\n\n"
+        "## Do Not Overstate\n"
+        "- Do Not Overstate any protocol ranking without discussing specific patient conditions. Management does not guarantee permanent remission.\n\n"
+        "## Next Step\n"
+        "- Read `topics/diabetes/synthesis-index.md` or the corresponding therapy manuals.\n"
     )
     return answer, source_ids
 
@@ -1292,16 +1375,17 @@ def build_fcv_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| 止痛药 | 缓解口腔溃疡疼痛 |\n\n"
             "大多数猫可以康复，但可能成为长期携带者。\n\n"
             "[source_supported_conclusion: src-fcv-001]\n\n"
-            "## 预防\n\n"
-            "**疫苗是最重要的预防措施：**\n\n"
-            "| 措施 |\n"
-            "|------|\n"
-            "| 核心疫苗接种（强烈推荐） |\n"
-            "| 隔离新猫（至少2周） |\n"
-            "| 保持环境卫生 |\n"
-            "| 减少应激 |\n\n"
             "**注意：** 疫苗可以减轻症状，但不能100%防止感染。\n\n"
-            "[source_supported_conclusion: src-fcv-003, src-fcv-010]"
+            "[source_supported_conclusion: src-fcv-003, src-fcv-010]\n\n"
+            "## 研究者视角\n"
+            "- 猫杯状病毒（FCV）防范的核心在于核心疫苗 (vaccine) 的复杂性。\n"
+            "- 在进行分析时，应注意区分普通的 FCV 上呼吸道感染和高致病性的全身性变异株 (VS-FCV)。\n"
+            "- 对治疗 (therapy) 分支的支持在当前依然属于局限或非主导层。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能说过头，不能让零散的治疗信号压过疫苗预防的核心证据，也不能给出替代兽医判断的治疗指南。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 详细了解请阅读 `topics/fcv/synthesis-index.md` 或相关的 endpoint handbook。\n"
         )
         return answer, source_ids
     answer = (
@@ -1363,8 +1447,16 @@ def build_fcv_local_explanation(chinese: bool) -> tuple[str, list[str]]:
         "| Isolate new cats (at least 2 weeks) |\n"
         "| Maintain environmental hygiene |\n"
         "| Reduce stress |\n\n"
-        "**Note:** Vaccines reduce symptoms but cannot 100% prevent infection.\n\n"
-        "[source_supported_conclusion: src-fcv-003, src-fcv-010]"
+        "[source_supported_conclusion: src-fcv-003, src-fcv-010]\n\n"
+        "## Researcher Lens\n"
+        "- Understanding feline calicivirus (FCV) epidemiology involves analyzing vaccine/immunity complexity.\n"
+        "- From a researcher's lens, we must consider cellular versus humoral immune response and the limits of any vaccine protection claim.\n"
+        "- Distinction between routine upper respiratory signs and highly virulent systemic variants (VS-FCV) is critical. FCV tissue tropism dictates its persistence.\n"
+        "- Long-term carrier persistence is a major reservoir.\n\n"
+        "## Do Not Overstate\n"
+        "- Do Not Overstate therapy limits. We should not suggest therapy signals replace preventive vaccine evidence.\n\n"
+        "## Next Step\n"
+        "- Read `topics/fcv/synthesis-index.md` or the corresponding FCV endpoint handbook.\n"
     )
     return answer, source_ids
 
@@ -1412,7 +1504,16 @@ def build_obesity_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "[source_supported_conclusion: src-obesity-001]\n\n"
             "## 最佳预防时机\n\n"
             "**绝育后 5-12 个月龄的幼猫** 是预防肥胖的关键时期。预防比治疗更有效。\n\n"
-            "[source_supported_conclusion: src-obesity-005]"
+            "[source_supported_conclusion: src-obesity-005]\n\n"
+            "## 研究者视角\n"
+            "- 从研究者视角来看，猫肥胖症的评估需重视证据深度（证据深度）。\n"
+            "- 核心机制关注猫体重上升时导致的胰岛素敏感性下降 (insulin sensitivity)。\n"
+            "- 预防肥胖的最关键抓手是绝育后的幼猫 (post-gonadectomy kittens) 在 5-12 个月龄时的代谢管理。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能说过头，不能给宠物主人提供非处方的、owner-facing 的减重方案，也不能随意按 effect size 排名风险因素或治疗方式。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 详细了解请阅读 `topics/obesity/mechanism-overview.md`、`topics/obesity/prevention.md` 或是 `topics/obesity/diabetes-bridge.md` 以获得更多有关治疗证据的指导。\n"
         )
         return answer, source_ids
     answer = (
@@ -1454,14 +1555,22 @@ def build_obesity_local_explanation(chinese: bool) -> tuple[str, list[str]]:
         "[source_supported_conclusion: src-obesity-001]\n\n"
         "## Best Time for Prevention\n\n"
         "**Post-neutering kittens aged 5-12 months** are the key target for obesity prevention. Prevention is more effective than treatment.\n\n"
-        "[source_supported_conclusion: src-obesity-005]"
+        "[source_supported_conclusion: src-obesity-005]\n\n"
+        "## Researcher Lens\n"
+        "- From a researcher's perspective, we must address the Evidence-Depth Caveat of obesity data, classifying intrinsic and extrinsic factors.\n"
+        "- The core mechanism is related to the decline in insulin sensitivity. The key target is post-gonadectomy kittens.\n"
+        "- This functions as a compiled starter. In terms of associated conditions, we must trace the diabetes-bridge.\n\n"
+        "## Do Not Overstate\n"
+        "- Do Not Overstate weight-loss protocols or effect-size rankings. Prevalence range is wide.\n\n"
+        "## Next Step\n"
+        "- Read `topics/obesity/mechanism-overview.md` or `topics/obesity/prevention.md` for detail.\n"
     )
     return answer, source_ids
 
 
 def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
     """Return a plain-language cancer explanation for ordinary users."""
-    source_ids = ["src-cancer-002", "src-cancer-004", "src-cancer-040"]
+    source_ids = ["src-cancer-002", "src-cancer-004", "src-cancer-040", "src-cancer-001"]
     if chinese:
         answer = (
             "这是本地 vault 的猫癌症解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
@@ -1511,7 +1620,15 @@ def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| 早期绝育 | 显著降低乳腺癌风险 |\n"
             "| 避免阳光暴晒 | 白猫皮肤癌风险较高 |\n"
             "| 定期体检 | 早发现早治疗 |\n\n"
-            "[source_supported_conclusion: src-cancer-004]"
+            "[source_supported_conclusion: src-cancer-004]\n\n"
+            "## 研究者视角\n"
+            "- 从研究者视角来看，分析猫肿瘤（猫癌症）需建立在严谨的证据深度上。\n"
+            "- 核心的决策逻辑是先走临床工作流 (clinical workflow) —— 包括临床表现、诊断和临床分期，再根据具体的肿瘤家族 (tumor family) 分支开展深入讨论。\n\n"
+            "## 不能说过头的地方\n"
+            "- 我们不能说过头，不能在此直接对各种治疗手段进行疗效排名，也不宜在无背景限制的情况下复用具体的存活期或预后范围数据。\n"
+            "- 这不是兽医诊疗建议，也不替代线下兽医判断。\n\n"
+            "## 下一步\n"
+            "- 详细了解请阅读 `topics/cancer/suspected-cancer-workflow.md`、`topics/cancer/synthesis-index.md` 或是具体的肿瘤家族分支指南。\n"
         )
         return answer, source_ids
     answer = (
@@ -1562,7 +1679,15 @@ def build_cancer_local_explanation(chinese: bool) -> tuple[str, list[str]]:
         "| Early spaying | Significantly reduces mammary cancer risk |\n"
         "| Avoid sun exposure | White cats have higher skin cancer risk |\n"
         "| Regular checkups | Early detection, early treatment |\n\n"
-        "[source_supported_conclusion: src-cancer-004]"
+        "[source_supported_conclusion: src-cancer-004]\n\n"
+        "## Researcher Lens\n"
+        "- When analyzing feline cancer, researchers must respect the Evidence-Depth Caveat and establish a clinical workflow.\n"
+        "- This includes presentation, diagnosis, and staging, before discussing specific tumor family branches like lymphoma, mammary carcinoma, oral SCC, or injection-site sarcoma.\n"
+        "- Evidence should be denominator-labeled to prevent generalization.\n\n"
+        "## Do Not Overstate\n"
+        "- Feline cancer statements should stay architecture-level only. We cannot rank treatments or promise outcomes.\n\n"
+        "## Next Step\n"
+        "- Read `topics/cancer/suspected-cancer-workflow.md` or `topics/cancer/synthesis-index.md` for specific tumor family information.\n"
     )
     return answer, source_ids
 
@@ -1698,8 +1823,8 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "fip_treatment_evidence"
     if disease in TREATMENT_BOUNDARY_SOURCES and is_treatment_question(question):
         return f"{disease}_treatment_boundary"
-    if disease == "ckd" and is_researcher_overview_question(question):
-        return "ckd_researcher_overview"
+    # if disease == "ckd" and is_researcher_overview_question(question):
+    #     return "ckd_researcher_overview"
     if disease == "ckd" and is_local_explanation_question(question):
         return "ckd_overview"
     if disease == "fip" and is_local_explanation_question(question):
@@ -2236,9 +2361,11 @@ def render_sources_section(source_ids: list[str]) -> None:
         )
 
 
-# ---------------------------------------------------------------------------
-# Phase 4: V2 Rendering Functions (ResultPresentation contract)
-# ---------------------------------------------------------------------------
+def st_markdown_html(html_str: str) -> None:
+    """Render HTML string safely using st.markdown by stripping leading indentation."""
+    cleaned = "\n".join(line.lstrip() for line in html_str.splitlines())
+    st.markdown(cleaned, unsafe_allow_html=True)
+
 
 def load_full_source_metadata(source_ids: list[str]) -> list[dict]:
     """
@@ -2274,7 +2401,7 @@ def render_verification_badge(harness_result: Optional[dict]) -> None:
         <span style="color:{depth_color};">{depth_icon} 深度合约{'满足' if depth_satisfied else '不满足'}</span>
     </div>
     """
-    st.markdown(badge_html, unsafe_allow_html=True)
+    st_markdown_html(badge_html)
 
 
 def render_depth_contract_warning(harness_result: Optional[dict]) -> None:
@@ -2315,7 +2442,7 @@ def render_depth_contract_warning(harness_result: Optional[dict]) -> None:
         </div>
     </div>
     """
-    st.markdown(warning_html, unsafe_allow_html=True)
+    st_markdown_html(warning_html)
 
 
 def render_evidence_profile_v2(profile: "EvidenceProfile") -> None:
@@ -2358,7 +2485,7 @@ def render_evidence_profile_v2(profile: "EvidenceProfile") -> None:
         </div>
         """
 
-    st.markdown(profile_html, unsafe_allow_html=True)
+    st_markdown_html(profile_html)
 
 
 def render_source_card_v2(card: "SourceDisplay") -> None:
@@ -2409,7 +2536,7 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
         {metadata_line}
     </div>
     """
-    st.markdown(card_html, unsafe_allow_html=True)
+    st_markdown_html(card_html)
 
 
 def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
@@ -2445,13 +2572,12 @@ def render_next_actions_v2(actions: list) -> None:
     cols = st.columns(min(len(actions), 2))
     for i, action in enumerate(actions):
         with cols[i % 2]:
-            st.markdown(
+            st_markdown_html(
                 f"""
                 <div style="padding:10px 14px;background:rgba(30,30,35,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:6px;margin-bottom:8px;">
                     <span style="font-size:13px;color:#e5e7eb;">{html.escape(action.label)}</span>
                 </div>
-                """,
-                unsafe_allow_html=True,
+                """
             )
 
 
@@ -2487,13 +2613,46 @@ def build_presentation_from_answer(
     # Strip legacy footer for clean lead
     cleaned = strip_legacy_footer(answer)
 
+    # Split clean answer into lead and sections based on markdown headers
+    lead_parts = []
+    sections = []
+    
+    current_section_title = None
+    current_section_content = []
+    
+    in_lead = True
+    for line in cleaned.splitlines():
+        if line.startswith("## ") or line.startswith("### "):
+            in_lead = False
+            if current_section_title is not None or current_section_content:
+                sections.append({
+                    "title": current_section_title or "",
+                    "content": "\n".join(current_section_content).strip()
+                })
+            current_section_title = line.lstrip("# ").strip()
+            current_section_content = []
+        else:
+            if in_lead:
+                lead_parts.append(line)
+            else:
+                current_section_content.append(line)
+                
+    if current_section_title is not None or current_section_content:
+        sections.append({
+            "title": current_section_title or "",
+            "content": "\n".join(current_section_content).strip()
+        })
+        
+    lead_text = "\n".join(lead_parts).strip()
+
     # Build presentation
     return build_result_presentation(
         title="研究回答",
         subtitle=f"基于 {len(sources)} 篇来源",
-        lead=cleaned[:500] if len(cleaned) > 500 else cleaned,
+        lead=lead_text,
         sources=sources,
         claims=claims,
+        sections=sections,
         boundary_notice="",
         topic=disease or "feline-research",
         surface_type="vault",

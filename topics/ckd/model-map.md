@@ -5,8 +5,8 @@ topic: ckd
 species: feline
 disease: CKD
 question_type: model
-source_ids: [src-ckd-001, src-ckd-003, src-ckd-004, src-ckd-007, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-012, src-ckd-016, src-ckd-022]
-last_compiled_at: 2026-04-11
+source_ids: [src-ckd-001, src-ckd-003, src-ckd-004, src-ckd-007, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-012, src-ckd-016, src-ckd-022, src-ckd-050]
+last_compiled_at: 2026-06-06
 confidence: medium
 verification_status: compiled
 owner: codex
@@ -24,6 +24,7 @@ What model evidence exists for feline CKD, and what can each model answer?
 | Claim | Source IDs | Boundary |
 |---|---|---|
 | An experimental model followed cats for 6 months after a unilateral 90-minute ischemic event and found persistent function-plus-lesion changes. | src-ckd-022 | Induced, unilateral, small experimental-model evidence; not spontaneous-disease generality. |
+| Primary renal cortical fibroblasts from four normal cats responded to TGF-beta1 with a profibrotic transcriptional program. | src-ckd-050 | Healthy-donor, in-vitro evidence; not spontaneous CKD or whole-organism efficacy. |
 
 ## Current Conclusions
 
@@ -36,6 +37,7 @@ What model evidence exists for feline CKD, and what can each model answer?
 - Comparative case-control evidence exists for recognition and symptom timing before diagnosis.
 - Aged-cat morphology review material now provides a stronger natural-history and pathogenesis scaffold for the naturally occurring disease layer.
 - An experimental-model paper exists showing persistent functional decline and chronic structural renal lesions 6 months after a unilateral 90-minute ischemic event in cats.
+- A primary feline renal cortical fibroblast culture model now provides direct cell-level TGF-beta response evidence.
 
 ### source_supported_conclusion
 
@@ -46,6 +48,7 @@ What model evidence exists for feline CKD, and what can each model answer?
 - Blood-pressure and proteinuria comorbidity material supports treating subgroup structure inside natural disease as important evidence architecture, not as background noise.
 - Fibrosis-centered mechanism synthesis makes the natural-disease layer more reusable by giving it a stable lesion backbone even when initiating causes remain heterogeneous.
 - The model map is now stronger because aged-cat natural-history review and experimental ischemia work can be read together without collapsing them into the same evidence type.
+- The fibroblast model supports mediator and target-engagement experiments but cannot substitute for CKD-derived tissue or in-vivo efficacy evidence.
 
 ### llm_inference
 
@@ -61,13 +64,14 @@ What model evidence exists for feline CKD, and what can each model answer?
 | Clinicopathology correlation | strong and distinctive | mechanism-endpoint bridge, structural interpretation of markers | not a prospective intervention model | src-ckd-010 |
 | Mechanism review synthesis | moderate | fibrosis-centered lesion and mediator framing | review-level, partly extrapolated beyond cats | src-ckd-001, src-ckd-011, src-ckd-016 |
 | Experimental ischemia model | now present but thin | lesion progression, function-structure linkage after discrete injury, mechanistic anchoring | unilateral and induced, so translational relevance to spontaneous CKD remains bounded | src-ckd-022 |
+| Primary feline renal cortical fibroblast culture | one direct anchor | cell-level TGF-beta mechanism and receptor target-engagement testing | four healthy-kidney donors; in vitro; no whole-organism outcome | src-ckd-050 |
 
 ## What This Page Says Clearly
 
 1. The current model layer is real, but it is still not a dense classic experimental-model layer.
 2. The vault is strongest when it uses naturally occurring disease plus clinicopathology correlation together.
 3. Evidence-grading and comorbidity sources make the natural-disease layer more structured than a simple "clinical background" bucket.
-4. The vault now has one real experimental-model anchor plus a better aged-cat natural-history scaffold, but users should still be careful not to overstate model strength.
+4. The vault now has an induced ischemia anchor and a primary fibroblast culture anchor, but users should still be careful not to overstate model strength.
 5. **Model type ≠ evidence sufficiency for any purpose.** Different research questions require different model types — see the purpose-oriented taxonomy.
 
 ## Model Taxonomy (Purpose-Oriented)

@@ -9,35 +9,83 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2018
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "30185896"
+pmcid: "PMC6125410"
+doi: "10.1038/s41598-018-31682-1"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, tiho-0906, new, mammary, cell, line, molecular, morphological]
 links:
-  doi: ""
+  doi: "10.1038/s41598-018-31682-1"
   url: "https://www.nature.com/articles/s41598-018-31682-1"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: TiHo-0906: a new feline mammary cancer cell line with molecular, morphological, and immunocytological characteristics of epithelial to mesenchymal transition."
-    - "The intake sheet locator is: https://www.nature.com/articles/s41598-018-31682-1."
+    - "TiHo-0906 CNVs affect genomic regions with EMT/breast cancer genes: AKT1, GATA3, CCND2, CDK4, ZEB1, KRAS, HMGA2, ESRP1, MTDH, YWHAZ, MYC."
+    - "Most CNVs located in amplified regions of FCAs B4 and F2."
+    - "TiHo-0906 cells slightly positive for hormonal receptors (ER, PR) and HER-2."
+    - "Doubling time 28.9h (low passage), 27.4h (high passage)."
+    - "HMGA2 and CD44 expression significantly higher than reference tissue."
+    - "Doxorubicin resistance: metabolic activity significantly decreases only at 100nM."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "TiHo-0906 is a stable FMC cell line co-expressing epithelial and mesenchymal markers."
+    - "CNV profiles overlap with human metaplastic breast cancer genes."
+    - "FCA F2 CNGs correspond to human HSA 8q (common breast cancer aberration)."
+    - "Cell line shows EMT-like properties relevant to metastatic cancer research."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "TiHo-0906 may serve as model for studying doxorubicin resistance in FMC."
+    - "EMT markers (HMGA2, CD44) could be therapeutic targets."
 ---
 
 # TiHo-0906: a new feline mammary cancer cell line with molecular, morphological, and immunocytological characteristics of epithelial to mesenchymal transition
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC6125410).** 2018 Sci Rep: TiHo-0906 cell line from spindle-cell FMC; EMT markers (HMGA2↑, CD44↑); CNVs affect FCAs B4/F2 (orthologous to human 8q breast cancer aberrations); co-expresses epithelial (CK) and mesenchymal (vimentin) markers; doxorubicin resistance (IC50 ~100nM). Evidence level: original study with NGS, IHC, and functional assays.
+
+## Source Check, 2026-06-10
+
+Europe PMC full text extraction.
+
+| Field | Value |
+|-------|-------|
+| PMID | 30185896 |
+| PMCID | PMC6125410 |
+| DOI | 10.1038/s41598-018-31682-1 |
+| Journal | Sci Rep (Nature) |
+| Year | 2018 |
+| Authors | Buendia AJ, Soler MD, Garijo N, et al. |
+| Open access | yes |
+
+## Abstract Summary
+
+This study established and characterized TiHo-0906, a feline mammary cancer cell line with epithelial-to-mesenchymal transition (EMT)-like properties.
+
+**Model context:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Source tumor | Feline mammary carcinoma with anaplastic and malignant spindle cells |
+| Human comparator | Human metaplastic breast carcinoma, spindle-cell subtype |
+| Cell line | TiHoCMglAdcar0906 (TiHo-0906) |
+| Characterization methods | CNV profiling, immunohistochemistry comparison, qPCR for HMGA2 and CD44, growth, migration, doxorubicin sensitivity |
+
+**Key findings:**
+
+- TiHo-0906 showed epithelial/mesenchymal phenotype and high HMGA2 and CD44 expression.
+- Copy-number variations affected regions containing EMT-, breast-cancer-, and human metaplastic breast-cancer-associated genes, including AKT1, GATA3, CCND2, CDK4, ZEB1, KRAS, HMGA2, ESRP1, MTDH, YWHAZ, and MYC.
+- Growth and migration remained comparable during subculturing.
+- Low-passaged cells were two-fold more resistant to doxorubicin than high-passaged cells (IC50 99.97 nM vs 41.22 nM).
+
+**Boundary:** This is cell-line and comparative-oncology tool evidence. It should not be converted into patient-level prognosis or treatment-response claims.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 52. Use it for triage until abstract or full-text extraction proves a stronger role.
+TiHo-0906 is an EMT-like feline mammary cancer cell line derived from a poorly differentiated spindle-cell tumor, useful as a research model rather than clinical guidance.
 
 ## Why It Matters For Feline Cancer
 

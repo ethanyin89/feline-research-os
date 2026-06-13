@@ -9,35 +9,66 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2018
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, investigation, immune, cell, markers, oral, squamous, carcinoma]
+pmid: 30078599
+tags: [cancer, FOSCC, immune, Treg, FoxP3, CD3, CD79a, COX-2, HNSCC, immunotherapy]
 links:
-  doi: ""
+  doi: "10.1016/j.vetimm.2018.06.011"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S0165242717305032?via%3Dihub"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Investigation of immune cell markers in feline oral squamous cell carcinoma."
-    - "The intake sheet locator is: https://www.sciencedirect.com/science/article/abs/pii/S0165242717305032?via%3Dihub."
+    - "T cell infiltrates (CD3+) detected in 92% of tumor biopsies."
+    - "Treg infiltrates (FoxP3+) detected in 57% of biopsies, involving both neoplastic epithelium and stroma."
+    - "COX-2 positive but weak staining in 75% of neoplastic epithelium cases."
+    - "Increased circulating CD4+FoxP3+ T cells in OSCC patients vs healthy controls (P=0.045)."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Feline OSCC shows immune infiltration patterns similar to human HNSCC."
+    - "Treg enrichment in FOSCC suggests potential for immunotherapy targeting."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Supports comparative oncology value of FOSCC as HNSCC model."
+    - "Treg infiltration may explain poor immunotherapy response."
 ---
 
 # Investigation of immune cell markers in feline oral squamous cell carcinoma
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2018 Vet Immunol Immunopathol: n=12 IHC, n=9 flow cytometry; 92% CD3+ T cells; 57% FoxP3+ Tregs; elevated circulating Tregs vs controls (P=0.045); COX-2+ in 75%; supports FOSCC as HNSCC immunotherapy model. [Deep extraction worksheet](../../system/indexes/src-cancer-074-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| PMID | 30078599 |
+| DOI | 10.1016/j.vetimm.2018.06.011 |
+| Journal | Vet Immunol Immunopathol |
+| Year | 2018 |
+| Authors | Sparger EE, Murphy BG, Kamal FM, et al. |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Cohort 1 | 12 patients, IHC analysis |
+| T cell infiltrates (CD3+) | 92% positive (epithelium + stroma) |
+| B cell infiltrates | CD79a/CD20+ in stroma only |
+| Treg infiltrates (FoxP3+) | 57% positive (epithelium + stroma) |
+| COX-2 expression | 75% positive (weak, epithelium + stroma) |
+| Cohort 2 | 9 patients, blood analysis |
+| Circulating Tregs | Increased CD4+FoxP3+ vs healthy controls (P=0.045) |
+| Histologic subtypes | 75% conventional (50% well-differentiated, 50% moderately differentiated) |
+
+**Boundary:** Abstract-level extraction. Immune infiltration patterns can inform FOSCC immunology claims. Prognostic correlations not detected due to small sample sizes.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 80. Use it for triage until abstract or full-text extraction proves a stronger role.
+92% of FOSCC show T cell infiltrates; 57% have Treg (FoxP3+) infiltration; circulating Tregs elevated vs controls—supports FOSCC as immunotherapy-relevant HNSCC model.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +85,25 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Investigation of immune cell markers in feline oral squamous cell carcinoma.
-- The intake sheet locator is: https://www.sciencedirect.com/science/article/abs/pii/S0165242717305032?via%3Dihub.
+- T cell infiltrates (CD3+) in 92% of biopsies (epithelium + stroma)
+- B cell infiltrates (CD79a/CD20+) in stroma only
+- Treg infiltrates (FoxP3+) in 57% of biopsies
+- COX-2 positive (weak) in 75% of neoplastic epithelium
+- Increased circulating CD4+FoxP3+ T cells in OSCC patients vs healthy controls (P=0.045)
+- Histologic subtypes: 75% conventional (well/moderately differentiated)
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Feline OSCC shares immune marker profiles with human HNSCC
+- Treg enrichment suggests immunosuppressive tumor microenvironment
+- COX-2 expression supports inflammation role in FOSCC
+- Immune profiling provides foundation for immunotherapy target development
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Strong support for oral-squamous-cell-carcinoma.md tumor microenvironment claims
+- Treg enrichment aligns with findings in feline mammary cancer (src-cancer-043)
+- May inform future immunotherapy approaches for FOSCC
 
 ## Claim-Fit Judgment
 

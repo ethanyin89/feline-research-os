@@ -84,6 +84,17 @@ The current safe rule is:
 - do not turn obesity into moralized owner-facing language
 - do not isolate diet composition from body-condition state
 
+## Key-Claim Traceability
+
+| Claim ID | Key Claim | Claim Level | Supporting Source IDs | Notes |
+|---|---|---|---|---|
+| DOBC1 | Obesity is a causal mechanism branch in feline diabetes, not just a descriptive risk label. | B | src-diabetes-005, src-diabetes-001 | obesity belongs upstream of insulin resistance and beta-cell demand |
+| DOBC2 | Up to 40% of domestic cats are overweight or obese, making obesity-linked insulin resistance a structurally common upstream pressure. | A | src-diabetes-005 | direct prevalence statement from abstract |
+| DOBC3 | Overt diabetes risk rises when obesity-driven insulin resistance coexists with beta-cell dysfunction; obesity alone is not the threshold event. | B | src-diabetes-005, src-diabetes-001 | preserves beta-cell failure as overt-diabetes gatekeeper |
+| DOBC4 | Body condition belongs in mechanism, recognition, endpoint, and translation framing; it is not only an owner-visible descriptor. | B | src-diabetes-005 | compiled architecture claim |
+| DOBC5 | Treatment sequencing must account for current presentation state: diabetic control may need to precede caloric restriction when the cat presents with weight and muscle loss despite historical obesity. | B | src-diabetes-005 | sequencing caveat prevents unsafe immediate caloric restriction |
+| DOBC6 | Weight-loss and obesity language must carry a presentation-state caveat; not every diabetic cat is currently overweight at diagnosis. | C | src-diabetes-005, compiled memo judgment | prevents moralized or overgeneralized obesity framing |
+
 ## Best Write-Back Targets
 
 - [mechanism overview](../../topics/diabetes/mechanism-overview.md)

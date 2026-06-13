@@ -10,52 +10,62 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2017
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, expression, cat, podoplanin, squamous, cell, carcinomas]
+pmid: 29090969
+tags: [cancer, podoplanin, squamous-cell-carcinoma, OSCC, antibody-therapy, biomarker, CLEC-2]
 links:
   doi: "10.1089/mab.2017.0046"
   url: "https://doi.org/10.1089/mab.2017.0046"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Monoclonal Antibodies in Immunodiagnosis &amp; Immunotherapy; year: 2017."
+    - "Of 40 feline SCCs, 38 (95%) showed positive staining for podoplanin (PMab-52)."
+    - "12 cases (30%) showed strong membrane-staining pattern."
+    - "Sample: 14 mouth floor, 13 skin, 9 ear, 4 tongue."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Podoplanin is highly expressed in feline squamous cell carcinomas."
+    - "PMab-52 antibody can be useful for antibody therapy against podoplanin-expressing feline SCCs."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Podoplanin represents a potential therapeutic target for feline OSCC."
+    - "Supports oral-squamous-cell-carcinoma.md biomarker and targeted therapy claims."
 ---
 
 # Expression of Cat Podoplanin in Feline Squamous Cell Carcinomas
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the full abstract. 2017 Monoclon Antib Immunodiagn Immunother: 40 feline SCCs (oral, skin, ear); 95% podoplanin positive; 30% strong membrane staining; PMab-52 antibody developed; podoplanin/CLEC-2 pathway involved in metastasis; potential therapeutic target. [Deep extraction worksheet](../../system/indexes/src-cancer-071-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-02
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Field | Value |
+|-------|-------|
+| PMID | 29090969 |
+| DOI | 10.1089/mab.2017.0046 |
+| Journal | Monoclon Antib Immunodiagn Immunother |
+| Year | 2017 |
+| Authors | Itai S, Yamada S, Kaneko MK, et al. |
 
-- DOI metadata resolved: yes
-- Container: Monoclonal Antibodies in Immunodiagnosis &amp; Immunotherapy
-- Year: 2017
-- Abstract available in Crossref: yes
+## Abstract Summary
 
-Use boundary:
+| Category | Finding |
+|----------|---------|
+| Sample size | 40 feline SCCs |
+| Anatomic sites | Mouth floor (14), skin (13), ear (9), tongue (4) |
+| Podoplanin positivity | 95% (38/40) |
+| Strong membrane staining | 30% (12/40) |
+| Antibody used | PMab-52 (anti-cat podoplanin mAb) |
+| Mechanism | Podoplanin binds CLEC-2, activates platelet aggregation involved in metastasis |
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Oral squamous cell carcinoma is an aggressive tumor in cats; however, molecular-targeted therapies against this tumor, including antibody therapy, have not been developed. Sensiti...
+**Boundary:** Abstract-level extraction. Podoplanin expression rates can inform OSCC biomarker claims. Therapeutic applications are preclinical/investigational.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 77. Use it for triage until abstract or full-text extraction proves a stronger role.
+95% (38/40) of feline SCCs express podoplanin; PMab-52 antibody developed for potential targeted therapy against CLEC-2-mediated metastasis.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +82,22 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Expression of Cat Podoplanin in Feline Squamous Cell Carcinomas.
-- The intake sheet locator is: 10.1089/mab.2017.0046.
+- 40 feline SCCs analyzed (mouth floor 14, skin 13, ear 9, tongue 4)
+- 95% (38/40) showed positive podoplanin staining with PMab-52
+- 30% (12/40) showed strong membrane-staining pattern
+- Podoplanin binds CLEC-2, activates platelet aggregation involved in metastasis
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Podoplanin is highly expressed across anatomic sites in feline SCC
+- Anti-cat podoplanin antibody PMab-52 developed via cell-based immunization and screening (CBIS)
+- Potential for antibody-based targeted therapy against feline SCCs
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Supports oral-squamous-cell-carcinoma.md claims about biomarkers and potential therapeutic targets
+- Podoplanin could be used alongside COX-2 and other markers for FOSCC characterization
+- Investigational therapeutic approach; not yet clinical
 
 ## Claim-Fit Judgment
 

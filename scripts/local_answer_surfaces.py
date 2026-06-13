@@ -11,31 +11,36 @@ from pathlib import Path
 from typing import Optional
 
 from query import parse_source_ids_from_frontmatter
+from source_inventory import format_source_inventory, get_source_inventory
 
-
-# Disease maturity levels for evidence depth indication
-DISEASE_MATURITY = {
-    "ckd": {"sources": 24, "extraction": "full", "maturity": "Mature", "label_en": "Evidence: Mature (24 sources, fully extracted)", "label_zh": "证据成熟度：完整（24篇来源，全量提取）"},
-    "fip": {"sources": 24, "extraction": "full", "maturity": "Mature", "label_en": "Evidence: Mature (24 sources, fully extracted)", "label_zh": "证据成熟度：完整（24篇来源，全量提取）"},
-    "hcm": {"sources": 24, "extraction": "full", "maturity": "Mature", "label_en": "Evidence: Mature (24 sources, fully extracted)", "label_zh": "证据成熟度：完整（24篇来源，全量提取）"},
-    "ibd": {"sources": 24, "extraction": "full", "maturity": "Mature", "label_en": "Evidence: Mature (24 sources, fully extracted)", "label_zh": "证据成熟度：完整（24篇来源，全量提取）"},
-    "fcv": {"sources": 24, "extraction": "full", "maturity": "Mature", "label_en": "Evidence: Mature (24 sources, fully extracted)", "label_zh": "证据成熟度：完整（24篇来源，全量提取）"},
-    "diabetes": {"sources": 118, "extraction": "partial", "maturity": "Developing", "label_en": "Evidence: Developing (118 sources, partial extraction)", "label_zh": "证据成熟度：发展中（118篇来源，部分提取）"},
-    "obesity": {"sources": 87, "extraction": "partial", "maturity": "Developing", "label_en": "Evidence: Developing (87 sources, partial extraction)", "label_zh": "证据成熟度：发展中（87篇来源，部分提取）"},
-    "cancer": {"sources": 102, "extraction": "partial", "maturity": "Developing", "label_en": "Evidence: Developing (102 sources, partial extraction)", "label_zh": "证据成熟度：发展中（102篇来源，部分提取）"},
-}
-
-
-def _get_maturity_label(disease: str, chinese: bool) -> str:
-    """Get the maturity label for a disease."""
-    info = DISEASE_MATURITY.get(disease.lower(), {})
-    if chinese:
-        return info.get("label_zh", "证据成熟度：未知")
-    return info.get("label_en", "Evidence: Unknown")
+VAULT_ROOT = Path(__file__).parent.parent
 
 
 def _contains_chinese(text: str) -> bool:
     return bool(re.search(r"[\u3400-\u9fff]", text))
+
+
+def is_researcher_overview_question(question: str) -> bool:
+    """Detect prompts that ask for a research-map style overview."""
+    lowered = question.lower()
+    markers = [
+        "current understanding",
+        "researcher know",
+        "researchers know",
+        "researcher overview",
+        "research map",
+        "evidence map",
+        "what should a researcher know",
+        "what should researchers know",
+        "研究者应该知道",
+        "研究者该知道",
+        "研究者视图",
+        "研究地图",
+        "证据地图",
+        "当前理解",
+        "当前认识",
+    ]
+    return any(marker in lowered or marker in question for marker in markers)
 
 
 def _infer_disease(question: str, disease_hint: Optional[str]) -> str:
@@ -73,10 +78,10 @@ def _fip_endpoint(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
     hierarchy = _section(text, "Endpoint Hierarchy")
     takeaway = _section(text, "Core Takeaway")
     cited = ", ".join(source_ids[:6])
-    maturity = _get_maturity_label("fip", chinese)
+    inventory = format_source_inventory(get_source_inventory(vault_root, "fip"), chinese)
     if chinese:
         answer = (
-            f"**{maturity}**\n\n"
+            f"**{inventory}**\n\n"
             "这是本地 vault 的 FIP 药效评价/endpoint 结构化回答；本次没有调用 API。 "
             f"[source_supported_conclusion: {cited}]\n\n"
             f"{key_claims}\n\n{takeaway}\n\n{hierarchy}\n\n"
@@ -87,7 +92,7 @@ def _fip_endpoint(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
         )
     else:
         answer = (
-            f"**{maturity}**\n\n"
+            f"**{inventory}**\n\n"
             "This is a local vault structured answer for FIP endpoint/evaluation queries. No API call was made. "
             f"[source_supported_conclusion: {cited}]\n\n"
             f"{key_claims}\n\n{takeaway}\n\n{hierarchy}\n\n"
@@ -106,10 +111,10 @@ def _fip_treatment(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
     evidence_map = _section(text, "Evidence Map")
     uncertainty = _section(text, "Conflicts / Uncertainty")
     cited = ", ".join(source_ids[:5])
-    maturity = _get_maturity_label("fip", chinese)
+    inventory = format_source_inventory(get_source_inventory(vault_root, "fip"), chinese)
     if chinese:
         answer = (
-            f"**{maturity}**\n\n"
+            f"**{inventory}**\n\n"
             "这是本地 vault 的 FIP 治疗证据结构化回答；本次没有调用 API。 "
             f"[source_supported_conclusion: {cited}]\n\n"
             f"{key_claims}\n\n{safe_reading}\n\n{evidence_map}\n\n{uncertainty}\n\n"
@@ -120,7 +125,7 @@ def _fip_treatment(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
         )
     else:
         answer = (
-            f"**{maturity}**\n\n"
+            f"**{inventory}**\n\n"
             "This is a local vault structured answer for FIP treatment evidence. No API call was made. "
             f"[source_supported_conclusion: {cited}]\n\n"
             f"{key_claims}\n\n{safe_reading}\n\n{evidence_map}\n\n{uncertainty}\n\n"
@@ -136,15 +141,119 @@ def _fip_recognition(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
     text, source_ids = _read_topic(vault_root, "topics/fip/fip-warning-signs.md")
     body = re.sub(r"\A---.*?---\s*", "", text, flags=re.S).strip()
     cited = ", ".join(source_ids)
-    maturity = _get_maturity_label("fip", chinese)
+    inventory = format_source_inventory(get_source_inventory(vault_root, "fip"), chinese)
     prefix = (
-        f"**{maturity}**\n\n"
+        f"**{inventory}**\n\n"
         f"这是本地 vault 的 FIP 识别/警示信号解释；本次没有调用 API。 [source_supported_conclusion: {cited}]\n\n"
         if chinese
-        else f"**{maturity}**\n\n"
+        else f"**{inventory}**\n\n"
         f"This is a local vault FIP recognition and warning-signs answer. No API call was made. [source_supported_conclusion: {cited}]\n\n"
     )
     return prefix + body, source_ids
+
+
+def _ckd_researcher_overview(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
+    """Return a CKD researcher-map overview for broad research prompts."""
+    mech_text, mech_sources = _read_topic(vault_root, "topics/ckd/mechanism-overview.md")
+    endpoint_text, endpoint_sources = _read_topic(vault_root, "topics/ckd/endpoint-handbook.md")
+    translation_text, translation_sources = _read_topic(vault_root, "topics/ckd/translation-brief.md")
+    dashboard_text, dashboard_sources = _read_topic(vault_root, "topics/ckd/current-state-dashboard.md")
+
+    source_ids: list[str] = []
+    for sid in mech_sources + endpoint_sources + translation_sources + dashboard_sources:
+        if sid not in source_ids:
+            source_ids.append(sid)
+
+    _ = (mech_text, endpoint_text, translation_text, dashboard_text)
+    backbone_ids = ["src-ckd-001", "src-ckd-004", "src-ckd-010", "src-ckd-011", "src-ckd-013", "src-ckd-015", "src-ckd-016", "src-ckd-024"]
+    cited_backbone = ", ".join(backbone_ids[:6])
+
+    if chinese:
+        answer = (
+            "这是本地 vault 的 CKD 研究者视图，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n"
+            "## 一句话定位\n"
+            "猫 CKD 是一个老年、纤维化主导、以多轴 endpoint 解释为主的疾病；在这个 vault 里，真正有用的读法不是只问“是什么”，而是问“哪条证据能支持哪种决策”。 "
+            f"[source_supported_conclusion: {cited_backbone}]\n\n"
+            "## Researcher Map\n"
+            "- 疾病模型：纤维化是最稳的病理骨架，年龄相关自然史和病理-结局桥接比单一病因更可靠。 [source_supported_conclusion: src-ckd-001, src-ckd-010, src-ckd-011, src-ckd-016]\n"
+            "- 识别与工作up：creatinine、USG、UPCR、SBP、phosphorus、SDMA 各自承担不同角色，不是一个分数能概括。 [source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-024]\n"
+            "- Endpoint 架构：运营性 endpoint 和试验性 endpoint 不要混成一个层级。 [source_supported_conclusion: src-ckd-013, src-ckd-015]\n"
+            "- 治疗/转化：真正强的依然是 renal diet 和 phosphorus-control 这一层，其他分支更多是 bounded management。 [source_supported_conclusion: src-ckd-003, src-ckd-006, src-ckd-007]\n"
+            "- 弱层：早期检测、疾病修饰、真正的干预模型密度仍然有限。 [llm_inference]\n\n"
+            "## Evidence Backbone\n"
+            "| Anchor | Role | What it supports | Boundary |\n"
+            "|---|---|---|---|\n"
+            "| src-ckd-011 | 纤维化机制骨架 | fibrosis-centered disease model | 机制框架，不是唯一病因 |\n"
+            "| src-ckd-010 | 病理-指标桥接 | proteinuria, blood pressure, phosphorus are structural signals | bridge variables, not a flat score |\n"
+            "| src-ckd-004 | 诊断/分期指南 | operational workup and surveillance | clinical workflow, not cure claim |\n"
+            "| src-ckd-013 | 核心结局集 | trial breadth and owner-visible outcomes | trial architecture, not everyday ranking |\n"
+            "| src-ckd-024 | biomarker review | SDMA as adjunctive early-detection support | adjunct, not standalone screen |\n\n"
+            "## Key-Claim Traceability\n"
+            "| ID | Claim | Level | Sources | Boundary |\n"
+            "|---|---|---|---|---|\n"
+            "| CM1 | Tubulointerstitial fibrosis 是 feline CKD 最稳的机制骨架 | B | src-ckd-001, src-ckd-010, src-ckd-011, src-ckd-016 | lesion-backbone，不是单一 initiating cause |\n"
+            "| CM3 | Proteinuria、phosphorus、blood pressure 是结构性桥接变量 | B | src-ckd-010, src-ckd-015 | mechanism-endpoint bridge，不是单一 severity score |\n"
+            "| CM4 | CKD-MBD 比 phosphorus 更宽，包含 calcium/PTH/FGF23 | B | src-ckd-015 | mineral-disorder frame，不是闭合 marker list |\n"
+            "| CM6 | senescence 和 telomere shortening 是真实的 kidney-specific finding | C | src-ckd-023 | mechanism-enrichment，不是 primary driver claim |\n\n"
+            "## What Not To Overstate\n"
+            "- 不要把单一 initiating cause 写成已经证明的主因。\n"
+            "- 不要把 SDMA 写成单独筛查替代物。\n"
+            "- 不要把常见管理措施直接写成 disease modification。\n"
+            "- 不要把 endpoint 列表压成一个 flat severity score。\n\n"
+            "## Verification Path\n"
+            "- `topics/ckd/mechanism-overview.md`\n"
+            "- `topics/ckd/endpoint-handbook.md`\n"
+            "- `topics/ckd/translation-brief.md`\n"
+            "- `topics/ckd/current-state-dashboard.md`\n\n"
+            "## Next Research Move\n"
+            "如果你要继续做机制，读 mechanism overview；如果要做试验设计，读 endpoint handbook；如果要继续核查主张，把相关材料加入 Research Case 的候选证据区，由人工完成判断。"
+        )
+    else:
+        answer = (
+            "This is a local vault CKD researcher overview, not API synthesis. No API call was made. [llm_inference]\n\n"
+            "## One-Paragraph Orientation\n"
+            "Feline CKD is a geriatric, fibrosis-centered disease with multi-axis endpoint logic. In this vault, the useful reading is not just what CKD is, but which evidence supports which decision. "
+            f"[source_supported_conclusion: {cited_backbone}]\n\n"
+            "## Researcher Map\n"
+            "- Disease model: fibrosis is the stable lesion backbone; age-related natural history and pathology-to-outcome bridges are more reliable than a single cause story. [source_supported_conclusion: src-ckd-001, src-ckd-010, src-ckd-011, src-ckd-016]\n"
+            "- Recognition / workup: creatinine, USG, UPCR, SBP, phosphorus, and SDMA each do different jobs. [source_supported_conclusion: src-ckd-004, src-ckd-010, src-ckd-024]\n"
+            "- Endpoint architecture: operational endpoints and trial endpoints should not be collapsed into one layer. [source_supported_conclusion: src-ckd-013, src-ckd-015]\n"
+            "- Treatment / translation: renal diet and phosphorus control remain the strongest base layer; other branches stay bounded management questions. [source_supported_conclusion: src-ckd-003, src-ckd-006, src-ckd-007]\n"
+            "- Weak layers: early detection, disease modification, and true intervention-model density are still limited. [llm_inference]\n\n"
+            "## Evidence Backbone\n"
+            "| Anchor | Role | What it supports | Boundary |\n"
+            "|---|---|---|---|\n"
+            "| src-ckd-011 | fibrosis mechanism backbone | fibrosis-centered disease model | mechanism frame, not the only cause |\n"
+            "| src-ckd-010 | pathology-marker bridge | proteinuria, blood pressure, phosphorus as structural signals | bridge variables, not a flat score |\n"
+            "| src-ckd-004 | diagnosis/staging guideline | operational workup and surveillance | clinical workflow, not a cure claim |\n"
+            "| src-ckd-013 | core outcome set | trial breadth and owner-visible outcomes | trial architecture, not routine ranking |\n"
+            "| src-ckd-024 | biomarker review | SDMA as adjunctive early-detection support | adjunct, not a standalone screen |\n\n"
+            "## Key-Claim Traceability\n"
+            "| ID | Claim | Level | Sources | Boundary |\n"
+            "|---|---|---|---|---|\n"
+            "| CM1 | Tubulointerstitial fibrosis is the most stable mechanism backbone for feline CKD | B | src-ckd-001, src-ckd-010, src-ckd-011, src-ckd-016 | lesion-backbone, not a single initiating cause |\n"
+            "| CM3 | Proteinuria, phosphorus, and blood pressure are structural bridge variables | B | src-ckd-010, src-ckd-015 | mechanism-endpoint bridge, not a flat severity score |\n"
+            "| CM4 | CKD-MBD is broader than phosphorus alone and includes calcium, PTH, and FGF23 | B | src-ckd-015 | mineral-disorder frame, not a closed marker list |\n"
+            "| CM6 | Senescence and telomere shortening are real kidney-specific findings | C | src-ckd-023 | mechanism-enrichment, not a primary driver claim |\n\n"
+            "## What Not To Overstate\n"
+            "- Do not present a single initiating cause as proven.\n"
+            "- Do not turn SDMA into a standalone screening replacement.\n"
+            "- Do not write common management as disease modification.\n"
+            "- Do not compress all endpoints into one flat severity score.\n\n"
+            "## Verification Path\n"
+            "- `topics/ckd/mechanism-overview.md`\n"
+            "- `topics/ckd/endpoint-handbook.md`\n"
+            "- `topics/ckd/translation-brief.md`\n"
+            "- `topics/ckd/current-state-dashboard.md`\n\n"
+            "## Next Research Move\n"
+            "If you want mechanism, read mechanism overview. If you want trial design, read endpoint handbook. To investigate a claim, add the relevant material to a Research Case as candidate evidence for human review."
+        )
+    return answer, source_ids
+
+
+def build_ckd_researcher_overview(chinese: bool) -> tuple[str, list[str]]:
+    """Public app builder using the repository's default vault root."""
+    return _ckd_researcher_overview(VAULT_ROOT, chinese)
 
 
 def _what_is(vault_root: Path, disease: str, chinese: bool) -> Optional[tuple[str, list[str]]]:
@@ -160,12 +269,12 @@ def _what_is(vault_root: Path, disease: str, chinese: bool) -> Optional[tuple[st
     text, source_ids = _read_topic(vault_root, rel_path)
     body = re.sub(r"\A---.*?---\s*", "", text, flags=re.S).strip()
     cited = ", ".join(source_ids[:4])
-    maturity = _get_maturity_label(disease, chinese)
+    inventory = format_source_inventory(get_source_inventory(vault_root, disease), chinese)
     prefix = (
-        f"**{maturity}**\n\n"
+        f"**{inventory}**\n\n"
         f"这是本地 vault 的基础解释；本次没有调用 API。 [source_supported_conclusion: {cited}]\n\n"
         if chinese
-        else f"**{maturity}**\n\n"
+        else f"**{inventory}**\n\n"
         f"This is a local vault plain-language explanation. No API call was made. [source_supported_conclusion: {cited}]\n\n"
     )
     return prefix + body, source_ids
@@ -181,7 +290,11 @@ def build_local_surface_answer(
     disease = _infer_disease(question, disease_hint)
     lowered = question.lower()
 
-    if disease == "fip" and any(term in lowered or term in question for term in ["治疗证据", "疗效证据", "treatment evidence", "gs-441524", "remdesivir", "抗病毒"]):
+    if disease == "ckd" and is_researcher_overview_question(question):
+        answer, source_ids = _ckd_researcher_overview(vault_root, chinese)
+        question_type = "overview"
+        surface = "ckd_researcher_overview"
+    elif disease == "fip" and any(term in lowered or term in question for term in ["治疗证据", "疗效证据", "treatment evidence", "gs-441524", "remdesivir", "抗病毒"]):
         answer, source_ids = _fip_treatment(vault_root, chinese)
         question_type = "treatment"
         surface = "fip_treatment_evidence"
@@ -203,7 +316,7 @@ def build_local_surface_answer(
     else:
         return None
 
-    maturity_info = DISEASE_MATURITY.get(disease, {})
+    inventory = get_source_inventory(vault_root, disease)
     return {
         "answer": answer,
         "figures_used": [],
@@ -214,13 +327,13 @@ def build_local_surface_answer(
         "loaded_paths": set(),
         "loaded_source_ids": source_ids,
         "first_family_loaded": surface,
-        "disease_maturity": maturity_info.get("maturity", "Unknown"),
-        "disease_sources": maturity_info.get("sources", 0),
-        "disease_extraction": maturity_info.get("extraction", "unknown"),
+        "disease_maturity": "inventory_only",
+        "disease_sources": inventory["total"],
+        "disease_extraction": inventory["verification_status"],
         "research_trace": [
             {
                 "step": "Matched local surface",
-                "detail": f"surface={surface}; api_calls=0; source_ids={len(source_ids)}; maturity={maturity_info.get('maturity', 'Unknown')}",
+                "detail": f"surface={surface}; api_calls=0; source_ids={len(source_ids)}; inventory_cards={inventory['total']}",
             }
         ],
         "est_tokens": 0,

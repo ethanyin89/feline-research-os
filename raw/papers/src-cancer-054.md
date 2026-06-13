@@ -5,39 +5,90 @@ title: "First description of feline inflammatory mammary carcinoma: clinicopatho
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [human-IBC]
+endpoints: [survival, clinicopathology, immunohistochemistry]
+jurisdictions: [Spain]
 evidence_level: case-series
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2004
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "15217496"
+pmcid: "PMC468625"
+doi: "10.1186/bcr790"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, first, description, inflammatory, mammary, carcinoma, clinicopathological, immunohistochemical]
+tags: [cancer, inflammatory, mammary, carcinoma, IMC, IBC, ER, PR, AR, Ki-67, case-series, comparative-oncology]
 links:
   doi: "10.1186/bcr790"
   url: "https://doi.org/10.1186/bcr790"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC468625/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: First description of feline inflammatory mammary carcinoma: clinicopathological and immunohistochemical characteristics of three cases."
-    - "The intake sheet locator is: 10.1186/bcr790."
+    - "The dog was considered the only natural model in which to study the disease because, until now, it was the only species known to present with inflammatory mammary carcinoma (IMC) spontaneously."
+    - "All three animals presented with secondary IMC (postsurgical) characterized by a rapid onset of erythema, severe oedema, extreme local pain and firmness, absence of subjacent mammary nodules, and involvement of extremities."
+    - "Rejection of the surgical suture was observed in two of the cats."
+    - "Histologically, highly malignant papillary mammary carcinomas, dermal tumour embolization of superficial lymphatic vessels, and severe secondary inflammation were observed."
+    - "The animals were put to sleep at 10, 15 and 45 days after diagnosis."
+    - "Metastases were detected in regional lymph nodes and lungs in the two animals that were necropsied."
+    - "All tumours had a high Ki-67 proliferation index and were positive for oestrogen, progesterone and androgen receptors."
+    - "Feline IMC could be useful as an animal model of human inflammatory breast cancer."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "This is the first description of feline inflammatory mammary carcinoma (IMC)."
+    - "All 3 cases were secondary (postsurgical) IMC, not primary IMC."
+    - "Feline IMC is extremely aggressive with survival of only 10-45 days post-diagnosis."
+    - "Feline IMC differs from canine IMC (secondary only vs primary and secondary)."
+    - "Cat adds to comparative oncology options for human inflammatory breast cancer (IBC)."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "The rarity (3 cases in 3 years) limits generalizability but establishes the entity exists."
+    - "Steroid receptor positivity (ER+/PR+/AR+) contrasts with typically ER-negative human IBC."
+    - "Secondary/postsurgical presentation suggests surgical manipulation may trigger IMC in cats."
 ---
 
 # First description of feline inflammatory mammary carcinoma: clinicopathological and immunohistochemical characteristics of three cases
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC468625).** This is the 2004 first description of feline inflammatory mammary carcinoma (IMC). n=3 cats; all secondary/postsurgical IMC; survival 10-45 days; ER+/PR+/AR+. Evidence level: case series (very small).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 15217496
+- DOI: 10.1186/bcr790
+- Journal: Breast Cancer Research
+- Year: 2004
+- Open access: yes
+
+## Abstract Summary
+
+This prospective case series described three cats with inflammatory mammary carcinoma (IMC).
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Cases | 3 female cats with clinical symptoms of IMC |
+| Identification window | 3 years |
+| Assessments | Clinicopathology; Ki-67; estrogen, progesterone, and androgen receptors |
+| Disease form | Secondary/postsurgical IMC in all three cats |
+
+**Clinical and pathology findings:**
+
+- All three cats had rapid onset of erythema, severe edema, extreme local pain and firmness, absence of subjacent mammary nodules, and extremity involvement.
+- Surgical suture rejection was observed in two cats.
+- Histology showed highly malignant papillary mammary carcinomas, dermal tumor embolization of superficial lymphatic vessels, and severe secondary inflammation.
+- Cats were euthanized at 10, 15, and 45 days after diagnosis.
+- Metastases were detected in regional lymph nodes and lungs in the two necropsied cats.
+- All tumors had high Ki-67 proliferation index and were positive for estrogen, progesterone, and androgen receptors.
+
+**Boundary:** This is a three-case feline IMC description. It can support rare aggressive phenotype and model-context claims, but not prevalence, prognosis ranges, or management recommendations.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 57. Use it for triage until abstract or full-text extraction proves a stronger role.
+Three feline inflammatory mammary carcinoma cases showed rapid postsurgical inflammatory presentation, lymphatic tumor embolization, metastasis in necropsied cats, and very short survival after diagnosis.
 
 ## Why It Matters For Feline Cancer
 

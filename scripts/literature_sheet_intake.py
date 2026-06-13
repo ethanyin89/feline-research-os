@@ -81,7 +81,14 @@ def read_sheet_rows(csv_path: Path) -> list[tuple[int, str, str]]:
     return rows
 
 
-def segment_for_row(sheet_row: int, title: str, obesity_marker_row: int | None) -> str:
+def segment_for_row(
+    sheet_row: int,
+    title: str,
+    obesity_marker_row: int | None,
+    default_segment: str,
+) -> str:
+    if default_segment:
+        return default_segment
     if title.strip().casefold() == "feline obesity":
         return "section-label"
     if obesity_marker_row is not None and sheet_row > obesity_marker_row:
@@ -92,6 +99,9 @@ def segment_for_row(sheet_row: int, title: str, obesity_marker_row: int | None) 
 def classify_rows(
     sheet_rows: list[tuple[int, str, str]],
     existing_sources: list[ExistingSource],
+    default_segment: str = "",
+    section_labels: set[str] | None = None,
+    exclude_title_patterns: list[re.Pattern[str]] | None = None,
 ) -> list[IntakeRow]:
     by_doi = {source.doi: source for source in existing_sources if source.doi}
     by_title = {normalize_title(source.title): source for source in existing_sources if source.title}
@@ -101,22 +111,33 @@ def classify_rows(
         (sheet_row for sheet_row, title, _ in sheet_rows if title.strip().casefold() == "feline obesity"),
         None,
     )
+    section_labels = section_labels or {"feline obesity"}
+    exclude_title_patterns = exclude_title_patterns or []
 
     classified: list[IntakeRow] = []
     for sheet_row, title, locator in sheet_rows:
         norm_title = normalize_title(title)
         doi = normalize_doi(locator)
-        segment = segment_for_row(sheet_row, title, obesity_marker)
+        segment = segment_for_row(sheet_row, title, obesity_marker, default_segment)
+        is_section_label = title.strip().casefold() in section_labels
+        is_excluded = any(pattern.search(title) for pattern in exclude_title_patterns)
         matched = by_doi.get(doi) if doi else None
         if matched is None and norm_title:
             matched = by_title.get(norm_title)
 
-        if segment == "section-label":
+        if is_section_label:
+            segment = "section-label"
             classification = "section-label"
             note = "Section marker, not a source."
+        elif is_excluded:
+            classification = "out-of-scope"
+            note = "Excluded by title pattern before source-card creation."
+        elif not locator.strip():
+            classification = "incomplete-locator"
+            note = "Title-only row; recover URL, DOI, PubMed ID, or other locator before source-card creation."
         elif matched is not None:
             classification = "existing"
-            if segment == "obesity" and "diabetes" in matched.source_id:
+            if segment != "section-label" and f"-{segment}-" not in matched.source_id:
                 classification = "shared-existing"
             note = f"Matches existing {matched.source_id}."
         elif doi and seen_dois[doi] > 0:
@@ -128,9 +149,12 @@ def classify_rows(
         elif segment == "obesity":
             classification = "new-obesity"
             note = "Candidate for obesity source index."
-        else:
+        elif segment == "diabetes":
             classification = "new-diabetes"
             note = "Candidate for extended diabetes source index."
+        else:
+            classification = f"new-{segment}"
+            note = f"Candidate for {segment} source index."
 
         classified.append(
             IntakeRow(
@@ -155,14 +179,15 @@ def markdown_escape(value: str) -> str:
     return value.replace("|", "\\|").replace("\n", " ")
 
 
-def render_manifest(rows: list[IntakeRow], source_label: str) -> str:
+def render_manifest(rows: list[IntakeRow], source_label: str, manifest_id: str = "") -> str:
     counts = Counter(row.classification for row in rows)
     segment_counts = Counter(row.segment for row in rows)
     today = date.today().isoformat()
+    manifest_id = manifest_id or f"feline-literature-intake-manifest-{today.replace('-', '')}"
 
     lines = [
         "---",
-        f"id: feline-literature-intake-manifest-{today.replace('-', '')}",
+        f"id: {manifest_id}",
         "type: system",
         "topic: content-pipeline",
         "question_type: intake-manifest",
@@ -181,13 +206,16 @@ def render_manifest(rows: list[IntakeRow], source_label: str) -> str:
         "## Summary",
         "",
         f"- Rows classified: `{len(rows)}`",
-        f"- Diabetes segment rows: `{segment_counts.get('diabetes', 0)}`",
-        f"- Obesity segment rows: `{segment_counts.get('obesity', 0)}`",
-        f"- Section labels: `{segment_counts.get('section-label', 0)}`",
-        "",
+    ]
+    for key, value in sorted(segment_counts.items()):
+        lines.append(f"- {key.title()} segment rows: `{value}`")
+    lines.extend(
+        [
+            "",
         "| Classification | Count |",
         "|---|---:|",
-    ]
+        ]
+    )
     for key, value in sorted(counts.items()):
         lines.append(f"| `{key}` | {value} |")
 
@@ -223,7 +251,7 @@ def render_manifest(rows: list[IntakeRow], source_label: str) -> str:
             "",
             "## Use",
             "",
-            "- Review `new-diabetes`, `new-obesity`, and `shared-existing` rows before creating source cards.",
+            "- Review `new-*` and `shared-existing` rows before creating source cards.",
             "- Do not deep-extract every row by default.",
             "- Promote only guideline, broad review, backbone mechanism, treatment-control, or high-reuse boundary sources.",
         ]
@@ -237,11 +265,37 @@ def main() -> int:
     parser.add_argument("--repo-root", type=Path, default=Path.cwd(), help="Repository root.")
     parser.add_argument("--out", type=Path, help="Manifest markdown path. Defaults to stdout.")
     parser.add_argument("--source-label", default="", help="Human-readable sheet/source label.")
+    parser.add_argument(
+        "--segment",
+        default="",
+        help="Treat every non-section row as this disease/topic segment, e.g. fcv or cancer.",
+    )
+    parser.add_argument(
+        "--section-label",
+        action="append",
+        default=[],
+        help="Title value that should be treated as a section label instead of a source. May repeat.",
+    )
+    parser.add_argument("--manifest-id", default="", help="Stable id to write in the manifest frontmatter.")
+    parser.add_argument(
+        "--exclude-title-regex",
+        action="append",
+        default=[],
+        help="Regex for titles that should be classified out-of-scope before card creation. May repeat.",
+    )
     args = parser.parse_args()
 
     repo_root = args.repo_root.resolve()
-    rows = classify_rows(read_sheet_rows(args.csv), load_existing_sources(repo_root))
-    manifest = render_manifest(rows, args.source_label or str(args.csv))
+    section_labels = {"feline obesity", *[value.casefold() for value in args.section_label]}
+    exclude_title_patterns = [re.compile(value, re.IGNORECASE) for value in args.exclude_title_regex]
+    rows = classify_rows(
+        read_sheet_rows(args.csv),
+        load_existing_sources(repo_root),
+        default_segment=args.segment.strip().casefold(),
+        section_labels=section_labels,
+        exclude_title_patterns=exclude_title_patterns,
+    )
+    manifest = render_manifest(rows, args.source_label or str(args.csv), args.manifest_id)
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(manifest, encoding="utf-8")

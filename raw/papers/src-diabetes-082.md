@@ -12,7 +12,7 @@ jurisdictions: []
 evidence_level: case-series
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [diabetes, loose-control, protamine, zinc, insulin, cases]

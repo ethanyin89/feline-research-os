@@ -116,6 +116,17 @@ It should be read as:
 
 `low-carbohydrate evidence is important, but the branch must preserve fiber, protein, body condition, remission-definition, and evidence-quality boundaries`
 
+## Key-Claim Traceability
+
+| Claim ID | Key Claim | Claim Level | Supporting Source IDs | Notes |
+|---|---|---|---|---|
+| DDIET1 | Diet belongs across feline diabetes prevention, risk, management, glycemic-control, and remission-support framing, not in one treatment slogan. | B | src-diabetes-006 | broad diet architecture |
+| DDIET2 | The strongest current direct diet-comparison signal favors low-carbohydrate/low-fiber over moderate-carbohydrate/high-fiber for non-insulin-dependent outcome in one 16-week canned-diet design. | B | src-diabetes-015 | study-design-specific claim |
+| DDIET3 | The low-carbohydrate branch should not become a universal diet rule because high-fiber responders, body condition, insulin context, monitoring, and evidence grade remain relevant. | B | src-diabetes-006, src-diabetes-016, src-diabetes-007 | slogan-prevention boundary |
+| DDIET4 | High-protein / low-carbohydrate diet has a small insulin-requirement reduction signal, but protein and carbohydrate effects are not isolated. | B | src-diabetes-022 | small-sample diet-variable boundary |
+| DDIET5 | Non-insulin-dependent state, insulin-dose reduction, glycemic control, and remission should remain separate endpoints in diet claims. | B | src-diabetes-007, src-diabetes-015, src-diabetes-022 | endpoint-definition boundary |
+| DDIET6 | Diet architecture is evidence-safe for branch separation, but not decision-grade for final diet prescription or protocol ranking. | C | src-diabetes-006, src-diabetes-007, src-diabetes-015, src-diabetes-016, src-diabetes-022 | compiled architecture judgment |
+
 ## Best Write-Back Targets
 
 - [translation brief](../../topics/diabetes/translation-brief.md)

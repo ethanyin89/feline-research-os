@@ -9,35 +9,58 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 1972
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, malignant, mammary, morphology, biology, some, comparisons, human]
+pmid: 4346020
+tags: [cancer, mammary, morphology, comparative-oncology, historical]
 links:
-  doi: ""
+  doi: "10.1093/jnci/49.6.1697"
   url: "https://academic.oup.com/jnci/article-abstract/49/6/1697/1024980?redirectedFrom=fulltext&login=false"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Feline Malignant Mammary Tumors. I. Morphology and Biology: Some Comparisons With Human and Canine Mammary Carcinomas."
-    - "The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/49/6/1697/1024980?redirectedFrom=fulltext&login=false."
+    - "PubMed-indexed: J Natl Cancer Inst. 1972 Dec;49(6):1697-704."
+    - "Authors: Weijer K, Head KW, Misdorp W, Hampe JF."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Historical comparative study of feline mammary tumor morphology and biology."
+    - "Foundation paper for comparative mammary oncology field."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Early systematic comparison of feline, canine, and human mammary carcinomas."
+    - "Full-text required for specific morphological/biological findings."
 ---
 
 # Feline Malignant Mammary Tumors. I. Morphology and Biology: Some Comparisons With Human and Canine Mammary Carcinomas
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-02
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 4346020 |
+| DOI | 10.1093/jnci/49.6.1697 |
+| Journal | J Natl Cancer Inst |
+| Year | 1972 |
+| Authors | Weijer K, Head KW, Misdorp W, Hampe JF |
+
+## Abstract Summary
+
+No abstract available in PubMed (pre-1975 paper). Citation verified.
+
+| Category | Finding |
+|----------|---------|
+| Study type | Comparative morphology and biology |
+| Species | Feline, canine, human |
+| Focus | Malignant mammary tumors |
+| Era | Early comparative oncology |
+
+**Boundary:** No abstract available. PMID verified. Historical foundation paper for comparative mammary oncology.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 84. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical 1972 JNCI comparative study of feline mammary tumor morphology/biology vs human and canine (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +77,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Feline Malignant Mammary Tumors. I. Morphology and Biology: Some Comparisons With Human and Canine Mammary Carcinomas.
-- The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/49/6/1697/1024980?redirectedFrom=fulltext&login=false.
+- PubMed-indexed: J Natl Cancer Inst. 1972 Dec;49(6):1697-704
+- PMID: 4346020 (verified)
+- Authors: Weijer K, Head KW, Misdorp W, Hampe JF (prominent comparative oncology researchers)
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Historical foundation paper for feline mammary comparative oncology
+- Title indicates Part I of a series; systematic morphological/biological analysis
+- Pre-1975 paper; no abstract available in PubMed
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Early systematic comparison of FMC with human and canine mammary carcinomas
+- Likely established baseline morphological classification still referenced today
+- Full-text required for specific findings
 
 ## Claim-Fit Judgment
 

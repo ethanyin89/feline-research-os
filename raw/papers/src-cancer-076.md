@@ -9,35 +9,57 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: deep
+verification_status: source_checked
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, vitro, characterization, docetaxel, radiosensitizer, cell, lines]
+tags: [cancer, docetaxel, radiosensitizer, cell-lines, in-vitro]
 links:
   doi: ""
   url: "https://www.scirp.org/journal/paperinformation?paperid=25911"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: In Vitro Characterization of Docetaxel as a Radiosensitizer in Canine and Feline Cancer Cell Lines."
-    - "The intake sheet locator is: https://www.scirp.org/journal/paperinformation?paperid=25911."
+    - "Published in SCIRP journal (not PubMed indexed)."
+    - "URL verified: https://www.scirp.org/journal/paperinformation?paperid=25911"
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "In vitro study of docetaxel as radiosensitizer."
+    - "Not PubMed indexed; abstract requires direct publisher access."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "May contain radiosensitization data for feline cancer cell lines."
+    - "Full-text required for extractable findings."
 ---
 
 # In Vitro Characterization of Docetaxel as a Radiosensitizer in Canine and Feline Cancer Cell Lines
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction noting full-text required. SCIRP journal (not PubMed indexed); in vitro docetaxel radiosensitization in canine/feline cell lines; specific findings unavailable; publisher quality concern noted. [Deep extraction worksheet](../../system/indexes/src-cancer-076-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| Publisher | SCIRP (Scientific Research Publishing) |
+| PubMed Status | Not indexed |
+| URL | https://www.scirp.org/journal/paperinformation?paperid=25911 |
+
+## Abstract Summary
+
+Not PubMed indexed. Publisher website access required for abstract.
+
+| Category | Finding |
+|----------|---------|
+| Study type | In vitro |
+| Treatment | Docetaxel as radiosensitizer |
+| Species | Canine and feline cell lines |
+
+**Boundary:** Not PubMed indexed. URL verified. Full-text required for extractable claims.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 82. Use it for triage until abstract or full-text extraction proves a stronger role.
+In vitro docetaxel radiosensitization study in canine/feline cancer cell lines (SCIRP journal, not PubMed indexed).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +76,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: In Vitro Characterization of Docetaxel as a Radiosensitizer in Canine and Feline Cancer Cell Lines.
-- The intake sheet locator is: https://www.scirp.org/journal/paperinformation?paperid=25911.
+- Published in SCIRP journal (Scientific Research Publishing)
+- Not indexed in PubMed
+- URL verified: https://www.scirp.org/journal/paperinformation?paperid=25911
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- In vitro study examining docetaxel as radiosensitizer in cancer cell lines
+- Includes both canine and feline cell lines
+- Full-text access required for specific findings
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May inform chemoradiation combination therapy research
+- Cell line data only; translational relevance unclear
+- SCIRP journals have variable peer review rigor; findings should be interpreted cautiously
 
 ## Claim-Fit Judgment
 

@@ -75,6 +75,10 @@ OPENROUTER_MODEL = "openai/gpt-4.1-mini"
 The app mirrors these secrets into the process environment at startup so the
 same OpenRouter budget guard is enforced locally and in hosted Streamlit.
 
+The new presentation contract is on by default. To disable it for rollback or
+comparison, set `USE_RESULT_PRESENTATION_V2=0`. To force it on locally, use
+`USE_RESULT_PRESENTATION_V2=1`.
+
 **Option C — Ollama (local, hidden by default)**
 ```bash
 brew install ollama

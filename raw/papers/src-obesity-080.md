@@ -5,118 +5,118 @@ title: "Effects of weight loss with a moderate-protein, high-fiber diet on body 
 source_kind: paper
 species: feline
 diseases: [obesity]
-models: []
-endpoints: []
+models: [prospective intervention study]
+endpoints: [body weight, body composition, physical activity, fecal microbiota]
 jurisdictions: []
 evidence_level: original-study
 year: 2018
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: extracted
+extraction_depth: abstract_full
+verification_status: source_checked
 decision_grade: no
 language_qa_status: not_applicable
-tags: [obesity, effects, weight, loss, moderate-protein, high-fiber, diet, body]
+tags: [obesity, weight loss, moderate-protein, high-fiber, diet, body composition, microbiota, activity]
 links:
   doi: "10.2460/ajvr.79.2.181"
   url: "https://doi.org/10.2460/ajvr.79.2.181"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: American Journal of Veterinary Research; year: 2018."
+    - "Body weight, condition score, and triglyceride concentration all decreased significantly over the 18-week intervention."
+    - "Relative abundance of Actinobacteria increased and Bacteroidetes decreased with weight loss."
+    - "Energy requirements were 14% less than standard recommendations for overweight cats."
+    - "Lean mass decreased notably at weeks 12 and 16."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Moderate-protein, high-fiber diets are safe and effective for feline weight loss."
+    - "Standard energy requirement estimates for neutered cats may overestimate actual needs."
+    - "Weight loss in cats alters gut microbiome composition."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Diet-microbiome interaction relevant to obesity management strategies."
+    - "Current feeding guidelines may need revision for overweight neutered cats."
 ---
 
 # Effects of weight loss with a moderate-protein, high-fiber diet on body composition, voluntary physical activity, and fecal microbiota of obese cats
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
-
-## Source Check, 2026-05-14
-
-Crossref metadata was checked as a repeatable second-pass intake step.
-
-- DOI metadata resolved: yes
-- Container: American Journal of Veterinary Research
-- Year: 2018
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Abstract OBJECTIVE To determine effects of restriction feeding of a moderate-protein, high-fiber diet on loss of body weight (BW), voluntary physical activity, body composition, a...
-
+Structured abstract extraction from PubMed. Full text needed for complete methodology and all numerical outcomes.
 
 ## One-Line Summary
 
-Candidate obesity source from sheet row 223. Use it for triage until abstract or full-text extraction proves a stronger role.
+18-week study in 8 neutered male cats demonstrates moderate-protein, high-fiber diet reduces body fat while altering microbiome composition.
 
 ## Why It Matters For Feline Obesity
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-obesity` by the intake workflow.
+Provides evidence for specific macronutrient approach to weight loss; links diet composition to microbiome changes; challenges standard energy recommendations.
 
-The safe current use is source ownership:
+## Study Design Details
 
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+### Population
+| Parameter | Value |
+|-----------|-------|
+| Cats | 8 neutered males |
+| Duration | 18 weeks |
+| Design | Prospective intervention |
+
+### Measurements
+- Daily food intake
+- Twice-weekly body weight
+- Weekly body condition scoring
+- Body composition every 4 weeks
+- Serum biochemistry at multiple intervals
+- Physical activity every 6 weeks
+- Fecal microbiota analysis
+
+### Key Findings
+
+| Outcome | Result |
+|---------|--------|
+| Body weight | Decreased significantly |
+| Body condition score | Decreased significantly |
+| Triglycerides | Decreased significantly |
+| Body fat mass/percentage | Declined substantially |
+| Lean mass | Decreased at weeks 12, 16 |
+| Actinobacteria | Increased |
+| Bacteroidetes | Decreased |
+| Energy requirement | 14% below standard guidelines |
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Effects of weight loss with a moderate-protein, high-fiber diet on body composition, voluntary physical activity, and fecal microbiota of obese cats.
-- The intake sheet locator is: 10.2460/ajvr.79.2.181.
+- Body weight, body condition score, and triglyceride concentration decreased significantly over 18 weeks.
+- Relative abundance of Actinobacteria increased and Bacteroidetes decreased with weight loss.
+- Energy requirements were 14% less than standard recommendations for overweight cats.
+- Lean mass declined at weeks 12 and 16 (muscle preservation concern).
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Restricted feeding of moderate-protein, high-fiber diet is safe and effective for feline weight loss.
+- Standard energy requirement estimates for neutered cats may overestimate actual needs.
+- Diet-induced weight loss produces measurable microbiome shifts.
 
 ### llm_inference
 
-- The title suggests a possible `obesity` role, but the actual claim-fit requires abstract or full-text review.
+- Microbiome-diet interaction may influence weight loss efficacy.
+- Energy guidelines for neutered overweight cats warrant re-evaluation.
+- Lean mass loss at weeks 12-16 suggests timing considerations for weight loss protocols.
 
 ## Claim-Fit Judgment
 
-Strongest safe use:
+Strongest uses:
+- Diet composition evidence for obesity management
+- Energy requirement calibration for overweight neutered cats
+- Microbiome-obesity link in cats
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the obesity module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+Must verify with full text:
+- Exact percentages for body composition changes
+- Activity level changes
+- Specific microbiome taxa shifts
 
 ## Linked Entities
 
 - diseases: obesity
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- models: prospective intervention (n=8)
+- endpoints: body weight, body composition, microbiota, activity
+- mechanisms: diet-microbiome axis
+- regulations: feeding guidelines

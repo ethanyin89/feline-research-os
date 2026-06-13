@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: usage
 language: bilingual
-last_compiled_at: 2026-04-21
+last_compiled_at: 2026-05-19
 confidence: medium
 verification_status: compiled
 decision_grade: no
@@ -36,7 +36,7 @@ This page is for ordinary readers, not maintainers. It explains how to enter the
 3. choose pages by question type, not by folder name
 4. treat `candidate-*` images as unverified references, not evidence
 
-Current disease choices: `CKD`, `FIP`, `HCM`, `IBD`, `Diabetes`.
+Current disease choices: `CKD`, `FIP`, `HCM`, `IBD`, `Diabetes`, `FCV`, `Obesity`.
 
 **ZH**
 1. 先选病种
@@ -44,7 +44,7 @@ Current disease choices: `CKD`, `FIP`, `HCM`, `IBD`, `Diabetes`.
 3. 按问题类型选页面，不要按文件夹名乱找
 4. 看到 `candidate-*` 图片时，把它当成未验证线索，不要当成证据
 
-当前可选病种：`CKD`、`FIP`、`HCM`、`IBD`、`Diabetes`。
+当前可选病种：`CKD`、`FIP`、`HCM`、`IBD`、`Diabetes`、`FCV`、`Obesity`。
 
 ## The 4 Most Common User Goals / 普通用户最常见的 4 个目标
 
@@ -57,6 +57,8 @@ Current disease choices: `CKD`, `FIP`, `HCM`, `IBD`, `Diabetes`.
 - open the local URL shown by Streamlit, usually `http://localhost:8501`
 - choose a backend in the sidebar, then ask one narrow question
 - if you use OpenRouter, prefer `OPENROUTER_MODEL=openai/gpt-4.1-mini` and keep `OPENROUTER_DAILY_BUDGET_USD=1.00`
+- if a maintainer gives you a temporary public test link, open that link directly instead of starting the app yourself
+- if the Streamlit public link is stuck loading, use the plain HTTP public test page instead
 
 **ZH**
 - 在终端打开项目目录
@@ -65,6 +67,8 @@ Current disease choices: `CKD`, `FIP`, `HCM`, `IBD`, `Diabetes`.
 - 打开 Streamlit 显示的本地网址，通常是 `http://localhost:8501`
 - 在侧边栏选择模型后端，然后问一个具体问题
 - 如果你用 OpenRouter，优先用 `OPENROUTER_MODEL=openai/gpt-4.1-mini`，并保持 `OPENROUTER_DAILY_BUDGET_USD=1.00`
+- 如果维护者给了临时公开测试链接，直接打开那个链接，不需要自己启动 app
+- 如果 Streamlit 公开链接一直加载不出来，改用普通 HTTP 公开测试页
 
 如果普通用户页在真实 OpenRouter 路径报错，先看：
 

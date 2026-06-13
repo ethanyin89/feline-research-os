@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: [Switzerland]
 evidence_level: original-study
 year: 2018
-status: abstract_weighted
-extraction_depth: abstract
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable

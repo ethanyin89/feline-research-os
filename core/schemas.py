@@ -5,14 +5,22 @@ Based on II (Intelligent Internet) design principles:
 - Research Record: durable work records (CommonGround Kernel)
 - Evidence Card: structured knowledge units (II-Thought)
 - Task evaluation dimensions (II-Researcher)
+
+Schema Version History:
+- v1: Initial schema (2026-06-11)
+- v2: Added RetrievalEvent, SourceSnapshot, ResearchClaim, schema_version (2026-06-13)
 """
 
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
+import hashlib
 import json
 import uuid
+
+# Current schema version - increment when making breaking changes
+SCHEMA_VERSION = 2
 
 
 class TaskType(Enum):
@@ -81,6 +89,274 @@ class UseCase(Enum):
     SAFETY_MONITORING = "safety_monitoring"
     PROGNOSIS = "prognosis"
     MODEL_VALIDATION = "model_validation"
+
+
+class PromotionStatus(Enum):
+    """Claim promotion status for the knowledge flywheel."""
+    RECORD_ONLY = "record_only"      # Saved but not considered for promotion
+    CANDIDATE = "candidate"           # Selected for potential promotion
+    VALIDATED = "validated"           # Passed promotion validation
+    PROMOTED = "promoted"             # Applied to target page
+    REJECTED = "rejected"             # Validation failed or user rejected
+
+
+class FreshnessStatus(Enum):
+    """Source freshness for promoted claims."""
+    CURRENT = "current"               # Source fingerprints match
+    STALE = "stale"                   # Source content changed
+    SUPERSEDED = "superseded"         # Source replaced by newer version
+
+
+class ClaimProvenance(Enum):
+    """How a claim was derived from sources."""
+    QUOTED_FACT = "quoted_fact"                       # Direct quote from source
+    SOURCE_SUPPORTED_CONCLUSION = "source_supported_conclusion"  # Synthesized from sources
+    INFERENCE = "inference"                           # LLM-generated inference
+
+
+@dataclass
+class RetrievalEvent:
+    """
+    Tracks an actual retrieval event during research.
+
+    Gate 6A requirement: derive visible scope from actual events,
+    never claim searches that didn't happen.
+    """
+    event_id: str
+    timestamp: datetime
+    engine: str                           # "vault", "pubmed", "crossref", etc.
+    query: str                            # Actual query executed
+    scope: str                            # "raw", "topics", "indexes", etc.
+    candidate_count: int                  # Total results before filtering
+    retained_ids: List[str]               # Source IDs kept
+    excluded_ids: List[str] = field(default_factory=list)
+    exclusion_reasons: Dict[str, str] = field(default_factory=dict)  # {source_id: reason}
+    filters_applied: List[str] = field(default_factory=list)
+    load_outcome: str = "success"         # "success", "partial", "failed"
+
+    @classmethod
+    def generate_id(cls) -> str:
+        return f"re-{uuid.uuid4().hex[:8]}"
+
+    def to_dict(self) -> dict:
+        return {
+            "event_id": self.event_id,
+            "timestamp": self.timestamp.isoformat(),
+            "engine": self.engine,
+            "query": self.query,
+            "scope": self.scope,
+            "candidate_count": self.candidate_count,
+            "retained_ids": self.retained_ids,
+            "excluded_ids": self.excluded_ids,
+            "exclusion_reasons": self.exclusion_reasons,
+            "filters_applied": self.filters_applied,
+            "load_outcome": self.load_outcome,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "RetrievalEvent":
+        return cls(
+            event_id=data["event_id"],
+            timestamp=datetime.fromisoformat(data["timestamp"]),
+            engine=data["engine"],
+            query=data["query"],
+            scope=data["scope"],
+            candidate_count=data["candidate_count"],
+            retained_ids=data.get("retained_ids", []),
+            excluded_ids=data.get("excluded_ids", []),
+            exclusion_reasons=data.get("exclusion_reasons", {}),
+            filters_applied=data.get("filters_applied", []),
+            load_outcome=data.get("load_outcome", "success"),
+        )
+
+
+@dataclass
+class SourceSnapshot:
+    """
+    Captures source metadata at retrieval time.
+
+    Used for:
+    - Presentation: translates to user-facing labels
+    - Validation: checks claim-fit before promotion
+    - Freshness: fingerprint comparison for stale detection
+    """
+    source_id: str
+    content_fingerprint: str              # SHA-256 of source content
+    title: str
+    canonical_url: Optional[str] = None
+    doi: Optional[str] = None
+    pmid: Optional[str] = None
+    pmcid: Optional[str] = None
+
+    # Quality dimensions (the 6 dimensions from the plan)
+    source_family: str = "unknown"        # guideline, review, original_research, etc.
+    study_type: str = "unknown"
+    species: str = "unknown"
+    applicability_boundary: str = ""
+    extraction_depth: str = "unknown"     # deep_extracted, source_checked, abstract_weighted, title_only
+    verification_status: str = "unknown"
+
+    # Claim-fit policy
+    safe_claim_types: List[str] = field(default_factory=list)
+    prohibited_claim_types: List[str] = field(default_factory=list)
+    decision_grade: str = "unknown"
+    limitations: List[str] = field(default_factory=list)
+
+    # Supersession tracking
+    superseded_by: Optional[str] = None
+    supersession_date: Optional[datetime] = None
+
+    # Metadata
+    publication_year: Optional[int] = None
+    authors: List[str] = field(default_factory=list)
+    journal: Optional[str] = None
+    tags: List[str] = field(default_factory=list)
+
+    @staticmethod
+    def compute_fingerprint(content: str) -> str:
+        """Compute SHA-256 fingerprint of content."""
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+    def to_dict(self) -> dict:
+        return {
+            "source_id": self.source_id,
+            "content_fingerprint": self.content_fingerprint,
+            "title": self.title,
+            "canonical_url": self.canonical_url,
+            "doi": self.doi,
+            "pmid": self.pmid,
+            "pmcid": self.pmcid,
+            "source_family": self.source_family,
+            "study_type": self.study_type,
+            "species": self.species,
+            "applicability_boundary": self.applicability_boundary,
+            "extraction_depth": self.extraction_depth,
+            "verification_status": self.verification_status,
+            "safe_claim_types": self.safe_claim_types,
+            "prohibited_claim_types": self.prohibited_claim_types,
+            "decision_grade": self.decision_grade,
+            "limitations": self.limitations,
+            "superseded_by": self.superseded_by,
+            "supersession_date": self.supersession_date.isoformat() if self.supersession_date else None,
+            "publication_year": self.publication_year,
+            "authors": self.authors,
+            "journal": self.journal,
+            "tags": self.tags,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "SourceSnapshot":
+        return cls(
+            source_id=data["source_id"],
+            content_fingerprint=data["content_fingerprint"],
+            title=data["title"],
+            canonical_url=data.get("canonical_url"),
+            doi=data.get("doi"),
+            pmid=data.get("pmid"),
+            pmcid=data.get("pmcid"),
+            source_family=data.get("source_family", "unknown"),
+            study_type=data.get("study_type", "unknown"),
+            species=data.get("species", "unknown"),
+            applicability_boundary=data.get("applicability_boundary", ""),
+            extraction_depth=data.get("extraction_depth", "unknown"),
+            verification_status=data.get("verification_status", "unknown"),
+            safe_claim_types=data.get("safe_claim_types", []),
+            prohibited_claim_types=data.get("prohibited_claim_types", []),
+            decision_grade=data.get("decision_grade", "unknown"),
+            limitations=data.get("limitations", []),
+            superseded_by=data.get("superseded_by"),
+            supersession_date=datetime.fromisoformat(data["supersession_date"]) if data.get("supersession_date") else None,
+            publication_year=data.get("publication_year"),
+            authors=data.get("authors", []),
+            journal=data.get("journal"),
+            tags=data.get("tags", []),
+        )
+
+
+@dataclass
+class ResearchClaim:
+    """
+    A single claim extracted from research output.
+
+    The unit of selection, validation, promotion, and factual reuse.
+    Gate 6B introduces claim selection; Gate 6C enables promotion.
+    """
+    claim_id: str
+    text: str
+    original_answer_span: str             # Exact text from the answer
+    ordinal: int                          # Position in the answer
+    source_ids: List[str]                 # Sources supporting this claim
+    provenance: ClaimProvenance
+
+    # Claim boundaries
+    supported_use: str = ""               # What this claim can support
+    boundary: str = ""                    # What this claim cannot establish
+
+    # Selection and promotion
+    selected_by_human: bool = False
+    promotion_status: PromotionStatus = PromotionStatus.RECORD_ONLY
+    freshness_status: FreshnessStatus = FreshnessStatus.CURRENT
+
+    # Validation
+    promotion_validation_results: List[Dict[str, Any]] = field(default_factory=list)
+
+    # Target (for promoted claims)
+    target_page: Optional[str] = None
+    target_section: Optional[str] = None
+    promotion_timestamp: Optional[datetime] = None
+
+    @classmethod
+    def generate_id(cls) -> str:
+        return f"rc-{uuid.uuid4().hex[:8]}"
+
+    def is_promotable(self) -> bool:
+        """Check if this claim can be selected for promotion."""
+        # Inference-only claims cannot be promoted
+        if self.provenance == ClaimProvenance.INFERENCE:
+            return False
+        # Must have source mapping
+        if not self.source_ids:
+            return False
+        return True
+
+    def to_dict(self) -> dict:
+        return {
+            "claim_id": self.claim_id,
+            "text": self.text,
+            "original_answer_span": self.original_answer_span,
+            "ordinal": self.ordinal,
+            "source_ids": self.source_ids,
+            "provenance": self.provenance.value,
+            "supported_use": self.supported_use,
+            "boundary": self.boundary,
+            "selected_by_human": self.selected_by_human,
+            "promotion_status": self.promotion_status.value,
+            "freshness_status": self.freshness_status.value,
+            "promotion_validation_results": self.promotion_validation_results,
+            "target_page": self.target_page,
+            "target_section": self.target_section,
+            "promotion_timestamp": self.promotion_timestamp.isoformat() if self.promotion_timestamp else None,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "ResearchClaim":
+        return cls(
+            claim_id=data["claim_id"],
+            text=data["text"],
+            original_answer_span=data["original_answer_span"],
+            ordinal=data["ordinal"],
+            source_ids=data.get("source_ids", []),
+            provenance=ClaimProvenance(data["provenance"]),
+            supported_use=data.get("supported_use", ""),
+            boundary=data.get("boundary", ""),
+            selected_by_human=data.get("selected_by_human", False),
+            promotion_status=PromotionStatus(data.get("promotion_status", "record_only")),
+            freshness_status=FreshnessStatus(data.get("freshness_status", "current")),
+            promotion_validation_results=data.get("promotion_validation_results", []),
+            target_page=data.get("target_page"),
+            target_section=data.get("target_section"),
+            promotion_timestamp=datetime.fromisoformat(data["promotion_timestamp"]) if data.get("promotion_timestamp") else None,
+        )
 
 
 @dataclass
@@ -182,23 +458,44 @@ class ResearchRecord:
     - Preserves not just answers but procedural context
     - Enables work to be continued, reviewed, and built upon
     - Captures decisions, uncertainties, and next steps
+
+    Schema v2 additions (Gate 6A):
+    - schema_version: enables forward-compatible migrations
+    - title: user-editable record title
+    - parent_record_id: for continuation chains
+    - record_version: increments on updates
+    - retrieval_events: actual search events (truthful scope)
+    - source_snapshots: source metadata at retrieval time
+    - research_claims: extracted claims for promotion (Gate 6B)
     """
     record_id: str
     timestamp: datetime
     user_request: str
+    task_type: TaskType
+
+    # Schema version for migrations
+    schema_version: int = SCHEMA_VERSION
 
     # Task classification
-    task_type: TaskType
     species: SpeciesType = SpeciesType.CAT
     disease: str = ""
     scope: str = ""
 
+    # User-editable metadata (v2)
+    title: str = ""                                    # Editable record title
+    parent_record_id: Optional[str] = None             # For continuation chains
+    record_version: int = 1                            # Increments on updates
+
     # Search depth (per II-Search)
     search_depth: SearchDepth = SearchDepth.STANDARD
 
-    # Retrieval tracking
+    # Retrieval tracking (legacy, kept for v1 compatibility)
     retrieval_sources: List[str] = field(default_factory=list)
     search_queries: List[str] = field(default_factory=list)
+
+    # Truthful retrieval (v2) - derived from actual events
+    retrieval_events: List[RetrievalEvent] = field(default_factory=list)
+    source_snapshots: List[SourceSnapshot] = field(default_factory=list)
 
     # Evidence selection
     selected_evidence: List[str] = field(default_factory=list)  # evidence_card_ids
@@ -221,9 +518,16 @@ class ResearchRecord:
     output_path: str = ""
     final_answer: str = ""
 
+    # Claims extracted from answer (v2, Gate 6B)
+    research_claims: List[ResearchClaim] = field(default_factory=list)
+
     # Continuation
     next_steps: List[str] = field(default_factory=list)
     handoff_summary: str = ""
+
+    # Persistence health (v2)
+    persistence_status: str = "healthy"                # healthy, partial, reconciling
+    last_saved: Optional[datetime] = None
 
     @classmethod
     def generate_id(cls) -> str:
@@ -280,6 +584,10 @@ class ResearchRecord:
     def to_dict(self) -> dict:
         """Convert to dictionary for serialization."""
         return {
+            # Schema version for migrations
+            "schema_version": self.schema_version,
+
+            # Core fields
             "record_id": self.record_id,
             "timestamp": self.timestamp.isoformat(),
             "user_request": self.user_request,
@@ -287,9 +595,22 @@ class ResearchRecord:
             "species": self.species.value,
             "disease": self.disease,
             "scope": self.scope,
+
+            # v2 user-editable metadata
+            "title": self.title,
+            "parent_record_id": self.parent_record_id,
+            "record_version": self.record_version,
+
             "search_depth": self.search_depth.value,
+
+            # Legacy retrieval (v1 compatibility)
             "retrieval_sources": self.retrieval_sources,
             "search_queries": self.search_queries,
+
+            # Truthful retrieval (v2)
+            "retrieval_events": [e.to_dict() for e in self.retrieval_events],
+            "source_snapshots": [s.to_dict() for s in self.source_snapshots],
+
             "selected_evidence": self.selected_evidence,
             "excluded_evidence": self.excluded_evidence,
             "key_decisions": self.key_decisions,
@@ -304,24 +625,49 @@ class ResearchRecord:
             "verifier_status": self.verifier_status.value,
             "output_path": self.output_path,
             "final_answer": self.final_answer,
+
+            # v2 claims (Gate 6B)
+            "research_claims": [c.to_dict() for c in self.research_claims],
+
             "next_steps": self.next_steps,
             "handoff_summary": self.handoff_summary,
+
+            # v2 persistence health
+            "persistence_status": self.persistence_status,
+            "last_saved": self.last_saved.isoformat() if self.last_saved else None,
         }
 
     @classmethod
     def from_dict(cls, data: dict) -> "ResearchRecord":
-        """Create from dictionary."""
+        """
+        Create from dictionary with backward compatibility.
+
+        Handles both v1 (no schema_version) and v2 records.
+        """
+        # Detect schema version (v1 records don't have this field)
+        stored_version = data.get("schema_version", 1)
+
         record = cls(
             record_id=data["record_id"],
             timestamp=datetime.fromisoformat(data["timestamp"]),
             user_request=data["user_request"],
+            schema_version=stored_version,
             task_type=TaskType(data["task_type"]),
             species=SpeciesType(data.get("species", "cat")),
             disease=data.get("disease", ""),
             scope=data.get("scope", ""),
+
+            # v2 fields with defaults for v1 records
+            title=data.get("title", ""),
+            parent_record_id=data.get("parent_record_id"),
+            record_version=data.get("record_version", 1),
+
             search_depth=SearchDepth(data.get("search_depth", "standard")),
+
+            # Legacy retrieval
             retrieval_sources=data.get("retrieval_sources", []),
             search_queries=data.get("search_queries", []),
+
             selected_evidence=data.get("selected_evidence", []),
             excluded_evidence=data.get("excluded_evidence", []),
             key_decisions=data.get("key_decisions", []),
@@ -334,6 +680,10 @@ class ResearchRecord:
             final_answer=data.get("final_answer", ""),
             next_steps=data.get("next_steps", []),
             handoff_summary=data.get("handoff_summary", ""),
+
+            # v2 persistence health
+            persistence_status=data.get("persistence_status", "healthy"),
+            last_saved=datetime.fromisoformat(data["last_saved"]) if data.get("last_saved") else None,
         )
 
         # Restore verification results
@@ -344,6 +694,38 @@ class ResearchRecord:
                 message=vr_data["message"],
                 severity=vr_data.get("severity", "medium"),
             ))
+
+        # Restore v2 retrieval events
+        for event_data in data.get("retrieval_events", []):
+            record.retrieval_events.append(RetrievalEvent.from_dict(event_data))
+
+        # Restore v2 source snapshots
+        for snapshot_data in data.get("source_snapshots", []):
+            record.source_snapshots.append(SourceSnapshot.from_dict(snapshot_data))
+
+        # Restore v2 research claims
+        for claim_data in data.get("research_claims", []):
+            record.research_claims.append(ResearchClaim.from_dict(claim_data))
+
+        return record
+
+    @classmethod
+    def migrate_v1_to_v2(cls, record: "ResearchRecord") -> "ResearchRecord":
+        """
+        Migrate a v1 record to v2 schema.
+
+        This is additive only - no data is lost.
+        """
+        if record.schema_version >= 2:
+            return record
+
+        # Generate title from user request if not set
+        if not record.title:
+            # Use first 50 chars of request as default title
+            record.title = record.user_request[:50] + ("..." if len(record.user_request) > 50 else "")
+
+        # Update schema version
+        record.schema_version = 2
 
         return record
 

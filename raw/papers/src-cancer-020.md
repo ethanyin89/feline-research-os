@@ -8,15 +8,18 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: review
+year: 1985
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 3874468
+doi: "10.1016/s0195-5616(85)50054-6"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, mammary]
 links:
-  doi: ""
+  doi: "10.1016/s0195-5616(85)50054-6"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S0195561685500546?via%3Dihub"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,29 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 1985 Vet Clin NA foundational clinical review: FMC has rapid growth + high recurrence + poor survival → management triad of early diagnosis, aggressive surgery, frequent follow-up. Historical context. [Deep extraction worksheet](../../system/indexes/src-cancer-020-deep-extraction-round1.md).
+
+## Full Abstract (PubMed)
+
+The characteristics of feline mammary cancer--that is, the rapid growth of primary mammary tumors, the high rate of tumor recurrence, and the poor survival statistics--demonstrate the need for (1) early diagnosis of the primary tumor; (2) immediate, aggressive surgical therapy; and (3) frequent follow-up examinations to detect early clinical signs of recurrent disease. A number of factors that influence prognosis have been described. As more information becomes available concerning the behavior of feline mammary tumors and the results of various forms of treatment, more effective protocols can be developed. Continued etiologic research may play a vital role in determining the direction of therapy.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Tumor characteristics | rapid growth, high recurrence, poor survival | aggressive behavior |
+| Management need #1 | early diagnosis of primary tumor | clinical recommendation |
+| Management need #2 | immediate, aggressive surgical therapy | treatment approach |
+| Management need #3 | frequent follow-up exams for recurrence | monitoring strategy |
+| Prognostic factors | multiple factors influence prognosis | mentioned, not detailed |
+
+**Key insight:** This 1985 paper established the aggressive nature of FMC (rapid growth, high recurrence, poor survival) and the foundational management triad: early diagnosis, aggressive surgery, frequent follow-up. This clinical framing remains relevant.
+
+**Boundary:** This is a 1985 review. Treatment protocols and prognostic factor understanding have evolved significantly. Historical context.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 22. Use it for triage until abstract or full-text extraction proves a stronger role.
+1985 VCNA: FMC has rapid growth + high recurrence + poor survival → needs early diagnosis, aggressive surgery, frequent follow-up.
 
 ## Why It Matters For Feline Cancer
 

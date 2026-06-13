@@ -5,39 +5,80 @@ title: "Evaluation of TFR-1 Expression in Feline Mammary Cancer and In Vitro Ant
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [human-breast-cancer]
+endpoints: [TFR-1-expression, cell-proliferation, apoptosis]
+jurisdictions: [Italy]
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2021
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "33809013"
+pmcid: "PMC8000254"
+doi: "10.3390/cancers13061248"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, evaluation, tfr-1, expression, mammary, vitro, antitumor, efficacy]
+tags: [cancer, mammary, FMC, TFR-1, transferrin, nanocage, doxorubicin, HFn, targeted-therapy, nanomedicine]
 links:
-  doi: ""
+  doi: "10.3390/cancers13061248"
   url: "https://www.mdpi.com/2072-6694/13/6/1248"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8000254/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Evaluation of TFR-1 Expression in Feline Mammary Cancer and In Vitro Antitumor Efficacy Study of Doxorubicin-Loaded H-Ferritin Nanocages."
-    - "The intake sheet locator is: https://www.mdpi.com/2072-6694/13/6/1248."
+    - "The H-score showed an increased protein level of TFR-1 in feline mammary carcinomas with nodal metastasis (mean 112.28 ± SD 40.51) versus healthy mammary gland tissues (mean 40.07 ± SD 38.95) (p < 0.05)."
+    - "The expression of TFR-1 was identified in 95% of the cells."
+    - "The proliferation rate of FMCm treated with HFn(DOX) was lower (p < 0.05) than that treated with DOX at 0.01 μM, 72 h after treatment."
+    - "The sequencing showed that the fragment amplified had 99% homology with the Felis catus transferrin receptor gene (TFRC)."
+    - "The use of HFn(DOX) resulted in less proliferation of cells and increased apoptosis when compared to the drug alone."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "TFR-1 expression increases with FMC metastatic progression: healthy (40.07) → FMC no mets (78.72) → FMC with mets (112.28)."
+    - "Doxorubicin-loaded H-ferritin nanocages (HFn-DOX) are more effective than free doxorubicin in vitro."
+    - "TFR-1 is a valid target for FMC nanomedicine therapy."
+    - "First demonstration of HFn nanocage efficacy in veterinary oncology."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "TFR-1 may serve as a prognostic marker (higher expression in metastatic disease)."
+    - "HFn-DOX could reduce doxorubicin systemic toxicity via targeted delivery."
+    - "In vitro efficacy requires in vivo confirmation before clinical application."
 ---
 
 # Evaluation of TFR-1 Expression in Feline Mammary Cancer and In Vitro Antitumor Efficacy Study of Doxorubicin-Loaded H-Ferritin Nanocages
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC8000254).** This 2021 study demonstrates TFR-1 expression increases with FMC metastatic progression. HFn(DOX) nanocages showed superior efficacy vs free doxorubicin in vitro. First veterinary nanomedicine HFn study. Evidence level: in vitro.
+
+## Source Check, 2026-06-09
+
+Europe PMC full text extraction.
+
+| Field | Value |
+|-------|-------|
+| PMID | 33809013 |
+| PMCID | PMC8000254 |
+| DOI | 10.3390/cancers13061248 |
+| Journal | Cancers (MDPI) |
+| Year | 2021 |
+| Authors | Rensi N, Sammarco A, Moccia V, et al. |
+| Open access | yes |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Study type | In vitro targeted therapy + IHC |
+| Target | Transferrin receptor 1 (TFR-1) |
+| Approach | Doxorubicin-loaded H-ferritin nanocages (HFn-DOX) |
+| TFR-1 H-score | Healthy 40.07 → FMC no mets 78.72 → FMC with mets 112.28 |
+| Cell line | FMCm (feline metastatic mammary cancer) |
+| TFR-1 positivity | 95% of FMCm cells |
+| Efficacy | HFn-DOX < DOX proliferation at 0.01-0.1 μM (p<0.05) |
+
+**Boundary:** In vitro evidence only. TFR-1 as therapeutic target and HFn-DOX efficacy require in vivo confirmation.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 110. Use it for triage until abstract or full-text extraction proves a stronger role.
+TFR-1 expression increases with FMC metastatic progression (H-score 40→79→112); doxorubicin-loaded H-ferritin nanocages outperform free doxorubicin in vitro.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +95,22 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Evaluation of TFR-1 Expression in Feline Mammary Cancer and In Vitro Antitumor Efficacy Study of Doxorubicin-Loaded H-Ferritin Nanocages.
-- The intake sheet locator is: https://www.mdpi.com/2072-6694/13/6/1248.
+- TFR-1 overexpressed in broad range of solid tumors in humans
+- TFR-1 is recognized by H-Ferritin (HFn)
+- HFn nanocages allow selective binding and drug internalization
+- Doxorubicin loaded into HFn nanocages for targeted delivery
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- TFR-1 expression evaluated in feline mammary cancer
+- HFn-doxorubicin nanocages tested for in vitro antitumor efficacy
+- Nanomedicine approach for FMC treatment
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May inform mammary-carcinoma.md targeted therapy section
+- Novel drug delivery approach alternative to conventional chemotherapy
+- Supports comparative oncology nanomedicine development
 
 ## Claim-Fit Judgment
 

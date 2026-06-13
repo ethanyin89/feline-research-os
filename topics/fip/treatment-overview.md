@@ -236,6 +236,14 @@ This page supports:
 
 ---
 
+## Quantified Claim Traceability
+
+| Claim | Source IDs | Boundary |
+|---|---|---|
+| Remdesivir efficacy prospective study of 29 cats | src-fip-034 | Small prospective cohort; dosage and efficacy verified |
+| Clinical experience with GS-441524 covers 5+ years and thousands of cats | src-fip-030, src-fip-039 | Long-term observational data and consensus-level use |
+| Remission rates and safety evaluated over >5 years | src-fip-029 | Landmark long-term follow-up; limited case size |
+
 ## Linked Entities
 
 - **Antivirals:** GS-441524, remdesivir, mefloquine

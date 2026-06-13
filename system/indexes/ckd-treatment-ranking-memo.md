@@ -9,6 +9,13 @@ language: en
 verification_status: compiled
 decision_grade: no
 language_qa_status: light_checked
+source_ids: [src-ckd-003, src-ckd-006, src-ckd-007, src-ckd-009, src-ckd-013, src-ckd-014, src-ckd-015, src-ckd-017, src-ckd-021]
+presentation_surface: ranked
+presentation_language: en
+presentation_title: "Feline CKD Treatment Evidence Ranking"
+presentation_subtitle: "A bounded hierarchy of supportable interventions in the current vault"
+presentation_lead_section: "What This Memo Is For"
+presentation_boundary_section: "Main Remaining Gaps"
 ---
 
 # CKD Treatment Ranking Memo
@@ -60,11 +67,11 @@ The current hierarchy is driven by four questions:
 - repeatedly supported across treatment-oriented sources
 - tied to phosphorus control, clinical outcome framing, and survival-oriented logic
 
-What we can say:
+Supported use:
 
 - renal diet is the clearest baseline-supported feline CKD intervention in the current system
 
-What we should not say:
+Do not overclaim:
 
 - do not overstate renal diet as proven structural disease reversal
 
@@ -74,11 +81,11 @@ What we should not say:
 - stage 2-3 cats have meaningful support for phosphate-restricted diet
 - phosphorus burden is tied to progression and secondary hyperparathyroidism logic
 
-What we can say:
+Supported use:
 
 - phosphorus control is not just biochemical housekeeping; it is a central treatment logic branch
 
-What we should not say:
+Do not overclaim:
 
 - do not flatten phosphate binders and diet into one evidence tier
 
@@ -90,6 +97,14 @@ What we should not say:
 - systolic blood pressure is first-wave, not optional
 - the intervention logic is solid, but broader outcome claims still need careful wording
 
+Supported use:
+
+- use when systemic hypertension is confirmed and target-organ risk is relevant
+
+Do not overclaim:
+
+- do not present antihypertensive therapy as broad disease modification across all CKD cats
+
 ### Proteinuria-oriented RAAS strategy
 
 - ACE inhibitor or related RAAS-oriented management has real relevance when proteinuria is present
@@ -97,11 +112,11 @@ What we should not say:
 - the new bounded evidence memo makes it clearer that this branch is partly an endpoint branch and partly a pathology-sensitive subset branch
 - easy to overclaim because routine use is broader than proof
 
-What we can say:
+Supported use:
 
 - proteinuria-oriented RAAS management belongs in Tier 2 because proteinuria matters clinically, but the safest current wording is still management relevance rather than broad renoprotective proof
 
-What we should not say:
+Do not overclaim:
 
 - do not write this branch as if routine ACE inhibitor use had already resolved survival benefit or disease-modification uncertainty across feline CKD
 
@@ -111,29 +126,27 @@ What we should not say:
 - clinically meaningful supportive intervention
 - not a top-tier disease-modification claim in the current corpus
 
+Supported use:
+
+- correct documented hypokalaemia as a complication-directed intervention
+
+Do not overclaim:
+
+- do not rank potassium supplementation as a general CKD disease-modifying therapy
+
 ### Symptomatic and complication-directed support
 
 - uraemic gastroenteritis management
 - anaemia-directed support
 - assisted feeding and broader supportive care logic
 
-What we can say:
+Supported use:
 
 - these interventions matter for quality of life and late-stage stability
 
-What we should not say:
+Do not overclaim:
 
 - do not present symptom control as equivalent to progression reversal
-
-### Trial-outcome-guided treatment evaluation
-
-- this is not a single intervention class
-- it matters because `src-ckd-013` changes how treatment success should be judged
-- treatment evaluation should include quality of life, food intake, progression, survival time, and cause of death, not only lab markers
-
-Net effect:
-
-- some interventions belong in Tier 2 partly because the current vault supports broader outcome measurement more strongly than strong efficacy ranking
 
 ## Tier 3: Operationally Relevant, But Evidence Thinner Or More Conditional
 
@@ -143,15 +156,39 @@ Net effect:
 - evidence is thinner than for diet
 - no licensed veterinary phosphate binder medications were identified in the reviewed source set
 
+Supported use:
+
+- consider when diet alone does not control phosphorus burden
+
+Do not overclaim:
+
+- do not treat binder evidence as equivalent to the survival-linked renal-diet branch
+
 ### Long-term subcutaneous fluid therapy
 
 - common in practice
 - explicitly weak grade IV evidence in the current evidence-based review
 
+Supported use:
+
+- use as individualized supportive care when hydration needs and tolerance justify it
+
+Do not overclaim:
+
+- do not present routine long-term fluids as strongly proven to slow CKD progression
+
 ### Screening and early-treatment package
 
 - strategically important
 - but still better supported as earlier recognition logic than as a mature intervention package
+
+Supported use:
+
+- use earlier recognition to trigger complete staging and management review
+
+Do not overclaim:
+
+- do not describe screening itself as a validated treatment package or outcome benefit
 
 Net effect:
 
@@ -165,9 +202,25 @@ Net effect:
 - mechanism-to-target logic is credible
 - current strongest support comes from models and human CKD rather than direct feline efficacy evidence
 
+Supported use:
+
+- retain as a translational research and trial-design watchlist branch
+
+Do not overclaim:
+
+- do not recommend MR antagonists as established feline CKD therapy
+
 ### Other future disease-modification branches
 
 - anything framed mainly through mediator plausibility rather than direct feline intervention evidence should stay here for now
+
+Supported use:
+
+- use mechanistic plausibility to prioritize research questions and evidence intake
+
+Do not overclaim:
+
+- do not convert pathway plausibility into clinical treatment recommendations
 
 Net effect:
 

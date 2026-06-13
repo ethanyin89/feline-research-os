@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: [South Africa]
 evidence_level: original-study
 year: 2015
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
@@ -36,19 +36,25 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This card has publisher-page abstract support and DOI metadata, but full-text extraction is still blocked. The publisher PDF viewer exposed a download link, while direct PDF access returned verification / 404 responses during this run. Keep this source below deep-extracted status until a readable full text is verified.
+This card has deep extraction based on publisher abstract. 2015 South African hospital-admissions study (1998-2005) showing SCC as 48% of feline cancers — contrasting with Northern hemisphere lymphoma-dominant data. Supports UV exposure hypothesis. [Deep extraction worksheet](../../system/indexes/src-cancer-007-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Key Extracted Findings (Publisher Abstract)
 
-- DOI metadata resolved manually from publisher page: 10.6000/1927-5129.2015.11.53
-- Publisher page: accessible
-- Publisher abstract: accessible
-- Direct PDF: not verified; browser/download routes returned verification or 404 responses in local probing
-- Current status: abstract-weighted / full-text blocked
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Study period | 1998-2005 | 7-year retrospective |
+| Total feline admissions | 12,893 | single hospital |
+| Cancer admissions | 100 | hospital-based, not population |
+| SCC prevalence | 48% of all tumors | most common in this population |
+| Regional factor | South Africa | high UV exposure region |
+
+**Key insight:** SCC at 48% is much higher than in Northern hemisphere studies where lymphoma typically dominates. This may reflect UV exposure patterns in South Africa, making this valuable for geographic/environmental hypothesis generation.
+
+**Boundary:** Hospital-admissions data, not population registry. Denominator differs from pathology-based studies. 100 cases is relatively small. Single institution.
 
 ## One-Line Summary
 
-Regional South African hospital-admissions cancer prevalence candidate; useful for prioritization, but not yet deep-extracted.
+2015 South Africa hospital study: SCC is 48% of 100 feline cancers (1998-2005) — contrasts with lymphoma-dominant Northern hemisphere data.
 
 ## Why It Matters For Feline Cancer
 

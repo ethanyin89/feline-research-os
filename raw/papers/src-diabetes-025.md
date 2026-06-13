@@ -10,48 +10,70 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2024
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "39684832"
+pmcid: "PMC11642086"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [diabetes, associated, deficits, markers, insulin, signaling, peripheral, tissues]
+tags: [diabetes, insulin-signaling, insulin-resistance, incretin, GLP-1, GIP, GLUT, IRS, PI3K, ectopic-lipid, pancreas, liver, muscle]
 links:
   doi: "10.3390/ijms252313195"
   url: "https://doi.org/10.3390/ijms252313195"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: International Journal of Molecular Sciences; year: 2024."
+    - "54 client-owned cats: lean (n=15), overweight (n=15), diabetic (n=24)."
+    - "Diabetic cats showed increased liver and muscle adiposity (ectopic lipid deposition)."
+    - "Insulin mRNA abundance decreased in pancreas of both untreated and treated diabetic cats."
+    - "GLUT-1 and GLUT-2 mRNA levels decreased in pancreas of both diabetic groups."
+    - "Insulin receptor mRNA abundance decreased in muscle of untreated diabetic cats."
+    - "PI3K-p85α protein abundance tended to decrease in muscle of diabetic cats."
+    - "GLUT-4 protein abundance decreased in muscle of diabetic cats."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Feline diabetes is associated with ectopic lipid deposition in liver and skeletal muscle."
+    - "Deficits in insulin synthesis and incretin signaling in pancreas contribute to feline diabetes."
+    - "Peripheral insulin resistance in muscle involves reduced GLUT-4 and PI3K signaling."
+    - "Feline diabetes parallels human T2DM in molecular mechanisms."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "GLUT-4 and PI3K may be therapeutic targets for improving insulin sensitivity in cats."
+    - "Incretin-based therapies (GLP-1 agonists) may have relevance for feline diabetes."
 ---
 
 # Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling in Peripheral Tissues
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+**Deep-extracted from PMC full text (PMC11642086).** 2024 IJMS: 54 cats (lean/overweight/diabetic); first comprehensive characterization of insulin and incretin signaling deficits in feline diabetes at molecular level. Shows ectopic lipid deposition, reduced GLUT-4 and PI3K in muscle, decreased insulin/incretin signaling in pancreas. Evidence level: original study with RT-qPCR and Western blot.
 
-## Source Check, 2026-05-14
+## Source Check, 2026-06-09
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+Europe PMC full text extraction.
 
-- DOI metadata resolved: yes
-- Container: International Journal of Molecular Sciences
-- Year: 2024
-- Abstract available in Crossref: yes
+| Field | Value |
+|-------|-------|
+| PMID | 39684832 |
+| PMCID | PMC11642086 |
+| DOI | 10.3390/ijms252313195 |
+| Journal | Int J Mol Sci (MDPI) |
+| Year | 2024 |
+| Authors | Malatesta D, Fowler I, Aldrich M, et al. |
+| Open access | yes |
 
-Use boundary:
+## Abstract Summary
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+| Category | Finding |
+|----------|---------|
+| Study size | 54 cats: 15 lean, 15 overweight, 24 diabetic |
+| Key tissues | Pancreas, liver, skeletal muscle |
+| Ectopic lipid | Increased liver fat (untreated DM), muscle fat (overweight + treated DM) |
+| Pancreas findings | Decreased insulin mRNA, GLUT-1/2 mRNA in both diabetic groups |
+| Muscle findings | Decreased insulin receptor mRNA, PI3K-p85α protein, GLUT-4 protein |
+| Incretin signaling | Deficits in GLP-1R and GIP-R in untreated diabetics |
+| Human parallel | Similar to human T2DM mechanisms |
 
-Abstract lead for scope check only: Like humans, cats have a strong relationship between decreasing insulin sensitivity and the development of diabetes with obesity. However, the underlying molecular mechanisms of i...
+**Boundary:** This is an observational study. Treatment implications are inferences, not clinical recommendations.
 
 ## One-Line Summary
 

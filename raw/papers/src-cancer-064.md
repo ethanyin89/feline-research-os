@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2010
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 20492453
+doi: "10.1111/j.1748-5827.2010.00915.x"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, paediatric, oncology, retrospective, assessment, one, year]
@@ -33,11 +36,44 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2010 JSAP: 233 tumors in cats ≤12 months (UK biopsies 1993-2008); lymphoma 22%, soft-tissue sarcoma 15%, MCT 9%, SCC 7%; hematopoietic 31%; 70% malignant; skin/soft tissue most common site (41%). [Deep extraction worksheet](../../system/indexes/src-cancer-064-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 20492453
+- DOI: 10.1111/j.1748-5827.2010.00915.x
+- Journal: Journal of Small Animal Practice
+- Year: 2010
+
+## Abstract Summary
+
+This retrospective pathology-laboratory study described tumors in cats up to 12 months old using biopsy submissions to Idexx Laboratories, Wetherby, UK.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Population | Cats 12 months old or younger |
+| Source | Biopsies submitted to Idexx Laboratories, Wetherby, UK |
+| Period | September 1993 to March 2008 |
+| Submissions screened | 4196 |
+| Neoplastic biopsies meeting criteria | 233 |
+
+**Findings:**
+
+- 233/4196 submissions (6%) were neoplastic and met search criteria.
+- Tumor categories included hematopoietic (73; 31%), malignant epithelial (44; 19%), malignant mesenchymal (38; 16%), benign epithelial (37; 16%), benign mesenchymal (30; 13%), and miscellaneous (11; 5%).
+- The most frequent tumors were lymphoma (51; 22%), soft-tissue sarcoma (34; 15%), mast cell tumor (22; 9%), and squamous cell carcinoma (16; 7%).
+- Skin and soft tissues were the most common tumor site (41% of tumors).
+- 164 neoplasms (70%) were malignant or had malignant potential.
+
+**Boundary:** These are pediatric-cat biopsy-submission proportions from one UK laboratory dataset, not population incidence or all-age feline cancer prevalence.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 68. Use it for triage until abstract or full-text extraction proves a stronger role.
+Retrospective UK biopsy-submission study describing 233 tumors in cats up to 12 months old.
 
 ## Why It Matters For Feline Cancer
 
@@ -59,28 +95,29 @@ The safe current use is source ownership:
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Pediatric feline oncology deserves separate denominator labels because this source covers cats 12 months or younger from biopsy submissions.
+- Lymphoma, soft-tissue sarcoma, mast cell tumor, and squamous cell carcinoma were the most frequent tumors in this dataset.
+- The dataset should not be treated as population incidence.
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- This source can support a future pediatric oncology or registry/prevalence caveat layer.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+- pediatric feline oncology overview
+- biopsy-submission denominator discipline
+- tumor-category architecture
 
 Must not control yet:
 
 - reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+- all-age feline tumor prevalence
+- population incidence
+- treatment or prognosis claims
+- owner-facing risk ranking
 
 ## Image Asset TODO
 
@@ -89,15 +126,14 @@ Must not control yet:
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- Does the full text provide site-by-tumor cross-tabulation useful for branch routing?
+- How much referral or submission bias is discussed?
+- Should pediatric oncology become a separate branch or remain a registry caveat?
 
 ## Linked Entities
 
 - diseases: cancer
-- models:
-- endpoints:
+- models: pediatric feline biopsy-submission cohort
+- endpoints: tumor category; tumor site; malignant potential
 - mechanisms:
 - regulations:

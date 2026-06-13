@@ -5,39 +5,70 @@ title: "Triple-negative vimentin-positive heterogeneous feline mammary carcinoma
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [human-TNBC, human-basal-like, human-claudin-low]
+endpoints: [hormone-receptor-status, IHC-phenotype, gene-expression]
+jurisdictions: [Italy]
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2014
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "25249140"
+pmcid: "PMC4180584"
+doi: "10.1186/s12917-014-0185-8"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, triple-negative, vimentin-positive, heterogeneous, mammary, carcinomas, potential, comparative]
+tags: [cancer, mammary, FMC, TNBC, vimentin, CK14, CK5/6, basal-like, claudin-low, hormone-receptor, comparative-oncology]
 links:
   doi: "10.1186/s12917-014-0185-8"
   url: "https://doi.org/10.1186/s12917-014-0185-8"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4180584/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Triple-negative vimentin-positive heterogeneous feline mammary carcinomas as a potential comparative model for breast cancer."
-    - "The intake sheet locator is: 10.1186/s12917-014-0185-8."
+    - "A large group of hormone receptors (HRs)-negative aggressive carcinomas - that did not overexpress HER2 - could be distinguished from the less aggressive (10.8%) and benign (8%) HRs + tumors."
+    - "HRs- FMCs are vimentin+, CK14+, and CK5_6+ carcinomas that may resemble the TNBCs (basal like/claudin low) described in women."
+    - "156 feline mammary lesions consisting of feline mammary carcinomas (FMCs), benign neoplasms, and hyperplastic/dysplastic tissues were evaluated."
+    - "A diffuse and never previously described CKs/vimentin luminal cell co-expression was detected in the non-neoplastic ducts."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Majority of FMCs are triple-negative (HR-/HER2-) with vimentin+/CK14+/CK5/6+ phenotype."
+    - "Only 10.8% aggressive + 8% benign FMC tumors are HR-positive."
+    - "FMC phenotypically resembles human basal-like/claudin-low TNBC."
+    - "One of the largest FMC phenotyping studies (156 lesions)."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "High TNBC prevalence in FMC may explain poor prognosis and chemotherapy resistance."
+    - "CK/vimentin luminal progenitor cells may represent cell of origin for FMC."
+    - "FMC provides a natural model for studying human TNBC biology."
 ---
 
 # Triple-negative vimentin-positive heterogeneous feline mammary carcinomas as a potential comparative model for breast cancer
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC4180584).** This 2014 BMC Vet Res study is one of the largest FMC phenotyping studies (156 lesions). ~81% are TNBC (vimentin+, CK14+, CK5/6+); only 10.8% aggressive + 8% benign are HR+. Confirms basal-like/claudin-low model. Evidence level: original study with IHC + gene expression.
+
+## Full Abstract (PubMed)
+
+Human breast cancer is a heterogeneous disease classified by molecular subtyping into luminal A, luminal B, HER2-overexpressing, basal-like, claudin-low and normal-breast like. The routinely applied and standardized immunohistochemical-based surrogates of this classification group together the last three entities as triple-negative breast cancer (TNBCs) that show the most diverse and complex heterogeneity and represent a therapeutic challenge. In the present work 156 feline mammary lesions consisting of feline mammary carcinomas (FMCs), benign neoplasms, and hyperplastic/dysplastic tissues were evaluated histologically and by immunohistochemistry for expression of basal and luminal cytokeratins (CK), vimentin, alpha-smooth muscle actin, calponin, estrogen receptor (ER) alpha (a), and progesterone receptor (PR). Thirty-seven FMCs with 27 matched non-neoplastic controls were also investigated for gene expression of ERa, ER beta, PR, and HER2. A large group of hormone receptors (HRs)-negative aggressive carcinomas - that did not overexpress HER2 - could be distinguished from the less aggressive (10.8%) and benign (8%) HRs + tumors, that showed bilineage (luminal and myoepithelial) differentiation. Immunohistochemical evaluations of cytoplasmic filaments indicated that HRs- FMCs are vimentin+, CK14+, and CK5_6+ carcinomas that may resemble the TNBCs (basal like/claudin low) described in women.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Study size | 156 feline mammary lesions | IHC + histology |
+| Gene expression subset | 37 FMCs with 27 non-neoplastic controls | molecular analysis |
+| HR-positive prevalence | 10.8% aggressive + 8% benign | minority are HR+ |
+| TNBC phenotype | vimentin+, CK14+, CK5/6+ | basal-like/claudin-low analogs |
+| Bilineage differentiation | HR+ tumors show luminal + myoepithelial features | pathology finding |
+| Progenitor identification | CKs/vimentin co-expressing luminal cells | potential cell of origin |
+
+**Key insight:** This is one of the largest FMC phenotyping studies (156 lesions). Confirms that the majority of FMCs are triple-negative with vimentin positivity, resembling human basal-like/claudin-low TNBC. The HR+ subset (10.8% + 8%) is minority, consistent with other comparative oncology findings.
+
+**Boundary:** Single-institution study. The 156-lesion dataset provides good power for phenotype prevalence estimates.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 24. Use it for triage until abstract or full-text extraction proves a stronger role.
+2014 BMC Vet Res: 156 feline mammary lesions — majority are TNBC (vimentin+, CK14+, CK5/6+); only 10.8% aggressive + 8% benign are HR+.
 
 ## Why It Matters For Feline Cancer
 

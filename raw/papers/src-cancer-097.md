@@ -9,35 +9,58 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2020
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, development, genome-wide, oligonucleotide, microarray, platform, detection, dna]
+pmid: 32645884
+tags: [cancer, genomics, microarray, copy-number, platform, methodology]
 links:
-  doi: ""
+  doi: "10.3390/vetsci7030088"
   url: "https://www.mdpi.com/2306-7381/7/3/88"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Development of a Genome-Wide Oligonucleotide Microarray Platform for Detection of DNA Copy Number Aberrations in Feline Cancers."
-    - "The intake sheet locator is: https://www.mdpi.com/2306-7381/7/3/88."
+    - "PubMed-indexed: Vet Sci. 2020 Jul 7;7(3):88."
+    - "Authors: Thomas R, Pontius JU, Borst LB, Breen M."
+    - "Developed genome-wide oligonucleotide microarray platform for feline cancers."
+    - "Cat as model system for biomedical studies."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Platform enables detection of DNA copy number aberrations in feline cancers."
+    - "Thomas R and Breen M are key comparative oncology genomics researchers."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Methodological foundation for feline cancer genomics."
+    - "Supports comparative oncology approach."
 ---
 
 # Development of a Genome-Wide Oligonucleotide Microarray Platform for Detection of DNA Copy Number Aberrations in Feline Cancers
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 32645884 |
+| DOI | 10.3390/vetsci7030088 |
+| Journal | Vet Sci (MDPI) |
+| Year | 2020 |
+| Authors | Thomas R, Pontius JU, Borst LB, Breen M |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Study type | Platform development |
+| Focus | Genome-wide oligonucleotide microarray for feline cancers |
+| Application | Detection of DNA copy number aberrations |
+| Model value | Cat as model system for biomedical studies |
+
+**Boundary:** Abstract-level extraction. Methodological paper for feline cancer genomics platform.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 105. Use it for triage until abstract or full-text extraction proves a stronger role.
+2020 development of genome-wide oligonucleotide microarray platform for detecting DNA copy number aberrations in feline cancers; enables comparative oncology research.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +77,22 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Development of a Genome-Wide Oligonucleotide Microarray Platform for Detection of DNA Copy Number Aberrations in Feline Cancers.
-- The intake sheet locator is: https://www.mdpi.com/2306-7381/7/3/88.
+- Genome-wide oligonucleotide microarray platform developed for feline cancers
+- Enables detection of DNA copy number aberrations
+- Cat as model system for biomedical studies highlighted
+- Thomas R and Breen M are NC State comparative oncology researchers
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Platform provides tool for genomic characterization of feline tumors
+- Enables comparative oncology research between feline and human cancers
+- May identify shared copy number alterations across species
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Methodological foundation for feline cancer genomics research
+- May inform tumor-specific genomic alterations sections
+- Supports translational research between cat and human
 
 ## Claim-Fit Judgment
 

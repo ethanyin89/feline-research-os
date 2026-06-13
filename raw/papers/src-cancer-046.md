@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: []
 evidence_level: review
 year: 2015
-status: ingested
-extraction_depth: abstract
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 pmid: 26197688
 decision_grade: no
@@ -23,13 +23,19 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Journal of Veterinary Dentistry; year: 2015."
+    - "Squamous cell carcinoma (SCC) is the most commonly encountered malignant oral tumor in cats."
+    - "The etiology of this locally invasive tumor is likely multifactorial."
+    - "Several risk factors have been identified, including the use of flea collars, and a history of feeding canned food and canned tuna."
+    - "Maxillary SCC commonly presents clinically as an ulcerative lesion, whereas mandibular SCC is commonly proliferative, expansile, and firm."
+    - "Cures are obtained only in a small subset of cats whose tumors are amenable to complete resection, or where resection with microscopic residual disease is followed by definitive radiation therapy."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "This source anchors the oral-squamous-cell-carcinoma branch with clinical presentation patterns."
+    - "Location-specific presentation (maxillary=ulcerative, mandibular=proliferative) informs recognition."
+    - "Risk factor associations (flea collars, canned food, canned tuna) are identified but not causal."
+    - "Prognosis is poor; cure requires complete resection or resection + radiation."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Modern treatment outcomes may differ from 2015 review context."
+    - "Risk factor mechanisms require further investigation."
 ---
 
 # Feline Oral Squamous Cell Carcinoma: Clinical Manifestations and Literature Review

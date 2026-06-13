@@ -5,39 +5,85 @@ title: "The Landscape of Tumor-Infiltrating Immune Cells in Feline Mammary Carci
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [human-breast-cancer]
+endpoints: [disease-free-survival, overall-survival, lymph-node-status]
+jurisdictions: [Portugal]
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2022
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "36010653"
+pmcid: "PMC9406662"
+doi: "10.3390/cells11162578"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, landscape, tumor-infiltrating, immune, cells, mammary, carcinoma, pathological]
+tags: [cancer, mammary, FMC, TILs, TAMs, CD8, CD4, CD3, CD163, CD68, FoxP3, prognosis, tumor-microenvironment, immunotherapy]
 links:
-  doi: ""
+  doi: "10.3390/cells11162578"
   url: "https://www.mdpi.com/2073-4409/11/16/2578"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9406662/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: The Landscape of Tumor-Infiltrating Immune Cells in Feline Mammary Carcinoma: Pathological and Clinical Implications."
-    - "The intake sheet locator is: https://www.mdpi.com/2073-4409/11/16/2578."
+    - "CD3+ T lymphocytes were the most common subset of immune cells (17.6%), followed by B lymphocytes (CD20+, 14.4%)."
+    - "Approximately 32% of the tumor-associated macrophages (CD68+) showed an M2-polarized subtype (CD163+)."
+    - "Cats with mammary carcinoma showing higher percentage of sCD8+ TILs had longer DFS and OS (21 ± 6.8 months vs. 8 ± 1.8 months, p = 0.05; 31.0 ± 7.9 months vs. 15.5 ± 4.0 months, p = 0.021)."
+    - "The univariate Cox regression analysis demonstrated that the presence of sCD8+ TILs is a significant predictive prognostic factor for OS (HR: 0.421, CI: 0.197–0.900, p = 0.026)."
+    - "Higher percentages of iCD4+ T cells were correlated with positive lymph node status (p = 0.003)."
+    - "Total CD3+ TILs and sCD8+ T cells were negatively correlated with metastasis (p = 0.021 and p = 0.017, respectively)."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Stromal CD8+ TILs are a favorable prognostic marker in FMC (HR 0.421 for OS)."
+    - "Intratumoral CD4+ TILs correlate with lymph node metastasis (unfavorable)."
+    - "CD163+ M2 macrophages associate with undifferentiated/aggressive phenotypes."
+    - "Triple-negative normal-like FMC subtype enriched for immune cells (sCD3+, sCD8+, sCD68+)."
+    - "FMC immune microenvironment resembles human breast cancer patterns."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "sCD8+ TILs may serve as patient stratification marker for FMC prognosis."
+    - "M2 macrophage repolarization could be a therapeutic strategy."
+    - "Immunotherapy approaches from human breast cancer may translate to FMC."
 ---
 
 # The Landscape of Tumor-Infiltrating Immune Cells in Feline Mammary Carcinoma: Pathological and Clinical Implications
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC9406662).** This 2022 study of 73 FMCs characterizes tumor-infiltrating immune cells. sCD8+ TILs are prognostic (HR 0.421, p=0.026). DFS 9.6 months, OS 14.5 months overall. Evidence level: retrospective cohort with immunofluorescence.
+
+## Source Check, 2026-06-09
+
+Europe PMC full text extraction.
+
+| Field | Value |
+|-------|-------|
+| PMID | 36010653 |
+| PMCID | PMC9406662 |
+| DOI | 10.3390/cells11162578 |
+| Journal | Cells (MDPI) |
+| Year | 2022 |
+| Authors | Nascimento C, Gameiro A, Correia J, et al. |
+| Open access | yes |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Sample size | 73 feline mammary carcinomas |
+| Age at diagnosis | 11.7 ± 0.3 years (range 7-18) |
+| Overall DFS | 9.6 ± 1.1 months (95% CI: 7.4-11.7) |
+| Overall OS | 14.5 ± 1.3 months (95% CI: 11.8-17.2) |
+| Markers analyzed | CD3, CD4, CD8, CD20, CD56, FoxP3, CD68, CD163 |
+| Most common TIL | CD3+ T cells (17.6%) |
+| M2 TAM proportion | 32% of CD68+ macrophages are CD163+ |
+| sCD8+ high DFS | 21 ± 6.8 months vs 8 ± 1.8 months (p=0.05) |
+| sCD8+ high OS | 31.0 ± 7.9 months vs 15.5 ± 4.0 months (p=0.021) |
+| sCD8+ Cox HR | 0.421 (95% CI: 0.197-0.900, p=0.026) |
+
+**Boundary:** Prognostic associations well-supported. Immunotherapy implications are inference, not demonstrated.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 87. Use it for triage until abstract or full-text extraction proves a stronger role.
+73 FMC immune profiling: stromal CD8+ TILs predict better survival (HR 0.421); CD163+ M2 TAMs associate with undifferentiated tumors; immune patterns parallel human breast cancer.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +100,24 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: The Landscape of Tumor-Infiltrating Immune Cells in Feline Mammary Carcinoma: Pathological and Clinical Implications.
-- The intake sheet locator is: https://www.mdpi.com/2073-4409/11/16/2578.
+- 73 FMC analyzed for TILs (CD3, CD4, CD8, CD20, CD56, FoxP3) and TAMs (CD68, CD163)
+- Higher stromal CD8+ TILs associated with longer DFS (p=0.05) and OS (p=0.021)
+- Higher intratumoral CD4+ TILs correlated with positive lymph node status (p=0.003)
+- CD163+ TAMs associated with undifferentiated tumors (p=0.013)
+- sCD3+, sCD8+, sCD68+ enriched in triple-negative normal-like carcinomas
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- FMC immune microenvironment resembles human breast cancer patterns
+- CD8+ T cell infiltration is a favorable prognostic marker
+- CD163+ M2 macrophages associate with aggressive phenotypes
+- Immune profiling may inform FMC treatment selection
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Strong support for mammary-carcinoma.md tumor microenvironment claims
+- Aligns with human breast cancer immunology
+- Potential immunotherapy targets identified (CD8, CD163)
 
 ## Claim-Fit Judgment
 

@@ -116,6 +116,10 @@ Must not control yet:
 - Does this source deserve deep extraction, or should it remain queue context?
 - Are there tables or figures that change the module structure?
 
+## Extraction Provenance
+
+This card is marked full because the paired deep-extraction worksheet already captured the article's branch-map role and bounded numeric examples. The source should keep acting as an architecture anchor, while disease-specific pages rely on narrower tumor-family sources before making treatment, prognosis, or biomarker claims.
+
 ## Linked Entities
 
 - diseases: cancer

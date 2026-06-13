@@ -55,6 +55,28 @@ ENDPOINT_TERMS = [
     "microbiota",
     "activity",
     "prevention",
+    "albuminuria",
+    "azotemia",
+    "biomarker",
+    "carbonyl stress",
+    "chronic kidney disease",
+    "cytokine",
+    "fibroblast growth factor 23",
+    "fgf-23",
+    "glomerular filtration rate",
+    "homocysteine",
+    "hyperphosphatemia",
+    "mineralization",
+    "phosphate",
+    "phosphorus",
+    "proteinuria",
+    "renal diet",
+    "renal mineralization",
+    "staging",
+    "ultrasonography",
+    "urinary tract infection",
+    "uremic toxin",
+    "uraemic toxin",
 ]
 
 
@@ -75,7 +97,13 @@ def detect_sections(abstract: str) -> list[str]:
 
 def detect_endpoints(text: str) -> list[str]:
     lower = text.casefold()
-    return [term for term in ENDPOINT_TERMS if term in lower]
+    endpoints: list[str] = []
+    for term in ENDPOINT_TERMS:
+        if term == "weight" and not re.search(r"\b(body weight|weight loss|overweight)\b", lower):
+            continue
+        if term in lower:
+            endpoints.append(term)
+    return endpoints
 
 
 def detect_population(abstract: str) -> str:
@@ -91,13 +119,16 @@ def detect_population(abstract: str) -> str:
 
 
 def infer_source_family(title: str, abstract: str) -> str:
+    title_lower = title.casefold()
     combined = f"{title} {abstract}".casefold()
-    if "guideline" in combined or "consensus" in combined:
+    if "guideline" in title_lower or "consensus" in title_lower:
         return "guideline / consensus"
-    if "review" in combined:
+    if "review" in title_lower:
         return "review"
     if "prospective" in combined or "study" in combined or "animals" in combined:
         return "original study"
+    if "review" in combined:
+        return "review"
     return "unclear from abstract metadata"
 
 
@@ -124,6 +155,7 @@ def render_worksheet(check: CrossrefCheck) -> str:
     family = infer_source_family(title, check.abstract)
     population = detect_population(check.abstract)
     abstract_lead = short(check.abstract, 120)
+    provider = check.metadata_source or "external metadata"
 
     return f"""---
 id: {source_id}-structured-abstract-round1
@@ -143,7 +175,7 @@ status: active
 
 ## Evidence Boundary
 
-This worksheet uses Crossref metadata and available abstract text only. It is not a full-text read, not a deep extraction, and not a permission to promote reader-facing clinical claims.
+This worksheet uses {provider} and available abstract text only. It is not a full-text read, not a deep extraction, and not a permission to promote reader-facing clinical claims.
 
 ## Source Metadata
 
@@ -151,7 +183,8 @@ This worksheet uses Crossref metadata and available abstract text only. It is no
 |---|---|
 | Source | `{source_id}` |
 | Title | {md_escape(title)} |
-| DOI | `{check.source.doi}` |
+| DOI | `{check.source.doi or "not available"}` |
+| Metadata provider | {md_escape(provider)} |
 | Container | {md_escape(check.container)} |
 | Year | {check.year} |
 | Current card status | `{check.source.verification_status}` |

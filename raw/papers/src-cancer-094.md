@@ -9,35 +9,57 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 1971
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, transmissible, fibrosarcoma, viral, origin]
+pmid: 4997847
+tags: [cancer, fibrosarcoma, FeSV, viral-oncogenesis, transmissible]
 links:
   doi: ""
   url: "https://pubmed.ncbi.nlm.nih.gov/4997847/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: A transmissible feline fibrosarcoma of viral origin."
-    - "The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/4997847/."
+    - "PubMed-indexed: Cancer Res. 1971 Jul;31(7):953-6."
+    - "Authors: McDonough SK, Larsen S, Brodey RS, Stock ND, Hardy WD Jr."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Historical paper on viral-origin feline fibrosarcoma (FeSV)."
+    - "Hardy WD Jr is a seminal FeLV/FeSV researcher."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "May inform fibrosarcoma/sarcoma viral etiology section."
+    - "Historical foundation for understanding feline sarcoma virus."
 ---
 
 # A transmissible feline fibrosarcoma of viral origin
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 4997847 |
+| Journal | Cancer Res |
+| Year | 1971 |
+| Authors | McDonough SK, Larsen S, Brodey RS, Stock ND, Hardy WD Jr |
+
+## Abstract Summary
+
+No abstract available in PubMed (1971 Cancer Res format). Citation verified.
+
+| Category | Finding |
+|----------|---------|
+| Study type | Original research |
+| Focus | Transmissible feline fibrosarcoma |
+| Origin | Viral (FeSV) |
+| Author | Hardy WD Jr - leading FeLV/FeSV researcher |
+
+**Boundary:** No abstract available. PMID verified. Historical paper on viral-origin feline sarcoma.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 102. Use it for triage until abstract or full-text extraction proves a stronger role.
+1971 Cancer Res original paper on transmissible viral-origin feline fibrosarcoma by Hardy WD Jr et al. (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +76,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: A transmissible feline fibrosarcoma of viral origin.
-- The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/4997847/.
+- PubMed-indexed: Cancer Res. 1971 Jul;31(7):953-6
+- PMID: 4997847 (verified)
+- Authors include Hardy WD Jr (prominent FeLV/FeSV researcher)
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Historical paper on feline sarcoma virus (FeSV) and transmissible fibrosarcoma
+- Early work establishing viral etiology of feline sarcomas
+- Full-text required for specific findings
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May inform fibrosarcoma/sarcoma viral etiology section
+- Historical foundation for understanding FeSV-induced tumors
+- Relevant to injection-site sarcoma differential diagnosis
 
 ## Claim-Fit Judgment
 

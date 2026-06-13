@@ -11,51 +11,59 @@ jurisdictions: []
 evidence_level: original-study
 year: 2020
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, novel, mct1, mct4, dual, inhibitor, reduces, mitochondrial]
+pmid: 31661586
+tags: [cancer, FOSCC, MCT1, MCT4, metabolism, targeted-therapy, HNSCC-model, investigational]
 links:
   doi: "10.1111/vco.12551"
   url: "https://doi.org/10.1111/vco.12551"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Veterinary and Comparative Oncology; year: 2020."
+    - "MD-1 reduced viability of feline OSCC and human HNSCC cell lines in vitro."
+    - "MD-1 altered glycolytic and mitochondrial metabolism."
+    - "MD-1 synergized with platinum-based chemotherapies."
+    - "MD-1 significantly inhibited tumour growth in subcutaneous xenograft model."
+    - "MD-1 prolonged overall survival in orthotopic model of feline OSCC."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "MCT1/MCT4 dual inhibitor MD-1 shows preclinical efficacy in feline OSCC."
+    - "Feline OSCC is a valid large animal model for MCT inhibitor development."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Novel targeted therapy approach for FOSCC."
+    - "Supports oral-squamous-cell-carcinoma.md investigational therapy section."
 ---
 
 # A novel MCT1 and MCT4 dual inhibitor reduces mitochondrial metabolism and inhibits tumour growth of feline oral squamous cell carcinoma
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+| Field | Value |
+|-------|-------|
+| PMID | 31661586 |
+| DOI | 10.1111/vco.12551 |
+| Journal | Vet Comp Oncol |
+| Year | 2020 |
+| Authors | Khammanivong A, Saha J, Spartz AK, et al. |
 
-## Source Check, 2026-05-30
+## Abstract Summary
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Category | Finding |
+|----------|---------|
+| Target | MCT1 and MCT4 monocarboxylate transporters |
+| Drug | MD-1 (dual MCT1/MCT4 inhibitor) |
+| In vitro | Reduced viability, altered metabolism, synergized with platinum |
+| In vivo | Inhibited xenograft growth, prolonged survival in orthotopic model |
+| Mechanism | Altered glycolytic and mitochondrial metabolism |
+| Model value | Supports feline OSCC as large animal model for human HNSCC |
 
-- DOI metadata resolved: yes
-- Container: Veterinary and Comparative Oncology
-- Year: 2020
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Abstract Monocarboxylate transporters (MCTs) support tumour growth by regulating the transport of metabolites in the tumour microenvironment. High MCT1 or MCT4 expression is corre...
+**Boundary:** Abstract-level extraction. Preclinical study; investigational therapy not yet in clinical use.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 86. Use it for triage until abstract or full-text extraction proves a stronger role.
+MCT1/MCT4 dual inhibitor MD-1 shows preclinical efficacy in feline OSCC: reduced viability, synergy with platinum, prolonged survival in orthotopic model.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +80,24 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: A novel MCT1 and MCT4 dual inhibitor reduces mitochondrial metabolism and inhibits tumour growth of feline oral squamous cell carcinoma.
-- The intake sheet locator is: 10.1111/vco.12551.
+- MD-1 reduced viability of feline OSCC and human HNSCC cell lines in vitro
+- MD-1 altered glycolytic and mitochondrial metabolism
+- MD-1 synergized with platinum-based chemotherapies
+- MD-1 significantly inhibited tumour growth in subcutaneous xenograft model
+- MD-1 prolonged overall survival in orthotopic model of feline OSCC
+- MD-1 failed to alter lactate levels in feline OSCC cells (MCT-independent activity)
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- MCT1/MCT4 dual inhibition is a viable therapeutic strategy for feline OSCC
+- Feline OSCC is a valid large animal model for MCT inhibitor development in human HNSCC
+- Combination with platinum chemotherapy may enhance efficacy
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Novel targeted therapy approach; preclinical stage
+- Supports oral-squamous-cell-carcinoma.md investigational therapy claims
+- MCT-independent mechanism in feline cells warrants further investigation
 
 ## Claim-Fit Judgment
 

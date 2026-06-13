@@ -1,0 +1,180 @@
+---
+id: partner-dossier-ckd-20260604
+type: dossier
+topic: ckd
+species: feline
+disease: CKD
+question_type: partner-brief
+source_ids: [src-ckd-001, src-ckd-002, src-ckd-003, src-ckd-004, src-ckd-005, src-ckd-006, src-ckd-007, src-ckd-008, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-013, src-ckd-015, src-ckd-016, src-ckd-017, src-ckd-018, src-ckd-020, src-ckd-021, src-ckd-024]
+last_compiled_at: 2026-06-08
+confidence: medium
+verification_status: compiled
+decision_grade: provisional
+language_qa_status: light_checked
+owner: codex
+status: active
+---
+
+# Partner Dossier: CKD
+
+**Prepared for:** Partner review
+**Date:** 2026-06-04
+**Evidence Maturity:** Mature (24 sources, full extraction)
+
+---
+
+## Executive Summary
+
+**Strategic Assessment:** HOLD — Evidence incomplete
+
+Required before Go:
+1. Resolve critical gaps in evidence backbone
+2. Add more primary studies to support key claims
+3. Clarify regulatory category positioning
+
+Do not invest in pivotal trials until gaps are addressed.
+
+**Core Endpoints:** Creatinine, USG (Urine Specific Gravity), UPCR / Proteinuria
+
+**Evidence Gaps:** Only 2 sources address certain key claims
+
+---
+
+## Opportunity Brief
+
+**Disease Branch:** CKD
+**Maturity:** Mature
+
+### Summary
+
+Evidence for CKD general is moderate but incomplete. Of 3 key claims evaluated: 1 supported, 2 partially supported, 0 unsupported/absent.
+
+**Recommendation:** Conditional Go pending gaps
+
+### Evidence Backbone
+
+| Claim | Verdict | Level | Key Sources |
+|-------|---------|-------|-------------|
+| General has strong evidence support for CKD | partially_supported | B | src-ckd-021, src-ckd-003, src-ckd-007 |
+| General improves outcomes in feline CKD | partially_supported | C | src-ckd-013, src-ckd-003 |
+| General is a viable treatment approach for CKD | supported | B | src-ckd-003, src-ckd-004, src-ckd-005 |
+
+### Regulatory Notes
+
+| Jurisdiction | Readiness | Notes |
+|--------------|-----------|-------|
+| FDA / USA | Unknown | First question and blocker not yet defined |
+| EMA / EU | Unknown | First question and blocker not yet defined |
+| VMD / UK | Unknown | First question and blocker not yet defined |
+
+### Go/No-Go Assessment
+
+**HOLD — Evidence incomplete**
+
+Required before Go:
+1. Resolve critical gaps in evidence backbone
+2. Add more primary studies to support key claims
+3. Clarify regulatory category positioning
+
+Do not invest in pivotal trials until gaps are addressed.
+
+---
+
+## Endpoint Decision Memo
+
+**Disease:** CKD
+**Use Case:** General
+**Maturity:** Mature
+
+### Primary Recommendation
+
+Core operational endpoints: Creatinine, USG (Urine Specific Gravity), UPCR / Proteinuria
+
+### Secondary Recommendations
+
+- SDMA
+- GFR
+
+### Core Endpoints
+
+| Endpoint | Primary Use |
+|----------|-------------|
+| Creatinine | Diagnosis, staging, longitudinal monitoring. In practice, the most widely used marker. |
+| USG (Urine Specific Gravity) | Diagnostic confirmation, context for azotemia. Inadequate concentration ability is a key CKD feature. |
+| UPCR / Proteinuria | Prognosis, substaging, progression interpretation, treatment monitoring. |
+| Systolic Blood Pressure | Substaging, risk management, target-organ protection assessment. |
+| Phosphorus | Monitoring, prognosis, progression control, treatment response tracking. |
+
+---
+
+## Claim Verification
+
+### Phosphorus control is important
+
+**Verdict:** partially_supported
+**Key sources:** src-ckd-004, src-ckd-015, src-ckd-021
+
+### Renal diet slows progression
+
+**Verdict:** partially_supported
+**Key sources:** src-ckd-004, src-ckd-003, src-ckd-007
+
+---
+
+## Boundary Warnings
+
+These limitations should be disclosed in partner communications:
+
+- Only 2 sources address certain key claims
+- **Creatinine:** Rises relatively late, influenced by muscle mass. Not ideal for earliest detection.
+- **USG (Urine Specific Gravity):** Essential but not sufficient by itself for earliest detection.
+- **UPCR / Proteinuria:** Interpretation requires compartment awareness (primary glomerular vs broader CKD), blood-pressure context, and non-renal confounder exclusion.
+- **Systolic Blood Pressure:** Under-measured in practice. Should be interpreted as repeated hemodynamic signal, not one-visit snapshot. Target <160 mmHg to minimize TOD risk.
+
+---
+
+## Recommended Next Steps
+
+1. Fill evidence gaps: 1 gap identified
+2. Strengthen 2 partially supported claims
+
+---
+
+## Claim Verification Summary
+
+| Category | Count |
+|----------|-------|
+| Verified | 2 |
+| Fully Supported | 0 |
+| Partially Supported | 2 |
+| Not Supported | 0 |
+
+---
+
+## Source Appendix
+
+This dossier draws from 19 source cards:
+
+- src-ckd-001
+- src-ckd-002
+- src-ckd-003
+- src-ckd-004
+- src-ckd-005
+- src-ckd-006
+- src-ckd-007
+- src-ckd-008
+- src-ckd-009
+- src-ckd-010
+- src-ckd-011
+- src-ckd-013
+- src-ckd-015
+- src-ckd-016
+- src-ckd-017
+- src-ckd-018
+- src-ckd-020
+- src-ckd-021
+- src-ckd-024
+
+---
+
+_Generated by Feline Research OS. Evidence is traceable to source cards._

@@ -10,9 +10,11 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2011
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
+pmid: 21848620
+doi: "10.1111/j.1476-5829.2010.00244.x"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, development, questionnaire, assessing, health-related, quality-of-life, dogs]
@@ -35,27 +37,41 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the full abstract. 2011 Vet Comp Oncol: HRQoL questionnaire (Cancer Treatment Form, Owner/Clinician Minitest) developed for dogs and cats with cancer; 98% (82/84) owner agreement that form accurately reflected pet's QoL; practical for clinical oncology use. [Deep extraction worksheet](../../system/indexes/src-cancer-051-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-01
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+PubMed abstract fetched as a zero-cost extraction step.
 
-- DOI metadata resolved: yes
-- Container: Veterinary and Comparative Oncology
+- PMID: 21848620
+- DOI: 10.1111/j.1476-5829.2010.00244.x
+- Journal: Veterinary and Comparative Oncology
 - Year: 2011
-- Abstract available in Crossref: yes
 
-Use boundary:
+## Abstract Summary
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+This study developed and assessed health-related quality-of-life (HRQoL) questionnaire tools for canine and feline oncology patients.
 
-Abstract lead for scope check only: Health‐related quality‐of‐life (HRQoL) has been studied extensively in human medicine. There is currently no standard HRQoL evaluation for veterinary oncology patients. The aim of...
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Target population | Dogs and cats with cancer presenting to a veterinary oncology referral service |
+| Tools designed | Cancer Treatment Form, Owner Minitest, Clinician Minitest |
+| Respondents | Owners and attending clinicians |
+| Aim | Assess practicality, usefulness, and robustness of HRQoL assessment |
+
+**Key findings:**
+
+- The Cancer Treatment Form was well received by owners and clinicians.
+- 98% (82/84) of owners reported that the form accurately reflected their pet's quality-of-life.
+- Authors suggested minor improvements before regular clinical oncology use.
+
+**Boundary:** This supports quality-of-life assessment as an oncology workflow tool. It does not validate a feline-only outcome instrument or disease-specific treatment decision rule.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 54. Use it for triage until abstract or full-text extraction proves a stronger role.
+HRQoL questionnaire tools were practical and well received in canine/feline oncology patients, with 82/84 owners reporting accurate quality-of-life reflection.
 
 ## Why It Matters For Feline Cancer
 

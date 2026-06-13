@@ -6,56 +6,97 @@ source_kind: paper
 species: feline
 diseases: [cancer]
 models: []
-endpoints: []
-jurisdictions: []
+endpoints: [survival, progression-free-survival, toxicity, proliferation]
+jurisdictions: [USA]
 evidence_level: original-study
 year: 2014
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "25013741"
+pmcid: "PMC4071848"
+doi: "10.1155/2014/675172"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, pamidronate, disodium, palliative, therapy, bone-invasive]
+tags: [cancer, pamidronate, bisphosphonate, palliative, therapy, bone-invasive, OSCC, osteosarcoma]
 links:
   doi: "10.1155/2014/675172"
   url: "https://doi.org/10.1155/2014/675172"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4071848/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Veterinary Medicine International; year: 2014."
+    - "In vitro, pamidronate reduced proliferation in feline cancer cells (P < 0.05)."
+    - "Median progression free interval in these cats from initial pamidronate treatment was 81 days."
+    - "Three cats developed azotemia while undergoing various treatment modalities including nonsteroidal anti-inflammatory drugs and pamidronate."
+    - "Median overall survival was 116.5 days for all cats and 170 days for cats with oral squamous cell carcinoma."
+    - "Median progression free survival was 55 days for all cats and 71 days for cats with oral squamous cell carcinoma."
+    - "Pamidronate therapy appears feasible for administration in cancer bearing cats with aggressive bone lesions in the dose range of 1-2 mg/kg every 21-28 days for multiple treatments."
+    - "No acute or short-term toxicity was directly attributable to pamidronate."
+    - "One cat treated with pamidronate in combination with chemotherapy and two cats treated with pamidronate as a single agent after failing prior therapy had subjective clinically stable disease."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Pamidronate 1-2 mg/kg IV q21-28d is feasible for palliative care in cats with bone-invasive tumors."
+    - "Cats with oral SCC showed longer survival (170 days median OS) than all bone-invasive tumors combined (116.5 days)."
+    - "Azotemia occurred but was not solely attributable to pamidronate (concurrent NSAIDs)."
+    - "This is a small pilot study (n=8) establishing feasibility, not efficacy."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Pamidronate may have a role in OSCC palliative care given the survival data, but larger studies needed."
+    - "NSAID concurrent use should be approached with caution given azotemia reports."
 ---
 
 # Pamidronate Disodium for Palliative Therapy of Feline Bone-Invasive Tumors
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+**Deep-extracted from PMC full text (PMC4071848).** This is a 2014 retrospective pilot study + in vitro investigation of pamidronate for cats with bone-invasive tumors. n=8 cats; median OS 116.5 days (170 for OSCC); feasibility demonstrated. Evidence level: pilot study.
 
 ## Source Check, 2026-05-30
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+Crossref metadata was checked as a repeatable second-pass intake step. PubMed abstract extraction was added on 2026-06-01.
 
 - DOI metadata resolved: yes
 - Container: Veterinary Medicine International
 - Year: 2014
 - Abstract available in Crossref: yes
+- PMID: 25013741
+- PMCID: PMC4071848
 
 Use boundary:
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+- This card may support abstract-level feasibility and palliative-therapy context.
+- It must not support treatment recommendations or protocol selection without full-text review and clinician oversight.
 
 Abstract lead for scope check only: This study sought to quantify in vitro antiproliferative effects of pamidronate in feline cancer cells and assess feasibility of use of pamidronate in cats by assessing short-term...
 
+## Abstract Summary
+
+This pilot study assessed in vitro antiproliferative effects of pamidronate and feasibility of intravenous pamidronate use in cats with bone-invasive cancer.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| In vitro aim | Antiproliferative effects in feline cancer cells |
+| Clinical design | Retrospective pilot study |
+| Cats | 8 cats with bone-invasive cancer |
+| Intervention | Intravenous pamidronate |
+| Feasibility focus | Short-term toxicity and dosing schedule |
+
+**Findings:**
+
+- In vitro pamidronate reduced proliferation in feline cancer cells.
+- Three cats had subjective clinically stable disease in the context of pamidronate use, including one with chemotherapy and two after failing prior therapy.
+- Median progression-free interval in those three cats from initial pamidronate treatment was 81 days.
+- Three cats developed azotemia while receiving various modalities including NSAIDs and pamidronate.
+- Median overall survival was 116.5 days for all cats and 170 days for cats with oral squamous cell carcinoma.
+- Median progression-free survival was 55 days for all cats and 71 days for cats with oral squamous cell carcinoma.
+- The authors concluded pamidronate appeared feasible at 1-2 mg/kg every 21-28 days for multiple treatments, with no acute or short-term toxicity directly attributable to pamidronate.
+
+**Boundary:** This is a small retrospective pilot with mixed concurrent treatments. It can support feasibility context, not a generalized palliative protocol.
+
 ## One-Line Summary
 
-Candidate cancer source from sheet row 66. Use it for triage until abstract or full-text extraction proves a stronger role.
+Small retrospective pilot and in vitro study of pamidronate for cats with bone-invasive tumors, including oral SCC subset outcomes.
 
 ## Why It Matters For Feline Cancer
 
@@ -77,28 +118,29 @@ The safe current use is source ownership:
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Pamidronate showed in vitro antiproliferative effects in feline cancer cells.
+- In eight cats with bone-invasive cancer, intravenous pamidronate was assessed as feasible for palliative context.
+- Survival and progression-free figures are pilot-study outcomes and should remain heavily caveated.
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- This source may support oral SCC palliative landscape context, but not a treatment recommendation.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+- palliative feasibility context
+- bone-invasive tumor supportive-therapy evidence
+- oral SCC subset outcome caveat
 
 Must not control yet:
 
 - reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+- pamidronate protocol recommendation
+- treatment ranking
+- owner-facing survival estimate
+- attribution of renal events without full-text context
 
 ## Image Asset TODO
 
@@ -107,15 +149,14 @@ Must not control yet:
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- Does the full text separate OSCC from other bone-invasive tumors by response and toxicity?
+- What concurrent treatments were used in each cat?
+- How were subjective stable disease and progression-free intervals defined?
 
 ## Linked Entities
 
 - diseases: cancer
 - models:
-- endpoints:
-- mechanisms:
+- endpoints: proliferation; short-term toxicity; progression-free interval; overall survival
+- mechanisms: bisphosphonate; pamidronate
 - regulations:

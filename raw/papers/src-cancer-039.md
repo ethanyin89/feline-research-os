@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 33773650
+year: 2021
+doi: "10.1016/j.cvsm.2021.01.012"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, nutritional, concerns, cachexia, frailty, sarcopenia, pets]
@@ -33,11 +36,48 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the abstract. 2021 Vet Clin NA review: cachexia/sarcopenia in cancer pets driven by inflammation; dietary protein, fat, omega-3s show benefit. General principles only — specific protocols need more research. [Deep extraction worksheet](../../system/indexes/src-cancer-039-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 33773650
+- DOI: 10.1016/j.cvsm.2021.01.012
+- Journal: Veterinary Clinics of North America: Small Animal Practice
+- Year: 2021
+
+## Abstract Summary
+
+This review addresses nutritional management of cachexia, frailty, and sarcopenia in dogs and cats with cancer and other chronic diseases.
+
+**Key concepts:**
+- Cachexia and frailty are interrelated constituents of malnutrition and aging
+- Unifying feature: lean muscle loss
+- Driven by inflammation
+- Affects pets with chronic, debilitating, or terminal disease (including cancer)
+
+**Dietary modifications showing benefit:**
+
+| Nutrient | Role |
+|----------|------|
+| Protein | Modified intake for muscle preservation |
+| Fat | Energy source modification |
+| Omega-3 fatty acids | Anti-inflammatory |
+| Selected vitamins | Supportive care |
+
+**Clinical applications:**
+- Preventative care protocols
+- Palliative care protocols
+
+**Research gap:**
+Further investigation imperative for evidence-based recommendations.
+
+**Boundary:** This is a review of concepts, not specific feeding protocols. Does not provide caloric targets or supplement dosages.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 42. Use it for triage until abstract or full-text extraction proves a stronger role.
+Cachexia/sarcopenia in cancer pets driven by inflammation; dietary protein, fat, omega-3s, and vitamins show benefit in management protocols.
 
 ## Why It Matters For Feline Cancer
 

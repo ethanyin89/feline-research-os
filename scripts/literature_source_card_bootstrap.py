@@ -23,6 +23,11 @@ from literature_sheet_intake import (
 
 
 DISEASE_CONFIG = {
+    "new-ckd": {
+        "prefix": "src-ckd",
+        "disease": "CKD",
+        "topic": "ckd",
+    },
     "new-diabetes": {
         "prefix": "src-diabetes",
         "disease": "diabetes mellitus",
@@ -32,6 +37,31 @@ DISEASE_CONFIG = {
         "prefix": "src-obesity",
         "disease": "obesity",
         "topic": "obesity",
+    },
+    "new-fcv": {
+        "prefix": "src-fcv",
+        "disease": "feline calicivirus",
+        "topic": "fcv",
+    },
+    "new-cancer": {
+        "prefix": "src-cancer",
+        "disease": "cancer",
+        "topic": "cancer",
+    },
+    "new-fip": {
+        "prefix": "src-fip",
+        "disease": "FIP",
+        "topic": "fip",
+    },
+    "new-hcm": {
+        "prefix": "src-hcm",
+        "disease": "HCM",
+        "topic": "hcm",
+    },
+    "new-ibd": {
+        "prefix": "src-ibd",
+        "disease": "IBD",
+        "topic": "ibd",
     },
 }
 
@@ -61,7 +91,17 @@ def slug_tags(title: str, topic: str) -> list[str]:
         "canine",
         "diabetes",
         "mellitus",
+        "ckd",
+        "kidney",
+        "renal",
+        "chronic",
+        "disease",
         "obesity",
+        "cancer",
+        "tumor",
+        "tumour",
+        "tumors",
+        "tumours",
     }
     tags = [topic]
     for word in words:
@@ -77,7 +117,14 @@ def evidence_level_from_title(title: str) -> str:
     lower = title.casefold()
     if "guideline" in lower or "consensus" in lower:
         return "guideline"
-    if "review" in lower:
+    if (
+        "review" in lower
+        or "what do we know" in lower
+        or "current information" in lower
+        or "comparative oncology" in lower
+        or "molecular mechanisms" in lower
+        or "virotherapy" in lower
+    ):
         return "review"
     if "case report" in lower or " cases" in lower:
         return "case-series"
@@ -184,7 +231,7 @@ Candidate {topic} source from sheet row {row.sheet_row}. Use it for triage until
 
 ## Why It Matters For Feline {topic.title()}
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `{row.classification}` by the intake workflow.
+This source was included in a reviewed feline literature intake sheet and classified as `{row.classification}` by the intake workflow.
 
 The safe current use is source ownership:
 
@@ -259,11 +306,27 @@ def main() -> int:
     parser.add_argument("--repo-root", type=Path, default=Path.cwd(), help="Repository root.")
     parser.add_argument("--rows", default="", help="Comma-separated sheet row numbers to plan/write.")
     parser.add_argument("--limit", type=int, help="Only plan/write the first N new rows after filtering.")
+    parser.add_argument(
+        "--segment",
+        default="",
+        help="Treat every non-section row as this disease/topic segment, e.g. fcv or cancer.",
+    )
+    parser.add_argument(
+        "--exclude-title-regex",
+        action="append",
+        default=[],
+        help="Regex for titles that should be classified out-of-scope before card creation. May repeat.",
+    )
     parser.add_argument("--write", action="store_true", help="Write source cards. Default is dry-run.")
     args = parser.parse_args()
 
     repo_root = args.repo_root.resolve()
-    rows = classify_rows(read_sheet_rows(args.csv), load_existing_sources(repo_root))
+    rows = classify_rows(
+        read_sheet_rows(args.csv),
+        load_existing_sources(repo_root),
+        default_segment=args.segment.strip().casefold(),
+        exclude_title_patterns=[re.compile(value, re.IGNORECASE) for value in args.exclude_title_regex],
+    )
     chosen = selected_rows(rows, parse_row_numbers(args.rows), args.limit)
     planned = plan_cards(repo_root, chosen)
 

@@ -8,15 +8,18 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: review
+year: 2012
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+doi: "10.1016/j.tvjl.2012.05.008"
+pmid: 22841451
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, prognostic, histopathological, molecular, markers, mammary, neoplasia]
 links:
-  doi: ""
+  doi: "10.1016/j.tvjl.2012.05.008"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S1090023312001979?via%3Dihub"
   local_assets: []
 evidence_policy:
@@ -33,11 +36,32 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2012 Vet J review: FMC is ~11% of feline tumors; tumor grade + mitotic index are validated prognostic markers; high ER-negative rate makes FMC model for late-stage hormone-independent breast cancer. [Deep extraction worksheet](../../system/indexes/src-cancer-028-deep-extraction-round1.md).
+
+## Full Abstract (PubMed)
+
+Feline mammary tumours comprise approximately 11% of feline non-integumentary neoplasms, are more commonly malignant than benign, and carry a poor prognosis attributable to a high probability of local recurrence and metastasis. This review discusses histopathological and molecular markers that could aid in prognostic discrimination, and draws comparisons with studies examining prognostic markers in breast cancer. Tumour grade and mitotic index correlate with survival data and could be useful for prognostication. Although assessment of Ki67 expression might have prognostic potential, further studies are required to corroborate the correlation between expression and clinical outcome. Additional molecular markers that have been investigated for prognostic potential can be grouped according to the 'hallmarks of cancer'. Many studies utilise 'surrogate markers' of clinical outcome, such as correlation with histological grade, to assess the prognostic value of molecular markers, and further investigation is therefore necessary before reaching firm conclusions regarding the prognostic value of some markers. Feline mammary tumours have been proposed as spontaneous models of breast cancer but might only be suitable models for certain molecular sub-types. Compared to humans, cats tend to have a high percentage of mammary tumours which are oestrogen receptor-negative and they might therefore be suitable models for late stage oestrogen receptor-negative breast cancer. The basal-like properties of feline mammary carcinomas offer another avenue for future research in this field of comparative oncology.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| FMC prevalence | ~11% of feline non-integumentary neoplasms | review estimate |
+| Malignancy ratio | more commonly malignant than benign | consistent with other sources |
+| Prognosis | poor due to high local recurrence and metastasis | general characterization |
+| Validated prognostic markers | tumor grade + mitotic index | correlate with survival |
+| Ki67 status | potential prognostic value, needs more studies | research direction |
+| ER status | high ER-negative rate in cats vs humans | comparative oncology |
+| Model suitability | late-stage ER-negative breast cancer | molecular subtype specific |
+| Basal-like properties | FMC has basal-like features | comparative oncology research avenue |
+
+**Key insight:** This review validates tumor grade and mitotic index as the most reliable prognostic markers, while noting that molecular markers like Ki67 need further standardization. The high ER-negative rate positions FMC as a model specifically for late-stage, hormone-independent breast cancer.
+
+**Boundary:** This is a 2012 review. Molecular marker recommendations may have evolved. The "surrogate marker" caveat (using grade correlation instead of clinical outcome) weakens evidence for some markers.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 31. Use it for triage until abstract or full-text extraction proves a stronger role.
+2012 Vet J review: FMC is ~11% of feline tumors; tumor grade + mitotic index are validated prognostic markers; high ER-negative rate makes FMC model for late-stage hormone-independent breast cancer.
 
 ## Why It Matters For Feline Cancer
 

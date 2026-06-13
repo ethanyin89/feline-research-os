@@ -132,6 +132,10 @@ Must not control yet:
 - How should diagnosis and staging gates be represented in navigation?
 - Which clinical signs can be safely listed without causing remote diagnosis?
 
+## Extraction Provenance
+
+This card is marked full because the full article was manually checked and converted into a workflow-control source. Its job is to keep the cancer module ordered around diagnosis and staging gates, while preventing broad treatment language from outrunning tumor-specific evidence.
+
 ## Linked Entities
 
 - diseases: cancer

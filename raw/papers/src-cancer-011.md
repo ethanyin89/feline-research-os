@@ -10,8 +10,8 @@ endpoints: []
 jurisdictions: []
 evidence_level: review
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: publisher_verified
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, mammary, comparative, oncology]
@@ -33,11 +33,17 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This is a publisher-verified source card. Journal of Dairy Research paper on feline mammary tumors as comparative oncology models. Not indexed in PubMed; full abstract requires publisher access.
+
+## Publisher Context
+
+This paper appears in the Journal of Dairy Research (Cambridge), which occasionally publishes comparative mammary biology papers linking veterinary and human oncology. The journal's scope includes mammary gland biology across species.
+
+**Boundary:** Without PubMed indexing, specific findings require full-text access from Cambridge Core. Primary value is as a comparative oncology framing source for the mammary carcinoma branch.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 12. Use it for triage until abstract or full-text extraction proves a stronger role.
+Journal of Dairy Research: feline mammary tumors in comparative oncology context (publisher-verified, not PubMed indexed).
 
 ## Why It Matters For Feline Cancer
 

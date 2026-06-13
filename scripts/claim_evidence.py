@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-scripts/claim_evidence.py — Claim Evidence Workbench for feline research OS.
+scripts/claim_evidence.py — Candidate evidence retrieval for feline research OS.
 
-Takes a disease + claim text and returns a structured verdict with:
-- verdict: supported / partially_supported / not_supported / absent
-- key_sources: source IDs supporting the claim
+Takes a disease + claim text and returns candidate matches with:
+- verdict: candidate_matches_found / no_candidate_matches
+- key_sources: source IDs with lexical overlap
 - evidence_depth: number of sources, extraction level summary
 - quoted_facts: direct quotes if available
 - source_supported_conclusion: synthesized conclusion from sources
 - boundary: what the claim does NOT cover
-- next_action: promote / revise / kill / search_more
+- next_action: human_review / search_more
 
 Usage (CLI):
     python scripts/claim_evidence.py --disease ckd --claim "SDMA is the best biomarker for early CKD detection"
@@ -84,19 +84,19 @@ class SourceEvidence:
 
 @dataclass
 class ClaimEvidenceCard:
-    """Structured output for claim verification."""
+    """Candidate retrieval output. It is not a semantic claim verdict."""
     claim: str
     disease: str
-    verdict: str  # supported, partially_supported, not_supported, absent
-    verdict_confidence: str  # high, medium, low
-    claim_level: str  # A, B, C, D
+    verdict: str  # candidate_matches_found, no_candidate_matches
+    verdict_confidence: str  # always not_assessed
+    claim_level: str  # always candidate_only
     key_sources: list[str]
     evidence_depth: dict
     quoted_facts: list[dict]  # [{source_id, fact}]
     source_supported_conclusions: list[dict]  # [{source_id, conclusion}]
     boundary: list[str]
     missing_evidence: list[str]
-    next_action: str  # promote, revise, kill, search_more
+    next_action: str  # human_review, search_more
     verification_path: str
 
 
@@ -205,16 +205,65 @@ def _calculate_match_score(claim_tokens: set[str], text: str) -> float:
     return matches / len(claim_tokens)
 
 
+def _is_cautionary_evidence(text: str) -> bool:
+    """Return true when an evidence sentence limits or qualifies a claim."""
+    lowered = text.lower()
+    caution_terms = [
+        "cannot",
+        "not currently",
+        "not enough",
+        "insufficient",
+        "limited",
+        "thin",
+        "weaker",
+        "caution",
+        "concern",
+        "does not mean",
+        "does not support",
+        "do not",
+        "rather than",
+        "not a ",
+        "not as ",
+        "risk",
+    ]
+    return any(term in lowered for term in caution_terms)
+
+
+def _is_contradictory_evidence(text: str) -> bool:
+    """Return true when a matching sentence directly pushes against the claim."""
+    lowered = text.lower()
+    contradiction_terms = [
+        "cannot currently be recommended",
+        "cannot be recommended",
+        "does not support",
+        "not strong enough",
+        "insufficient evidence",
+        "not supported",
+        "no evidence",
+    ]
+    return any(term in lowered for term in contradiction_terms)
+
+
+def _append_unique(items: list[str], value: str) -> None:
+    """Append a non-empty string once, preserving order."""
+    value = value.strip()
+    if value and value not in items:
+        items.append(value)
+
+
 def load_source_cards(disease: str) -> list[SourceEvidence]:
     """Load all source cards for a disease."""
     sources = []
     papers_dir = VAULT_ROOT / "raw" / "papers"
+    regulations_dir = VAULT_ROOT / "raw" / "regulations"
 
-    if not papers_dir.exists():
-        return sources
+    candidate_paths: list[Path] = []
+    if papers_dir.exists():
+        candidate_paths.extend(sorted(papers_dir.glob(f"src-{disease.lower()}-*.md")))
+    if regulations_dir.exists():
+        candidate_paths.extend(sorted(regulations_dir.glob("src-reg-*.md")))
 
-    pattern = f"src-{disease.lower()}-*.md"
-    for path in papers_dir.glob(pattern):
+    for path in candidate_paths:
         try:
             content = path.read_text(encoding="utf-8")
         except (OSError, UnicodeDecodeError):
@@ -223,6 +272,13 @@ def load_source_cards(disease: str) -> list[SourceEvidence]:
         fm = _parse_frontmatter(content)
         if not fm.get("id"):
             continue
+        if path.parent == regulations_dir:
+            diseases = fm.get("diseases", [])
+            if isinstance(diseases, str):
+                diseases = [diseases]
+            disease_matches = any(disease.lower() in str(item).lower() for item in diseases)
+            if not disease_matches:
+                continue
 
         policy = _extract_evidence_policy(content)
         limits = _extract_limits(content)
@@ -245,16 +301,14 @@ def load_source_cards(disease: str) -> list[SourceEvidence]:
     return sources
 
 
-def load_topic_claims(disease: str) -> list[dict]:
-    """Load Key-Claim Traceability from synthesis-index if available."""
+def _load_claims_from_markdown(path: Path) -> list[dict]:
+    """Load Key-Claim Traceability rows from one markdown file."""
     claims = []
-    synthesis_path = VAULT_ROOT / "topics" / disease.lower() / "synthesis-index.md"
-
-    if not synthesis_path.exists():
+    if not path.exists():
         return claims
 
     try:
-        content = synthesis_path.read_text(encoding="utf-8")
+        content = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError):
         return claims
 
@@ -278,9 +332,28 @@ def load_topic_claims(disease: str) -> list[dict]:
                         "claim": cells[1] if len(cells) > 1 else "",
                         "level": cells[2] if len(cells) > 2 else "",
                         "sources": cells[3] if len(cells) > 3 else "",
+                        "source_path": str(path.relative_to(VAULT_ROOT)),
                     })
             elif line.startswith("## ") and "Key-Claim" not in line:
                 break
+
+    return claims
+
+
+def load_topic_claims(disease: str) -> list[dict]:
+    """Load Key-Claim Traceability from topic and disease-specific system memos."""
+    disease = disease.lower()
+    paths = [VAULT_ROOT / "topics" / disease / "synthesis-index.md"]
+    paths.extend(sorted((VAULT_ROOT / "system" / "indexes").glob(f"{disease}-*.md")))
+
+    claims = []
+    seen = set()
+    for path in paths:
+        for claim in _load_claims_from_markdown(path):
+            key = (claim["claim_id"], claim["claim"], claim["sources"])
+            if key not in seen:
+                seen.add(key)
+                claims.append(claim)
 
     return claims
 
@@ -353,20 +426,28 @@ def evaluate_claim(disease: str, claim: str, source_ids: Optional[list[str]] = N
     for tc in topic_claims:
         score = _calculate_match_score(claim_tokens, tc["claim"])
         if score > 0.4:
-            matching_topic_claims.append(tc)
+            matching_topic_claims.append({**tc, "score": score})
 
-    # Determine verdict
+    matching_topic_claims.sort(key=lambda tc: tc["score"], reverse=True)
+
+    boundary_notes = []
+
+    # Determine whether lexical candidate matches exist. This is deliberately
+    # not a support/contradiction judgment.
     if not scored_sources and not matching_topic_claims:
-        verdict = "absent"
-        verdict_confidence = "high"
-        claim_level = "N/A"
+        verdict = "no_candidate_matches"
+        verdict_confidence = "not_assessed"
+        claim_level = "candidate_only"
         next_action = "search_more"
     else:
         top_sources = scored_sources[:5]
 
-        # Check if any A-level evidence
+        # Check if any source-card or compiled-claim evidence.
         has_a_level = any(level == "A" for _, _, level, _ in top_sources)
         has_b_level = any(level == "B" for _, _, level, _ in top_sources)
+        has_compiled_b_level = any(str(tc.get("level", "")).strip().upper() == "B" for tc in matching_topic_claims)
+        has_compiled_a_level = any(str(tc.get("level", "")).strip().upper() == "A" for tc in matching_topic_claims)
+        best_compiled_score = matching_topic_claims[0]["score"] if matching_topic_claims else 0.0
 
         # Calculate aggregate score
         if top_sources:
@@ -376,45 +457,42 @@ def evaluate_claim(disease: str, claim: str, source_ids: Optional[list[str]] = N
             avg_score = 0.0
             max_score = 0.0
 
-        # Check for contradictions in limits
+        # Check for contradictions and business-use boundaries.
         has_contradiction = False
-        boundary_notes = []
         for source, score, level, facts in top_sources:
+            for fact in facts:
+                if _is_cautionary_evidence(fact):
+                    if _is_contradictory_evidence(fact):
+                        has_contradiction = True
+                    _append_unique(boundary_notes, f"[{source.source_id}] {fact[4:] if fact[:3] in {'[A]', '[B]', '[C]'} else fact}")
             for limit in source.limits:
                 limit_score = _calculate_match_score(claim_tokens, limit)
-                if limit_score > 0.3:
-                    has_contradiction = True
-                    boundary_notes.append(f"[{source.source_id}] {limit}")
+                if limit_score > 0.2 or _is_cautionary_evidence(limit):
+                    if limit_score > 0.5 and _is_contradictory_evidence(limit):
+                        has_contradiction = True
+                    _append_unique(boundary_notes, f"[{source.source_id}] {limit}")
 
-        if has_a_level and max_score > 0.6 and not has_contradiction:
-            verdict = "supported"
-            verdict_confidence = "high"
-            claim_level = "A"
-            next_action = "promote"
-        elif has_b_level and max_score > 0.5:
-            if has_contradiction:
-                verdict = "partially_supported"
-                verdict_confidence = "medium"
-                claim_level = "B"
-                next_action = "revise"
-            else:
-                verdict = "supported"
-                verdict_confidence = "medium"
-                claim_level = "B"
-                next_action = "promote"
-        elif avg_score > 0.3:
-            verdict = "partially_supported"
-            verdict_confidence = "low"
-            claim_level = "C"
-            next_action = "revise"
-        else:
-            verdict = "not_supported"
-            verdict_confidence = "medium"
-            claim_level = "N/A"
-            next_action = "kill"
+        _ = (
+            has_a_level,
+            has_b_level,
+            has_compiled_a_level,
+            has_compiled_b_level,
+            best_compiled_score,
+            avg_score,
+            max_score,
+            has_contradiction,
+        )
+        verdict = "candidate_matches_found"
+        verdict_confidence = "not_assessed"
+        claim_level = "candidate_only"
+        next_action = "human_review"
 
     # Build output
     key_sources = [s[0].source_id for s in scored_sources[:5]]
+    for tc in matching_topic_claims[:3]:
+        for src in re.findall(r'\bsrc-[a-z]+-\d{3}\b', tc.get("sources", ""), re.IGNORECASE):
+            if src not in key_sources:
+                key_sources.append(src)
 
     quoted_facts = []
     source_supported_conclusions = []
@@ -425,22 +503,40 @@ def evaluate_claim(disease: str, claim: str, source_ids: Optional[list[str]] = N
             elif fact.startswith("[B]"):
                 source_supported_conclusions.append({"source_id": source.source_id, "conclusion": fact[4:]})
 
+    for tc in matching_topic_claims[:3]:
+        if str(tc.get("level", "")).strip().upper() in {"A", "B"}:
+            source_supported_conclusions.append({
+                "source_id": tc.get("source_path", "compiled-claim"),
+                "conclusion": f"{tc.get('claim_id', 'compiled-claim')}: {tc.get('claim', '')} (sources: {tc.get('sources', '')})",
+            })
+
     # Evidence depth summary
     evidence_depth = {
         "total_sources_checked": len(sources),
         "matching_sources": len(scored_sources),
+        "matching_compiled_claims": len(matching_topic_claims),
         "a_level_matches": sum(1 for _, _, l, _ in scored_sources if l == "A"),
         "b_level_matches": sum(1 for _, _, l, _ in scored_sources if l == "B"),
         "c_level_matches": sum(1 for _, _, l, _ in scored_sources if l == "C"),
         "deep_extracted": sum(1 for s in sources if s.verification_status == "deep_extracted"),
     }
 
-    # Boundary: what the claim does NOT cover
+    # Boundary: what the claim does NOT cover.
     boundary = []
     if boundary_notes:
         boundary.extend(boundary_notes[:3])
     if not boundary:
-        boundary.append("No explicit boundary constraints found in matching sources")
+        for source, _, _, facts in scored_sources[:5]:
+            for limit in source.limits:
+                _append_unique(boundary, f"[{source.source_id}] {limit}")
+                if len(boundary) >= 3:
+                    break
+            if len(boundary) >= 3:
+                break
+    if not boundary:
+        boundary.append(
+            "No source-specific caveat was extracted for the matching sources; treat this card as non-decision-grade until a human source-limit pass is completed."
+        )
 
     # Missing evidence
     missing_evidence = []
@@ -448,7 +544,7 @@ def evaluate_claim(disease: str, claim: str, source_ids: Optional[list[str]] = N
         missing_evidence.append("No direct quotes (Level A) support this claim")
     if evidence_depth["matching_sources"] < 3:
         missing_evidence.append(f"Only {evidence_depth['matching_sources']} sources address this claim")
-    if verdict == "absent":
+    if verdict == "no_candidate_matches":
         missing_evidence.append(f"No sources found matching claim in {disease.upper()} corpus")
 
     # Verification path
@@ -477,18 +573,20 @@ def evaluate_claim(disease: str, claim: str, source_ids: Optional[list[str]] = N
 def format_claim_card_markdown(card: ClaimEvidenceCard) -> str:
     """Format a ClaimEvidenceCard as markdown."""
     lines = [
-        f"# Claim Evidence Card",
+        "# Candidate Evidence Matches",
         "",
         f"**Disease:** {card.disease}",
         f"**Claim:** {card.claim}",
         "",
-        "## Verdict",
+        "> Candidate retrieval only. Lexical overlap does not establish support, contradiction, or decision readiness. A human reviewer must inspect the sources.",
+        "",
+        "## Retrieval Status",
         "",
         f"| Field | Value |",
         f"|-------|-------|",
-        f"| Verdict | **{card.verdict.upper()}** |",
-        f"| Confidence | {card.verdict_confidence} |",
-        f"| Claim Level | {card.claim_level} ({CLAIM_LEVELS.get(card.claim_level, 'N/A')}) |",
+        f"| Candidate status | **{card.verdict.upper()}** |",
+        f"| Semantic confidence | {card.verdict_confidence} |",
+        f"| Authority | {card.claim_level} |",
         f"| Next Action | {card.next_action} |",
         "",
         "## Key Sources",
@@ -509,6 +607,7 @@ def format_claim_card_markdown(card: ClaimEvidenceCard) -> str:
         f"|--------|-------|",
         f"| Sources checked | {card.evidence_depth['total_sources_checked']} |",
         f"| Matching sources | {card.evidence_depth['matching_sources']} |",
+        f"| Matching compiled claims | {card.evidence_depth.get('matching_compiled_claims', 0)} |",
         f"| Level A (quoted) | {card.evidence_depth['a_level_matches']} |",
         f"| Level B (supported) | {card.evidence_depth['b_level_matches']} |",
         f"| Level C (inference) | {card.evidence_depth['c_level_matches']} |",
@@ -562,7 +661,7 @@ def format_claim_card_markdown(card: ClaimEvidenceCard) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Evaluate a claim against the feline research OS vault.",
+        description="Retrieve candidate evidence for human claim review.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
@@ -574,7 +673,7 @@ def main() -> None:
     parser.add_argument(
         "--claim", "-c",
         required=True,
-        help="The claim to evaluate",
+        help="The claim used to retrieve candidate evidence",
     )
     parser.add_argument(
         "--sources", "-s",

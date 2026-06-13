@@ -24,6 +24,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import Optional
+from source_inventory import format_source_inventory, get_source_inventory
 
 # Import sibling modules
 try:
@@ -35,17 +36,7 @@ except ImportError:
 
 VAULT_ROOT = Path(__file__).parent.parent
 
-# Disease maturity levels
-DISEASE_MATURITY = {
-    "ckd": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "fip": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "hcm": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "ibd": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "fcv": {"sources": 24, "extraction": "full", "maturity": "Mature"},
-    "diabetes": {"sources": 118, "extraction": "partial", "maturity": "Developing"},
-    "obesity": {"sources": 87, "extraction": "partial", "maturity": "Developing"},
-    "cancer": {"sources": 102, "extraction": "partial", "maturity": "Developing"},
-}
+SUPPORTED_DISEASES = ("ckd", "fip", "hcm", "ibd", "fcv", "diabetes", "obesity", "cancer")
 
 # Regulatory jurisdiction info
 JURISDICTIONS = ["FDA / USA", "EMA / EU", "VMD / UK", "China"]
@@ -142,78 +133,24 @@ def _extract_regulatory_notes(route_memo: Optional[str]) -> dict:
 
 
 def _generate_executive_summary(disease: str, branch: str, claim_cards: list[ClaimEvidenceCard]) -> str:
-    """Generate executive summary from claim evaluations."""
-    supported = sum(1 for c in claim_cards if c.verdict == "supported")
-    partial = sum(1 for c in claim_cards if c.verdict == "partially_supported")
-    unsupported = sum(1 for c in claim_cards if c.verdict in ["not_supported", "absent"])
-
-    total = len(claim_cards)
-
-    if total == 0:
-        return f"No claims evaluated for {disease.upper()} {branch}. Additional claim evaluation needed."
-
-    if supported > partial + unsupported:
-        strength = "strong"
-        direction = "Go with caution"
-    elif partial >= supported:
-        strength = "moderate but incomplete"
-        direction = "Conditional Go pending gaps"
-    else:
-        strength = "weak"
-        direction = "Hold until evidence improves"
-
-    return f"""Evidence for {disease.upper()} {branch} is {strength}. Of {total} key claims evaluated: {supported} supported, {partial} partially supported, {unsupported} unsupported/absent.
-
-**Recommendation:** {direction}"""
+    """Describe retrieval coverage without making a recommendation."""
+    matched = sum(1 for c in claim_cards if c.verdict == "candidate_matches_found")
+    return (
+        f"Legacy draft for {disease.upper()} {branch}. Candidate retrieval found "
+        f"lexical matches for {matched} of {len(claim_cards)} claims. This does not "
+        "establish support, contradiction, readiness, or a commercial recommendation."
+    )
 
 
 def _generate_go_no_go(claim_cards: list[ClaimEvidenceCard], endpoint_memo: Optional[EndpointDecisionMemo]) -> str:
-    """Generate go/no-go implication."""
-    if not claim_cards:
-        return "**HOLD** — Insufficient evidence evaluation. Generate claim evidence cards first."
-
-    supported = sum(1 for c in claim_cards if c.verdict == "supported")
-    total = len(claim_cards)
-    support_ratio = supported / total if total > 0 else 0
-
-    has_endpoints = endpoint_memo and len(endpoint_memo.core_endpoints) >= 3
-    has_sources = any(len(c.key_sources) >= 3 for c in claim_cards)
-
-    if support_ratio >= 0.6 and has_endpoints and has_sources:
-        return """**CONDITIONAL GO**
-
-Conditions:
-1. Address gaps in missing evidence section
-2. Validate regulatory path before pivotal investment
-3. Position as adjunct/support rather than standalone (unless evidence strengthens)
-
-Kill signals:
-- Competitor captures category with stronger label
-- Novel biomarker makes current endpoints obsolete
-- Regulatory path cannot be resolved in 12 months"""
-
-    elif support_ratio >= 0.3:
-        return """**HOLD — Evidence incomplete**
-
-Required before Go:
-1. Resolve critical gaps in evidence backbone
-2. Add more primary studies to support key claims
-3. Clarify regulatory category positioning
-
-Do not invest in pivotal trials until gaps are addressed."""
-
-    else:
-        return """**NO GO — Evidence too thin**
-
-Current evidence does not support investment:
-- Key claims lack source support
-- Endpoint clarity insufficient
-- Regulatory path unclear
-
-Revisit after:
-1. New primary studies published
-2. Systematic evidence synthesis completed
-3. Regulatory landscape clarified"""
+    """Disable automatic decision authority for legacy briefs."""
+    _ = (claim_cards, endpoint_memo)
+    return (
+        "**AUTOMATED DECISION DISABLED**\n\n"
+        "This legacy generator cannot issue GO, HOLD, NO-GO, investment, promotion, "
+        "or kill recommendations. Admit its sources into a Research Case and have a "
+        "named human reviewer author any recommendation."
+    )
 
 
 def _identify_gaps(claim_cards: list[ClaimEvidenceCard], endpoint_memo: Optional[EndpointDecisionMemo], disease: str, branch: str) -> list[GapItem]:
@@ -221,18 +158,9 @@ def _identify_gaps(claim_cards: list[ClaimEvidenceCard], endpoint_memo: Optional
     gaps = []
     gap_num = 1
 
-    # Gaps from claim cards
+    # Candidate retrieval cannot determine a semantic evidence gap. Record only
+    # explicit missing-evidence notes for human review.
     for card in claim_cards:
-        if card.verdict in ["partially_supported", "not_supported", "absent"]:
-            gaps.append(GapItem(
-                gap_id=f"GAP-{disease.upper()[:1]}{gap_num}",
-                description=f"Claim '{card.claim[:50]}...' is {card.verdict}",
-                impact=f"Weakens {branch} evidence backbone",
-                priority="P1" if card.verdict == "absent" else "P2",
-                suggested_search=f"Search for {disease} studies on: {' '.join(card.claim.split()[:5])}",
-            ))
-            gap_num += 1
-
         for missing in card.missing_evidence[:2]:
             gaps.append(GapItem(
                 gap_id=f"GAP-{disease.upper()[:1]}{gap_num}",
@@ -275,15 +203,17 @@ def generate_opportunity_brief(
         OpportunityBrief with all sections populated
     """
     disease_lower = disease.lower()
-    maturity_info = DISEASE_MATURITY.get(disease_lower, {"maturity": "Unknown"})
-
-    # Generate default claims if not provided
+    if branch.strip().lower() == "general":
+        raise ValueError(
+            "The legacy 'general' branch is disabled. Provide a specific research branch and explicit claims."
+        )
     if not key_claims:
-        key_claims = [
-            f"{branch} has strong evidence support for {disease.upper()}",
-            f"{branch} improves outcomes in feline {disease.upper()}",
-            f"{branch} is a viable treatment approach for {disease.upper()}",
-        ]
+        raise ValueError(
+            "Legacy Opportunity Brief generation requires explicit claims; automatic claim generation is disabled."
+        )
+    inventory_label = format_source_inventory(
+        get_source_inventory(VAULT_ROOT, disease_lower)
+    )
 
     # Evaluate each claim
     claim_cards = []
@@ -350,7 +280,7 @@ def generate_opportunity_brief(
         gaps=gaps,
         source_appendix=sorted(list(all_sources)),
         generated_at=date.today().isoformat(),
-        maturity=maturity_info.get("maturity", "Unknown"),
+        maturity=inventory_label,
     )
 
 
@@ -365,7 +295,8 @@ def format_brief_markdown(brief: OpportunityBrief) -> str:
         f"created_at: {brief.generated_at}",
         "owner: opportunity_brief_generator",
         "status: draft",
-        "verification_status: auto_generated",
+        "verification_status: unreviewed_legacy_output",
+        "authority: none",
         "decision_grade: no",
         "---",
         "",
@@ -374,7 +305,9 @@ def format_brief_markdown(brief: OpportunityBrief) -> str:
         f"**Date:** {brief.generated_at}",
         f"**Disease Branch:** Feline {brief.disease} — {brief.branch.title()}",
         f"**Business Question:** {brief.business_question}",
-        f"**Disease Maturity:** {brief.maturity}",
+        f"**Legacy inventory label:** {brief.maturity}",
+        "",
+        "> Unreviewed legacy output. This document cannot make or imply a final decision.",
         "",
         "---",
         "",
@@ -384,7 +317,7 @@ def format_brief_markdown(brief: OpportunityBrief) -> str:
         "",
         "---",
         "",
-        "## Go/No-Go Implication",
+        "## Automated Decision Status",
         "",
         brief.go_no_go,
         "",
@@ -504,7 +437,7 @@ def main() -> None:
     parser.add_argument(
         "--disease", "-d",
         required=True,
-        choices=list(DISEASE_MATURITY.keys()),
+        choices=list(SUPPORTED_DISEASES),
         help="Disease code",
     )
     parser.add_argument(

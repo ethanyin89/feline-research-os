@@ -8,10 +8,13 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: review
+year: 2024
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 38787171
+doi: "10.3390/vetsci11050199"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, clinical, use, molecular, biomarkers, oncology, current, future]
@@ -33,11 +36,29 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2024 Vet Sci review providing biomarker classification framework (diagnostic/prognostic/predictive/screening). Precision oncology "gaining traction" in veterinary practice. [Deep extraction worksheet](../../system/indexes/src-cancer-014-deep-extraction-round1.md).
+
+## Full Abstract (PubMed)
+
+Molecular biomarkers are central to personalised medicine for human cancer patients. It is gaining traction as part of standard veterinary clinical practice for dogs and cats with cancer. Molecular biomarkers can be somatic or germline genomic alterations and can be ascertained from tissues or body fluids using various techniques. This review discusses how these genomic alterations can be determined and the findings used in clinical settings as diagnostic, prognostic, predictive, and screening biomarkers. We showcase the somatic and germline genomic alterations currently available to date for testing dogs and cats in a clinical setting, discussing their utility in each biomarker class. We also look at some emerging molecular biomarkers that are promising for clinical use. Finally, we discuss the hurdles that need to be overcome in going 'bench to bedside', i.e., the translation from discovery of genomic alterations to adoption by veterinary clinicians. As we understand more of the genomics underlying canine and feline tumours, molecular biomarkers will undoubtedly become a mainstay in delivering precision veterinary care to dogs and cats with cancer.
+
+## Key Extracted Findings
+
+| Finding | Value | Boundary |
+|---------|-------|----------|
+| Biomarker types | somatic or germline genomic alterations | from tissues or body fluids |
+| Biomarker classes | diagnostic, prognostic, predictive, screening | clinical utility framework |
+| Status | gaining traction in standard practice | 2024 state of field |
+| Translation challenge | bench to bedside hurdles | adoption barrier |
+| Future trajectory | molecular biomarkers becoming mainstay | precision veterinary care |
+
+**Key insight:** This is a comprehensive 2024 review categorizing available molecular biomarkers by clinical utility class (diagnostic vs prognostic vs predictive vs screening). Valuable for understanding current state of precision oncology in veterinary medicine.
+
+**Boundary:** Review-level; specific biomarker recommendations require full-text for individual tumor types.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 15. Use it for triage until abstract or full-text extraction proves a stronger role.
+2024 Vet Sci review: molecular biomarkers (somatic/germline) classified by clinical utility; precision medicine gaining traction in veterinary oncology.
 
 ## Why It Matters For Feline Cancer
 

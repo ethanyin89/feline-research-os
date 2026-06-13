@@ -11,9 +11,10 @@ jurisdictions: []
 evidence_level: original-study
 year: 2021
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
 decision_grade: no
+duplicate_of: src-cancer-091
 language_qa_status: not_applicable
 tags: [cancer, emerging, biomarkers, targeted, therapies, mammary, carcinoma]
 links:

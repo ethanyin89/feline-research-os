@@ -1,7 +1,7 @@
 ---
 id: src-cancer-085
 type: source
-title: "Optimizing Photodynamic Therapy: In vivo Pharmacokinetics of Liposomal meta-(Tetrahydroxyphenyl)Chlorin in Feline Squamous Cell Carcinoma"
+title: "Evaluation of long-term outcome and prognostic factors of feline squamous cell carcinomas treated with photodynamic therapy using liposomal phosphorylated meta-tetra(hydroxylphenyl)chlorine"
 source_kind: paper
 species: feline
 diseases: [cancer]
@@ -9,35 +9,62 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 2018
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, optimizing, photodynamic, therapy, vivo, pharmacokinetics, liposomal, meta]
+pmid: 29359611
+tags: [cancer, FOSCC, SCC, PDT, photodynamic-therapy, mTHPC, treatment, prognosis]
 links:
-  doi: ""
+  doi: "10.1177/1098612X17752196"
   url: "https://aacrjournals.org/clincancerres/article/11/20/7538/188533/Optimizing-Photodynamic-Therapy-In-vivo"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Optimizing Photodynamic Therapy: In vivo Pharmacokinetics of Liposomal meta-(Tetrahydroxyphenyl)Chlorin in Feline Squamous Cell Carcinoma."
-    - "The intake sheet locator is: https://aacrjournals.org/clincancerres/article/11/20/7538/188533/Optimizing-Photodynamic-Therapy-In-vivo."
+    - "63 lesions in 38 cats treated with PDT using liposomal mTHPC."
+    - "Overall response rate 84% (CR 61%, PR 22%)."
+    - "Mean progression-free interval 35 months; median OS 40 months."
+    - "Invasive tumours: highly significant worse outcome (P<0.017); all progressed <6 months."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "PDT using systemic photosensitiser leads to excellent long-term tumour control in majority of cats."
+    - "Invasive and large tumours have clearly inferior outcome."
+    - "Advanced lesions are not good indications for PDT."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Strong evidence for PDT efficacy in early-stage feline SCC."
+    - "Supports oral-squamous-cell-carcinoma.md treatment section."
 ---
 
-# Optimizing Photodynamic Therapy: In vivo Pharmacokinetics of Liposomal meta-(Tetrahydroxyphenyl)Chlorin in Feline Squamous Cell Carcinoma
+# Evaluation of long-term outcome and prognostic factors of feline squamous cell carcinomas treated with photodynamic therapy
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 29359611 |
+| DOI | 10.1177/1098612X17752196 |
+| Journal | J Feline Med Surg |
+| Year | 2018 |
+| Authors | Flickinger I, Gasymova E, Dietiker-Moretti S, et al. |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Sample size | 63 lesions in 38 cats |
+| Treatment | PDT with liposomal mTHPC; ≤10 J/cm² or 20 J/cm² |
+| Overall response | 84% (CR 61%, PR 22%) |
+| Progression-free interval | Mean 35 months (median not reached) |
+| Overall survival | Median 40 months (95% CI 33-47) |
+| Poor prognostic | Invasive tumours (P<0.017); all progressed <6 months |
+| Tumor size | Larger lesions associated with inferior control |
+
+**Boundary:** Abstract-level extraction. PDT efficacy data can inform FOSCC treatment claims; limited to non-invasive/early lesions.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 91. Use it for triage until abstract or full-text extraction proves a stronger role.
+PDT with mTHPC in 38 cats (63 lesions): 84% response rate, median OS 40 months; invasive tumors have poor outcome (all progress <6 months).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +81,25 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Optimizing Photodynamic Therapy: In vivo Pharmacokinetics of Liposomal meta-(Tetrahydroxyphenyl)Chlorin in Feline Squamous Cell Carcinoma.
-- The intake sheet locator is: https://aacrjournals.org/clincancerres/article/11/20/7538/188533/Optimizing-Photodynamic-Therapy-In-vivo.
+- 63 lesions in 38 cats treated with PDT using liposomal mTHPC
+- Dose groups: ≤10 J/cm² (n=22) and 20 J/cm² (n=41)
+- Overall response rate 84%: complete remission 61%, partial remission 22%
+- Mean progression-free interval 35 months; median OS 40 months (95% CI 33-47)
+- Invasive tumours: highly significant worse outcome (P<0.017)
+- All patients with invasive tumours progressed <6 months
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- PDT with systemic photosensitiser leads to excellent long-term tumour control
+- Invasive and large tumours have clearly inferior outcome regardless of dose
+- Advanced lesions are not good indications for PDT
+- Treatment intensity and tumour location did not influence response
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Strong evidence for PDT efficacy in early-stage, non-invasive feline SCC
+- Case selection critical: exclude invasive/large tumours
+- Supports oral-squamous-cell-carcinoma.md treatment section
 
 ## Claim-Fit Judgment
 

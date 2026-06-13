@@ -22,10 +22,12 @@ from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
 
+from validate_research_cases import validate_case_corpus
+
 
 VAULT_ROOT = Path(__file__).parent.parent
 REPORT_DIR = VAULT_ROOT / "system" / "health-checks"
-DISEASES = ["ckd", "fip", "hcm", "ibd", "diabetes", "fcv", "obesity"]
+DISEASES = ["ckd", "fip", "hcm", "ibd", "diabetes", "fcv", "obesity", "cancer"]
 EXPECTED_PAPER_COUNTS = {
     "ckd": 24,
     "fip": 24,
@@ -34,11 +36,12 @@ EXPECTED_PAPER_COUNTS = {
     "diabetes": 24,
     "fcv": 24,
     "obesity": 0,
+    "cancer": 102,
 }
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
 CANDIDATE_ASSET_RE = re.compile(r"raw/images/[^\]\s,)]+candidate-[^\]\s,)]+(?:\.png|\.jpg|\.jpeg)")
 REQUIRED_SOURCE_FIELDS = ["verification_status", "decision_grade", "language_qa_status"]
-VALID_SOURCE_VERIFICATION = {"title_only", "abstract_weighted", "source_checked", "deep_extracted", "audited"}
+VALID_SOURCE_VERIFICATION = {"title_only", "abstract_weighted", "publisher_verified", "source_checked", "deep_extracted", "audited"}
 VALID_SOURCE_DECISION = {"no", "provisional", "yes"}
 VALID_LANGUAGE_QA = {"unchecked", "light_checked", "bilingual_checked", "not_applicable"}
 READER_CONTENT_ROOTS = ("topics", "outputs/briefings", "outputs/dossiers", "outputs/slides")
@@ -290,7 +293,7 @@ def source_inventory() -> dict:
                     "reason": "`title_only` source cannot be marked `full` or `deep_extracted`",
                 })
             words = len(re.findall(r"\S+", text))
-            if words < 700 and fm.get("extraction_depth", "missing") != "partial":
+            if words < 700 and fm.get("extraction_depth", "missing") == "full":
                 result["low_word_cards"].append({
                     "file": rel,
                     "words": words,
@@ -825,11 +828,13 @@ def render_report(data: dict) -> str:
     link_result = data["link_check"]
     query_result = data["query_tests"]
     ordinary_eval = data["ordinary_user_vault_eval"]
+    research_cases = data["research_cases"]
 
     has_hard_failure = (
         link_result["exit_code"] != 0
         or query_result["exit_code"] != 0
         or (ordinary_eval["exit_code"] != 0 and not ordinary_eval.get("skipped"))
+        or not research_cases["valid"]
         or bool(inventory["duplicate_ids"])
         or bool(inventory["missing_ids"])
         or bool(inventory["low_word_cards"])
@@ -871,6 +876,12 @@ def render_report(data: dict) -> str:
         summary_row("Markdown links", command_summary(link_result), first_line(link_result["stdout"])),
         summary_row("Query tests", command_summary(query_result), test_summary(query_result["stdout"])),
         summary_row("Ordinary-user vault eval", command_summary(ordinary_eval), first_line(ordinary_eval["stdout"] or ordinary_eval["stderr"])),
+        summary_row(
+            "Research Case integrity",
+            "PASS" if research_cases["valid"] else "FAIL",
+            f"{research_cases['valid_case_count']}/{research_cases['case_count']} valid; "
+            f"{research_cases['issue_count']} issues",
+        ),
         summary_row("Paper source cards", "PASS" if inventory["paper_total"] >= inventory["expected_paper_total"] else "FAIL", f"{inventory['paper_total']} strict disease paper cards; baseline >= {inventory['expected_paper_total']}"),
         summary_row("Regulation source cards", "PASS" if inventory["reg_total"] == 14 else "WARN", f"{inventory['reg_total']} regulation cards"),
         summary_row("Source IDs", "PASS" if not inventory["duplicate_ids"] and not inventory["missing_ids"] else "FAIL", f"{len(inventory['duplicate_ids'])} duplicates, {len(inventory['missing_ids'])} missing ids"),
@@ -1238,6 +1249,7 @@ def main() -> int:
         "acceptance": latest_acceptance_report(),
         "ordinary_user_acceptance": latest_acceptance_report("ordinary-user-acceptance-report"),
         "ordinary_user_vault_eval": ordinary_user_vault_eval_status(),
+        "research_cases": validate_case_corpus(VAULT_ROOT),
         "compile_trigger": compile_trigger_status(),
         "api_keys": api_key_status(),
     }
@@ -1251,6 +1263,7 @@ def main() -> int:
         data["link_check"]["exit_code"] != 0
         or data["query_tests"]["exit_code"] != 0
         or (data["ordinary_user_vault_eval"]["exit_code"] != 0 and not data["ordinary_user_vault_eval"].get("skipped"))
+        or not data["research_cases"]["valid"]
         or bool(data["source_inventory"]["duplicate_ids"])
         or bool(data["source_inventory"]["missing_ids"])
         or bool(data["source_inventory"]["low_word_cards"])

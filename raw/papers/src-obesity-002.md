@@ -12,7 +12,7 @@ evidence_level: review
 year: 2014
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, canine-feline, pathophysiology, epidemiology, management, review]

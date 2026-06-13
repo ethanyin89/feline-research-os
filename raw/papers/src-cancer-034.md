@@ -10,9 +10,10 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2009
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
+pmid: 19176489
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, molecular, characterization, cox-2, expression, mammary, carcinomas]
@@ -35,27 +36,41 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the abstract. 2009 Vet Pathol: 87% (35/40) of FMCs express COX-2. Feline COX-2 gene molecularly characterized. Establishes therapeutic target prevalence; efficacy of COX-2 inhibitors unproven. [Deep extraction worksheet](../../system/indexes/src-cancer-034-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-01
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+PubMed abstract fetched as a zero-cost extraction step.
 
-- DOI metadata resolved: yes
-- Container: Veterinary Pathology
+- PMID: 19176489
+- DOI: 10.1354/vp.08-vp-0161-d-fl
+- Journal: Veterinary Pathology
 - Year: 2009
-- Abstract available in Crossref: yes
 
-Use boundary:
+## Abstract Summary
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+This study molecularly characterized feline cyclooxygenase-2 (COX-2) and evaluated its expression in feline mammary carcinomas (FMC).
 
-Abstract lead for scope check only: Cyclooxygenase-2 (COX-2), the rate-limiting enzyme in the biosynthesis of prostaglandins, plays an important role in inflammation and tumorigenesis. COX-2 primary structure has be...
+**Molecular characterization:**
+- Feline COX-2 gene was cloned and sequenced
+- Primary structure determined
+- COX-2 is the rate-limiting enzyme in prostaglandin biosynthesis
+
+**Expression in mammary carcinomas:**
+- **87% (35/40) of feline mammary carcinomas express COX-2**
+- COX-2 expression confirmed by immunohistochemistry
+- Strong expression in majority of tumors
+
+**Significance:**
+- COX-2 plays important role in inflammation and tumorigenesis
+- High expression rate suggests COX-2 may be therapeutic target
+- Supports investigation of COX-2 inhibitors in FMC treatment
+
+**Boundary:** Expression prevalence (87%) does not prove COX-2 causation or predict response to COX inhibitors.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 37. Use it for triage until abstract or full-text extraction proves a stronger role.
+87% of feline mammary carcinomas express COX-2, supporting its role as a therapeutic target candidate.
 
 ## Why It Matters For Feline Cancer
 

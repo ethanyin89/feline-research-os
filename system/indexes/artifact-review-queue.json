@@ -1,0 +1,399 @@
+{
+  "last_updated": "2026-06-05T18:59:24.835252",
+  "total_artifacts": 11,
+  "pending_review": 0,
+  "artifacts": [
+    {
+      "artifact_id": "ART-ckd_phosphorus_contr-01",
+      "artifact_path": "outputs/business/ckd-phosphorus-control-opportunity-brief-20260604.md",
+      "artifact_type": "opportunity_brief",
+      "disease": "CKD",
+      "status": "promoted",
+      "submitted_at": "2026-06-04T17:10:40.201548",
+      "submitted_by": "test-user",
+      "reviewed_at": "2026-06-04T17:10:53.585777",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-04T17:11:01.938884",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-phosphorus-control-opportunity-brief-20260604.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-04T17:10:40.201569",
+          "reviewer": "test-user",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-04T17:10:53.441522",
+          "reviewer": "cli",
+          "action": "comment",
+          "note": "Looks good, sources verified"
+        },
+        {
+          "timestamp": "2026-06-04T17:10:53.585798",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "All sources verified, ready for partner use"
+        },
+        {
+          "timestamp": "2026-06-04T17:11:01.938907",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-phosphorus-control-opportunity-brief-20260604.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-ckd_sdma_primary_mon-01",
+      "artifact_path": "outputs/business/ckd-sdma-primary-monitoring-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "CKD",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T12:56:42.248638",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T13:28:34.943497",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T13:28:38.569219",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-sdma-primary-monitoring-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T12:56:42.248952",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T13:28:34.943792",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Valid revise artifact: source trace supports SDMA as adjunctive, not primary standalone progression-monitoring axis."
+        },
+        {
+          "timestamp": "2026-06-05T13:28:38.569522",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-sdma-primary-monitoring-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-ckd_phosphorus_diet_-01",
+      "artifact_path": "outputs/business/ckd-phosphorus-diet-vs-binder-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "CKD",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T12:57:20.827444",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T13:28:26.293513",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T13:28:30.252327",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-phosphorus-diet-vs-binder-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T12:57:20.827728",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T13:28:26.294135",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Claim card passes source trace, boundary, and next-action checks; promote-ready hierarchy claim."
+        },
+        {
+          "timestamp": "2026-06-05T13:28:30.252680",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-phosphorus-diet-vs-binder-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-fip_gs441524_baselin-01",
+      "artifact_path": "outputs/business/fip-gs441524-baseline-route-testing-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "FIP",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T13:29:14.355363",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T13:29:31.241638",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T13:29:34.976206",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/fip-gs441524-baseline-route-testing-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T13:29:14.355775",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T13:29:31.241958",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Compiled internal route-testing claim card passes source trace and boundary checks; not decision-grade for external regulatory use."
+        },
+        {
+          "timestamp": "2026-06-05T13:29:34.976812",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/fip-gs441524-baseline-route-testing-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-diabetes_remission_n-01",
+      "artifact_path": "outputs/business/diabetes-remission-no-universal-key-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "DIABETES",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T13:32:40.035568",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T13:32:50.245690",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T13:32:54.214150",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-remission-no-universal-key-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T13:32:40.035983",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T13:32:50.245995",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Compiled internal remission-boundary claim card passes source trace and boundary checks; not decision-grade for protocol ranking."
+        },
+        {
+          "timestamp": "2026-06-05T13:32:54.214489",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-remission-no-universal-key-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-diabetes_sglt2_label-01",
+      "artifact_path": "outputs/business/diabetes-sglt2-label-boundary-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "DIABETES",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T13:36:32.765631",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T13:36:58.974406",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T13:37:02.952909",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-sglt2-label-boundary-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T13:36:32.765928",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T13:36:58.975073",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Compiled internal SGLT2 label-boundary claim card passes source trace, regulatory source validation, and boundary checks; not decision-grade for product ranking or patient-specific use."
+        },
+        {
+          "timestamp": "2026-06-05T13:37:02.953209",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-sglt2-label-boundary-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-diabetes_diet_archit-01",
+      "artifact_path": "outputs/business/diabetes-diet-architecture-no-low-carb-slogan-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "DIABETES",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T13:39:05.693312",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T13:39:18.515891",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T13:39:22.574403",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-diet-architecture-no-low-carb-slogan-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T13:39:05.693850",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T13:39:18.516487",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Compiled internal diet-architecture claim card passes source trace and boundary checks; preserves low-carbohydrate signal without collapsing into a diet slogan."
+        },
+        {
+          "timestamp": "2026-06-05T13:39:22.574703",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-diet-architecture-no-low-carb-slogan-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-ckd_fgf23_phosphorus-01",
+      "artifact_path": "outputs/business/ckd-fgf23-phosphorus-staging-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "CKD",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T14:25:22.456887",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T17:28:32.908347",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T17:28:33.042547",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-fgf23-phosphorus-staging-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T14:25:22.457165",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T14:25:42.229129",
+          "reviewer": "cli",
+          "action": "comment",
+          "note": "Do not promote yet: this is an abstract-weighted extraction-planning claim card. It should remain review/search_more until src-ckd-026 receives real abstract or full-text extraction."
+        },
+        {
+          "timestamp": "2026-06-05T17:28:32.908367",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Full abstract extraction for src-ckd-026 completed. FGF-23 elevates earlier than hyperphosphatemia is now source-supported (Level B)."
+        },
+        {
+          "timestamp": "2026-06-05T17:28:33.042569",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-fgf23-phosphorus-staging-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-ckd_risk_protective_-01",
+      "artifact_path": "outputs/business/ckd-risk-protective-factors-architecture-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "CKD",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T14:39:14.728415",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T17:28:37.325544",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T17:28:37.461976",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-risk-protective-factors-architecture-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T14:39:14.728846",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T14:39:19.176464",
+          "reviewer": "cli",
+          "action": "comment",
+          "note": "Do not promote yet: this is an abstract-weighted risk-architecture extraction-planning claim card. It should remain review/search_more until src-ckd-034 receives real abstract or full-text extraction and is compared with seed CKD risk sources."
+        },
+        {
+          "timestamp": "2026-06-05T17:28:37.325564",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Full abstract extraction for src-ckd-034 completed. Diet as modifiable factor is now source-supported (Level B) with caveats. Commercial dry cat food association is real but requires replication."
+        },
+        {
+          "timestamp": "2026-06-05T17:28:37.461997",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-risk-protective-factors-architecture-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-diabetes_obesity_bod-01",
+      "artifact_path": "outputs/business/diabetes-obesity-body-condition-sequencing-claim-card-20260605.md",
+      "artifact_type": "claim_evidence",
+      "disease": "DIABETES",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T17:22:49.565875",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T17:22:55.236075",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T17:22:58.072597",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-obesity-body-condition-sequencing-claim-card-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T17:22:49.565892",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T17:22:55.236095",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "Claim card passes source trace, Key-Claim Traceability, and boundary checks; preserves obesity/body-condition nuance without moralizing obesity or recommending unsafe immediate caloric restriction."
+        },
+        {
+          "timestamp": "2026-06-05T17:22:58.072619",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/diabetes-obesity-body-condition-sequencing-claim-card-20260605.md"
+        }
+      ],
+      "tags": []
+    },
+    {
+      "artifact_id": "ART-ckd_phosphorus_trial-01",
+      "artifact_path": "outputs/business/ckd-phosphorus-trial-endpoint-decision-20260605.md",
+      "artifact_type": "endpoint_memo",
+      "disease": "CKD",
+      "status": "promoted",
+      "submitted_at": "2026-06-05T18:59:03.094283",
+      "submitted_by": "cli",
+      "reviewed_at": "2026-06-05T18:59:20.658528",
+      "reviewed_by": "cli",
+      "promoted_at": "2026-06-05T18:59:24.835120",
+      "promoted_to": "/Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-phosphorus-trial-endpoint-decision-20260605.md",
+      "comments": [
+        {
+          "timestamp": "2026-06-05T18:59:03.094303",
+          "reviewer": "cli",
+          "action": "submit",
+          "note": "Submitted for review"
+        },
+        {
+          "timestamp": "2026-06-05T18:59:20.658546",
+          "reviewer": "cli",
+          "action": "approve",
+          "note": "CKD trial endpoint decision memo passes source trace and boundary checks. Key-Claim Traceability present. Core/Support/Context tier structure complete with 5/2/4 endpoints."
+        },
+        {
+          "timestamp": "2026-06-05T18:59:24.835146",
+          "reviewer": "system",
+          "action": "promote",
+          "note": "Promoted to /Users/jiawei/Desktop/insclaude/feline-research-os/outputs/final/ckd-phosphorus-trial-endpoint-decision-20260605.md"
+        }
+      ],
+      "tags": []
+    }
+  ]
+}

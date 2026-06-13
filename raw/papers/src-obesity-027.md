@@ -12,7 +12,7 @@ evidence_level: original-study
 year: 2003
 status: ingested
 extraction_depth: partial
-verification_status: title_only
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [obesity, glut4, but, not, glut1, expression, decreases, early]

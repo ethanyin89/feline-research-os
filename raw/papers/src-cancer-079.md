@@ -14,30 +14,48 @@ extraction_depth: partial
 verification_status: title_only
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, progesterone, receptors, mammary, cytosol]
+tags: [cancer, progesterone, receptors, mammary, cytosol, PR, hormone-receptor]
 links:
   doi: "10.1007/bf00410693"
   url: "https://doi.org/10.1007/bf00410693"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Progesterone receptors in feline mammary cancer cytosol."
-    - "The intake sheet locator is: 10.1007/bf00410693."
+    - "DOI verified: 10.1007/bf00410693 (Springer)."
+    - "Title indicates cytosol-based PR assay in feline mammary cancer."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Historical study of progesterone receptor expression in FMC."
+    - "Not found in PubMed search; may be older Springer journal article."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Early receptor profiling study for feline mammary cancer."
+    - "Full-text required for specific PR expression data."
 ---
 
 # Progesterone receptors in feline mammary cancer cytosol
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-02
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| DOI | 10.1007/bf00410693 |
+| Publisher | Springer |
+| PubMed Status | Not found in PubMed search |
+
+## Abstract Summary
+
+Not found in PubMed. DOI verified via Springer.
+
+| Category | Finding |
+|----------|---------|
+| Study type | Receptor assay |
+| Target | Progesterone receptors in cytosol |
+| Species | Feline mammary cancer |
+
+**Boundary:** Not PubMed indexed. DOI verified. Full-text required for extractable claims about PR expression rates.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 85. Use it for triage until abstract or full-text extraction proves a stronger role.
+Feline mammary cancer progesterone receptor cytosol assay (DOI verified, not PubMed indexed; full-text required).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +72,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Progesterone receptors in feline mammary cancer cytosol.
-- The intake sheet locator is: 10.1007/bf00410693.
+- DOI: 10.1007/bf00410693 (Springer journal, verified)
+- Title indicates cytosol-based progesterone receptor assay
+- Not found in PubMed search
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Historical study of PR expression in feline mammary cancer
+- Cytosol receptor assay methodology (pre-IHC era technique)
+- Full-text access required for specific PR expression data
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May provide early PR expression rates for FMC
+- Complements modern IHC-based receptor studies
+- Relevant for mammary-carcinoma.md hormone receptor claims
 
 ## Claim-Fit Judgment
 

@@ -1,0 +1,82 @@
+{
+  "record_id": "rr-20260612-085315-1309",
+  "timestamp": "2026-06-12T08:53:15.978972",
+  "user_request": "猫CKD有什么治疗方法",
+  "task_type": "other",
+  "species": "cat",
+  "disease": "ckd",
+  "scope": "Task type: other; Search depth: standard; Species-strict: cat evidence only, flag extrapolation",
+  "search_depth": "standard",
+  "retrieval_sources": [
+    "internal_knowledge_base",
+    "internal_ckd_models"
+  ],
+  "search_queries": [],
+  "selected_evidence": [
+    "src-ckd-003",
+    "src-ckd-004",
+    "src-ckd-006",
+    "src-ckd-007",
+    "src-ckd-010",
+    "src-ckd-015"
+  ],
+  "excluded_evidence": [],
+  "key_decisions": [
+    "Task evaluated as: other",
+    "Search depth set to: standard",
+    "Species-strict mode: will flag non-cat evidence"
+  ],
+  "uncertainties": [],
+  "draft_versions": 1,
+  "gap_checks_performed": 1,
+  "revisions_made": 0,
+  "verification_results": [
+    {
+      "check_name": "search_depth_contract",
+      "passed": true,
+      "message": "standard contract satisfied: 6 evidence items, 2 retrieval rounds, 2 source families",
+      "severity": "high"
+    },
+    {
+      "check_name": "species_boundary",
+      "passed": true,
+      "message": "No unmarked cross-species references found",
+      "severity": "low"
+    },
+    {
+      "check_name": "evidence_grounding",
+      "passed": true,
+      "message": "Evidence citations found",
+      "severity": "low"
+    },
+    {
+      "check_name": "task_completeness",
+      "passed": true,
+      "message": "Task type does not require specific structure verification",
+      "severity": "low"
+    },
+    {
+      "check_name": "uncertainty_disclosure",
+      "passed": true,
+      "message": "Uncertainty disclosure not required for this search depth",
+      "severity": "low"
+    },
+    {
+      "check_name": "request_relevance",
+      "passed": false,
+      "message": "Output may not adequately address the original request",
+      "severity": "high"
+    },
+    {
+      "check_name": "internal_consistency",
+      "passed": true,
+      "message": "Contains contrasting statements - verify context is clear",
+      "severity": "medium"
+    }
+  ],
+  "verifier_status": "needs_human_review",
+  "output_path": "",
+  "final_answer": "这是本地 猫 CKD 治疗边界解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n## 直接回答\n猫 CKD 的“怎么治疗”不能在这个 vault 里被直接写成处方或治疗排名。更安全的做法是先回答：库里哪些治疗/管理分支有证据、哪些只是边界或研究问题。 [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007, src-ckd-010, src-ckd-015]\n\n## 当前能安全说什么\n当前最稳的治疗/管理读法是 renal diet 与 phosphorus control 作为较清楚的基线分支，同时把 proteinuria、blood pressure、potassium、anaemia、appetite 和 subcutaneous-fluid 等 supportive-care 分支分开看。 [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007, src-ckd-010, src-ckd-015]\n\n## 不能说过头的地方\n- 不能把这些管理分支写成已经证明的 cure 或统一 disease-modifying therapy，也不能把单一 endpoint 变成治疗排名。 [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007, src-ckd-010, src-ckd-015]\n- 这不是兽医诊疗建议，也不替代线下兽医判断。 [llm_inference]\n\n## 下一步\n读 `topics/ckd/translation-brief.md`、`topics/ckd/current-state-dashboard.md`，以及 CKD treatment-ranking / phosphorus-control / supportive-care memos。如果要进入 API synthesis，应先明确是治疗证据比较、label/监管边界、endpoint 设计，还是普通管理解释。\n\n## 本地命中\n- `topic-ckd-endpoint` — topics/ckd/endpoint-handbook.md; matched terms: CKD, endpoint, creatinine, proteinuria, phosphorus, SDMA\n- `topic-ckd-current-state-dashboard` — topics/ckd/current-state-dashboard.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-mechanism` — topics/ckd/mechanism-overview.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-translation-brief` — topics/ckd/translation-brief.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-synthesis-index` — topics/ckd/synthesis-index.md; matched terms: CKD, creatinine, proteinuria, SDMA",
+  "next_steps": [],
+  "handoff_summary": ""
+}

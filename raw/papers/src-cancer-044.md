@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 1976
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 187771
+doi: "10.1093/jnci/57.2.365"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, leukemia, virus, infection, age-related, variation, response, experimental]
@@ -33,11 +36,53 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 1976 JNCI: 67 SPF cats experimentally infected. Newborns 100% susceptible, 4+ months only 15%. FeLV-R → thymic lymphosarcoma; FeLV-KT → anemia. Foundation for age-related FeLV vulnerability. [Deep extraction worksheet](../../system/indexes/src-cancer-044-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 187771
+- DOI: 10.1093/jnci/57.2.365
+- Journal: Journal of the National Cancer Institute
+- Year: 1976
+
+## Abstract Summary
+
+This experimental infection study evaluated age-related susceptibility of specific-pathogen-free cats to two FeLV strains.
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Population | 67 specific-pathogen-free cats |
+| Ages | Newborn, 2 weeks, 1 month, 2 months, 4 months, 1 year |
+| Exposure | Intraperitoneal inoculation with Rickard or Kawakami-Theilen FeLV strains |
+| Susceptibility endpoints | FeLV group-specific antigen in leukocytes, FeLV-related disease, FOCMA antibody, virus-neutralizing antibody |
+
+**Age-related susceptibility:**
+
+| Age at inoculation | Persistent viremia / FeLV-related disease |
+|--------------------|------------------------------------------|
+| Newborn | 100% |
+| 2 weeks to 2 months | 85% |
+| 4 months or 1 year | 15% |
+
+**Immune-response pattern:**
+
+- Cats susceptible to FeLV leukemogenesis became persistently FeLV gsa-positive by 4 weeks after inoculation and produced little or no FOCMA or virus-neutralizing antibody.
+- Cats resisting FeLV leukemogenesis developed persistent FOCMA and virus-neutralizing titers and did not become FeLV gsa-positive.
+
+**Virus-strain difference:**
+
+- FeLV-R induced predominantly thymic lymphosarcoma.
+- FeLV-KT caused fatal nonregenerative anemia without concurrent neoplasia.
+
+**Boundary:** This is historical experimental-infection evidence, not modern FeLV prevention or management guidance.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 47. Use it for triage until abstract or full-text extraction proves a stronger role.
+Experimental FeLV infection showed strong age-related susceptibility, with newborn and young kittens much more likely to develop persistent viremia and FeLV-related disease than older cats.
 
 ## Why It Matters For Feline Cancer
 

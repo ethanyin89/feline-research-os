@@ -510,8 +510,17 @@ def build_source_display(
         # Try to extract from other fields
         title = source.get("paper_title", source.get("display_title", ""))
 
-    if not title:
-        title = "[标题待补充]"
+    if not title or title.startswith("src-"):
+        if internal_id:
+            # e.g., src-ckd-004 -> 文献 [CKD-004]
+            match = re.match(r"src-([a-z0-9-]+)-(\d+)", internal_id, re.I)
+            if match:
+                disease, num = match.groups()
+                title = f"文献 [{disease.upper()}-{num}]"
+            else:
+                title = f"文献 [{internal_id.upper()}]"
+        else:
+            title = "[标题待补充]"
 
     # Build canonical URL
     canonical_url = None
@@ -694,7 +703,25 @@ def render_user_facing_provenance(
         r"\[(quoted_fact|source_supported_conclusion):\s*([^\]]+)\]"
         r"|\[(llm_inference)\]"
     )
-    return pattern.sub(replace_tag, text)
+    res = pattern.sub(replace_tag, text)
+
+    # Proactively clean up any loose internal IDs that might have leaked into the prose
+    def replace_loose_id(match_obj: re.Match) -> str:
+        full_id = match_obj.group(0)
+        card = source_map.get(full_id)
+        if card:
+            title = html_lib.escape(card.title) if html_output else card.title
+            if html_output and card.has_valid_link():
+                url = html_lib.escape(card.canonical_url or "", quote=True)
+                return f'<a href="{url}" target="_blank" rel="noopener">{title}</a>'
+            return title
+        # Fallback to normalized title format
+        disease = match_obj.group(1).upper()
+        num = match_obj.group(2)
+        return f"文献 [{disease}-{num}]"
+
+    res = re.sub(r"\bsrc-([a-z0-9-]+)-(\d+)\b", replace_loose_id, res, flags=re.I)
+    return res
 
 
 def build_next_actions(
@@ -838,9 +865,14 @@ def build_result_presentation(
                     section_citations.append(inline_cit)
                     all_citations.append(inline_cit)
 
+            content_clean = render_user_facing_provenance(
+                sec.get("content", ""),
+                source_cards,
+                html_output=False,
+            )
             answer_sections.append(AnswerSection(
                 title=sec.get("title", ""),
-                content=sec.get("content", ""),
+                content=content_clean,
                 citations=section_citations,
             ))
 
@@ -851,6 +883,10 @@ def build_result_presentation(
         related_topics=related_topics,
     )
 
+    lead_clean = render_user_facing_provenance(lead, source_cards, html_output=False)
+    if len(lead_clean) > 500:
+        lead_clean = lead_clean[:497] + "..."
+
     return ResultPresentation(
         context=PresentationContext(
             title=title,
@@ -859,7 +895,7 @@ def build_result_presentation(
             language=Language(language),
         ),
         evidence_profile=evidence_profile,
-        lead=lead,
+        lead=lead_clean,
         sections=answer_sections,
         inline_citations=all_citations,
         source_cards=source_cards,

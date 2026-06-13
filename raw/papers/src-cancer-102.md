@@ -9,35 +9,61 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 1977
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, horizontal, transmission, leukemia, virus, under, experimental, conditions]
+pmid: 189052
+tags: [cancer, FeLV, transmission, horizontal, epidemiology, viremia]
 links:
-  doi: ""
+  doi: "10.1093/jnci/58.2.443"
   url: "https://academic.oup.com/jnci/article-abstract/58/2/443/1012927?redirectedFrom=fulltext&login=false"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Horizontal Transmission of Feline Leukemia Virus Under Experimental Conditions."
-    - "The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/58/2/443/1012927?redirectedFrom=fulltext&login=false."
+    - "PubMed-indexed: J Natl Cancer Inst. 1977 Feb;58(2):443-4."
+    - "Authors: Hoover EA, Olsen RG, Hardy WD Jr, Schaller JP."
+    - "37 SPF cats inoculated with Rickard strain FeLV."
+    - "20/37 inoculated cats became gsa-positive after 4-5 weeks."
+    - "17/20 contact cats with gsa-positive cats became FeLV infected."
+    - "Contact cats with gsa-negative cats: none became infected."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "GSA-positive state correlates with capacity for horizontal transmission."
+    - "Horizontal transmission requires viremic (gsa-positive) source cat."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Key paper for lymphoma.md FeLV transmission epidemiology."
+    - "Hardy WD Jr is seminal FeLV researcher."
 ---
 
 # Horizontal Transmission of Feline Leukemia Virus Under Experimental Conditions
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 189052 |
+| DOI | 10.1093/jnci/58.2.443 |
+| Journal | J Natl Cancer Inst |
+| Year | 1977 |
+| Authors | Hoover EA, Olsen RG, Hardy WD Jr, Schaller JP |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Study type | Experimental transmission study |
+| Sample | 37 SPF cats (inoculated + contact) |
+| Key finding | 20/37 became gsa-positive after 4-5 weeks |
+| Transmission | 17/20 contact cats with viremic cats became infected |
+| No transmission | Contact with gsa-negative cats: 0% infection |
+
+**Boundary:** Abstract-level extraction. Transmission findings inform FeLV epidemiology and lymphoma risk.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 111. Use it for triage until abstract or full-text extraction proves a stronger role.
+FeLV horizontal transmission requires viremic (gsa-positive) source cat; 17/20 contact cats became infected from gsa+ cats vs 0% from gsa- cats.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +80,25 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Horizontal Transmission of Feline Leukemia Virus Under Experimental Conditions.
-- The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/58/2/443/1012927?redirectedFrom=fulltext&login=false.
+- 37 SPF cats (newborn to 1 year) inoculated with Rickard strain FeLV
+- Each inoculated cat shared cage with control SPF cat for 40 weeks
+- 20/37 inoculated cats became gsa-positive after 4-5 weeks
+- 17 remained gsa-negative but developed antibody titers
+- 17/20 contact cats with gsa-positive cats became FeLV infected (4-18 weeks after viremia)
+- 0% of contact cats with gsa-negative cats became infected
+- Infected cats became chronic carriers (viremic) during 9-11 week observation
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- GSA-positive state correlates with capacity for horizontal FeLV transmission
+- Horizontal transmission requires viremic source cat
+- Non-viremic (antibody-positive, gsa-negative) cats do not transmit horizontally
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Key paper for lymphoma.md FeLV transmission epidemiology
+- Informs FeLV testing and isolation recommendations
+- Hardy WD Jr is seminal FeLV researcher
 
 ## Claim-Fit Judgment
 

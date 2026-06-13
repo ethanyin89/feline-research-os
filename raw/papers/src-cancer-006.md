@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: review
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 1971
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 5165584
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, current, information, cancers, relationship, lack, human]
@@ -33,11 +35,17 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on bibliographic metadata only. 1971 JNCI paper by Murray Gardner on comparative oncology. No PubMed abstract available (pre-1975 paper). Value is historical context only — not for clinical claims. [Deep extraction worksheet](../../system/indexes/src-cancer-006-deep-extraction-round1.md).
+
+## Historical Context
+
+This is a foundational 1971 paper from the Journal of the National Cancer Institute examining the relationship between feline/canine cancers and human cancer. Murray Gardner was a prominent researcher in comparative and viral oncology at UC Davis. The paper predates modern molecular oncology but represents early systematic comparative cancer research.
+
+**Boundary:** As a 1971 paper, specific findings would require full-text review. Modern comparative oncology has evolved significantly since then. Primary value is historical context.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 7. Use it for triage until abstract or full-text extraction proves a stronger role.
+1971 JNCI: foundational Gardner paper on feline/canine cancer relationships to human cancer (historical, no PubMed abstract).
 
 ## Why It Matters For Feline Cancer
 

@@ -18,7 +18,7 @@ decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, viral, causes, lymphoma, retroviruses, beyond]
 links:
-  doi: ""
+  doi: "10.1016/j.tvjl.2014.05.026"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S1090023314002238?via%3Dihub"
   local_assets: []
 evidence_policy:

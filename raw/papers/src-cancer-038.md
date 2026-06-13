@@ -9,9 +9,11 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 26883919
+year: 2016
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, establishment, characterization, new, mammary, cell, line, fkmtp]
@@ -33,11 +35,53 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2016 Cytotechnology: FkMTp cell line established from cat mammary carcinoma, characterized up to 160 passages. Shows progressive increase in anchorage independence, migration, invasion. Research resource. [Deep extraction worksheet](../../system/indexes/src-cancer-038-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 26883919
+- DOI: 10.1007/s10616-015-9912-7
+- Journal: Cytotechnology
+- Year: 2016
+- PMC: PMC4960199
+
+## Abstract Summary
+
+This study established and characterized FkMTp, a new feline mammary cancer cell line derived from a cat mammary carcinoma.
+
+**Comparative oncology context:**
+- FMCs share important features with human breast cancers
+- Similar biological behavior
+- Similar histological appearance
+
+**Cell line characterization:**
+
+| Characteristic | Finding |
+|----------------|---------|
+| Source | Primary cat mammary carcinoma |
+| Passages | Up to 160th passage characterized |
+| Anchorage independence | Increased over time |
+| Migration | Increased over time |
+| Invasion | Increased over time |
+| Ploidy | Variable numbers observed |
+
+**Tumorigenicity validation:**
+- In vitro tumorigenicity demonstrated
+- Progressive acquisition of malignant properties
+- Cryopreserved at ~every 6 passages
+
+**Research value:**
+- Enables study of tumor microevolution
+- Allows tracking of carcinogenesis mechanisms
+- Multiple time points preserved for comparative analysis
+
+**Boundary:** This is a cell line characterization paper. FkMTp is a research tool, not a clinical treatment or diagnostic.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 41. Use it for triage until abstract or full-text extraction proves a stronger role.
+FkMTp cell line established from cat mammary carcinoma shows increasing anchorage independence, migration, and invasion across passages — a research tool for tumor evolution studies.
 
 ## Why It Matters For Feline Cancer
 

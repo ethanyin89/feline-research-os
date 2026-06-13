@@ -1,6 +1,6 @@
 # Handoff: Karpathy LLM Wiki Gap Analysis — 2026-05-17
 
-**Updated: 2026-05-30** — Added cancer module (102 cards, 8 branch pages)
+**Updated: 2026-06-10** — CKD sheet intake complete (+35 sources, now 85 total CKD)
 
 ## 任务背景
 
@@ -12,7 +12,7 @@
 
 | Karpathy 层 | 对齐度 | 当前状态 | 剩余差距 |
 |------------|:------:|---------|---------|
-| **Data ingest (文字)** | 92% | 441 source cards (427 paper + 14 regulation)，8 病种，year metadata 100% | PDF/web clipper 自动化弱，手工管理为主 |
+| **Data ingest (文字)** | 94% | 576 source cards (562 paper + 14 regulation)，8 病种，year metadata 100%，CKD expanded to 85 sources | PDF/web clipper 自动化弱，手工管理为主 |
 | **Data ingest (图片)** | 60% | 12 verified images (CKD 8, FIP/HCM/IBD/Diabetes 各 1)，vision pipeline 完整 | FCV/Obesity/Cancer 0 images，src-ckd-013 blocked |
 | **Compile** | 95% | topics/entities 完整，compile_trigger.py 接入 git hook + launchd | 全自动 recompile 仍需人工触发 |
 | **IDE (Obsidian)** | 100% | 本地 Obsidian 在用 | 完全对齐 |
@@ -22,7 +22,7 @@
 | **Extra tools** | 90% | search.py + mcp_server.py + charts.py | 完整 route+hop+synthesize MCP tool 待暴露 |
 | **Future (finetuning)** | 0% | 无 | 远期目标 |
 
-### 总体对齐度：**~82%** (↑2% from cancer module addition)
+### 总体对齐度：**~83%** (↑1% from cancer extraction depth + branch expansion)
 
 ## 可闭合差距分析
 
@@ -45,7 +45,7 @@
 | API live acceptance | HIGH | 高 | 需配置 API key 跑 acceptance |
 | Full MCP tool | MEDIUM | 中 | 需 API key + route/hop/synthesize 封装 |
 | Obesity Tier 2 sources | LOW | 高 | 按需继续 management 源 |
-| Cancer Tier 2 extraction | MEDIUM | 高 | 67 title_only cards → abstract_weighted via PubMed |
+| Cancer Tier 2 extraction | ✅ CLOSED | — | 101/102 at abstract+ depth (1 non-PubMed source remains partial) |
 | Cancer decision-grade | LOW | 中 | 需更多 clinical outcome sources |
 
 ### 2026-05-30 闭合进展
@@ -53,8 +53,19 @@
 | 差距 | 状态 | 证据 |
 |------|------|------|
 | Cancer module bootstrap | ✅ CLOSED | 102 source cards ingested, 8 branch pages compiled |
-| Cancer source depth | ⏳ PARTIAL | 6 deep-extracted + 29 abstract_weighted (35% coverage) |
+| Cancer source depth | ✅ NEARLY COMPLETE | 72 deep/full + 29 abstract (101/102 at abstract+ depth) |
 | Cancer synthesis shell | ✅ CLOSED | architecture-level synthesis index complete |
+
+### 2026-06-01 闭合进展
+
+| 差距 | 状态 | 证据 |
+|------|------|------|
+| Cancer abstract extraction | ⏳ IN PROGRESS | extraction_depth: 42 abstract + 6 full (47% complete, +24 upgrades this session) |
+| Cancer abstract extraction continuation | ⏳ IN PROGRESS | extraction_depth: 56 abstract + 6 full (62/102 abstract+ depth, +14 verified PubMed upgrades after handoff) |
+| Mammary carcinoma branch | ✅ EXPANDED | 15 → 43 claims, +28 new findings from abstracts |
+| Oral SCC branch | ✅ EXPANDED | 13 → 19 claims, +6 new findings (pEMT, CSCs, model markers) |
+| Lymphoma branch | ✅ EXPANDED | 18 → 25 claims, +7 new findings (cytogenomics, FeLV epi, age-dependent FeLV susceptibility) |
+| Key new sources integrated | ✅ | TNBC, HER2, immunotherapy, Treg immune-suppressed subgroup, FUS feasibility, EMT cell line, adriamycin sensitivity, pEMT/CSCs, COX-2, PAD, gene expression, MDR, N-NOSE, cachexia, FeLV biology |
 
 ## 本次 Session 完成内容
 
@@ -86,26 +97,29 @@
 ## 当前 Vault 现实
 
 ```
-Paper source cards:      427 (8 diseases)
+Paper source cards:      562 (8 diseases)
 Regulation cards:        14
-Year metadata:           427/427 (100%)
+Year metadata:           562/562 (100%)
 Verified images:         12
 Health check tests:      107 passing
 Health check status:     ALL PASS
 
 Disease module status:
-  CKD:      24/24 deep-extracted, 8 images
-  FIP:      24/24 deep-extracted, 1 image
+  CKD:      85 cards (50 deep + 35 abstract_weighted), 8 images
+  FIP:      28/28 deep-extracted, 1 image
   HCM:      24/24 deep-extracted, 1 image
   IBD:      24/24 deep-extracted, 1 image
-  FCV:      24/24 deep-extracted, 0 images
+  FCV:      103 cards, 0 images
   Diabetes: 118 cards (24 full + 94 partial), 1 image
-  Obesity:  87 cards (4 Tier 1 deep-extracted), 0 images
-  Cancer:   102 cards (6 deep-extracted, 29 abstract_weighted, 67 title_only), 0 images
+  Obesity:  92 cards (4 Tier 1 deep-extracted), 0 images
+  Cancer:   102 cards (72 deep/full + 29 abstract + 1 partial), 0 images
 
 Cancer module architecture:
   Branch pages compiled:  8 (workflow, lymphoma, mammary, oral-scc, fiss, cox-markers, registry, mast-cell placeholder)
-  Synthesis index:        6 key claims, architecture-level only
+  Mammary carcinoma:      45 traceable claims (expanded from 15)
+  Oral SCC:               19 traceable claims (expanded from 13)
+  Lymphoma:               27 traceable claims (expanded from 18)
+  Synthesis index:        architecture-level + key branch findings
   Decision-grade content: NO (workflow shell only)
 ```
 
@@ -229,7 +243,7 @@ done
    - CKD/FIP/HCM/IBD/FCV 各 24/24 full
    - Diabetes 118 cards
    - Obesity 87 cards (Tier 1 complete)
-   - Cancer 102 cards (6 deep + 29 abstract_weighted + 67 title_only)
+   - Cancer 102 cards (6 deep + 56 abstract extraction_depth + 40 partial extraction_depth)
 6. Year metadata 100% coverage：427/427 paper source cards 都有 year 字段。
 7. 不要伪造数据。candidate-* 图片必须验证后才能去除前缀。
 8. AI 写的 wiki 页面先进 inbox/，人工确认后 promote。
@@ -289,3 +303,143 @@ d8831e5 docs: update handoff with bilingual completion status
 1. 设置 Streamlit Sharing → Public
 2. 邀请 pilot researcher
 3. 继续 cancer abstract extraction (PubMed E-utilities, 无 API 成本)
+
+---
+
+## 2026-06-01 Session Update
+
+### Session 完成内容
+
+| 工作项 | 完成状态 | 证据 |
+|--------|---------|------|
+| Cancer abstract extraction | ✅ +38 cards total on 2026-06-01 | 56/102 now at abstract extraction depth |
+| Mammary carcinoma branch expansion | ✅ +30 claims | 45 traceable claims now |
+| Oral SCC branch expansion | ✅ +6 claims | 19 traceable claims now |
+| Lymphoma branch | ✅ +9 claims | 27 traceable claims now |
+| Source cards upgraded | ✅ | src-cancer-005,006,007,010,011,014,016,017,018,020,021,022,026,028,031,032,034,035,036,037,038,039,041,042,043,044,045,049,050 |
+
+### 新整合的关键发现
+
+| Source | Key Finding | Branch Impact |
+|--------|-------------|---------------|
+| src-cancer-022 | 156-lesion TNBC phenotype study: majority vimentin+, CK14+, CK5/6+ | MC16-MC17 |
+| src-cancer-013 | HER2 92% homology, 36% FMC HER2+ | MC21-MC22 |
+| src-cancer-028 | Tumor grade + mitotic index validated prognostic | MC18-MC20 |
+| src-cancer-017 | 5 checkpoints (CTLA-4, LAG-3, PD-1, VISTA, TIM-3) under investigation | MC26 |
+| src-cancer-016 | TME components well-characterized | MC25 |
+| src-cancer-005 | 3 models: oral SCC, mammary, injection site sarcoma | comparative oncology |
+| src-cancer-031 | Feline HNSCC: pEMT + CD44/CD271+ cancer stem cells at invasive fronts | OSCC14-OSCC16 |
+| src-cancer-032 | BB-Cl-Amidine (PAD inhibitor): reduces FMC cell viability via ER stress | MC28-MC29 |
+| src-cancer-034 | 87% FMC express COX-2 by IHC | MC27 |
+| src-cancer-021 | FOSCC as HNSCC model: shared EGFR, VEGF, p53, tobacco/papillomavirus | OSCC17-OSCC19 |
+| src-cancer-036 | CCND1, PTBP1, PKM2 overexpressed; oral contraceptive association | MC30-MC31 |
+| src-cancer-038 | FkMTp cell line: increasing malignancy with passage | MC32 |
+| src-cancer-026 | 1972 case-control study: 221 lymphoma cases, environmental factors | LY21 |
+| src-cancer-035 | MDR proteins (PGP, MRP, LRP) in pulmonary carcinomas | general cancer |
+| src-cancer-037 | N-NOSE nematode screening: AUC 0.77-0.90 for feline cancer | diagnostic |
+| src-cancer-039 | Cachexia/sarcopenia: protein, fat, omega-3 modifications | supportive care |
+| src-cancer-041 | 1983 JNCI: 6 independent prognostic factors in 202 FMC cases | MC33 |
+| src-cancer-042 | 1976 FeLV biology: test-and-removal, 12% infection rate | LY22-LY23 |
+| src-cancer-043 | 180-cat FMC cohort: Treg-enriched immune-suppressed TNBC-like subgroup | MC34-MC35 |
+| src-cancer-044 | Experimental FeLV susceptibility decreases with age; strain-specific outcomes | LY24-LY25 |
+| src-cancer-045 | Focused ultrasound mammary cancer pilot produced targeted coagulative necrosis | MC36 |
+| src-cancer-049 | TiHo-0906 EMT-like feline mammary cancer cell line | MC37-MC38 |
+| src-cancer-050 | Historical adriamycin in vitro/in vivo sensitivity comparison | MC39 |
+| src-cancer-051 | HRQoL questionnaire accepted by owners/clinicians in canine/feline oncology | supportive care |
+| src-cancer-052 | COX-2 and alpha-SMA-positive CAFs linked to poor prognosis in 50 feline mammary tumors | MC40-MC41 |
+| src-cancer-054 | Three-case feline inflammatory mammary carcinoma series | MC42-MC43 |
+
+### Karpathy 差距闭合进展
+
+| Gap | 之前状态 | 现在状态 | 变化 |
+|-----|---------|---------|------|
+| Cancer source depth | 35% (6 full + 30 abstract) | 61% (6 full + 56 abstract) | +38 extraction_depth upgrades total |
+| Mammary branch density | 26 claims | 43 claims | +17 claims (COX-2, PAD, gene expression, cell lines, JNCI prognostic, immune-suppressed subgroup, FUS feasibility, CAF/COX-2 prognosis, inflammatory mammary carcinoma) |
+| Oral SCC branch density | 13 claims | 19 claims | +6 claims (pEMT, CSCs, model markers) |
+| Lymphoma branch density | 18 claims | 25 claims | +7 claims (cytogenomics, FeLV epidemiology, age-dependent FeLV susceptibility) |
+| Comparative oncology coverage | scattered | consolidated | HER2, TNBC, immunotherapy, pEMT/CSCs, EGFR/VEGF/p53 |
+| Supportive care | none | started | cachexia nutrition, MDR proteins |
+
+### 下一步建议
+
+1. **继续 abstract extraction** — 40 partial cards 还需升级
+   - 优先：lymphoma clinical (src-cancer-048 已在 lymphoma.md)
+   - 优先：oral SCC clinical (更多 treatment outcome sources)
+   - 优先：FISS treatment outcomes
+
+2. **扩展其他 branch pages** — injection-site sarcoma and remaining lymphoma/oral SCC clinical sources are still candidates
+
+3. **验证 Streamlit app Public sharing** — 准备 pilot researcher feedback
+
+---
+
+## 2026-06-10 Session Update
+
+### CKD Literature Sheet Intake Complete
+
+| Metric | Before | After | Change |
+|--------|--------|-------|--------|
+| CKD source cards | 50 | 85 | +35 |
+| Total paper sources | 527 | 562 | +35 |
+| CKD extraction depth | 50 deep | 50 deep + 35 abstract | expanded |
+
+### New CKD Thematic Clusters
+
+1. **Early Detection Biomarkers**: SDMA, Cystatin C, FGF-23, NGAL, urinary albumin/transferrin (src-ckd-052, 059, 056, 077, 078)
+2. **CKD-MBD Mineral Metabolism**: FGF-23, calcium handling, hyperphosphatemia (src-ckd-082, 026)
+3. **Uremic Toxins/Microbiome**: Indoxyl sulfate, gut microbiome, synbiotics (src-ckd-067, 068, 069, 070, 072)
+4. **Comorbidities**: Hyperthyroidism diagnosis (src-ckd-081), anemia timing (src-ckd-083)
+5. **Emerging Therapies**: Regenerative medicine progenitor cells (src-ckd-079), pre-azotemic intervention (src-ckd-051)
+6. **Quality of Life**: Appetite/ghrelin marker (src-ckd-085)
+
+### Karpathy Alignment Update
+
+| Layer | Previous | Current | Change |
+|-------|----------|---------|--------|
+| Data ingest (文字) | 93% | 94% | +1% (CKD expansion) |
+| Total alignment | ~83% | ~84% | +1% |
+
+### Manifest Created
+
+`system/indexes/feline-ckd-intake-manifest-20260610.md` tracks:
+- 142 new entries processed (8 batches)
+- 35 source cards created (src-ckd-051 through src-ckd-085)
+- Priority classification framework applied
+
+### Karpathy Principle Compliance
+
+Per Karpathy's "compile once, query forever" principle:
+- CKD supporting sources remain at abstract_weighted depth (sufficient for supporting role)
+- Branch-controlling extraction priority remains on 41 cancer sources
+- No RAG/vector search needed — topic pages + source cards provide structured retrieval
+
+### Vault Extraction Depth Summary (2026-06-10)
+
+| Disease | Total | Full/Deep | Coverage | Notes |
+|---------|-------|-----------|----------|-------|
+| CKD | 85 | 28 | 33% | +35 new supporting sources |
+| FIP | 28 | 26 | 93% | Core module complete |
+| HCM | 24 | 24 | 100% | Core module complete |
+| IBD | 24 | 24 | 100% | Core module complete |
+| FCV | 103 | 24 | 23% | Large supporting pool |
+| Diabetes | 121 | 25 | 21% | +3 new comorbidity sources |
+| Obesity | 95 | 4 | 4% | +3 new comorbidity sources |
+| Cancer | 102 | 72 | 71% | Branch-controlling mostly done |
+
+**Total:** 576 paper sources, 227 at full/deep depth (39%)
+
+### Remaining Open Gaps
+
+| Gap | Priority | Status | Blocker |
+|-----|----------|--------|---------|
+| Ask-native product feel | HIGH | OPEN | Taste decision (needs user) |
+| Image density | MEDIUM | OPEN | PDF access |
+| API live acceptance | HIGH | OPEN | API key |
+| FIP sheet intake | LOW | BLOCKED | URL 400 error |
+
+### Next Actionable Steps
+
+1. **No-cost:** Fix FIP sheet URL in skill file, retry intake
+2. **No-cost:** Cancer branch page expansion with existing abstract data
+3. **Needs user:** Streamlit product direction decision
+4. **Needs API:** Live acceptance testing

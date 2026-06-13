@@ -32,7 +32,7 @@ status: active
 
 ## Evidence-Depth Caveat
 
-This page combines one abstract-weighted source (`src-cancer-047`) with two deep-extracted sources (`src-cancer-002`, `src-cancer-004`). The Swiss registry provides time-trend evidence supporting adjuvant involvement. Full-text extraction of src-cancer-047 is recommended for incidence numbers.
+This page combines three deep-extracted sources (`src-cancer-002`, `src-cancer-004`, `src-cancer-047`). The Swiss registry provides time-trend evidence supporting adjuvant involvement. [Deep extraction worksheet](../../system/indexes/src-cancer-047-deep-extraction-round1.md).
 
 ## Core Takeaway
 

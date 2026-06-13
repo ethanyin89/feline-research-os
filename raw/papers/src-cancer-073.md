@@ -8,54 +8,65 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: review
+evidence_level: original-study
 year: 2024
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, expression, mpges1, p16, human, oral, squamous, cell]
+pmid: 38378135
+tags: [cancer, FOSCC, HOSCC, mPGES1, p16, COX-2, CD147, comparative-oncology, inflammation]
 links:
   doi: "10.1111/vco.12967"
   url: "https://doi.org/10.1111/vco.12967"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Veterinary and Comparative Oncology; year: 2024."
+    - "42 HOSCC and 45 FOSCC samples analyzed."
+    - "High p16 expression more common in HOSCC tumour cells vs adjacent stroma/epithelium."
+    - "High mPGES1 in FOSCC more common in adjacent epithelium than other compartments."
+    - "High CD147 HOSCC tumours more common in high mPGES1 group."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Different expression patterns in FOSCC and HOSCC may relate to different risk factors."
+    - "p16 is marker of papillomavirus-driven HOSCC; causal relationship in FOSCC not definitively demonstrated."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Supports comparative oncology value of FOSCC model while noting species differences."
+    - "Inflammation markers (COX-2, mPGES1) relevant for FOSCC pathogenesis."
 ---
 
 # Expression of mPGES1 and p16 in feline and human oral squamous cell carcinoma: A comparative oncology approach
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction based on the full abstract. 2024 Vet Comp Oncol: 45 FOSCC vs 42 HOSCC compared; p16 patterns differ (HPV marker in humans); mPGES1 higher in adjacent epithelium in FOSCC; species-specific risk factors; FOSCC may model HPV-negative HOSCC. [Deep extraction worksheet](../../system/indexes/src-cancer-073-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-02
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Field | Value |
+|-------|-------|
+| PMID | 38378135 |
+| DOI | 10.1111/vco.12967 |
+| Journal | Vet Comp Oncol |
+| Year | 2024 |
+| Authors | Nasry WHS, Jones K, Rodriguez-Lecompte JC, et al. |
 
-- DOI metadata resolved: yes
-- Container: Veterinary and Comparative Oncology
-- Year: 2024
-- Abstract available in Crossref: yes
+## Abstract Summary
 
-Use boundary:
+| Category | Finding |
+|----------|---------|
+| Sample size | 42 HOSCC, 45 FOSCC |
+| p16 expression | Higher in HOSCC tumor cells vs stroma; similar but NS trend in FOSCC |
+| mPGES1 in FOSCC | Higher in adjacent epithelium than tumor/stroma |
+| mPGES1 in HOSCC | More similar between compartments |
+| CD147 correlation | High CD147 more common in high mPGES1 HOSCC |
+| Species difference | Different expression patterns may relate to different risk factors |
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Abstract Comparative cancer studies help us determine if discoveries in one species apply to another. Feline and human oral squamous cell carcinoma (FOSCC and HOSCC) are invasive...
+**Boundary:** Abstract-level extraction. Comparative study highlights both similarities and differences between FOSCC and HOSCC.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 79. Use it for triage until abstract or full-text extraction proves a stronger role.
+Comparative study of 45 FOSCC vs 42 HOSCC showing different mPGES1/p16 expression patterns, suggesting species-specific risk factors and pathogenesis.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +83,23 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Expression of mPGES1 and p16 in feline and human oral squamous cell carcinoma: A comparative oncology approach.
-- The intake sheet locator is: 10.1111/vco.12967.
+- 45 FOSCC and 42 HOSCC samples with known COX-2 and CD147 expression
+- High p16 more common in HOSCC tumor cells than adjacent stroma/epithelium
+- High mPGES1 in FOSCC more common in adjacent epithelium than tumor
+- High CD147 HOSCC tumors more common in high mPGES1 group
+- p16 is marker of papillomavirus-driven HOSCC; causal role in FOSCC not definitively demonstrated
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- FOSCC and HOSCC share some inflammatory pathway features
+- Different expression patterns may reflect species-specific risk factors
+- COX-2 and mPGES1 both contribute to tumor inflammation
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Supports comparative oncology value while noting species differences
+- Important nuance: p16/HPV relationship validated in human but not feline OSCC
+- May inform oral-squamous-cell-carcinoma.md claims about inflammation and comparative model validity
 
 ## Claim-Fit Judgment
 

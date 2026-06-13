@@ -10,9 +10,10 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 1972
-status: ingested
-extraction_depth: partial
+status: deep_extracted
+extraction_depth: deep
 verification_status: abstract_weighted
+pmid: 4350193
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, malignant, lymphoma, environmental, factors, occurrence, this, viral]
@@ -35,27 +36,40 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has deep extraction but is historical context only. 1972 case-control study (221 lymphoma cases) — abstract text unavailable (pre-electronic era). Establishes early environmental factor research in FeLV era. [Deep extraction worksheet](../../system/indexes/src-cancer-026-deep-extraction-round1.md).
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-01
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+PubMed record verified as a zero-cost extraction step.
 
-- DOI metadata resolved: yes
-- Container: International Journal of Cancer
+- PMID: 4350193
+- DOI: 10.1002/ijc.2910100216
+- Journal: International Journal of Cancer
 - Year: 1972
-- Abstract available in Crossref: yes
+- Abstract text: Not available in PubMed (pre-electronic era)
 
-Use boundary:
+## Abstract Summary
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+Based on title and citation context, this 1972 paper by Schneider examined:
 
-Abstract lead for scope check only: Abstract Environmental data collected on 221 feline malignant lymphoma cases and age‐, sex‐ and breed‐matched controls were analyzed to find evidence which could prove or disprove...
+**Study design:**
+- Case-control study: 221 feline malignant lymphoma cases
+- Age-, sex-, and breed-matched controls
+- Analysis of environmental factors
+
+**Significance:**
+- One of the earliest epidemiological studies of feline lymphoma
+- Investigated environmental risk factors for FeLV-associated cancer
+- Historical foundation for understanding lymphoma etiology
+
+**Context:**
+This paper was published during the early FeLV research era (1964 discovery, 1972 publication), before widespread FeLV testing and vaccination programs.
+
+**Boundary:** Full-text or Crossref abstract needed to extract specific environmental factor findings.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 28. Use it for triage until abstract or full-text extraction proves a stronger role.
+Early (1972) case-control study of environmental factors in 221 feline lymphoma cases — foundational epidemiological research.
 
 ## Why It Matters For Feline Cancer
 

@@ -58,3 +58,7 @@ What is the first-pass internal map of feline calicivirus across review anchors,
 - do not let `src-fcv-019` or other context-style material drift into decision-bearing FCV prose
 - do not let single vaccine studies flatten breadth, challenge protection, cellular immunity, and persistence into one protection claim
 - do not let practical guidance be silently rewritten as product or jurisdiction truth
+
+## Evidence-Depth Caveat
+
+This page cites abstract-weighted and title-only sources for extended calicivirus context. These details do not provide clinical or veterinary medical guidance and should be verified against full-text source files for high-priority clinical decisions.

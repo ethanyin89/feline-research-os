@@ -9,9 +9,12 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2017
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
+pmid: 28335614
+doi: "10.1089/humc.2017.008"
 decision_grade: no
 language_qa_status: not_applicable
 tags: [cancer, therapeutic, targeting, protein, kinase, ck2, gene, expression]
@@ -33,11 +36,47 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2017 Human Gene Ther Clin Dev: 9 cats with FOSCC in 3+3 dose-escalation of anti-CK2 RNAi nanocapsule; mostly grade 1-2 AEs; 1 PR, 3 SD, 4 PD; 2/6 showed reduced CK2 IHC; establishes FOSCC as human HNSCC translational model. [Deep extraction worksheet](../../system/indexes/src-cancer-055-deep-extraction-round1.md).
+
+## Source Check, 2026-06-01
+
+PubMed abstract fetched as a zero-cost extraction step.
+
+- PMID: 28335614
+- DOI: 10.1089/humc.2017.008
+- Journal: Human Gene Therapy Clinical Development
+- Year: 2017
+- PMCID: PMC5510041
+
+## Abstract Summary
+
+This original study tested anti-CK2 RNA interference therapy in cats with feline oral squamous cell carcinoma (FOSCC).
+
+**Study design:**
+
+| Feature | Abstract-Extracted Detail |
+|---------|---------------------------|
+| Disease | Feline oral squamous cell carcinoma |
+| Intervention | Tenfibgen-coated tumor-specific nanocapsule carrying RNAi oligonucleotides targeting feline CK2 alpha and CK2 alpha-prime |
+| Enrollment | 9 cats |
+| Dosing design | Two dose levels in a 3+3 escalation |
+| Treatments | Six treatments per cat |
+| Primary aim | Safety |
+| Secondary aims | Target inhibition and tumor response |
+
+**Findings:**
+
+- The most common adverse events were grade 1 or 2 weight loss and anorexia.
+- Reported grade 3/4 events included tissue necrosis associated with tumor response in one cat, asymptomatic AST/creatine phosphokinase elevations in one cat, and asymptomatic hypokalemia in one cat.
+- Among six cats with evaluable biopsies, two had reduced CK2 immunohistochemistry score in tumors after treatment.
+- Tumor response during the study period included four progressive disease, three stable disease, one partial response, and one non-evaluable response.
+- The authors concluded that the drug appeared safe and showed some evidence of efficacy, with further dosing, schedule, toxicity, target-modulation, and efficacy investigation warranted.
+
+**Boundary:** This is a small early-phase feline FOSCC study. It can support translational model and investigational therapy context, not routine treatment recommendations.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 58. Use it for triage until abstract or full-text extraction proves a stronger role.
+Small early-phase FOSCC study testing anti-CK2 RNAi nanocapsule therapy in nine cats; safety was the primary aim and efficacy evidence remains preliminary.
 
 ## Why It Matters For Feline Cancer
 
@@ -59,28 +98,29 @@ The safe current use is source ownership:
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- FOSCC was used as a naturally occurring large-animal model for anti-CK2 therapy development.
+- The nine-cat dose-escalation study primarily supports safety and feasibility context.
+- Observed tumor response and CK2 target-modulation signals are preliminary and require larger follow-up.
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- This source may be useful in the oral SCC branch as an investigational-therapy/model-evidence node, but should not be promoted into owner-facing treatment guidance.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+- FOSCC translational model context
+- anti-CK2 investigational therapy feasibility
+- early-phase safety and target-modulation evidence
 
 Must not control yet:
 
 - reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+- standard-of-care treatment recommendations
+- comparative treatment ranking
+- protocol selection
+- efficacy claims beyond preliminary study-period response
 
 ## Image Asset TODO
 
@@ -89,15 +129,15 @@ Must not control yet:
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- Does the full text report dose-limiting toxicity details that change the safety boundary?
+- Are there tables separating adverse events by dose level?
+- Are target-modulation measures strong enough for a therapy-mechanism subpage?
+- Has a larger follow-up feline or human HNSCC study cited this platform?
 
 ## Linked Entities
 
 - diseases: cancer
 - models:
-- endpoints:
-- mechanisms:
+- endpoints: adverse events; CK2 immunohistochemistry score; tumor response
+- mechanisms: CK2; RNA interference; tumor-targeted nanocapsule
 - regulations:

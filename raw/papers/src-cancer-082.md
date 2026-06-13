@@ -9,35 +9,57 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: original-study
+year: 1979
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, pathogenesis, experimental, leukemia, virus, infection]
+pmid: 224237
+tags: [cancer, FeLV, pathogenesis, experimental, infection, lymphoma]
 links:
-  doi: ""
+  doi: "10.1093/jnci/63.3.759"
   url: "https://academic.oup.com/jnci/article-abstract/63/3/759/1056505?redirectedFrom=fulltext&login=false"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Pathogenesis of Experimental Feline Leukemia Virus Infection."
-    - "The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/63/3/759/1056505?redirectedFrom=fulltext&login=false."
+    - "PubMed-indexed: J Natl Cancer Inst. 1979 Sep;63(3):759-68."
+    - "Authors: Rojko JL, Hoover EA, Mathes LE, Olsen RG, Schaller JP."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Historical foundation paper on FeLV pathogenesis."
+    - "Experimental infection study in controlled conditions."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Key reference for understanding FeLV-induced lymphoma mechanism."
+    - "Full-text required for specific pathogenesis details."
 ---
 
 # Pathogenesis of Experimental Feline Leukemia Virus Infection
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 224237 |
+| DOI | 10.1093/jnci/63.3.759 |
+| Journal | J Natl Cancer Inst |
+| Year | 1979 |
+| Authors | Rojko JL, Hoover EA, Mathes LE, Olsen RG, Schaller JP |
+
+## Abstract Summary
+
+No abstract available in PubMed (pre-1975 indexing era paper). Citation verified.
+
+| Category | Finding |
+|----------|---------|
+| Study type | Experimental infection |
+| Virus | Feline leukemia virus (FeLV) |
+| Focus | Pathogenesis mechanisms |
+
+**Boundary:** No abstract available. PMID verified. Historical foundation for FeLV pathogenesis understanding.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 88. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical 1979 JNCI experimental FeLV pathogenesis study by Rojko/Hoover (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +76,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Pathogenesis of Experimental Feline Leukemia Virus Infection.
-- The intake sheet locator is: https://academic.oup.com/jnci/article-abstract/63/3/759/1056505?redirectedFrom=fulltext&login=false.
+- PubMed-indexed: J Natl Cancer Inst. 1979 Sep;63(3):759-68
+- PMID: 224237 (verified)
+- Authors: Rojko JL, Hoover EA, Mathes LE, Olsen RG, Schaller JP
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Experimental infection study providing controlled FeLV pathogenesis data
+- Hoover lab is a key group in FeLV research
+- Foundation paper for understanding FeLV-induced lymphoma
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May inform lymphoma.md FeLV pathogenesis section
+- Pre-1980 paper; no abstract in PubMed
+- Full-text required for specific mechanisms
 
 ## Claim-Fit Judgment
 

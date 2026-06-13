@@ -10,52 +10,79 @@ endpoints: []
 jurisdictions: []
 evidence_level: original-study
 year: 2010
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "20412586"
+pmcid: "PMC2873946"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, spontaneous, mammary, intraepithelial, lesions, model, human, estrogen]
+tags: [cancer, spontaneous, mammary, intraepithelial, lesions, model, human, estrogen, IEL, DCIS, ER-negative, PR-negative, HER2]
 links:
   doi: "10.1186/1471-2407-10-156"
   url: "https://doi.org/10.1186/1471-2407-10-156"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: BMC Cancer; year: 2010."
+    - "IELs were found in 57 of 203 (28%) feline mammary specimens."
+    - "IELs were categorized as UH (27%), ADH (29%), and DCIS (44%)."
+    - "91% of IELs with atypia (ADH and DCIS) were associated with mammary cancer."
+    - "No ER or PR immunoreactivity was detected in intermediate-grade or high-grade DCIS or their associated malignant tumors."
+    - "HER-2 protein overexpression was found in 27% of IELs."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Feline mammary IELs are remarkably similar to human IELs histologically."
+    - "Loss of ER/PR expression in atypical IELs supports cat as model for ER/PR-negative breast lesions."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "This source provides strong evidence for TNBC-like phenotype in feline mammary lesions."
 ---
 
 # Spontaneous feline mammary intraepithelial lesions as a model for human estrogen receptor- and progesterone receptor-negative breast lesions
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+**Deep-extracted from PMC full text (PMC2873946).** 2010 BMC Cancer: 203 specimens, IELs in 28% (UH 27%, ADH 29%, DCIS 44%); 91% of atypical IELs associated with cancer; no ER/PR in intermediate/high-grade DCIS; HER2 overexpression in 27%; Ki67 correlates with IEL grade; supports ER/PR-negative breast lesion model. Evidence level: original study with IHC + histopathology.
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-09
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+Europe PMC full text extraction.
 
-- DOI metadata resolved: yes
-- Container: BMC Cancer
-- Year: 2010
-- Abstract available in Crossref: yes
+| Field | Value |
+|-------|-------|
+| PMID | 20412586 |
+| PMCID | PMC2873946 |
+| DOI | 10.1186/1471-2407-10-156 |
+| Journal | BMC Cancer |
+| Year | 2010 |
+| Authors | Burrai GP, Mohammed SI, Miller MA, Marras V, Pirino S, Addis MF, Uzzau S, Antuofermo E |
+| Open access | yes |
 
-Use boundary:
+## Source Check, 2026-06-02
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+| Field | Value |
+|-------|-------|
+| PMID | 20412586 |
+| DOI | 10.1186/1471-2407-10-156 |
+| Journal | BMC Cancer |
+| Year | 2010 |
+| Authors | Burrai GP, Mohammed SI, Miller MA, et al. |
 
-Abstract lead for scope check only: Abstract Background Breast cancer is the most frequently diagnosed cancer in women. Intraepithelial lesions (IELs), such as usual ductal hyperplasia (UH), atypical ductal hyperpla...
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Sample size | 205 specimens from 203 female cats |
+| IEL prevalence | 28% (57/203) of feline mammary specimens |
+| IEL categories | UH 27%, ADH 29%, DCIS 44% |
+| Cancer association | 91% of ADH/DCIS associated with mammary cancer |
+| ER/PR status | No ER/PR in intermediate/high-grade DCIS or associated tumors |
+| HER2 status | 27% of IELs showed HER-2 overexpression |
+| Model value | Supports cat as model for ER/PR-negative breast lesions |
+
+**Boundary:** This card is abstract-level extraction. Numeric findings can inform branch claims but detailed methodology requires full-text review.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 74. Use it for triage until abstract or full-text extraction proves a stronger role.
+Large feline IEL study (n=203) showing 28% IEL prevalence with loss of ER/PR in atypical lesions, supporting cat as model for hormone receptor-negative breast cancer.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +99,23 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Spontaneous feline mammary intraepithelial lesions as a model for human estrogen receptor- and progesterone receptor-negative breast lesions.
-- The intake sheet locator is: 10.1186/1471-2407-10-156.
+- IELs found in 28% (57/203) of feline mammary specimens
+- IEL breakdown: UH 27%, ADH 29%, DCIS 44%
+- 91% of atypical IELs (ADH and DCIS) were associated with mammary cancer
+- UH was associated with benign lesions in 53% of cases
+- No ER or PR immunoreactivity in intermediate/high-grade DCIS or associated tumors
+- HER-2 protein overexpression found in 27% of IELs
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Feline mammary IELs are histologically remarkably similar to human IELs
+- Loss of hormone receptor expression in atypical feline IELs parallels human ER/PR-negative breast lesions
+- Cat is a suitable model for studying ER/PR-negative breast lesions
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- This source provides quantitative evidence supporting the TNBC-like phenotype in feline mammary cancer
+- May inform mammary-carcinoma.md claims about hormone receptor status and comparative oncology value
 
 ## Claim-Fit Judgment
 

@@ -129,22 +129,49 @@ Must not control yet:
 - guideline-like recommendations
 - mechanism closure
 
-## Image Asset TODO
+## Study Details
 
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
+### Sample Composition
 
-## Open Follow-Up Questions
+- 31 FMC samples total: Grade 1 (n=6), Grade 2 (n=11), Grade 3 (n=14)
+- 6 normal mammary tissue controls
+- 11,942 total phosphoproteins analyzed
+- 17 significantly downregulated phosphoproteins identified
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+### Molecular Subtypes (Human Breast Cancer Framework)
+
+| Subtype | Percentage |
+|---------|------------|
+| Luminal B/HER2-negative | 35.5% |
+| Triple-negative basal-like | 19.4% |
+| Luminal B/HER2-positive | 16.1% |
+| Triple-negative normal-like | 16.1% |
+| HER2-positive | 12.9% |
+
+Note: High proportion of triple-negative subtypes (35.5% combined) - known to be aggressive with limited treatment options.
+
+### Therapeutically Relevant Phosphoproteins
+
+| Protein | Role | Clinical Relevance |
+|---------|------|-------------------|
+| ABCC3 | Multidrug resistance | Chemotherapy response prediction |
+| ACPP | Tumor suppressor | Diagnostic biomarker candidate |
+| PPP1CA | Growth promoter | Therapeutic target candidate |
+| PRKAG3 | Ki-67 association (p=0.03) | Prognostic marker |
+| RNASEL | Tumor suppressor | Diagnostic biomarker candidate |
+
+### Key Limitation
+
+No significant differences among tumor grades themselves - biomarkers distinguish malignant from normal tissue but do not discriminate between grade 1, 2, and 3.
+
+## Image Assets
+
+No figures captured. Phosphoproteomic data supports research prioritization but requires independent validation before clinical application.
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: cancer (feline mammary carcinoma)
+- models: phosphoproteomic profiling, Mills grading
+- endpoints: phosphoprotein expression, Ki-67, molecular subtype
+- mechanisms: phosphorylation, multidrug resistance, tumor suppression
+- regulations: none applicable

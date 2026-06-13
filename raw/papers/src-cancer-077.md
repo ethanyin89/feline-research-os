@@ -9,35 +9,63 @@ models: []
 endpoints: []
 jurisdictions: []
 evidence_level: case-series
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2004
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, bnct, cases, spontaneous, head, neck, patients]
+pmid: 15308173
+tags: [cancer, BNCT, boron-neutron-capture, SCC, head-neck, radiotherapy, investigational]
 links:
-  doi: ""
+  doi: "10.1016/j.apradiso.2004.05.016"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S0969804304003045?via%3Dihub"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: BNCT of 3 cases of spontaneous head and neck cancer in feline patients."
-    - "The intake sheet locator is: https://www.sciencedirect.com/science/article/abs/pii/S0969804304003045?via%3Dihub."
+    - "BPA-BNCT showed no radiotoxic effects in 3 terminal feline patients."
+    - "Results: partial tumor control, impaired growth, partial necrosis."
+    - "Improved clinical condition and prolonged survival beyond terminal condition."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "BNCT is feasible and safe for spontaneous head/neck tumors in feline patients."
+    - "BPA delivered therapeutic boron levels to tumor."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Early investigational study; n=3 terminal patients only."
+    - "May inform oral-squamous-cell-carcinoma.md experimental therapy section."
 ---
 
 # BNCT of 3 cases of spontaneous head and neck cancer in feline patients
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction based on the full abstract. 2004 Appl Radiat Isot: n=3 terminal feline head/neck cancer; BPA-BNCT (boron neutron capture therapy); no radiotoxicity; partial tumor control and improved survival; investigational therapy; historical feasibility study. [Deep extraction worksheet](../../system/indexes/src-cancer-077-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| PMID | 15308173 |
+| DOI | 10.1016/j.apradiso.2004.05.016 |
+| Journal | Appl Radiat Isot |
+| Year | 2004 |
+| Authors | Rao M, Trivillin VA, Heber EM, et al. |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Treatment | BPA-BNCT (boron neutron capture therapy) |
+| Population | 3 terminal feline patients with spontaneous head/neck tumors |
+| Biodistribution | BPA delivered therapeutic boron levels to tumor |
+| Safety | No radiotoxic effects observed |
+| Efficacy | Partial tumor control, impaired growth, partial necrosis |
+| Clinical outcome | Improved condition, prolonged survival beyond terminal state |
+
+**Boundary:** Abstract-level extraction. Small case series (n=3) of terminal patients. Investigational therapy; not standard of care.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 83. Use it for triage until abstract or full-text extraction proves a stronger role.
+BNCT feasibility study in 3 terminal feline head/neck cancer patients showing partial tumor control and improved survival with no radiotoxicity.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +82,23 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: BNCT of 3 cases of spontaneous head and neck cancer in feline patients.
-- The intake sheet locator is: https://www.sciencedirect.com/science/article/abs/pii/S0969804304003045?via%3Dihub.
+- 3 terminal feline patients with spontaneous head/neck tumors treated with BPA-BNCT
+- BPA delivered boron values to tumor in therapeutically useful range
+- No radiotoxic effects observed
+- Partial tumor control: impaired growth and partial necrosis
+- Improved clinical condition and prolonged survival beyond terminal state
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- BNCT is feasible and safe for spontaneous feline head/neck cancer
+- Therapeutic boron concentrations achievable with BPA delivery
+- Preclinical context; builds on hamster cheek pouch SCC model work
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Investigational therapy; n=3 is too small for efficacy conclusions
+- Historical interest for FOSCC experimental therapy landscape
+- BNCT remains investigational; not standard of care for feline OSCC
 
 ## Claim-Fit Judgment
 

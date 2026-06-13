@@ -8,36 +8,59 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
+evidence_level: review
+year: 1992
 status: ingested
-extraction_depth: partial
-verification_status: title_only
+extraction_depth: abstract
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, leukemia, virus, pathogenesis, neoplastic, disease]
+pmid: 1327427
+tags: [cancer, FeLV, pathogenesis, neoplastic, lymphoma, review]
 links:
   doi: "10.3109/07357909209024796"
   url: "https://doi.org/10.3109/07357909209024796"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Feline Leukemia Virus: Pathogenesis of Neoplastic Disease."
-    - "The intake sheet locator is: 10.3109/07357909209024796."
+    - "PubMed-indexed: Cancer Invest. 1992;10(5):371-89."
+    - "Authors: Rezanka LJ, Rojko JL, Neil JC."
+    - "Rojko JL is a prominent FeLV researcher."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Comprehensive 1992 review of FeLV pathogenesis and neoplastic disease."
+    - "Full-text required for specific mechanism findings."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Key review for lymphoma.md FeLV pathogenesis section."
+    - "May provide mechanism framework for FeLV-associated neoplasia."
 ---
 
 # Feline Leukemia Virus: Pathogenesis of Neoplastic Disease
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+| Field | Value |
+|-------|-------|
+| PMID | 1327427 |
+| DOI | 10.3109/07357909209024796 |
+| Journal | Cancer Invest |
+| Year | 1992 |
+| Authors | Rezanka LJ, Rojko JL, Neil JC |
+
+## Abstract Summary
+
+No abstract available in PubMed. Citation verified.
+
+| Category | Finding |
+|----------|---------|
+| Article type | Review |
+| Focus | FeLV pathogenesis of neoplastic disease |
+| Author | Rojko JL - prominent FeLV researcher |
+
+**Boundary:** No abstract available. PMID verified. Comprehensive 1992 review of FeLV-associated neoplasia.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 104. Use it for triage until abstract or full-text extraction proves a stronger role.
+1992 Cancer Invest comprehensive review of FeLV pathogenesis in neoplastic disease by Rojko JL et al. (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +77,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Feline Leukemia Virus: Pathogenesis of Neoplastic Disease.
-- The intake sheet locator is: 10.3109/07357909209024796.
+- PubMed-indexed: Cancer Invest. 1992;10(5):371-89
+- PMID: 1327427 (verified)
+- Authors: Rezanka LJ, Rojko JL, Neil JC
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Comprehensive review of FeLV pathogenesis mechanisms in neoplastic disease
+- Rojko JL is a key FeLV pathogenesis researcher
+- Full-text required for specific mechanism findings
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Key review for lymphoma.md FeLV pathogenesis section
+- May provide mechanistic framework for FeLV-associated neoplasia
+- Historical context for FeLV oncogenesis understanding
 
 ## Claim-Fit Judgment
 

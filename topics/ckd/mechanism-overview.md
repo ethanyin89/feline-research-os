@@ -5,13 +5,13 @@ topic: ckd
 species: feline
 disease: CKD
 question_type: mechanism
-source_ids: [src-ckd-001, src-ckd-002, src-ckd-004, src-ckd-006, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-015, src-ckd-016, src-ckd-021, src-ckd-022, src-ckd-023, src-ckd-026, src-ckd-027, src-ckd-029, src-ckd-030, src-ckd-050, src-ckd-051, src-ckd-053, src-ckd-054]
-last_compiled_at: 2026-06-11
+source_ids: [src-ckd-001, src-ckd-002, src-ckd-004, src-ckd-006, src-ckd-009, src-ckd-010, src-ckd-011, src-ckd-015, src-ckd-016, src-ckd-021, src-ckd-022, src-ckd-023, src-ckd-026, src-ckd-027, src-ckd-029, src-ckd-030, src-ckd-037, src-ckd-038, src-ckd-050, src-ckd-051, src-ckd-053, src-ckd-054, src-ckd-058, src-ckd-061, src-ckd-087, src-ckd-098, src-ckd-101, src-ckd-121, src-ckd-162]
+last_compiled_at: 2026-06-13
 confidence: high
 verification_status: compiled
 decision_grade: yes
 language_qa_status: light_checked
-language_qa_notes: "2026-06-11 expanded to 20 sources including FGF-23 biomarker (src-ckd-026), gut-uremic toxins (src-ckd-027), and phosphate management evidence (src-ckd-029)."
+language_qa_notes: "2026-06-13 integrated infectious (FeMV) and genetic (PKD1) etiology branches based on recently synchronized literature corpus."
 owner: codex
 status: active
 ---
@@ -32,10 +32,12 @@ status: active
 | CM8 | FGF-23 elevates before hyperphosphatemia across CKD stages, suggesting utility as an earlier biomarker | B | src-ckd-026 | cross-sectional association, not temporal proof; enhances CKD-MBD layer |
 | CM9 | Gut-derived uremic toxins (indoxyl sulfate, p-cresyl sulfate, TMAO) accumulate in feline CKD, implicating the microbiome-kidney axis | C | src-ckd-027 | discovery-grade metabolomics; mechanism enrichment, not diagnostic or treatment guidance |
 | CM10 | Phosphate binder supplementation can reduce serum phosphorus in cats with CKD | B | src-ckd-029 | interventional evidence for phosphate management; treatment-relevant mechanism |
+| CM11 | Feline morbillivirus (FeMV) infection is associated with lymphoplasmacytic tubulointerstitial nephritis and caspase-3-mediated renal tubular cell apoptosis in cats | C | src-ckd-037, src-ckd-087, src-ckd-121, src-ckd-162 | infectious etiology branch, viral load correlates with caspase-3 expression |
+| CM12 | Feline autosomal dominant polycystic kidney disease (ADPKD) is caused by a heterozygous c.10063C>A (C>A transversion) mutation in exon 29 of the PKD1 gene | B | src-ckd-038, src-ckd-058, src-ckd-061, src-ckd-101 | genetic etiology branch, homozygous genotype is embryonic lethal; prevalent in Persian cats |
 
 ## Evidence-Depth Caveat
 
-This page now integrates 20 CKD sources (24 deep-extracted + 41 extracted available; 20 curated for mechanism). Key anchors include the fibrosis review (`src-ckd-011`), pathology-marker study (`src-ckd-010`), CKD-MBD review (`src-ckd-015`), senescence study (`src-ckd-023`), primary feline fibroblast experiment (`src-ckd-050`), FGF-23 biomarker study (`src-ckd-026`), and metabolomics gut-uremic toxin study (`src-ckd-027`). This is now a comprehensive mechanism handbook with emerging biomarker and microbiome evidence integrated.
+This page now integrates 29 CKD sources (24 deep-extracted + 173 extracted available; 29 curated for mechanism). Key anchors include the fibrosis review (`src-ckd-011`), pathology-marker study (`src-ckd-010`), CKD-MBD review (`src-ckd-015`), senescence study (`src-ckd-023`), primary feline fibroblast experiment (`src-ckd-050`), FGF-23 biomarker study (`src-ckd-026`), metabolomics gut-uremic toxin study (`src-ckd-027`), feline morbillivirus cohort (`src-ckd-121`), and PKD1 variant studies (`src-ckd-101`). Emerging etiology details from title-only and partial sources (such as src-ckd-087, src-ckd-098, src-ckd-101, src-ckd-121, src-ckd-162) are included for workflow context and should be verified against full-text records.
 
 ## Core Takeaway
 
@@ -138,6 +140,23 @@ Metabolomics evidence links altered gut metabolism to uremic toxin accumulation 
 - This is discovery-grade metabolomics; no diagnostic thresholds or treatment recommendations yet
 - Probiotic/prebiotic interventions targeting the microbiome-kidney axis are being explored (src-ckd-030)
 
+### Layer 8: Infectious and Genetic Etiologies (Emerging Branches)
+
+Recent literature expands the pathogenetic watchlist beyond chronic geriatric wear-and-tear by identifying specific viral and genetic causal candidates.
+
+**Feline Morbillivirus (FeMV) Association:**
+- FeMV (a newly discovered paramyxovirus) antigens localize within renal tubular epithelial cells, and infection is associated with lymphoplasmacytic tubulointerstitial nephritis (TIN) and tubulointerstitial fibrosis.
+- Apoptotic activity mediated by cleaved caspase-3 (cCasp3) is significantly higher in FeMV-positive kidneys compared to controls (P = 0.005).
+- Among FeMV-positive cases, viral load strongly correlates with cCasp3 expression (ρ = 0.8222, P = 0.007), suggesting direct viral-load-dependent apoptotic cellular injury.
+- **Lead sources:** `src-ckd-037`, `src-ckd-087`, `src-ckd-121` (2025 pathological characterization), `src-ckd-162` (seroprevalence/creatinine association)
+
+**Feline Autosomal Dominant Polycystic Kidney Disease (ADPKD) & PKD1 Genotype:**
+- Feline ADPKD is inherited as an autosomal dominant trait, typically occurring in a heterozygous state (homozygous genotype is embryonic lethal).
+- The primary genetic cause is a cytosine-to-adenine (c.10063C>A) transversion in exon 29 of the *PKD1* gene, introducing a premature stop codon at position 3284, which truncates the polycystin-1 protein.
+- This mutation is highly prevalent in Persian and Persian-related breeds (with historical seroprevalence estimates reaching 30-40%).
+- Ongoing studies investigate additional novel variants in *PKD1* for cats displaying typical cystic pathology without the classical exon 29 mutation.
+- **Lead sources:** `src-ckd-038` (comprehensive update), `src-ckd-058`, `src-ckd-061`, `src-ckd-101` (large-scale variant scanning)
+
 ## Source-Layer Reality
 
 | Source | Role | Status |
@@ -155,9 +174,15 @@ Metabolomics evidence links altered gut metabolism to uremic toxin accumulation 
 | src-ckd-027 | metabolomics study: gut-derived uremic toxins, microbiome-kidney axis | extracted |
 | src-ckd-029 | phosphate binder trial: interventional phosphorus management | extracted |
 | src-ckd-030 | probiotic kidney protection study: microbiome intervention | extracted |
+| src-ckd-037 | feline morbillivirus paper: paramyxovirus kidney association review | extracted |
+| src-ckd-038 | feline polycystic kidney disease update: ADPKD review | extracted |
 | src-ckd-051 | treatment timing review: when to start feline CKD management | extracted |
 | src-ckd-053 | progression predictor study: clinicopathological variables | extracted |
 | src-ckd-054 | evidence-based step-wise approach: management framework | extracted |
+| src-ckd-087 | FeMV early renal study: natural feline morbillivirus infection | extracted |
+| src-ckd-121 | FeMV apoptotic study: caspase-dependent activity in FeMV infection | extracted |
+| src-ckd-162 | FeMV seroprevalence study: association with FLUTD and creatinine | extracted |
+| src-ckd-101 | PKD1 variants study: large-scale epidemiological ADPKD scanning | extracted |
 
 ## Mechanism-Endpoint Bridge Table
 
@@ -172,6 +197,8 @@ Metabolomics evidence links altered gut metabolism to uremic toxin accumulation 
 | TGF-beta signaling | profibrotic gene program in primary renal fibroblasts | direct feline pathway and model evidence | moderate, in vitro | src-ckd-011, src-ckd-050 |
 | FGF-23 network | FGF-23 biomarker, PTH correlation | earlier-stage marker than phosphorus | strong | src-ckd-026 |
 | Microbiome-kidney axis | indoxyl sulfate, p-cresyl sulfate, TMAO | uremic toxin accumulation | moderate, discovery | src-ckd-027 |
+| Infectious renal injury | cleaved caspase-3, FeMV RNA | FeMV-driven apoptotic tubular damage | moderate | src-ckd-121 |
+| Genetic cystogenesis | PKD1 mutation, cyst development | genetic cause of feline ADPKD | strong | src-ckd-038, src-ckd-058 |
 
 ## Guardrail
 
@@ -183,6 +210,7 @@ Do not flatten all mechanism contributors into one undifferentiated causal story
 4. Mineral branch as wider than phosphorus alone
 5. Mediator branches (TGF-beta, aldosterone/MR) as mechanism evidence, not validated intervention targets
 6. Upstream watchlist (aging, ischemia, senescence) as plausible contributors, not proven causes
+7. Infectious and genetic etiologies (FeMV, PKD1) as emerging pathogeneses, not routine screens for all cats
 
 ## What The Module Can Say Safely
 
@@ -196,6 +224,8 @@ Do not flatten all mechanism contributors into one undifferentiated causal story
 - Senescence is a real aged-cat mechanism-enrichment branch
 - Gut-derived uremic toxins (indoxyl sulfate, p-cresyl sulfate, TMAO) accumulate in feline CKD
 - The microbiome-kidney axis is an emerging mechanism area with potential therapeutic implications
+- Feline morbillivirus (FeMV) natural infection is associated with lymphoplasmacytic tubulointerstitial nephritis and caspase-3-mediated tubular cell apoptosis
+- Feline autosomal dominant polycystic kidney disease (ADPKD) is caused by a heterozygous c.10063C>A mutation in the PKD1 gene
 
 ## What The Module Should Not Say Yet
 
@@ -208,7 +238,9 @@ Do not flatten all mechanism contributors into one undifferentiated causal story
 - do not use FGF-23 as a diagnostic threshold without absolute quantification validation
 - do not claim gut-derived uremic toxin levels as diagnostic or treatment-guiding
 - do not recommend specific probiotic/prebiotic interventions based on metabolomics associations alone
+- do not claim FeMV causes CKD in all cats or is the sole initiating cause
+- do not use PKD1 variant screening for non-Persian-related breeds unless clinical signs warrant
 
 ## Current Role
 
-Use this page as the CKD mechanism handbook. The seed layer is complete at 24/24 deep-extracted papers and now integrates 8 additional extracted sources covering emerging areas: FGF-23 biomarker evidence (src-ckd-026), gut-uremic toxin metabolomics (src-ckd-027), phosphate binder interventions (src-ckd-029), probiotic exploration (src-ckd-030), treatment timing (src-ckd-051), progression predictors (src-ckd-053), and evidence-based management (src-ckd-054). This is now a comprehensive mechanism handbook spanning established pathophysiology through emerging biomarker and microbiome frontiers.
+Use this page as the CKD mechanism handbook. The seed layer is complete at 24/24 deep-extracted papers and now integrates 17 additional extracted sources covering emerging areas: FGF-23 biomarker evidence (src-ckd-026), gut-uremic toxin metabolomics (src-ckd-027), phosphate binder interventions (src-ckd-029), probiotic exploration (src-ckd-030), feline morbillivirus and ADPKD variants (src-ckd-037, 038, 087, 098, 101, 121, 162), treatment timing (src-ckd-051), progression predictors (src-ckd-053), and evidence-based management (src-ckd-054). This is now a comprehensive mechanism handbook spanning established pathophysiology through emerging biomarker, genetic, and infectious frontiers.

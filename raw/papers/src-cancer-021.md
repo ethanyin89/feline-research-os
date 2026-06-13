@@ -5,57 +5,97 @@ title: "A Naturally Occurring Feline Model of Head and Neck Squamous Cell Carcin
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
-evidence_level: original-study
+models: [human-HNSCC]
+endpoints: [translational-model, molecular-similarity]
+jurisdictions: [USA]
+evidence_level: review
 year: 2013
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "23970998"
+pmcid: "PMC3730145"
+doi: "10.1155/2013/502197"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, naturally, occurring, model, head, neck, squamous, cell]
+tags: [cancer, FOSCC, HNSCC, comparative-oncology, EGFR, VEGF, p53, COX-2, tobacco, papillomavirus, translational-model]
 links:
   doi: "10.1155/2013/502197"
   url: "https://doi.org/10.1155/2013/502197"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3730145/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Pathology Research International; year: 2013."
+    - "FOSCC and HNSCC share similar etiopathogenesis (tobacco and papillomavirus exposure) and molecular markers (EGFR, VEGF, and p53)."
+    - "Human head and neck cancer is the 8th most common cancer in the US and the 6th most common worldwide, with 40,250 new US cases/year."
+    - "HNSCC comprises approximately 90% of all head and neck cancers."
+    - "In cats with FOSCC, EGFR is similarly highly expressed (69%–100%)."
+    - "In FOSCC, MVD is significantly higher in tumor samples (50.3 ± 23.6), compared with normal feline gingiva (7.6 ± 4.06)."
+    - "In FOSCC, COX-2 expression is variable, with up to 67% of tumors exhibiting COX-2 expression."
+    - "Up to 90% of HNSCC exhibit overexpression of EGFR, which is prognostic for overall survival and disease-free interval."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "FOSCC is a biologically relevant spontaneous animal tumor model for human HNSCC."
+    - "Shared molecular markers: EGFR (69-100% FOSCC, 90% HNSCC), VEGF, p53, COX-2."
+    - "Shared risk factors: tobacco exposure (secondhand smoke in cats), papillomavirus."
+    - "Microvessel density is significantly elevated in FOSCC tumors vs normal tissue."
+    - "Companion animal models may facilitate translation of preclinical cancer research."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "EGFR-targeted therapies developed for HNSCC may be candidates for FOSCC trials."
+    - "COX-2 inhibitors may have therapeutic potential in FOSCC given expression in 67% of tumors."
+    - "The 2013 publication date means some cited statistics may be outdated."
 ---
 
 # A Naturally Occurring Feline Model of Head and Neck Squamous Cell Carcinoma
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+**Deep-extracted from PMC full text (PMC3730145).** This 2013 review establishes FOSCC as a spontaneous animal tumor model for human HNSCC. Shared molecular markers: EGFR (69-100% in FOSCC vs 90% in HNSCC), VEGF, p53, COX-2. Shared risk factors: tobacco, papillomavirus. Evidence level: narrative review.
 
-## Source Check, 2026-05-30
+## Source Check, 2026-06-09
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+Europe PMC full text extraction.
 
-- DOI metadata resolved: yes
-- Container: Pathology Research International
+- PMID: 23970998
+- PMCID: PMC3730145
+- DOI: 10.1155/2013/502197
+- Journal: Pathology Research International
 - Year: 2013
-- Abstract available in Crossref: yes
+- Open access: yes
 
-Use boundary:
+## Abstract Summary
 
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+This review paper establishes feline oral squamous cell carcinoma (FOSCC) as a naturally occurring model for human head and neck squamous cell carcinoma (HNSCC).
 
-Abstract lead for scope check only: Despite advances in understanding cancer at the molecular level, timely and effective translation to clinical application of novel therapeutics in human cancer patients is lacking...
+**Comparative oncology rationale:**
+- Human HNSCC is a common cancer with poor prognosis
+- Limited clinical advancements in recent years
+- Preclinical models often fail to predict human outcomes
+- Spontaneous companion animal tumors offer better biologic relevancy
+
+**Shared features between FOSCC and HNSCC:**
+
+| Feature | Feline | Human |
+|---------|--------|-------|
+| Tobacco exposure | Yes (secondhand smoke) | Yes (direct smoking) |
+| Papillomavirus | FPV detected | HPV associated |
+| EGFR expression | Yes | Yes |
+| VEGF expression | Yes | Yes |
+| p53 mutations | Yes | Yes |
+
+**Clinical parallels:**
+- Similar tumor biology
+- Similar clinical outcomes
+- Similar treatment approaches
+- Similar poor prognosis
+
+**Translational value:**
+FOSCC may serve as a model to facilitate translation of preclinical cancer research for human patients.
+
+**Boundary:** This is a comparative oncology review, not clinical guidance for treating feline FOSCC.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 23. Use it for triage until abstract or full-text extraction proves a stronger role.
+FOSCC shares etiopathogenesis (tobacco, papillomavirus), molecular markers (EGFR, VEGF, p53), and clinical outcomes with human HNSCC — a valuable translational model.
 
 ## Why It Matters For Feline Cancer
 

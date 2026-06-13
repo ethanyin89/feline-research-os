@@ -922,6 +922,24 @@ def heuristic_question_type(question: str) -> str:
         return "synthesis"
     if any(token in lowered for token in ["maturity", "cross-disease", "cross disease"]):
         return "synthesis"
+    
+    # Heuristics for PK design
+    if any(re.search(pat, lowered) for pat in [
+        r"\bpk\b", r"\bpd\b", r"药代", r"药动",
+        r"pharmacokinetic", r"采血", r"blood sampling",
+        r"采样时间点", r"采样", r"时间点",
+    ]):
+        return "pk"
+        
+    # Heuristics for protocol design
+    if any(re.search(pat, lowered) for pat in [
+        r"方案", r"protocol", r"设计", r"design",
+        r"how to design", r"怎么设计", r"研究方案",
+        r"评分体系", r"如何构建", r"如何设定",
+        r"约束", r"constraints",
+    ]):
+        return "protocol"
+
     if any(token in lowered for token in [
         "endpoint", "endpoints", "efficacy evaluation", "usable for", "outcome", "remission",
         "缓解", "为什么会缓解", "为什么缓解",
@@ -942,6 +960,18 @@ def heuristic_files_for_route(question_type: str, disease: str) -> list[str]:
         return [
             "system/indexes/disease-module-maturity-ladder.md",
             "system/indexes/cross-disease-second-wave-narrow-owner-audit.md",
+        ]
+    if question_type == "protocol" and disease != "unknown":
+        return [
+            f"topics/{disease}/endpoint-handbook.md",
+            f"topics/{disease}/translation-brief.md",
+            f"topics/{disease}/model-map.md",
+            f"topics/{disease}/model-summary.md",
+        ]
+    if question_type == "pk" and disease != "unknown":
+        return [
+            f"topics/{disease}/translation-brief.md",
+            f"topics/{disease}/endpoint-handbook.md",
         ]
     if question_type == "claim_verification":
         files = ["system/indexes/verify-a-claim.md"]
@@ -1344,6 +1374,7 @@ def synthesis_call(
     resolved_assets: Optional[list[dict]] = None,
     model: str = MODEL,
     answer_mode: str = "research",
+    question_type: str = "unknown",
 ) -> tuple[str, list[dict]]:
     """
     Final synthesis call.
@@ -1355,23 +1386,126 @@ def synthesis_call(
     Falls back gracefully to text-only for non-Anthropic backends or empty assets.
     """
     answer_language = "Chinese" if prefers_chinese(question) else "English"
-    if answer_mode == "overview":
+    
+    # Task-specific structure definition
+    task_instructions = ""
+    if question_type == "protocol":
+        structure = """Structure:
+1. Direct answer (one paragraph, lead with the conclusion)
+2. Clinical Protocol (you MUST address all of the following sections and start each section with its exact level-2 markdown header):
+   - ## 目的 / Purpose
+   - ## 动物 / Animals
+   - ## 入组与排除 / Enrollment
+   - ## 分组 / Grouping
+   - ## 给药干预 / Intervention
+   - ## 终点指标 / Endpoints
+   - ## 观察时间点 / Timepoints
+   - ## 统计分析 / Statistics
+   - ## 伦理与福利 / Ethics & Welfare
+3. What we don't know yet (gaps or uncertainties in the evidence)"""
+        task_instructions = """
+Since the task type is protocol design, you MUST organize the core answer as a structured Clinical Protocol.
+Ensure all of the following 9 sections are present and explicitly discussed, and you MUST use these exact headers:
+- ## 目的 / Purpose
+- ## 动物 / Animals
+- ## 入组与排除 / Enrollment
+- ## 分组 / Grouping
+- ## 给药干预 / Intervention
+- ## 终点指标 / Endpoints
+- ## 观察时间点 / Timepoints
+- ## 统计分析 / Statistics
+- ## 伦理与福利 / Ethics & Welfare
+Failing to include any of these sections with their exact headers will violate completeness checks and fail verification.
+"""
+    elif question_type == "endpoints":
+        structure = """Structure:
+1. Direct answer (one paragraph, lead with the conclusion)
+2. Endpoint selection considerations:
+   - 诊断与疗效评估的区别 / Diagnosis vs Efficacy
+   - 主要与次要终点的划分 / Primary vs Secondary Endpoints
+   - 猫种属特殊性证据 / Feline Species Evidence
+   - 文献依据与出处 / Evidence Source
+3. What we don't know yet (gaps or uncertainties in the evidence)"""
+        task_instructions = """
+Since the task type is endpoint selection, you MUST explicitly address:
+- The distinction between diagnosis vs efficacy monitoring (诊断与疗效评估的区别)
+- The primary vs secondary endpoints (主要与次要终点)
+- Feline-specific evidence (猫种属证据)
+- Literature source grounding (文献来源支持)
+"""
+    elif question_type == "pk":
+        structure = """Structure:
+1. Direct answer (one paragraph, lead with the conclusion)
+2. PK Design elements:
+   - 采血时点设计 / Sampling Times
+   - 单次采血量限制 / Blood Volume Limitation
+   - 样本量设计 / Sample Size
+   - 生物分析方法 / Analytical Method
+3. What we don't know yet (gaps or uncertainties in the evidence)"""
+        task_instructions = """
+Since the task type is PK design, you MUST address:
+- Sampling times (采血时点)
+- Blood volume constraints (单次采血量限制)
+- Sample size (样本量)
+- Analytical method (生物分析方法)
+"""
+    elif answer_mode == "overview":
         structure = """Structure:
 1. Direct answer (2-4 short paragraphs, lead with the practical explanation)
 2. What this means for a reader (plain-language interpretation, not veterinary advice)
 3. Key evidence (3-5 bullets supporting the answer)
-4. What we don't know yet (gaps or uncertainties in the evidence)
-5. Useful next step (best next topic page or one natural follow-up question)"""
+4. What we don't know yet (gaps or uncertainties in the evidence)"""
     else:
         structure = """Structure:
 1. Direct answer (one paragraph, lead with the conclusion)
 2. Key evidence (bulleted points supporting the answer)
 3. What we don't know yet (gaps or uncertainties in the evidence)"""
 
+    synthesis_tail_structure = """
+Additionally, you MUST append three standardized sections at the very end of your response, using exact level-2 markdown headers:
+## 研究者视角
+(Synthesize key academic mechanisms, pathological characteristics, biomarker groups, and research context based on evidence.)
+## 不能说过头的地方
+(Clarify the boundaries of the evidence, specify extrapolation limits, state caution when applying case series to clinic, and note that this does not constitute professional veterinary advice.)
+## 下一步
+(Provide concrete next actions for further study or verification.)
+"""
+
+    translation_quality_control = """
+Translation and Professional Terminology Rules:
+- If answering in Chinese, you MUST use professional, natural, and standard veterinary and clinical trial terminology.
+- Avoid mechanical, direct, or raw machine-translation styles.
+- STRICTLY FORBIDDEN terms and their corrections:
+  * NEVER use "无药性管理". Replace it with "非药物管理" (non-pharmacological management).
+  * NEVER use "长期录下横灌运输转移" or similar nonsensical sentences. Translate it smoothly.
+  * NEVER use "介阻极毒动物" or "前瞻瘦弱广泛筛". Use proper terms like "有毒物质/介导的疾病" or "前瞻性广泛筛查".
+  * NEVER use "目标证据强烈的课题软性建议与限制". Use "高可信度证据的指南推荐与限制".
+  * NEVER directly translate "RENAAL limits" out of context for cats. If mentioning human study limits, explain it clearly as cross-species extrapolation warning.
+- Recommended professional terms:
+  * non-pharmacological management -> 非药物管理
+  * creatinine -> 肌酐
+  * proteinuria -> 蛋白尿
+  * clinical workflow -> 临床工作流
+  * endpoint -> 终点指标
+  * extrapolation -> （物种间）外推
+  * prognosis -> 预后
+  * retrospective study -> 回顾性研究
+  * prospective study -> 前瞻性研究
+  * biomarker -> 生物标记物
+  * systolic blood pressure -> 收缩压
+  * urine specific gravity (USG) -> 尿比重
+"""
+
     system = f"""You are a research synthesis agent for a feline disease knowledge vault.
 Write a sourced answer using only the loaded context.
 
 {structure}
+
+{synthesis_tail_structure}
+
+{translation_quality_control}
+
+{task_instructions}
 
 Source weighting (each source card header shows weight tier):
 - high (7-10): guidelines, regulations, reviews with deep extraction — prioritize these
@@ -1385,6 +1519,13 @@ Provenance tagging rules (apply to every factual claim):
   [quoted_fact: src-ckd-001]                     — direct quote or close paraphrase from a loaded source card
   [source_supported_conclusion: src-ckd-001]      — inference you draw from loaded evidence
   [llm_inference]                                — reasoning that goes beyond loaded evidence
+
+CRITICAL: Every factual statement MUST end with a bracket-notation provenance tag.
+Do NOT cite sources in prose style like "(src-hcm-001)" or "from src-hcm-001" — these
+are invisible to provenance tracking. Always use the bracket format:
+  [quoted_fact: src-hcm-001] or [source_supported_conclusion: src-hcm-001, src-hcm-009]
+If you mention a source ID anywhere in the text, it MUST also appear inside a bracket tag.
+An answer with zero bracket-tagged source IDs will fail acceptance checks.
 
 Use the example IDs above only if those exact source cards appear in the loaded context.
 Never output placeholder IDs such as src-id, src-id1, or src-id2.
@@ -1407,7 +1548,8 @@ Critical constraints:
 - Answer in {answer_language}. Match the user's language unless the user explicitly asks otherwise.
 - Only cite source IDs that appear in the loaded context. Never invent IDs.
 - If you cannot find a citation for a claim, tag it [llm_inference].
-- Distinguish carefully between what the evidence says and what you are inferring."""
+- Distinguish carefully between what the evidence says and what you are inferring.
+- STRICTLY FOLLOW all Translation and Professional Terminology Rules. NEVER use forbidden terms like "无药性管理" or "长期录下横灌运输转移" under any circumstances."""
 
     use_vision = (
         VISION_INTEGRATION_ENABLED
@@ -2349,6 +2491,7 @@ def run_query_core(
         resolved_assets=resolved_assets,
         model=model,
         answer_mode=answer_mode,
+        question_type=question_type,
     )
     answer = sanitize_provenance_tags(answer, loaded_source_ids)
 

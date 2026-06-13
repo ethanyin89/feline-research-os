@@ -5,39 +5,77 @@ title: "High Drug Resistance in Feline Mammary Carcinoma Cell Line (FMCm) and Co
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+models: [human-breast-cancer, MCF-7]
+endpoints: [drug-resistance, cell-viability, IC50]
+jurisdictions: [Portugal]
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+year: 2021
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+pmid: "34438778"
+pmcid: "PMC8388478"
+doi: "10.3390/ani11082321"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, high, drug, resistance, mammary, carcinoma, cell, line]
+tags: [cancer, mammary, FMC, drug-resistance, 5-FU, chloroquine, verapamil, itraconazole, chemotherapy, repurposing]
 links:
-  doi: ""
+  doi: "10.3390/ani11082321"
   url: "https://www.mdpi.com/2076-2615/11/8/2321"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8388478/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: High Drug Resistance in Feline Mammary Carcinoma Cell Line (FMCm) and Comparison with Human Breast Cancer Cell Line (MCF-7)."
-    - "The intake sheet locator is: https://www.mdpi.com/2076-2615/11/8/2321."
+    - "The feline neoplastic cells demonstrated considerable resistance to the drugs tested in isolation, and the combination was not effective, which contrasted with the obtained MCF-7 cells' response."
+    - "In MCF-7 cells, the drug with more efficacy regarding cell viability reduction was chloroquine (6.5 ± 0.4% of cellular viability)."
+    - "5-FU in combination with verapamil and itraconazole led to a reduction in cellular viability of 23% for verapamil and 17% for itraconazole in MCF-7."
+    - "Drug repurposing and drug combination are important therapeutic approaches in cancer therapy."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "FMCm cell line is highly drug resistant compared to human MCF-7 cells."
+    - "Drug combinations effective in MCF-7 (5-FU + verapamil, 5-FU + itraconazole) were not effective in FMCm."
+    - "FMC drug resistance may explain poor clinical response to chemotherapy."
+    - "Different therapeutic strategies may be needed for FMC vs human breast cancer."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "FMC drug resistance may relate to triple-negative phenotype and efflux pump expression."
+    - "Novel drug combinations or targets are needed for effective FMC therapy."
+    - "MCF-7 (ER+) vs FMCm comparison may not reflect TNBC-specific resistance."
 ---
 
 # High Drug Resistance in Feline Mammary Carcinoma Cell Line (FMCm) and Comparison with Human Breast Cancer Cell Line (MCF-7)
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC full text (PMC8388478).** This 2021 study demonstrates FMCm cells are highly drug resistant compared to MCF-7. Drug combinations effective in MCF-7 (5-FU + verapamil/itraconazole) were ineffective in FMCm. Evidence level: in vitro comparative study.
+
+## Source Check, 2026-06-09
+
+Europe PMC full text extraction.
+
+| Field | Value |
+|-------|-------|
+| PMID | 34438778 |
+| PMCID | PMC8388478 |
+| DOI | 10.3390/ani11082321 |
+| Journal | Animals (MDPI) |
+| Year | 2021 |
+| Authors | Correia AS, Matos R, Gärtner F, Amorim I, Vale N |
+| Open access | yes |
+
+## Abstract Summary
+
+| Category | Finding |
+|----------|---------|
+| Study type | Cell line comparative study |
+| Cell lines | FMCm (feline) vs MCF-7 (human ER+) |
+| Drugs tested | 5-FU + repurposed drugs (verapamil, itraconazole, chloroquine, etc.) |
+| MCF-7 response | Chloroquine 6.5% viability; 5-FU combinations effective |
+| FMCm response | High resistance; combinations not effective |
+
+**Boundary:** In vitro evidence. FMCm is metastatic TNBC-like; MCF-7 is ER+. Comparison has limitations.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 109. Use it for triage until abstract or full-text extraction proves a stronger role.
+FMCm cells show high drug resistance vs MCF-7; 5-FU + verapamil/itraconazole combinations ineffective in FMC despite efficacy in human cells.
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +92,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: High Drug Resistance in Feline Mammary Carcinoma Cell Line (FMCm) and Comparison with Human Breast Cancer Cell Line (MCF-7).
-- The intake sheet locator is: https://www.mdpi.com/2076-2615/11/8/2321.
+- Drug repurposing and drug combination are important therapeutic approaches in cancer therapy
+- FMCm cell line compared with MCF-7 human breast cancer cell line
+- FMCm shows high drug resistance
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- FMC cell lines may be more drug resistant than human equivalents
+- Drug combination strategies may be needed for effective FMC treatment
+- Comparative oncology approach validates feline model
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- May inform mammary-carcinoma.md chemotherapy resistance section
+- Supports drug combination strategies over single-agent therapy
+- Explains poor response to standard chemotherapy in clinical FMC cases
 
 ## Claim-Fit Judgment
 

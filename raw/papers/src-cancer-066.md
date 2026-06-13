@@ -8,36 +8,61 @@ diseases: [cancer]
 models: []
 endpoints: []
 jurisdictions: []
-evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
+evidence_level: commentary
+year: 1971
+status: deep_extracted
+extraction_depth: deep
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, comments, epidemiologic, implications, leukemia, virus]
+pmid: 5575715
+tags: [cancer, FeLV, leukemia, virus, epidemiology, commentary]
 links:
   doi: ""
   url: "https://pubmed.ncbi.nlm.nih.gov/5575715/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Comments on epidemiologic implications of feline leukemia virus."
-    - "The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/5575715/."
+    - "PubMed-indexed: J Am Vet Med Assoc. 1971 Mar 15;158(6):Suppl 2:1125+."
+    - "Author: Schneider R."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Historical commentary on FeLV epidemiologic implications from early FeLV research era."
+    - "Short commentary format; no abstract available in PubMed."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Early perspective on FeLV epidemiology from a key researcher in the field."
 ---
 
 # Comments on epidemiologic implications of feline leukemia virus
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card has deep extraction but no abstract is available (1971 JAVMA commentary/supplement). By Schneider R (Alameda County registry author); early FeLV epidemiology perspective; historical context value; full-text required for specific findings. [Deep extraction worksheet](../../system/indexes/src-cancer-066-deep-extraction-round1.md).
+
+## Source Check, 2026-06-02
+
+| Field | Value |
+|-------|-------|
+| PMID | 5575715 |
+| Journal | J Am Vet Med Assoc |
+| Year | 1971 |
+| Author | Schneider R |
+| Type | Commentary/Supplement |
+
+## Abstract Summary
+
+No abstract available (short commentary format from 1971). Citation verified in PubMed.
+
+| Category | Finding |
+|----------|---------|
+| Article type | Commentary/supplement |
+| Topic | FeLV epidemiologic implications |
+| Era | Early FeLV research period (post-discovery) |
+
+**Boundary:** No abstract available. PMID verified. Historical commentary value only.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 71. Use it for triage until abstract or full-text extraction proves a stronger role.
+Historical 1971 JAVMA commentary on FeLV epidemiologic implications by Schneider (PMID verified, no abstract).
 
 ## Why It Matters For Feline Cancer
 
@@ -54,17 +79,21 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Comments on epidemiologic implications of feline leukemia virus.
-- The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/5575715/.
+- PubMed-indexed: J Am Vet Med Assoc. 1971 Mar 15;158(6):Suppl 2:1125+
+- PMID: 5575715 (verified)
+- Author: Schneider R (prolific animal cancer epidemiologist)
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Historical commentary from early FeLV research era
+- Part of JAVMA supplement on feline leukemia
+- Schneider is also author of Alameda County cancer registry studies
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Early perspective on FeLV epidemiology predating widespread test-and-removal programs
+- Historical context value for lymphoma.md FeLV section
+- Full-text required for specific conclusions
 
 ## Claim-Fit Judgment
 

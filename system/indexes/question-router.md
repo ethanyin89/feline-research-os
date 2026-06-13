@@ -30,8 +30,10 @@ If you want the strongest answer surface map first, use:
 
 ## Fastest Cross-Disease Moves / 最快跨病种动作
 
-如果你现在不是在找“哪个栏目”，而是在找“哪种答案面”，先用这 4 条：
+如果你现在不是在找"哪个栏目"，而是在找"哪种答案面"，先用这 5 条：
 
+- `What is X?` / `什么是X？` / `解释一下X`
+  Open the disease `what-is-*` page (or dashboard if not yet compiled)
 - `I want the fastest disease answer`
   Open the disease `current-state-dashboard`
 - `I want the best structured overview`
@@ -44,6 +46,26 @@ If you want the strongest answer surface map first, use:
   Open [best-answer-surfaces](best-answer-surfaces.md)
 
 如果这些还不够，再按问题层级往下选。
+
+## 0. Simple Explanation / 简单解释
+
+Use this when your question is:
+
+- `What is X?` / `什么是X？` / `解释一下X`
+- `我想简单了解这个病`
+
+这是最基础的入口。如果你想要简洁易懂的解释，从这里开始。
+
+Open:
+
+- Obesity: [what-is-obesity](../../topics/obesity/what-is-obesity.md) ✓
+- Cancer: [what-is-cancer](../../topics/cancer/what-is-cancer.md) ✓
+- FIP: [what-is-fip](../../topics/fip/what-is-fip.md) ✓
+- CKD: [what-is-ckd](../../topics/ckd/what-is-ckd.md) ✓
+- IBD: (pending — use [current-state-dashboard](../../topics/ibd/current-state-dashboard.md))
+- HCM: (pending — use [current-state-dashboard](../../topics/hcm/current-state-dashboard.md))
+- Diabetes: (pending — use [current-state-dashboard](../../topics/diabetes/current-state-dashboard.md))
+- FCV: (pending — use [current-state-dashboard](../../topics/fcv/current-state-dashboard.md))
 
 ## 1. Mechanism / 机制
 
@@ -67,10 +89,13 @@ Open:
 Use this when your question is:
 
 - `How should this disease be recognized?`
+- `怎么识别这个病？` / `这个病有什么症状？`
 - `What is lead logic versus support logic?`
 
-Open:
+**普通用户版 / For Pet Owners:**
+- FIP: [fip-warning-signs](../../topics/fip/fip-warning-signs.md) ✓ 简单易懂
 
+**专业版 / For Vets/Researchers:**
 - CKD: [risk-and-recognition](../../topics/ckd/risk-and-recognition.md)
 - FIP: [risk-and-recognition](../../topics/fip/risk-and-recognition.md)
 - IBD: [risk-and-recognition-bilingual](../../topics/ibd/risk-and-recognition-bilingual.md)

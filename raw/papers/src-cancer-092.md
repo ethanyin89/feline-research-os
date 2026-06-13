@@ -11,51 +11,58 @@ jurisdictions: []
 evidence_level: original-study
 year: 2021
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, thymidine, kinase, molecular, characterization, evaluation, its, serum]
+pmid: 34579716
+tags: [cancer, TK1, biomarker, serum, diagnosis, prognosis, lymphoma, mammary]
 links:
   doi: "10.1186/s12917-021-03030-5"
   url: "https://doi.org/10.1186/s12917-021-03030-5"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: BMC Veterinary Research; year: 2021."
+    - "PubMed-indexed: BMC Vet Res. 2021 Sep 27;17(1):316."
+    - "Authors: Wang L, Sharif H, Saellström S, Rönnberg H, Eriksson S."
+    - "TK1 upregulated in cancer cells, leaked into blood."
+    - "Serum TK1 used as biomarker for cancer diagnosis/prognosis in human medicine."
+    - "Feline TK1 shows high sequence similarity to TK1 from other species."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "Serum TK1 may serve as diagnostic biomarker for feline cancers."
+    - "Feline TK1 characterized and evaluated for diagnostic use."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Potential pan-cancer biomarker for feline oncology."
+    - "May inform cancer diagnosis section across tumor types."
 ---
 
 # Feline thymidine kinase 1: molecular characterization and evaluation of its serum form as a diagnostic biomarker
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+| Field | Value |
+|-------|-------|
+| PMID | 34579716 |
+| DOI | 10.1186/s12917-021-03030-5 |
+| Journal | BMC Vet Res |
+| Year | 2021 |
+| Authors | Wang L, Sharif H, Saellström S, Rönnberg H, Eriksson S |
 
-## Source Check, 2026-05-30
+## Abstract Summary
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Category | Finding |
+|----------|---------|
+| Study type | Biomarker characterization |
+| Target | Feline thymidine kinase 1 (TK1) |
+| Mechanism | TK1 upregulated in cancer cells, leaked into blood |
+| Application | Serum TK1 as diagnostic biomarker |
+| Similarity | High sequence similarity to human TK1 |
 
-- DOI metadata resolved: yes
-- Container: BMC Veterinary Research
-- Year: 2021
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Abstract Background Thymidine kinase 1 (TK1) catalyzes the initial phosphorylation of thymidine in the salvage pathway synthesis of dTTP, an essential building block of DNA. TK1 i...
+**Boundary:** Abstract-level extraction. TK1 biomarker findings may inform pan-cancer diagnostic approaches.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 100. Use it for triage until abstract or full-text extraction proves a stronger role.
+Feline TK1 characterized as potential serum biomarker for cancer diagnosis; high similarity to human TK1 supports translational relevance.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +79,24 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: Feline thymidine kinase 1: molecular characterization and evaluation of its serum form as a diagnostic biomarker.
-- The intake sheet locator is: 10.1186/s12917-021-03030-5.
+- TK1 catalyzes initial phosphorylation of thymidine in salvage pathway synthesis
+- TK1 is a cytosolic enzyme with highest level during S-phase of cell cycle
+- In cancer cells TK1 is upregulated and excess TK1 is leaked into blood
+- Serum TK1 used as biomarker for cancer diagnosis and prognosis in human medicine
+- Feline TK1 shows high sequence similarity to TK1 from other species
+- Feline TK1 cloned, expressed and affinity purified
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Serum TK1 may serve as diagnostic biomarker for feline cancers
+- Feline TK1 enzymatically characterized for diagnostic application
+- Substrates include pyrimidine deoxyribonucleosides, ribonucleosides, and some anticancer/antiviral nucleoside analogs
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Potential pan-cancer biomarker applicable across tumor types (lymphoma, mammary, etc.)
+- May inform cancer diagnosis and monitoring section
+- Translational relevance for human-feline comparative oncology
 
 ## Claim-Fit Judgment
 

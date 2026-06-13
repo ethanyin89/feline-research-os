@@ -114,6 +114,10 @@ Must not control yet:
 - Which FISS-specific source should verify injection-site sarcoma claims before a sarcoma branch page is compiled?
 - Which FeLV/lymphoma source should verify the lymphoma time-trend interpretation?
 
+## Extraction Provenance
+
+This card is marked full because the paired deep-extraction worksheet has already separated denominator facts from branch-priority interpretation. The added value is not more prose; it is the explicit warning that registry proportions must stay tied to pathology-submission records, not converted into population incidence.
+
 ## Linked Entities
 
 - diseases: cancer

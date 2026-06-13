@@ -11,51 +11,61 @@ jurisdictions: []
 evidence_level: original-study
 year: 1978
 status: ingested
-extraction_depth: partial
+extraction_depth: abstract
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, frequency, occurrence, leukaemia, virus, subgroups]
+pmid: 204584
+tags: [cancer, FeLV, subgroups, lymphosarcoma, epidemiology, carrier-cats]
 links:
   doi: "10.1002/ijc.2910210314"
   url: "https://doi.org/10.1002/ijc.2910210314"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: International Journal of Cancer; year: 1978."
+    - "PubMed-indexed: Int J Cancer. 1978 Mar 15;21(3):334-7."
+    - "Authors: Jarrett O, Hardy WD Jr, Golder MC, Hay D."
+    - "All FeLV isolates contained subgroup A; high proportion also contained subgroup B."
+    - "FeLV-C was rare, occurred only in cats with disease."
+    - "In lymphosarcoma cats: 42% FeLV-A, 58% FeLV-AB."
+    - "In healthy carriers: 65% FeLV-A, 33% FeLV-AB."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "FeLV subgroup composition differs between diseased and healthy carrier cats."
+    - "FeLV-B more common in cats with lymphosarcoma than in healthy carriers."
+    - "FeLV-C associated only with disease, not healthy carrier state."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "May inform lymphoma.md FeLV subgroup epidemiology section."
+    - "Subgroup distribution relevant to disease risk assessment."
 ---
 
 # The frequency of occurrence of feline leukaemia virus subgroups in cats
 
-## Evidence-Depth Caveat
+## Source Check, 2026-06-03
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+| Field | Value |
+|-------|-------|
+| PMID | 204584 |
+| DOI | 10.1002/ijc.2910210314 |
+| Journal | Int J Cancer |
+| Year | 1978 |
+| Authors | Jarrett O, Hardy WD Jr, Golder MC, Hay D |
 
-## Source Check, 2026-05-30
+## Abstract Summary
 
-Crossref metadata was checked as a repeatable second-pass intake step.
+| Category | Finding |
+|----------|---------|
+| Sample source | Glasgow and New York cats |
+| Population | Lymphosarcoma cats + healthy carrier cats |
+| FeLV-A prevalence | 100% of isolates |
+| FeLV-B in lymphosarcoma | 58% (vs 33% in healthy carriers) |
+| FeLV-C | Rare, only in diseased cats |
+| Carrier rate in MCH | 42% overall (28% in MCH-A, 53% in MCH-AB) |
 
-- DOI metadata resolved: yes
-- Container: International Journal of Cancer
-- Year: 1978
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Abstract Feline leukaemia viruses (FeLV) were isolated from cats in Glasgow and New York with lympho‐sarcoma and from apparently healthy carrier cats. The subgroup composition of...
+**Boundary:** Abstract-level extraction. FeLV subgroup epidemiology findings can inform lymphoma etiology claims.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 92. Use it for triage until abstract or full-text extraction proves a stronger role.
+FeLV subgroup distribution differs between lymphosarcoma cats (58% FeLV-AB) and healthy carriers (33% FeLV-AB); FeLV-C rare and only in diseased cats.
 
 ## Why It Matters For Feline Cancer
 
@@ -72,17 +82,26 @@ The safe current use is source ownership:
 
 ### quoted_fact
 
-- The intake sheet lists this title: The frequency of occurrence of feline leukaemia virus subgroups in cats.
-- The intake sheet locator is: 10.1002/ijc.2910210314.
+- All FeLV isolates contained subgroup A (FeLV-A)
+- High proportion also contained subgroup B (FeLV-B)
+- FeLV-C rare, occurred only in association with FeLV-A (and sometimes FeLV-B)
+- In lymphosarcoma cats: 42% FeLV-A only, 58% FeLV-AB
+- In healthy carrier cats: 65% FeLV-A only, 33% FeLV-AB
+- FeLV-C isolated only from cats with disease, not healthy carriers
+- Overall carrier rate in multi-cat households: 42%
+- MCH-A (FeLV-A only): 28% viraemic; MCH-AB: 53% viraemic
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- FeLV subgroup B more frequently associated with lymphosarcoma than with healthy carrier state
+- FeLV subgroup C exclusively associated with diseased cats
+- Multi-cat households with FeLV-AB have higher carrier rates than FeLV-A only households
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+- Key paper for lymphoma.md FeLV subgroup epidemiology section
+- Subgroup distribution may inform disease risk assessment
+- Historical foundation for understanding FeLV pathogenicity differences
 
 ## Claim-Fit Judgment
 
