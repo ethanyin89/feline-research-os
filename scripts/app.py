@@ -4178,8 +4178,11 @@ def run_query(question: str) -> bool:
         )
         return False
 
-    status_label = "Searching local vault..." if backend == "local" else "Routing question..."
-    with st.status(status_label, expanded=False) as status:
+    status_label = "Feline Research OS: Initializing Pipeline..."
+    with st.status(status_label, expanded=True) as status:
+        def handle_status(msg: str):
+            st.markdown(f"- ⚙️ {msg}")
+            status.update(label=f"Research OS: {msg}")
         try:
             if backend == "local":
                 result = run_app_local_query_core(
@@ -4187,7 +4190,7 @@ def run_query(question: str) -> bool:
                     disease_hint=disease_arg,
                     preferred_source_ids=st.session_state.preferred_source_ids or None,
                     search_limit=8,
-                    on_status=lambda msg: status.update(label=msg, expanded=False),
+                    on_status=handle_status,
                     allow_external_search=allow_external_search,
                 )
             else:
@@ -4198,7 +4201,7 @@ def run_query(question: str) -> bool:
                     preferred_source_ids=st.session_state.preferred_source_ids or None,
                     max_hops=max_hops,
                     model=active_model,
-                    on_status=lambda msg: status.update(label=msg, expanded=False),
+                    on_status=handle_status,
                     allow_external_search=allow_external_search,
                 )
         except SystemExit:
