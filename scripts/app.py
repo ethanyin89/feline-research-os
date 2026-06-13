@@ -2662,16 +2662,47 @@ def build_presentation_from_answer(
     )
 
 
+def translate_card_headings(text: str) -> str:
+    # Match any level of heading for these terms, e.g. ### quoted_fact
+    # Allowing optional trailing whitespace or colon
+    text = re.sub(r'^(#{1,6})\s*quoted_fact\s*$', r'\1 直接来源', text, flags=re.MULTILINE | re.IGNORECASE)
+    text = re.sub(r'^(#{1,6})\s*source_supported_conclusion\s*$', r'\1 来源支持', text, flags=re.MULTILINE | re.IGNORECASE)
+    text = re.sub(r'^(#{1,6})\s*llm_inference\s*$', r'\1 分析推断', text, flags=re.MULTILINE | re.IGNORECASE)
+    return text
+
+
 def read_markdown_without_frontmatter(path: Path) -> str:
     try:
         text = path.read_text(encoding="utf-8")
         if text.startswith("---"):
             end = text.find("\n---", 3)
             if end != -1:
-                return text[end + 4:].strip()
-        return text.strip()
+                content = text[end + 4:].strip()
+                return translate_card_headings(content)
+        return translate_card_headings(text.strip())
     except Exception as e:
         return f"Error reading file: {e}"
+
+
+EVIDENCE_LEVEL_MAP = {
+    "guideline": "共识指南",
+    "regulation": "法规",
+    "review": "专家综述",
+    "original-study": "原始研究",
+    "guidance": "指导意见",
+    "case-series": "病例系列",
+    "case-report": "个案报告",
+    "commentary": "述评/评论",
+}
+
+VERIFICATION_STATUS_MAP = {
+    "audited": "已核查全文",
+    "deep_extracted": "已核查全文",
+    "source_checked": "已核对源",
+    "abstract_weighted": "基于摘要",
+    "title_only": "仅标题",
+    "compiled": "已编译",
+}
 
 
 def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially_expanded: bool = True) -> None:
@@ -2711,8 +2742,12 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
                 meta_parts = []
                 if author_str: meta_parts.append(f"**作者**: {author_str}")
                 if year_str: meta_parts.append(f"**年份**: {year_str}")
-                if evidence: meta_parts.append(f"**证据**: {evidence}")
-                if verification: meta_parts.append(f"**核查**: {verification}")
+                if evidence: 
+                    translated_evidence = EVIDENCE_LEVEL_MAP.get(evidence, evidence)
+                    meta_parts.append(f"**证据**: {translated_evidence}")
+                if verification: 
+                    translated_verification = VERIFICATION_STATUS_MAP.get(verification, verification)
+                    meta_parts.append(f"**核查**: {translated_verification}")
                 
                 meta_str = " | ".join(meta_parts)
                 

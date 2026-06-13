@@ -55,17 +55,17 @@ def render_provenance(text: str) -> str:
     escaped = html.escape(text)
     escaped = re.sub(
         r"\[quoted_fact: ([^\]]+)\]",
-        r'<span class="prov-badge prov-quoted">quote: \1</span>',
+        r'<span class="prov-badge prov-quoted">直接来源: \1</span>',
         escaped,
     )
     escaped = re.sub(
         r"\[source_supported_conclusion: ([^\]]+)\]",
-        r'<span class="prov-badge prov-supported">supported: \1</span>',
+        r'<span class="prov-badge prov-supported">来源支持: \1</span>',
         escaped,
     )
     escaped = re.sub(
         r"\[llm_inference\]",
-        r'<span class="prov-badge prov-inference">inference</span>',
+        r'<span class="prov-badge prov-inference">分析推断</span>',
         escaped,
     )
     return escaped
