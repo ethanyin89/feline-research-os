@@ -38,6 +38,16 @@ except ImportError:
     except ImportError:
         SEARCH_AVAILABLE = False
 
+# Import core components for the Feline-RALPH harness loop
+try:
+    from core.task_evaluator import TaskEvaluator
+    from core.gap_checker import GapChecker
+    from core.verifier import Verifier
+    from core.schemas import TaskType, SearchDepth, VerificationResult, VerifierStatus, ResearchRecord
+    CORE_AVAILABLE = True
+except ImportError:
+    CORE_AVAILABLE = False
+
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
@@ -2116,6 +2126,42 @@ def run_local_query_core(
     }
 
 
+def synthesis_revision_call(
+    client,
+    question: str,
+    loaded_context: str,
+    draft_answer: str,
+    gaps: list[str],
+    model: str = MODEL,
+) -> str:
+    """
+    Call the LLM to revise a draft answer to address the specified gaps.
+    """
+    answer_language = "Chinese" if prefers_chinese(question) else "English"
+    
+    gaps_str = "\n".join(f"- {g}" for g in gaps)
+    
+    system = f"""You are a senior feline medicine research reviser. 
+Your task is to revise a draft research answer to address specific quality gaps.
+You must return the revised answer in {answer_language}.
+
+Here is the quality gap check report for the draft answer:
+{gaps_str}
+
+Please revise the draft answer to completely address these gaps.
+Ensure you follow these strict rules:
+1. Maintain the overall structure, all other correct details, and citations of the original draft.
+2. Preserve all source citations using brackets like `[quoted_fact: src-ckd-001]` or `[source_supported_conclusion: src-ckd-001]`. Do not remove them.
+3. Address the gaps using the verified facts from the provided context. Do not invent any new facts or make up studies.
+4. Keep the output professional and scientific.
+"""
+    
+    user = f"Question: {question}\n\n--- Context ---\n{loaded_context}\n\n--- Draft Answer ---\n{draft_answer}"
+    
+    revised = _chat(client, model, system, [{"role": "user", "content": user}], 4096)
+    return revised
+
+
 def run_query_core(
     client,
     question: str,
@@ -2494,6 +2540,45 @@ def run_query_core(
         question_type=question_type,
     )
     answer = sanitize_provenance_tags(answer, loaded_source_ids)
+
+    # --- Automated Feline-RALPH Loop (Reflection and Revision) ---
+    if CORE_AVAILABLE and client is not None:
+        try:
+            evaluator = TaskEvaluator()
+            gap_checker = GapChecker()
+            
+            # 1. Create a ResearchRecord
+            record = evaluator.create_record(question)
+            record.disease = disease
+            record.selected_evidence = loaded_source_ids
+            record.draft_versions = 1
+            
+            # 2. Loop up to 1 revision pass if gaps are found
+            max_revisions = 1
+            for revision_idx in range(max_revisions):
+                gap_result = gap_checker.check(record, answer)
+                if gap_result.has_critical_gaps or gap_result.has_high_gaps:
+                    gap_descriptions = [f"{g.category}: {g.description}" for g in gap_result.gaps]
+                    _status(f"Gap Checker found {len(gap_descriptions)} gaps. Running auto-revision pass...")
+                    print(f"[info] Gap Checker found {len(gap_descriptions)} gaps. Running auto-revision pass {revision_idx + 1}/{max_revisions}...", file=sys.stderr)
+                    
+                    # Call LLM to revise
+                    answer = synthesis_revision_call(
+                        client=client,
+                        question=question,
+                        loaded_context=loaded_context,
+                        draft_answer=answer,
+                        gaps=gap_descriptions,
+                        model=model
+                    )
+                    answer = sanitize_provenance_tags(answer, loaded_source_ids)
+                    record.draft_versions += 1
+                else:
+                    print(f"[info] Gap Checker passed: 0 critical/high gaps found.", file=sys.stderr)
+                    break
+                    
+        except Exception as e:
+            print(f"[warn] Failed running automated Feline-RALPH loop: {e}", file=sys.stderr)
 
     return {
         "answer": answer,
