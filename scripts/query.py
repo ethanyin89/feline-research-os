@@ -1451,10 +1451,159 @@ def synthesis_call(
     """
     answer_language = "Chinese" if prefers_chinese(question) else "English"
     
-    # Task-specific structure definition
-    task_instructions = ""
-    if question_type == "protocol":
-        structure = """Structure:
+    if answer_language == "Chinese":
+        # Task-specific structure definition
+        task_instructions = ""
+        if question_type == "protocol":
+            structure = """结构规范:
+1. 直接回答 (一个自然段，直接以结论开头)
+2. 临床方案 (你必须包含以下所有小节，并且每小节以精确的二级 Markdown 标题开头):
+   - ## 目的 / Purpose
+   - ## 动物 / Animals
+   - ## 入组与排除 / Enrollment
+   - ## 分组 / Grouping
+   - ## 给药干预 / Intervention
+   - ## 终点指标 / Endpoints
+   - ## 观察时间点 / Timepoints
+   - ## 统计分析 / Statistics
+   - ## 伦理与福利 / Ethics & Welfare
+3. 尚未解决的空白 (文献证据中存在的不确定性或研究缺口)"""
+            task_instructions = """
+由于任务类型是临床方案设计，你必须将核心回答组织为结构化的临床方案。
+请确保以下所有 9 个小节均存在并进行了详细讨论，且你必须使用这些精确的标题：
+- ## 目的 / Purpose
+- ## 动物 / Animals
+- ## 入组与排除 / Enrollment
+- ## 分组 / Grouping
+- ## 给药干预 / Intervention
+- ## 终点指标 / Endpoints
+- ## 观察时间点 / Timepoints
+- ## 统计分析 / Statistics
+- ## 伦理与福利 / Ethics & Welfare
+未包含任何一个小节或未使用精确标题将违反完整性检查并导致验证失败。
+"""
+        elif question_type == "endpoints":
+            structure = """结构规范:
+1. 直接回答 (一个自然段，直接以结论开头)
+2. 终点指标选择考量:
+   - 诊断与疗效评估的区别 / Diagnosis vs Efficacy
+   - 主要与次要终点的划分 / Primary vs Secondary Endpoints
+   - 猫种属特殊性证据 / Feline Species Evidence
+   - 文献依据与出处 / Evidence Source
+3. 尚未解决的空白 (文献证据中存在的不确定性或研究缺口)"""
+            task_instructions = """
+由于任务类型是终点指标选择，你必须明确讨论以下内容：
+- 诊断与疗效评估的区别
+- 主要与次要终点
+- 猫特异性证据
+- 基于文献来源的逻辑支持
+"""
+        elif question_type == "pk":
+            structure = """结构规范:
+1. 直接回答 (一个自然段，直接以结论开头)
+2. 药代动力学 (PK) 设计要素:
+   - 采血时点设计 / Sampling Times
+   - 单次采血量限制 / Blood Volume Limitation
+   - 样本量设计 / Sample Size
+   - 生物分析方法 / Analytical Method
+3. 尚未解决的空白 (文献证据中存在的不确定性或研究缺口)"""
+            task_instructions = """
+由于任务类型是 PK 设计，你必须讨论：
+- 采血时点设计
+- 单次采血量限制
+- 样本量设计
+- 生物分析方法
+"""
+        elif answer_mode == "overview":
+            structure = """结构规范:
+1. 直接回答 (2-4个简短的自然段，优先给出实用的临床或病理机制解释)
+2. 对读者的意义 (通俗易懂的表述，注意这非兽医临床处方建议)
+3. 核心证据 (3-5个支持回答的核心文献证据要点)
+4. 尚未解决的空白 (文献证据中存在的不确定性或研究缺口)"""
+        else:
+            structure = """结构规范:
+1. 直接回答 (一个自然段，直接以结论开头)
+2. 核心证据 (支持回答的文献证据要点)
+3. 尚未解决的空白 (文献证据中存在的不确定性或研究缺口)"""
+
+        synthesis_tail_structure = """
+此外，你必须在回答的最末尾追加以下三个标准版块，并使用精确的二级 Markdown 标题：
+## 研究者视角
+（基于文献证据，系统性地合成核心学术机制、病理特征、生物标志物群以及研究背景。）
+## 不能说过头的地方
+（理清现有证据的边界，明确物种间外推的限制，对于将个案研究应用到临床上保持审慎，并重申这不构成专业兽医诊断建议。）
+## 下一步
+（为进一步的研究或临床验证提供具体可行的下一步行动建议。）
+"""
+
+        translation_quality_control = """
+翻译与专业术语规范：
+- 必须使用专业、自然、规范的兽医学和临床试验中文学术术语。
+- 严禁机械、生硬的直译或翻译腔。
+- 绝对禁用词汇及纠正方案：
+  * 严禁使用 “无药性管理”，必须使用 “非药物管理” (non-pharmacological management)。
+  * 严禁使用 “长期录下横灌运输转移” 等无意义病句，请通顺自然地进行专业表述。
+  * 严禁直译 “RENAAL limits”，如果是提及人类研究的局限性，请清晰解释为跨物种外推警告。
+- 推荐专业中文术语：
+  * non-pharmacological management -> 非药物管理
+  * creatinine -> 肌酐
+  * proteinuria -> 蛋白尿
+  * clinical workflow -> 临床工作流
+  * endpoint -> 终点指标
+  * extrapolation -> （物种间）外推
+  * prognosis -> 预后
+  * retrospective study -> 回顾性研究
+  * prospective study -> 前瞻性研究
+  * biomarker -> 生物标记物
+  * systolic blood pressure -> 收缩压
+  * urine specific gravity (USG) -> 尿比重
+"""
+
+        system = f"""你是一个猫科疾病知识库的研究回答合成智能体。
+请仅基于加载的文献 Context 撰写一份有理有据的学术回答。
+
+{structure}
+
+{synthesis_tail_structure}
+
+{translation_quality_control}
+
+{task_instructions}
+
+来源文献权重指导（每篇文献卡片头部标有权重等级）：
+- 高权重 (7-10): 指南、行业法规、深度提取 of 综述 — 优先且重点参考
+- 中权重 (4-7): 原始研究或部分提取 of 文献 — 用于支持和补充
+- 低权重 (0-4): 个案报告、仅有摘要的文献 — 谨慎使用，需注明证据局限性
+当文献冲突时，以高权重文献为准。引用低权重文献时，需承认其局限性（例如：“基于单一病例报告” 或 “仅源自摘要级证据”）。
+
+溯源徽章标记规则（必须应用到每一个事实性声明）：
+  [quoted_fact: src-ckd-001]                     — 直接引用或高度转述已加载文献卡片中的事实
+  [source_supported_conclusion: src-ckd-001]      — 基于已加载文献证据做出的合理综合推断
+  [llm_inference]                                — 超出已加载文献直接支持范围的逻辑推理
+
+关键约束：每个事实性声明末尾必须紧跟方括号格式的溯源标签。
+严禁使用 “(src-hcm-001)” 或 “根据 src-hcm-001” 这种非方括号格式的文本引用。
+方括号溯源标签中只能引用以 `src-` 开头的真实文献卡片 ID。不要引用主题页面（Topics）。
+切勿在回答末尾添加“已加载文件”或“引用文献”的列表页脚，应用界面会自动渲染它们。
+
+图表集成规范（仅在提供图像时适用）：
+- 若上下文附带了图表，请描述每张图表展示的内容，并将视觉证据整合至你的文字回答中。
+- 引用时需包含所引用的文献卡片 ID，例如 [quoted_fact: src-ckd-001] 或 [source_supported_conclusion: src-ckd-001]。
+- 若图表与问题无关，请说明其展示内容并指出其与此提问无直接关系。
+- 绝对不要描述任何未提供的图表。
+
+硬性约束：
+- 必须使用中文回答。
+- 只能引用已加载 Context 中真实存在的 `src-` ID，绝对严禁虚构、生造任何文献 ID。
+- 如果某项陈述无法在 Context 中找到直接的文献依据，必须且只能标记为 [llm_inference]。
+- 严格遵守上述专业术语和翻译规范。
+- 绝对不要输出任何英文段落或章节。
+"""
+    else:
+        # Task-specific structure definition
+        task_instructions = ""
+        if question_type == "protocol":
+            structure = """Structure:
 1. Direct answer (one paragraph, lead with the conclusion)
 2. Clinical Protocol (you MUST address all of the following sections and start each section with its exact level-2 markdown header):
    - ## 目的 / Purpose
@@ -1467,7 +1616,7 @@ def synthesis_call(
    - ## 统计分析 / Statistics
    - ## 伦理与福利 / Ethics & Welfare
 3. What we don't know yet (gaps or uncertainties in the evidence)"""
-        task_instructions = """
+            task_instructions = """
 Since the task type is protocol design, you MUST organize the core answer as a structured Clinical Protocol.
 Ensure all of the following 9 sections are present and explicitly discussed, and you MUST use these exact headers:
 - ## 目的 / Purpose
@@ -1481,8 +1630,8 @@ Ensure all of the following 9 sections are present and explicitly discussed, and
 - ## 伦理与福利 / Ethics & Welfare
 Failing to include any of these sections with their exact headers will violate completeness checks and fail verification.
 """
-    elif question_type == "endpoints":
-        structure = """Structure:
+        elif question_type == "endpoints":
+            structure = """Structure:
 1. Direct answer (one paragraph, lead with the conclusion)
 2. Endpoint selection considerations:
    - 诊断与疗效评估的区别 / Diagnosis vs Efficacy
@@ -1490,15 +1639,15 @@ Failing to include any of these sections with their exact headers will violate c
    - 猫种属特殊性证据 / Feline Species Evidence
    - 文献依据与出处 / Evidence Source
 3. What we don't know yet (gaps or uncertainties in the evidence)"""
-        task_instructions = """
+            task_instructions = """
 Since the task type is endpoint selection, you MUST explicitly address:
 - The distinction between diagnosis vs efficacy monitoring (诊断与疗效评估的区别)
 - The primary vs secondary endpoints (主要与次要终点)
 - Feline-specific evidence (猫种属证据)
 - Literature source grounding (文献来源支持)
 """
-    elif question_type == "pk":
-        structure = """Structure:
+        elif question_type == "pk":
+            structure = """Structure:
 1. Direct answer (one paragraph, lead with the conclusion)
 2. PK Design elements:
    - 采血时点设计 / Sampling Times
@@ -1506,26 +1655,26 @@ Since the task type is endpoint selection, you MUST explicitly address:
    - 样本量设计 / Sample Size
    - 生物分析方法 / Analytical Method
 3. What we don't know yet (gaps or uncertainties in the evidence)"""
-        task_instructions = """
+            task_instructions = """
 Since the task type is PK design, you MUST address:
 - Sampling times (采血时点)
 - Blood volume constraints (单次采血量限制)
 - Sample size (样本量)
 - Analytical method (生物分析方法)
 """
-    elif answer_mode == "overview":
-        structure = """Structure:
+        elif answer_mode == "overview":
+            structure = """Structure:
 1. Direct answer (2-4 short paragraphs, lead with the practical explanation)
 2. What this means for a reader (plain-language interpretation, not veterinary advice)
 3. Key evidence (3-5 bullets supporting the answer)
 4. What we don't know yet (gaps or uncertainties in the evidence)"""
-    else:
-        structure = """Structure:
+        else:
+            structure = """Structure:
 1. Direct answer (one paragraph, lead with the conclusion)
 2. Key evidence (bulleted points supporting the answer)
 3. What we don't know yet (gaps or uncertainties in the evidence)"""
 
-    synthesis_tail_structure = """
+        synthesis_tail_structure = """
 Additionally, you MUST append three standardized sections at the very end of your response, using exact level-2 markdown headers:
 ## 研究者视角
 (Synthesize key academic mechanisms, pathological characteristics, biomarker groups, and research context based on evidence.)
@@ -1535,7 +1684,7 @@ Additionally, you MUST append three standardized sections at the very end of you
 (Provide concrete next actions for further study or verification.)
 """
 
-    translation_quality_control = """
+        translation_quality_control = """
 Translation and Professional Terminology Rules:
 - If answering in Chinese, you MUST use professional, natural, and standard veterinary and clinical trial terminology.
 - Avoid mechanical, direct, or raw machine-translation styles.
@@ -1560,15 +1709,7 @@ Translation and Professional Terminology Rules:
   * urine specific gravity (USG) -> 尿比重
 """
 
-    lang_instruction = ""
-    if answer_language == "Chinese":
-        lang_instruction = (
-            "CRITICAL LANGUAGE CONSTRAINT: The user asked in Chinese. You MUST write the ENTIRE response in Chinese (简体中文), "
-            "including all section titles, headers, bullet points, and explanations. Do NOT output paragraphs of English prose. "
-            "Only the source card IDs (e.g. `src-ckd-001`) and standard international terms with no common Chinese translation should remain in English.\n\n"
-        )
-
-    system = f"""{lang_instruction}You are a research synthesis agent for a feline disease knowledge vault.
+        system = f"""You are a research synthesis agent for a feline disease knowledge vault.
 Write a sourced answer using only the loaded context.
 
 {structure}
@@ -2203,14 +2344,24 @@ def synthesis_revision_call(
     
     gaps_str = "\n".join(f"- {g}" for g in gaps)
     
-    lang_instruction = ""
     if answer_language == "Chinese":
-        lang_instruction = (
-            "CRITICAL: You MUST write your entire revised response in Chinese (简体中文). "
-            "All headers, bullet points, and explanations must be in professional Chinese.\n\n"
-        )
-    
-    system = f"""{lang_instruction}You are a senior feline medicine research reviser. 
+        system = f"""你是一个资深的猫科医学研究审校专家。
+你的任务是修改一份学术回答草稿，以解决特定的质量缺陷。
+你必须使用纯中文（简体中文）输出修改后的回答。
+
+草稿回答的质量缺陷报告如下：
+{gaps_str}
+
+请修改草稿以彻底解决上述缺陷。
+请务必遵守以下硬性规则：
+1. 保持原草稿的整体结构、其他正确事实以及全部文献引用不变。
+2. 必须保留所有形如 `[quoted_fact: src-ckd-001]` 或 `[source_supported_conclusion: src-ckd-001]` 的方括号徽章引用，严禁删除它们。
+3. 只能使用已加载 Context 中经验证的真实事实来解决缺陷，严禁虚构任何新事实或捏造研究。
+4. 保持回答的学术性、专业性与科学性。
+5. 必须全篇使用中文回答，严禁输出任何英文段落或章节。
+"""
+    else:
+        system = f"""You are a senior feline medicine research reviser. 
 Your task is to revise a draft research answer to address specific quality gaps.
 You must return the revised answer in {answer_language}.
 
