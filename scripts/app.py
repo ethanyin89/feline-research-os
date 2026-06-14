@@ -3416,7 +3416,7 @@ def render_empty_state() -> None:
                                        f"{len(source_index)} sources · {topic_count} topic pages · {disease_count} diseases"),
         unsafe_allow_html=True,
     )
-    st.markdown("<div class='vault-panel'><div class='vault-panel-label'>Try asking</div></div>", unsafe_allow_html=True)
+    st.markdown("<div class='vault-panel'><div class='vault-panel-label'>推荐提问 / Try asking</div></div>", unsafe_allow_html=True)
     render_example_question_chips("empty")
     render_saved_answers_panel("empty")
     render_provenance_guide()
@@ -3464,18 +3464,30 @@ def render_setup_required(what_happened: str, technical_detail: str, extra_actio
     """Render expected local setup blockers without making the app look broken."""
     safe_detail = sanitize_error_detail(technical_detail)
     extra_action = f"<div style='margin-top:6px'>{extra_action_html}</div>" if extra_action_html else ""
+    is_zh = is_session_chinese()
+    
+    label = "需要配置 / Setup required" if is_zh else "Setup required"
+    what_happened_lbl = "发生原因 / What happened" if is_zh else "What happened"
+    what_to_do_lbl = "解决方案 / What to do" if is_zh else "What to do"
+    action_text = (
+        "请检查侧边栏选择的后端，或在启动应用时带上所需环境配置。"
+        if is_zh else
+        "Check the selected backend in the sidebar, or restart the app with the required environment variables."
+    )
+    details_lbl = "配置详情 / Setup details" if is_zh else "Setup details"
+
     render_notice(
         f"""
-        <div class="vault-panel-label">Setup required</div>
-        <div><strong>What happened:</strong> {html.escape(what_happened)}</div>
-        <div style="margin-top:8px"><strong>What to do:</strong></div>
-        <div style="margin-top:6px">Check the selected backend in the sidebar, or restart the app with the required environment variables.</div>
+        <div class="vault-panel-label">{label}</div>
+        <div><strong>{what_happened_lbl}:</strong> {html.escape(what_happened)}</div>
+        <div style="margin-top:8px"><strong>{what_to_do_lbl}:</strong></div>
+        <div style="margin-top:6px">{action_text}</div>
         {extra_action}
         """,
         tone="amber",
     )
     if safe_detail:
-        with st.expander("Setup details", expanded=False):
+        with st.expander(details_lbl, expanded=False):
             st.code(safe_detail, language=None)
 
 
@@ -3483,19 +3495,37 @@ def render_query_error(what_happened: str, technical_detail: str, extra_action_h
     """Render a user-friendly query failure block."""
     safe_detail = sanitize_error_detail(technical_detail)
     extra_action = f"<div>{extra_action_html}</div>" if extra_action_html else ""
+    is_zh = is_session_chinese()
+
+    label = "查询失败 / Query failed" if is_zh else "Query failed"
+    what_happened_lbl = "发生原因 / What happened" if is_zh else "What happened"
+    what_to_try_lbl = "解决方案 / What to try" if is_zh else "What to try"
+    check_api_text = "检查您的 API Key 是否配置正确" if is_zh else "Check your API key is set correctly"
+    switch_backend_text = (
+        "尝试在侧边栏切换使用 Anthropic 或 OpenRouter 接口后端"
+        if is_zh else
+        "Try switching between Anthropic (API) and OpenRouter (API) in the sidebar"
+    )
+    ollama_text = (
+        "如果启用了本地 Ollama 后端，请确保服务已启动：<code>ollama serve</code>"
+        if is_zh else
+        "If local Ollama is intentionally enabled, make sure it's running: <code>ollama serve</code>"
+    )
+    details_lbl = "错误详情 / Error details" if is_zh else "Error details"
+
     render_notice(
         f"""
-        <div class="vault-panel-label">Query failed</div>
-        <div><strong>What happened:</strong> {html.escape(what_happened)}</div>
-        <div style="margin-top:8px"><strong>What to try:</strong></div>
-        <div style="margin-top:6px">Check your API key is set correctly</div>
-        <div>Try switching between Anthropic (API) and OpenRouter (API) in the sidebar</div>
+        <div class="vault-panel-label">{label}</div>
+        <div><strong>{what_happened_lbl}:</strong> {html.escape(what_happened)}</div>
+        <div style="margin-top:8px"><strong>{what_to_try_lbl}:</strong></div>
+        <div style="margin-top:6px">- {check_api_text}</div>
+        <div>- {switch_backend_text}</div>
         {extra_action}
-        <div>If local Ollama is intentionally enabled, make sure it's running: <code>ollama serve</code></div>
+        <div style="margin-top:4px">- {ollama_text}</div>
         """,
         tone="red",
     )
-    with st.expander("Error details", expanded=True):
+    with st.expander(details_lbl, expanded=True):
         st.code(safe_detail, language=None)
 
 
@@ -3515,11 +3545,13 @@ def sanitize_error_detail(detail: str) -> str:
 def query_error_label(error: Exception) -> str:
     """Short label for the collapsed Streamlit status row."""
     detail = re.sub(r"\s+", " ", sanitize_error_detail(str(error))).strip()
+    is_zh = is_session_chinese()
+    fail_lbl = "查询失败 / Query failed" if is_zh else "Query failed"
     if not detail:
-        return "Query failed"
+        return fail_lbl
     if len(detail) > 150:
         detail = f"{detail[:147].rstrip()}..."
-    return f"Query failed: {detail}"
+    return f"{fail_lbl}: {detail}"
 
 
 # ---------------------------------------------------------------------------
@@ -4072,6 +4104,8 @@ if "last_promotion_result" not in st.session_state:
 
 backend_blocker: Optional[str] = None
 
+is_zh = is_session_chinese()
+
 workspace_param = st.query_params.get("workspace", "ask")
 if workspace_param == "cases":
     with st.sidebar:
@@ -4081,15 +4115,22 @@ if workspace_param == "cases":
             index=1,
             horizontal=True,
             label_visibility="collapsed",
+            format_func=lambda x: {
+                "Ask": "知识解答 / Ask",
+                "Research Cases": "研究案例 / Cases",
+                "Research Records": "研究记录 / Records"
+            }.get(x, x) if is_zh else x
         )
         st.divider()
+        cases_title = "研究案例 / Research Cases" if is_zh else "Research Cases"
+        cases_desc = "从架构分析到挑战评估的持久性证据工作流。 / Durable evidence work from Frame through Challenge." if is_zh else "Durable evidence work from Frame through Challenge."
         st.markdown(
-            """
+            f"""
             <div class="vault-panel">
               <div class="vault-kicker">Feline Research OS</div>
-              <div style="font-size:20px;font-weight:600;color:#e8eaf0">Research Cases</div>
+              <div style="font-size:20px;font-weight:600;color:#e8eaf0">{cases_title}</div>
               <div style="font-size:13px;color:#8b90a0;margin-top:8px">
-                Durable evidence work from Frame through Challenge.
+                {cases_desc}
               </div>
             </div>
             """,
@@ -4112,15 +4153,22 @@ if workspace_param == "records":
             index=2,
             horizontal=True,
             label_visibility="collapsed",
+            format_func=lambda x: {
+                "Ask": "知识解答 / Ask",
+                "Research Cases": "研究案例 / Cases",
+                "Research Records": "研究记录 / Records"
+            }.get(x, x) if is_zh else x
         )
         st.divider()
+        records_title = "研究记录 / Research Records" if is_zh else "Research Records"
+        records_desc = "自动化评估循环进度与验证历史。 / Harness loop progress and verification history." if is_zh else "Harness loop progress and verification history."
         st.markdown(
-            """
+            f"""
             <div class="vault-panel">
               <div class="vault-kicker">Feline Research OS</div>
-              <div style="font-size:20px;font-weight:600;color:#e8eaf0">Research Records</div>
+              <div style="font-size:20px;font-weight:600;color:#e8eaf0">{records_title}</div>
               <div style="font-size:13px;color:#8b90a0;margin-top:8px">
-                Harness loop progress and verification history.
+                {records_desc}
               </div>
             </div>
             """,
@@ -4136,12 +4184,14 @@ if workspace_param == "records":
     st.stop()
 
 with st.sidebar:
+    ask_title = "知识解答 / Ask the vault" if is_zh else "Ask the vault"
+    ask_desc = "提出猫科医学问题，获取科学证据、不确定性及下一步建议。 / Ask a natural question. Get evidence, uncertainty, and a next step." if is_zh else "Ask a natural question. Get evidence, uncertainty, and a next step."
     st.markdown(
-        """
+        f"""
         <div class="vault-panel" style="margin-bottom:12px">
           <div class="vault-kicker">Feline Research OS</div>
-          <div style="font-size:20px;font-weight:600;color:#e8eaf0;line-height:1.15">Ask the vault</div>
-          <div style="font-size:13px;color:#8b90a0;margin-top:8px">Ask a natural question. Get evidence, uncertainty, and a next step.</div>
+          <div style="font-size:20px;font-weight:600;color:#e8eaf0;line-height:1.15">{ask_title}</div>
+          <div style="font-size:13px;color:#8b90a0;margin-top:8px">{ask_desc}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -4152,6 +4202,11 @@ with st.sidebar:
         ["Ask", "Research Cases", "Research Records"],
         horizontal=True,
         label_visibility="collapsed",
+        format_func=lambda x: {
+            "Ask": "知识解答 / Ask",
+            "Research Cases": "研究案例 / Cases",
+            "Research Records": "研究记录 / Records"
+        }.get(x, x) if is_zh else x
     )
     if workspace == "Research Cases":
         st.query_params["workspace"] = "cases"
@@ -4161,13 +4216,20 @@ with st.sidebar:
         st.rerun()
     st.divider()
 
-    st.markdown("<div class='vault-panel-label'>Answer engine</div>", unsafe_allow_html=True)
+    engine_lbl = "回答引擎 / Answer engine" if is_zh else "Answer engine"
+    st.markdown(f"<div class='vault-panel-label'>{engine_lbl}</div>", unsafe_allow_html=True)
+    
     backend_options = [BACKEND_LABELS[name] for name in AVAILABLE_BACKENDS]
+    engine_help = (
+        "Anthropic 模式需要配置 ANTHROPIC_API_KEY。OpenRouter 模式需要配置 OPENROUTER_API_KEY。设置 ENABLE_OLLAMA=true 启用本地 Ollama。"
+        if is_zh else
+        "Anthropic requires ANTHROPIC_API_KEY. OpenRouter requires OPENROUTER_API_KEY. Set ENABLE_OLLAMA=true to show local Ollama."
+    )
     backend_choice = st.selectbox(
         "Answer engine",
         options=backend_options,
         index=AVAILABLE_BACKENDS.index(_backend_default),
-        help="Anthropic requires ANTHROPIC_API_KEY. OpenRouter requires OPENROUTER_API_KEY. Set ENABLE_OLLAMA=true to show local Ollama.",
+        help=engine_help,
         label_visibility="collapsed",
     )
     if backend_choice.startswith("Vault Search"):
@@ -4188,16 +4250,21 @@ with st.sidebar:
         st.rerun()
 
     if backend == "local":
-        render_notice(
-            "Vault Search is free and does not call an API. Switch to an API engine only when you need synthesis.",
-            tone="green",
+        local_msg = (
+            "本地检索免费且不调用任何 API。需要多源合成与推理时再切换到 API 引擎。 / Vault Search is free and does not call an API. Switch to an API engine only when you need synthesis."
+            if is_zh else
+            "Vault Search is free and does not call an API. Switch to an API engine only when you need synthesis."
         )
+        render_notice(local_msg, tone="green")
     elif backend == "ollama":
         if is_ollama_reachable():
-            render_notice("Ollama connected.", tone="green")
+            ollama_ok = "Ollama 已连接。 / Ollama connected." if is_zh else "Ollama connected."
+            render_notice(ollama_ok, tone="green")
         else:
-            backend_blocker = "Ollama is not reachable. Run `ollama serve` before asking."
-            render_notice("Ollama not reachable. Run <code>ollama serve</code>.", tone="amber")
+            ollama_fail_block = "本地 Ollama 未能连接。请在提问前运行 `ollama serve`。 / Ollama is not reachable. Run `ollama serve` before asking." if is_zh else "Ollama is not reachable. Run `ollama serve` before asking."
+            backend_blocker = ollama_fail_block
+            ollama_fail_notice = "Ollama 未能连接。请运行 <code>ollama serve</code>。 / Ollama not reachable. Run <code>ollama serve</code>." if is_zh else "Ollama not reachable. Run <code>ollama serve</code>."
+            render_notice(ollama_fail_notice, tone="amber")
     elif backend == "openrouter":
         if os.environ.get("OPENROUTER_API_KEY"):
             try:
@@ -4209,54 +4276,101 @@ with st.sidebar:
                     tone="amber",
                 )
             else:
-                render_notice(
-                    f"OpenRouter key loaded. Project daily budget guard: ${openrouter_budget:.2f}.",
-                    tone="green",
+                or_ok = (
+                    f"OpenRouter 密钥已加载。项目每日额度守护：${openrouter_budget:.2f}。 / OpenRouter key loaded. Project daily budget guard: ${openrouter_budget:.2f}."
+                    if is_zh else
+                    f"OpenRouter key loaded. Project daily budget guard: ${openrouter_budget:.2f}."
                 )
+                render_notice(or_ok, tone="green")
         else:
-            backend_blocker = "OPENROUTER_API_KEY is not set in this shell or Streamlit secrets."
-            render_notice(
-                "OPENROUTER_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking.",
-                tone="amber",
+            or_block = "未检测到 OPENROUTER_API_KEY。请配置环境变量。 / OPENROUTER_API_KEY is not set in this shell or Streamlit secrets." if is_zh else "OPENROUTER_API_KEY is not set in this shell or Streamlit secrets."
+            backend_blocker = or_block
+            or_notice = (
+                "未检测到 OPENROUTER_API_KEY。请在提问前配置该密钥或切换引擎。 / OPENROUTER_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
+                if is_zh else
+                "OPENROUTER_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
             )
+            render_notice(or_notice, tone="amber")
     elif backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
-        backend_blocker = "ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets."
-        render_notice(
-            "ANTHROPIC_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking.",
-            tone="amber",
+        ant_block = "未检测到 ANTHROPIC_API_KEY。请配置环境变量。 / ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets." if is_zh else "ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets."
+        backend_blocker = ant_block
+        ant_notice = (
+            "未检测到 ANTHROPIC_API_KEY。请在提问前配置该密钥或切换引擎。 / ANTHROPIC_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
+            if is_zh else
+            "ANTHROPIC_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
         )
+        render_notice(ant_notice, tone="amber")
 
     paid_api_confirmed = False
     if backend not in {"local", "ollama"}:
+        chk_lbl = "允许在此会话中调用付费 API / Allow paid API synthesis for this session" if is_zh else "Allow paid API synthesis for this session"
+        chk_hlp = (
+            "简单查询请保持关闭。只有在需要模型跨文献合成并接受 Token 开销时再开启。 / Keep this off for simple lookup. Turn it on only when you want the model to synthesize across sources and accept token cost."
+            if is_zh else
+            "Keep this off for simple lookup. Turn it on only when you want the model to synthesize across sources and accept token cost."
+        )
         paid_api_confirmed = st.checkbox(
-            "Allow paid API synthesis for this session",
+            chk_lbl,
             value=False,
-            help="Keep this off for simple lookup. Turn it on only when you want the model to synthesize across sources and accept token cost.",
+            help=chk_hlp,
         )
         if not paid_api_confirmed:
-            render_notice(
-                "Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally.",
-                tone="amber",
+            paid_lock = (
+                "付费 API 综合解答已锁定。使用本地免费检索，或勾选上方选项以确认调用 API。 / Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally."
+                if is_zh else
+                "Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally."
             )
+            render_notice(paid_lock, tone="amber")
 
-    st.markdown("<div class='vault-panel-label'>Condition</div>", unsafe_allow_html=True)
+    disease_lbl = "分析病种 / Condition" if is_zh else "Condition"
+    st.markdown(f"<div class='vault-panel-label'>{disease_lbl}</div>", unsafe_allow_html=True)
+    disease_hlp = (
+        "保持在自动检测以使路由器从您的问题中自动判定病种。 / Leave on Auto-detect to let the router determine the disease from your question."
+        if is_zh else
+        "Leave on Auto-detect to let the router determine the disease from your question."
+    )
     disease_choice = st.selectbox(
         "Condition",
         options=["Auto-detect", "CKD", "HCM", "FIP", "IBD", "Diabetes", "FCV", "Obesity", "Cancer"],
         index=0,
-        help="Leave on Auto-detect to let the router determine the disease from your question.",
+        help=disease_hlp,
         label_visibility="collapsed",
+        format_func=lambda x: {
+            "Auto-detect": "自动检测 / Auto-detect",
+            "CKD": "慢性肾脏病 / CKD",
+            "HCM": "肥厚型心肌病 / HCM",
+            "FIP": "传染性腹膜炎 / FIP",
+            "IBD": "炎症性肠病 / IBD",
+            "Diabetes": "糖尿病 / Diabetes",
+            "FCV": "杯状病毒 / FCV",
+            "Obesity": "肥胖症 / Obesity",
+            "Cancer": "肿瘤与癌症 / Cancer"
+        }.get(x, x) if is_zh else x
     )
     disease_arg = None if disease_choice == "Auto-detect" else disease_choice.lower()
 
-    with st.expander("Advanced settings", expanded=False):
+    adv_title = "高级设置 / Advanced settings" if is_zh else "Advanced settings"
+    with st.expander(adv_title, expanded=False):
+        depth_lbl = "搜索深度 / Search depth" if is_zh else "Search depth"
+        depth_hlp = (
+            "Auto依据问题自动决定；Quick=1-2篇文献；Standard=2-3篇文献；Deep=包含缺陷反思；Audit=寻找冲突证据。 / Auto detects depth from question type. Quick=1-2 sources. Standard=2-3 sources. Deep=gap reflection. Audit=contrary evidence required."
+            if is_zh else
+            "Auto detects depth from question type. Quick=1-2 sources. Standard=2-3 sources. Deep=gap reflection. Audit=contrary evidence required."
+        )
         # Search depth mode selector (II.Inc style)
         search_depth_mode = st.radio(
-            "Search depth",
+            depth_lbl,
             ["Auto", "Quick", "Standard", "Deep", "Audit"],
             horizontal=True,
             index=0,
-            help="Auto detects depth from question type. Quick=1-2 sources. Standard=2-3 sources. Deep=gap reflection. Audit=contrary evidence required.",
+            help=depth_hlp,
+            format_func=lambda x: {
+                "Auto": "自动 / Auto",
+                "Quick": "快速 / Quick",
+                "Standard": "标准 / Standard",
+                "Deep": "深度 / Deep",
+                "Audit": "审计 / Audit"
+            }.get(x, x) if is_zh else x
         )
         search_depth_labels = {
             "Auto": None,  # Let TaskEvaluator decide
@@ -4267,31 +4381,51 @@ with st.sidebar:
         }
         explicit_search_depth = search_depth_labels.get(search_depth_mode)
 
+        hops_lbl = "智能体深度 / Agent depth" if is_zh else "Agent depth"
+        hops_hlp = (
+            "智能体深度控制在最终合成前允许跳转加载文献的步数。 / Higher depth pulls in more readings before the answer is written."
+            if is_zh else
+            "Higher depth pulls in more readings before the answer is written."
+        )
         max_hops = st.slider(
-            "Agent depth",
+            hops_lbl,
             min_value=1,
             max_value=5,
             value=3,
-            help="Higher depth pulls in more readings before the answer is written.",
+            help=hops_hlp,
         )
 
+        save_lbl = "自动保存回答 / Auto-save answers" if is_zh else "Auto-save answers"
+        save_hlp = (
+            "合成后将每个回答作为 Markdown 文件自动保存到本地库中。 / Saves each answer as a markdown file in the vault after synthesis."
+            if is_zh else
+            "Saves each answer as a markdown file in the vault after synthesis."
+        )
         write_back_on = st.checkbox(
-            "Auto-save answers",
+            save_lbl,
             value=False,
-            help="Saves each answer as a markdown file in the vault after synthesis.",
+            help=save_hlp,
         )
 
+        ext_lbl = "本地结果稀疏时检索 PubMed/Crossref / Search PubMed/Crossref" if is_zh else "Search PubMed/Crossref if local results sparse"
+        ext_hlp = (
+            "当本地库中匹配文献少于3篇时检索外部数据库。外部结果仅供参考且需要录入。 / When the vault has fewer than 3 matching sources, search external databases. External results are marked and need intake before becoming vault evidence."
+            if is_zh else
+            "When the vault has fewer than 3 matching sources, search external databases. External results are marked and need intake before becoming vault evidence."
+        )
         allow_external_search = st.checkbox(
-            "Search PubMed/Crossref if local results sparse",
+            ext_lbl,
             value=False,
-            help="When the vault has fewer than 3 matching sources, search external databases. External results are marked and need intake before becoming vault evidence.",
+            help=ext_hlp,
         )
 
     st.divider()
-    st.markdown("<div class='vault-panel-label'>Find by keyword</div>", unsafe_allow_html=True)
+    find_lbl = "关键词检索 / Find by keyword" if is_zh else "Find by keyword"
+    st.markdown(f"<div class='vault-panel-label'>{find_lbl}</div>", unsafe_allow_html=True)
+    placeholder_text = "尝试输入肌酐、SDMA、FIP、肥胖... / Try phosphorus, SDMA, fibrosis..." if is_zh else "Try phosphorus, SDMA, fibrosis..."
     search_query = st.text_input(
         "Keyword",
-        placeholder="Try phosphorus, SDMA, fibrosis...",
+        placeholder=placeholder_text,
         label_visibility="collapsed",
     )
     search_scope = st.radio(
@@ -4299,6 +4433,11 @@ with st.sidebar:
         ["Everywhere", "Sources", "Topic pages"],
         horizontal=True,
         label_visibility="collapsed",
+        format_func=lambda x: {
+            "Everywhere": "全局 / Everywhere",
+            "Sources": "文献卡片 / Sources",
+            "Topic pages": "主题页面 / Topics"
+        }.get(x, x) if is_zh else x
     )
     if search_query:
         scope_map = {"Everywhere": "all", "Sources": "raw", "Topic pages": "topics"}
@@ -4319,23 +4458,25 @@ with st.sidebar:
                 )
                 if result["snippets"]:
                     render_search_snippet(result["snippets"][0], search_query)
-                button_label = "Preview"
+                button_label = "预览 / Preview"
                 if result["id"] and result["id"].startswith("src-"):
-                    button_label = "Use for next answer"
+                    button_label = "设为下次提问的首选背景 / Use for next answer"
                 if st.button(button_label, key=f"search-result-{i}", use_container_width=True):
                     activate_search_result(result)
                     st.rerun()
                 if i < len(results) - 1:
                     st.markdown("<div style='margin:6px 0;border-top:1px solid #2d3147'></div>", unsafe_allow_html=True)
         else:
-            render_notice("No search results yet. Try a simpler keyword or switch scope.", tone="neutral")
+            no_results_msg = "未找到检索结果。请尝试使用简短关键词或切换检索范围。 / No search results yet. Try a simpler keyword or switch scope." if is_zh else "No search results yet. Try a simpler keyword or switch scope."
+            render_notice(no_results_msg, tone="neutral")
 
     st.divider()
 
     # Last query metadata — populated after each query
     if "last_files_loaded" in st.session_state and st.session_state.last_files_loaded:
+        readings_lbl = f"已使用文献 / Readings used ({len(st.session_state.last_files_loaded)})" if is_zh else f"Readings used ({len(st.session_state.last_files_loaded)})"
         with st.expander(
-            f"Readings used ({len(st.session_state.last_files_loaded)})",
+            readings_lbl,
             expanded=False,
         ):
             for p in st.session_state.last_files_loaded:
@@ -4344,26 +4485,32 @@ with st.sidebar:
 
     if "last_meta" in st.session_state and st.session_state.last_meta:
         meta = st.session_state.last_meta
-        with st.expander("Answer summary", expanded=False):
-            st.markdown(f"**Topic:** `{meta.get('disease', '—')}`")
+        summary_lbl = "回答摘要 / Answer summary" if is_zh else "Answer summary"
+        with st.expander(summary_lbl, expanded=False):
+            topic_lbl = "分析病种 / Topic" if is_zh else "Topic"
+            st.markdown(f"**{topic_lbl}:** `{meta.get('disease', '—')}`")
             conf = meta.get("confidence", "—")
             color = {"high": "green", "medium": "orange", "low": "red"}.get(conf, "gray")
+            conf_lbl = "可信度 / Confidence" if is_zh else "Confidence"
             st.markdown(
-                f"**Confidence:** <span style='color:{color};font-weight:bold'>{conf}</span>",
+                f"**{conf_lbl}:** <span style='color:{color};font-weight:bold'>{conf}</span>",
                 unsafe_allow_html=True,
             )
             if meta.get("source_ids"):
-                st.write("**Sources cited:**")
+                sources_lbl = "引用文献卡片 / Sources cited" if is_zh else "Sources cited"
+                st.write(f"**{sources_lbl}:**")
                 for sid in meta["source_ids"]:
                     st.code(sid, language=None)
             if meta.get("written_to"):
+                saved_msg = f"已保存至 <code>{html.escape(str(meta['written_to']))}</code>。 / Saved to <code>{html.escape(str(meta['written_to']))}</code>." if is_zh else f"Saved to <code>{html.escape(str(meta['written_to']))}</code>."
                 render_notice(
-                    f"Saved to <code>{html.escape(str(meta['written_to']))}</code>.",
+                    saved_msg,
                     tone="green",
                 )
             draft_record = st.session_state.last_record_draft
             if draft_record is not None:
-                st.markdown("**Research Record:**")
+                record_lbl = "研究记录 / Research Record" if is_zh else "Research Record"
+                st.markdown(f"**{record_lbl}:**")
                 st.markdown(f"- **Record ID:** `{draft_record.record_id}`")
                 st.markdown(f"- **Verifier:** `{draft_record.verifier_status.value}`")
                 if draft_record.selected_evidence:
@@ -4380,12 +4527,14 @@ with st.sidebar:
                     except Exception:
                         duplicate = None
                     if duplicate:
+                        dup_msg = f"已存在等效的记录： <code>{html.escape(duplicate.record_id)}</code>。 / An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>." if is_zh else f"An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>."
                         render_notice(
-                            f"An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>.",
+                            dup_msg,
                             tone="amber",
                         )
+                btn_lbl = "保存研究记录 / Save Research Record" if is_zh else "Save Research Record"
                 if st.button(
-                    "Save Research Record",
+                    btn_lbl,
                     key="save-research-record",
                     use_container_width=True,
                 ):
@@ -4396,26 +4545,30 @@ with st.sidebar:
                         st.session_state.last_record_saved_path = saved_path
                         st.session_state.last_meta["research_record_saved"] = True
                         st.session_state.last_meta["research_record_path"] = saved_path
+                        ok_msg = f"研究记录已保存至 <code>{html.escape(saved_path)}</code>。 / Research Record saved to <code>{html.escape(saved_path)}</code>." if is_zh else f"Research Record saved to <code>{html.escape(saved_path)}</code>."
                         render_notice(
-                            f"Research Record saved to <code>{html.escape(saved_path)}</code>.",
+                            ok_msg,
                             tone="green",
                         )
                         st.rerun()
                     except Exception as e:
+                        fail_msg = f"无法保存研究记录：{html.escape(str(e))} / Couldn't save Research Record: {html.escape(str(e))}" if is_zh else f"Couldn't save Research Record: {html.escape(str(e))}"
                         render_notice(
-                            f"Couldn't save Research Record: {html.escape(str(e))}",
+                            fail_msg,
                             tone="red",
                         )
             if st.session_state.last_record_saved_path and draft_record is not None:
                 claim_candidates = extract_claim_candidates(draft_record)
                 if claim_candidates:
-                    st.markdown("**Claim Selection Draft:**")
+                    claim_lbl = "声称选择草案 / Claim Selection Draft" if is_zh else "Claim Selection Draft"
+                    st.markdown(f"**{claim_lbl}:**")
                     candidate_labels = [
                         f"{claim.claim_id}: {claim.text[:120]}{'...' if len(claim.text) > 120 else ''}"
                         for claim in claim_candidates
                     ]
+                    multiselect_lbl = "待验证声称 / Claims to validate" if is_zh else "Claims to validate"
                     selected_claim_labels = st.multiselect(
-                        "Claims to validate",
+                        multiselect_lbl,
                         candidate_labels,
                         default=candidate_labels[:1] if candidate_labels else [],
                         key=f"claim-selection-{draft_record.record_id}",
@@ -4424,8 +4577,9 @@ with st.sidebar:
                         f"topics/{draft_record.disease or 'general'}/validated-claims.md",
                         f"system/indexes/{draft_record.disease or 'general'}-validated-claims.md",
                     ]
+                    select_lbl = "推广目标 / Promotion target" if is_zh else "Promotion target"
                     target_page = st.selectbox(
-                        "Promotion target",
+                        select_lbl,
                         target_choices,
                         key=f"claim-target-{draft_record.record_id}",
                     )
@@ -4448,13 +4602,15 @@ with st.sidebar:
                                 f"- {icon} **{result.check_name}** ({result.severity}): {html.escape(result.message)}"
                             )
 
+                    confirm_lbl = "我确认此推广草案已准备就绪，可以应用 / I confirm this promotion draft is ready to apply" if is_zh else "I confirm this promotion draft is ready to apply"
                     confirm_promotion = st.checkbox(
-                        "I confirm this promotion draft is ready to apply",
+                        confirm_lbl,
                         key=f"confirm-promotion-{draft_record.record_id}",
                         disabled=not draft.ready_for_patch,
                     )
+                    apply_lbl = "应用推广 / Apply Promotion" if is_zh else "Apply Promotion"
                     if st.button(
-                        "Apply Promotion",
+                        apply_lbl,
                         key=f"apply-promotion-{draft_record.record_id}",
                         use_container_width=True,
                         disabled=not (draft.ready_for_patch and confirm_promotion),
@@ -4476,8 +4632,9 @@ with st.sidebar:
                             }
                             st.session_state.last_meta["promotion_applied"] = True
                             st.session_state.last_meta["promotion_target"] = draft.target_page
+                            apply_ok = f"成功应用了 {len(written['claims'])} 项声称的推广。 / Promotion applied for {len(written['claims'])} claim(s)." if is_zh else f"Promotion applied for {len(written['claims'])} claim(s)."
                             render_notice(
-                                f"Promotion applied for {len(written['claims'])} claim(s).",
+                                apply_ok,
                                 tone="green",
                             )
                             st.rerun()
