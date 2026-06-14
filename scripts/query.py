@@ -1326,7 +1326,7 @@ def reformulate_query_call(
 ) -> dict:
     """
     API Call 0 — Reformulate and refine a raw query into a structured research objective.
-    Returns: { "refined_query": "...", "objectives": [...], "reasoning": "..." }
+    Returns: { "refined_query": "...", "objectives": [...], "reasoning": "...", "english_search_terms": [...] }
     """
     answer_language = "Chinese" if prefers_chinese(question) else "English"
     
@@ -1336,9 +1336,10 @@ If the query is too brief (e.g., a simple keyword like "猫肥胖研究"), expan
 If the query is already precise, structure it and outline its key investigation objectives.
 
 Return ONLY a JSON object with these keys:
-  refined_query  — a single sentence in {answer_language} that summarizes the refined research query
-  objectives     — a list of 2-4 specific research objectives in {answer_language} to investigate
-  reasoning      — a brief explanation of why this refinement is necessary
+  refined_query        — a single sentence in {answer_language} that summarizes the refined research query
+  objectives           — a list of 2-4 specific research objectives in {answer_language} to investigate
+  reasoning            — a brief explanation of why this refinement is necessary
+  english_search_terms — a list of 2-5 precise English keywords or short phrases (translated/extracted from the query) that will be used to search an English literature database.
 """
 
     user = f"Raw Query: {question}"
@@ -1351,7 +1352,8 @@ Return ONLY a JSON object with these keys:
         result = {
             "refined_query": question,
             "objectives": [question],
-            "reasoning": "Failed to parse reformulation."
+            "reasoning": "Failed to parse reformulation.",
+            "english_search_terms": []
         }
     return result
 
@@ -2353,12 +2355,14 @@ def run_query_core(
     # Refine/reformulate query if LLM client is available
     refined_query = question
     objectives = []
+    english_search_terms = []
     if client is not None:
         try:
             _status("Refining research objectives...")
             refinement = reformulate_query_call(client, question, disease_hint, model=model)
             refined_query = refinement.get("refined_query", question)
             objectives = refinement.get("objectives", [])
+            english_search_terms = refinement.get("english_search_terms", [])
             print(f"[info] Refined query: {refined_query}", file=sys.stderr)
         except Exception as e:
             print(f"[warn] Query reformulation failed: {e}", file=sys.stderr)
@@ -2402,7 +2406,10 @@ def run_query_core(
         _status("Searching vault...")
         search_scope = "raw" if disease != "unknown" else "all"
         search_limit = 3 if question_type == "overview" else 5
-        search_results = vault_search(question, vault_root, scope=search_scope, limit=search_limit)
+        search_query = question
+        if prefers_chinese(question) and english_search_terms:
+            search_query = "|".join(english_search_terms)
+        search_results = vault_search(search_query, vault_root, scope=search_scope, limit=search_limit)
         search_trace_items: list[dict] = []
         for sr in search_results:
             loaded_by_search = False

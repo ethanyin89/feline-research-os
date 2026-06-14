@@ -499,6 +499,57 @@ def local_search_terms(question: str, disease: str) -> list[str]:
         if len(term) >= 2 and term not in terms:
             terms.append(term)
 
+    # If the question contains Chinese, translate known keywords to English
+    if detect_chinese(question):
+        translation_map = {
+            "肾": ["kidney", "renal"],
+            "肾脏": ["kidney", "renal"],
+            "肾衰": ["renal failure", "kidney failure"],
+            "肌酐": ["creatinine"],
+            "蛋白尿": ["proteinuria"],
+            "磷": ["phosphorus", "phosphate"],
+            "磷结合剂": ["phosphate binder"],
+            "糖尿病": ["diabetes", "diabetic"],
+            "胰岛素": ["insulin"],
+            "血糖": ["glucose", "blood sugar"],
+            "传腹": ["FIP", "infectious peritonitis"],
+            "腹水": ["effusion", "ascites"],
+            "冠状病毒": ["coronavirus"],
+            "抗病毒": ["antiviral"],
+            "剂量": ["dosage", "dose"],
+            "疗效": ["efficacy", "outcome"],
+            "药效": ["efficacy", "effect"],
+            "临床试验": ["clinical trial"],
+            "指标": ["endpoint", "marker"],
+            "评估": ["assessment", "evaluation"],
+            "评价": ["evaluation", "assessment"],
+            "诊断": ["diagnosis", "diagnostic"],
+            "识别": ["recognition", "detect"],
+            "分级": ["staging", "stage"],
+            "肠病": ["IBD", "enteropathy"],
+            "淋巴瘤": ["lymphoma"],
+            "活检": ["biopsy"],
+            "腹泻": ["diarrhea"],
+            "呕吐": ["vomiting"],
+            "心肌": ["HCM", "cardiomyopathy"],
+            "心脏": ["heart", "cardiac"],
+            "超声": ["echocardiography", "ultrasound"],
+            "杯状": ["FCV", "calicivirus"],
+            "口炎": ["stomatitis"],
+            "肥胖": ["obesity", "obese"],
+            "减重": ["weight loss"],
+            "减肥": ["weight loss"],
+            "体况": ["body condition"],
+            "肿瘤": ["tumor", "cancer"],
+            "癌": ["cancer", "carcinoma"],
+            "乳腺癌": ["mammary gland tumor", "breast cancer"],
+            "终点": ["endpoint"],
+        }
+        for zh_word, en_words in translation_map.items():
+            if zh_word in question:
+                for en_w in en_words:
+                    add(en_w)
+
     add(question)
     for token in re.findall(r"[A-Za-z][A-Za-z0-9+/_-]{2,}", question):
         add(token)
