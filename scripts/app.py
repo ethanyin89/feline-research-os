@@ -63,6 +63,7 @@ from query import (
     NoSourceCardsLoadedError,
     validate_openrouter_budget,
     make_client,
+    _chat,
     build_source_index,
     build_source_titles,
     build_source_weights,
@@ -2964,10 +2965,80 @@ VERIFICATION_STATUS_MAP = {
 }
 
 
+def render_translatable_content(doc_id: str, content: str, show_translate_btn: bool) -> None:
+    """Render document markdown content, and optionally provide a one-click AI translation to Chinese."""
+    st.markdown(content)
+    
+    if not show_translate_btn:
+        return
+        
+    cache_key = f"trans_{doc_id.replace('/', '_').replace('.', '_').replace('-', '_')}"
+    translated_text = st.session_state.get(cache_key, "")
+    
+    if translated_text:
+        st.markdown("---")
+        st.markdown("<div style='font-size:13px;color:#14b8a6;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-top:12px;margin-bottom:8px;'>🇨🇳 AI 中文翻译对照 / AI Translation</div>", unsafe_allow_html=True)
+        st.markdown(translated_text)
+        if st.button("清除翻译缓存 / Clear Translation", key=f"clear_{cache_key}"):
+            del st.session_state[cache_key]
+            st.rerun()
+    else:
+        if st.button("✨ 翻译本段文献 (AI) / Translate to Chinese", key=f"btn_{cache_key}"):
+            available_backend = None
+            client_obj = None
+            active_model_name = ""
+            
+            backends_to_try = []
+            if os.environ.get("ANTHROPIC_API_KEY"):
+                backends_to_try.append(("anthropic", MODEL))
+            if os.environ.get("OPENROUTER_API_KEY"):
+                backends_to_try.append(("openrouter", os.environ.get("OPENROUTER_MODEL", OPENROUTER_MODEL)))
+            if is_ollama_reachable():
+                backends_to_try.append(("ollama", OLLAMA_MODEL))
+                
+            for b, m in backends_to_try:
+                try:
+                    client_obj = make_client(b)
+                    available_backend = b
+                    active_model_name = m
+                    break
+                except Exception:
+                    continue
+                    
+            if not available_backend:
+                st.info("💡 请在左侧侧边栏配置并激活任一 API 引擎（如输入 ANTHROPIC_API_KEY 或启动本地 Ollama），以开启 AI 实时翻译功能。")
+                return
+                
+            with st.spinner("正在通过 AI 翻译文献，请稍候... / Translating..."):
+                try:
+                    system_prompt = (
+                        "You are an expert veterinary medicine and clinical trial translator. "
+                        "Translate the following feline medicine scientific text into fluent, professional, and natural Chinese (简体中文). "
+                        "Follow standard veterinary terminology (e.g. creatinine -> 肌酐, proteinuria -> 蛋白尿, non-pharmacological management -> 非药物管理). "
+                        "Do not include any commentary or meta-text, return only the translated Markdown."
+                    )
+                    
+                    text_to_translate = content[:2500]
+                    if len(content) > 2500:
+                        text_to_translate += "\n\n[... 剩余内容由于长度限制已被截断 / Remaining content truncated ...]"
+                        
+                    messages = [{"role": "user", "content": f"Text to translate:\n\n{text_to_translate}"}]
+                    translated = _chat(client_obj, active_model_name, system_prompt, messages, 2548)
+                    
+                    if translated:
+                        st.session_state[cache_key] = translated
+                        st.rerun()
+                    else:
+                        st.error("翻译失败：模型返回了空结果。")
+                except Exception as e:
+                    st.error(f"翻译过程中出错：{e}")
+
+
 def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially_expanded: bool = True) -> None:
     if not loaded_paths:
         return
         
+    chinese_session = is_session_chinese()
     st.markdown("<div class='vault-panel-label' style='margin-top:16px;margin-bottom:8px'>匹配的本地文献与文档内容 / Matched Documents</div>", unsafe_allow_html=True)
     for p_str in loaded_paths:
         path = Path(p_str)
@@ -3015,12 +3086,12 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
                 if meta_str:
                     st.markdown(f"<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>{meta_str}</div>", unsafe_allow_html=True)
                 content = read_markdown_without_frontmatter(path)
-                st.markdown(content)
+                render_translatable_content(rel_path, content, chinese_session)
         else:
             expander_title = f"📄 {rel_path}"
             with st.expander(expander_title, expanded=initially_expanded):
                 content = read_markdown_without_frontmatter(path)
-                st.markdown(content)
+                render_translatable_content(rel_path, content, chinese_session)
 
 
 def render_query_refinement(refined_query: Optional[str], objectives: Optional[list[str]]) -> None:
@@ -3221,7 +3292,7 @@ def render_answer_block_v2(
             if selected_topic:
                 content = get_search_result_preview(selected_topic, max_chars=5000)
                 if content:
-                    st.markdown(content)
+                    render_translatable_content(selected_topic, content, is_session_chinese())
                 else:
                     st.warning(f"未能加载文档：{selected_topic}")
 
@@ -3452,7 +3523,7 @@ def render_answer_block(
             if selected_topic:
                 content = get_search_result_preview(selected_topic, max_chars=5000)
                 if content:
-                    st.markdown(content)
+                    render_translatable_content(selected_topic, content, is_session_chinese())
                 else:
                     st.warning(f"未能加载文档：{selected_topic}")
 
