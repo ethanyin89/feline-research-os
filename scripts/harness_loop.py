@@ -28,6 +28,7 @@ from core import (
     VerificationResult,
     VerifierStatus,
 )
+from core.schemas import RetrievalEvent, SourceSnapshot
 
 
 class HarnessLoop:
@@ -149,6 +150,8 @@ class HarnessLoop:
         disease: str,
         research_trace: Optional[List[dict]] = None,
         loaded_source_ids: Optional[List[str]] = None,
+        retrieval_events: Optional[List[RetrievalEvent]] = None,
+        source_snapshots: Optional[List[SourceSnapshot]] = None,
     ) -> tuple[ResearchRecord, bool, List[str], str, SearchDepthAssessment]:
         """
         Populate a record from the current query result without persisting it.
@@ -159,6 +162,11 @@ class HarnessLoop:
         record.disease = disease
         record.selected_evidence = list(dict.fromkeys(loaded_source_ids or source_ids))
         record.draft_versions = 1
+        
+        if retrieval_events:
+            record.retrieval_events = retrieval_events
+        if source_snapshots:
+            record.source_snapshots = source_snapshots
 
         has_gaps, gap_descriptions, recommendation = self.check_gaps(record, answer)
         depth_assessment = self.search_depth_controller.assess(
@@ -209,6 +217,8 @@ class HarnessLoop:
         question_type: str,
         research_trace: Optional[List[dict]] = None,
         loaded_source_ids: Optional[List[str]] = None,
+        retrieval_events: Optional[List[RetrievalEvent]] = None,
+        source_snapshots: Optional[List[SourceSnapshot]] = None,
     ) -> Dict[str, Any]:
         """
         Process a query result through the harness loop.
@@ -233,6 +243,8 @@ class HarnessLoop:
             disease=disease,
             research_trace=research_trace,
             loaded_source_ids=loaded_source_ids,
+            retrieval_events=retrieval_events,
+            source_snapshots=source_snapshots,
         )
 
         messages = [

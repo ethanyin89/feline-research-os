@@ -28,6 +28,7 @@ status: active
 - [risk-and-recognition](./risk-and-recognition.md) — risk factor framework
 - [prevention](./prevention.md) — prevention-over-treatment strategy
 - [diabetes-bridge](./diabetes-bridge.md) — obesity-to-T2D mechanism
+- [weight-loss-energy-calibration](./weight-loss-energy-calibration.md) — energy requirements and metabolic adaptation
 
 ## Bilingual Pages
 
@@ -35,6 +36,7 @@ status: active
 - [risk-and-recognition-bilingual](./risk-and-recognition-bilingual.md) — risk factor framework (EN/ZH)
 - [prevention-bilingual](./prevention-bilingual.md) — prevention strategy (EN/ZH)
 - [diabetes-bridge-bilingual](./diabetes-bridge-bilingual.md) — diabetes mechanism (EN/ZH)
+- [weight-loss-energy-calibration-bilingual](./weight-loss-energy-calibration-bilingual.md) — energy calibration (EN/ZH)
 
 ## Intake And Source Control
 

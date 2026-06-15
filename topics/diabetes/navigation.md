@@ -47,6 +47,9 @@ This is the best starting page for a fresh feline diabetes reader.
 - [neuropathy and complication endpoints](complications-neuropathy.md) | [双语 bilingual](complications-neuropathy-bilingual.md)
 - [epidemiology and breed risk](epidemiology-and-breed-risk.md) | [双语 bilingual](epidemiology-and-breed-risk-bilingual.md)
 - [SGLT2 label control](sglt2-label-control.md) | [双语 bilingual](sglt2-label-control-bilingual.md)
+- [SGLT2 inhibitor protocol](sglt2-inhibitor-protocol.md) | [双语 bilingual](sglt2-inhibitor-protocol-bilingual.md)
+- [remission predictors matrix](remission-predictors-matrix.md) | [双语 bilingual](remission-predictors-matrix-bilingual.md)
+- [acromegaly differential](acromegaly-differential.md) | [双语 bilingual](acromegaly-differential-bilingual.md)
 
 ## 3. Operator And Build Path
 

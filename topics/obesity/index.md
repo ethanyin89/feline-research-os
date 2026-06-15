@@ -35,6 +35,8 @@ The module can now support bounded architecture pages. Tier 2 management context
 - [risk-and-recognition](./risk-and-recognition.md) — risk factor framework and recognition handbook
 - [prevention](./prevention.md) — prevention-over-treatment strategy and target populations
 - [diabetes-bridge](./diabetes-bridge.md) — insulin sensitivity mechanism linking obesity to T2D
+- [weight-loss-energy-calibration](./weight-loss-energy-calibration.md) — energy requirements and metabolic adaptation
+- [weight-loss-energy-calibration-bilingual](./weight-loss-energy-calibration-bilingual.md) — (bilingual)
 - [navigation](./navigation.md)
 - [current-state-dashboard](./current-state-dashboard.md)
 

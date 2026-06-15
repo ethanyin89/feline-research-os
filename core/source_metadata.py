@@ -142,6 +142,12 @@ def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
         "verification_status": (
             frontmatter_scalar(text, "verification_status") or "unknown"
         ),
+        "extraction_depth": frontmatter_scalar(text, "extraction_depth") or "unknown",
+        "safe_claim_types": frontmatter_list(text, "safe_claim_types"),
+        "prohibited_claim_types": frontmatter_list(text, "prohibited_claim_types"),
+        "limitations": frontmatter_list(text, "limitations"),
+        "superseded_by": frontmatter_scalar(text, "superseded_by"),
+        "journal": frontmatter_scalar(text, "journal"),
     }
 
 

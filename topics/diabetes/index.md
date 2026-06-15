@@ -43,6 +43,12 @@ What is the first-pass internal map of feline diabetes mellitus across pathogene
 - [complications-neuropathy](./complications-neuropathy.md)
 - [epidemiology-and-breed-risk](./epidemiology-and-breed-risk.md)
 - [sglt2-label-control](./sglt2-label-control.md)
+- [sglt2-inhibitor-protocol](./sglt2-inhibitor-protocol.md)
+- [sglt2-inhibitor-protocol-bilingual](./sglt2-inhibitor-protocol-bilingual.md)
+- [remission-predictors-matrix](./remission-predictors-matrix.md)
+- [remission-predictors-matrix-bilingual](./remission-predictors-matrix-bilingual.md)
+- [acromegaly-differential](./acromegaly-differential.md)
+- [acromegaly-differential-bilingual](./acromegaly-differential-bilingual.md)
 
 ## Narrow Owner Memos
 

@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-06-13
+last_compiled_at: 2026-06-15
 confidence: high
 verification_status: compiled
 owner: codex
@@ -21,7 +21,7 @@ status: active
 
 Load this when deciding which source cards to prioritize under context limits.
 
-2026-06-13 reality sync:
+2026-06-15 reality sync:
 
 - The vault now has `1414` strict disease paper source cards across CKD, FIP, HCM,
   IBD, Diabetes, FCV, and obesity.
@@ -64,7 +64,7 @@ Verification-status read:
 
 ---
 
-## 2026-06-13 Cross-Disease Snapshot
+## 2026-06-15 Cross-Disease Snapshot
 
 | Disease | Source cards | Status reality | Explicit full | Explicit partial | Missing depth field | Worksheets | Verification-status overlay | Current read |
 |---|---|---|---|---|---|---|---|---|

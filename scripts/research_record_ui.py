@@ -6,6 +6,8 @@ verification status, and evidence grounding details.
 """
 
 import html
+import json
+import re
 import sys
 from pathlib import Path
 from typing import Optional
@@ -25,6 +27,9 @@ from core import (
     TaskType,
     SearchDepth,
     VerifierStatus,
+    PromotionManifest,
+    build_promotion_draft,
+    extract_claim_candidates,
 )
 
 
@@ -96,7 +101,202 @@ def render_harness_loop_diagram(record: ResearchRecord) -> str:
     return ' → '.join(parts)
 
 
-def render_record_card(record: ResearchRecord) -> None:
+def is_zh_session() -> bool:
+    """Check if the current session leans towards Chinese."""
+    try:
+        if st.session_state.get("pending_question") and bool(re.search(r"[\u3400-\u9fff]", st.session_state.pending_question)):
+            return True
+        messages = st.session_state.get("messages", [])
+        for msg in reversed(messages):
+            if msg.get("role") == "user" and bool(re.search(r"[\u3400-\u9fff]", msg.get("content", ""))):
+                return True
+    except Exception:
+        pass
+    return False
+
+
+def render_claim_promotion_panel(record: ResearchRecord, vault_root: Path) -> None:
+    """Render claim selection, validation and promotion panel (Gate 6B & 6C)."""
+    is_zh = is_zh_session()
+    
+    # 1. Existing Promotions for this record
+    validated_store = ValidatedClaimStore(vault_root / "system" / "validated-claims")
+    existing_manifests = []
+    if validated_store.manifest_path.exists():
+        for path in validated_store.manifest_path.glob("*.json"):
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if data.get("record_id") == record.record_id:
+                    existing_manifests.append(data)
+            except Exception:
+                continue
+                
+    if existing_manifests:
+        header_text = "### Existing Promotions / 已存在晋升" if is_zh else "### Existing Promotions"
+        st.markdown(header_text)
+        for manifest in existing_manifests:
+            claims_count = len(manifest.get("claim_ids", []))
+            target = manifest.get("target_page")
+            manifest_id = manifest.get("manifest_id")
+            validated_at = manifest.get("validated_at", "")[:16].replace("T", " ")
+            
+            st.markdown(
+                f"""
+                <div style="background:#10b98111; border:1px solid #10b98133; border-radius:6px; padding:10px; margin-bottom:12px; font-size:13px">
+                  <div style="font-weight:bold; color:#10b981">✓ Promoted to {target}</div>
+                  <div style="color:#8b90a0; margin-top:4px">
+                    Manifest: <code>{manifest_id}</code> | Time: {validated_at} | Claims: {claims_count}
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+    # 2. Extract Candidate Claims
+    candidates = extract_claim_candidates(record)
+    if not candidates:
+        msg = (
+            "No candidate claims found in this record. Ensure the final answer contains tags like `[quoted_fact: ...]` or `[source_supported_conclusion: ...]`. / "
+            "此记录中未找到候选 claim。请确保最终回答包含 `[quoted_fact: ...]` 或 `[source_supported_conclusion: ...]` 等标签。"
+        )
+        st.info(msg)
+        return
+        
+    st.markdown("---")
+    title_text = "### Claim Selection & Promotion / 声明选择与晋升" if is_zh else "### Claim Selection & Promotion"
+    st.markdown(title_text)
+    
+    # 3. Target Page Configuration
+    disease_name = record.disease if record.disease else "general"
+    default_target = f"topics/{disease_name}/validated-claims.md"
+    
+    target_lbl = "Target Page / 目标页面" if is_zh else "Target Page"
+    target_help = "Vault-relative path, e.g. topics/ckd/validated-claims.md or topics/ckd/model-map-bilingual.md" if is_zh else "Vault-relative path, e.g. topics/ckd/validated-claims.md"
+    
+    # We allow the user to select from suggestions or type custom path
+    st.caption("Common Targets / 常见目标页面:")
+    
+    col_a, col_b, col_c = st.columns(3)
+    # Set default in session state first if not present
+    tgt_key = f"target_page_{record.record_id}"
+    if tgt_key not in st.session_state:
+        st.session_state[tgt_key] = default_target
+        
+    with col_a:
+        if st.button("Validated Claims", key=f"btn_tgt_vc_{record.record_id}", use_container_width=True):
+            st.session_state[tgt_key] = f"topics/{disease_name}/validated-claims.md"
+            st.rerun()
+    with col_b:
+        if st.button("Model Map (Bilingual)", key=f"btn_tgt_mm_{record.record_id}", use_container_width=True):
+            st.session_state[tgt_key] = f"topics/{disease_name}/model-map-bilingual.md"
+            st.rerun()
+    with col_c:
+        if st.button("Early Detection", key=f"btn_tgt_ed_{record.record_id}", use_container_width=True):
+            st.session_state[tgt_key] = f"topics/{disease_name}/early-detection-bilingual.md"
+            st.rerun()
+            
+    target_page = st.text_input(
+        target_lbl,
+        value=st.session_state[tgt_key],
+        key=tgt_key,
+        help=target_help
+    )
+    
+    # 4. Checkbox lists for claim candidate selection
+    selected_claim_ids = []
+    select_lbl = "Select claims to promote / 选择要晋升的声明:" if is_zh else "Select claims to promote:"
+    st.markdown(f"**{select_lbl}**")
+    
+    for claim in candidates:
+        cols = st.columns([0.05, 0.95])
+        with cols[0]:
+            # By default, check quoted_fact or source_supported_conclusion
+            chk_default = (claim.provenance != "llm_inference")
+            is_selected = st.checkbox(
+                "",
+                value=chk_default,
+                key=f"chk_{record.record_id}_{claim.claim_id}"
+            )
+        with cols[1]:
+            if claim.provenance == "quoted_fact":
+                claim_color = "#10b981"
+                claim_label = "Quoted Fact / 引用事实"
+            elif claim.provenance == "source_supported_conclusion":
+                claim_color = "#3b82f6"
+                claim_label = "Source Supported Conclusion / 来源支持的结论"
+            else:
+                claim_color = "#ef4444"
+                claim_label = "LLM Inference / LLM 推论 (Blocked)"
+                
+            sources_str = ", ".join(claim.source_ids) if claim.source_ids else ("None" if not is_zh else "无")
+            badge_html = f'<span style="background:{claim_color}22;color:{claim_color};padding:2px 6px;border-radius:4px;font-size:11px;font-weight:bold;margin-right:8px">{claim_label}</span>'
+            sources_html = f'<span style="color:#8b90a0;font-size:12px;margin-left:8px">(Sources: {sources_str})</span>'
+            st.markdown(f"{badge_html} <code>{claim.claim_id}</code> {sources_html}", unsafe_allow_html=True)
+            st.markdown(f'<div style="color:#e8eaf0;font-size:14px;margin-top:4px;margin-bottom:12px;padding-left:4px;line-height:1.4">{claim.text}</div>', unsafe_allow_html=True)
+            
+        if is_selected:
+            selected_claim_ids.append(claim.claim_id)
+            
+    # 5. On-the-fly Promotion Validation
+    draft = build_promotion_draft(
+        record=record,
+        selected_claim_ids=selected_claim_ids,
+        target_page=target_page,
+    )
+    
+    # 6. Display Validation results
+    val_header = "#### Validation Results / 验证结果" if is_zh else "#### Validation Results"
+    st.markdown(val_header)
+    
+    for result in draft.validation_results:
+        if result.passed:
+            icon = "🟢"
+            color = "#10b981"
+        else:
+            if result.severity in ("critical", "high"):
+                icon = "🔴"
+                color = "#ef4444"
+            else:
+                icon = "🟡"
+                color = "#f59e0b"
+                
+        st.markdown(
+            f'<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:13px">'
+            f'<span>{icon}</span>'
+            f'<div style="flex:1">'
+            f'<b style="color:{color};margin-right:8px">{result.check_name}</b>'
+            f'<span style="color:#e8eaf0">{result.message}</span>'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True
+        )
+        
+    # 7. Action Button
+    st.markdown("<div style='margin-top:16px'></div>", unsafe_allow_html=True)
+    if draft.ready_for_patch:
+        success_msg = "Draft is validated and ready for promotion. / 草案已通过验证，可以晋升。" if is_zh else "Draft is validated and ready for promotion."
+        st.success(success_msg)
+        
+        btn_label = "Confirm Promotion & Write to Vault / 确认晋升并写入库" if is_zh else "Confirm Promotion & Write to Vault"
+        if st.button(btn_label, key=f"btn_promote_{record.record_id}", type="primary", use_container_width=True):
+            try:
+                res = validated_store.promote_draft(draft, vault_root)
+                manifest_id = res['manifest'].manifest_id
+                claims_count = len(res['claims'])
+                
+                success_toast = f"Successfully promoted {claims_count} claims! / 成功晋升 {claims_count} 条声明！" if is_zh else f"Successfully promoted {claims_count} claims!"
+                st.success(success_toast)
+                st.toast(success_toast)
+                st.rerun()
+            except Exception as e:
+                err_msg = f"Promotion failed: {str(e)} / 晋升失败: {str(e)}" if is_zh else f"Promotion failed: {str(e)}"
+                st.error(err_msg)
+    else:
+        blocked_msg = "Promotion blocked. Resolve FAILED (🔴) validations to enable. / 晋升已阻止。请解决上述所有失败（🔴）验证。" if is_zh else "Promotion blocked. Resolve FAILED validations to enable."
+        st.warning(blocked_msg)
+
+
+def render_record_card(record: ResearchRecord, vault_root: Path) -> None:
     """Render a single research record as an expandable card."""
     # Header with badges
     task_badge = render_task_type_badge(record.task_type)
@@ -186,6 +386,9 @@ def render_record_card(record: ResearchRecord) -> None:
             st.markdown("**Next Steps:**")
             for step in record.next_steps:
                 st.markdown(f"- {step}")
+
+        # Claim selection and promotion panel
+        render_claim_promotion_panel(record, vault_root)
 
 
 def render_task_evaluator_demo(vault_root: Path) -> None:
@@ -302,7 +505,7 @@ def render_research_records(vault_root: Path) -> None:
         else:
             st.markdown(f"**{len(records)} records found**")
             for record in records:
-                render_record_card(record)
+                render_record_card(record, vault_root)
 
     with tab2:
         render_task_evaluator_demo(vault_root)

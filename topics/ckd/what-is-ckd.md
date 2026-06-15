@@ -6,11 +6,13 @@ species: feline
 disease: CKD
 question_type: what-is
 source_ids: [src-ckd-001, src-ckd-003, src-ckd-004, src-ckd-010]
-last_compiled_at: 2026-06-09
+language: bilingual
+last_compiled_at: 2026-06-15
 confidence: medium
 verification_status: compiled
 decision_grade: no
-language_qa_status: light_checked
+language_qa_status: bilingual_checked
+language_qa_notes: "Bilingual check done, terms like creatinine, specific gravity, and UPCR aligned."
 owner: codex
 status: active
 presentation_surface: overview

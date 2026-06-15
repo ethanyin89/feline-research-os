@@ -29,7 +29,7 @@
 | src-ckd-023 | Feline chronic kidney disease is associated with shortened telomeres and increased cellular senescence | mechanism | original-study | deep-extracted round 1 |
 | src-ckd-024 | Renal biomarkers in cats: A review of the current status in chronic kidney disease | endpoint | review | deep-extracted round 1 |
 
-## Extension Intake Queue, Updated 2026-06-13
+## Extension Intake Queue, Updated 2026-06-15
 
 These source cards came from the user-provided `feline CKD` Google Sheet. They are source-ownership and triage material only until abstract extraction, source worksheet review, or full-text extraction is complete.
 

@@ -19,13 +19,14 @@ output schema (type: output, output_kind: qa).
 """
 
 import argparse
+import hashlib
 import json
 import re
 import sys
 import os
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Optional, List
 
 # Search integration — import vault_search for pre-synthesis context enrichment
 try:
@@ -43,7 +44,10 @@ try:
     from core.task_evaluator import TaskEvaluator
     from core.gap_checker import GapChecker
     from core.verifier import Verifier
-    from core.schemas import TaskType, SearchDepth, VerificationResult, VerifierStatus, ResearchRecord
+    from core.schemas import (
+        TaskType, SearchDepth, VerificationResult, VerifierStatus, ResearchRecord,
+        RetrievalEvent, SourceSnapshot,  # Gate 6A additions
+    )
     CORE_AVAILABLE = True
 except ImportError:
     CORE_AVAILABLE = False
@@ -159,6 +163,7 @@ def build_external_search_trace(
     question: str,
     disease: str,
     max_results: int = 5,
+    retrieval_events: Optional[List] = None,
 ) -> dict:
     """Search free literature APIs and return a research-trace entry."""
     external_query = (
@@ -185,8 +190,48 @@ def build_external_search_trace(
         response = search_fn(external_query, config)
         if response.error:
             errors.append(f"{source}={response.error}")
+            if CORE_AVAILABLE and retrieval_events is not None:
+                event = RetrievalEvent(
+                    event_id=RetrievalEvent.generate_id(),
+                    timestamp=datetime.now(),
+                    engine=source,
+                    query=external_query,
+                    scope="all",
+                    candidate_count=0,
+                    retained_ids=[],
+                    excluded_ids=[],
+                    exclusion_reasons={},
+                    filters_applied=[],
+                    load_outcome="failed"
+                )
+                retrieval_events.append(event)
             continue
         total_results += len(response.results)
+        
+        candidate_ids = []
+        for result in response.results:
+            cid = result.pmid or result.doi or result.title or ""
+            if cid:
+                candidate_ids.append(cid)
+                
+        if CORE_AVAILABLE and retrieval_events is not None:
+            # External search findings are not automatically ingested in the query run,
+            # so they are not retained. Mark them all as excluded due to pending ingestion.
+            event = RetrievalEvent(
+                event_id=RetrievalEvent.generate_id(),
+                timestamp=datetime.now(),
+                engine=source,
+                query=external_query,
+                scope="all",
+                candidate_count=len(response.results),
+                retained_ids=[],
+                excluded_ids=candidate_ids,
+                exclusion_reasons={cid: "External source not yet ingested" for cid in candidate_ids},
+                filters_applied=[],
+                load_outcome="success"
+            )
+            retrieval_events.append(event)
+
         for result in response.results[:3]:
             trace_items.append({
                 "source": source,
@@ -781,22 +826,13 @@ def infer_disease_from_question(question: str) -> str:
 
 
 def prefers_chinese(question: str) -> bool:
-    """Return True when the user question contains CJK characters, or if the session has Chinese context."""
-    if bool(re.search(r"[\u3400-\u9fff]", question)):
-        return True
-    # Check if this is a continuation or short feedback query in a Chinese session
-    lowered = question.lower().strip()
-    if len(lowered) < 15:  # short queries like "continue", "next", "more detail"
-        try:
-            import streamlit as st
-            messages = st.session_state.get("messages", [])
-            for msg in reversed(messages):
-                content = msg.get("content", "")
-                if msg.get("role") == "user" and bool(re.search(r"[\u3400-\u9fff]", content)):
-                    return True
-        except Exception:
-            pass
-    return False
+    """Return True when the user question contains CJK characters, or if the session has Chinese context.
+    Or force Chinese outputs per user's core philosophy (search in English, output in Chinese)."""
+    # Force Chinese output by default per user request, unless explicitly asked in English
+    lowered = question.lower()
+    if "in english" in lowered or "respond in english" in lowered or "answer in english" in lowered:
+        return False
+    return True
 
 
 def local_search_terms(question: str) -> list[str]:
@@ -2326,6 +2362,8 @@ def run_local_query_core(
         "first_family_loaded": "local-search",
         "research_trace": research_trace,
         "est_tokens": 0,
+        "retrieval_events": [],
+        "source_snapshots": [],
     }
 
 
@@ -2421,6 +2459,11 @@ def run_query_core(
     first_family_loaded: Optional[str] = None
     research_trace: list[dict] = []
 
+    # Gate 6A: Track actual retrieval events and source snapshots
+    retrieval_events: list = []  # List[RetrievalEvent] when CORE_AVAILABLE
+    source_snapshots: list = []  # List[SourceSnapshot] when CORE_AVAILABLE
+    source_fingerprints: dict[str, str] = {}  # source_id -> SHA-256 of content
+
     def add_trace(step: str, detail: str, items: Optional[list[dict]] = None) -> None:
         """Record an auditable retrieval/synthesis step for the UI."""
         entry = {"step": step, "detail": detail}
@@ -2500,6 +2543,43 @@ def run_query_core(
             else:
                 context_parts.append(f"--- {rel} ({src_id}{weight_info}) ---\n{text}")
             loaded_paths.add(p)
+
+            # Gate 6A: Create SourceSnapshot
+            if CORE_AVAILABLE:
+                try:
+                    from core.source_metadata import parse_source_card
+                    meta = parse_source_card(p, src_id)
+                    fingerprint = SourceSnapshot.compute_fingerprint(text)
+                    source_fingerprints[src_id] = fingerprint
+                    
+                    snapshot = SourceSnapshot(
+                        source_id=src_id,
+                        content_fingerprint=fingerprint,
+                        title=meta.get("title") or "",
+                        canonical_url=meta.get("url"),
+                        doi=meta.get("doi"),
+                        pmid=meta.get("pmid"),
+                        pmcid=meta.get("pmcid"),
+                        source_family=meta.get("source_kind") or meta.get("source_type") or "unknown",
+                        study_type=meta.get("evidence_level") or "unknown",
+                        species=meta.get("species") or "unknown",
+                        applicability_boundary="",
+                        extraction_depth=meta.get("extraction_depth") or meta.get("verification_status") or "unknown",
+                        verification_status=meta.get("verification_status") or "unknown",
+                        safe_claim_types=meta.get("safe_claim_types", []),
+                        prohibited_claim_types=meta.get("prohibited_claim_types", []),
+                        decision_grade=meta.get("decision_grade") or "unknown",
+                        limitations=meta.get("limitations", []),
+                        superseded_by=meta.get("superseded_by"),
+                        publication_year=meta.get("year"),
+                        authors=meta.get("authors", []),
+                        journal=meta.get("journal"),
+                        tags=meta.get("tags", []),
+                    )
+                    source_snapshots.append(snapshot)
+                except Exception as e:
+                    print(f"[warn] Failed to create SourceSnapshot for {src_id}: {e}", file=sys.stderr)
+
             return True
         return False
 
@@ -2562,18 +2642,62 @@ def run_query_core(
             search_query = "|".join(english_search_terms)
         search_results = vault_search(search_query, vault_root, scope=search_scope, limit=search_limit)
         search_trace_items: list[dict] = []
+        
+        event_retained_ids = []
+        event_excluded_ids = []
+        event_exclusion_reasons = {}
+        event_filters = []
+        
         for sr in search_results:
             loaded_by_search = False
-            if sr["id"] and sr["id"].startswith("src-") and sr["id"] in source_index:
-                if try_load_source(sr["id"]):
+            sid = sr.get("id") or ""
+            if sid and sid.startswith("src-") and sid in source_index:
+                if try_load_source(sid):
                     loaded_by_search = True
-                    print(f"[info] Search pre-loaded: {sr['id']} ({sr['matches']} matches)", file=sys.stderr)
+                    event_retained_ids.append(sid)
+                    print(f"[info] Search pre-loaded: {sid} ({sr['matches']} matches)", file=sys.stderr)
+                else:
+                    p = source_index[sid]
+                    if p in loaded_paths:
+                        event_retained_ids.append(sid)
+                    else:
+                        event_excluded_ids.append(sid)
+                        event_exclusion_reasons[sid] = "Read failure"
+            else:
+                if sid:
+                    event_excluded_ids.append(sid)
+                    if not sid.startswith("src-"):
+                        event_exclusion_reasons[sid] = "Not a source card"
+                        if "source_card_filter" not in event_filters:
+                            event_filters.append("source_card_filter")
+                    else:
+                        event_exclusion_reasons[sid] = "Not in index"
+                        if "index_filter" not in event_filters:
+                            event_filters.append("index_filter")
+
             search_trace_items.append({
                 "file": sr["file"],
                 "id": sr.get("id") or "",
                 "matches": sr["matches"],
                 "loaded": loaded_by_search,
             })
+            
+        if CORE_AVAILABLE:
+            event = RetrievalEvent(
+                event_id=RetrievalEvent.generate_id(),
+                timestamp=datetime.now(),
+                engine="vault",
+                query=search_query,
+                scope=search_scope,
+                candidate_count=len(search_results),
+                retained_ids=event_retained_ids,
+                excluded_ids=event_excluded_ids,
+                exclusion_reasons=event_exclusion_reasons,
+                filters_applied=event_filters,
+                load_outcome="success"
+            )
+            retrieval_events.append(event)
+
         add_trace(
             "Searched vault",
             f"scope={search_scope}; limit={search_limit}; results={len(search_results)}",
@@ -2590,7 +2714,7 @@ def run_query_core(
             and is_local_search_sparse(search_results, loaded_source_ids_after_search)
         ):
             _status("Local results sparse, searching PubMed/Crossref...")
-            external_trace = build_external_search_trace(question, disease)
+            external_trace = build_external_search_trace(question, disease, retrieval_events=retrieval_events)
             add_trace(
                 external_trace["step"],
                 external_trace["detail"],
@@ -2832,6 +2956,8 @@ def run_query_core(
         "est_tokens": est_tokens,
         "refined_query": refined_query,
         "objectives": objectives,
+        "retrieval_events": retrieval_events,
+        "source_snapshots": source_snapshots,
     }
 
 

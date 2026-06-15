@@ -87,6 +87,7 @@ from core import (
     extract_claim_candidates,
     ValidatedClaimStore,
 )
+from core.schemas import RetrievalEvent, SourceSnapshot
 
 # Phase 4: ResultPresentation contract (feature-flagged)
 try:
@@ -2045,8 +2046,8 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "fip_treatment_evidence"
     if disease in TREATMENT_BOUNDARY_SOURCES and is_treatment_question(question):
         return f"{disease}_treatment_boundary"
-    # if disease == "ckd" and is_researcher_overview_question(question):
-    #     return "ckd_researcher_overview"
+    if disease == "ckd" and is_researcher_overview_question(question):
+        return "ckd_researcher_overview"
     if disease == "ckd" and is_local_explanation_question(question):
         return "ckd_overview"
     if disease == "fip" and is_local_explanation_question(question):
@@ -2293,6 +2294,8 @@ def run_app_local_query_core(
         "first_family_loaded": "local-search",
         "research_trace": research_trace,
         "est_tokens": 0,
+        "retrieval_events": [],
+        "source_snapshots": [],
     }
 
 
@@ -2320,6 +2323,12 @@ def clear_search_context() -> None:
 
 def get_search_result_preview(rel_path: str, max_chars: int = 1200) -> str:
     """Read a short, safe preview of the selected search result."""
+    # Check if a bilingual version exists and session is Chinese
+    if is_session_chinese() and rel_path.endswith(".md") and not rel_path.endswith("-bilingual.md"):
+        bilingual_path = rel_path[:-3] + "-bilingual.md"
+        if (VAULT_ROOT / bilingual_path).exists():
+            rel_path = bilingual_path
+
     path = (VAULT_ROOT / rel_path).resolve()
     try:
         path.relative_to(VAULT_ROOT.resolve())
@@ -2932,6 +2941,15 @@ def remove_relative_links(text: str) -> str:
 
 
 def read_markdown_without_frontmatter(path: Path) -> str:
+    # Automatic bilingual redirection for Chinese sessions
+    if is_session_chinese():
+        path_str = str(path)
+        if "/topics/" in path_str and path_str.endswith(".md") and not path_str.endswith("-bilingual.md"):
+            bilingual_path_str = path_str[:-3] + "-bilingual.md"
+            bilingual_path = Path(bilingual_path_str)
+            if bilingual_path.exists():
+                path = bilingual_path
+
     try:
         text = path.read_text(encoding="utf-8")
         if text.startswith("---"):
@@ -3232,6 +3250,9 @@ def render_answer_block_v2(
     # Evidence profile (replaces trust block)
     render_evidence_profile_v2(presentation.evidence_profile)
 
+    # Query Scope panel
+    render_query_scope_panel(harness_result, key_prefix)
+
     # Verification badge (from harness loop)
     render_verification_badge(harness_result)
 
@@ -3284,6 +3305,9 @@ def render_answer_block_v2(
     # Next actions
     render_next_actions_v2(presentation.next_actions)
 
+    # Save Research Record panel
+    render_save_research_record_panel(harness_result, key_prefix)
+
     # Render related topic pages preview for user accessibility
     topic_paths = extract_topic_paths_from_text(answer)
     if topic_paths:
@@ -3295,6 +3319,170 @@ def render_answer_block_v2(
                     render_translatable_content(selected_topic, content, is_session_chinese())
                 else:
                     st.warning(f"未能加载文档：{selected_topic}")
+
+
+def render_query_scope_panel(harness_result: Optional[dict], key_prefix: str) -> None:
+    is_zh = is_session_chinese()
+    record = harness_result.get("record") if harness_result else None
+    
+    panel_title = "搜索范围 / Search Coverage" if is_zh else "Search Coverage"
+    
+    if not record or not getattr(record, "retrieval_events", None):
+        with st.expander(panel_title, expanded=False):
+            st.warning("未执行搜索 / No search executed" if is_zh else "No search executed")
+        return
+
+    events = record.retrieval_events
+    snapshots = getattr(record, "source_snapshots", [])
+    
+    unique_engines = set(e.engine for e in events)
+    total_candidates = sum(e.candidate_count for e in events)
+    
+    all_retained = set()
+    for e in events:
+        all_retained.update(e.retained_ids)
+    total_retained = len(all_retained)
+    
+    if is_zh:
+        summary_text = f"搜索了 {len(unique_engines)} 个引擎，{total_candidates} 候选 → {total_retained} 保留"
+    else:
+        summary_text = f"Searched {len(unique_engines)} engines, {total_candidates} candidates → {total_retained} retained"
+        
+    with st.expander(f"▶ {panel_title} ({summary_text})", expanded=False):
+        st.markdown("##### 检索事件 / Retrieval Events" if is_zh else "##### Retrieval Events")
+        
+        for idx, event in enumerate(events):
+            engine_display = {
+                "vault": "本地知识库 / Local Vault" if is_zh else "Local Vault",
+                "pubmed": "PubMed",
+                "crossref": "CrossRef",
+            }.get(event.engine, event.engine)
+            
+            st.markdown(f"**{engine_display}** ({event.scope})")
+            st.markdown(f"- **Query / 检索词:** `{event.query}`")
+            st.markdown(f"- **Candidates / 候选:** {event.candidate_count} | **Retained / 保留:** {len(event.retained_ids)}")
+            if event.filters_applied:
+                st.markdown(f"- **Filters / 过滤器:** `{', '.join(event.filters_applied)}`")
+            if event.excluded_ids:
+                with st.expander(f"已排除结果 / Excluded results ({len(event.excluded_ids)})", expanded=False):
+                    for exc_id in event.excluded_ids:
+                        reason = event.exclusion_reasons.get(exc_id, "Unknown reason")
+                        st.markdown(f"- `{exc_id}`: {reason}")
+            st.markdown("---")
+            
+        if snapshots:
+            st.markdown("##### 来源快照 / Source Snapshots" if is_zh else "##### Source Snapshots")
+            for snapshot in snapshots:
+                st.markdown(f"**`{snapshot.source_id}` — {snapshot.title}**")
+                meta_details = []
+                if snapshot.publication_year:
+                    meta_details.append(f"Year: {snapshot.publication_year}")
+                if snapshot.source_family != "unknown":
+                    meta_details.append(f"Family: {snapshot.source_family}")
+                if snapshot.study_type != "unknown":
+                    meta_details.append(f"Study: {snapshot.study_type}")
+                if snapshot.species != "unknown":
+                    meta_details.append(f"Species: {snapshot.species}")
+                if snapshot.verification_status != "unknown":
+                    meta_details.append(f"Status: {snapshot.verification_status}")
+                    
+                if meta_details:
+                    st.markdown(f"*{', '.join(meta_details)}*")
+                st.markdown(f"Fingerprint: `{snapshot.content_fingerprint[:16]}...`")
+                st.markdown("---")
+
+
+def render_save_research_record_panel(harness_result: Optional[dict], key_prefix: str) -> None:
+    is_zh = is_session_chinese()
+    record = harness_result.get("record") if harness_result else None
+    
+    if not record:
+        return
+
+    saved_key = f"saved_path_{record.record_id}"
+    error_key = f"save_error_{record.record_id}"
+    title_key = f"save_title_{record.record_id}"
+    
+    saved_path = st.session_state.get(saved_key)
+    save_error = st.session_state.get(error_key)
+    
+    already_saved = saved_path is not None or getattr(record, "last_saved", None) is not None
+    
+    st.markdown("---")
+    
+    st.markdown('<div style="padding:15px; background:rgba(30, 30, 35, 0.4); border:1px solid rgba(255, 255, 255, 0.08); border-radius:8px; margin-top:10px;">', unsafe_allow_html=True)
+    
+    title_label = "记录标题 / Record Title" if is_zh else "Record Title"
+    placeholder = "输入标题或使用默认 / Enter title or use default" if is_zh else "Enter title or use default"
+    
+    default_title = record.title or record.user_request[:50]
+    
+    title_input = st.text_input(
+        title_label,
+        value=st.session_state.get(title_key, default_title),
+        placeholder=placeholder,
+        key=f"{key_prefix}-title-input"
+    )
+    st.session_state[title_key] = title_input
+    record.title = title_input
+    
+    duplicate = None
+    try:
+        harness = get_harness_loop(VAULT_ROOT)
+        duplicate = harness.record_store.find_equivalent_record(record)
+    except Exception:
+        pass
+        
+    if duplicate:
+        dup_date = duplicate.timestamp.strftime("%Y-%m-%d")
+        if is_zh:
+            dup_msg = f"⚠️ 已存在类似记录: `{duplicate.record_id}` ({dup_date})"
+        else:
+            dup_msg = f"⚠️ Similar record exists: `{duplicate.record_id}` ({dup_date})"
+        st.warning(dup_msg)
+        
+    if already_saved:
+        btn_lbl = "已保存 ✓ / Saved ✓"
+        st.button(btn_lbl, key=f"{key_prefix}-save-btn-disabled", disabled=True, use_container_width=True)
+        path_to_show = saved_path or f"system/research-records/{record.record_id}.json"
+        if is_zh:
+            st.success(f"已保存: `{path_to_show}`")
+        else:
+            st.success(f"Saved: `{path_to_show}`")
+    else:
+        if duplicate:
+            btn_lbl = "保存为新版本 / Save as New Version" if is_zh else "Save as New Version"
+        else:
+            btn_lbl = "保存研究记录 / Save Research Record" if is_zh else "Save Research Record"
+            
+        if st.button(btn_lbl, key=f"{key_prefix}-save-btn", use_container_width=True):
+            try:
+                harness = get_harness_loop(VAULT_ROOT)
+                if duplicate:
+                    record.record_version = duplicate.record_version + 1
+                    record.parent_record_id = duplicate.record_id
+                
+                out_path = harness.save_record(record)
+                rel_saved_path = str(out_path.relative_to(VAULT_ROOT))
+                st.session_state[saved_key] = rel_saved_path
+                st.session_state[error_key] = None
+                
+                if "last_meta" in st.session_state and st.session_state.last_meta:
+                    st.session_state.last_meta["research_record_saved"] = True
+                    st.session_state.last_meta["research_record_path"] = rel_saved_path
+                st.session_state.last_record_saved_path = rel_saved_path
+                
+                st.toast(f"Saved: {rel_saved_path}", icon="✅")
+                st.rerun()
+            except Exception as e:
+                err_msg = str(e)
+                st.session_state[error_key] = err_msg
+                st.error(f"保存失败 / Save failed: {err_msg}" if is_zh else f"Save failed: {err_msg}")
+                
+        if save_error:
+            st.error(f"保存失败 / Save failed: {save_error}" if is_zh else f"Save failed: {save_error}")
+            
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 def provenance_counts(answer: str) -> dict[str, int]:
@@ -3475,6 +3663,9 @@ def render_answer_block(
     copy_button(answer, key=f"{key_prefix}-copy")
     render_trust_block(answer, confidence, source_ids, loaded_source_ids)
 
+    # Query Scope panel
+    render_query_scope_panel(harness_result, key_prefix)
+
     # Render matched documents section
     if loaded_paths:
         if backend == "local":
@@ -3514,6 +3705,9 @@ def render_answer_block(
     sources_to_show = source_ids or loaded_source_ids
     if sources_to_show:
         render_sources_section(sources_to_show)
+
+    # Save Research Record panel
+    render_save_research_record_panel(harness_result, key_prefix)
 
     # Render related topic pages preview for user accessibility
     topic_paths = extract_topic_paths_from_text(answer)

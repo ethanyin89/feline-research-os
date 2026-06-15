@@ -3,10 +3,16 @@ Research Record persistence layer.
 
 Stores durable research records as JSON files,
 enabling retrieval and continuation of past work.
+
+Gate 6A additions:
+- Commit manifest for atomic dual-write verification
+- Reconciliation queue for interrupted writes
+- Schema migration support
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import fcntl
 import os
@@ -14,9 +20,9 @@ import tempfile
 from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
-from .schemas import ResearchRecord, TaskType, VerifierStatus
+from .schemas import ResearchRecord, TaskType, VerifierStatus, SCHEMA_VERSION
 
 
 class RecordStore:
@@ -25,6 +31,11 @@ class RecordStore:
 
     Records are stored as JSON files in a designated directory,
     with markdown summaries generated for human review.
+
+    Gate 6A features:
+    - Commit manifest ensures both JSON and Markdown are valid
+    - Reconciliation queue tracks interrupted writes
+    - Schema migration for v1 -> v2 records
     """
 
     def __init__(self, base_path: Path):
@@ -37,10 +48,14 @@ class RecordStore:
         self.base_path = Path(base_path).resolve()
         self.json_path = self.base_path / "json"
         self.markdown_path = self.base_path / "markdown"
+        self.manifest_path = self.base_path / "manifests"
+        self.reconciliation_path = self.base_path / "reconciliation"
 
         # Ensure directories exist
         self.json_path.mkdir(parents=True, exist_ok=True)
         self.markdown_path.mkdir(parents=True, exist_ok=True)
+        self.manifest_path.mkdir(parents=True, exist_ok=True)
+        self.reconciliation_path.mkdir(parents=True, exist_ok=True)
 
     def _record_json_path(self, record_id: str) -> Path:
         path = (self.json_path / f"{record_id}.json").resolve()
@@ -96,12 +111,119 @@ class RecordStore:
     def _normalize_text(text: str) -> str:
         return " ".join(text.split()).strip().lower()
 
+    @staticmethod
+    def _compute_hash(content: str) -> str:
+        """Compute SHA-256 hash of content."""
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+    def _manifest_path_for(self, record_id: str) -> Path:
+        """Get manifest path for a record."""
+        return self.manifest_path / f"{record_id}.manifest.json"
+
+    def _reconciliation_path_for(self, record_id: str) -> Path:
+        """Get reconciliation queue path for a record."""
+        return self.reconciliation_path / f"{record_id}.pending.json"
+
+    def _write_manifest(self, record_id: str, json_hash: str, md_hash: str) -> None:
+        """Write commit manifest after successful dual-write."""
+        manifest = {
+            "record_id": record_id,
+            "timestamp": datetime.now().isoformat(),
+            "schema_version": SCHEMA_VERSION,
+            "json_hash": json_hash,
+            "markdown_hash": md_hash,
+        }
+        manifest_file = self._manifest_path_for(record_id)
+        self._atomic_write_text(
+            manifest_file,
+            json.dumps(manifest, indent=2) + "\n"
+        )
+
+    def _add_to_reconciliation(self, record_id: str, stage: str, error: str) -> None:
+        """Add a failed write to the reconciliation queue."""
+        entry = {
+            "record_id": record_id,
+            "timestamp": datetime.now().isoformat(),
+            "stage": stage,  # "json", "markdown", "manifest"
+            "error": error,
+        }
+        recon_file = self._reconciliation_path_for(record_id)
+        self._atomic_write_text(
+            recon_file,
+            json.dumps(entry, indent=2) + "\n"
+        )
+
+    def _clear_reconciliation(self, record_id: str) -> None:
+        """Clear reconciliation entry after successful save."""
+        recon_file = self._reconciliation_path_for(record_id)
+        if recon_file.exists():
+            recon_file.unlink()
+
+    def verify_record_integrity(self, record_id: str) -> Dict[str, Any]:
+        """
+        Verify record integrity using commit manifest.
+
+        Returns:
+            Dict with 'valid' bool and 'issues' list
+        """
+        json_file = self._record_json_path(record_id)
+        md_file = self._record_markdown_path(record_id)
+        manifest_file = self._manifest_path_for(record_id)
+
+        issues = []
+
+        if not json_file.exists():
+            issues.append("JSON file missing")
+        if not md_file.exists():
+            issues.append("Markdown file missing")
+
+        # Records without manifests are v1 (pre-Gate 6A)
+        if not manifest_file.exists():
+            return {"valid": len(issues) == 0, "issues": issues, "version": 1}
+
+        try:
+            with open(manifest_file, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
+
+            if json_file.exists():
+                with open(json_file, "r", encoding="utf-8") as f:
+                    json_content = f.read()
+                if self._compute_hash(json_content) != manifest.get("json_hash"):
+                    issues.append("JSON hash mismatch")
+
+            if md_file.exists():
+                with open(md_file, "r", encoding="utf-8") as f:
+                    md_content = f.read()
+                if self._compute_hash(md_content) != manifest.get("markdown_hash"):
+                    issues.append("Markdown hash mismatch")
+
+        except (json.JSONDecodeError, IOError) as e:
+            issues.append(f"Manifest read error: {e}")
+
+        return {
+            "valid": len(issues) == 0,
+            "issues": issues,
+            "version": manifest.get("schema_version", 1) if manifest_file.exists() else 1
+        }
+
+    def list_reconciliation_queue(self) -> List[Dict[str, Any]]:
+        """List all records in the reconciliation queue."""
+        entries = []
+        for recon_file in self.reconciliation_path.glob("*.pending.json"):
+            try:
+                with open(recon_file, "r", encoding="utf-8") as f:
+                    entries.append(json.load(f))
+            except (json.JSONDecodeError, IOError):
+                continue
+        return sorted(entries, key=lambda x: x.get("timestamp", ""), reverse=True)
+
     def save(self, record: ResearchRecord) -> Path:
         """
-        Save a research record.
+        Save a research record with commit manifest.
 
         Saves both JSON (for programmatic access) and
-        Markdown (for human review).
+        Markdown (for human review), then writes a commit
+        manifest to verify integrity.
 
         Args:
             record: The research record to save
@@ -109,22 +231,50 @@ class RecordStore:
         Returns:
             Path to the saved JSON file
         """
+        # Update persistence metadata
+        record.last_saved = datetime.now()
+        record.persistence_status = "healthy"
+
         json_file = self._record_json_path(record.record_id)
         md_file = self._record_markdown_path(record.record_id)
 
+        json_content = json.dumps(record.to_dict(), indent=2, ensure_ascii=False) + "\n"
+        md_content = record.to_markdown() + "\n"
+
+        json_hash = self._compute_hash(json_content)
+        md_hash = self._compute_hash(md_content)
+
         with self._locked(record.record_id):
             json_written = False
+            md_written = False
             try:
-                self._atomic_write_text(
-                    json_file,
-                    json.dumps(record.to_dict(), indent=2, ensure_ascii=False) + "\n",
-                )
+                # Write JSON
+                self._atomic_write_text(json_file, json_content)
                 json_written = True
-                self._atomic_write_text(md_file, record.to_markdown() + "\n")
-            except Exception:
+
+                # Write Markdown
+                self._atomic_write_text(md_file, md_content)
+                md_written = True
+
+                # Write manifest
+                self._write_manifest(record.record_id, json_hash, md_hash)
+
+                # Clear any prior reconciliation entry
+                self._clear_reconciliation(record.record_id)
+
+            except Exception as e:
+                # Track what failed for reconciliation
+                if not json_written:
+                    self._add_to_reconciliation(record.record_id, "json", str(e))
+                elif not md_written:
+                    self._add_to_reconciliation(record.record_id, "markdown", str(e))
+                else:
+                    self._add_to_reconciliation(record.record_id, "manifest", str(e))
+
+                # Clean up partial writes
                 if json_written and json_file.exists():
                     json_file.unlink()
-                if md_file.exists():
+                if md_written and md_file.exists():
                     md_file.unlink()
                 raise
 
