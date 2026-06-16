@@ -10,6 +10,8 @@ sourced answer with provenance tags. Optionally save answers from the
 sidebar.
 """
 
+from __future__ import annotations
+
 import os
 import re
 import sys
@@ -78,7 +80,7 @@ from query import (
 from expert_review import build_expert_review_prompt, expert_review_stage_label
 from search import vault_search
 
-from local_answer_surfaces import build_ckd_researcher_overview, is_researcher_overview_question
+from local_answer_surfaces import build_ckd_researcher_overview, is_researcher_overview_question, build_ckd_topic_index
 from research_case_ui import render_research_cases
 from research_record_ui import render_research_records
 from harness_loop import get_harness_loop, format_harness_summary
@@ -2046,6 +2048,8 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
         return "fip_treatment_evidence"
     if disease in TREATMENT_BOUNDARY_SOURCES and is_treatment_question(question):
         return f"{disease}_treatment_boundary"
+    if disease == "ckd" and any(term in lowered or term in question for term in ["topic index", "主题索引", "index page"]):
+        return "ckd_topic_index"
     if disease == "ckd" and is_researcher_overview_question(question):
         return "ckd_researcher_overview"
     if disease == "ckd" and is_local_explanation_question(question):
@@ -2077,6 +2081,7 @@ def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]
         disease = surface.removesuffix("_treatment_boundary")
         return build_treatment_boundary_explanation(disease, chinese)
     builders = {
+        "ckd_topic_index": build_ckd_topic_index,
         "ckd_researcher_overview": build_ckd_researcher_overview,
         "ckd_overview": build_ckd_local_explanation,
         "ckd_endpoint": build_ckd_endpoint_explanation,
@@ -2752,9 +2757,11 @@ def render_evidence_profile_v2(profile: "EvidenceProfile") -> None:
 
 
 def render_source_card_v2(card: "SourceDisplay") -> None:
-    """Render a single source card with canonical link."""
+    """Render a single source card with canonical link, IF, citations, and expandable sections."""
     if not RESULT_PRESENTATION_AVAILABLE:
         return
+
+    is_zh = is_session_chinese()
 
     # Build link element
     link_html = ""
@@ -2768,17 +2775,33 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
     # Year text
     year_text = f" | {card.publication_year}" if card.publication_year else ""
 
+    # Build IF and citation tags
+    metric_tags = []
+    if card.impact_factor:
+        if_label = card.impact_factor_label or f"IF: {card.impact_factor:.1f}"
+        metric_tags.append(
+            f'<span style="background:rgba(234,179,8,0.12);color:#eab308;padding:2px 6px;border-radius:3px;">{html.escape(if_label)}</span>'
+        )
+    if card.citation_count:
+        cite_label = card.citation_count_label or (f"被引: {card.citation_count}" if is_zh else f"Citations: {card.citation_count}")
+        metric_tags.append(
+            f'<span style="background:rgba(96,165,250,0.12);color:#60a5fa;padding:2px 6px;border-radius:3px;">{html.escape(cite_label)}</span>'
+        )
+    metrics_html = " ".join(metric_tags)
+
     metadata_bits = []
+    if card.journal:
+        metadata_bits.append(html.escape(card.journal))
     if card.source_family_label:
-        metadata_bits.append(f"家族：{html.escape(card.source_family_label)}")
+        metadata_bits.append(f"家族：{html.escape(card.source_family_label)}" if is_zh else f"Family: {html.escape(card.source_family_label)}")
     if card.species_label:
-        metadata_bits.append(f"种属：{html.escape(card.species_label)}")
+        metadata_bits.append(f"种属：{html.escape(card.species_label)}" if is_zh else f"Species: {html.escape(card.species_label)}")
     if card.decision_grade_label:
-        metadata_bits.append(f"决策：{html.escape(card.decision_grade_label)}")
+        metadata_bits.append(f"决策：{html.escape(card.decision_grade_label)}" if is_zh else f"Grade: {html.escape(card.decision_grade_label)}")
     if card.safest_use:
-        metadata_bits.append(f"最安全用途：{html.escape(card.safest_use)}")
+        metadata_bits.append(f"最安全用途：{html.escape(card.safest_use)}" if is_zh else f"Safest use: {html.escape(card.safest_use)}")
     if not metadata_bits and card.publish_date:
-        metadata_bits.append(f"发布日期：{html.escape(card.publish_date)}")
+        metadata_bits.append(f"发布日期：{html.escape(card.publish_date)}" if is_zh else f"Published: {html.escape(card.publish_date)}")
 
     metadata_line = ""
     if metadata_bits:
@@ -2793,6 +2816,7 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
         <div style="font-size:14px;color:#e5e7eb;margin-bottom:4px;">{html.escape(card.title)}</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:#8b90a0;">
             <span class="depth-tag" style="background:rgba(22,163,74,0.12);color:#16a34a;padding:2px 6px;border-radius:3px;">{html.escape(card.evidence_depth_label)}</span>
+            {metrics_html}
             <span>{html.escape(card.source_type_label)}{year_text}</span>
             {link_html}
         </div>
@@ -2800,6 +2824,52 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
     </div>
     """
     st_markdown_html(card_html)
+
+    # Render expandable sections for Abstract and Methods if available
+    card_id = card._internal_id or card.title[:20]
+    has_abstract = bool(card.abstract_text and card.abstract_text.strip())
+    has_methods = bool(card.methods_summary and card.methods_summary.strip())
+    has_refs = bool(card.reference_ids)
+
+    if has_abstract or has_methods or has_refs:
+        # Use columns to create inline expander buttons
+        expand_cols = st.columns([1, 1, 1, 3])
+        with expand_cols[0]:
+            if has_abstract:
+                abstract_label = "摘要" if is_zh else "Abstract"
+                if st.button(f"📄 {abstract_label}", key=f"abs_{card_id}", use_container_width=True):
+                    st.session_state[f"show_abs_{card_id}"] = not st.session_state.get(f"show_abs_{card_id}", False)
+        with expand_cols[1]:
+            if has_methods:
+                methods_label = "方法" if is_zh else "Methods"
+                if st.button(f"🔬 {methods_label}", key=f"meth_{card_id}", use_container_width=True):
+                    st.session_state[f"show_meth_{card_id}"] = not st.session_state.get(f"show_meth_{card_id}", False)
+        with expand_cols[2]:
+            if has_refs:
+                refs_label = f"参考文献 ({len(card.reference_ids)})" if is_zh else f"References ({len(card.reference_ids)})"
+                if st.button(f"📚 {refs_label}", key=f"refs_{card_id}", use_container_width=True):
+                    st.session_state[f"show_refs_{card_id}"] = not st.session_state.get(f"show_refs_{card_id}", False)
+
+        # Show expanded content
+        if st.session_state.get(f"show_abs_{card_id}"):
+            st.markdown(
+                f"<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #60a5fa;font-size:13px;color:#c9cdd5;line-height:1.6;'>{html.escape(card.abstract_text)}</div>",
+                unsafe_allow_html=True,
+            )
+        if st.session_state.get(f"show_meth_{card_id}"):
+            st.markdown(
+                f"<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #22c55e;font-size:13px;color:#c9cdd5;line-height:1.6;'>{html.escape(card.methods_summary)}</div>",
+                unsafe_allow_html=True,
+            )
+        if st.session_state.get(f"show_refs_{card_id}"):
+            refs_html = "<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #a855f7;font-size:13px;color:#c9cdd5;'>"
+            for ref_id in card.reference_ids[:10]:  # Limit to 10
+                refs_html += f"<div style='margin-bottom:4px;'>· {html.escape(ref_id)}</div>"
+            if len(card.reference_ids) > 10:
+                more_label = f"...还有 {len(card.reference_ids) - 10} 篇" if is_zh else f"...and {len(card.reference_ids) - 10} more"
+                refs_html += f"<div style='color:#8b90a0;'>{more_label}</div>"
+            refs_html += "</div>"
+            st.markdown(refs_html, unsafe_allow_html=True)
 
 
 def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
@@ -3529,6 +3599,216 @@ def render_trust_block(answer: str, confidence: str, source_ids: list[str], load
     )
 
 
+def render_research_trace_summary(
+    research_trace: Optional[list[dict]],
+    loaded_source_ids: Optional[list[str]] = None,
+    backend: str = "local",
+) -> None:
+    """
+    Render a compact one-line summary of the research path at the top of the answer.
+
+    This makes retrieval decisions visible without requiring users to expand anything.
+    """
+    if not research_trace:
+        return
+
+    is_zh = is_session_chinese()
+
+    # Extract key info from trace
+    surface = ""
+    search_depth = ""
+    source_count = len(loaded_source_ids) if loaded_source_ids else 0
+
+    for entry in research_trace:
+        step = entry.get("step", "")
+        detail = entry.get("detail", "")
+
+        # Look for surface/route info
+        if "local surface" in step.lower() or "routed" in step.lower():
+            surface = detail
+        elif "interpreted" in step.lower():
+            # Extract depth from detail like "disease=ckd, depth=standard"
+            if "depth=" in detail:
+                try:
+                    search_depth = detail.split("depth=")[1].split(",")[0].strip()
+                except IndexError:
+                    pass
+
+    # Build summary parts
+    parts = []
+
+    if surface:
+        surface_short = surface.replace("_overview", "").replace("_", " ").strip()
+        parts.append(surface_short if surface_short else surface)
+
+    if source_count > 0:
+        sources_lbl = f"{source_count} 篇来源" if is_zh else f"{source_count} sources"
+        parts.append(sources_lbl)
+
+    if search_depth:
+        depth_lbl = f"深度: {search_depth}" if is_zh else f"depth: {search_depth}"
+        parts.append(depth_lbl)
+
+    # Backend label
+    backend_labels = {
+        "local": "本地检索" if is_zh else "local",
+        "openrouter": "OpenRouter",
+        "anthropic": "Anthropic",
+        "ollama": "Ollama",
+    }
+    parts.append(backend_labels.get(backend, backend))
+
+    if not parts:
+        return
+
+    summary = " → ".join(parts)
+    path_lbl = "检索路径" if is_zh else "Path"
+
+    st.markdown(
+        f"""
+        <div class="vault-research-trace-summary" style="
+            font-size: 12px;
+            color: #8b90a0;
+            padding: 6px 10px;
+            background: rgba(45, 49, 71, 0.4);
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        ">
+            <span style="opacity: 0.7;">🔍</span>
+            <span><strong>{path_lbl}:</strong> {html.escape(summary)}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def is_broad_question(question: str) -> bool:
+    """
+    Detect if a question is broad/general and would benefit from mode selection.
+
+    Broad questions include:
+    - Single disease name: "CKD", "糖尿病"
+    - Explain/intro patterns: "解释CKD", "什么是CKD", "explain CKD"
+    - Short general questions without specific treatment/test terms
+    """
+    if not question:
+        return False
+
+    q = question.strip().lower()
+
+    # Very short questions (1-3 words) are often broad
+    words = q.split()
+    if len(words) <= 3:
+        # Check for broad patterns
+        broad_patterns = [
+            "ckd", "akd", "慢性肾病", "急性肾损伤", "肾病", "糖尿病",
+            "hyperthyroidism", "甲亢", "obesity", "肥胖", "anemia", "贫血",
+            "hypertension", "高血压", "ibd", "炎症性肠病",
+        ]
+        if any(pattern in q for pattern in broad_patterns):
+            return True
+
+    # Explain/intro patterns
+    explain_patterns = [
+        "什么是", "解释", "介绍", "概述", "说说", "讲讲",
+        "explain", "what is", "tell me about", "overview of",
+        "describe", "introduction to",
+    ]
+    if any(q.startswith(pattern) for pattern in explain_patterns):
+        return True
+
+    # Has specific treatment/test terms = not broad
+    specific_terms = [
+        "treatment", "治疗", "药", "drug", "dose", "剂量",
+        "test", "检测", "检查", "诊断", "diagnosis",
+        "prognosis", "预后", "stage", "分期",
+        "diet", "饮食", "nutrition", "营养",
+        "supplement", "补充", "phosphorus", "磷",
+        "protocol", "方案", "guideline", "指南",
+    ]
+    if any(term in q for term in specific_terms):
+        return False
+
+    return False
+
+
+def render_answer_mode_chip(
+    question: str,
+    current_mode: str = "general",
+    key_prefix: str = "",
+) -> Optional[str]:
+    """
+    Render a mode selector chip for broad questions.
+
+    Returns the selected mode if changed, None otherwise.
+    """
+    if not is_broad_question(question):
+        return None
+
+    is_zh = is_session_chinese()
+
+    modes = {
+        "general": ("普通解读", "General") if is_zh else ("General", "General explanation"),
+        "researcher": ("研究者视角", "Researcher") if is_zh else ("Researcher", "Academic perspective"),
+        "treatment": ("治疗证据", "Treatment") if is_zh else ("Treatment", "Treatment evidence"),
+        "mechanism": ("机制详解", "Mechanism") if is_zh else ("Mechanism", "Pathophysiology details"),
+    }
+
+    mode_key = f"{key_prefix}_answer_mode"
+    if mode_key not in st.session_state:
+        st.session_state[mode_key] = current_mode
+
+    hint = "选择解读视角" if is_zh else "Select perspective"
+
+    st.markdown(
+        f"""
+        <div style="
+            font-size: 11px;
+            color: #8b90a0;
+            margin-bottom: 8px;
+        ">
+            💡 {hint}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    cols = st.columns(len(modes))
+    selected_mode = st.session_state[mode_key]
+
+    for idx, (mode_id, (label_zh, label_en)) in enumerate(modes.items()):
+        label = label_zh if is_zh else label_en
+        with cols[idx]:
+            is_active = mode_id == selected_mode
+            if is_active:
+                st.markdown(
+                    f"""
+                    <div style="
+                        padding: 4px 10px;
+                        background: rgba(99, 102, 241, 0.2);
+                        border: 1px solid #6366f1;
+                        border-radius: 12px;
+                        font-size: 12px;
+                        color: #a5b4fc;
+                        text-align: center;
+                        cursor: default;
+                    ">
+                        {html.escape(label)}
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+            else:
+                if st.button(label, key=f"{key_prefix}_mode_{mode_id}", use_container_width=True):
+                    st.session_state[mode_key] = mode_id
+                    return mode_id
+
+    return None
+
+
 def render_research_trace(research_trace: Optional[list[dict]]) -> None:
     """Render the retrieval and synthesis path behind an answer."""
     if not research_trace:
@@ -3641,6 +3921,24 @@ def render_answer_block(
     """Render one assistant answer with provenance, copy button, confidence, figures, and sources."""
     source_ids = source_ids or []
     loaded_source_ids = loaded_source_ids or []
+
+    # Render compact research trace summary at the top (front-center)
+    render_research_trace_summary(
+        research_trace=research_trace,
+        loaded_source_ids=loaded_source_ids,
+        backend=backend,
+    )
+
+    # Render answer mode chip for broad questions
+    mode_changed = render_answer_mode_chip(
+        question=question,
+        current_mode="general",
+        key_prefix=key_prefix,
+    )
+    if mode_changed:
+        # Mode changed - could trigger re-query with different perspective
+        # For now, just show the selection - full re-query integration is future work
+        pass
 
     # Render query refinement/evaluation first
     if backend == "local":
@@ -4755,20 +5053,48 @@ with st.sidebar:
             "Topic pages": "主题页面 / Topics"
         }.get(x, x) if is_zh else x
     )
+
+    # Sorting controls for researcher workflow
+    sort_lbl = "排序方式 / Sort by" if is_zh else "Sort by"
+    sort_options = {
+        "relevance": "相关性 / Relevance" if is_zh else "Relevance",
+        "year_desc": "发表时间 / Year (newest)" if is_zh else "Year (newest)",
+        "citations_desc": "被引次数 / Citations" if is_zh else "Citations",
+        "if_desc": "影响因子 / Impact Factor" if is_zh else "Impact Factor",
+    }
+    sort_by = st.radio(
+        sort_lbl,
+        list(sort_options.keys()),
+        horizontal=True,
+        label_visibility="collapsed",
+        format_func=lambda x: sort_options.get(x, x),
+    )
+    # Store in session state for use in result rendering
+    st.session_state.sort_by = sort_by
+
     if search_query:
         scope_map = {"Everywhere": "all", "Sources": "raw", "Topic pages": "topics"}
-        results = vault_search(search_query, VAULT_ROOT, scope=scope_map[search_scope], limit=5)
+        current_sort = st.session_state.get("sort_by", "relevance")
+        results = vault_search(search_query, VAULT_ROOT, scope=scope_map[search_scope], limit=5, sort_by=current_sort)
         if results:
             for i, result in enumerate(results):
                 result_id = result["id"] or result["file"]
+                # Build subtitle with researcher metadata when available
+                subtitle_parts = []
+                if result.get("title"):
+                    subtitle_parts.append(result["title"])
+                if result.get("year"):
+                    subtitle_parts.append(str(result["year"]))
+                if result.get("impact_factor"):
+                    subtitle_parts.append(f"IF: {result['impact_factor']}")
+                if result.get("citation_count"):
+                    subtitle_parts.append(f"被引: {result['citation_count']}")
+                subtitle_parts.append(f"{result['matches']} matches")
+                subtitle = " · ".join(subtitle_parts)
                 st.markdown(
                     SEARCH_CARD_TEMPLATE.format(
                         title=result_id,
-                        subtitle=(
-                            f"{result['title']} · {result['matches']} matches"
-                            if result["title"]
-                            else f"{result['matches']} matches"
-                        ),
+                        subtitle=subtitle,
                     ),
                     unsafe_allow_html=True,
                 )
@@ -4796,7 +5122,15 @@ with st.sidebar:
             expanded=False,
         ):
             for p in st.session_state.last_files_loaded:
-                rel = Path(p).relative_to(VAULT_ROOT) if Path(p).is_absolute() else p
+                try:
+                    path_obj = Path(p)
+                    if path_obj.is_absolute():
+                        rel = path_obj.relative_to(VAULT_ROOT)
+                    else:
+                        rel = p
+                except ValueError:
+                    # Path is not relative to VAULT_ROOT, just show as-is
+                    rel = p
                 st.code(str(rel), language=None)
 
     if "last_meta" in st.session_state and st.session_state.last_meta:
@@ -5332,7 +5666,6 @@ def run_query(question: str) -> bool:
 
 user_question = st.session_state.pending_question or st.chat_input(
     "提出关于猫咪健康的问题... / Ask a natural feline health question...",
-    accept_audio=False,
 )
 if user_question:
     st.session_state.pending_question = None

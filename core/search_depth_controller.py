@@ -1,7 +1,9 @@
 """Search-depth execution contracts for research tasks."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Any, Iterable
+from typing import Any, Iterable, Optional
 
 from .schemas import ResearchRecord, SearchDepth
 
@@ -83,7 +85,7 @@ class SearchDepthController:
     def assess(
         self,
         record: ResearchRecord,
-        research_trace: Iterable[dict[str, Any]] | None = None,
+        research_trace: Optional[Iterable[dict[str, Any]]] = None,
         answer: str = "",
     ) -> SearchDepthAssessment:
         """Assess actual retrieval execution without making network calls."""
