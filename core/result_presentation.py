@@ -133,6 +133,15 @@ class SourceDisplay:
     tags: List[str] = field(default_factory=list)
     limitations: List[str] = field(default_factory=list)
 
+    # Researcher-facing metadata (from external APIs)
+    citation_count: Optional[int] = None
+    citation_count_label: str = ""            # e.g., "被引: 161"
+    impact_factor: Optional[float] = None
+    impact_factor_label: str = ""             # e.g., "IF: 1.8"
+    abstract_text: str = ""
+    methods_summary: str = ""
+    reference_ids: List[str] = field(default_factory=list)
+
     # Internal reference (not displayed to ordinary users)
     _internal_id: str = ""
 
@@ -590,6 +599,17 @@ def build_source_display(
     if isinstance(limitations, str):
         limitations = [limitations] if limitations else []
 
+    # Researcher-facing metadata
+    citation_count = source.get("citation_count")
+    impact_factor = source.get("impact_factor")
+    citation_count_label = f"被引: {citation_count}" if citation_count else ""
+    impact_factor_label = f"IF: {impact_factor}" if impact_factor else ""
+    abstract_text = source.get("abstract_text", source.get("abstract", ""))
+    methods_summary = source.get("methods_summary", "")
+    reference_ids = source.get("reference_ids", source.get("references", []))
+    if isinstance(reference_ids, str):
+        reference_ids = [r.strip() for r in reference_ids.split(",") if r.strip()]
+
     return SourceDisplay(
         title=title,
         canonical_url=canonical_url,
@@ -609,6 +629,13 @@ def build_source_display(
         authors=authors,
         tags=tags,
         limitations=limitations,
+        citation_count=citation_count,
+        citation_count_label=citation_count_label,
+        impact_factor=impact_factor,
+        impact_factor_label=impact_factor_label,
+        abstract_text=abstract_text,
+        methods_summary=methods_summary,
+        reference_ids=reference_ids,
         # Identity remains available for citation matching but is never rendered by
         # ordinary-user adapters.
         _internal_id=internal_id,

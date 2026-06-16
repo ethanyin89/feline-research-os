@@ -14,6 +14,10 @@ status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
 decision_grade: no
+citation_count: 161
+impact_factor: 1.8
+journal: "Journal of Feline Medicine and Surgery"
+metadata_enriched: 2026-06-16
 language_qa_status: not_applicable
 tags: [ckd, guideline, isfm, diagnosis, management]
 links:

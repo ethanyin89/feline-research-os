@@ -212,6 +212,14 @@ class SourceSnapshot:
     journal: Optional[str] = None
     tags: List[str] = field(default_factory=list)
 
+    # Researcher-facing metadata (enriched from external APIs)
+    citation_count: Optional[int] = None
+    impact_factor: Optional[float] = None
+    abstract_text: str = ""
+    methods_summary: str = ""
+    reference_ids: List[str] = field(default_factory=list)
+    metadata_enriched: Optional[str] = None  # ISO date of last enrichment
+
     @staticmethod
     def compute_fingerprint(content: str) -> str:
         """Compute SHA-256 fingerprint of content."""
@@ -242,6 +250,12 @@ class SourceSnapshot:
             "authors": self.authors,
             "journal": self.journal,
             "tags": self.tags,
+            "citation_count": self.citation_count,
+            "impact_factor": self.impact_factor,
+            "abstract_text": self.abstract_text,
+            "methods_summary": self.methods_summary,
+            "reference_ids": self.reference_ids,
+            "metadata_enriched": self.metadata_enriched,
         }
 
     @classmethod
@@ -270,6 +284,12 @@ class SourceSnapshot:
             authors=data.get("authors", []),
             journal=data.get("journal"),
             tags=data.get("tags", []),
+            citation_count=data.get("citation_count"),
+            impact_factor=data.get("impact_factor"),
+            abstract_text=data.get("abstract_text", ""),
+            methods_summary=data.get("methods_summary", ""),
+            reference_ids=data.get("reference_ids", []),
+            metadata_enriched=data.get("metadata_enriched"),
         )
 
 

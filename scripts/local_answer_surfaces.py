@@ -256,6 +256,33 @@ def build_ckd_researcher_overview(chinese: bool) -> tuple[str, list[str]]:
     return _ckd_researcher_overview(VAULT_ROOT, chinese)
 
 
+def _ckd_topic_index(vault_root: Path, chinese: bool) -> tuple[str, list[str]]:
+    """Return the CKD topic index contents with a clean local prefix."""
+    rel_path = "topics/ckd/index-bilingual.md" if chinese else "topics/ckd/index.md"
+    if not (vault_root / rel_path).exists():
+        rel_path = "topics/ckd/index.md"
+    text, source_ids = _read_topic(vault_root, rel_path)
+    body = re.sub(r"\A---.*?---\s*", "", text, flags=re.S).strip()
+    cited = ", ".join(source_ids[:6])
+    inventory = format_source_inventory(get_source_inventory(vault_root, "ckd"), chinese)
+    if chinese:
+        prefix = (
+            f"**{inventory}**\n\n"
+            f"这是本地 vault 的 CKD 主题索引；本次没有调用 API。 [source_supported_conclusion: {cited}]\n\n"
+        )
+    else:
+        prefix = (
+            f"**{inventory}**\n\n"
+            f"This is a local vault CKD topic index. No API call was made. [source_supported_conclusion: {cited}]\n\n"
+        )
+    return prefix + body, source_ids
+
+
+def build_ckd_topic_index(chinese: bool) -> tuple[str, list[str]]:
+    """Public app builder for the CKD topic index surface."""
+    return _ckd_topic_index(VAULT_ROOT, chinese)
+
+
 def _what_is(vault_root: Path, disease: str, chinese: bool) -> Optional[tuple[str, list[str]]]:
     rel_paths = {
         "fip": "topics/fip/what-is-fip.md",
@@ -294,6 +321,10 @@ def build_local_surface_answer(
         answer, source_ids = _ckd_researcher_overview(vault_root, chinese)
         question_type = "overview"
         surface = "ckd_researcher_overview"
+    elif disease == "ckd" and any(term in lowered or term in question for term in ["topic index", "主题索引", "index page"]):
+        answer, source_ids = _ckd_topic_index(vault_root, chinese)
+        question_type = "overview"
+        surface = "ckd_topic_index"
     elif disease == "fip" and any(term in lowered or term in question for term in ["治疗证据", "疗效证据", "treatment evidence", "gs-441524", "remdesivir", "抗病毒"]):
         answer, source_ids = _fip_treatment(vault_root, chinese)
         question_type = "treatment"

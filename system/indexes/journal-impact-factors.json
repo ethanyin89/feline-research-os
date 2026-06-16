@@ -1,0 +1,110 @@
+{
+  "_meta": {
+    "description": "Journal Impact Factor lookup table for veterinary journals",
+    "source": "Scimago Journal Rankings 2024 + manual lookup",
+    "last_updated": "2026-06-16",
+    "note": "IF values are approximate SJR-based equivalents where JCR IF unavailable"
+  },
+  "journals": {
+    "journal of feline medicine and surgery": {
+      "if": 1.8,
+      "sjr": 0.62,
+      "h_index": 77
+    },
+    "journal of veterinary internal medicine": {
+      "if": 2.5,
+      "sjr": 1.05,
+      "h_index": 115
+    },
+    "veterinary pathology": {
+      "if": 2.2,
+      "sjr": 0.89,
+      "h_index": 98
+    },
+    "the veterinary journal": {
+      "if": 2.0,
+      "sjr": 0.73,
+      "h_index": 89
+    },
+    "journal of the american veterinary medical association": {
+      "if": 2.3,
+      "sjr": 0.88,
+      "h_index": 120
+    },
+    "veterinary record": {
+      "if": 2.1,
+      "sjr": 0.65,
+      "h_index": 85
+    },
+    "veterinary clinics of north america: small animal practice": {
+      "if": 1.5,
+      "sjr": 0.45,
+      "h_index": 52
+    },
+    "journal of small animal practice": {
+      "if": 1.4,
+      "sjr": 0.52,
+      "h_index": 68
+    },
+    "veterinary sciences": {
+      "if": 2.1,
+      "sjr": 0.58,
+      "h_index": 28
+    },
+    "frontiers in veterinary science": {
+      "if": 3.2,
+      "sjr": 0.72,
+      "h_index": 45
+    },
+    "bmc veterinary research": {
+      "if": 2.3,
+      "sjr": 0.68,
+      "h_index": 62
+    },
+    "plos one": {
+      "if": 3.7,
+      "sjr": 0.89,
+      "h_index": 332
+    },
+    "animals": {
+      "if": 2.7,
+      "sjr": 0.57,
+      "h_index": 52
+    },
+    "veterinary research": {
+      "if": 4.0,
+      "sjr": 1.12,
+      "h_index": 85
+    },
+    "comparative medicine": {
+      "if": 1.2,
+      "sjr": 0.42,
+      "h_index": 45
+    },
+    "research in veterinary science": {
+      "if": 2.0,
+      "sjr": 0.62,
+      "h_index": 72
+    },
+    "veterinary and comparative oncology": {
+      "if": 2.4,
+      "sjr": 0.75,
+      "h_index": 38
+    },
+    "journal of veterinary pharmacology and therapeutics": {
+      "if": 1.6,
+      "sjr": 0.55,
+      "h_index": 65
+    },
+    "veterinary anaesthesia and analgesia": {
+      "if": 1.8,
+      "sjr": 0.68,
+      "h_index": 52
+    },
+    "veterinary surgery": {
+      "if": 1.9,
+      "sjr": 0.72,
+      "h_index": 68
+    }
+  }
+}

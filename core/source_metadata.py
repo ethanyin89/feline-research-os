@@ -43,6 +43,26 @@ def frontmatter_list(text: str, key: str) -> list[str]:
     return values
 
 
+def _parse_int(value: str) -> int | None:
+    """Parse integer from string, return None if invalid."""
+    if not value:
+        return None
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return None
+
+
+def _parse_float(value: str) -> float | None:
+    """Parse float from string, return None if invalid."""
+    if not value:
+        return None
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return None
+
+
 def nested_frontmatter_scalar(text: str, section: str, key: str) -> str:
     block = frontmatter_block(text)
     in_section = False
@@ -148,6 +168,13 @@ def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
         "limitations": frontmatter_list(text, "limitations"),
         "superseded_by": frontmatter_scalar(text, "superseded_by"),
         "journal": frontmatter_scalar(text, "journal"),
+        # Researcher-facing metadata (enriched from external APIs)
+        "citation_count": _parse_int(frontmatter_scalar(text, "citation_count")),
+        "impact_factor": _parse_float(frontmatter_scalar(text, "impact_factor")),
+        "abstract_text": frontmatter_scalar(text, "abstract") or "",
+        "methods_summary": frontmatter_scalar(text, "methods_summary") or "",
+        "reference_ids": frontmatter_list(text, "references"),
+        "metadata_enriched": frontmatter_scalar(text, "metadata_enriched"),
     }
 
 

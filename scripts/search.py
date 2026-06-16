@@ -71,23 +71,67 @@ def _build_snippet(content: str, match_start: int, match_end: int) -> str:
     return f"{prefix}{snippet}{suffix}"
 
 
+def _extract_int_from_frontmatter(content: str, field: str) -> Optional[int]:
+    """Extract an integer field from frontmatter."""
+    if not content.startswith("---"):
+        return None
+    end = content.find("\n---", 3)
+    if end == -1:
+        return None
+    for line in content[3:end].splitlines():
+        if line.startswith(f"{field}:"):
+            try:
+                return int(line.split(":", 1)[1].strip())
+            except ValueError:
+                return None
+    return None
+
+
+def _extract_float_from_frontmatter(content: str, field: str) -> Optional[float]:
+    """Extract a float field from frontmatter."""
+    if not content.startswith("---"):
+        return None
+    end = content.find("\n---", 3)
+    if end == -1:
+        return None
+    for line in content[3:end].splitlines():
+        if line.startswith(f"{field}:"):
+            try:
+                return float(line.split(":", 1)[1].strip())
+            except ValueError:
+                return None
+    return None
+
+
 def vault_search(
     query: str,
     vault_root: Path = VAULT_ROOT,
     scope: str = "all",
     limit: int = 20,
     case_sensitive: bool = False,
+    sort_by: str = "relevance",
 ) -> list[dict]:
     """
     Search .md files in the vault for a query string (plain text or regex).
 
-    Returns a list of result dicts, sorted by match count (most matches first):
+    Args:
+        query: Search query (plain text or regex)
+        vault_root: Root path of the vault
+        scope: Search scope (raw, topics, system, all)
+        limit: Maximum number of results
+        case_sensitive: Whether to match case
+        sort_by: Sort order - "relevance", "year_desc", "citations_desc", "if_desc"
+
+    Returns a list of result dicts:
       {
-        "file": str,          # vault-relative path
-        "id": str | None,     # frontmatter id if present
-        "title": str | None,  # frontmatter title if present
-        "matches": int,       # number of matches in file
-        "snippets": list[str] # up to 3 context snippets
+        "file": str,              # vault-relative path
+        "id": str | None,         # frontmatter id if present
+        "title": str | None,      # frontmatter title if present
+        "matches": int,           # number of matches in file
+        "snippets": list[str],    # up to 3 context snippets
+        "year": int | None,       # publication year
+        "citation_count": int | None,  # citation count
+        "impact_factor": float | None, # journal impact factor
       }
     """
     dirs = _SCOPE_DIRS.get(scope, _SCOPE_DIRS["all"])
@@ -119,6 +163,11 @@ def vault_search(
             doc_id = _extract_id_from_frontmatter(content)
             title = _extract_title_from_frontmatter(content)
 
+            # Extract researcher-facing metadata
+            year = _extract_int_from_frontmatter(content, "year")
+            citation_count = _extract_int_from_frontmatter(content, "citation_count")
+            impact_factor = _extract_float_from_frontmatter(content, "impact_factor")
+
             # Build up to 3 snippets from the first 3 matches
             snippets = []
             for m in matches[:3]:
@@ -130,10 +179,24 @@ def vault_search(
                 "title": title,
                 "matches": len(matches),
                 "snippets": snippets,
+                "year": year,
+                "citation_count": citation_count,
+                "impact_factor": impact_factor,
             })
 
-    # Sort by match count descending, then by file path for stability
-    results.sort(key=lambda r: (-r["matches"], r["file"]))
+    # Sort based on sort_by parameter
+    if sort_by == "year_desc":
+        # Sort by year descending (newest first), then by matches for ties
+        results.sort(key=lambda r: (-(r["year"] or 0), -r["matches"], r["file"]))
+    elif sort_by == "citations_desc":
+        # Sort by citation count descending, then by matches for ties
+        results.sort(key=lambda r: (-(r["citation_count"] or 0), -r["matches"], r["file"]))
+    elif sort_by == "if_desc":
+        # Sort by impact factor descending, then by matches for ties
+        results.sort(key=lambda r: (-(r["impact_factor"] or 0), -r["matches"], r["file"]))
+    else:
+        # Default: sort by match count descending (relevance)
+        results.sort(key=lambda r: (-r["matches"], r["file"]))
 
     return results[:limit]
 

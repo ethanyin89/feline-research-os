@@ -14,6 +14,10 @@ status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
 decision_grade: no
+citation_count: 155
+impact_factor: 2.2
+journal: "Veterinary Pathology"
+metadata_enriched: 2026-06-16
 language_qa_status: not_applicable
 tags: [ckd, histomorphometry, renal-dysfunction, pathology]
 links:
