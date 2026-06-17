@@ -72,3 +72,6 @@ temp/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Record store lock files
+record_index.lock
