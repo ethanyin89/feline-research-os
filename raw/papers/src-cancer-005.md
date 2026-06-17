@@ -82,65 +82,40 @@ Naturally occurring tumors in dogs are well-established models for several human
 
 2015 Vet Sci review: cats underutilized in One Medicine; oral SCC models head/neck cancer, mammary tumors enriched for triple-negative phenotype, injection site sarcoma models inflammation-driven tumorigenesis.
 
-## Why It Matters For Feline Cancer
-
-This source was included in a reviewed feline literature intake sheet and classified as `new-cancer` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
-
-## Key Findings
-
-### quoted_fact
-
-- The intake sheet lists this title: Cats, Cancer and Comparative Oncology.
-- The intake sheet locator is: 10.3390/vetsci2030111.
-
-### source_supported_conclusion
-
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
-
-### llm_inference
-
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
-
 ## Claim-Fit Judgment
 
-Strongest safe use:
+**Strongest safe use:**
+- Comparative oncology rationale for feline cancer research
+- Oral SCC as head/neck cancer model
+- Triple-negative mammary tumor enrichment
+- Injection site sarcoma inflammation model
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+**May control:**
+- synthesis-index.md comparative oncology section
+- oral-squamous-cell-carcinoma.md model rationale
+- mammary-carcinoma.md triple-negative context
+- injection-site-sarcoma.md inflammation mechanism
 
-Must not control yet:
+**Should use with caveats:**
+- Triple-negative prevalence (needs current data)
+- One Medicine gap claim (2015)
 
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+**Must not control:**
+- Treatment protocols
+- Survival statistics
+- Specific molecular targets
 
-## Image Asset TODO
+## Deep Extraction Metadata
 
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- **Extraction date:** 2026-06-09
+- **Source:** Europe PMC full text (PMC5644631)
+- **Full text verified:** Yes
+- **Branch impact:** Cross-cutting comparative oncology framework
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: cancer, oral SCC, mammary carcinoma, injection site sarcoma
+- models: human head/neck cancer, human triple-negative breast cancer
+- endpoints: comparative oncology, inflammation-driven tumorigenesis
+- mechanisms: p53, EGFR, triple-negative phenotype
+- species: feline (underutilized vs canine)

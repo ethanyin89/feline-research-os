@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 2579 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 2580 markdown files, no local link issues found. |
 | Query tests | PASS | 113 passed  \|  0 failed  \|  113 total |
 | Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls. |
 | Research Case integrity | PASS | 1/1 valid; 0 issues |
@@ -48,8 +48,8 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Inbox backlog | PASS | 0 active files, 1 blocked/held files, 15 rejected audit files |
 | Acceptance report | WARN | system/health-checks/ask-the-vault-acceptance-report-20260615.md; mode=route-only; status=route_pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260519.md; mode=executed; status=pass |
-| Compile trigger | PASS | 4 changed source cards, 135 downstream files |
-| API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
+| Compile trigger | PASS | 5 changed source cards, 144 downstream files |
+| API keys | WARN | no API keys in current shell |
 
 ## Source Card Reality
 

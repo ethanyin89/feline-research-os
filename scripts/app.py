@@ -2184,6 +2184,7 @@ def run_app_local_query_core(
             "hops_used": 0,
             "figures_used": [],
             "external_search_trace": None,
+            "est_tokens": 0,
         }
 
     if explanation_surface:
