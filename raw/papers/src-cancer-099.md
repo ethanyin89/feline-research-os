@@ -2,105 +2,125 @@
 id: src-cancer-099
 type: source
 title: "Canine and Feline Geriatric Oncology: Honoring the Human-Animal Bond"
-source_kind: paper
-species: feline
+source_kind: book-review
+species: [feline, canine]
 diseases: [cancer]
 models: []
-endpoints: []
-jurisdictions: []
+endpoints: [geriatric-care, palliative-care, end-of-life, pain-management]
+jurisdictions: [USA]
 evidence_level: book-review
-source_kind: book-review
 year: 2007
-status: ingested
-extraction_depth: abstract
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 pmcid: PMC2034422
-tags: [cancer, geriatric, oncology, book-review, palliative-care]
+tags: [cancer, geriatric, oncology, book-review, palliative-care, end-of-life, human-animal-bond, TNM-staging, chemotherapy, radiation]
 links:
   doi: ""
   url: "https://europepmc.org/article/PMC/2034422"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2034422/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Canine and Feline Geriatric Oncology: Honoring the Human-Animal Bond."
-    - "The intake sheet locator is: https://europepmc.org/article/PMC/2034422."
+    - "Book: Villalobos A, Kaplan L. Blackwell Publishing 2006, 370pp, ISBN 0-8138-0266-0."
+    - "Part 1: Basic oncology principles; carcinogenesis, tumor suppressor genes, apoptosis."
+    - "Part 2: Warning signs of cancer by body system and tumor type."
+    - "Part 3: Detailed account of treatment modalities for geriatric cancer patients, including surgery, chemotherapy, and radiation therapy."
+    - "Reviewer: Victoria S Larson, DVM — an enjoyable, easy read, user friendly and informative."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Textbook covers geriatric oncology fundamentals, diagnosis by system, and treatment modalities."
+    - "Includes pain management and end-of-life care decisions."
+    - "Focus on communication and compassion, not just technical procedures."
+    - "Target audience: veterinary students, staff, and clinicians."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Book review, not primary research — use for educational resource reference only."
+    - "2006 publication date means treatment protocols may be outdated."
+    - "Emphasis on human-animal bond relevant to palliative care discussions."
 ---
 
 # Canine and Feline Geriatric Oncology: Honoring the Human-Animal Bond
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+**Deep-extracted from PMC book review (PMC2034422).** 2007 review of Villalobos & Kaplan textbook (Blackwell 2006, 370pp). Covers geriatric oncology fundamentals, diagnosis by body system, treatment modalities, pain management, and end-of-life care. Evidence level: book review (secondary source).
+
+## Source Check, 2026-06-17
+
+PMC book review extracted.
+
+- PMCID: PMC2034422
+- Journal: Can Vet J
+- Year: 2007
+- Reviewer: Victoria S Larson, DVM
+
+## Book Details
+
+| Field | Value |
+|-------|-------|
+| Title | Canine and Feline Geriatric Oncology: Honoring the Human-Animal Bond |
+| Editors | Villalobos A, Kaplan L |
+| Publisher | Blackwell Publishing, Ames, Iowa |
+| Year | 2006 |
+| Pages | 370 |
+| ISBN | 0-8138-0266-0 |
+
+## Book Structure
+
+### Part 1: Fundamentals
+- Basic oncology principles
+- Carcinogenesis, tumor suppressor genes, apoptosis
+- Aging's impact on cancer
+- Risk factors
+- Metastatic cascade
+- Cancer terminology charts
+- Treatment modality overview
+
+### Part 2: Diagnosis
+- Warning signs by body system and tumor type
+- Clinical photographs
+- Diagnostic testing methods
+- TNM staging information
+
+### Part 3: Treatment & Care
+- Surgery, chemotherapy, radiation therapy
+- Pain management
+- End-of-life care decisions
+- Focus on communication and compassion
+
+## Reviewer Assessment
+
+**Quoted:** "An enjoyable, easy read" that is "user friendly and informative."
+
+**Target audience:** Veterinary students, staff, and clinicians seeking guidance on decision-making and ethics in geriatric oncology.
 
 ## One-Line Summary
 
-Candidate cancer source from sheet row 108. Use it for triage until abstract or full-text extraction proves a stronger role.
-
-## Why It Matters For Feline Cancer
-
-This source was included in a reviewed feline literature intake sheet and classified as `new-cancer` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
-
-## Key Findings
-
-### quoted_fact
-
-- The intake sheet lists this title: Canine and Feline Geriatric Oncology: Honoring the Human-Animal Bond.
-- The intake sheet locator is: https://europepmc.org/article/PMC/2034422.
-
-### source_supported_conclusion
-
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
-
-### llm_inference
-
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+2007 book review: Villalobos & Kaplan geriatric oncology textbook (2006) covering fundamentals, diagnosis by system, treatment, and palliative care with emphasis on human-animal bond.
 
 ## Claim-Fit Judgment
 
-Strongest safe use:
+**Strongest safe use:**
+- Educational resource reference
+- Geriatric oncology topic introduction
+- Palliative care framework
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+**Must not control:**
+- Specific treatment protocols (2006, outdated)
+- Diagnostic criteria
+- Survival statistics
 
-Must not control yet:
+## Deep Extraction Metadata
 
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- **Extraction date:** 2026-06-17
+- **Source:** PMC book review (PMC2034422)
+- **Full text verified:** Yes
+- **Branch impact:** Low (book review, not primary research)
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: cancer (general, geriatric)
+- topics: palliative care, end-of-life, pain management, TNM staging
+- audience: veterinary students, clinicians
+- book: Villalobos & Kaplan 2006
