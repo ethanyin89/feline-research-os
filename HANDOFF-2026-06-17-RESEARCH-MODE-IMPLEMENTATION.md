@@ -125,3 +125,22 @@ a31e9a0 feat: deep-extract 3 open-access cancer sources
 - Added `render_decision_tree_card()` and `render_route_by_question()` to `scripts/app.py`
 - Created `system/indexes/decision-tree-index.json` with all 8 disease topics
 - Added `test_intent_classification.py` with 10 test cases - all passing
+
+## UI Enhancements (agent.ii.inc style) (2026-06-17)
+
+User provided 5 additional screenshots showing agent.ii.inc features:
+- Query clarification dialog before research
+- "Thought" panel showing reasoning process
+- Search progress visualization with result counts
+- Clear section separation in output
+
+Implemented:
+- Split example questions into `EXAMPLE_QUESTIONS_BASIC` and `EXAMPLE_QUESTIONS_RESEARCH`
+- Added research-mode examples: "search the latest papers about feline CKD, prioritize high-impact journals"
+- Added `render_thought_panel()` for agent.ii.inc style thought visualization
+- Category labels and hints in empty state UI
+
+Already present (verified):
+- Paper format: Author, et al. *Title.* Journal. Year. URL: ..., Why it matters:, Takeaway:
+- Output sections: Best recent papers, What these papers collectively say, must-read list, limitations
+- Placeholder content filtering
