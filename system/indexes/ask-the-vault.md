@@ -69,6 +69,9 @@ the result out of source evidence until it is staged and checked.
   Open [query-to-write-back](query-to-writeback.md)
 - `Which page is the strongest answer surface for this disease and question type?`
   Open [best-answer-surfaces](best-answer-surfaces.md)
+- `Search latest papers about X` / `搜索X最新文献` / `查找X相关研究`
+  **Research mode:** Returns structured literature output (local vault + PubMed augmentation)
+  with categorized papers, synthesis, and must-read list. Example: `搜索HCM最新文献`
 
 如果你已经知道问题属于哪一层，再往下选。
 
