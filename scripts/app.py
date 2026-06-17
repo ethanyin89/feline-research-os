@@ -83,6 +83,7 @@ from search import vault_search
 from local_answer_surfaces import build_ckd_researcher_overview, is_researcher_overview_question, build_ckd_topic_index
 from research_case_ui import render_research_cases
 from research_record_ui import render_research_records
+from research_mode import is_research_mode_query, handle_research_query
 from harness_loop import get_harness_loop, format_harness_summary
 from core import (
     build_promotion_draft,
@@ -167,6 +168,7 @@ EXAMPLE_QUESTIONS = [
     "FIP怎么识别",
     "IBD和淋巴瘤怎么区分",
     "HCM是什么，为什么危险",
+    "搜索HCM最新文献",  # Research mode example
 ]
 
 PROVENANCE_GUIDE_HTML = """
@@ -2159,6 +2161,30 @@ def run_app_local_query_core(
     has_direct_sirna = "sirna" in snippets.lower()
     is_explanation = is_local_explanation_question(question)
     explanation_surface = choose_local_explanation_surface(question, disease)
+
+    # Research-mode: structured literature search output (agent.ii.inc style)
+    if is_research_mode_query(question):
+        if on_status:
+            status_msg = "研究模式：检索本地知识库 + PubMed..." if chinese else "Research mode: searching local vault + PubMed..."
+            on_status(status_msg)
+        # PubMed E-utilities is free (no API key needed) - include external by default
+        answer, research_source_ids = handle_research_query(question, chinese=chinese, include_external=True)
+        for sid in research_source_ids:
+            path = source_index.get(sid)
+            if path and path.exists():
+                loaded_paths.add(path)
+                if sid not in loaded_source_ids:
+                    loaded_source_ids.append(sid)
+        return {
+            "answer": answer,
+            "source_ids": loaded_source_ids,
+            "loaded_paths": list(loaded_paths),
+            "disease": disease,
+            "question_type": "research_search",
+            "hops_used": 0,
+            "figures_used": [],
+            "external_search_trace": None,
+        }
 
     if explanation_surface:
         answer, explanation_source_ids = build_local_explanation(explanation_surface, chinese)
