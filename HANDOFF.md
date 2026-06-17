@@ -157,12 +157,14 @@ If you are continuing the ordinary-user line specifically, also read:
 ## 30-Second Reality (Updated 2026-06-17)
 
 - The repo has `1414` strict disease paper cards across 8 disease modules.
-- Core query tests pass: `113/113`.
+- All tests pass: `127/127` (113 query + 4 research + 10 intent classification).
 - Research Mode (agent.ii.inc style) implemented with PubMed integration.
+- **P4 Decision Tree UI complete:** intent classification, decision tree index, example questions (basic + research).
 - Current HEAD is on `idea-chatacademia-research-workbench`.
-- Active plan: `PLAN-researcher-presentation-layer.md` (P1 complete, P3/P4 pending)
+- Active plan: `PLAN-researcher-presentation-layer.md` (P1/P4 complete, P3 pending)
 - Design doc: `~/.gstack/projects/feline-research-os/idea-chatacademia-research-workbench-design-20260617.md`
 - Health report: `system/health-checks/health-report-20260617.md`
+- QA report: `.gstack/qa-reports/qa-report-localhost-2026-06-17.md` (health score 95/100, no dead links)
 
 ## Verify In 4 Commands
 
