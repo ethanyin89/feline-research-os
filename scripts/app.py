@@ -2782,7 +2782,7 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
         metric_tags.append(
             f'<span style="background:rgba(234,179,8,0.12);color:#eab308;padding:2px 6px;border-radius:3px;">{html.escape(if_label)}</span>'
         )
-    if card.citation_count:
+    if card.citation_count is not None:
         cite_label = card.citation_count_label or (f"被引: {card.citation_count}" if is_zh else f"Citations: {card.citation_count}")
         metric_tags.append(
             f'<span style="background:rgba(96,165,250,0.12);color:#60a5fa;padding:2px 6px;border-radius:3px;">{html.escape(cite_label)}</span>'

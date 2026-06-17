@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 import re
 from pathlib import Path
 from typing import Any, Iterable
@@ -54,11 +55,15 @@ def _parse_int(value: str) -> int | None:
 
 
 def _parse_float(value: str) -> float | None:
-    """Parse float from string, return None if invalid."""
+    """Parse float from string, return None if invalid or inf/nan."""
     if not value:
         return None
     try:
-        return float(value)
+        result = float(value)
+        # Reject inf and nan values
+        if math.isinf(result) or math.isnan(result):
+            return None
+        return result
     except (ValueError, TypeError):
         return None
 
