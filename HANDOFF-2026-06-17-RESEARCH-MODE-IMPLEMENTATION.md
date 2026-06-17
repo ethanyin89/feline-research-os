@@ -114,5 +114,14 @@ a31e9a0 feat: deep-extract 3 open-access cancer sources
 
 ## Next Steps
 
-1. Continue with /autoplan for P3 (Reference Graph) and P4 (Decision Tree UI)
-2. Ensure HANDOFF.md is updated to point to this file
+1. ~~P4 (Decision Tree UI) implemented~~ ✓ DONE (commit ba98de9)
+2. Continue with P3 (Reference Graph) - citation-graph.json
+3. Ensure HANDOFF.md is updated to point to this file ✓ DONE
+
+## P4 Implementation Summary (2026-06-17)
+
+- Added `INTENT_CATEGORIES` and `classify_intent()` to `scripts/query.py`
+- Added `get_decision_tree_content()` for decision tree routing
+- Added `render_decision_tree_card()` and `render_route_by_question()` to `scripts/app.py`
+- Created `system/indexes/decision-tree-index.json` with all 8 disease topics
+- Added `test_intent_classification.py` with 10 test cases - all passing

@@ -3,7 +3,7 @@
 Date: 2026-06-16
 Branch: idea-chatacademia-research-workbench
 Trigger: User behavior path review + internal researcher feedback
-Status: P1 complete, P3 pending, P4 added (decision tree UI)
+Status: P1 complete, P3 pending, P4 complete (decision tree UI)
 
 ## Problem
 
