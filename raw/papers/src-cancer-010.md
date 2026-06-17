@@ -3,61 +3,99 @@ id: src-cancer-010
 type: source
 title: "Oncolytic virotherapy of canine and feline cancer"
 source_kind: paper
-species: feline
+species: [feline, canine]
 diseases: [cancer]
-models: []
-endpoints: []
+models: [mouse-xenograft]
+endpoints: [tumor-regression, recurrence-prevention, immune-response]
 jurisdictions: []
 evidence_level: review
 year: 2014
 status: deep_extracted
-extraction_depth: deep
-verification_status: abstract_weighted
+extraction_depth: full
+verification_status: deep_extracted
 pmid: 24841386
+pmcid: PMC4036544
 doi: "10.3390/v6052122"
 decision_grade: no
 language_qa_status: not_applicable
-tags: [cancer, oncolytic, virotherapy]
+tags: [cancer, oncolytic-virotherapy, adenovirus, vaccinia, poxvirus, myxoma, fibrosarcoma, mammary-carcinoma, IL-12, VEGF, tumor-immunology, experimental-therapy]
 links:
-  doi: ""
+  doi: "10.3390/v6052122"
   url: "https://www.mdpi.com/1999-4915/6/5/2122"
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4036544/"
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Oncolytic virotherapy of canine and feline cancer."
-    - "The intake sheet locator is: https://www.mdpi.com/1999-4915/6/5/2122."
+    - "Cancer is the leading cause of disease-related death in companion animals such as dogs and cats."
+    - "Oncolytic viruses (OVs) preferentially infect and lyse cancer cells, without causing excessive damage to surrounding healthy tissue, and initiate tumor-specific immunity."
+    - "When combined with surgery and radiotherapy, treatment with either of these viruses [ALVAC-fIL2 and NYVAC-fIL2] prevented feline fibrosarcoma recurrence in cats."
+    - "Both wild type and genetically engineered oncolytic virus therapy appears to be as safe as standard anti cancer therapies."
+    - "There are very few clinical trials using OVs for canine or feline cancer patients."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Oncolytic viruses tested in feline cancer include: adenoviruses (Ad5-IL-12), poxviruses (vaccinia, ALVAC, NYVAC, myxoma), and CDV."
+    - "Feline tumor types studied: fibrosarcoma (clinical), mammary carcinoma (xenograft), soft tissue sarcoma."
+    - "ALVAC-fIL2 and NYVAC-fIL2 prevented fibrosarcoma recurrence when combined with surgery/RT (clinical evidence)."
+    - "Vaccinia virus with anti-VEGF (GLV-5b451) tested in feline mammary carcinoma xenografts."
+    - "OV mechanisms: direct lysis, vascular destruction, antitumor immunity, inflammatory cell recruitment."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Limited clinical trials suggest OV therapy is still experimental for feline cancer."
+    - "IL-12-encoding vectors may enhance immunotherapy potential."
+    - "Safety profile comparable to standard therapies supports further clinical development."
 ---
 
 # Oncolytic virotherapy of canine and feline cancer
 
 ## Evidence-Depth Caveat
 
-This card has deep extraction based on the full abstract. 2014 Viruses (MDPI) review on oncolytic virotherapy — experimental treatment using viruses that selectively lyse cancer cells and activate tumor immunity. Investigational, not standard care. [Deep extraction worksheet](../../system/indexes/src-cancer-010-deep-extraction-round1.md).
+**Deep-extracted from PMC full text (PMC4036544).** 2014 Viruses (MDPI) review: oncolytic virotherapy for veterinary cancer covering adenovirus, poxvirus, and other OVs. Feline-specific data: ALVAC/NYVAC-fIL2 prevented fibrosarcoma recurrence in clinical study; vaccinia anti-VEGF tested in FMC xenografts. Evidence level: narrative review with limited clinical trial data.
 
-## Full Abstract (PubMed)
+## Source Check, 2026-06-17
 
-Cancer is the leading cause of disease-related death in companion animals such as dogs and cats. Despite recent progress in the diagnosis and treatment of advanced canine and feline cancer, overall patient treatment outcome has not been substantially improved. Virotherapy using oncolytic viruses is one promising new strategy for cancer therapy. Oncolytic viruses (OVs) preferentially infect and lyse cancer cells, without causing excessive damage to surrounding healthy tissue, and initiate tumor-specific immunity. The current review describes the use of different oncolytic viruses for cancer therapy and their application to canine and feline cancer.
+Europe PMC full text extracted.
 
-## Key Extracted Findings
+- PMID: 24841386
+- PMCID: PMC4036544
+- DOI: 10.3390/v6052122
+- Journal: Viruses (MDPI)
+- Year: 2014
+- Open access: yes
 
-| Finding | Value | Boundary |
-|---------|-------|----------|
-| Cancer burden | leading cause of disease-related death in companion animals | dogs and cats |
-| Treatment progress | overall outcome not substantially improved | despite diagnostic advances |
-| Oncolytic virus mechanism | preferentially infect and lyse cancer cells | spares healthy tissue |
-| Immune effect | initiates tumor-specific immunity | therapeutic mechanism |
+## Oncolytic Viruses Tested in Feline Cancer
 
-**Key insight:** This review covers emerging oncolytic virotherapy as a treatment modality for veterinary cancer. The mechanism involves selective cancer cell infection and lysis plus immune activation.
+| Virus Family | Specific Agent | Feline Application | Evidence Level |
+|--------------|----------------|-------------------|----------------|
+| Adenovirus | Ad5-hsp-fIL-12 | Soft tissue sarcoma | Preclinical |
+| Poxvirus | ALVAC-fIL2, NYVAC-fIL2 | Fibrosarcoma recurrence prevention | **Clinical** |
+| Poxvirus | Vaccinia GLV-5b451 (anti-VEGF) | Mammary carcinoma xenograft | Preclinical |
+| Poxvirus | Myxoma virus | Feline carcinoma cells (in vitro) | In vitro |
+| Morbillivirus | Canine distemper virus (CDV) | Limited feline data | Preclinical |
 
-**Boundary:** This is a 2014 review of experimental therapy. Full-text needed for specific virus types, trial data, and feline-specific applications. Not treatment guidance.
+## Key Clinical Finding
+
+**Quoted:** "When combined with surgery and radiotherapy, treatment with either of these viruses [ALVAC-fIL2 and NYVAC-fIL2] prevented feline fibrosarcoma recurrence in cats."
+
+This represents the strongest feline clinical evidence for oncolytic virotherapy.
+
+## Mechanism of Action
+
+| Mechanism | Description |
+|-----------|-------------|
+| Direct lysis | Preferential infection and destruction of cancer cells |
+| Vascular destruction | Damage to tumor blood supply |
+| Antitumor immunity | Induction of tumor-specific immune response |
+| Inflammatory recruitment | Neutrophils, macrophages, NK cells |
+
+## Safety Profile
+
+**Quoted:** "Both wild type and genetically engineered oncolytic virus therapy appears to be as safe as standard anti cancer therapies."
+
+## Limitations
+
+**Quoted:** "There are very few clinical trials using OVs for canine or feline cancer patients."
 
 ## One-Line Summary
 
-2014 Viruses review: oncolytic virotherapy for canine/feline cancer — viruses selectively lyse cancer cells and trigger tumor immunity; experimental treatment modality.
+2014 Viruses review: oncolytic virotherapy for feline cancer — ALVAC/NYVAC-fIL2 prevented fibrosarcoma recurrence (clinical); vaccinia anti-VEGF tested in FMC xenografts; limited but promising clinical data.
 
 ## Why It Matters For Feline Cancer
 
@@ -88,36 +126,37 @@ The safe current use is source ownership:
 
 ## Claim-Fit Judgment
 
-Strongest safe use:
+**Strongest safe use:**
+- Oncolytic virotherapy mechanism overview
+- ALVAC/NYVAC-fIL2 for fibrosarcoma recurrence prevention (clinical)
+- Experimental therapy landscape in feline oncology
+- Safety profile of OV therapy
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+**May control:**
+- Fibrosarcoma treatment page experimental therapies section
+- Emerging therapies overview
+- Immunotherapy mechanisms
 
-Must not control yet:
+**Should use with caveats:**
+- Efficacy claims (limited clinical trials)
+- Specific virus recommendations (preclinical for most)
 
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+**Must not control:**
+- Treatment recommendations for owners
+- Standard-of-care claims
+- Survival predictions
 
-## Image Asset TODO
+## Deep Extraction Metadata
 
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- **Extraction date:** 2026-06-17
+- **Source:** Europe PMC full text (PMC4036544)
+- **Full text verified:** Yes
+- **Branch impact:** Experimental/emerging therapies section
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: cancer, fibrosarcoma, mammary carcinoma, soft tissue sarcoma
+- viruses: adenovirus, vaccinia, ALVAC, NYVAC, myxoma, CDV
+- endpoints: tumor regression, recurrence prevention, immune response
+- mechanisms: oncolysis, anti-VEGF, IL-12 immunotherapy
+- treatments: oncolytic virotherapy (experimental)
