@@ -1,8 +1,18 @@
-# HANDOFF-2026-06-17: Research Mode Implementation
+# HANDOFF-2026-06-17: Research Mode + P4 Decision Tree UI
 
 Date: 2026-06-17
 Branch: idea-chatacademia-research-workbench
-Status: Implementation in progress
+Status: P1/P4 complete, P3 pending, QA in progress
+
+---
+
+## Executive Summary
+
+本次会话完成了两个主要任务：
+1. **P4 Decision Tree UI** — 完整实现，包括意图分类、决策树卡片、Route By Question 组件
+2. **agent.ii.inc 风格 UI 增强** — 研究模式示例问题、Thought 面板组件
+
+同时修复了之前的 **context loss 问题**，记录了根因和预防措施。
 
 ---
 
@@ -20,7 +30,7 @@ Status: Implementation in progress
    - 尽管有 16 个 commits 在这两天完成
 
 3. **Context Compaction 丢失细节**
-   - 用户提供的 13 张截图被压缩为简要摘要
+   - 用户提供的 13+ 张截图被压缩为简要摘要
    - 关于 agent.ii.inc 风格的具体讨论细节丢失
 
 4. **gstack 设计文档位置**
@@ -35,34 +45,132 @@ Status: Implementation in progress
 
 ---
 
-## Session Summary (2026-06-17)
+## User Requirements from Screenshots
 
-### User Provided 13 Screenshots
+### agent.ii.inc 特性 (18张截图)
 
-Screenshots from agent.ii.inc showing ideal research mode output:
-- Screenshot 2026-06-17 at 09.57.58.png - 10.08.00.png (9 images at 03:20 UTC)
-- Screenshot at 11.53.01.png (1 image at 03:54 UTC)
-- Screenshot at 12.20.20.png (1 image at 04:22 UTC)
-- Screenshot at 12.37.47.png, 12.38.19.png (2 images at 04:38 UTC)
+用户提供的截图展示了 agent.ii.inc 的关键 UX 特性：
 
-### Key Requirements from Screenshots
+**早期截图 (13张, 03:20-04:38 UTC):**
+- Screenshot 2026-06-17 at 09.57.58.png - 10.08.00.png
+- 展示理想的 research mode 输出格式
 
-1. **Output Format** (agent.ii.inc style):
-   ```
-   1. Author, et al. *Title.* Journal. Year.
-      URL: https://doi.org/...
-      Why it matters: [Key finding with specific data]
-      Takeaway: [High-level insight]
-   ```
+**后期截图 (5张, 10:47-10:49 UTC):**
+- 展示查询澄清对话、Thought 面板、搜索进度可视化
 
-2. **No Internal IDs**: `src-xxx` identifiers must not appear in user-facing output
+**核心输出格式:**
+```
+1. Author, et al. *Title.* Journal. Year.
+   URL: https://doi.org/...
+   Why it matters: [Key finding with specific data]
+   Takeaway: [High-level insight]
+```
 
-3. **Presentation Layer Issues Fixed**:
-   - `[source_supported_conclusion]` raw tags removed
-   - Placeholder content ("The intake sheet lists...") filtered out
+**必需的输出章节:**
+- Best recent papers to read first
+- Higher-visibility / broader journals
+- Latest clinical/therapeutic papers
+- Best recent diagnostic papers
+- What these papers collectively say
+- If you want the shortest "must-read" list
+- Important limitations
 
-### Commits Made (2026-06-16 to 2026-06-17)
+**UI 特性:**
+- 查询澄清对话 (如 "high if" → "high-impact journals")
+- "Thought" 面板显示推理过程
+- 搜索进度可视化 (9 results, PMC URLs)
+- 清晰的视觉分隔
 
+---
+
+## Implementation Summary
+
+### P4 Decision Tree UI ✅ COMPLETE
+
+**Files Changed:**
+- `scripts/query.py` — Added intent classification
+- `scripts/app.py` — Added decision tree rendering
+- `system/indexes/decision-tree-index.json` — New index file
+- `scripts/test_intent_classification.py` — New test file
+
+**Features:**
+| Feature | Function | Status |
+|---------|----------|--------|
+| Intent classification | `classify_intent()` | ✅ |
+| Decision tree content | `get_decision_tree_content()` | ✅ |
+| Decision tree card | `render_decision_tree_card()` | ✅ |
+| Route By Question | `render_route_by_question()` | ✅ |
+| Decision tree index | `decision-tree-index.json` | ✅ |
+
+**Intent Categories:**
+- `diagnostic`: 诊断、识别、检测、症状、diagnosis...
+- `treatment`: 治疗、用药、therapy、management...
+- `monitoring`: 监测、复查、follow-up、prognosis...
+- `mechanism`: 机制、pathophysiology、etiology...
+- `overview`: fallback
+
+### agent.ii.inc UI Enhancements ✅ COMPLETE
+
+**Features:**
+| Feature | Implementation | Status |
+|---------|----------------|--------|
+| Research-mode examples | `EXAMPLE_QUESTIONS_RESEARCH` | ✅ |
+| Thought panel | `render_thought_panel()` | ✅ |
+| Category labels | Updated `render_example_question_chips()` | ✅ |
+| Paper format | Already in `research_mode.py` | ✅ |
+| Output sections | Already in `research_mode.py` | ✅ |
+
+**Example Questions Added:**
+- "搜索HCM最新文献"
+- "search the latest papers about feline CKD, prioritize high-impact journals"
+- "查找FIP最新治疗研究"
+- "find recent diabetes papers with clinical relevance"
+
+### Research Mode (Already Implemented)
+
+**Output Structure:**
+```
+# Research Literature: Feline HCM
+
+## Best recent papers to read first
+### Higher-visibility / broader journals
+1. Li Q, et al. *Metabolic Abnormalities...* ESC Heart Failure. 2025.
+   URL: https://doi.org/...
+   **Why it matters:** ...
+   **Takeaway:** ...
+
+## What these papers collectively say
+...
+
+## If you want the shortest "must-read" list
+...
+
+## Important limitations
+...
+```
+
+---
+
+## Test Status
+
+| Test Suite | Passed | Total |
+|------------|--------|-------|
+| Query tests | 113 | 113 |
+| Research mode tests | 4 | 4 |
+| Intent classification tests | 10 | 10 |
+
+---
+
+## Commits (2026-06-17)
+
+```
+574688a docs: update handoff with agent.ii.inc style UI enhancements
+7d60e49 feat(ui): enhance example questions with research mode category
+52200ee docs: mark P4 Decision Tree UI complete
+ba98de9 feat(p4): add decision tree UI with intent classification
+```
+
+**Earlier commits (2026-06-16 to 2026-06-17):**
 ```
 96f1921 fix(research-mode): improve presentation layer formatting
 ecdef7c fix(research-mode): add est_tokens to research mode return dict
@@ -70,77 +178,44 @@ ecdef7c fix(research-mode): add est_tokens to research mode return dict
 c37dd04 test: add health check for research mode feature
 e5ae3cb fix: improve PubMed query precision and sort by date
 9c309eb feat: add research mode with PubMed augmentation (agent.ii.inc style)
-7916dd6 feat: add extraction queue finder script
-9ced3a0 feat: deep-extract src-cancer-099 + codify extraction skill
-850032c feat: deep-extract 4 branch-controlling sources (FIP, Diabetes, FCV)
-de045e7 feat: deep-extract 3 branch-controlling sources (FCV, CKD)
-fa82438 feat: deep-extract src-diabetes-121 (cat as T2DM model)
-a31e9a0 feat: deep-extract 3 open-access cancer sources
-14c6929 chore: add health report and ignore record_index.lock
-7c4c6ce feat: implement Gate 6D search index optimization and health timeout fix
-274ee77 fix(review): reject inf/nan in float parsing, fix zero citation display
-99aeed4 feat: add researcher presentation layer metadata fields and sorting
 ```
 
 ---
 
-## Current State
+## Remaining Work
 
-### Active Plans
+### P3 Reference Graph (Pending)
 
-1. **PLAN-researcher-presentation-layer.md**
-   - P1: Data Layer Enhancement ✓ COMPLETE
-   - P2: Sorting controls, metadata display ✓ COMPLETE
-   - P3: Reference Graph (pending)
-   - P4: Decision Tree UI (pending)
+- [ ] Create `system/indexes/citation-graph.json`
+- [ ] Reference link display in source cards
+- [ ] Citation graph visualization
 
-2. **Design Doc** (gstack artifact)
-   - `~/.gstack/projects/feline-research-os/idea-chatacademia-research-workbench-design-20260617.md`
+### UI Polish (Optional)
 
-### Health Status
-
-- Tests: 113 passed
-- Source cards: 1414 strict disease paper cards
-- Health report: `system/health-checks/health-report-20260617.md`
-
-### Files to Read for Full Context
-
-1. `PLAN-researcher-presentation-layer.md` — active implementation plan
-2. `scripts/research_mode.py` — research mode implementation
-3. `system/indexes/ask-the-vault.md` — updated with research mode trigger examples
-4. `~/.gstack/projects/feline-research-os/idea-chatacademia-research-workbench-design-20260617.md` — design doc
+- [ ] Query clarification dialog (需要修改 query 流程)
+- [ ] Live search progress visualization (需要 streaming UI)
 
 ---
 
-## Next Steps
+## Files to Read for Full Context
 
-1. ~~P4 (Decision Tree UI) implemented~~ ✓ DONE (commit ba98de9)
-2. Continue with P3 (Reference Graph) - citation-graph.json
-3. Ensure HANDOFF.md is updated to point to this file ✓ DONE
+1. `PLAN-researcher-presentation-layer.md` — 活跃的实现计划 (P1/P4 完成, P3 待定)
+2. `scripts/research_mode.py` — Research mode 核心实现
+3. `scripts/query.py` — Intent classification (行 140-240)
+4. `scripts/app.py` — UI 组件 (render_thought_panel, render_decision_tree_card, etc.)
+5. `system/indexes/decision-tree-index.json` — 决策树索引
+6. `system/indexes/ask-the-vault.md` — Research mode 触发示例
 
-## P4 Implementation Summary (2026-06-17)
+---
 
-- Added `INTENT_CATEGORIES` and `classify_intent()` to `scripts/query.py`
-- Added `get_decision_tree_content()` for decision tree routing
-- Added `render_decision_tree_card()` and `render_route_by_question()` to `scripts/app.py`
-- Created `system/indexes/decision-tree-index.json` with all 8 disease topics
-- Added `test_intent_classification.py` with 10 test cases - all passing
+## Health Status
 
-## UI Enhancements (agent.ii.inc style) (2026-06-17)
+- **Tests:** 127 passed (113 query + 4 research + 10 intent)
+- **Source cards:** 1414 strict disease paper cards
+- **Health report:** `system/health-checks/health-report-20260617.md`
 
-User provided 5 additional screenshots showing agent.ii.inc features:
-- Query clarification dialog before research
-- "Thought" panel showing reasoning process
-- Search progress visualization with result counts
-- Clear section separation in output
+---
 
-Implemented:
-- Split example questions into `EXAMPLE_QUESTIONS_BASIC` and `EXAMPLE_QUESTIONS_RESEARCH`
-- Added research-mode examples: "search the latest papers about feline CKD, prioritize high-impact journals"
-- Added `render_thought_panel()` for agent.ii.inc style thought visualization
-- Category labels and hints in empty state UI
+## QA Status
 
-Already present (verified):
-- Paper format: Author, et al. *Title.* Journal. Year. URL: ..., Why it matters:, Takeaway:
-- Output sections: Best recent papers, What these papers collectively say, must-read list, limitations
-- Placeholder content filtering
+**Pending:** 运行 /qa 测试当前实现，修复死链接后交付确认。
