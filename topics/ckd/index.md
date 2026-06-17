@@ -134,7 +134,7 @@ A 级优先阅读文献 / Tier A read-first sources:
 
 ### Translation Baseline / 转化基线
 
-- 在当前的种子文献集中，肾脏处方粮获得最明确的支持。 / renal diet has the clearest support in the current seed set
+- 在当前的种子文献集，肾脏处方粮获得最明确的支持。 / renal diet has the clearest support in the current seed set
 - 尽管证据较弱或褒贬不一，临床上仍使用了一些辅助治疗手段。 / several adjunct treatments are used despite weaker or mixed evidence
 - 高血压管理是核心性的，而非可选的。 / hypertension management is central, not optional
 

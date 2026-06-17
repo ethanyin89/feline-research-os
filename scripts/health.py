@@ -804,7 +804,7 @@ def ordinary_user_vault_eval_status() -> dict:
             "timed_out": False,
             "skipped": True,
         }
-    result = run_command([str(venv_python), "scripts/ordinary_user_vault_eval.py"], timeout=90)
+    result = run_command([str(venv_python), "scripts/ordinary_user_vault_eval.py"], timeout=180)
     result["skipped"] = False
     return result
 

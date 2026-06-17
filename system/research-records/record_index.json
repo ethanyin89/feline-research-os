@@ -1,0 +1,52 @@
+[
+  {
+    "record_id": "rr-20260612-092038-5297",
+    "timestamp": "2026-06-12T09:20:38.463864",
+    "user_request": "解释CKD",
+    "final_answer": "这是本地 vault 的猫慢性肾病解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n## 什么是猫慢性肾病（CKD）？\n\n**猫慢性肾病是指猫的肾脏长期受损，逐渐失去正常功能的疾病。**\n\n肾脏的工作是过滤血液、排出废物、调节水分和矿物质。当肾脏受损后，这些功能会慢慢下降，废物在体内堆积，引起各种健康问题。\n\n[source_supported_conclusion: src-ckd-004]\n\n## 有多常见？\n\nCKD是老年猫最常见的疾病之一：\n- **10岁以上**的猫中，约有**30-40%**患有某种程度的肾病\n- 随着猫的寿命延长，CKD发病率也在增加\n- 这是老年猫最常见的死亡原因之一\n\n[source_supported_conclusion: src-ckd-001]\n\n## 有什么症状？\n\n| 常见症状 |\n|----------|\n| 喝水增多 |\n| 排尿增多 |\n| 体重下降 |\n| 食欲减退 |\n| 呕吐 |\n| 精神变差 |\n| 毛发粗糙 |\n\n**注意：** 这些症状通常是渐进的，早期可能不明显。如果发现这些症状，请咨询兽医。\n\n[source_supported_conclusion: src-ckd-004]\n\n## 如何诊断？\n\nCKD诊断需要综合多项检查：\n| 检查项目 | 作用 |\n|----------|------|\n| 血液检查 | 评估肾功能（肌酐、尿素氮） |\n| 尿液检查 | 评估肾脏浓缩能力 |\n| 血压测量 | 高血压与CKD相关 |\n| 超声波 | 观察肾脏结构 |\n\n[source_supported_conclusion: src-ckd-004, src-ckd-010]\n\n## 可以治疗吗？\n\n**CKD目前无法治愈，但可以管理。**\n\n目标是减缓病情进展、控制症状、提高生活质量。\n\n| 管理措施 | 作用 |\n|----------|------|\n| 肾脏处方粮 | 最重要的基础管理 |\n| 磷结合剂 | 控制血磷 |\n| 抗高血压药 | 控制血压 |\n| 补液治疗 | 维持水分平衡 |\n\n**关键：** 肾脏处方粮是最有证据支持的管理措施。\n\n[source_supported_conclusion: src-ckd-003, src-ckd-004]\n\n## 早期发现很重要\n\n- **7岁以上**的猫应该定期体检\n- 包括血液和尿液检查\n- 早期发现可以更早开始管理\n\n[source_supported_conclusion: src-ckd-004]\n\n## 本地命中\n- `topic-ckd-endpoint` — topics/ckd/endpoint-handbook.md; matched terms: CKD, endpoint, creatinine, proteinuria, phosphorus, SDMA\n- `topic-ckd-current-state-dashboard` — topics/ckd/current-state-dashboard.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-mechanism` — topics/ckd/mechanism-overview.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-translation-brief` — topics/ckd/translation-brief.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-synthesis-index` — topics/ckd/synthesis-index.md; matched terms: CKD, creatinine, proteinuria, SDMA",
+    "selected_evidence": [
+      "src-ckd-001",
+      "src-ckd-003",
+      "src-ckd-004",
+      "src-ckd-010"
+    ],
+    "disease": "ckd",
+    "task_type": "quick_explanation",
+    "verifier_status": "passed",
+    "scope": "Task type: quick_explanation; Search depth: quick; Species-strict: cat evidence only, flag extrapolation"
+  },
+  {
+    "record_id": "rr-20260612-091707-20e3",
+    "timestamp": "2026-06-12T09:17:07.177488",
+    "user_request": "解释CKD",
+    "final_answer": "这是本地 vault 的猫慢性肾病解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n## 什么是猫慢性肾病（CKD）？\n\n**猫慢性肾病是指猫的肾脏长期受损，逐渐失去正常功能的疾病。**\n\n肾脏的工作是过滤血液、排出废物、调节水分和矿物质。当肾脏受损后，这些功能会慢慢下降，废物在体内堆积，引起各种健康问题。\n\n[source_supported_conclusion: src-ckd-004]\n\n## 有多常见？\n\nCKD是老年猫最常见的疾病之一：\n- **10岁以上**的猫中，约有**30-40%**患有某种程度的肾病\n- 随着猫的寿命延长，CKD发病率也在增加\n- 这是老年猫最常见的死亡原因之一\n\n[source_supported_conclusion: src-ckd-001]\n\n## 有什么症状？\n\n| 常见症状 |\n|----------|\n| 喝水增多 |\n| 排尿增多 |\n| 体重下降 |\n| 食欲减退 |\n| 呕吐 |\n| 精神变差 |\n| 毛发粗糙 |\n\n**注意：** 这些症状通常是渐进的，早期可能不明显。如果发现这些症状，请咨询兽医。\n\n[source_supported_conclusion: src-ckd-004]\n\n## 如何诊断？\n\nCKD诊断需要综合多项检查：\n| 检查项目 | 作用 |\n|----------|------|\n| 血液检查 | 评估肾功能（肌酐、尿素氮） |\n| 尿液检查 | 评估肾脏浓缩能力 |\n| 血压测量 | 高血压与CKD相关 |\n| 超声波 | 观察肾脏结构 |\n\n[source_supported_conclusion: src-ckd-004, src-ckd-010]\n\n## 可以治疗吗？\n\n**CKD目前无法治愈，但可以管理。**\n\n目标是减缓病情进展、控制症状、提高生活质量。\n\n| 管理措施 | 作用 |\n|----------|------|\n| 肾脏处方粮 | 最重要的基础管理 |\n| 磷结合剂 | 控制血磷 |\n| 抗高血压药 | 控制血压 |\n| 补液治疗 | 维持水分平衡 |\n\n**关键：** 肾脏处方粮是最有证据支持的管理措施。\n\n[source_supported_conclusion: src-ckd-003, src-ckd-004]\n\n## 早期发现很重要\n\n- **7岁以上**的猫应该定期体检\n- 包括血液和尿液检查\n- 早期发现可以更早开始管理\n\n[source_supported_conclusion: src-ckd-004]\n\n## 本地命中\n- `topic-ckd-endpoint` — topics/ckd/endpoint-handbook.md; matched terms: CKD, endpoint, creatinine, proteinuria, phosphorus, SDMA\n- `topic-ckd-current-state-dashboard` — topics/ckd/current-state-dashboard.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-mechanism` — topics/ckd/mechanism-overview.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-translation-brief` — topics/ckd/translation-brief.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-synthesis-index` — topics/ckd/synthesis-index.md; matched terms: CKD, creatinine, proteinuria, SDMA",
+    "selected_evidence": [
+      "src-ckd-001",
+      "src-ckd-003",
+      "src-ckd-004",
+      "src-ckd-010"
+    ],
+    "disease": "ckd",
+    "task_type": "quick_explanation",
+    "verifier_status": "passed",
+    "scope": "Task type: quick_explanation; Search depth: quick; Species-strict: cat evidence only, flag extrapolation"
+  },
+  {
+    "record_id": "rr-20260612-085315-1309",
+    "timestamp": "2026-06-12T08:53:15.978972",
+    "user_request": "猫CKD有什么治疗方法",
+    "final_answer": "这是本地 猫 CKD 治疗边界解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]\n\n## 直接回答\n猫 CKD 的“怎么治疗”不能在这个 vault 里被直接写成处方或治疗排名。更安全的做法是先回答：库里哪些治疗/管理分支有证据、哪些只是边界或研究问题。 [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007, src-ckd-010, src-ckd-015]\n\n## 当前能安全说什么\n当前最稳的治疗/管理读法是 renal diet 与 phosphorus control 作为较清楚的基线分支，同时把 proteinuria、blood pressure、potassium、anaemia、appetite 和 subcutaneous-fluid 等 supportive-care 分支分开看。 [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007, src-ckd-010, src-ckd-015]\n\n## 不能说过头的地方\n- 不能把这些管理分支写成已经证明的 cure 或统一 disease-modifying therapy，也不能把单一 endpoint 变成治疗排名。 [source_supported_conclusion: src-ckd-003, src-ckd-004, src-ckd-006, src-ckd-007, src-ckd-010, src-ckd-015]\n- 这不是兽医诊疗建议，也不替代线下兽医判断。 [llm_inference]\n\n## 下一步\n读 `topics/ckd/translation-brief.md`、`topics/ckd/current-state-dashboard.md`，以及 CKD treatment-ranking / phosphorus-control / supportive-care memos。如果要进入 API synthesis，应先明确是治疗证据比较、label/监管边界、endpoint 设计，还是普通管理解释。\n\n## 本地命中\n- `topic-ckd-endpoint` — topics/ckd/endpoint-handbook.md; matched terms: CKD, endpoint, creatinine, proteinuria, phosphorus, SDMA\n- `topic-ckd-current-state-dashboard` — topics/ckd/current-state-dashboard.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-mechanism` — topics/ckd/mechanism-overview.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-translation-brief` — topics/ckd/translation-brief.md; matched terms: CKD, proteinuria, phosphorus\n- `topic-ckd-synthesis-index` — topics/ckd/synthesis-index.md; matched terms: CKD, creatinine, proteinuria, SDMA",
+    "selected_evidence": [
+      "src-ckd-003",
+      "src-ckd-004",
+      "src-ckd-006",
+      "src-ckd-007",
+      "src-ckd-010",
+      "src-ckd-015"
+    ],
+    "disease": "ckd",
+    "task_type": "other",
+    "verifier_status": "needs_human_review",
+    "scope": "Task type: other; Search depth: standard; Species-strict: cat evidence only, flag extrapolation"
+  }
+]

@@ -8,6 +8,11 @@ Gate 6A additions:
 - Commit manifest for atomic dual-write verification
 - Reconciliation queue for interrupted writes
 - Schema migration support
+
+Gate 6D additions:
+- Lightweight search index (record_index.json) maintained on save/delete
+- find_equivalent_record() scans index instead of loading all records
+- list_records/search/get_recent/get_related/count pre-filter via index
 """
 
 from __future__ import annotations
@@ -50,6 +55,8 @@ class RecordStore:
         self.markdown_path = self.base_path / "markdown"
         self.manifest_path = self.base_path / "manifests"
         self.reconciliation_path = self.base_path / "reconciliation"
+        self.index_file = self.base_path / "record_index.json"
+        self._index_cache: Optional[List[Dict[str, Any]]] = None
 
         # Ensure directories exist
         self.json_path.mkdir(parents=True, exist_ok=True)
@@ -80,6 +87,74 @@ class RecordStore:
                 yield
             finally:
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+    def _index_lock_path(self) -> Path:
+        return self.base_path / "record_index.lock"
+
+    @contextmanager
+    def _index_locked(self):
+        self.base_path.mkdir(parents=True, exist_ok=True)
+        lock_path = self._index_lock_path()
+        with lock_path.open("a+", encoding="utf-8") as handle:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+    def _get_index(self) -> List[Dict[str, Any]]:
+        """Get the current index list, loading it from disk or rebuilding if needed."""
+        if self._index_cache is not None:
+            return self._index_cache
+
+        with self._index_locked():
+            if self.index_file.exists():
+                try:
+                    with open(self.index_file, "r", encoding="utf-8") as f:
+                        self._index_cache = json.load(f)
+                    if isinstance(self._index_cache, list):
+                        return self._index_cache
+                except Exception:
+                    pass
+            
+            self._rebuild_index_locked()
+            return self._index_cache or []
+
+    def _rebuild_index_locked(self) -> None:
+        """Rebuild the index by reading all JSON record files on disk. Must be called under index lock."""
+        index_data = []
+        for json_file in sorted(self.json_path.glob("*.json"), reverse=True):
+            try:
+                with open(json_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                
+                entry = {
+                    "record_id": data.get("record_id"),
+                    "timestamp": data.get("timestamp"),
+                    "user_request": data.get("user_request"),
+                    "final_answer": data.get("final_answer"),
+                    "selected_evidence": data.get("selected_evidence", []),
+                    "disease": data.get("disease", ""),
+                    "task_type": data.get("task_type"),
+                    "verifier_status": data.get("verifier_status"),
+                    "scope": data.get("scope", "")
+                }
+                index_data.append(entry)
+            except Exception:
+                continue
+        
+        self._index_cache = index_data
+        self._write_index_locked(index_data)
+
+    def _write_index_locked(self, index_data: List[Dict[str, Any]]) -> None:
+        """Write index data atomically to disk. Must be called under index lock."""
+        content = json.dumps(index_data, indent=2, ensure_ascii=False) + "\n"
+        self._atomic_write_text(self.index_file, content)
+
+    def rebuild_index(self) -> None:
+        """Force a rebuild of the index file from disk."""
+        with self._index_locked():
+            self._rebuild_index_locked()
 
     def _atomic_write_text(self, path: Path, content: str) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -217,13 +292,49 @@ class RecordStore:
                 continue
         return sorted(entries, key=lambda x: x.get("timestamp", ""), reverse=True)
 
+    def _record_to_index_entry(self, record: ResearchRecord) -> Dict[str, Any]:
+        """Build a lightweight index entry from a full record."""
+        return {
+            "record_id": record.record_id,
+            "timestamp": record.timestamp.isoformat(),
+            "user_request": record.user_request,
+            "final_answer": record.final_answer,
+            "selected_evidence": list(record.selected_evidence),
+            "disease": record.disease,
+            "task_type": record.task_type.value,
+            "verifier_status": record.verifier_status.value if hasattr(record.verifier_status, 'value') else str(record.verifier_status),
+            "scope": record.scope,
+        }
+
+    def _upsert_index_entry(self, record: ResearchRecord) -> None:
+        """Insert or replace an index entry for the given record, then persist."""
+        entry = self._record_to_index_entry(record)
+        # Load index first (may acquire lock internally), then mutate under lock
+        index = list(self._get_index())
+        with self._index_locked():
+            # Remove old entry if present
+            index = [e for e in index if e.get("record_id") != record.record_id]
+            # Insert at front (most recent first)
+            index.insert(0, entry)
+            self._index_cache = index
+            self._write_index_locked(index)
+
+    def _remove_index_entry(self, record_id: str) -> None:
+        """Remove an index entry by record_id, then persist."""
+        index = list(self._get_index())
+        with self._index_locked():
+            index = [e for e in index if e.get("record_id") != record_id]
+            self._index_cache = index
+            self._write_index_locked(index)
+
     def save(self, record: ResearchRecord) -> Path:
         """
         Save a research record with commit manifest.
 
         Saves both JSON (for programmatic access) and
         Markdown (for human review), then writes a commit
-        manifest to verify integrity.
+        manifest to verify integrity.  Updates the search
+        index on success (Gate 6D).
 
         Args:
             record: The research record to save
@@ -278,12 +389,18 @@ class RecordStore:
                     md_file.unlink()
                 raise
 
+        # Gate 6D: maintain search index
+        self._upsert_index_entry(record)
+
         return json_file
 
     def find_equivalent_record(self, record: ResearchRecord) -> Optional[ResearchRecord]:
         """
         Find a saved record with the same normalized request, disease, task, evidence,
         and answer text.
+
+        Gate 6D optimisation: scans the lightweight index instead of loading
+        every full record from disk.
 
         Returns:
             Matching ResearchRecord if one exists, otherwise None.
@@ -294,20 +411,24 @@ class RecordStore:
         target_disease = self._normalize_text(record.disease)
         target_task_type = record.task_type.value
 
-        for existing in self.list_records(limit=10_000):
-            if existing.record_id == record.record_id:
+        for entry in self._get_index():
+            entry_id = entry.get("record_id", "")
+            if entry_id == record.record_id:
                 continue
-            if self._normalize_text(existing.user_request) != target_request:
+            if self._normalize_text(entry.get("user_request", "")) != target_request:
                 continue
-            if self._normalize_text(existing.disease) != target_disease:
+            if self._normalize_text(entry.get("disease", "")) != target_disease:
                 continue
-            if existing.task_type.value != target_task_type:
+            if entry.get("task_type") != target_task_type:
                 continue
-            if self._normalize_text(existing.final_answer) != target_answer:
+            if self._normalize_text(entry.get("final_answer", "")) != target_answer:
                 continue
-            if list(dict.fromkeys(existing.selected_evidence)) != target_sources:
+            if list(dict.fromkeys(entry.get("selected_evidence", []))) != target_sources:
                 continue
-            return existing
+            # Match found — load full record from disk
+            loaded = self.load(entry_id)
+            if loaded is not None:
+                return loaded
 
         return None
 
@@ -340,6 +461,8 @@ class RecordStore:
         """
         List research records with optional filtering.
 
+        Gate 6D: pre-filters via index to avoid loading non-matching records.
+
         Args:
             disease: Filter by disease
             task_type: Filter by task type
@@ -349,30 +472,31 @@ class RecordStore:
         Returns:
             List of matching ResearchRecords
         """
-        records = []
+        records: List[ResearchRecord] = []
 
-        # Load all records
-        for json_file in sorted(self.json_path.glob("*.json"), reverse=True):
+        for entry in self._get_index():
             if len(records) >= limit:
                 break
 
+            # Pre-filter in index
+            if disease and entry.get("disease", "").lower() != disease.lower():
+                continue
+            if task_type and entry.get("task_type") != task_type.value:
+                continue
+            if status:
+                status_val = status.value if hasattr(status, 'value') else str(status)
+                if entry.get("verifier_status") != status_val:
+                    continue
+
+            record_id = entry.get("record_id")
+            if not record_id:
+                continue
+
             try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                record = ResearchRecord.from_dict(data)
-
-                # Apply filters
-                if disease and record.disease.lower() != disease.lower():
-                    continue
-                if task_type and record.task_type != task_type:
-                    continue
-                if status and record.verifier_status != status:
-                    continue
-
-                records.append(record)
-
-            except (json.JSONDecodeError, KeyError) as e:
-                # Skip malformed records
+                loaded = self.load(record_id)
+                if loaded is not None:
+                    records.append(loaded)
+            except Exception:
                 continue
 
         return records
@@ -381,7 +505,7 @@ class RecordStore:
         """
         Search records by text content.
 
-        Simple keyword search in user_request, scope, and final_answer.
+        Gate 6D: keyword search runs against the index first.
 
         Args:
             query: Search query
@@ -391,35 +515,37 @@ class RecordStore:
             Matching ResearchRecords
         """
         query_lower = query.lower()
-        matches = []
+        matches: List[ResearchRecord] = []
 
-        for json_file in sorted(self.json_path.glob("*.json"), reverse=True):
+        for entry in self._get_index():
             if len(matches) >= limit:
                 break
 
-            try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
+            # Search in indexed text fields
+            searchable = " ".join([
+                entry.get("user_request", ""),
+                entry.get("scope", ""),
+                entry.get("final_answer", ""),
+                entry.get("disease", ""),
+            ]).lower()
 
-                # Search in key text fields
-                searchable = " ".join([
-                    data.get("user_request", ""),
-                    data.get("scope", ""),
-                    data.get("final_answer", ""),
-                    data.get("disease", ""),
-                ]).lower()
-
-                if query_lower in searchable:
-                    matches.append(ResearchRecord.from_dict(data))
-
-            except (json.JSONDecodeError, KeyError):
-                continue
+            if query_lower in searchable:
+                record_id = entry.get("record_id")
+                if record_id:
+                    try:
+                        loaded = self.load(record_id)
+                        if loaded is not None:
+                            matches.append(loaded)
+                    except Exception:
+                        continue
 
         return matches
 
     def get_recent(self, days: int = 7, limit: int = 20) -> List[ResearchRecord]:
         """
         Get records from the last N days.
+
+        Gate 6D: timestamp filtering via index.
 
         Args:
             days: Number of days to look back
@@ -429,22 +555,27 @@ class RecordStore:
             Recent ResearchRecords
         """
         cutoff = datetime.now().timestamp() - (days * 24 * 60 * 60)
-        records = []
+        records: List[ResearchRecord] = []
 
-        for json_file in sorted(self.json_path.glob("*.json"), reverse=True):
+        for entry in self._get_index():
             if len(records) >= limit:
                 break
 
             try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-
-                timestamp = datetime.fromisoformat(data["timestamp"])
-                if timestamp.timestamp() >= cutoff:
-                    records.append(ResearchRecord.from_dict(data))
-
-            except (json.JSONDecodeError, KeyError):
+                ts = datetime.fromisoformat(entry.get("timestamp", ""))
+                if ts.timestamp() < cutoff:
+                    continue
+            except (ValueError, TypeError):
                 continue
+
+            record_id = entry.get("record_id")
+            if record_id:
+                try:
+                    loaded = self.load(record_id)
+                    if loaded is not None:
+                        records.append(loaded)
+                except Exception:
+                    continue
 
         return records
 
@@ -458,8 +589,7 @@ class RecordStore:
         """
         Get related records for building on past work.
 
-        Useful for the retrieval memory layer - finding
-        what was previously concluded about a topic.
+        Gate 6D: pre-filters via index.
 
         Args:
             disease: Disease to match
@@ -470,35 +600,35 @@ class RecordStore:
         Returns:
             Related ResearchRecords
         """
-        records = []
+        records: List[ResearchRecord] = []
 
-        for json_file in sorted(self.json_path.glob("*.json"), reverse=True):
+        for entry in self._get_index():
             if len(records) >= limit:
                 break
 
+            record_id = entry.get("record_id", "")
+
+            # Skip excluded record
+            if exclude_id and record_id == exclude_id:
+                continue
+
+            # Match disease
+            if entry.get("disease", "").lower() != disease.lower():
+                continue
+
+            # Optionally match task type
+            if task_type and entry.get("task_type") != task_type.value:
+                continue
+
+            # Only include verified records
+            if entry.get("verifier_status") != "passed":
+                continue
+
             try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-
-                # Skip excluded record
-                if exclude_id and data["record_id"] == exclude_id:
-                    continue
-
-                # Match disease
-                if data.get("disease", "").lower() != disease.lower():
-                    continue
-
-                # Optionally match task type
-                if task_type and data.get("task_type") != task_type.value:
-                    continue
-
-                # Only include verified records
-                if data.get("verifier_status") != "passed":
-                    continue
-
-                records.append(ResearchRecord.from_dict(data))
-
-            except (json.JSONDecodeError, KeyError):
+                loaded = self.load(record_id)
+                if loaded is not None:
+                    records.append(loaded)
+            except Exception:
                 continue
 
         return records
@@ -507,30 +637,29 @@ class RecordStore:
         """
         Count total records, optionally filtered by disease.
 
+        Gate 6D: counts from index without reading individual files.
+
         Args:
             disease: Optional disease filter
 
         Returns:
             Count of matching records
         """
+        index = self._get_index()
         if not disease:
-            return len(list(self.json_path.glob("*.json")))
+            return len(index)
 
-        count = 0
-        for json_file in self.json_path.glob("*.json"):
-            try:
-                with open(json_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                if data.get("disease", "").lower() == disease.lower():
-                    count += 1
-            except (json.JSONDecodeError, KeyError):
-                continue
-
-        return count
+        disease_lower = disease.lower()
+        return sum(
+            1 for e in index
+            if e.get("disease", "").lower() == disease_lower
+        )
 
     def delete(self, record_id: str) -> bool:
         """
         Delete a research record.
+
+        Gate 6D: also removes the index entry.
 
         Args:
             record_id: The record ID to delete
@@ -547,5 +676,8 @@ class RecordStore:
             deleted = True
         if md_file.exists():
             md_file.unlink()
+
+        if deleted:
+            self._remove_index_entry(record_id)
 
         return deleted

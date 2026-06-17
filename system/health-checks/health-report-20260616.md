@@ -1,10 +1,10 @@
 ---
-id: system-health-report-20260615
+id: system-health-report-20260616
 type: health-check
 topic: operating-system
 question_type: health
 language: bilingual
-last_compiled_at: 2026-06-15
+last_compiled_at: 2026-06-16
 verification_status: compiled
 decision_grade: provisional
 language_qa_status: light_checked
@@ -12,7 +12,7 @@ owner: codex
 status: active
 ---
 
-# Vault Health Report, 2026-06-15
+# Vault Health Report, 2026-06-16
 
 This report aggregates existing checks. It does not call an LLM and does not replace human review.
 
@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 2574 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 2575 markdown files, no local link issues found. |
 | Query tests | PASS | 113 passed  \|  0 failed  \|  113 total |
 | Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls. |
 | Research Case integrity | PASS | 1/1 valid; 0 issues |
@@ -35,7 +35,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Source quoted-fact discipline | PASS | 0 quoted_fact items look interpretive |
 | Compiled source refs | PASS | 0 invalid source refs |
 | Reader page source_ids | PASS | 0 missing, 0 empty |
-| Thin source usage | WARN | 30 reader/high-visibility pages use abstract-weighted or title-only sources |
+| Thin source usage | WARN | 31 reader/high-visibility pages use abstract-weighted or title-only sources |
 | Thin source caveats | PASS | 0 thin-source pages without visible evidence-depth caveat |
 | Title-only caveats | PASS | 0 pages cite title-only sources without visible caveat |
 | Key-claim traceability | PASS | 0 high-value pages missing traceability table |
@@ -49,7 +49,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Acceptance report | WARN | system/health-checks/ask-the-vault-acceptance-report-20260615.md; mode=route-only; status=route_pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260519.md; mode=executed; status=pass |
 | Compile trigger | PASS | 0 changed source cards, 0 downstream files |
-| API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
+| API keys | WARN | no API keys in current shell |
 
 ## Source Card Reality
 
@@ -110,6 +110,7 @@ Rejected / audit notes:
 - topics/cancer/oral-squamous-cell-carcinoma.md: src-cancer-046 (abstract_weighted), src-cancer-031 (abstract_weighted), src-cancer-055 (abstract_weighted), src-cancer-071 (abstract_weighted), src-cancer-073 (abstract_weighted), src-cancer-074 (abstract_weighted), src-cancer-080 (abstract_weighted)
 - topics/cancer/registry-and-prevalence.md: src-cancer-007 (abstract_weighted), src-cancer-064 (abstract_weighted)
 - topics/cancer/synthesis-index.md: src-cancer-006 (abstract_weighted), src-cancer-007 (abstract_weighted), src-cancer-009 (abstract_weighted), src-cancer-010 (abstract_weighted), src-cancer-012 (abstract_weighted), src-cancer-013 (abstract_weighted), src-cancer-014 (abstract_weighted), src-cancer-015 (abstract_weighted), src-cancer-016 (abstract_weighted), src-cancer-017 (abstract_weighted), src-cancer-020 (abstract_weighted), src-cancer-026 (abstract_weighted), src-cancer-027 (abstract_weighted), src-cancer-028 (abstract_weighted), src-cancer-031 (abstract_weighted), src-cancer-034 (abstract_weighted), src-cancer-035 (abstract_weighted), src-cancer-037 (abstract_weighted), src-cancer-038 (abstract_weighted), src-cancer-039 (abstract_weighted), src-cancer-041 (abstract_weighted), src-cancer-042 (abstract_weighted), src-cancer-043 (abstract_weighted), src-cancer-044 (abstract_weighted), src-cancer-045 (abstract_weighted), src-cancer-046 (abstract_weighted), src-cancer-047 (abstract_weighted), src-cancer-050 (abstract_weighted), src-cancer-051 (abstract_weighted), src-cancer-052 (abstract_weighted), src-cancer-053 (abstract_weighted), src-cancer-055 (abstract_weighted), src-cancer-060 (abstract_weighted), src-cancer-064 (abstract_weighted), src-cancer-065 (abstract_weighted), src-cancer-066 (abstract_weighted), src-cancer-071 (abstract_weighted), src-cancer-072 (abstract_weighted), src-cancer-073 (abstract_weighted), src-cancer-074 (abstract_weighted), src-cancer-077 (abstract_weighted)
+- topics/ckd/index-bilingual.md: src-ckd-051 (abstract_weighted), src-ckd-053 (abstract_weighted), src-ckd-054 (abstract_weighted)
 - topics/ckd/index.md: src-ckd-051 (abstract_weighted), src-ckd-053 (abstract_weighted), src-ckd-054 (abstract_weighted)
 - topics/ckd/mechanism-overview.md: src-ckd-037 (abstract_weighted), src-ckd-038 (abstract_weighted), src-ckd-051 (abstract_weighted), src-ckd-053 (abstract_weighted), src-ckd-054 (abstract_weighted), src-ckd-058 (abstract_weighted), src-ckd-061 (abstract_weighted), src-ckd-087 (title_only), src-ckd-098 (title_only), src-ckd-101 (title_only), src-ckd-121 (title_only), src-ckd-162 (title_only)
 - topics/ckd/synthesis-index.md: src-ckd-051 (abstract_weighted), src-ckd-053 (abstract_weighted), src-ckd-054 (abstract_weighted)

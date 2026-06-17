@@ -16,6 +16,11 @@ are no longer true for the current worktree.
 
 After the authoritative worktree handoff, use these for historical context:
 
+- [HANDOFF-2026-06-15-BILINGUAL-CKD-INDEX-ROUTING.md](HANDOFF-2026-06-15-BILINGUAL-CKD-INDEX-ROUTING.md) — Bilingual CKD Topic Index implemented, routed and verified for Chinese/bilingual sessions (all checks PASS)
+- [HANDOFF-2026-06-15-GATE6D-SEARCH-INDEX-OPTIMIZATION.md](HANDOFF-2026-06-15-GATE6D-SEARCH-INDEX-OPTIMIZATION.md) — Gate 6D Search Index optimization implemented & health checker timeout updated (all checks PASS)
+- [HANDOFF-2026-06-15-GATE6A-AUTOPLAN-APPROVED.md](HANDOFF-2026-06-15-GATE6A-AUTOPLAN-APPROVED.md) — Gate 6A/B/C /autoplan approved with sequence diagram, UI state table, bilingual labels, and implementation wire-up
+- [HANDOFF-2026-06-15-CONTENT-COMPILATION.md](HANDOFF-2026-06-15-CONTENT-COMPILATION.md) — Content compilation updates
+- [HANDOFF-2026-06-15-GATE6A-SCHEMA.md](HANDOFF-2026-06-15-GATE6A-SCHEMA.md) — Schema updates for Gate 6A
 - [HANDOFF-2026-06-12-PHASE6-PRESENTATION-CLOSEOUT.md](HANDOFF-2026-06-12-PHASE6-PRESENTATION-CLOSEOUT.md) — latest Phase 6 implementation, local page QA, hosted acceptance boundary, and restart sequence
 - [HANDOFF-2026-06-12-PHASE6-AUTOPLAN-REVIEW.md](HANDOFF-2026-06-12-PHASE6-AUTOPLAN-REVIEW.md) — approved gated plan and product-safety decisions
 - [HANDOFF-2026-06-12-POST-PHASE5.md](HANDOFF-2026-06-12-POST-PHASE5.md) — result-presentation static adapter state before Phase 6
