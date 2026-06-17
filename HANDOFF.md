@@ -6,16 +6,16 @@ If you are a new model taking over this repo because of token loss, model switch
 
 Read this file before every other handoff:
 
-- [HANDOFF-2026-06-11-WORKTREE-STATE.md](HANDOFF-2026-06-11-WORKTREE-STATE.md) — authoritative dirty-worktree inventory, verified checks, known failures, and safe restart sequence
+- [HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md](HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md) — Research Mode (agent.ii.inc style) implemented, presentation layer fixes, 13 screenshots discussion context preserved
 
-The other 2026-06-11 handoffs are chronological session snapshots. Some say
-"all work committed", "production ready", or "all checks pass"; those statements
-are no longer true for the current worktree.
+For legacy worktree state (outdated):
+- [HANDOFF-2026-06-11-WORKTREE-STATE.md](HANDOFF-2026-06-11-WORKTREE-STATE.md) — historical worktree inventory
 
 ## Latest Session Handoff
 
-After the authoritative worktree handoff, use these for historical context:
+After the authoritative handoff, use these for historical context:
 
+- [HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md](HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md) — Research Mode with PubMed integration, presentation layer formatting, context loss root cause analysis
 - [HANDOFF-2026-06-15-BILINGUAL-CKD-INDEX-ROUTING.md](HANDOFF-2026-06-15-BILINGUAL-CKD-INDEX-ROUTING.md) — Bilingual CKD Topic Index implemented, routed and verified for Chinese/bilingual sessions (all checks PASS)
 - [HANDOFF-2026-06-15-GATE6D-SEARCH-INDEX-OPTIMIZATION.md](HANDOFF-2026-06-15-GATE6D-SEARCH-INDEX-OPTIMIZATION.md) — Gate 6D Search Index optimization implemented & health checker timeout updated (all checks PASS)
 - [HANDOFF-2026-06-15-GATE6A-AUTOPLAN-APPROVED.md](HANDOFF-2026-06-15-GATE6A-AUTOPLAN-APPROVED.md) — Gate 6A/B/C /autoplan approved with sequence diagram, UI state table, bilingual labels, and implementation wire-up
@@ -154,16 +154,15 @@ If you are continuing the ordinary-user line specifically, also read:
 
 9. [Ordinary-user LLM wiki usability audit, 2026-04-10](system/indexes/ordinary-user-llm-wiki-usability-audit-20260410.md)
 
-## 30-Second Reality (Updated 2026-06-11)
+## 30-Second Reality (Updated 2026-06-17)
 
-- The repo has `603` strict disease paper cards across 8 disease modules.
-- Core query tests pass: `111/111`.
-- The aggregate health report is `needs_attention`; it is not a clean pass.
-- The worktree has `180` tracked changes and `474` untracked status entries.
-- Current HEAD is `803dcb7` on `idea-chatacademia-research-workbench`.
-- The current source-status breakdown and exact blockers are recorded in
-  [HANDOFF-2026-06-11-WORKTREE-STATE.md](HANDOFF-2026-06-11-WORKTREE-STATE.md).
-- Priority queue: `system/indexes/karpathy-extraction-priority-queue-20260609.md`
+- The repo has `1414` strict disease paper cards across 8 disease modules.
+- Core query tests pass: `113/113`.
+- Research Mode (agent.ii.inc style) implemented with PubMed integration.
+- Current HEAD is on `idea-chatacademia-research-workbench`.
+- Active plan: `PLAN-researcher-presentation-layer.md` (P1 complete, P3/P4 pending)
+- Design doc: `~/.gstack/projects/feline-research-os/idea-chatacademia-research-workbench-design-20260617.md`
+- Health report: `system/health-checks/health-report-20260617.md`
 
 ## Verify In 4 Commands
 

@@ -137,6 +137,112 @@ except ImportError:
 # Sparse result threshold for triggering external search
 SPARSE_RESULT_THRESHOLD = 3
 
+# ---------------------------------------------------------------------------
+# Intent Classification (P4: Decision Tree UI)
+# ---------------------------------------------------------------------------
+
+INTENT_CATEGORIES: dict[str, list[str]] = {
+    "diagnostic": [
+        "诊断", "识别", "检测", "症状", "diagnosis", "recognize", "detect",
+        "symptom", "identify", "screen", "test", "检查", "筛查", "鉴别",
+    ],
+    "treatment": [
+        "治疗", "用药", "insulin", "treatment", "therapy", "药物", "处方",
+        "protocol", "regimen", "dose", "剂量", "给药", "management", "管理",
+    ],
+    "monitoring": [
+        "监测", "复查", "指标", "monitor", "follow-up", "followup", "endpoint",
+        "tracking", "assessment", "评估", "随访", "预后", "prognosis",
+    ],
+    "mechanism": [
+        "机制", "mechanism", "pathophysiology", "pathogenesis", "病因",
+        "原因", "cause", "why", "为什么", "etiology",
+    ],
+}
+
+
+def classify_intent(query: str) -> str:
+    """
+    Classify the intent of a user query for decision tree routing.
+
+    Returns one of: diagnostic, treatment, monitoring, mechanism, or overview (fallback).
+
+    Examples:
+        >>> classify_intent("CKD治疗方案")
+        'treatment'
+        >>> classify_intent("如何诊断FIP")
+        'diagnostic'
+        >>> classify_intent("random question")
+        'overview'
+    """
+    query_lower = query.lower()
+
+    # Check each category in priority order
+    for intent, keywords in INTENT_CATEGORIES.items():
+        for keyword in keywords:
+            if keyword.lower() in query_lower:
+                return intent
+
+    # Fallback to overview
+    return "overview"
+
+
+def get_decision_tree_content(disease: str, intent: str, chinese: bool = False) -> dict:
+    """
+    Get decision tree content for a disease and intent.
+
+    Returns:
+        {
+            "navigation": path or None,
+            "treatment_branch": path or None,
+            "diagnostic_route": path or None,
+        }
+    """
+    import json
+
+    index_path = VAULT_ROOT / "system" / "indexes" / "decision-tree-index.json"
+    if not index_path.exists():
+        return {}
+
+    try:
+        with open(index_path, "r", encoding="utf-8") as f:
+            index = json.load(f)
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+    disease_lower = disease.lower()
+    diseases = index.get("diseases", {})
+
+    if disease_lower not in diseases:
+        return {}
+
+    disease_data = diseases[disease_lower]
+    result = {}
+
+    # Navigation is always useful
+    if "navigation" in disease_data:
+        result["navigation"] = disease_data["navigation"]
+
+    # Intent-specific content
+    if intent == "treatment" and "treatment_branch" in disease_data:
+        result["treatment_branch"] = disease_data["treatment_branch"]
+
+    if intent == "diagnostic":
+        key = "diagnostic_route_bilingual" if chinese else "diagnostic_route"
+        if key in disease_data:
+            result["diagnostic_route"] = disease_data[key]
+        elif "diagnostic_route" in disease_data:
+            result["diagnostic_route"] = disease_data["diagnostic_route"]
+
+        # Also add diagnostic workup if available
+        workup_key = "diagnostic_workup_bilingual" if chinese else "diagnostic_workup"
+        if workup_key in disease_data:
+            result["diagnostic_workup"] = disease_data[workup_key]
+        elif "diagnostic_workup" in disease_data:
+            result["diagnostic_workup"] = disease_data["diagnostic_workup"]
+
+    return result
+
 
 def is_local_search_sparse(
     search_results: list,

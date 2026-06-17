@@ -3836,6 +3836,217 @@ def render_answer_mode_chip(
     return None
 
 
+# ---------------------------------------------------------------------------
+# Decision Tree UI (P4)
+# ---------------------------------------------------------------------------
+
+def render_decision_tree_card(
+    disease: str,
+    intent: str,
+    key_prefix: str = "",
+) -> None:
+    """
+    Render a decision tree card for treatment/diagnostic pathways.
+
+    Displays treatment branch maps or diagnostic routes based on user intent.
+    """
+    from query import get_decision_tree_content
+
+    is_zh = is_session_chinese()
+    content_map = get_decision_tree_content(disease, intent, chinese=is_zh)
+
+    if not content_map:
+        return
+
+    # Determine which content to display based on intent
+    display_path = None
+    title = ""
+    icon = ""
+
+    if intent == "treatment" and "treatment_branch" in content_map:
+        display_path = content_map["treatment_branch"]
+        title = "治疗决策路径 / Treatment Decision Path" if is_zh else "Treatment Decision Path"
+        icon = "🌳"
+    elif intent == "diagnostic":
+        if "diagnostic_workup" in content_map:
+            display_path = content_map["diagnostic_workup"]
+        elif "diagnostic_route" in content_map:
+            display_path = content_map["diagnostic_route"]
+        title = "诊断决策路径 / Diagnostic Pathway" if is_zh else "Diagnostic Pathway"
+        icon = "🔬"
+
+    if not display_path:
+        return
+
+    # Read the branch map content
+    full_path = Path(__file__).parent.parent / display_path
+    if not full_path.exists():
+        return
+
+    try:
+        content = full_path.read_text(encoding="utf-8")
+    except IOError:
+        return
+
+    # Extract Route By Question or key decision branches
+    branches = _extract_decision_branches(content, is_zh)
+
+    if not branches:
+        return
+
+    # Render the card with DESIGN.md specs
+    st.markdown(
+        f"""
+        <div style="
+            border: 1px solid #2d3147;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background: rgba(45, 49, 71, 0.3);
+        ">
+            <div style="
+                font-family: 'Geist', sans-serif;
+                font-weight: 500;
+                font-size: 15px;
+                color: #e8eaf0;
+                margin-bottom: 12px;
+            ">
+                {icon} {html.escape(title)}
+            </div>
+            <div style="
+                font-family: 'Geist Mono', monospace;
+                font-size: 12px;
+                color: #4a4f64;
+            ">
+                {"".join(_render_branch_line(b, is_zh) for b in branches)}
+            </div>
+            <div style="
+                font-family: 'Geist', sans-serif;
+                font-size: 11px;
+                color: #8b90a0;
+                margin-top: 12px;
+            ">
+                {"每个分支有独立的证据层级和适用条件。" if is_zh else "Each branch has its own evidence level and applicability conditions."}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def _extract_decision_branches(content: str, is_zh: bool) -> list[dict]:
+    """Extract decision branches from a navigation or branch-map file."""
+    branches = []
+
+    # Look for "Route By Question" section or similar
+    route_patterns = [
+        r"#+\s*Route By Question",
+        r"#+\s*按问题路由",
+        r"#+\s*Quick Helpers",
+        r"#+\s*快速导航",
+    ]
+
+    for pattern in route_patterns:
+        match = re.search(pattern, content, re.IGNORECASE)
+        if match:
+            # Extract content after this heading until next heading
+            start_pos = match.end()
+            next_heading = re.search(r"\n#+\s+", content[start_pos:])
+            end_pos = start_pos + next_heading.start() if next_heading else len(content)
+            section = content[start_pos:end_pos]
+
+            # Extract list items with links
+            for line in section.split("\n"):
+                line = line.strip()
+                if line.startswith("-") or line.startswith("*"):
+                    # Parse link: [text](path)
+                    link_match = re.search(r"\[([^\]]+)\]\(([^)]+)\)", line)
+                    if link_match:
+                        label = link_match.group(1)
+                        path = link_match.group(2)
+                        # Also capture any text before the link
+                        prefix = line.split("[")[0].strip("- *").strip()
+                        branches.append({
+                            "prefix": prefix,
+                            "label": label,
+                            "path": path,
+                        })
+
+            if branches:
+                break
+
+    return branches[:8]  # Cap at 8 branches
+
+
+def _render_branch_line(branch: dict, is_zh: bool) -> str:
+    """Render a single branch line with tree connector."""
+    prefix = html.escape(branch.get("prefix", ""))
+    label = html.escape(branch["label"])
+
+    return f"""
+        <div style="
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-family: 'Geist', sans-serif;
+            font-size: 13px;
+        ">
+            <span style="color: #4a4f64; margin-right: 8px;">├─</span>
+            <span style="color: #8b90a0; margin-right: 8px;">{prefix}</span>
+            <span style="color: #e8eaf0;">{label}</span>
+        </div>
+    """
+
+
+def render_route_by_question(
+    disease: str,
+    key_prefix: str = "",
+) -> None:
+    """
+    Render a "Route By Question" widget for topic navigation.
+
+    Shows clickable routes from navigation.md for users who aren't sure where to start.
+    """
+    from query import get_decision_tree_content
+
+    is_zh = is_session_chinese()
+    content_map = get_decision_tree_content(disease, "overview", chinese=is_zh)
+
+    if "navigation" not in content_map:
+        return
+
+    nav_path = Path(__file__).parent.parent / content_map["navigation"]
+    if not nav_path.exists():
+        return
+
+    try:
+        content = nav_path.read_text(encoding="utf-8")
+    except IOError:
+        return
+
+    branches = _extract_decision_branches(content, is_zh)
+    if not branches:
+        return
+
+    # Render as expander per DESIGN.md
+    expander_title = "🔀 不确定从哪里开始？ / Not sure where to start?" if is_zh else "🔀 Not sure where to start?"
+
+    with st.expander(expander_title, expanded=False):
+        for branch in branches:
+            prefix = branch.get("prefix", "")
+            label = branch["label"]
+            display_text = f"{prefix} {label}" if prefix else label
+
+            if st.button(
+                display_text,
+                key=f"{key_prefix}_route_{branch['path'][:20]}",
+                use_container_width=True,
+            ):
+                # Set session state to trigger a new query for this route
+                st.session_state[f"{key_prefix}_routed_topic"] = branch["path"]
+                st.rerun()
+
+
 def render_research_trace(research_trace: Optional[list[dict]]) -> None:
     """Render the retrieval and synthesis path behind an answer."""
     if not research_trace:

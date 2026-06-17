@@ -1,0 +1,49 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-06-17",
+  "description": "Index of navigable decision tree content for each disease topic",
+  "diseases": {
+    "ckd": {
+      "navigation": "topics/ckd/navigation.md",
+      "diagnostic_route": "topics/ckd/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/ckd/risk-and-recognition-bilingual.md"
+    },
+    "fip": {
+      "navigation": "topics/fip/navigation.md",
+      "diagnostic_route": "topics/fip/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/fip/risk-and-recognition-bilingual.md"
+    },
+    "hcm": {
+      "navigation": "topics/hcm/navigation.md",
+      "diagnostic_route": "topics/hcm/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/hcm/risk-and-recognition-bilingual.md",
+      "diagnostic_workup": "topics/hcm/diagnostic-workup-bilingual.md"
+    },
+    "ibd": {
+      "navigation": "topics/ibd/navigation.md",
+      "diagnostic_route": "topics/ibd/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/ibd/risk-and-recognition-bilingual.md"
+    },
+    "diabetes": {
+      "navigation": "topics/diabetes/navigation.md",
+      "treatment_branch": "topics/diabetes/treatment-branch-map.md",
+      "diagnostic_route": "topics/diabetes/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/diabetes/risk-and-recognition-bilingual.md",
+      "diagnostic_workup": "topics/diabetes/diagnostic-monitoring-workup.md",
+      "diagnostic_workup_bilingual": "topics/diabetes/diagnostic-monitoring-workup-bilingual.md"
+    },
+    "fcv": {
+      "navigation": "topics/fcv/navigation.md",
+      "diagnostic_route": "topics/fcv/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/fcv/risk-and-recognition-bilingual.md"
+    },
+    "obesity": {
+      "navigation": "topics/obesity/navigation.md",
+      "diagnostic_route": "topics/obesity/risk-and-recognition.md",
+      "diagnostic_route_bilingual": "topics/obesity/risk-and-recognition-bilingual.md"
+    },
+    "cancer": {
+      "navigation": "topics/cancer/navigation.md"
+    }
+  }
+}
