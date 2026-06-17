@@ -427,6 +427,8 @@ def _is_placeholder_content(text: str) -> bool:
         "needs extraction",
         "this card is a first-pass",
         "this card should control triage",
+        "the intake sheet lists this title",  # Auto-generated placeholder
+        "intake sheet lists",
     ]
     return any(pattern in text_lower for pattern in placeholder_patterns)
 
@@ -456,7 +458,7 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
         else:
             author_str = f"{card.authors[0]}, et al. "
 
-    journal_str = f" *{card.journal}.*" if card.journal else ""
+    journal_str = f" {card.journal}." if card.journal else ""
     year_str = f" {card.year}." if card.year else ""
 
     # Main citation line
@@ -464,14 +466,11 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
 
     # Line 2: URL (DOI preferred, then PMID, then PMCID)
     if card.doi:
-        url_label = "URL" if not chinese else "链接"
-        lines.append(f"   {url_label}: https://doi.org/{card.doi}")
+        lines.append(f"   URL: https://doi.org/{card.doi}")
     elif card.pmid:
-        url_label = "PubMed" if not chinese else "PubMed"
-        lines.append(f"   {url_label}: https://pubmed.ncbi.nlm.nih.gov/{card.pmid}/")
+        lines.append(f"   PubMed: https://pubmed.ncbi.nlm.nih.gov/{card.pmid}/")
     elif card.pmcid:
-        url_label = "PMC" if not chinese else "PMC"
-        lines.append(f"   {url_label}: https://pmc.ncbi.nlm.nih.gov/articles/{card.pmcid}/")
+        lines.append(f"   PMC: https://pmc.ncbi.nlm.nih.gov/articles/{card.pmcid}/")
 
     # Line 3: Why it matters (from supported_conclusions - skip placeholders)
     why_shown = False
@@ -484,20 +483,21 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
                 break
 
     # Line 4: Takeaway (from one_line_summary or quoted_facts - skip placeholders)
-    if not why_shown:
-        takeaway = None
-        if card.one_line_summary and not _is_placeholder_content(card.one_line_summary):
-            takeaway = card.one_line_summary
-        elif card.quoted_facts:
-            # Find first non-placeholder quoted fact
-            for fact in card.quoted_facts:
-                if not _is_placeholder_content(fact):
-                    takeaway = fact
-                    break
+    takeaway = None
+    if card.one_line_summary and not _is_placeholder_content(card.one_line_summary):
+        takeaway = card.one_line_summary
+    elif card.quoted_facts:
+        # Find first non-placeholder quoted fact
+        for fact in card.quoted_facts:
+            if not _is_placeholder_content(fact):
+                takeaway = fact
+                break
 
-        if takeaway:
-            takeaway_label = "**要点：**" if chinese else "**Takeaway:**"
-            lines.append(f"   {takeaway_label} {takeaway[:200]}{'...' if len(takeaway) > 200 else ''}")
+    if takeaway:
+        takeaway_label = "**总结：**" if chinese else "**Takeaway:**"
+        # Truncate if too long
+        takeaway_text = takeaway[:250] + '...' if len(takeaway) > 250 else takeaway
+        lines.append(f"   {takeaway_label} {takeaway_text}")
 
     return "\n".join(lines)
 
@@ -515,11 +515,12 @@ def _build_english_output(
     disease_upper = disease.upper()
 
     sections.append(f"# Research Literature: Feline {disease_upper}\n")
-    sections.append(f"Found {len(top_papers)} relevant sources in the local vault. [source_supported_conclusion]\n")
+    sections.append(f"Found {len(top_papers)} relevant sources in the local vault.\n")
 
     # Best recent papers
     if top_papers:
         sections.append("## Best recent papers to read first\n")
+        sections.append("### Higher-visibility / broader journals\n")
         sections.append("*Ranked by year, evidence level, and extraction depth.*\n")
         for i, card in enumerate(top_papers[:5], 1):
             sections.append(_format_paper_entry(card, i, chinese=False))
@@ -527,14 +528,16 @@ def _build_english_output(
 
     # Clinical/therapeutic papers
     if top_clinical:
-        sections.append("## Latest clinical/therapeutic papers\n")
+        sections.append("## Clinical & therapeutic research\n")
+        sections.append("### Treatment outcomes and interventions\n")
         for i, card in enumerate(top_clinical[:5], 1):
             sections.append(_format_paper_entry(card, i, chinese=False))
             sections.append("")
 
     # Diagnostic papers
     if top_diagnostic:
-        sections.append("## Best recent diagnostic papers\n")
+        sections.append("## Diagnostic research\n")
+        sections.append("### Biomarkers and detection methods\n")
         for i, card in enumerate(top_diagnostic[:5], 1):
             sections.append(_format_paper_entry(card, i, chinese=False))
             sections.append("")
@@ -617,11 +620,12 @@ def _build_chinese_output(
     disease_cn = disease_names.get(disease, disease.upper())
 
     sections.append(f"# 文献检索：猫{disease_cn}\n")
-    sections.append(f"在本地知识库中找到 {len(top_papers)} 个相关文献。 [source_supported_conclusion]\n")
+    sections.append(f"在本地知识库中找到 {len(top_papers)} 个相关文献。\n")
 
     # Best recent papers
     if top_papers:
         sections.append("## 推荐优先阅读的文献\n")
+        sections.append("### 高影响力期刊 / Higher-visibility journals\n")
         sections.append("*按年份、证据等级和提取深度排序。*\n")
         for i, card in enumerate(top_papers[:5], 1):
             sections.append(_format_paper_entry(card, i, chinese=True))
@@ -629,14 +633,16 @@ def _build_chinese_output(
 
     # Clinical/therapeutic papers
     if top_clinical:
-        sections.append("## 临床/治疗类文献\n")
+        sections.append("## 临床与治疗研究\n")
+        sections.append("### 治疗结果和干预措施\n")
         for i, card in enumerate(top_clinical[:5], 1):
             sections.append(_format_paper_entry(card, i, chinese=True))
             sections.append("")
 
     # Diagnostic papers
     if top_diagnostic:
-        sections.append("## 诊断类文献\n")
+        sections.append("## 诊断研究\n")
+        sections.append("### 生物标志物与检测方法\n")
         for i, card in enumerate(top_diagnostic[:5], 1):
             sections.append(_format_paper_entry(card, i, chinese=True))
             sections.append("")
