@@ -163,13 +163,24 @@ BADGE_PATTERNS = [
     ),
 ]
 
-EXAMPLE_QUESTIONS = [
+# Basic explanation examples
+EXAMPLE_QUESTIONS_BASIC = [
     "解释CKD",
     "FIP怎么识别",
     "IBD和淋巴瘤怎么区分",
     "HCM是什么，为什么危险",
-    "搜索HCM最新文献",  # Research mode example
 ]
+
+# Research mode examples (agent.ii.inc style)
+EXAMPLE_QUESTIONS_RESEARCH = [
+    "搜索HCM最新文献",
+    "search the latest papers about feline CKD, prioritize high-impact journals",
+    "查找FIP最新治疗研究",
+    "find recent diabetes papers with clinical relevance",
+]
+
+# Combined for backwards compatibility
+EXAMPLE_QUESTIONS = EXAMPLE_QUESTIONS_BASIC + EXAMPLE_QUESTIONS_RESEARCH[:1]
 
 PROVENANCE_GUIDE_HTML = """
 <div class="vault-panel" style="margin-top:24px">
@@ -258,13 +269,43 @@ def queue_question(question: str) -> None:
     st.session_state.pending_question = question
 
 
-def render_example_question_chips(prefix: str) -> None:
-    """Render clickable example questions."""
+def render_example_question_chips(prefix: str, show_research: bool = True) -> None:
+    """Render clickable example questions with category separation."""
+    is_zh = is_session_chinese()
+
+    # Basic explanation questions
+    basic_label = "快速解释 / Quick explanations" if is_zh else "Quick explanations"
+    st.markdown(
+        f"""<div style="font-size:11px;color:#8b90a0;margin-bottom:8px;margin-top:12px">
+        {html.escape(basic_label)}</div>""",
+        unsafe_allow_html=True,
+    )
     cols = st.columns(2)
-    for i, question in enumerate(EXAMPLE_QUESTIONS):
+    for i, question in enumerate(EXAMPLE_QUESTIONS_BASIC):
         with cols[i % 2]:
-            if st.button(question, key=f"{prefix}-example-{i}", use_container_width=True):
+            if st.button(question, key=f"{prefix}-basic-{i}", use_container_width=True):
                 queue_question(question)
+
+    if show_research:
+        # Research mode questions (agent.ii.inc style)
+        research_label = "🔬 研究模式 / Research mode" if is_zh else "🔬 Research mode"
+        research_hint = (
+            "搜索最新文献、高影响因子期刊、临床相关性总结"
+            if is_zh else
+            "Search latest papers, prioritize high-impact journals, summarize findings"
+        )
+        st.markdown(
+            f"""<div style="font-size:11px;color:#8b90a0;margin-bottom:4px;margin-top:16px">
+            {html.escape(research_label)}</div>
+            <div style="font-size:10px;color:#6b7280;margin-bottom:8px">
+            {html.escape(research_hint)}</div>""",
+            unsafe_allow_html=True,
+        )
+        cols = st.columns(2)
+        for i, question in enumerate(EXAMPLE_QUESTIONS_RESEARCH):
+            with cols[i % 2]:
+                if st.button(question, key=f"{prefix}-research-{i}", use_container_width=True):
+                    queue_question(question)
 
 
 def render_provenance_guide() -> None:
@@ -4045,6 +4086,78 @@ def render_route_by_question(
                 # Set session state to trigger a new query for this route
                 st.session_state[f"{key_prefix}_routed_topic"] = branch["path"]
                 st.rerun()
+
+
+def render_thought_panel(
+    thought_title: str,
+    thought_content: str,
+    searches: Optional[list[dict]] = None,
+    key_prefix: str = "",
+) -> None:
+    """
+    Render a "Thought" panel showing the reasoning process (agent.ii.inc style).
+
+    Args:
+        thought_title: Short title like "Researching feline HCM papers"
+        thought_content: Detailed reasoning text
+        searches: Optional list of search queries with their status
+        key_prefix: Unique key prefix for Streamlit state
+    """
+    is_zh = is_session_chinese()
+    panel_label = "● Thought" if not is_zh else "● 思考过程"
+
+    with st.expander(panel_label, expanded=True):
+        # Title
+        st.markdown(
+            f"""<div style="
+                font-family: 'Geist', sans-serif;
+                font-weight: 600;
+                font-size: 14px;
+                color: #e8eaf0;
+                margin-bottom: 8px;
+            ">{html.escape(thought_title)}</div>""",
+            unsafe_allow_html=True,
+        )
+
+        # Content
+        st.markdown(
+            f"""<div style="
+                font-family: 'Geist', sans-serif;
+                font-size: 13px;
+                color: #d1d5db;
+                line-height: 1.6;
+                margin-bottom: 12px;
+            ">{html.escape(thought_content)}</div>""",
+            unsafe_allow_html=True,
+        )
+
+        # Search queries (if any)
+        if searches:
+            for i, search in enumerate(searches):
+                query = search.get("query", "")
+                status = search.get("status", "searching")
+                result_count = search.get("results", 0)
+
+                icon = "🔍" if status == "searching" else ("✓" if status == "done" else "○")
+                status_color = "#60a5fa" if status == "searching" else ("#22c55e" if status == "done" else "#8b90a0")
+
+                st.markdown(
+                    f"""<div style="
+                        display: flex;
+                        align-items: center;
+                        padding: 8px 12px;
+                        background: rgba(45, 49, 71, 0.5);
+                        border-radius: 4px;
+                        margin-bottom: 4px;
+                        font-family: 'Geist', sans-serif;
+                        font-size: 12px;
+                    ">
+                        <span style="margin-right: 8px; color: {status_color}">{icon} Searching</span>
+                        <span style="color: #e8eaf0; flex: 1;">{html.escape(query[:50])}...</span>
+                        <span style="color: #8b90a0; font-size: 11px;">More</span>
+                    </div>""",
+                    unsafe_allow_html=True,
+                )
 
 
 def render_research_trace(research_trace: Optional[list[dict]]) -> None:

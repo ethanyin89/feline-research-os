@@ -429,6 +429,8 @@ def _is_placeholder_content(text: str) -> bool:
         "this card should control triage",
         "the intake sheet lists this title",  # Auto-generated placeholder
         "intake sheet lists",
+        "the intake sheet locator is",  # Auto-generated placeholder with URL
+        "intake sheet locator",
     ]
     return any(pattern in text_lower for pattern in placeholder_patterns)
 
