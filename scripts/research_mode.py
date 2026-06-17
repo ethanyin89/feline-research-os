@@ -709,7 +709,8 @@ def _build_pubmed_query(disease: str) -> str:
     disease_terms = {
         "hcm": f'{feline_filter} AND ("hypertrophic cardiomyopathy"[Title/Abstract] OR "HCM"[Title/Abstract])',
         "ckd": f'{feline_filter} AND ("chronic kidney disease"[Title/Abstract] OR "renal failure"[Title/Abstract] OR "kidney failure"[Title/Abstract])',
-        "fip": '("feline infectious peritonitis"[Title/Abstract] OR "FIP"[Title/Abstract]) AND (coronavirus OR treatment OR diagnosis)',
+        # FIP: Use full term to avoid false positives; "FIP" alone matches unrelated acronyms
+        "fip": '"feline infectious peritonitis"[Title/Abstract]',
         "ibd": f'{feline_filter} AND ("inflammatory bowel disease"[Title/Abstract] OR "lymphocytic enteritis"[Title/Abstract])',
         "fcv": '"feline calicivirus"[Title/Abstract]',
         "diabetes": f'{feline_filter} AND ("diabetes mellitus"[Title/Abstract] OR "diabetic"[Title/Abstract])',

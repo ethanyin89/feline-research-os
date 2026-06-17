@@ -114,6 +114,7 @@ def search_pubmed(query: str, config: ExternalSearchConfig) -> ExternalSearchRes
         "term": query,
         "retmax": config.max_results,
         "retmode": "json",
+        "sort": "pub_date",  # Sort by publication date (newest first)
     }
     url = f"{base_url}?{urllib.parse.urlencode(params)}"
 
