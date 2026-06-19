@@ -1,0 +1,36 @@
+source_term,preferred_zh,abbreviation,domain,first_mention,avoid_zh,note
+hypertrophic cardiomyopathy,肥厚型心肌病,HCM,cardiology,肥厚型心肌病（hypertrophic cardiomyopathy，HCM）,肥厚性心肌病,按主流临床用语统一
+systolic anterior motion,收缩期二尖瓣前向运动,SAM,echocardiography,收缩期二尖瓣前向运动（systolic anterior motion，SAM）,收缩期前向移动,必要时根据上下文补充“二尖瓣”
+left ventricular outflow tract obstruction,左心室流出道梗阻,LVOTO,cardiology,左心室流出道梗阻（left ventricular outflow tract obstruction，LVOTO）,左室出口阻塞,保持与LVOT一致
+left ventricular outflow tract,左心室流出道,LVOT,cardiology,左心室流出道（left ventricular outflow tract，LVOT）,左室出口,
+cardiac troponin I,心肌肌钙蛋白I,cTnI,biomarker,心肌肌钙蛋白I（cardiac troponin I，cTnI）,心脏肌钙蛋白I,
+speckle-tracking echocardiography,斑点追踪超声心动图,STE,imaging,斑点追踪超声心动图（speckle-tracking echocardiography，STE）,散斑追踪超声,若目标期刊已有固定译法可调整
+whole-genome sequencing,全基因组测序,WGS,omics,全基因组测序（whole-genome sequencing，WGS）,全基因组序列测定,
+RNA sequencing,RNA测序,RNA-seq,omics,RNA测序（RNA sequencing，RNA-seq）,RNA序列测定,
+multiomics,多组学,,omics,多组学（multiomics）,多重组学,
+transcriptomics,转录组学,,omics,转录组学（transcriptomics）,转录学,
+proteomics,蛋白质组学,,omics,蛋白质组学（proteomics）,蛋白组学,
+biomarker,生物标志物,,clinical research,生物标志物（biomarker）,生物标记物,除非机构术语另有规定
+risk stratification,风险分层,,clinical research,风险分层（risk stratification）,风险分级,分级与分层含义不同
+clinical endpoint,临床终点,,clinical research,临床终点（clinical endpoint）,临床终点事件,按上下文区分
+surrogate endpoint,替代终点,,clinical research,替代终点（surrogate endpoint）,代理终点,
+client-owned cats,客户所有猫,,study population,客户所有猫（client-owned cats）,客户拥有的猫,必要时补充“自然患病”
+purpose-bred cats,目的繁育猫,,study population,目的繁育猫（purpose-bred cats）,特制繁育猫,亦可写“为研究目的繁育的猫”
+laboratory animals,实验用动物,,laboratory animal science,实验用动物（laboratory animals）,实验动物,根据法规与具体语境选择
+proof of concept,概念验证,,development stage,概念验证（proof of concept）,概念证明,不能等同临床有效
+translational model,转化研究模型,,translational medicine,转化研究模型（translational model）,翻译模型,
+pharmacodynamics,药效学,PD,pharmacology,药效学（pharmacodynamics，PD）,药物效应学,
+pharmacokinetics,药代动力学,PK,pharmacology,药代动力学（pharmacokinetics，PK）,药物动力学,
+efficacy,疗效,,clinical research,疗效（efficacy）,效能,与effectiveness区分
+effectiveness,实际效果,,clinical research,实际效果（effectiveness）,疗效,真实世界语境可写“真实世界效果”
+tolerability,耐受性,,safety,耐受性（tolerability）,容忍性,
+adverse event,不良事件,AE,safety,不良事件（adverse event，AE）,副作用,两者不能完全等同
+serious adverse event,严重不良事件,SAE,safety,严重不良事件（serious adverse event，SAE）,重度不良事件,serious不等于severity grade
+statistically significant,具有统计学意义,,statistics,具有统计学意义（statistically significant）,显著有效,不得自动等同临床意义
+clinically meaningful,具有临床意义,,clinical research,具有临床意义（clinically meaningful）,临床显著,
+associated with,与……相关,,evidence language,与……相关（associated with）,导致,观察性研究通常不得因果化
+suggest,提示,,evidence language,提示（suggest）,证实,
+no evidence of,未发现……证据,,evidence language,未发现……证据（no evidence of）,不存在,absence of evidence不等于evidence of absence
+in vitro,体外,,experimental context,体外（in vitro）,试管内,
+in vivo,体内,,experimental context,体内（in vivo）,活体内,
+ex vivo,离体,,experimental context,离体（ex vivo）,体外,与in vitro区分

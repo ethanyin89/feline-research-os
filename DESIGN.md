@@ -442,3 +442,129 @@ Users get a good answer and want to share it with colleagues. Currently there's 
 | 2026-04-27 | Figure captions as paper titles | Figure captions now show paper title (e.g., "ISFM CKD Guidelines") instead of source ID (e.g., "src-ckd-001"). More readable for ordinary users. |
 | 2026-04-27 | Clean Sources section | New Sources section at end of each answer shows unique paper titles, not technical IDs. Audit trail preserved in sidebar metadata for power users. |
 | 2026-04-27 | Source weighting system | Combined score = evidence_level × verification_status. Tiers: high (7-10) for guidelines/reviews with deep extraction, medium (4-7) for original studies, low (0-4) for case reports or abstract-only. Synthesis prompt instructs model to prefer higher-weighted sources when conflicting; acknowledge limitations when citing low-weight sources. |
+| 2026-06-17 | Research Mode "Best Papers" ranking standard | Defined explicit ranking formula with 4 weighted factors: evidence_level (35%), recency (25%), source_kind (25%), extraction_depth (15%). See "Research Mode Ranking" section below. |
+
+## Research Mode — "Best Papers" 排序标准
+
+### 设计目的
+
+当用户在 Research Mode 中搜索文献时，系统返回 "Best recent papers"、"Top clinical papers" 等分类结果。用户需要理解：**为什么这篇排在前面？** 排序必须有明确、可解释的标准。
+
+### 排序公式
+
+```
+ranking_score = (evidence_level × 0.35) + (recency × 0.25) + (source_kind × 0.25) + (extraction_depth × 0.15)
+```
+
+### 四个排序因子
+
+#### 1. Evidence Level（证据等级）— 权重 35%
+
+| 等级 | 分数 | 说明 |
+|------|------|------|
+| `meta-analysis` | 10 | 荟萃分析 |
+| `systematic-review` | 9 | 系统综述 |
+| `rct` | 8 | 随机对照试验 |
+| `guideline` | 8 | 专业指南（如 ISFM, IRIS） |
+| `original-study` | 6 | 原始研究 |
+| `review` | 5 | 综述（非系统性） |
+| `case-series` | 3 | 病例系列 |
+| `case-report` | 2 | 个案报告 |
+| `expert-opinion` | 1 | 专家意见 |
+| (未标注) | 0 | 无证据等级标注 |
+
+**原理**: 遵循循证医学金字塔。Meta-analysis 和 systematic-review 代表最高级别的证据综合。
+
+#### 2. Recency（时效性）— 权重 25%
+
+| 年份 | 分数 |
+|------|------|
+| 2024-2026 | 10 |
+| 2021-2023 | 8 |
+| 2018-2020 | 6 |
+| 2015-2017 | 4 |
+| 2010-2014 | 2 |
+| <2010 | 1 |
+
+**原理**: 兽医学研究快速演进，近 3 年的研究更可能反映当前最佳实践。但经典指南（如 IRIS CKD staging）即使较旧仍保持高权重，因为 evidence_level 得分高。
+
+#### 3. Source Kind（文献类型）— 权重 25%
+
+| 类型 | 分数 | 说明 |
+|------|------|------|
+| `guideline` | 10 | 专业指南（ISFM, IRIS, ACVIM consensus） |
+| `paper` | 7 | 同行评审论文 |
+| `review-article` | 6 | 综述文章 |
+| `regulatory` | 5 | 监管文件（FDA/EMA 兽药批准） |
+| `product-info` | 3 | 产品说明书 |
+| `marketing` | 1 | 宣传材料 |
+| `internal-doc` | 2 | 内部文档 |
+
+**原理**: 专业指南代表领域共识，同行评审论文提供原始证据，产品/宣传材料可信度较低。
+
+**用户提供的类型映射**:
+- 综述 → `review-article` (分数 6)
+- 产品说明 → `product-info` (分数 3)
+- 宣传 → `marketing` (分数 1)
+- 监管 → `regulatory` (分数 5)
+- 论文 → `paper` (分数 7)
+- 内部文档 → `internal-doc` (分数 2)
+
+#### 4. Extraction Depth（提取深度）— 权重 15%
+
+| 状态 | 分数 | 说明 |
+|------|------|------|
+| 有 `quoted_facts` + `supported_conclusions` | 10 | 完整深度提取 |
+| 有 `one_line_summary` | 6 | 有摘要 |
+| 仅有 frontmatter | 3 | 仅元数据 |
+| 仅标题 | 1 | 最小信息 |
+
+**原理**: 提取深度越高，系统能给用户提供的信息越丰富，引用价值越高。
+
+### 外部指标（可选增强）
+
+如果卡片中有以下字段，可作为加成因子：
+
+| 字段 | 加成 | 说明 |
+|------|------|------|
+| `citation_count` ≥ 100 | +0.5 | 高引用论文 |
+| `impact_factor` ≥ 5 | +0.3 | 高影响因子期刊 |
+
+**计算**: `final_score = ranking_score + citation_bonus + if_bonus`
+
+**注意**: citation_count 和 impact_factor 目前在 citation-graph.json 中仅有部分数据，不作为主排序依据，仅作为加成。
+
+### 分类展示
+
+Research Mode 输出按以下分类展示，每个分类内部按 ranking_score 排序：
+
+1. **Best recent papers** — 综合排名前 10，不限类型
+2. **Top clinical/therapeutic** — endpoints 含 `treatment`、`therapy`、`management` 的论文
+3. **Top diagnostic** — endpoints 含 `diagnosis`、`biomarker`、`staging` 的论文
+4. **Latest from PubMed** — 外部搜索结果（独立排序，不与本地混合）
+
+### 用户可见性
+
+排序标准对用户透明。在 UI 中：
+
+1. **不显示具体分数** — 避免过度技术化
+2. **显示关键标签** — 如 `[综述]`、`[2024]`、`[高引用]`
+3. **可选**: hover 显示排序因子的文字说明
+
+### 与现有系统的兼容
+
+| 现有字段 | 对应排序因子 |
+|----------|--------------|
+| `evidence_level` | Evidence Level |
+| `source_kind` | Source Kind |
+| `year` | Recency |
+| `quoted_facts` 存在 | Extraction Depth |
+| `citation_count` (citation-graph.json) | Citation Bonus |
+
+### 实现检查点
+
+- [ ] `research_mode.py` 中的 `rank_sources()` 函数更新为新公式
+- [ ] 添加 `source_kind` 到排序因子
+- [ ] 添加 extraction_depth 计算
+- [ ] 可选: 读取 citation-graph.json 加成高引用论文
+- [ ] UI 标签显示关键排序因子

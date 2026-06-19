@@ -16,6 +16,7 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 import sys
+from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -469,7 +470,7 @@ def annotate_routing(item: dict, result: dict) -> None:
     result["next_fix_layer"] = next_fix_layer
 
 
-def summarize_row(item: dict, result: dict | None) -> str:
+def summarize_row(item: dict, result: Optional[dict]) -> str:
     if result is None:
         return (
             f"| {item['id']} | {item['topic']} | — | {item['expected_question_type']} | "
@@ -552,7 +553,7 @@ def render_acceptance_summary(results: dict[str, dict], execution_mode: str, sta
     ]
 
 
-def render_question_block(item: dict, result: dict | None) -> list[str]:
+def render_question_block(item: dict, result: Optional[dict]) -> list[str]:
     lines = [
         "",
         f"## {item['id']}. {item['topic']}",

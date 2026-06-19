@@ -244,6 +244,202 @@ def get_decision_tree_content(disease: str, intent: str, chinese: bool = False) 
     return result
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# P3 Citation Graph Functions
+# ─────────────────────────────────────────────────────────────────────────────
+
+_CITATION_GRAPH_CACHE = None  # type: Optional[dict]
+
+
+def load_citation_graph() -> dict:
+    """
+    Load the citation graph index from disk.
+
+    Returns:
+        Citation graph dict with 'papers' key containing per-paper citation data.
+    """
+    global _CITATION_GRAPH_CACHE
+
+    if _CITATION_GRAPH_CACHE is not None:
+        return _CITATION_GRAPH_CACHE
+
+    index_path = VAULT_ROOT / "system" / "indexes" / "citation-graph.json"
+    if not index_path.exists():
+        return {"papers": {}, "stats": {}}
+
+    try:
+        with open(index_path, "r", encoding="utf-8") as f:
+            _CITATION_GRAPH_CACHE = json.load(f)
+            return _CITATION_GRAPH_CACHE
+    except (json.JSONDecodeError, IOError):
+        return {"papers": {}, "stats": {}}
+
+
+def get_paper_citations(source_id: str) -> dict:
+    """
+    Get citation information for a paper.
+
+    Args:
+        source_id: The source ID (e.g., "src-ckd-004")
+
+    Returns:
+        {
+            "cites": ["src-ckd-012", ...],           # Papers this one cites (in vault)
+            "cited_by": ["src-ckd-024", ...],        # Papers that cite this one (in vault)
+            "cites_external": [...],                  # External references not in vault
+            "citation_count": 161,                    # Total citations (from metadata)
+            "in_vault": True,                         # Whether paper is in citation graph
+        }
+    """
+    graph = load_citation_graph()
+    papers = graph.get("papers", {})
+
+    if source_id not in papers:
+        return {
+            "cites": [],
+            "cited_by": [],
+            "cites_external": [],
+            "citation_count": None,
+            "in_vault": False,
+        }
+
+    paper_data = papers[source_id]
+    return {
+        "cites": paper_data.get("cites", []),
+        "cited_by": paper_data.get("cited_by", []),
+        "cites_external": paper_data.get("cites_external", []),
+        "citation_count": paper_data.get("citation_count"),
+        "in_vault": True,
+    }
+
+
+def get_citation_summary(source_id: str) -> str:
+    """
+    Get a human-readable citation summary for a paper.
+
+    Args:
+        source_id: The source ID (e.g., "src-ckd-004")
+
+    Returns:
+        A string like "被引: 161 | 引用库内: 3 | 被库内引用: 2"
+    """
+    info = get_paper_citations(source_id)
+
+    if not info["in_vault"]:
+        return ""
+
+    parts = []
+
+    if info["citation_count"] is not None:
+        parts.append(f"被引: {info['citation_count']}")
+
+    cites_count = len(info["cites"])
+    cited_by_count = len(info["cited_by"])
+
+    if cites_count > 0:
+        parts.append(f"引用库内: {cites_count}")
+
+    if cited_by_count > 0:
+        parts.append(f"被库内引用: {cited_by_count}")
+
+    return " | ".join(parts) if parts else ""
+
+
+def get_reference_links(source_id: str) -> list[dict]:
+    """
+    Get reference links for a paper, suitable for UI display.
+
+    Args:
+        source_id: The source ID (e.g., "src-ckd-004")
+
+    Returns:
+        List of dicts with reference info:
+        [
+            {
+                "source_id": "src-ckd-012",
+                "title": "Paper title...",
+                "in_vault": True,
+                "type": "internal"
+            },
+            {
+                "source_id": "pmid:12345678",
+                "title": None,
+                "in_vault": False,
+                "type": "external"
+            }
+        ]
+    """
+    graph = load_citation_graph()
+    papers = graph.get("papers", {})
+    info = get_paper_citations(source_id)
+
+    references = []
+
+    # Internal references (in vault)
+    for ref_id in info["cites"]:
+        ref_data = papers.get(ref_id, {})
+        references.append({
+            "source_id": ref_id,
+            "title": ref_data.get("title"),
+            "year": ref_data.get("year"),
+            "in_vault": True,
+            "type": "internal",
+        })
+
+    # External references (not in vault)
+    for ext_ref in info["cites_external"]:
+        references.append({
+            "source_id": ext_ref,
+            "title": None,
+            "year": None,
+            "in_vault": False,
+            "type": "external",
+        })
+
+    return references
+
+
+def get_cited_by_links(source_id: str) -> list[dict]:
+    """
+    Get papers that cite this paper, suitable for UI display.
+
+    Args:
+        source_id: The source ID (e.g., "src-ckd-004")
+
+    Returns:
+        List of dicts with citing paper info:
+        [
+            {
+                "source_id": "src-ckd-010",
+                "title": "Histomorphometry of Feline CKD...",
+                "year": 2017,
+                "citation_count": 155,
+                "in_vault": True,
+            }
+        ]
+    """
+    graph = load_citation_graph()
+    papers = graph.get("papers", {})
+    info = get_paper_citations(source_id)
+
+    cited_by = []
+
+    for citing_id in info["cited_by"]:
+        citing_data = papers.get(citing_id, {})
+        cited_by.append({
+            "source_id": citing_id,
+            "title": citing_data.get("title"),
+            "year": citing_data.get("year"),
+            "citation_count": citing_data.get("citation_count"),
+            "in_vault": True,
+        })
+
+    # Sort by citation count (most cited first), then by year
+    cited_by.sort(key=lambda x: (-(x.get("citation_count") or 0), -(x.get("year") or 0)))
+
+    return cited_by
+
+
 def is_local_search_sparse(
     search_results: list,
     loaded_source_ids: list[str],

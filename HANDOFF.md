@@ -6,6 +6,8 @@ If you are a new model taking over this repo because of token loss, model switch
 
 Read this file before every other handoff:
 
+- [HANDOFF-2026-06-17-BEST-PAPERS-RANKING.md](HANDOFF-2026-06-17-BEST-PAPERS-RANKING.md) — Research Mode "Best Papers" 排序标准定义: 4-factor weighted formula (evidence_level 35%, recency 25%, source_kind 25%, extraction_depth 15%)
+- [HANDOFF-2026-06-17-P3-REFERENCE-GRAPH.md](HANDOFF-2026-06-17-P3-REFERENCE-GRAPH.md) — P3 Reference Graph complete: citation-graph.json index, vault status indicators, "Cited By" display
 - [HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md](HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md) — Research Mode (agent.ii.inc style) implemented, presentation layer fixes, 13 screenshots discussion context preserved
 
 For legacy worktree state (outdated):
@@ -15,6 +17,8 @@ For legacy worktree state (outdated):
 
 After the authoritative handoff, use these for historical context:
 
+- [HANDOFF-2026-06-17-BEST-PAPERS-RANKING.md](HANDOFF-2026-06-17-BEST-PAPERS-RANKING.md) — Research Mode "Best Papers" ranking standard with explicit 4-factor formula
+- [HANDOFF-2026-06-17-P3-REFERENCE-GRAPH.md](HANDOFF-2026-06-17-P3-REFERENCE-GRAPH.md) — P3 Reference Graph: citation graph index, reference links with vault status, "Cited By" display
 - [HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md](HANDOFF-2026-06-17-RESEARCH-MODE-IMPLEMENTATION.md) — Research Mode with PubMed integration, presentation layer formatting, context loss root cause analysis
 - [HANDOFF-2026-06-15-BILINGUAL-CKD-INDEX-ROUTING.md](HANDOFF-2026-06-15-BILINGUAL-CKD-INDEX-ROUTING.md) — Bilingual CKD Topic Index implemented, routed and verified for Chinese/bilingual sessions (all checks PASS)
 - [HANDOFF-2026-06-15-GATE6D-SEARCH-INDEX-OPTIMIZATION.md](HANDOFF-2026-06-15-GATE6D-SEARCH-INDEX-OPTIMIZATION.md) — Gate 6D Search Index optimization implemented & health checker timeout updated (all checks PASS)
@@ -160,8 +164,9 @@ If you are continuing the ordinary-user line specifically, also read:
 - All tests pass: `127/127` (113 query + 4 research + 10 intent classification).
 - Research Mode (agent.ii.inc style) implemented with PubMed integration.
 - **P4 Decision Tree UI complete:** intent classification, decision tree index, example questions (basic + research).
+- **P3 Reference Graph complete:** citation-graph.json, vault status indicators, "Cited By" display.
 - Current HEAD is on `idea-chatacademia-research-workbench`.
-- Active plan: `PLAN-researcher-presentation-layer.md` (P1/P4 complete, P3 pending)
+- Active plan: `PLAN-researcher-presentation-layer.md` (P1/P3/P4 complete)
 - Design doc: `~/.gstack/projects/feline-research-os/idea-chatacademia-research-workbench-design-20260617.md`
 - Health report: `system/health-checks/health-report-20260617.md`
 - QA report: `.gstack/qa-reports/qa-report-localhost-2026-06-17.md` (health score 95/100, no dead links)

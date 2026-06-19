@@ -791,15 +791,33 @@ def build_next_actions(
         List of 2-4 specific NextAction objects
     """
     actions = []
+    raw_topic = (topic or "").strip()
+    topic_key = raw_topic.lower()
+    topic_display_map = {
+        "ckd": "CKD",
+        "hcm": "HCM",
+        "fip": "FIP",
+        "ibd": "IBD",
+        "fcv": "FCV",
+        "diabetes": "糖尿病",
+        "obesity": "肥胖",
+        "cancer": "肿瘤",
+    }
+    detected_topic_key = next(
+        (key for key in topic_display_map if re.search(rf"\b{re.escape(key)}\b", topic_key)),
+        topic_key,
+    )
+    topic_display = topic_display_map.get(detected_topic_key, raw_topic or "该主题")
+    topic_query = f"猫 {topic_display}"
 
     if surface_type == "overview":
         actions.append(NextAction(
-            label=f"查看{topic}的治疗选项对比",
+            label=f"查看{topic_display}的治疗选项对比",
             action_type=ActionType.NAVIGATE,
             target=f"/topics/{topic}/treatments",
         ))
         actions.append(NextAction(
-            label=f"了解{topic}的诊断流程",
+            label=f"了解{topic_display}的诊断流程",
             action_type=ActionType.NAVIGATE,
             target=f"/topics/{topic}/diagnosis",
         ))
@@ -818,14 +836,14 @@ def build_next_actions(
 
     elif surface_type == "vault":
         actions.append(NextAction(
-            label=f"深入了解{topic}的机制",
+            label=f"深入了解{topic_display}的机制",
             action_type=ActionType.SEARCH,
-            target=f"{topic} 病理生理机制",
+            target=f"{topic_query} 病理生理机制",
         ))
         actions.append(NextAction(
             label="查看相关的临床指南",
             action_type=ActionType.SEARCH,
-            target=f"{topic} ISFM guidelines",
+            target=f"{topic_query} ISFM guidelines",
         ))
 
     # Add related topics if provided

@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Optional
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 # ---------------------------------------------------------------------------
 # Runtime config — Streamlit Cloud stores deploy variables in st.secrets, while
@@ -70,12 +71,18 @@ from query import (
     build_source_titles,
     build_source_weights,
     compute_confidence,
+    prefers_chinese,
     build_external_search_trace,
     is_local_search_sparse,
     list_saved_answers,
     parse_source_ids_from_answer,
     run_query_core,
     write_back,
+    # P3 Citation Graph
+    get_paper_citations,
+    get_reference_links,
+    get_cited_by_links,
+    get_citation_summary,
 )
 from expert_review import build_expert_review_prompt, expert_review_stage_label
 from search import vault_search
@@ -264,9 +271,42 @@ def render_provenance(text: str) -> str:
     return text
 
 
+def is_internal_source_id(value: object) -> bool:
+    """Return True for internal vault IDs such as src-ckd-001."""
+    return bool(re.fullmatch(r"src-[a-z]+-\d{3}", str(value or "").strip()))
+
+
+def user_visible_source_label(source_id: str, fallback: str = "source") -> str:
+    """Map an internal source ID to a user-facing paper title when possible."""
+    if not source_id:
+        return fallback
+    if not is_internal_source_id(source_id):
+        return source_id
+    title = get_source_titles().get(source_id)
+    return title or fallback
+
+
+def normalize_user_facing_topic_text(text: str) -> str:
+    """Normalize disease acronyms in user-facing action labels and queries."""
+    if not text:
+        return text
+    replacements = {
+        "ckd": "CKD",
+        "hcm": "HCM",
+        "fip": "FIP",
+        "ibd": "IBD",
+        "fcv": "FCV",
+    }
+    normalized = text
+    for raw, display in replacements.items():
+        normalized = re.sub(rf"\b{raw}\b", display, normalized, flags=re.IGNORECASE)
+    return normalized
+
+
 def queue_question(question: str) -> None:
-    """Store a question to be executed on the current rerun."""
+    """Store a question from a UI chip and rerun before rendering the answer."""
     st.session_state.pending_question = question
+    st.rerun()
 
 
 def render_example_question_chips(prefix: str, show_research: bool = True) -> None:
@@ -2209,7 +2249,8 @@ def run_app_local_query_core(
             status_msg = "研究模式：检索本地知识库 + PubMed..." if chinese else "Research mode: searching local vault + PubMed..."
             on_status(status_msg)
         # PubMed E-utilities is free (no API key needed) - include external by default
-        answer, research_source_ids = handle_research_query(question, chinese=chinese, include_external=True)
+        output_chinese = prefers_chinese(question)
+        answer, research_source_ids = handle_research_query(question, chinese=output_chinese, include_external=True)
         for sid in research_source_ids:
             path = source_index.get(sid)
             if path and path.exists():
@@ -2893,15 +2934,20 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
     """
     st_markdown_html(card_html)
 
-    # Render expandable sections for Abstract and Methods if available
+    # Render expandable sections for Abstract, Methods, References, and Cited By
     card_id = card._internal_id or card.title[:20]
     has_abstract = bool(card.abstract_text and card.abstract_text.strip())
     has_methods = bool(card.methods_summary and card.methods_summary.strip())
     has_refs = bool(card.reference_ids)
 
-    if has_abstract or has_methods or has_refs:
+    # P3: Check for "Cited By" papers from citation graph
+    source_id = getattr(card, '_internal_id', None) or card.title[:20]
+    cited_by_links = get_cited_by_links(source_id) if source_id.startswith("src-") else []
+    has_cited_by = bool(cited_by_links)
+
+    if has_abstract or has_methods or has_refs or has_cited_by:
         # Use columns to create inline expander buttons
-        expand_cols = st.columns([1, 1, 1, 3])
+        expand_cols = st.columns([1, 1, 1, 1, 2])
         with expand_cols[0]:
             if has_abstract:
                 abstract_label = "摘要" if is_zh else "Abstract"
@@ -2917,6 +2963,11 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
                 refs_label = f"参考文献 ({len(card.reference_ids)})" if is_zh else f"References ({len(card.reference_ids)})"
                 if st.button(f"📚 {refs_label}", key=f"refs_{card_id}", use_container_width=True):
                     st.session_state[f"show_refs_{card_id}"] = not st.session_state.get(f"show_refs_{card_id}", False)
+        with expand_cols[3]:
+            if has_cited_by:
+                cited_label = f"被引用 ({len(cited_by_links)})" if is_zh else f"Cited By ({len(cited_by_links)})"
+                if st.button(f"🔗 {cited_label}", key=f"cited_{card_id}", use_container_width=True):
+                    st.session_state[f"show_cited_{card_id}"] = not st.session_state.get(f"show_cited_{card_id}", False)
 
         # Show expanded content
         if st.session_state.get(f"show_abs_{card_id}"):
@@ -2930,14 +2981,59 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
                 unsafe_allow_html=True,
             )
         if st.session_state.get(f"show_refs_{card_id}"):
-            refs_html = "<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #a855f7;font-size:13px;color:#c9cdd5;'>"
-            for ref_id in card.reference_ids[:10]:  # Limit to 10
-                refs_html += f"<div style='margin-bottom:4px;'>· {html.escape(ref_id)}</div>"
-            if len(card.reference_ids) > 10:
-                more_label = f"...还有 {len(card.reference_ids) - 10} 篇" if is_zh else f"...and {len(card.reference_ids) - 10} more"
-                refs_html += f"<div style='color:#8b90a0;'>{more_label}</div>"
-            refs_html += "</div>"
+            # Use citation graph for richer reference display
+            source_id = getattr(card, '_internal_id', None) or card.title[:20]
+            ref_links = get_reference_links(source_id) if source_id.startswith("src-") else []
+
+            if ref_links:
+                # Rich reference display with vault status indicators
+                refs_html = "<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #a855f7;font-size:13px;color:#c9cdd5;'>"
+                refs_html += f"<div style='margin-bottom:8px;color:#a855f7;font-weight:500;'>{'引用的文献' if is_zh else 'References'}:</div>"
+                for ref in ref_links[:10]:
+                    if ref["in_vault"]:
+                        # In vault - clickable
+                        vault_badge = '<span style="background:rgba(34,197,94,0.15);color:#22c55e;padding:1px 4px;border-radius:3px;font-size:11px;margin-left:6px;">✓ 库内</span>' if is_zh else '<span style="background:rgba(34,197,94,0.15);color:#22c55e;padding:1px 4px;border-radius:3px;font-size:11px;margin-left:6px;">✓ in vault</span>'
+                        title_text = ref.get("title") or user_visible_source_label(ref.get("source_id", ""), "本地库内文献" if is_zh else "vault paper")
+                        year_text = f" ({ref['year']})" if ref.get("year") else ""
+                        refs_html += f"<div style='margin-bottom:4px;'>├─ {html.escape(title_text)}{year_text}{vault_badge}</div>"
+                    else:
+                        # External - not in vault
+                        external_badge = '<span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:1px 4px;border-radius:3px;font-size:11px;margin-left:6px;">✗ 未收录</span>' if is_zh else '<span style="background:rgba(239,68,68,0.15);color:#ef4444;padding:1px 4px;border-radius:3px;font-size:11px;margin-left:6px;">✗ not in vault</span>'
+                        external_label = ref.get("title") or ("外部参考文献" if is_zh else "External reference")
+                        refs_html += f"<div style='margin-bottom:4px;'>├─ {html.escape(external_label)}{external_badge}</div>"
+                if len(ref_links) > 10:
+                    more_label = f"...还有 {len(ref_links) - 10} 篇" if is_zh else f"...and {len(ref_links) - 10} more"
+                    refs_html += f"<div style='color:#8b90a0;margin-top:4px;'>└─ {more_label}</div>"
+                refs_html += "</div>"
+            else:
+                # Fallback to simple reference_ids display
+                refs_html = "<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #a855f7;font-size:13px;color:#c9cdd5;'>"
+                for ref_id in card.reference_ids[:10]:
+                    ref_label = user_visible_source_label(ref_id, "本地参考文献" if is_zh else "Vault reference")
+                    refs_html += f"<div style='margin-bottom:4px;'>· {html.escape(ref_label)}</div>"
+                if len(card.reference_ids) > 10:
+                    more_label = f"...还有 {len(card.reference_ids) - 10} 篇" if is_zh else f"...and {len(card.reference_ids) - 10} more"
+                    refs_html += f"<div style='color:#8b90a0;'>{more_label}</div>"
+                refs_html += "</div>"
             st.markdown(refs_html, unsafe_allow_html=True)
+
+        # P3: Show "Cited By" content
+        if st.session_state.get(f"show_cited_{card_id}") and cited_by_links:
+            cited_html = "<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #f59e0b;font-size:13px;color:#c9cdd5;'>"
+            header_label = "引用本文的文献" if is_zh else "Papers citing this work"
+            cited_html += f"<div style='margin-bottom:8px;color:#f59e0b;font-weight:500;'>{header_label}:</div>"
+            for citing in cited_by_links[:10]:
+                title_text = citing.get("title") or user_visible_source_label(citing.get("source_id", ""), "本地库内文献" if is_zh else "vault paper")
+                year_text = f" ({citing['year']})" if citing.get("year") else ""
+                citation_badge = ""
+                if citing.get("citation_count"):
+                    citation_badge = f'<span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:1px 4px;border-radius:3px;font-size:11px;margin-left:6px;">被引:{citing["citation_count"]}</span>'
+                cited_html += f"<div style='margin-bottom:4px;'>├─ {html.escape(title_text)}{year_text}{citation_badge}</div>"
+            if len(cited_by_links) > 10:
+                more_label = f"...还有 {len(cited_by_links) - 10} 篇" if is_zh else f"...and {len(cited_by_links) - 10} more"
+                cited_html += f"<div style='color:#8b90a0;margin-top:4px;'>└─ {more_label}</div>"
+            cited_html += "</div>"
+            st.markdown(cited_html, unsafe_allow_html=True)
 
 
 def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
@@ -2960,7 +3056,7 @@ def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
                 render_source_card_v2(card)
 
 
-def render_next_actions_v2(actions: list) -> None:
+def render_next_actions_v2(actions: list, key_prefix: str = "next") -> None:
     """Render task-specific next actions."""
     if not actions:
         return
@@ -2973,13 +3069,26 @@ def render_next_actions_v2(actions: list) -> None:
     cols = st.columns(min(len(actions), 2))
     for i, action in enumerate(actions):
         with cols[i % 2]:
-            st_markdown_html(
-                f"""
-                <div style="padding:10px 14px;background:rgba(30,30,35,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:6px;margin-bottom:8px;">
-                    <span style="font-size:13px;color:#e5e7eb;">{html.escape(action.label)}</span>
-                </div>
-                """
-            )
+            target = str(getattr(action, "target", "") or "").strip()
+            label = str(getattr(action, "label", "") or target or "继续检索").strip()
+            target = normalize_user_facing_topic_text(target)
+            label = normalize_user_facing_topic_text(label)
+            action_type = getattr(getattr(action, "action_type", ""), "value", str(getattr(action, "action_type", "")))
+
+            if action_type == "external" and target.startswith(("http://", "https://")):
+                st.markdown(
+                    f"<a href='{html.escape(target, quote=True)}' target='_blank' rel='noopener' "
+                    "style='display:block;padding:10px 14px;background:rgba(30,30,35,0.6);"
+                    "border:1px solid rgba(255,255,255,0.08);border-radius:6px;margin-bottom:8px;"
+                    "color:#e5e7eb;text-decoration:none;font-size:13px;'>"
+                    f"{html.escape(label)} ↗</a>",
+                    unsafe_allow_html=True,
+                )
+                continue
+
+            query = target if target and not target.startswith("/") else label
+            if st.button(label, key=f"{key_prefix}-next-action-{i}", use_container_width=True):
+                queue_question(query)
 
 
 def build_presentation_from_answer(
@@ -3214,11 +3323,11 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
         if is_source_card:
             # Load metadata
             meta_list = load_source_metadata(VAULT_ROOT, [source_id])
-            title = filename
+            title = user_visible_source_label(source_id, filename)
             meta_str = ""
             if meta_list and meta_list[0].get("title"):
                 meta = meta_list[0]
-                title = f"{source_id}: {meta['title']}"
+                title = meta["title"]
                 
                 author_str = ", ".join(meta.get("authors", []))
                 year_str = str(meta.get("year", ""))
@@ -3280,7 +3389,10 @@ def render_local_query_evaluation(disease: Optional[str], task_type: Optional[st
     sub_html = f"<ul style='margin:4px 0 0 16px;padding:0;font-size:12px;list-style-type:square;'>{sub_items}</ul>" if sub_items else ""
     
     dis_str = disease.upper() if disease else "UNKNOWN"
-    task_str = task_type.upper() if task_type else "UNKNOWN"
+    task_labels = {
+        "research_search": "文献检索 / Research Search",
+    }
+    task_str = task_labels.get(task_type or "", task_type.upper() if task_type else "UNKNOWN")
     st.markdown(
         f"""
         <div style="padding:12px 14px;background:rgba(94,234,212,0.06);border-left:4px solid #14b8a6;border-radius:0 6px 6px 0;margin-bottom:18px;">
@@ -3294,6 +3406,125 @@ def render_local_query_evaluation(disease: Optional[str], task_type: Optional[st
         </div>
         """,
         unsafe_allow_html=True,
+    )
+
+
+def split_research_contract(answer: str) -> tuple[Optional[str], str]:
+    """Split Research Mode's contract/audit note from the report body."""
+    if not answer:
+        return None, answer
+
+    markers = [
+        "## Research contract and audit note",
+        "## 研究范围与审计说明",
+    ]
+    body_markers = [
+        "\n# Research Deliverables / 研究交付物",
+        "\n# 研究交付物 / Research Deliverables",
+        "\n# Research Literature:",
+        "\n# 文献检索：",
+    ]
+
+    stripped = answer.lstrip()
+    if not any(stripped.startswith(marker) for marker in markers):
+        return None, answer
+
+    leading_ws_len = len(answer) - len(stripped)
+    search_start = leading_ws_len
+
+    body_start = -1
+    for marker in body_markers:
+        idx = answer.find(marker, search_start)
+        if idx != -1:
+            body_start = idx + 1
+            break
+
+    if body_start == -1:
+        return None, answer
+
+    contract = answer[search_start:body_start].strip()
+    body = answer[body_start:].lstrip()
+    return contract, body
+
+
+def render_research_contract_panel(answer: str, question_type: str) -> str:
+    """
+    Render Research Mode contract as a structured audit panel and return body.
+
+    The contract remains in the plain text returned by research_mode.py for CLI
+    and saved-output compatibility, but the app presents it separately so the
+    report body starts with the actual literature review.
+    """
+    if question_type != "research_search":
+        return answer
+
+    contract, body = split_research_contract(answer)
+    if not contract:
+        return answer
+
+    is_zh = is_session_chinese() or contract.startswith("## 研究范围")
+    title = "研究范围与审计说明 / Research contract" if is_zh else "Research contract and audit note"
+    note = (
+        "这不是原始思考链，而是本次研究任务的可审计边界：系统如何解释问题、如何排序、以及哪些最新性声明仍需外部验证。"
+        if is_zh else
+        "This is not raw chain-of-thought. It is the auditable boundary for this research task: interpretation, ranking, and freshness limits."
+    )
+
+    with st.expander(title, expanded=True):
+        st.markdown(
+            f"""
+            <div class="vault-inline-note" style="margin-bottom:10px">
+              {html.escape(note)}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown(render_provenance(contract), unsafe_allow_html=True)
+
+    return body
+
+
+def scroll_to_latest_research_result() -> None:
+    """Keep research searches at the report start instead of the chat bottom."""
+    components.html(
+        """
+        <script>
+        (() => {
+          const scrollOnce = () => {
+            const doc = window.parent.document;
+            const targets = Array.from(doc.querySelectorAll("#research-result-top"));
+            const target = targets[targets.length - 1];
+            if (!target) {
+              window.parent.scrollTo(0, 0);
+              return;
+            }
+
+            target.scrollIntoView({block: "start", behavior: "auto"});
+
+            const candidates = [
+              doc.scrollingElement,
+              doc.documentElement,
+              doc.body,
+              ...Array.from(doc.querySelectorAll("section.main, [data-testid='stAppViewContainer'], [data-testid='stVerticalBlock']"))
+            ].filter(Boolean);
+
+            for (const el of candidates) {
+              try {
+                if (el.scrollHeight > el.clientHeight) {
+                  const top = target.getBoundingClientRect().top + el.scrollTop - 12;
+                  el.scrollTop = Math.max(0, top);
+                }
+              } catch (_) {}
+            }
+          };
+
+          [0, 80, 200, 500, 900, 1400].forEach((delay) => {
+            window.parent.setTimeout(scrollOnce, delay);
+          });
+        })();
+        </script>
+        """,
+        height=0,
     )
 
 
@@ -3343,9 +3574,14 @@ def render_answer_block_v2(
     source_ids = source_ids or []
     loaded_source_ids = loaded_source_ids or []
 
+    contract, display_answer = split_research_contract(answer) if question_type == "research_search" else (None, answer)
+
+    if question_type == "research_search":
+        st.markdown('<div id="research-result-top"></div>', unsafe_allow_html=True)
+
     # Build presentation
     presentation = build_presentation_from_answer(
-        answer=answer,
+        answer=display_answer,
         question=question,
         source_ids=source_ids,
         loaded_source_ids=loaded_source_ids,
@@ -3360,9 +3596,10 @@ def render_answer_block_v2(
             from core.task_evaluator import TaskEvaluator
             evaluator = TaskEvaluator()
             evaluation = evaluator.evaluate(question)
+            task_type_value = "research_search" if question_type == "research_search" else evaluation.task_type.value
             render_local_query_evaluation(
                 disease=evaluation.disease,
-                task_type=evaluation.task_type.value,
+                task_type=task_type_value,
                 subqueries=evaluation.subqueries,
             )
         except Exception:
@@ -3370,8 +3607,11 @@ def render_answer_block_v2(
     else:
         render_query_refinement(refined_query, objectives)
 
+    if contract:
+        render_research_contract_panel(answer, question_type)
+
     # Render translated provenance with paper titles, never internal source IDs.
-    cleaned_answer = strip_legacy_footer(answer)
+    cleaned_answer = strip_legacy_footer(display_answer)
     visible_answer = render_user_facing_provenance(
         cleaned_answer,
         presentation.source_cards,
@@ -3398,7 +3638,7 @@ def render_answer_block_v2(
     render_depth_contract_warning(harness_result)
 
     # Render matched documents section
-    if loaded_paths:
+    if loaded_paths and question_type != "research_search":
         if backend == "local":
             render_loaded_documents_section(loaded_paths, initially_expanded=True)
         else:
@@ -3411,7 +3651,7 @@ def render_answer_block_v2(
     # Expert review loop with harness results
     render_expert_review_loop(
         question=question,
-        answer=answer,
+        answer=display_answer,
         disease=disease,
         question_type=question_type,
         confidence=confidence,
@@ -3441,7 +3681,7 @@ def render_answer_block_v2(
     render_sources_section_v2(presentation.source_cards)
 
     # Next actions
-    render_next_actions_v2(presentation.next_actions)
+    render_next_actions_v2(presentation.next_actions, key_prefix=key_prefix)
 
     # Save Research Record panel
     render_save_research_record_panel(harness_result, key_prefix)
@@ -4297,9 +4537,10 @@ def render_answer_block(
             from core.task_evaluator import TaskEvaluator
             evaluator = TaskEvaluator()
             evaluation = evaluator.evaluate(question)
+            task_type_value = "research_search" if question_type == "research_search" else evaluation.task_type.value
             render_local_query_evaluation(
                 disease=evaluation.disease,
-                task_type=evaluation.task_type.value,
+                task_type=task_type_value,
                 subqueries=evaluation.subqueries,
             )
         except Exception:
@@ -4307,16 +4548,18 @@ def render_answer_block(
     else:
         render_query_refinement(refined_query, objectives)
 
-    cleaned_answer = strip_legacy_footer(answer)
+    display_answer = render_research_contract_panel(answer, question_type)
+
+    cleaned_answer = strip_legacy_footer(display_answer)
     st.markdown(render_provenance(cleaned_answer), unsafe_allow_html=True)
-    copy_button(answer, key=f"{key_prefix}-copy")
-    render_trust_block(answer, confidence, source_ids, loaded_source_ids)
+    copy_button(display_answer, key=f"{key_prefix}-copy")
+    render_trust_block(display_answer, confidence, source_ids, loaded_source_ids)
 
     # Query Scope panel
     render_query_scope_panel(harness_result, key_prefix)
 
     # Render matched documents section
-    if loaded_paths:
+    if loaded_paths and question_type != "research_search":
         if backend == "local":
             render_loaded_documents_section(loaded_paths, initially_expanded=True)
         else:
@@ -4326,7 +4569,7 @@ def render_answer_block(
     render_research_trace(research_trace)
     render_expert_review_loop(
         question=question,
-        answer=answer,
+        answer=display_answer,
         disease=disease,
         question_type=question_type,
         confidence=confidence,
@@ -5708,6 +5951,12 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
+submitted_question = st.chat_input(
+    "提出关于猫咪健康的问题... / Ask a natural feline health question...",
+)
+if submitted_question and not st.session_state.pending_question:
+    st.session_state.pending_question = submitted_question
+
 show_empty_state = len(st.session_state.messages) == 0 and not st.session_state.pending_question
 if show_empty_state:
     render_empty_state()
@@ -5744,6 +5993,10 @@ for i, msg in enumerate(st.session_state.messages):
             )
         else:
             st.markdown(msg["content"])
+
+if st.session_state.get("scroll_to_latest_research_result"):
+    scroll_to_latest_research_result()
+    st.session_state.scroll_to_latest_research_result = False
 
 # ---------------------------------------------------------------------------
 # Query execution
@@ -5941,6 +6194,9 @@ def run_query(question: str) -> bool:
             refined_query=refined_query,
             objectives=objectives,
         )
+        if question_type == "research_search":
+            st.session_state.scroll_to_latest_research_result = True
+            scroll_to_latest_research_result()
 
     # --- Write-back ---
     written_to = None
@@ -5979,6 +6235,8 @@ def run_query(question: str) -> bool:
         "refined_query": refined_query,
         "objectives": objectives,
     })
+    if question_type == "research_search":
+        st.session_state.scroll_to_latest_research_result = True
     st.session_state.last_files_loaded = [str(p) for p in loaded_paths]
 
     st.session_state.last_meta = {
@@ -6012,16 +6270,13 @@ def run_query(question: str) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Input
+# Input processing
 # ---------------------------------------------------------------------------
 
-user_question = st.session_state.pending_question or st.chat_input(
-    "提出关于猫咪健康的问题... / Ask a natural feline health question...",
-)
+user_question = st.session_state.pending_question
 if user_question:
     st.session_state.pending_question = None
     st.session_state.messages.append({"role": "user", "content": user_question})
     with st.chat_message("user"):
         st.markdown(user_question)
-    if run_query(user_question):
-        st.rerun()
+    run_query(user_question)

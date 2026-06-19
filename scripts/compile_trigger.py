@@ -30,6 +30,7 @@ import subprocess
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Optional
 
 VAULT_ROOT = Path(__file__).parent.parent
 
@@ -88,7 +89,7 @@ def get_changed_source_cards_since(vault_root: Path, days: int) -> list[str]:
     return sorted(set(source_ids))
 
 
-def _extract_source_id(path: Path) -> str | None:
+def _extract_source_id(path: Path) -> Optional[str]:
     """Pull the id: field from YAML frontmatter."""
     try:
         content = path.read_text(encoding="utf-8")

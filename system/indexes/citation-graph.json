@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-06-17",
+  "description": "Citation graph tracking which papers cite which other papers in the vault",
+  "note": "References are populated during deep extraction. Empty arrays indicate not-yet-extracted.",
+  "papers": {
+    "src-ckd-004": {
+      "title": "ISFM Consensus Guidelines on the Diagnosis and Management of Feline Chronic Kidney Disease",
+      "year": 2016,
+      "citation_count": 161,
+      "cites": [],
+      "cited_by": ["src-ckd-010", "src-ckd-011", "src-ckd-024"],
+      "cites_external": []
+    },
+    "src-ckd-010": {
+      "title": "Histomorphometry of Feline Chronic Kidney Disease and Correlation With Markers of Renal Dysfunction",
+      "year": 2017,
+      "citation_count": 155,
+      "cites": ["src-ckd-004"],
+      "cited_by": [],
+      "cites_external": []
+    },
+    "src-ckd-011": {
+      "title": "Feline CKD: Current therapies – what is achievable?",
+      "year": 2017,
+      "citation_count": 87,
+      "cites": ["src-ckd-004"],
+      "cited_by": [],
+      "cites_external": []
+    },
+    "src-ckd-024": {
+      "title": "Feline CKD: Pathophysiology and risk factors",
+      "year": 2019,
+      "citation_count": 49,
+      "cites": ["src-ckd-004"],
+      "cited_by": [],
+      "cites_external": []
+    }
+  },
+  "stats": {
+    "total_papers_indexed": 4,
+    "total_internal_citations": 4,
+    "papers_with_cites": 3,
+    "papers_with_cited_by": 1
+  }
+}

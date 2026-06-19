@@ -8,6 +8,7 @@ from pathlib import Path
 
 from core.result_presentation import (
     build_evidence_profile,
+    build_next_actions,
     build_source_display,
     render_user_facing_provenance,
 )
@@ -82,10 +83,10 @@ def test_source_display_includes_optional_metadata() -> None:
         "tags": ["ckd", "review"],
     })
     assert card.source_family_label == "论文"
-    assert card.species_label == "feline"
-    assert card.decision_grade_label == "provisional"
-    assert card.safest_use == "branch map / synthesis"
-    assert card.must_not_control == "single-study winner claims"
+    assert card.species_label == "猫科 (feline)"
+    assert card.decision_grade_label == "暂定决策级 (provisional)"
+    assert card.safest_use == "分支图谱/证据综合 (branch map / synthesis)"
+    assert card.must_not_control == "单一研究决定性主张 (single-study winner claims)"
     assert card.journal == "Journal of Feline Medicine and Surgery"
     assert card.pmcid == "PMC1234567"
     assert card.authors == ["A One", "B Two"]
@@ -113,6 +114,23 @@ def test_user_facing_provenance_uses_titles_not_ids() -> None:
     assert "分析推断" in rendered
     assert "src-ckd-001" not in rendered
     assert "source_supported_conclusion" not in rendered
+
+
+def test_next_actions_use_user_facing_topic_labels() -> None:
+    actions = build_next_actions("ckd", surface_type="vault")
+    labels = [action.label for action in actions]
+    targets = [action.target for action in actions]
+    assert "深入了解CKD的机制" in labels
+    assert "深入了解ckd的机制" not in labels
+    assert "猫 CKD 病理生理机制" in targets
+
+
+def test_next_actions_normalize_composite_topic_labels() -> None:
+    actions = build_next_actions("feline ckd", surface_type="vault")
+    labels = [action.label for action in actions]
+    targets = [action.target for action in actions]
+    assert "深入了解CKD的机制" in labels
+    assert "猫 CKD 病理生理机制" in targets
 
 
 def test_overview_fixture_renders_without_internal_tokens() -> None:
@@ -150,6 +168,8 @@ if __name__ == "__main__":
         test_source_display_includes_optional_metadata,
         test_missing_source_metadata_is_explicit,
         test_user_facing_provenance_uses_titles_not_ids,
+        test_next_actions_use_user_facing_topic_labels,
+        test_next_actions_normalize_composite_topic_labels,
         test_overview_fixture_renders_without_internal_tokens,
         test_ranked_fixture_has_complete_boundaries,
     ]
