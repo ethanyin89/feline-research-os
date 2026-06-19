@@ -17,6 +17,7 @@ import re
 import sys
 import json
 import html
+import subprocess
 import urllib.request
 from pathlib import Path
 from typing import Optional
@@ -133,6 +134,28 @@ OPENROUTER_STREAMLIT_COMMAND = (
     "OPENROUTER_MODEL=openai/gpt-4.1-mini "
     ".venv/bin/python -m streamlit run scripts/app.py"
 )
+APP_RELEASE_LABEL = "research-ui-v2-depth-queue-20260619"
+
+
+def get_runtime_commit() -> str:
+    """Return a short commit/build identifier for deployment debugging."""
+    for key in ("STREAMLIT_GIT_COMMIT", "GIT_COMMIT", "VERCEL_GIT_COMMIT_SHA", "COMMIT_SHA"):
+        value = os.environ.get(key, "").strip()
+        if value:
+            return value[:7]
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=VAULT_ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=1.5,
+        )
+    except Exception:
+        return "unknown"
+    commit = result.stdout.strip()
+    return commit or "unknown"
 
 # ---------------------------------------------------------------------------
 # Phase 4: Feature flag for new result presentation
@@ -376,7 +399,11 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
             generated_at = html.escape(str(item["generated_at"] or "undated"))
             file_path = html.escape(str(item["file"]))
             source_ids = [html.escape(str(sid)) for sid in item.get("source_ids", [])]
-            sources = " ".join(f"<code>{sid}</code>" for sid in source_ids[:4]) or "<span>no cited sources</span>"
+            visible_sources = [
+                html.escape(user_visible_source_label(str(sid), fallback="source"))
+                for sid in item.get("source_ids", [])
+            ]
+            sources = " ".join(f"<span>{source}</span>" for source in visible_sources[:4]) or "<span>no cited sources</span>"
             if len(source_ids) > 4:
                 sources += f" <span>+{len(source_ids) - 4}</span>"
 
@@ -5725,7 +5752,8 @@ with st.sidebar:
                 except ValueError:
                     # Path is not relative to VAULT_ROOT, just show as-is
                     rel = p
-                st.code(str(rel), language=None)
+                source_label = user_visible_source_label(Path(str(rel)).stem)
+                st.write(source_label)
 
     if "last_meta" in st.session_state and st.session_state.last_meta:
         meta = st.session_state.last_meta
@@ -5744,7 +5772,7 @@ with st.sidebar:
                 sources_lbl = "引用文献卡片 / Sources cited" if is_zh else "Sources cited"
                 st.write(f"**{sources_lbl}:**")
                 for sid in meta["source_ids"]:
-                    st.code(sid, language=None)
+                    st.write(user_visible_source_label(str(sid)))
             if meta.get("written_to"):
                 saved_msg = f"已保存至 <code>{html.escape(str(meta['written_to']))}</code>。 / Saved to <code>{html.escape(str(meta['written_to']))}</code>." if is_zh else f"Saved to <code>{html.escape(str(meta['written_to']))}</code>."
                 render_notice(
@@ -5939,10 +5967,14 @@ with st.sidebar:
     st.divider()
 
     index_size = len(get_source_index())
+    runtime_commit = html.escape(get_runtime_commit())
+    release_label = html.escape(APP_RELEASE_LABEL)
     st.markdown(
         f"""
         <div class="vault-panel vault-sidebar-meta">
           <div class="vault-panel-label">App status</div>
+          <div class="vault-sidebar-meta-row"><span>release</span><strong>{release_label}</strong></div>
+          <div class="vault-sidebar-meta-row"><span>commit</span><strong>{runtime_commit}</strong></div>
           <div class="vault-sidebar-meta-row"><span>engine</span><strong>{html.escape(str(active_model))}</strong></div>
           <div class="vault-sidebar-meta-row"><span>vault index</span><strong>{index_size} sources</strong></div>
           <div class="vault-sidebar-meta-row"><span>new saves</span><strong>appear after restart</strong></div>
