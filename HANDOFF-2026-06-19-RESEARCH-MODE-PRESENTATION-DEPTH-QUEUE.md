@@ -211,6 +211,42 @@ Browser QA:
   - next-action click queues `猫 CKD 病理生理机制`
   - latest research result anchor stays at viewport top after render
 
+## Deployment Debug Addendum
+
+After the first push, the public Streamlit page still appeared unchanged to the user.
+
+Root-cause finding:
+
+- the feature work had been pushed to `idea-chatacademia-research-workbench`
+- Streamlit Cloud is expected to deploy from `main`
+- `main` was fast-forwarded and pushed, but the page still had no visible way to prove which build was running
+
+Additional fix:
+
+- `scripts/app.py` now exposes a sidebar `App status` release marker:
+  - `release: research-ui-v2-depth-queue-20260619`
+  - `commit: <runtime short sha>`
+- runtime commit is read from common deploy env vars first, then falls back to `git rev-parse --short HEAD`
+- sidebar “previously answered / readings used / sources cited” surfaces now map internal `src-*` IDs to user-facing paper titles where possible
+
+Latest pushed commit:
+
+- `c318ef6 fix(streamlit): expose deployed research UI version`
+
+Verification after push:
+
+- `python3 -m py_compile scripts/app.py`
+- `python3 scripts/check_research_mode_presentation.py`
+- `PYTHONPATH=. python3 scripts/test_result_presentation.py`
+- `git rev-parse --short HEAD` → `c318ef6`
+- `git rev-parse --short origin/main` → `c318ef6`
+- `curl -sS https://feline-research-os-3fzhk6zhd2mgvj8rxlbvou.streamlit.app/healthz` → `{"status":"ok"}`
+
+Public visual verification note:
+
+- headless browser can load the Streamlit shell, but in this environment the public Streamlit DOM body is not reliably readable because of Streamlit Cloud front-end/session behavior
+- use the visible sidebar release/commit marker for ordinary-user confirmation after Streamlit rebuilds
+
 ## Remaining Work
 
 The serious evidence-depth issue is not fully solved by presentation changes.
