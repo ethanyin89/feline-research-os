@@ -18,7 +18,9 @@ tags: [cancer, cox, review, prognosis, mammary-tumours, scc]
 links:
   doi: "10.1002/vms3.460"
   url: "https://doi.org/10.1002/vms3.460"
-  local_assets: []
+  local_assets:
+    - "raw/images/cancer/src-cancer-003-fig1-prisma.jpg"
+    - "raw/images/cancer/src-cancer-003-fig2-bias.jpg"
 abstract: "Cyclooxygenase (COX) isoforms-1 and -2 have been extensively investigated in cancer. Although COX-2 is the isoform most studied and has been described in several malignancies associated with histologic criteria of malignancy and worse prognosis, COX-1 has also been linked to some forms of cancer. With the present review our aim was to summarize the current state of knowledge and clarify if and in which type of tumours COX-1 and/or COX-2 expression have real prognostic implications. We searched PubMed database for prognostic studies using predefined inclusion criteria in order to ascertain the prognostic value of COX-1 and COX-2 in malignant neoplasia in dogs and cats. Eighteen studies were analysed. COX-2 was shown to be a negative prognostic factor in canine and feline mammary tumours, canine mast cell tumour, canine melanoma, canine osteosarcoma and canine renal cell carcinoma. COX-1 showed a negative prognostic value in feline oral squamous cell carcinoma (SCC). We found high heterogeneity among studies regarding COX immunohistochemical evaluation methodology even in the same type of neoplasia pointing out the need for its standardization at least by tumour type. The available data support the use of COX-2 as a prognostic factor in canine (mammary carcinoma, mast cell tumour, melanoma, osteosarcoma and renal carcinoma) and feline (mammary carcinoma) cancers. For COX-1, its use is advised in feline oral SCC."
 methods_summary: "Systematic review of PubMed database for prognostic studies using predefined inclusion criteria to ascertain the prognostic value of COX-1 and COX-2 in malignant canine and feline neoplasias. A total of 18 eligible studies were identified and analyzed."
 evidence_policy:
@@ -65,6 +67,14 @@ It clarifies the prognostic utility of COX isoforms in feline oncology, distingu
 * Standardization of COX immunohistochemical evaluation methodologies by tumor type is required to resolve high inter-study heterogeneity.
 
 ## Study Design Details
+
+### PRISMA Flowchart
+
+![PRISMA Flowchart](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-003-fig1-prisma.jpg)
+
+### Risk of Bias Summary
+
+![Risk of Bias Summary](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-003-fig2-bias.jpg)
 
 ### Cohort Summary
 
