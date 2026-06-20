@@ -1075,7 +1075,7 @@ def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
             takeaway_text = takeaway_text[:297] + "..."
         lines.append(f"   **Takeaway:** {takeaway_text}")
 
-    return "\n".join(lines)
+    return "\n\n".join(lines)
 
 
 def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> str:
@@ -1141,7 +1141,7 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
             takeaway_text = takeaway_text[:247] + '...'
         lines.append(f"   **Takeaway:** {takeaway_text}")
 
-    return "\n".join(lines)
+    return "\n\n".join(lines)
 
 
 def _build_english_output(
