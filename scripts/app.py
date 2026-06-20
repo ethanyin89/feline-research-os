@@ -2284,6 +2284,25 @@ def run_app_local_query_core(
                 loaded_paths.add(path)
                 if sid not in loaded_source_ids:
                     loaded_source_ids.append(sid)
+
+        # Collect figures from disk that match any of the loaded_source_ids
+        figures_used = []
+        if disease:
+            images_dir = VAULT_ROOT / "raw" / "images" / disease.lower()
+            if images_dir.exists():
+                for file_path in images_dir.iterdir():
+                    if file_path.is_file() and file_path.name.startswith("src-"):
+                        # Find which source id it matches
+                        for sid in loaded_source_ids:
+                            if file_path.name.startswith(sid):
+                                rel_path = f"raw/images/{disease.lower()}/{file_path.name}"
+                                figures_used.append({
+                                    "source_id": sid,
+                                    "file": rel_path,
+                                    "described_in_answer": True
+                                })
+                                break
+
         return {
             "answer": answer,
             "source_ids": loaded_source_ids,
@@ -2291,7 +2310,7 @@ def run_app_local_query_core(
             "disease": disease,
             "question_type": "research_search",
             "hops_used": 0,
-            "figures_used": [],
+            "figures_used": figures_used,
             "external_search_trace": None,
             "est_tokens": 0,
         }

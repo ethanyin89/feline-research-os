@@ -650,6 +650,72 @@ def _to_chinese_research_text(text: str) -> str:
         "feline hcm is primarily related to mutations in the mybpc3 and myh7 genes": "摘要指出，猫 HCM 主要与 MYBPC3 和 MYH7 基因突变相关。",
         "targeted pharmacology for hcm with lvot obstruction": "摘要将该研究定位为 HCM 合并左心室流出道梗阻的靶向药理学研究，因此肌节靶向干预应作为明确的转化研究分支。",
         "left-ventricular outflow tract obstruction is present in approximately two-thirds": "摘要指出，左心室流出道梗阻在人类 HCM 患者中较常见，并会显著增加疾病并发症风险；这为猫 HCM 的转化治疗研究提供背景。",
+
+        # src-ckd-030
+        "the open full article reports a single-arm eight-week pilot: 12 cats enrolled, 6 completed, and 6 dropped out": "公开全文报告了一项为期8周的单臂试点研究：12只猫入组，6只完成，6只脱落。",
+        "the six completers included one stage 2 and five stage 3 ckd cats": "完成试验的6只猫包括1只2期和5只3期慢性肾脏病（CKD）猫。",
+        "plasma tmao, indoxyl sulfate, p-cresyl sulfate, and phenyl sulfate changes were not statistically significant; serum phosphate significantly increased": "血浆 TMAO、硫酸吲哚酚、硫酸对甲酚及苯基硫酸盐的变化无统计学显著性；血清磷显著增加。",
+        "the study supports feasibility and trial-design learning for paired microbiome, toxin, renal, and owner-reported endpoints": "该研究支持了配对微生物组、毒素、肾脏及主人报告终点的可行性和试验设计经验。",
+        "it does not demonstrate probiotic efficacy, uremic-toxin reduction, or controlled ckd improvement": "它未能证实益生菌疗效、尿毒素降低或对照下的慢性肾脏病（CKD）改善。",
+        "microbiome changes and creatinine movement remain hypothesis-generating because there was no control group and only six completers": "由于缺乏对照组且仅有6只猫完成，微生物组的变化和肌酐的波动仍仅具有假设生成意义。",
+        "single-arm six-completer probiotic-treat pilot that is useful for endpoint and failure-mode design, but insufficient for efficacy claims": "单臂、6例完成者的益生菌零食试点研究，有助于终点和失败模式设计，但不足以证实临床疗效。",
+
+        # src-ckd-128
+        "this study evaluated urinary levels of fgf23 (ufgf23) and soluble α-klotho (ukl) in cats across various stages of chronic kidney disease (ckd), including acute decompensated chronic kidney disease (ackd)": "本研究评估了不同阶段慢性肾脏病（CKD）猫（包括急性失代偿性慢性肾脏病 ACKD）的尿液 FGF23（uFGF23）和可溶性 α-Klotho（uKL）水平。",
+        "the study cohort included 112 cats (13 healthy control cats, 71 cats with ckd, and 28 cats with ackd)": "研究队列包括112只猫（13只健康对照猫，71只 CKD 猫和28只 ACKD 猫）。",
+        "the ufgf23-to-urine-creatinine ratio was significantly increased in cats with late-stage ckd and ackd compared to healthy controls and early-stage ckd cats": "与健康对照和早期 CKD 猫相比，晚期 CKD 和 ACKD 猫 of uFGF23 与尿肌酐比值显著升高。",
+        "lower levels of ukl were identified as an independent prognostic factor for the progression of feline ckd": "较低的 uKL 水平被确定为猫 CKD 进展的独立预后因素。",
+        "the urinary klotho/fgf23 ratio showed a progressive decline as the disease advanced": "随着疾病的进展，尿液 Klotho/FGF23 比值呈现进行性下降。",
+        "ufgf23, ukl, and their ratio can serve as useful biomarkers for evaluating and predicting the progression of chronic kidney disease in cats": "尿液 FGF23（uFGF23）、可溶性 α-Klotho（uKL）及其比值可作为评估和预测猫慢性肾脏病进展的有益生物标志物。",
+        "these biomarkers reflect renal mineral and bone disorder (ckd-mbd) pathophysiology in feline ckd": "这些生物标志物反映了猫慢性肾脏病中肾性骨矿物质代谢紊乱（CKD-MBD）的病理生理学。",
+        "ukl holds promise as a negative prognostic marker, meaning lower urinary excretion of soluble klotho correlates with a higher risk of disease progression": "uKL 有望作为阴性预后标志物，即尿液中可溶性 Klotho 排泄量减少与更高的疾病进展风险相关。",
+        "this study demonstrates that urinary fgf23 and soluble α-klotho levels, as well as their ratio, are altered across different stages of feline ckd (including ackd), and lower ukl is an independent prognostic factor for ckd progression": "该研究表明，尿液 FGF23 和可溶性 α-Klotho 水平及其比值在猫 CKD（包括 ACKD）的不同阶段发生改变，且较低的 uKL 是 CKD 进展的独立预后因素。",
+
+        # src-hcm-169
+        "the study investigated left ventricular (lv) longitudinal systolic function in cats with hypertrophic cardiomyopathy (hcm) compared to healthy control cats using tissue motion annular displacement (tmad)": "该研究使用组织运动环向位移（TMAD）调查了肥厚型心肌病（HCM）猫与健康对照猫的左心室纵向收缩功能。",
+        "the prospective study included 21 cats with hcm and 26 healthy control cats": "该项前瞻性研究包括21只 HCM 猫和26只健康对照猫。",
+        "both global tmad (in mm) and percentage (%) global tmad were significantly decreased in cats with hcm compared to the control group (p <0.001)": "与对照组相比，HCM 猫的全局 TMAD（毫米）和百分比全局 TMAD 均显著降低（P <0.001）。",
+        "global tmad and % global tmad measurements were not influenced by breed, sex, age, or heart rate": "全局 TMAD 和百分比全局 TMAD 测量值不受品种、性别、年龄或心率的影响。",
+        "tmad is a sensitive and feasible method for evaluating left ventricular longitudinal systolic function in cats with hcm": "组织运动环向位移（TMAD）是评估猫肥厚型心肌病（HCM）左心室纵向收缩功能的一种敏感且可行的方法。",
+        "tmad can detect myocardial longitudinal systolic dysfunction in hcm cats even when conventional parameters like fractional shortening (lvfs) remain normal": "即使在传统参数（如左心室缩短分数 LVFS）保持正常时，TMAD 也能检测到 HCM 猫的心肌纵向收缩功能障碍。",
+        "tmad provides an efficient speckle-tracking based surrogate for assessing subclinical systolic impairment in cats before overt global systolic failure develops": "TMAD 提供了一种高效的基于斑点追踪的替代方法，用于在猫出现明显的全局收缩衰竭之前评估亚临床收缩损伤。",
+        "this study demonstrates that left ventricular longitudinal systolic function, measured via tissue motion annular displacement (tmad), is significantly decreased in cats with hcm compared to healthy controls, independent of breed, sex, age, or heart rate": "该研究表明，与健康对照组相比，HCM 猫通过组织运动环向位移（TMAD）测量的左心室纵向收缩功能显著降低，且不受品种、性别、年龄或心率的影响。",
+
+        # src-fip-070
+        "the study described the outcomes of 307 cats with feline infectious peritonitis (fip) treated with legally sourced veterinary compounded preparations of remdesivir and gs-441524 in the uk": "该研究描述了英国307只使用合法来源的兽用复配瑞德西韦和 GS-441524 制剂治疗的猫传染性腹膜炎（FIP）猫的治疗结局。",
+        "at the end of the initial treatment period, 88.6% of the cats were alive": "在初始治疗期结束时，88.6% 的猫存活。",
+        "the overall survival rate at the longest follow-up point (median 248 days) was 84.4%": "在最长随访点（中位数 248 天）的总体存活率为 84.4%。",
+        "survival to 6 months was approximately 86% overall, and increased to 96% for cats surviving the first 48 hours of treatment": "总体 6 个月存活率约为 86%，对于度过治疗最初 48 小时关键期的猫，存活率升至 96%。",
+        "the most common forms of fip were abdominal effusive (49.5%) and neurological fip (14.3%)": "最常见的 FIP 形式是腹部渗出型（49.5%）和神经型 FIP（14.3%）。",
+        "three treatment protocols evaluated were remdesivir alone (33.9%), remdesivir followed by gs-441524 (55.7%), and gs-441524 alone (10.4%)": "评估的三种治疗方案为单独使用瑞德西韦（33.9%）、瑞德西韦后接续 GS-441524（55.7%）以及单独使用 GS-441524（10.4%）。",
+        "regulated veterinary compounded preparations of remdesivir and gs-441524 are highly effective and well-tolerated for the treatment of fip": "受监管的兽用复配瑞德西韦和 GS-441524 制剂治疗 FIP 高度有效且耐受性良好。",
+        "cats surviving the initial critical 48 hours of antiviral therapy have a highly favorable long-term prognosis (96% survival)": "在抗病毒治疗最初关键的 48 小时内存活下来的猫具有极佳的长期预后（存活率达 96%）。",
+        "transitioning from injectable remdesivir to oral gs-441524 represents a safe and effective clinical protocol that minimizes injection-site reactions and owner distress while maintaining efficacy": "从注射用瑞德西韦过渡到口服 GS-441524 代表了一种安全且临床有效的方案，能在保持疗效的同时最大程度地减少注射部位反应和宠物主人的焦虑。",
+        "this retrospective study of 307 cats with fip demonstrates high treatment efficacy (88.6% survival at initial treatment end and 96% 6-month survival for those surviving the first 48 hours) using legally compounded remdesivir and gs-441524": "这项针对 307 只 FIP 猫的回顾性研究表明，使用合法复配的瑞德西韦和 GS-441524 具有极高疗效（初始治疗结束时存活率达 88.6%，通过前 48 小时关键期的猫 6 个月存活率达 96%）。",
+
+        # src-diabetes-035
+        "the sensation study was a prospective, multicenter clinical field trial evaluating the safety and effectiveness of velagliflozin as a once-daily, liquid, oral stand-alone therapy in 252 client-owned diabetic cats": "SENSATION 研究是一项前瞻性、多中心临床现场试验，评估了维拉格列净作为每日一次液态口服独立疗法在 252 只宠物糖尿病猫中的安全性和有效性。",
+        "at day 180, 81% of the cats remaining in the study achieved glycemic reference ranges (blood glucose and/or fructosamine)": "在第 180 天，留在研究中的 81% 的猫实现了血糖控制（血糖和/或果糖胺达到参考范围）。",
+        "clinical signs of diabetes improved significantly, including polyuria (88.6%) and polydipsia (87.7%)": "糖尿病的临床症状显著改善，包括多尿（88.6%）和多饮（87.7%）。",
+        "improvement was also observed in cats with diabetic neuropathy-associated plantigrade stance": "在伴有糖尿病神经病变相关跗关节下地（跖行姿势）的猫中也观察到了改善。",
+        "ketonuria occurred in 13.9% of cats, and diabetic ketoacidosis (dka) was reported in 7.1%": "13.9% 的猫出现了酮尿症，有报道 7.1% 的猫发生了糖尿病酮症酸中毒（DKA）。",
+        "the risk of dka was significantly higher in cats previously treated with insulin (18.4%) compared to insulin-naïve cats (5.1%)": "与未接受过胰岛素治疗的猫（5.1%）相比，既往接受过胰岛素治疗的猫发生 DKA 的风险显著升高（18.4%）。",
+        "no episodes of clinical hypoglycemia were observed during the study": "研究期间未观察到临床低血糖发作。",
+        "velagliflozin is highly effective as a once-daily oral stand-alone therapy for feline diabetes mellitus, providing rapid glycemic control and clinical sign resolution": "维拉格列净作为每日一次的口服独立疗法治疗猫糖尿病高度有效，能提供快速的血糖控制和临床症状改善。",
+        "cats previously treated with insulin carry a significantly higher risk of developing diabetic ketoacidosis when starting or switching to sglt2 inhibitors": "既往接受过胰岛素治疗的猫在开始或转换使用 SGLT2 抑制剂时，发生糖尿病酮症酸中毒（DKA）的风险显著升高。",
+        "the safety profile of sglt2 inhibitors requires strict monitoring for ketosis and dka, especially during the first 14 days of therapy": "SGLT2 抑制剂的安全性需要对酮症 and DKA 进行严格监测，特别是在治疗的最初 14 天内。",
+        "velagliflozin provides an attractive, high-compliance alternative to twice-daily insulin injections for newly diagnosed, stable diabetic cats without ketonuria": "维拉格列净为新诊断、无酮尿症的稳定糖尿病猫提供了一种有吸引力、依从性高的替代方案，可替代每日两次的胰岛素注射。",
+        "the sensation study shows that once-daily oral velagliflozin is highly effective for feline diabetes mellitus, achieving glycemic control in 81% of cats by day 180, but requires vigilance due to a 7.1% risk of dka (higher in insulin-experienced cats)": "SENSATION 研究表明，每日一次口服维拉格列净治疗猫糖尿病高度有效，在第 180 天时使 81% 的猫实现了血糖控制，但由于存在 7.1% 的 DKA 风险（在接受过胰岛素治疗的猫中更高）需要保持警惕。",
+
+        # src-obesity-039
+        "the study investigated the prevalence of overweight and obese cats visiting veterinary hospitals in maisons-alfort and toulouse, france, between 2020 and 2022": "该研究调查了 2020 至 2022 年间就诊于法国迈松阿尔福和图卢兹兽医医院的超重和肥胖猫的患病率。",
+        "out of 274 cats studied, 47.5% were found to be overweight or obese": "在研究的 274 只猫中，发现有 47.5% 超重或肥胖。",
+        "the remaining study population consisted of 43.4% cats with an ideal body condition and 9.1% underweight cats": "其余研究人群由 43.4% 具有理想体况的猫和 9.1% 体重不足的猫组成。",
+        "factors positively associated with overweight status included age, being crossbred, being male, and owner underestimation of their cat's body condition": "与超重状态呈正相关的因素包括年龄、混血品种、公猫以及宠物主人对猫体况的低估。",
+        "feline overweight and obesity represent a highly prevalent health concern in french veterinary hospital populations, affecting nearly half of all visiting cats": "猫超重和肥胖是法国兽医医院就诊猫群中高度普遍的健康问题，影响了近一半的就诊猫只。",
+        "owner underestimation of body condition is a critical risk factor, indicating that owner education is key to preventing feline obesity": "宠物主人低估猫的体况是一个关键的风险因素，表明主人教育是预防猫肥胖的关键。",
+        "during the covid-19 pandemic, lifestyle factors, close confinement with owners, and owner misperceptions of feline body condition likely exacerbated weight gain in domestic cats": "在 COVID-19 疫情期间，生活方式因素、与主人的密切接触以及主人对猫体况的误解，可能加剧了家猫的体重增加。",
+        "this study conducted in french veterinary hospitals between 2020 and 2022 shows that 47.5% of cats are overweight or obese, with risk factors including age, crossbred status, male sex, and owner underestimation of body condition": "这项 2020 至 2022 年在法国兽医医院进行的研究显示，47.5% 的猫超重或肥胖，其风险因素包括年龄、混血品种、公猫以及主人对体况的低估。",
     }
     for needle, zh in exact_meaning_map.items():
         if needle in lowered:
@@ -890,6 +956,17 @@ def _chinese_reading_hook(card: SourceCard) -> str:
     It uses extracted summaries/conclusions/facts where available, then falls
     back to theme-specific hooks without overstating evidence.
     """
+    if card.verification_status == "deep_extracted":
+        conclusion = _first_non_placeholder(card.supported_conclusions or [])
+        if conclusion:
+            translated = _acceptable_chinese_snippet(conclusion)
+            if translated:
+                return translated
+        if card.one_line_summary:
+            translated = _acceptable_chinese_snippet(card.one_line_summary)
+            if translated:
+                return translated
+
     text = " ".join(
         value for value in [
             card.one_line_summary or "",
@@ -902,7 +979,7 @@ def _chinese_reading_hook(card: SourceCard) -> str:
     lower = text.lower()
 
     if any(term in lower for term in ["single-arm", "pilot", "completer", "dropout", "dropped out"]):
-        return "值得读的是它暴露了干预研究的真实难点：入组、脱落、端点选择和主人报告都可能决定试验是否站得住，而不是只看标题里的“有效性”。"
+        return "值得读的是它暴露了干预研究的真实难点：入组、脱落、端点选择 and 主人报告都可能决定试验是否站得住，而不是只看标题里的“有效性”。"
     if any(term in lower for term in ["proteinuria", "upc"]):
         return "值得读的是它把早期风险分层前移到看似边界的临床信号，适合判断哪些猫需要更密集随访。"
     if any(term in lower for term in ["machine-learning", "machine learning", "3-hydroxykynurenine", "biomarker", "metabolite model"]):
@@ -935,6 +1012,20 @@ def _chinese_key_finding(card: SourceCard) -> str:
     conclusion = _first_non_placeholder(card.supported_conclusions or [])
     summary = card.one_line_summary if card.one_line_summary and not _is_placeholder_content(card.one_line_summary) else None
     fact = _first_non_placeholder(card.quoted_facts or [])
+
+    if card.verification_status == "deep_extracted":
+        if summary:
+            translated = _acceptable_chinese_snippet(summary)
+            if translated:
+                return translated
+        if conclusion:
+            translated = _acceptable_chinese_snippet(conclusion)
+            if translated:
+                return translated
+        if fact:
+            translated = _acceptable_chinese_snippet(fact)
+            if translated:
+                return translated
 
     if conclusion:
         translated = _acceptable_chinese_snippet(conclusion)
