@@ -1012,70 +1012,39 @@ def _acceptable_chinese_snippet(text: str) -> Optional[str]:
 
 
 def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
-    """Format a paper as a professional Chinese research-summary entry matching the clean agent.ii.inc academic citation layout."""
+    """Format a paper as a professional Chinese research-summary entry."""
     lines: list[str] = []
-
-    # Line 1: Author, et al. *Title.* Journal. Year.
-    author_str = ""
+    year = f"（{card.year}）" if card.year else ""
+    journal = f"｜{card.journal}" if card.journal else ""
+    author = ""
     if card.authors:
-        if len(card.authors) == 1:
-            author_str = f"{card.authors[0]}. "
-        elif len(card.authors) == 2:
-            author_str = f"{card.authors[0]} & {card.authors[1]}. "
-        else:
-            author_str = f"{card.authors[0]}, et al. "
+        author = f"{card.authors[0]} 等｜" if len(card.authors) > 1 else f"{card.authors[0]}｜"
 
-    journal_str = f" {card.journal}." if card.journal else ""
-    year_str = f" {card.year}." if card.year else ""
+    evidence = _evidence_level_label(card.evidence_level)
+    kind = _source_kind_label(card.source_kind)
+    themes = _theme_labels(card)
+    theme_text = "、".join(themes) if themes else "该疾病研究"
 
-    lines.append(f"{index}. {author_str}*{card.title}.*{journal_str}{year_str}")
-
-    # Line 2: URL
+    lines.append(f"### {index}. {card.title}")
+    lines.append("")
+    meta_bits = [bit for bit in [author.rstrip("｜"), str(card.year or ""), card.journal or "", evidence, kind, theme_text] if bit]
+    if meta_bits:
+        lines.append(f"**文献信息：** {'｜'.join(meta_bits)}")
+        lines.append("")
     link = _source_link(card)
     if link:
-        lines.append(f"   URL: {link}")
+        lines.append(f"**链接：** {link}")
+        lines.append("")
 
-    # Line 3: Why it matters
-    why_val = _chinese_reading_hook(card)
-    if not why_val or _is_placeholder_content(why_val):
-        if card.supported_conclusions:
-            for conclusion in card.supported_conclusions:
-                if not _is_placeholder_content(conclusion):
-                    why_val = _to_chinese_research_text(conclusion)
-                    break
-    if why_val and not _is_placeholder_content(why_val):
-        lines.append(f"   **Why it matters:** {why_val}")
+    lines.append(f"**为什么值得读：** {_chinese_reading_hook(card)}")
+    lines.append("")
+    lines.append(f"**关键发现：** {_chinese_key_finding(card)}")
+    lines.append("")
+    lines.append(f"**证据边界：** {_chinese_evidence_boundary(card)}")
+    lines.append("")
+    lines.append(f"**临床相关性：** {_chinese_clinical_relevance(card)}")
 
-    # Line 4: Takeaway
-    findings = _chinese_key_finding(card)
-    boundary = _chinese_evidence_boundary(card)
-    relevance = _chinese_clinical_relevance(card)
-
-    takeaway_parts = []
-    if findings and not _is_placeholder_content(findings):
-        takeaway_parts.append(findings)
-    if relevance and not _is_placeholder_content(relevance):
-        takeaway_parts.append(relevance)
-    if boundary and not _is_placeholder_content(boundary):
-        takeaway_parts.append(f"【证据边界：{boundary}】")
-
-    takeaway_text = " ".join(takeaway_parts).strip()
-    if not takeaway_text:
-        summary = card.one_line_summary
-        if summary and not _is_placeholder_content(summary):
-            takeaway_text = _to_chinese_research_text(summary)
-        elif card.quoted_facts:
-            for fact in card.quoted_facts:
-                if not _is_placeholder_content(fact):
-                    takeaway_text = _to_chinese_research_text(fact)
-                    break
-
-    if takeaway_text:
-        if len(takeaway_text) > 300:
-            takeaway_text = takeaway_text[:297] + "..."
-        lines.append(f"   **Takeaway:** {takeaway_text}")
-
-    return "\n\n".join(lines)
+    return "\n".join(lines)
 
 
 def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> str:
@@ -1109,39 +1078,44 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
     journal_str = f" {card.journal}." if card.journal else ""
     year_str = f" {card.year}." if card.year else ""
 
+    # Main citation line
     lines.append(f"{index}. {author_str}*{card.title}.*{journal_str}{year_str}")
 
-    # Line 2: URL
+    # Line 2: URL (DOI preferred, then PMID, then PMCID, then source URL)
     link = _source_link(card)
     if link:
         lines.append(f"   URL: {link}")
 
-    # Line 3: Why it matters
+    # Line 3: Why it matters (from supported_conclusions - skip placeholders)
     why_shown = False
     if card.supported_conclusions:
         for conclusion in card.supported_conclusions:
             if not _is_placeholder_content(conclusion):
-                lines.append(f"   **Why it matters:** {conclusion}")
+                why_label = "**要点：**" if chinese else "**Why it matters:**"
+                why_text = _to_chinese_research_text(conclusion) if chinese else conclusion
+                lines.append(f"   {why_label} {why_text}")
                 why_shown = True
                 break
 
-    # Line 4: Takeaway
+    # Line 4: Takeaway (from one_line_summary or quoted_facts - skip placeholders)
     takeaway = None
     if card.one_line_summary and not _is_placeholder_content(card.one_line_summary):
         takeaway = card.one_line_summary
     elif card.quoted_facts:
+        # Find first non-placeholder quoted fact
         for fact in card.quoted_facts:
             if not _is_placeholder_content(fact):
                 takeaway = fact
                 break
 
     if takeaway:
-        takeaway_text = takeaway
-        if len(takeaway_text) > 250:
-            takeaway_text = takeaway_text[:247] + '...'
-        lines.append(f"   **Takeaway:** {takeaway_text}")
+        takeaway_label = "**总结：**" if chinese else "**Takeaway:**"
+        # Truncate if too long
+        takeaway_text = _to_chinese_research_text(takeaway) if chinese else takeaway
+        takeaway_text = takeaway_text[:250] + '...' if len(takeaway_text) > 250 else takeaway_text
+        lines.append(f"   {takeaway_label} {takeaway_text}")
 
-    return "\n\n".join(lines)
+    return "\n".join(lines)
 
 
 def _build_english_output(

@@ -3555,6 +3555,162 @@ def scroll_to_latest_research_result() -> None:
     )
 
 
+def format_to_agent_ii_style(text: str) -> str:
+    """
+    Transform rigid markdown structures into the clean, indented agent.ii.inc academic citation style.
+
+    Translates:
+    - Chinese structured blocks (### [index]. Title, 文献信息, 链接, 为什么值得读, 关键发现, 证据边界, 临床相关性)
+    - English structured blocks (e.g. 1. Author... URL:... **Why it matters:**... **Takeaway:**... joined as single paragraph)
+    into formatted paragraphs with soft line breaks and indents.
+    """
+    import re
+
+    lines = text.splitlines()
+    new_lines = []
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+
+        # Match a Chinese paper entry header
+        match_zh = re.match(r"^###\s+(\d+)\.\s+(.*)", line)
+
+        # Match an English paper entry header
+        match_en = re.match(r"^(\d+)\.\s+(.*)", line) if not match_zh else None
+
+        if match_zh:
+            index = match_zh.group(1)
+            title = match_zh.group(2).strip()
+
+            # Read subsequent lines of this paper entry
+            entry_lines = []
+            i += 1
+            while i < len(lines) and not re.match(r"^###\s+\d+\.", lines[i]) and not lines[i].startswith("## ") and not lines[i].startswith("---"):
+                entry_lines.append(lines[i])
+                i += 1
+
+            # Parse fields from entry_lines
+            meta_info = ""
+            link = ""
+            why_it_matters = ""
+            key_finding = ""
+            boundary = ""
+            relevance = ""
+
+            for el in entry_lines:
+                el_stripped = el.strip()
+                if el_stripped.startswith("**文献信息：**"):
+                    meta_info = el_stripped.replace("**文献信息：**", "").strip()
+                elif el_stripped.startswith("**链接：**"):
+                    link = el_stripped.replace("**链接：**", "").strip()
+                elif el_stripped.startswith("**为什么值得读：**"):
+                    why_it_matters = el_stripped.replace("**为什么值得读：**", "").strip()
+                elif el_stripped.startswith("**关键发现：**"):
+                    key_finding = el_stripped.replace("**关键发现：**", "").strip()
+                elif el_stripped.startswith("**证据边界：**"):
+                    boundary = el_stripped.replace("**证据边界：**", "").strip()
+                elif el_stripped.startswith("**临床相关性：**"):
+                    relevance = el_stripped.replace("**临床相关性：**", "").strip()
+
+            # Reconstruct meta/author details
+            meta_parts = [p.strip() for p in meta_info.split("｜") if p.strip()]
+            author = ""
+            year = ""
+            journal = ""
+
+            if len(meta_parts) >= 1:
+                author = meta_parts[0]
+            if len(meta_parts) >= 2:
+                year = meta_parts[1]
+            if len(meta_parts) >= 3:
+                journal = meta_parts[2]
+
+            author_str = f"{author}. " if author else ""
+            journal_str = f" {journal}." if journal else ""
+            year_str = f" {year}." if year else ""
+
+            # Citation line
+            new_lines.append(f"{index}. {author_str}*{title}.*{journal_str}{year_str}")
+
+            # Indented details with soft breaks
+            if link:
+                new_lines.append(f"   URL: {link}")
+            if why_it_matters:
+                new_lines.append(f"   **Why it matters:** {why_it_matters}")
+
+            takeaway_parts = []
+            if key_finding:
+                takeaway_parts.append(key_finding)
+            if relevance:
+                takeaway_parts.append(relevance)
+            if boundary:
+                takeaway_parts.append(f"【证据边界：{boundary}】")
+
+            takeaway_text = " ".join(takeaway_parts).strip()
+            if takeaway_text:
+                new_lines.append(f"   **Takeaway:** {takeaway_text}")
+
+            new_lines.append("")
+
+        elif match_en:
+            index = match_en.group(1)
+            content = match_en.group(2).strip()
+
+            entry_lines = [content]
+            i += 1
+            while i < len(lines) and not re.match(r"^\d+\.", lines[i]) and not lines[i].startswith("## ") and not lines[i].startswith("---"):
+                entry_lines.append(lines[i])
+                i += 1
+
+            full_entry = " ".join(entry_lines)
+
+            # Extract components
+            url_val = ""
+            why_val = ""
+            takeaway_val = ""
+
+            url_match = re.search(r"\bURL:\s*(\S+)", full_entry)
+            why_match = re.search(r"\*\*Why it matters:\*\*\s*(.*?)(?=\*\*Takeaway:\*\*|\bURL:|$)", full_entry)
+            takeaway_match = re.search(r"\*\*Takeaway:\*\*\s*(.*)", full_entry)
+
+            cut_idx = len(full_entry)
+            if url_match:
+                cut_idx = min(cut_idx, url_match.start())
+                url_val = url_match.group(1).strip()
+            if why_match:
+                cut_idx = min(cut_idx, why_match.start())
+                why_val = why_match.group(1).strip()
+            if takeaway_match:
+                cut_idx = min(cut_idx, takeaway_match.start())
+                takeaway_val = takeaway_match.group(1).strip()
+
+            citation = full_entry[:cut_idx].strip()
+
+            new_lines.append(f"{index}. {citation}")
+            if url_val:
+                new_lines.append(f"   URL: {url_val}")
+            if why_val:
+                new_lines.append(f"   **Why it matters:** {why_val}")
+            if takeaway_val:
+                new_lines.append(f"   **Takeaway:** {takeaway_val}")
+
+            new_lines.append("")
+        else:
+            new_lines.append(line)
+            i += 1
+
+        # Post-process to ensure trailing double-spaces for soft break inside list item
+    final_lines = []
+    for idx, l in enumerate(new_lines):
+        if l.strip() and (l.startswith("   ") or re.match(r"^\d+\.", l)) and idx + 1 < len(new_lines) and new_lines[idx+1].startswith("   "):
+            final_lines.append(l + "  ")
+        else:
+            final_lines.append(l)
+
+    return "\n".join(final_lines)
+
+
 def render_answer_block_v2(
     answer: str,
     confidence: str,
@@ -3639,6 +3795,9 @@ def render_answer_block_v2(
 
     # Render translated provenance with paper titles, never internal source IDs.
     cleaned_answer = strip_legacy_footer(display_answer)
+    if question_type == "research_search":
+        cleaned_answer = format_to_agent_ii_style(cleaned_answer)
+
     visible_answer = render_user_facing_provenance(
         cleaned_answer,
         presentation.source_cards,
@@ -4856,7 +5015,9 @@ st.markdown(
 
     /* Elegant serif typography for primary body text matching agent.ii.inc */
     .block-container [data-testid="stMarkdownContainer"] p,
-    .block-container [data-testid="stMarkdownContainer"] li {
+    .block-container [data-testid="stMarkdownContainer"] li,
+    .block-container [data-testid="stMarkdownContainer"] p *,
+    .block-container [data-testid="stMarkdownContainer"] li * {
       font-family: 'Crimson Pro', 'Georgia', 'Times New Roman', serif !important;
       font-size: 16.5px !important;
       line-height: 1.8 !important;
