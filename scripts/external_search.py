@@ -163,6 +163,28 @@ def _fetch_pubmed_details(pmids: list[str], timeout: int) -> list[ExternalSearch
     }
     url = f"{base_url}?{urllib.parse.urlencode(params)}"
 
+    # Fetch abstracts via efetch (batch request)
+    abstracts_map = {}
+    efetch_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={','.join(pmids)}&retmode=xml"
+    try:
+        req = urllib.request.Request(efetch_url, headers={"User-Agent": "feline-research-os/1.0"})
+        with urllib.request.urlopen(req, timeout=timeout) as response:
+            xml_data = response.read().decode("utf-8")
+        articles = re.findall(r"<PubmedArticle>.*?</PubmedArticle>", xml_data, re.DOTALL)
+        for art in articles:
+            pmid_match = re.search(r"<PMID[^>]*>(\d+)</PMID>", art)
+            if pmid_match:
+                p_id = pmid_match.group(1)
+                abstract_parts = []
+                for match in re.finditer(r"<AbstractText[^>]*>(.*?)</AbstractText>", art, re.DOTALL):
+                    text = match.group(1)
+                    text = re.sub(r"<[^>]+>", "", text)
+                    abstract_parts.append(text.strip())
+                if abstract_parts:
+                    abstracts_map[p_id] = " ".join(abstract_parts)
+    except Exception as e:
+        print(f"Error fetching abstracts via efetch: {e}")
+
     try:
         with urllib.request.urlopen(url, timeout=timeout) as response:
             data = json.loads(response.read().decode("utf-8"))
@@ -188,7 +210,7 @@ def _fetch_pubmed_details(pmids: list[str], timeout: int) -> list[ExternalSearch
                 year=article.get("pubdate", "")[:4],
                 doi=doi,
                 pmid=pmid,
-                abstract="",  # Summary endpoint doesn't include abstract
+                abstract=abstracts_map.get(pmid, ""),
                 journal=article.get("fulljournalname", ""),
                 relevance_score=1.0 - (i / len(pmids)),  # Rank-based score
             ))
@@ -227,13 +249,18 @@ def search_crossref(query: str, config: ExternalSearchConfig) -> ExternalSearchR
     import time
     start = time.time()
 
-    base_url = "https://api.crossref.org/works"
-    params = {
-        "query": query,
-        "rows": config.max_results,
-        "filter": "type:journal-article",
-    }
-    url = f"{base_url}?{urllib.parse.urlencode(params)}"
+    # Detect direct DOI query to fetch exact metadata
+    is_doi = bool(re.match(r"^10\.\d{4,9}/[-._;()/:A-Z0-9]+$", query.strip(), re.I))
+    if is_doi:
+        url = f"https://api.crossref.org/works/{urllib.parse.quote(query.strip())}"
+    else:
+        base_url = "https://api.crossref.org/works"
+        params = {
+            "query": query,
+            "rows": config.max_results,
+            "filter": "type:journal-article",
+        }
+        url = f"{base_url}?{urllib.parse.urlencode(params)}"
 
     headers = {
         "User-Agent": "feline-research-os/1.0 (https://github.com/feline-research-os; mailto:research@example.com)",
@@ -244,8 +271,12 @@ def search_crossref(query: str, config: ExternalSearchConfig) -> ExternalSearchR
         with urllib.request.urlopen(req, timeout=config.timeout_seconds) as response:
             data = json.loads(response.read().decode("utf-8"))
 
-        items = data.get("message", {}).get("items", [])
-        total_found = data.get("message", {}).get("total-results", 0)
+        if is_doi:
+            items = [data.get("message", {})] if "message" in data else []
+            total_found = len(items)
+        else:
+            items = data.get("message", {}).get("items", [])
+            total_found = data.get("message", {}).get("total-results", 0)
 
         results = []
         for i, item in enumerate(items):

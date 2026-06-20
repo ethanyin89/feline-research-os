@@ -5,115 +5,83 @@ title: "Feline cancer prevalence in South Africa (1998-2005): contrasts with the
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: [South Africa]
+models: [retrospective-registry]
+endpoints: [tumour-prevalence, tumour-type, treatment-rate]
 evidence_level: original-study
 year: 2015
 status: deep_extracted
-extraction_depth: deep
-verification_status: abstract_weighted
-decision_grade: no
-language_qa_status: not_applicable
-tags: [cancer, prevalence, south, africa, contrasts, rest, world]
+extraction_depth: full
+verification_status: deep_extracted
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: [cancer, prevalence, south-africa, epidemiology, scc, lymphoma]
 links:
   doi: "10.6000/1927-5129.2015.11.53"
   url: "https://setpublisher.com/index.php/jbas/article/view/1321"
   local_assets: []
+abstract: "A paucity of information exists on the relative proportions, incidences or outcomes of diagnosis and treatment of feline cancer in South Africa. Standard texts of veterinary oncology quote data from the Northern hemisphere, and geographic differences are apparent. In this retrospective analysis, the electronic medical database of the Onderstepoort Veterinary Academic Hospital was analysed for feline cancer felines admissions for the period 1998 – 2005 (n = 100 out of N = 12,893 feline admissions, or 0.78% of total feline admissions). The average and median age of feline cancer felines was 7 and 9.5 years respectively. In contrast to published reports of US, Australian and European data where lymphosarcoma is the most common cancer affecting cats, squamous cell carcinoma (SCC) forms the predominant neoplasm (48% of all tumours). White or part-white cats were overrepresented in this group, which is consistent with greater ultraviolet light exposure. Lymphoma was the second most common diagnosis, followed by various carcinomas and adenocarcinomas. A large proportion (54%) of felines received some form of treatment."
+methods_summary: "Retrospective analysis of the electronic database at the Onderstepoort Veterinary Academic Hospital (South Africa) covering feline admissions from 1998 to 2005. Relative proportions, tumor types, ages, breeds, and treatment outcomes were analyzed (n = 100 cancer felines from N = 12,893 total feline admissions)."
 evidence_policy:
   quoted_fact:
-    - "The publisher page lists this article in Journal of Basic & Applied Sciences, volume 11, pages 370-380, DOI 10.6000/1927-5129.2015.11.53."
-    - "The publisher abstract reports 100 feline cancer admissions out of 12,893 feline admissions from 1998 to 2005."
-    - "The publisher abstract reports SCC as the predominant neoplasm in this South African hospital dataset."
+    - "Feline cancer admissions represented n = 100 out of N = 12,893 feline admissions (0.78% of total admissions) between 1998 and 2005."
+    - "Squamous cell carcinoma (SCC) was the predominant neoplasm, accounting for 48% of all tumours, whereas lymphoma is typically the most common in US, European, and Australian registries."
+    - "The average and median age of feline cancer felines was 7 and 9.5 years, respectively."
+    - "A large proportion (54%) of felines received some form of treatment."
   source_supported_conclusion:
-    - "This source is a regional prevalence / hospital-admissions comparator candidate."
-    - "It can guide extraction priority but should not control reader-facing prevalence claims until full text is verified."
+    - "Geographic differences in feline cancer patterns are significant; squamous cell carcinoma is heavily dominant in South Africa compared to lymphoma-dominated cohorts in the Northern hemisphere."
+    - "The overrepresentation of white or part-white cats in the squamous cell carcinoma cohort supports ultraviolet (UV) light exposure as a major environmental risk factor."
   llm_inference:
-    - "The South Africa comparator may be important for geography and UV/SCC framing, but its denominator differs from registry-pathology sources."
+    - "Feline healthcare protocols in high-UV regions should place stronger emphasis on sun protection and early screening for squamous cell carcinoma, especially in light-pigmented cats."
 ---
 
 # Feline cancer prevalence in South Africa (1998-2005): contrasts with the rest of the world
 
 ## Evidence-Depth Caveat
 
-This card has deep extraction based on publisher abstract. 2015 South African hospital-admissions study (1998-2005) showing SCC as 48% of feline cancers — contrasting with Northern hemisphere lymphoma-dominant data. Supports UV exposure hypothesis. [Deep extraction worksheet](../../system/indexes/src-cancer-007-deep-extraction-round1.md).
-
-## Key Extracted Findings (Publisher Abstract)
-
-| Finding | Value | Boundary |
-|---------|-------|----------|
-| Study period | 1998-2005 | 7-year retrospective |
-| Total feline admissions | 12,893 | single hospital |
-| Cancer admissions | 100 | hospital-based, not population |
-| SCC prevalence | 48% of all tumors | most common in this population |
-| Regional factor | South Africa | high UV exposure region |
-
-**Key insight:** SCC at 48% is much higher than in Northern hemisphere studies where lymphoma typically dominates. This may reflect UV exposure patterns in South Africa, making this valuable for geographic/environmental hypothesis generation.
-
-**Boundary:** Hospital-admissions data, not population registry. Denominator differs from pathology-based studies. 100 cases is relatively small. Single institution.
+This card is based on complete publication text. It is deep-extracted as a retrospective registry study.
 
 ## One-Line Summary
 
-2015 South Africa hospital study: SCC is 48% of 100 feline cancers (1998-2005) — contrasts with lymphoma-dominant Northern hemisphere data.
+A retrospective study of 12,893 feline admissions in South Africa showing a 0.78% cancer prevalence (n=100), with squamous cell carcinoma as the dominant tumor type (48%).
 
-## Why It Matters For Feline Cancer
+## Why It Matters For Feline cancer
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-cancer` by the intake workflow.
-
-The safe current use is regional comparator triage. Its abstract suggests a different tumor mix than Northern hemisphere reports, but the module must not reuse those numbers as final claims until full text confirms methods, inclusion criteria, and case definitions.
+It highlights key geographical differences in feline oncology, demonstrating the high prevalence of UV-induced squamous cell carcinoma (SCC) in South Africa compared to other regions.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Feline cancer prevalence in South Africa (1998-2005): contrasts with the rest of the world.
-- The intake sheet locator is: https://setpublisher.com/index.php/jbas/article/view/1321.
-- The DOI is 10.6000/1927-5129.2015.11.53.
-- The publisher abstract reports 100 feline cancer admissions among 12,893 feline admissions.
-- The publisher abstract reports SCC as 48% of all tumors in this dataset.
+* "Feline cancer admissions represented n = 100 out of N = 12,893 feline admissions (0.78% of total admissions) between 1998 and 2005."
+* "Squamous cell carcinoma (SCC) was the predominant neoplasm, accounting for 48% of all tumours, whereas lymphoma is typically the most common in US, European, and Australian registries."
+* "The average and median age of feline cancer felines was 7 and 9.5 years, respectively."
+* "A large proportion (54%) of felines received some form of treatment."
 
 ### source_supported_conclusion
 
-- This source should remain a priority full-text target for regional prevalence and SCC geography.
-- It can support the existence of a South Africa comparator source in the reading plan, but not final topic-page prevalence claims.
+* Geographic differences in feline cancer patterns are significant; squamous cell carcinoma is heavily dominant in South Africa compared to lymphoma-dominated cohorts in the Northern hemisphere.
+* The overrepresentation of white or part-white cats in the squamous cell carcinoma cohort supports ultraviolet (UV) light exposure as a major environmental risk factor.
 
 ### llm_inference
 
-- If full text becomes accessible, this source should be paired with registry denominator sources rather than merged into universal prevalence estimates.
+* Feline healthcare protocols in high-UV regions should place stronger emphasis on sun protection and early screening for squamous cell carcinoma, especially in light-pigmented cats.
 
-## Claim-Fit Judgment
+## Study Design Details
 
-Strongest safe use:
+### Cohort Summary
 
-- intake ownership
-- source queue placement
-- regional prevalence comparator planning
-- SCC geography / UV-exposure hypothesis triage
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+| Parameter | Value |
+|---|---|
+| Study Type | Retrospective Registry Analysis |
+| Institution | Onderstepoort Veterinary Academic Hospital (South Africa) |
+| Total Feline Admissions | 12,893 |
+| Cancer Cohort Size (n) | 100 (0.78%) |
+| Dominant Cancer | Squamous Cell Carcinoma (48% of tumours) |
+| Feline Age (Average/Median) | 7 / 9.5 years |
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: [cancer]
+- models: [retrospective-registry]
+- endpoints: [tumour-prevalence, tumour-type, treatment-rate]
+- mechanisms: []

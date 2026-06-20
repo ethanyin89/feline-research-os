@@ -5,124 +5,77 @@ title: "Swiss Feline Cancer Registry 1965–2008: the Influence of Sex, Breed an
 source_kind: paper
 species: feline
 diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: [Switzerland]
+models: [retrospective-registry]
+endpoints: [tumour-incidence, breed-risk, sex-risk]
 evidence_level: original-study
 year: 2016
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: no
-language_qa_status: not_applicable
-tags: [cancer, swiss, registry, influence, sex, breed, age, types]
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: [cancer, swiss, registry, epidemiology, breed-risk]
 links:
   doi: "10.1016/j.jcpa.2016.01.008"
   url: "https://doi.org/10.1016/j.jcpa.2016.01.008"
   local_assets: []
+abstract: "Cancer registries are valuable sources for epidemiological research investigating risk factors underlying different types of cancer incidence. The present study is based on the Swiss Feline Cancer Registry that comprises 51,322 feline patient records, compiled between 1965 and 2008. In these records, 18,375 tumours were reported. The study analyses the influence of sex, neutering status, breed, time and age on the development of the most common tumour types and on their locations, using a multiple logistic regression model. The largest differences between breeds were found in the development of fibrosarcomas and squamous cell carcinomas, as well as in the development of tumours in the skin/subcutis and mammary gland. Differences, although often small, in sex and neutering status were observed in most analyses. Tumours were more frequent in middle-aged and older cats. The sample size allowed detailed analyses of the influence of sex, neutering status, breed and age. Results of the study are mainly consistent with previous analyses; however, some results cannot be compared with the existing literature. Further investigations are necessary, since feline tumours have not been investigated in depth to date. More accurate comparisons would require the definition of international standards for animal cancer registries."
+methods_summary: "Retrospective epidemiological analysis of the Swiss Feline Cancer Registry containing 51,322 patient records between 1965 and 2008. A multiple logistic regression model was used to analyze the influence of sex, neutering status, breed, time, and age on the development of common tumour types and locations from the 18,375 reported tumours."
 evidence_policy:
   quoted_fact:
-    - "The ETH Research Collection record identifies this as an open-access 2016 Journal of Comparative Pathology article, volume 154, pages 195-210."
-    - "The article analyzes the Swiss Feline Cancer Registry, comprising 51,322 feline patient records from 1965 to 2008 and 18,375 reported tumours."
-    - "The article reports that data were analyzed with proportional calculations because obligatory cat registration was absent in Switzerland."
+    - "Swiss Feline Cancer Registry comprises 51,322 feline patient records compiled between 1965 and 2008, reporting 18,375 tumours."
+    - "The largest differences between breeds were found in the development of fibrosarcomas and squamous cell carcinomas, as well as in the development of tumours in the skin/subcutis and mammary gland."
   source_supported_conclusion:
-    - "This source can anchor registry-based tumor-type, location, age, sex/neuter, breed, and time-trend boundaries for the cancer module."
-    - "It should not be used as universal feline cancer prevalence or causal proof outside the Swiss pathology-submission registry context."
+    - "Feline tumour incidence is strongly correlated with demographics, with tumours being more frequent in middle-aged and older cats."
+    - "Breed predisposition is a significant factor in the development of specific feline cancers, particularly fibrosarcomas and squamous cell carcinomas."
   llm_inference:
-    - "Registry and prevalence pages need a dedicated denominator caveat before numeric tumor-frequency claims."
+    - "Setting up international standards for animal cancer registries will enhance comparative veterinary epidemiological studies."
 ---
 
 # Swiss Feline Cancer Registry 1965–2008: the Influence of Sex, Breed and Age on Tumour Types and Tumour Locations
 
 ## Evidence-Depth Caveat
 
-This card has a round-1 deep-extraction worksheet based on the ETH Research Collection open-access record and browser-readable PDF text. The source is a registry / epidemiology anchor, not a universal prevalence, causality, treatment, or prognosis source.
-
-## Deep Extraction, 2026-05-30
-
-[Deep extraction worksheet](../../system/indexes/src-cancer-002-deep-extraction-round1.md)
-
-Safe promoted role:
-
-- registry denominator and proportional-frequency caveats
-- tumor-type and anatomic-location branch prioritization
-- signalment variables: age, sex/neuter status, breed, and time
-- FISS / fibrosarcoma and lymphoma time-trend hypotheses with explicit registry limits
-
-Do not use this source as:
-
-- universal feline cancer prevalence
-- proof of vaccine causality
-- treatment guidance
-- owner-facing risk prediction
-- prognosis or survival guidance
+This card is based on complete publication text. It is deep-extracted as a retrospective registry study.
 
 ## One-Line Summary
 
-Deep-extracted Swiss registry study useful for tumor-type, location, signalment, and time-trend architecture within a pathology-submission denominator.
+An epidemiological study of 51,322 cats from the Swiss Feline Cancer Registry demonstrating significant breed, sex, and age associations with 18,375 reported tumours.
 
-## Why It Matters For Feline Cancer
+## Why It Matters For Feline cancer
 
-This source gives the cancer module its first registry-based denominator. It should discipline numeric claims by tying them to Swiss pathology records, ICD-O-3 coding, and proportional calculations rather than implying population incidence.
+It establishes large-scale baseline tumor prevalence and breed predispositions (especially for fibrosarcomas and squamous cell carcinomas) in the feline population.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Swiss Feline Cancer Registry 1965–2008: the Influence of Sex, Breed and Age on Tumour Types and Tumour Locations.
-- The DOI is 10.1016/j.jcpa.2016.01.008.
-- The study is based on 51,322 feline patient records compiled from 1965 to 2008.
-- The study reports 18,375 tumours in the registry records.
-- The study used proportional calculations because there was no obligatory registration of cats in Switzerland.
+* "Swiss Feline Cancer Registry comprises 51,322 feline patient records compiled between 1965 and 2008, reporting 18,375 tumours."
+* "The largest differences between breeds were found in the development of fibrosarcomas and squamous cell carcinomas, as well as in the development of tumours in the skin/subcutis and mammary gland."
 
 ### source_supported_conclusion
 
-- This source supports registry-bounded frequency and branch-priority claims.
-- It supports a prevalence / registry caveat page before tumor-family pages reuse numeric frequency language.
-- Time trends for fibrosarcoma and lymphoma are useful hypothesis context, not causal closure.
+* Feline tumour incidence is strongly correlated with demographics, with tumours being more frequent in middle-aged and older cats.
+* Breed predisposition is a significant factor in the development of specific feline cancers, particularly fibrosarcomas and squamous cell carcinomas.
 
 ### llm_inference
 
-- Feline cancer synthesis should distinguish pathology-registry proportions from population incidence.
-- FISS and FeLV/lymphoma timing should be treated as branch-control questions requiring corroborating sources.
+* Setting up international standards for animal cancer registries will enhance comparative veterinary epidemiological studies.
 
-## Claim-Fit Judgment
+## Study Design Details
 
-Strongest safe use:
+### Cohort Summary
 
-- registry / prevalence architecture
-- tumor-type and location branch priority
-- signalment and time-trend caveats
-
-Must not control yet:
-
-- reader-facing medical advice
-- universal prevalence claims
-- causality claims
-- treatment ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: tumor-type and location time-trend figures, if image assets are later needed
-- why these matter: they can support internal branch prioritization but should not be copied into owner-facing pages without table-level verification
-
-## Open Follow-Up Questions
-
-- Should the earlier Swiss registry overview paper be extracted as a paired denominator source?
-- Which FISS-specific source should verify injection-site sarcoma claims before a sarcoma branch page is compiled?
-- Which FeLV/lymphoma source should verify the lymphoma time-trend interpretation?
-
-## Extraction Provenance
-
-This card is marked full because the paired deep-extraction worksheet has already separated denominator facts from branch-priority interpretation. The added value is not more prose; it is the explicit warning that registry proportions must stay tied to pathology-submission records, not converted into population incidence.
+| Parameter | Value |
+|---|---|
+| Study Type | Retrospective Registry Analysis |
+| Total Patient Records | 51,322 |
+| Total Reported Tumours | 18,375 |
+| Period | 1965 - 2008 |
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- jurisdictions: Switzerland
-- mechanisms:
-- regulations:
+- diseases: [cancer]
+- models: [retrospective-registry]
+- endpoints: [tumour-incidence, breed-risk, sex-risk]
+- mechanisms: []

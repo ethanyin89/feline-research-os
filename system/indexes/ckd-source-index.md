@@ -54,7 +54,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-041 | Inflammatory Status and Chronic Kidney Disease in Cats: Old and New Inflammatory Markers—A Pilot Prospective Study | original-study | partial | abstract_weighted |  |
 | src-ckd-042 | Risk factors and implications associated with renal mineralization in chronic kidney disease in cats | original-study | partial | abstract_weighted |  |
 | src-ckd-043 | Investigation of hallmarks of carbonyl stress and formation of end products in feline chronic kidney disease as markers of uraemic toxins | original-study | partial | abstract_weighted | 2019 |
-| src-ckd-044 | Serum concentration of homocysteine in spontaneous feline chronic kidney disease | original-study | partial | abstract_weighted | 2019 |
+| src-ckd-044 | Serum concentration of homocysteine in spontaneous feline chronic kidney disease | original-study | full | deep_extracted | 2019 |
 | src-ckd-045 | Electrophoretic patterns of proteinuria in feline spontaneous chronic kidney disease | original-study | partial | abstract_weighted | 2020 |
 | src-ckd-046 | Feline abdominal ultrasonography: what’s normal? what’s abnormal? The kidneys and perinephric space | original-study | partial | abstract_weighted | 2020 |
 | src-ckd-047 | Current Understanding of the Pathogenesis of Progressive Chronic Kidney Disease in Cats | original-study | partial | abstract_weighted | 2016 |
@@ -165,7 +165,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-152 | Residues of ochratoxin A in pet foods, canine and feline kidneys | original-study | partial | title_only | 2001 |
 | src-ckd-153 | Controversies in Veterinary Nephrology: Renal Diets Are Indicated for Cats with International Renal Interest Society Chronic Kidney Disease Stages 2 to 4: The Pro View | original-study | partial | title_only |  |
 | src-ckd-154 | Survey of defecation habits in apparently healthy and chronic kidney disease cats | original-study | partial | title_only |  |
-| src-ckd-155 | Enhancing Detection of Feline Chronic Kidney Disease Through Smart Litter Box Monitoring | original-study | partial | title_only |  |
+| src-ckd-155 | Enhancing Detection of Feline Chronic Kidney Disease Through Smart Litter Box Monitoring | original-study | full | deep_extracted | 2026 |
 | src-ckd-156 | Dietary phosphorus and renal disease in cats: where are we? | original-study | partial | title_only |  |
 | src-ckd-157 | Hypothermic Storage of Feline Kidneys for Transplantation: Successful Ex Vivo Storage Up to 7 Hours | original-study | partial | title_only | 1998 |
 | src-ckd-158 | Evaluation for association between urolithiasis and chronic kidney disease in cats | original-study | partial | title_only |  |
@@ -173,7 +173,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-160 | Changes in Systolic Blood Pressure over Time in Healthy Cats and Cats with Chronic Kidney Disease | original-study | partial | title_only |  |
 | src-ckd-161 | Urinary heat shock protein-72: A novel marker of acute kidney injury and chronic kidney disease in cats | original-study | partial | title_only |  |
 | src-ckd-162 | Seroprevalence of Infection with Feline Morbilliviruses Is Associated with FLUTD and Increased Blood Creatinine Concentrations in Domestic Cats | original-study | partial | title_only |  |
-| src-ckd-163 | Evaluation of chronic stress status and quality of life in cats suffering from chronic kidney disease and suspected feline infectious peritonitis based on hair cortisol concentration analysis and a questionnaire | original-study | partial | title_only | 2024 |
+| src-ckd-163 | Evaluation of chronic stress status and quality of life in cats suffering from chronic kidney disease and suspected feline infectious peritonitis based on hair cortisol concentration analysis and a questionnaire | original-study | full | deep_extracted | 2024 |
 | src-ckd-164 | Optimization and validation of metabolomics methods for feline urine and serum towards application in veterinary medicine | original-study | partial | title_only |  |
 | src-ckd-165 | Kidney and cystic volume imaging for disease presentation and progression in the cat autosomal dominant polycystic kidney disease large animal model | original-study | partial | title_only |  |
 | src-ckd-166 | Relationship among Serum Creatinine, Serum Gastrin, Calcium-phosphorus Product, and Uremic Gastropathy in Cats with Chronic Kidney Disease | original-study | partial | title_only |  |
@@ -186,7 +186,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-173 | Diagnosis of the cat with early chronic kidney disease | original-study | partial | title_only | 2020 |
 | src-ckd-174 | Classical and alternative renin-angiotensin-aldosterone systems in a feline remnant kidney model | original-study | partial | title_only |  |
 | src-ckd-175 | Feline polycystic kidney disease in Persian and other cats: a prospective study using ultrasonography | original-study | partial | title_only | 2001 |
-| src-ckd-176 | Mitochondrial dysfunction and mitophagy as a driver of chronic kidney disease; An area for future exploration in feline chronic kidney disease? | original-study | partial | title_only | 2025 |
+| src-ckd-176 | Mitochondrial dysfunction and mitophagy as a driver of chronic kidney disease; An area for future exploration in feline chronic kidney disease? | review | full | deep_extracted | 2025 |
 | src-ckd-177 | RENAL AND CARDIOVASCULAR DRUGS. Pharmacologic identification of putative D1 dopamine receptors in feline kidneys | original-study | partial | title_only | 2003 |
 | src-ckd-178 | Association of urinary cadmium excretion with feline hypertension | original-study | partial | title_only |  |
 | src-ckd-179 | Systolic blood pressure, routine kidney variables and renal ultrasonographic findings in cats naturally infected with feline immunodeficiency virus | original-study | partial | title_only |  |
@@ -219,7 +219,7 @@ Structured abstract follow-up:
 - `system/indexes/feline-ckd-extension-pubmed-fallback-20260606.md`
 - `system/indexes/feline-ckd-extension-structured-abstract-pubmed-20260606.md`
 - `system/indexes/feline-ckd-extension-claim-fit-queue-20260605.md`
-- Round-1 structured abstract worksheets exist for 52 extension cards.
+- Round-1 structured abstract worksheets exist for 51 extension cards.
 - **Full abstract extraction (round 2) completed 2026-06-05 for `src-ckd-026` and `src-ckd-034`**; these now have `source_checked` status and promoted claim cards.
 - **Full-text deep extraction completed 2026-06-06 for `src-ckd-027` and `src-ckd-029`**. These control metabolomics branch mapping and a guarded phosphate-supplement evidence boundary, respectively.
 - **Full-text deep extraction completed 2026-06-06 for `src-ckd-030`**. It controls probiotic-pilot and microbiome-intervention limits, not efficacy guidance.
