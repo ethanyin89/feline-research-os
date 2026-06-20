@@ -4,7 +4,7 @@ type: index
 topic: system
 question_type: navigation
 language: bilingual
-last_compiled_at: 2026-06-15
+last_compiled_at: 2026-06-20
 confidence: high
 verification_status: compiled
 owner: codex
@@ -21,7 +21,7 @@ status: active
 
 Load this when deciding which source cards to prioritize under context limits.
 
-2026-06-15 reality sync:
+2026-06-20 reality sync:
 
 - The vault now has `1414` strict disease paper source cards across CKD, FIP, HCM,
   IBD, Diabetes, FCV, and obesity.
@@ -64,18 +64,18 @@ Verification-status read:
 
 ---
 
-## 2026-06-15 Cross-Disease Snapshot
+## 2026-06-20 Cross-Disease Snapshot
 
 | Disease | Source cards | Status reality | Explicit full | Explicit partial | Missing depth field | Worksheets | Verification-status overlay | Current read |
 |---|---|---|---|---|---|---|---|---|
-| CKD | 197 | `54 abstract_weighted, 28 deep_extracted, 2 source_checked, 113 title_only` | 30 | 167 | 0 | 24 seed worksheets plus 31 extension worksheets (25 structured round 1 + 2 abstract round 2 + 4 full-text deep extractions) | `54 abstract_weighted, 28 deep_extracted, 2 source_checked, 113 title_only` | Seed corpus remains mature; full-text extension depth now covers metabolomics, guarded phosphorus intervention, probiotic-pilot boundaries, and a feline fibroblast/TGF-beta model |
-| FIP | 242 | `23 abstract_weighted, 26 deep_extracted, 193 title_only` | 26 | 216 | 0 | 24 | `23 abstract_weighted, 26 deep_extracted, 193 title_only` | Separate FIP depth map exists; all source cards now explicit full depth |
-| HCM | 226 | `24 deep_extracted, 202 title_only` | 24 | 202 | 0 | 24 | `24 deep_extracted, 202 title_only` | Separate HCM depth map exists; all source cards now explicit full depth and deep-extracted |
+| CKD | 197 | `52 abstract_weighted, 31 deep_extracted, 2 source_checked, 112 title_only` | 33 | 164 | 0 | 24 seed worksheets plus 31 extension worksheets (25 structured round 1 + 2 abstract round 2 + 4 full-text deep extractions) | `52 abstract_weighted, 31 deep_extracted, 2 source_checked, 112 title_only` | Seed corpus remains mature; full-text extension depth now covers metabolomics, guarded phosphorus intervention, probiotic-pilot boundaries, and a feline fibroblast/TGF-beta model |
+| FIP | 242 | `21 abstract_weighted, 29 deep_extracted, 192 title_only` | 29 | 213 | 0 | 24 | `21 abstract_weighted, 29 deep_extracted, 192 title_only` | Separate FIP depth map exists; all source cards now explicit full depth |
+| HCM | 226 | `25 deep_extracted, 201 title_only` | 25 | 201 | 0 | 24 | `25 deep_extracted, 201 title_only` | Separate HCM depth map exists; all source cards now explicit full depth and deep-extracted |
 | IBD | 126 | `24 deep_extracted, 102 title_only` | 24 | 102 | 0 | 24 | `24 deep_extracted, 102 title_only` | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
-| DIABETES | 121 | `88 abstract_weighted, 25 deep_extracted, 8 title_only` | 26 | 95 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `88 abstract_weighted, 25 deep_extracted, 8 title_only` | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
-| FCV | 296 | `79 abstract_weighted, 24 deep_extracted, 193 title_only` | 24 | 272 | 0 | 24 | `79 abstract_weighted, 24 deep_extracted, 193 title_only` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| OBESITY | 95 | `83 abstract_weighted, 4 deep_extracted, 1 source_checked, 7 title_only` | 6 | 89 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `83 abstract_weighted, 4 deep_extracted, 1 source_checked, 7 title_only` | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); 5-branch architecture complete with 4 pages + 4 bilingual versions |
-| CANCER | 111 | `74 abstract_weighted, 29 deep_extracted, 1 publisher_verified, 2 source_checked, 5 title_only` | 72 | 10 | 29 | 29 structured-abstract worksheets, 43 deep extraction worksheets | `74 abstract_weighted, 29 deep_extracted, 1 publisher_verified, 2 source_checked, 5 title_only` | Core oncology branches outlined; most high-visibility cancer sources Triaged and verified |
+| DIABETES | 121 | `85 abstract_weighted, 28 deep_extracted, 8 title_only` | 29 | 92 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `85 abstract_weighted, 28 deep_extracted, 8 title_only` | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
+| FCV | 296 | `77 abstract_weighted, 26 deep_extracted, 193 title_only` | 26 | 270 | 0 | 24 | `77 abstract_weighted, 26 deep_extracted, 193 title_only` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
+| OBESITY | 95 | `82 abstract_weighted, 5 deep_extracted, 1 source_checked, 7 title_only` | 7 | 88 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `82 abstract_weighted, 5 deep_extracted, 1 source_checked, 7 title_only` | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); 5-branch architecture complete with 4 pages + 4 bilingual versions |
+| CANCER | 111 | `70 abstract_weighted, 33 deep_extracted, 1 publisher_verified, 2 source_checked, 5 title_only` | 73 | 10 | 28 | 29 structured-abstract worksheets, 43 deep extraction worksheets | `70 abstract_weighted, 33 deep_extracted, 1 publisher_verified, 2 source_checked, 5 title_only` | Core oncology branches outlined; most high-visibility cancer sources Triaged and verified |
 
 ## Default Next Moves
 
@@ -195,14 +195,14 @@ This summary uses explicit `extraction_depth` fields only. It intentionally does
 
 | Disease | Total Source Cards | explicit full | explicit partial | missing depth | stub | Coverage read |
 |---|---|---|---|---|---|---|
-| CKD | 197 | 30 | 167 | 0 | 0 | Seed corpus remains mature; full-text extension depth now covers metabolomics, guarded phosphorus intervention, probiotic-pilot boundaries, and a feline fibroblast/TGF-beta model |
-| FIP | 242 | 26 | 216 | 0 | 0 | Separate FIP depth map exists; all source cards now explicit full depth |
-| HCM | 226 | 24 | 202 | 0 | 0 | Separate HCM depth map exists; all source cards now explicit full depth and deep-extracted |
+| CKD | 197 | 33 | 164 | 0 | 0 | Seed corpus remains mature; full-text extension depth now covers metabolomics, guarded phosphorus intervention, probiotic-pilot boundaries, and a feline fibroblast/TGF-beta model |
+| FIP | 242 | 29 | 213 | 0 | 0 | Separate FIP depth map exists; all source cards now explicit full depth |
+| HCM | 226 | 25 | 201 | 0 | 0 | Separate HCM depth map exists; all source cards now explicit full depth and deep-extracted |
 | IBD | 126 | 24 | 102 | 0 | 0 | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
-| DIABETES | 121 | 26 | 95 | 0 | 0 | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
-| FCV | 296 | 24 | 272 | 0 | 0 | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| OBESITY | 95 | 6 | 89 | 0 | 0 | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); 5-branch architecture complete with 4 pages + 4 bilingual versions |
-| CANCER | 111 | 72 | 10 | 29 | 0 | Core oncology branches outlined; most high-visibility cancer sources Triaged and verified |
+| DIABETES | 121 | 29 | 92 | 0 | 0 | Seed corpus is full; extension corpus is navigation/source-check material only, not compiled decision-grade evidence |
+| FCV | 296 | 26 | 270 | 0 | 0 | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
+| OBESITY | 95 | 7 | 88 | 0 | 0 | All 4 Tier 1 priority cards deep-extracted (001, 004, 005, 008); 5-branch architecture complete with 4 pages + 4 bilingual versions |
+| CANCER | 111 | 73 | 10 | 28 | 0 | Core oncology branches outlined; most high-visibility cancer sources Triaged and verified |
 
 ---
 
@@ -210,12 +210,12 @@ This summary uses explicit `extraction_depth` fields only. It intentionally does
 
 | Disease | Year Coverage | Notes |
 |---|---|---|
-| CKD | 93/197 (47%) | Complete |
+| CKD | 95/197 (48%) | Complete |
 | FIP | 82/242 (33%) | Complete |
 | HCM | 42/226 (18%) | Complete |
 | IBD | 38/126 (30%) | Complete |
 | DIABETES | 121/121 (100%) | Complete |
-| FCV | 129/296 (43%) | Complete |
+| FCV | 131/296 (44%) | Complete |
 | OBESITY | 92/95 (96%) | Complete |
 | CANCER | 104/111 (93%) | Complete |
 

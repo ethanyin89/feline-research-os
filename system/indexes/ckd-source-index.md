@@ -29,7 +29,7 @@
 | src-ckd-023 | Feline chronic kidney disease is associated with shortened telomeres and increased cellular senescence | mechanism | original-study | deep-extracted round 1 |
 | src-ckd-024 | Renal biomarkers in cats: A review of the current status in chronic kidney disease | endpoint | review | deep-extracted round 1 |
 
-## Extension Intake Queue, Updated 2026-06-15
+## Extension Intake Queue, Updated 2026-06-20
 
 These source cards came from the user-provided `feline CKD` Google Sheet. They are source-ownership and triage material only until abstract extraction, source worksheet review, or full-text extraction is complete.
 
@@ -47,8 +47,8 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-034 | Risk and protective factors for cats with naturally occurring chronic kidney disease | original-study | abstract_full | source_checked | 2017 |
 | src-ckd-035 | Urinary cytokine levels in apparently healthy cats and cats with chronic kidney disease | original-study | partial | abstract_weighted | 2013 |
 | src-ckd-036 | Renal Senescence, Telomere Shortening and Nitrosative Stress in Feline Chronic Kidney Disease | original-study | partial | abstract_weighted |  |
-| src-ckd-037 | Feline Morbillivirus, a New Paramyxovirus Possibly Associated with Feline Kidney Disease | original-study | partial | abstract_weighted |  |
-| src-ckd-038 | Feline Polycystic Kidney Disease: An Update | original-study | partial | abstract_weighted |  |
+| src-ckd-037 | Feline Morbillivirus, a New Paramyxovirus Possibly Associated with Feline Kidney Disease | review | full | deep_extracted | 2020 |
+| src-ckd-038 | Feline Polycystic Kidney Disease: An Update | review | full | deep_extracted | 2021 |
 | src-ckd-039 | Changes in Renal Peritubular Capillaries in Canine and Feline Chronic Kidney Disease | original-study | partial | abstract_weighted | 2018 |
 | src-ckd-040 | Renal Infiltration of Macrophages in Canine and Feline Chronic Kidney Disease | original-study | partial | abstract_weighted | 2019 |
 | src-ckd-041 | Inflammatory Status and Chronic Kidney Disease in Cats: Old and New Inflammatory Markers—A Pilot Prospective Study | original-study | partial | abstract_weighted |  |
@@ -138,7 +138,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-125 | Reasoning for obligatory preclinical diagnostics of feline chronic kidney disease | original-study | partial | title_only |  |
 | src-ckd-126 | A comparative study of chronic kidney disease in dogs and cats: Induction of cyclooxygenases | original-study | partial | title_only |  |
 | src-ckd-127 | Acceptance and effects of a therapeutic renal food in pet cats with chronic kidney disease | original-study | partial | title_only | 2015 |
-| src-ckd-128 | Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease | original-study | partial | title_only | 2026 |
+| src-ckd-128 | Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease | original-study | full | deep_extracted | 2026 |
 | src-ckd-129 | Prospective evaluation of healthy Ragdoll cats for chronic kidney disease by routine laboratory parameters and ultrasonography | original-study | partial | title_only |  |
 | src-ckd-130 | Management of Chronic Kidney Disease | original-study | partial | title_only |  |
 | src-ckd-131 | Absence of renal cortical anisotropic backscattering artifact in feline chronic kidney disease | original-study | partial | title_only | 2021 |
@@ -219,7 +219,7 @@ Structured abstract follow-up:
 - `system/indexes/feline-ckd-extension-pubmed-fallback-20260606.md`
 - `system/indexes/feline-ckd-extension-structured-abstract-pubmed-20260606.md`
 - `system/indexes/feline-ckd-extension-claim-fit-queue-20260605.md`
-- Round-1 structured abstract worksheets exist for 54 extension cards.
+- Round-1 structured abstract worksheets exist for 52 extension cards.
 - **Full abstract extraction (round 2) completed 2026-06-05 for `src-ckd-026` and `src-ckd-034`**; these now have `source_checked` status and promoted claim cards.
 - **Full-text deep extraction completed 2026-06-06 for `src-ckd-027` and `src-ckd-029`**. These control metabolomics branch mapping and a guarded phosphate-supplement evidence boundary, respectively.
 - **Full-text deep extraction completed 2026-06-06 for `src-ckd-030`**. It controls probiotic-pilot and microbiome-intervention limits, not efficacy guidance.

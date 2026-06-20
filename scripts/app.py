@@ -4835,7 +4835,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
 
     :root {
       --bg: #0f1117;
@@ -4852,6 +4852,30 @@ st.markdown(
       font-family: 'Geist', system-ui, sans-serif !important;
       font-size: 15px;
       line-height: 1.7;
+    }
+
+    /* Elegant serif typography for primary body text matching agent.ii.inc */
+    .block-container [data-testid="stMarkdownContainer"] p,
+    .block-container [data-testid="stMarkdownContainer"] li {
+      font-family: 'Crimson Pro', 'Georgia', 'Times New Roman', serif !important;
+      font-size: 16.5px !important;
+      line-height: 1.8 !important;
+      color: #f1f5f9 !important;
+    }
+
+    /* Keep inline code and code blocks monospace */
+    .block-container [data-testid="stMarkdownContainer"] code {
+      font-family: 'Geist Mono', monospace !important;
+      font-size: 13px !important;
+    }
+
+    /* Keep headings sans-serif for clean editorial contrast */
+    .block-container [data-testid="stMarkdownContainer"] h1,
+    .block-container [data-testid="stMarkdownContainer"] h2,
+    .block-container [data-testid="stMarkdownContainer"] h3,
+    .block-container [data-testid="stMarkdownContainer"] h4 {
+      font-family: 'Geist', system-ui, sans-serif !important;
+      font-weight: 600 !important;
     }
 
     [data-testid="stAppViewContainer"],

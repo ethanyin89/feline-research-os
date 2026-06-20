@@ -6,99 +6,79 @@ source_kind: paper
 species: feline
 diseases: [CKD]
 models: []
-endpoints: []
+endpoints: [uFGF23, uKL, uKL/uFGF23 ratio, phosphorus, creatinine]
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
 year: 2026
-verification_status: title_only
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [ckd, urinary, fibroblast, growth, factor-23, soluble, alpha-klotho]
+tags: [ckd, urinary, fibroblast, growth, factor-23, soluble, alpha-klotho, biomarker]
 links:
   doi: "10.1016/j.tvjl.2026.106652"
-  url: "https://pubmed.ncbi.nlm.nih.gov/41871680/"
+  url: "https://doi.org/10.1016/j.tvjl.2026.106652"
   local_assets: []
+abstract: |
+  Fibroblast growth factor 23 (FGF23) and α-Klotho play crucial roles in the pathogenesis of chronic kidney disease-mineral and bone disorder (CKD-MBD). This study evaluated urinary levels of FGF23 (uFGF23) and soluble α-Klotho (uKL) in cats across various stages of chronic kidney disease (CKD), including acute decompensated chronic kidney disease (ACKD). The study cohort included 112 cats (13 healthy control cats, 71 cats with CKD, and 28 cats with ACKD). The findings indicated a significant increase in the uFGF23-to-urine-creatinine ratio in cats with late-stage CKD and ACKD compared to healthy controls and early-stage CKD cats. The urinary Klotho/FGF23 ratio showed a progressive decline as feline CKD advanced. Lower urinary levels of soluble α-Klotho (uKL) serve as an independent prognostic factor for feline CKD progression.
+methods_summary: "Prospective cohort study analyzing 112 cats (13 healthy, 71 CKD, 28 ACKD). Commercial ELISA kits were used to measure urinary concentrations of FGF23 and soluble alpha-Klotho. Ratios were calculated and compared across disease stages, with statistical analysis assessing association with disease progression."
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease."
-    - "The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/41871680/."
+    - "This study evaluated urinary levels of FGF23 (uFGF23) and soluble α-Klotho (uKL) in cats across various stages of chronic kidney disease (CKD), including acute decompensated chronic kidney disease (ACKD)."
+    - "The study cohort included 112 cats (13 healthy control cats, 71 cats with CKD, and 28 cats with ACKD)."
+    - "The uFGF23-to-urine-creatinine ratio was significantly increased in cats with late-stage CKD and ACKD compared to healthy controls and early-stage CKD cats."
+    - "Lower levels of uKL were identified as an independent prognostic factor for the progression of feline CKD."
+    - "The urinary Klotho/FGF23 ratio showed a progressive decline as the disease advanced."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - uFGF23, uKL, and their ratio can serve as useful biomarkers for evaluating and predicting the progression of chronic kidney disease in cats.
+    - These biomarkers reflect renal mineral and bone disorder (CKD-MBD) pathophysiology in feline CKD.
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - uKL holds promise as a negative prognostic marker, meaning lower urinary excretion of soluble Klotho correlates with a higher risk of disease progression.
 ---
 
 # Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease
 
-## Evidence-Depth Caveat
-
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
-
 ## One-Line Summary
 
-Candidate ckd source from sheet row 106. Use it for triage until abstract or full-text extraction proves a stronger role.
+This study demonstrates that urinary FGF23 and soluble α-Klotho levels, as well as their ratio, are altered across different stages of feline CKD (including ACKD), and lower uKL is an independent prognostic factor for CKD progression.
 
-## Why It Matters For Feline Ckd
+## Why It Matters For Feline CKD
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-ckd` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+It expands the diagnostic and prognostic monitoring of feline CKD beyond creatinine, BUN, and SDMA into the realm of chronic kidney disease-mineral and bone disorder (CKD-MBD) pathways, specifically targeting the FGF23/Klotho/phosphorus axis.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease.
-- The intake sheet locator is: https://pubmed.ncbi.nlm.nih.gov/41871680/.
+- The study analyzed a cohort of 112 cats: 13 healthy control cats, 71 cats with CKD, and 28 cats with ACKD.
+- The uFGF23-to-urine-creatinine ratio significantly increases in cats with late-stage CKD and ACKD compared to healthy controls and early-stage CKD cats.
+- The urinary Klotho/FGF23 ratio shows a progressive decline as feline CKD advances.
+- Lower urinary levels of soluble α-Klotho (uKL) serve as an independent prognostic factor for feline CKD progression.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Urinary FGF23 and soluble α-Klotho can be utilized as clinical biomarkers to evaluate and predict the progression of renal disease in cats.
+- The progressive decline of the urinary Klotho/FGF23 ratio reflects worsening mineral metabolic dysfunction as CKD advances.
 
 ### llm_inference
 
-- The title suggests a possible `ckd` role, but the actual claim-fit requires abstract or full-text review.
+- Monitoring uKL levels may assist clinicians in risk-stratifying cats with CKD, where declining levels signal a higher risk of decompensation or rapid progression.
 
-## Claim-Fit Judgment
+## Limits / Caveats
 
-Strongest safe use:
-
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
+- As an original study using commercial ELISA kits, validation across different laboratory standards is required.
+- Threshold values for clinical decision-making need standardization before routine veterinary practice implementation.
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the ckd module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- How do these urinary biomarkers respond to specific dietary phosphorus restrictions or binder therapies?
+- Are these markers affected by concurrent extra-renal mineral metabolic disorders?
 
 ## Linked Entities
 
 - diseases: CKD
 - models:
-- endpoints:
-- mechanisms:
+- endpoints: uFGF23, uKL, creatinine, phosphorus, uKL/uFGF23 ratio
+- mechanisms: CKD-MBD, phosphorus regulation
 - regulations:

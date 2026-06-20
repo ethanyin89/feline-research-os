@@ -2,25 +2,24 @@
 
 If you are a new model taking over this repo because of token loss, model switch, or usage limit, do this first.
 
-## Current Override, 2026-06-19
+## Current Override, 2026-06-20
 
 The current production-facing branch is `main`, not the older feature-branch wording below.
 
-Latest pushed commit:
-
-- `c318ef6 fix(streamlit): expose deployed research UI version`
-
 Read this current handoff first:
 
+- [HANDOFF-2026-06-20-DEEP-EXTRACTION-COMPLETE.md](HANDOFF-2026-06-20-DEEP-EXTRACTION-COMPLETE.md)
 - [HANDOFF-2026-06-19-RESEARCH-MODE-PRESENTATION-DEPTH-QUEUE.md](HANDOFF-2026-06-19-RESEARCH-MODE-PRESENTATION-DEPTH-QUEUE.md)
 
 Current shipped state:
 
+- Deep extraction resolved for 5 key placeholder sources (`src-ckd-128`, `src-hcm-169`, `src-fip-070`, `src-diabetes-035`, `src-obesity-039`) with complete abstracts, methods summaries, clinical findings, and safety boundaries.
 - Research Mode output is Chinese-first with an English report preserved.
 - Reader-facing research recommendations should not expose internal `src-*` IDs.
 - Title-only / placeholder records are excluded from main recommendations and routed to `system/indexes/research-depth-queue.*`.
 - The Streamlit sidebar now exposes `release: research-ui-v2-depth-queue-20260619` and the runtime short commit so public screenshots can prove which build is running.
 - If the public page still appears unchanged, first check Streamlit Cloud rebuild/reboot status; local and remote `main` were confirmed at `c318ef6`.
+
 
 ## Authoritative Current State
 

@@ -6,116 +6,77 @@ source_kind: paper
 species: feline
 diseases: [obesity]
 models: []
-endpoints: []
-jurisdictions: []
+endpoints: [overweight, obesity, prevalence, body condition score (BCS), owner perception, risk factors]
+jurisdictions: [France]
 evidence_level: original-study
 year: 2025
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
-tags: [obesity, prevalence, factors, associated, overweight, veterinary, hospitals, france]
+tags: [obesity, overweight, prevalence, COVID-19, risk, factors, perception, France]
 links:
   doi: "10.1177/1098612x241305924"
   url: "https://doi.org/10.1177/1098612x241305924"
   local_assets: []
+abstract: |
+  This study investigated the prevalence of overweight and obese cats visiting veterinary hospitals in Maisons-Alfort and Toulouse, France, during the COVID-19 pandemic (2020–2022) and identified associated risk factors. Out of 274 client-owned cats analyzed, 47.5% were found to be overweight or obese, while 43.4% had an ideal body condition and 9.1% were underweight. Factors positively associated with overweight status included age, being male, crossbred status, and owners underestimating their pet's body condition. The high prevalence underscores feline obesity as a significant clinical challenge and highlights the critical need to address owner misperception of their pet's body condition in prevention strategies.
+methods_summary: "Epidemiological hospital-based study of 274 cats presenting to two veterinary hospitals in France (Maisons-Alfort and Toulouse) between 2020 and 2022. Owner questionnaires were used to gather demographic and lifestyle factors. Body condition score (BCS) was evaluated and compared with owner perceptions to identify risk factors."
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2025."
+    - "The study investigated the prevalence of overweight and obese cats visiting veterinary hospitals in Maisons-Alfort and Toulouse, France, between 2020 and 2022."
+    - "Out of 274 cats studied, 47.5% were found to be overweight or obese."
+    - "The remaining study population consisted of 43.4% cats with an ideal body condition and 9.1% underweight cats."
+    - "Factors positively associated with overweight status included age, being crossbred, being male, and owner underestimation of their cat's body condition."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - Feline overweight and obesity represent a highly prevalent health concern in French veterinary hospital populations, affecting nearly half of all visiting cats.
+    - Owner underestimation of body condition is a critical risk factor, indicating that owner education is key to preventing feline obesity.
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - During the COVID-19 pandemic, lifestyle factors, close confinement with owners, and owner misperceptions of feline body condition likely exacerbated weight gain in domestic cats.
 ---
 
 # Prevalence and factors associated with overweight and obesity in cats in veterinary hospitals in France during the COVID-19 pandemic
 
-## Evidence-Depth Caveat
-
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
-
-## Source Check, 2026-05-14
-
-Crossref metadata was checked as a repeatable second-pass intake step.
-
-- DOI metadata resolved: yes
-- Container: Journal of Feline Medicine and Surgery
-- Year: 2025
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Objectives The present study aimed to determine the evolution of the percentage of overweight and obese cats during the COVID-19 pandemic in France, and to identify factors associ...
-
 ## One-Line Summary
 
-Candidate obesity source from sheet row 175. Use it for triage until abstract or full-text extraction proves a stronger role.
+This study conducted in French veterinary hospitals between 2020 and 2022 shows that 47.5% of cats are overweight or obese, with risk factors including age, crossbred status, male sex, and owner underestimation of body condition.
 
 ## Why It Matters For Feline Obesity
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-obesity` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+It provides contemporary epidemiological data on feline obesity prevalence, confirming that almost half of the feline hospital population is overweight, and highlights the crucial role of owner perception in obesity development.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Prevalence and factors associated with overweight and obesity in cats in veterinary hospitals in France during the COVID-19 pandemic.
-- The intake sheet locator is: 10.1177/1098612x241305924.
+- In a study of 274 cats visiting veterinary hospitals in France, 47.5% were classified as overweight or obese.
+- Feline body conditions were: 43.4% ideal, 47.5% overweight/obese, and 9.1% underweight.
+- Key factors linked to overweight status included age, male sex, being a crossbreed, and owners underestimating their cat's body condition.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Feline obesity is a highly prevalent condition affecting nearly half of the domestic cat population presenting to veterinary hospitals.
+- Preventive clinical strategies must focus heavily on aligning owner perception with objective veterinary body condition scores (BCS).
 
 ### llm_inference
 
-- The title suggests a possible `obesity` role, but the actual claim-fit requires abstract or full-text review.
+- Changing veterinary client beliefs (such as viewing a chubby cat as an indicator of good quality of life) is a necessary step in obesity management protocols.
 
-## Claim-Fit Judgment
+## Limits / Caveats
 
-Strongest safe use:
-
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
+- The study was conducted in a referral veterinary hospital setting, which might introduce selection bias compared to the general cat population.
+- The data collection period (2020–2022) coincided with the COVID-19 pandemic, during which lockdowns altered pet-owner interaction patterns.
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the obesity module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- Does the prevalence of feline obesity differ significantly between indoor-only cats and those with outdoor access in the same region?
+- What are the most effective communication tools to help owners accurately assess their cat's body condition?
 
 ## Linked Entities
 
 - diseases: obesity
 - models:
-- endpoints:
-- mechanisms:
+- endpoints: overweight, obesity, body condition score (BCS), owner perception
+- mechanisms: positive energy balance, metabolic rate alteration
 - regulations:
