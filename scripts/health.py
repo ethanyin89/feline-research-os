@@ -24,6 +24,13 @@ from pathlib import Path
 
 from validate_research_cases import validate_case_corpus
 
+# Import V2 quality gates (optional)
+try:
+    from v2_quality_gates import extract_v2_fields_from_file, grade_v2_extraction
+    V2_QUALITY_GATES_AVAILABLE = True
+except ImportError:
+    V2_QUALITY_GATES_AVAILABLE = False
+
 
 VAULT_ROOT = Path(__file__).parent.parent
 REPORT_DIR = VAULT_ROOT / "system" / "health-checks"
@@ -185,6 +192,63 @@ def nested_frontmatter_value(fm_text: str, section: str, key: str) -> str:
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
+
+
+def v2_quality_inventory() -> dict:
+    """Compute V2 field quality metrics across all source cards."""
+    if not V2_QUALITY_GATES_AVAILABLE:
+        return {
+            "available": False,
+            "total_with_v2": 0,
+            "grade_counts": {},
+            "by_disease": {},
+            "problems": [],
+        }
+
+    result: dict = {
+        "available": True,
+        "total_with_v2": 0,
+        "grade_counts": Counter(),
+        "by_disease": {},
+        "problems": [],
+    }
+
+    for disease in DISEASES:
+        cards = sorted((VAULT_ROOT / "raw" / "papers").glob(f"src-{disease}-*.md"))
+        disease_grades: Counter[str] = Counter()
+        disease_v2_count = 0
+
+        for card in cards:
+            fields = extract_v2_fields_from_file(card)
+            if not fields.get("core_argument"):
+                continue
+
+            disease_v2_count += 1
+            result["total_with_v2"] += 1
+
+            report = grade_v2_extraction(fields)
+            grade = report.overall_grade
+            disease_grades[grade] += 1
+            result["grade_counts"][grade] += 1
+
+            if grade in ("C", "F"):
+                fm = frontmatter(read_text(card))
+                result["problems"].append({
+                    "file": str(card.relative_to(VAULT_ROOT)),
+                    "id": fm.get("id", card.stem),
+                    "grade": grade,
+                    "score": report.total_score,
+                    "issues": report.issues[:2],
+                })
+
+        result["by_disease"][disease] = {
+            "v2_count": disease_v2_count,
+            "grades": dict(sorted(disease_grades.items())),
+        }
+
+    # Convert Counter to dict for JSON serialization
+    result["grade_counts"] = dict(sorted(result["grade_counts"].items()))
+    return result
 
 
 def source_inventory() -> dict:
@@ -829,6 +893,7 @@ def render_report(data: dict) -> str:
     query_result = data["query_tests"]
     ordinary_eval = data["ordinary_user_vault_eval"]
     research_cases = data["research_cases"]
+    v2_quality = data.get("v2_quality", {})
 
     has_hard_failure = (
         link_result["exit_code"] != 0
@@ -908,6 +973,7 @@ def render_report(data: dict) -> str:
         summary_row("Ordinary-user acceptance", "PASS" if ordinary_user_acceptance_ok(ordinary_acceptance) else "WARN", f"{ordinary_acceptance['path'] or 'missing'}; mode={ordinary_acceptance['mode']}; status={ordinary_acceptance['status']}"),
         summary_row("Compile trigger", "PASS" if compile_status.get("ok") else "FAIL", compile_read(compile_status)),
         summary_row("API keys", "PASS" if any(keys.values()) else "WARN", key_read(keys)),
+        v2_quality_summary_row(v2_quality),
         "",
         "## Source Card Reality",
         "",
@@ -952,6 +1018,36 @@ def render_report(data: dict) -> str:
         lines.append("")
         lines.append("Rejected / audit notes:")
         lines.extend(f"- {path}" for path in inbox["rejected"])
+
+    # V2 Field Quality Section
+    if v2_quality.get("available") and v2_quality.get("total_with_v2", 0) > 0:
+        lines.extend([
+            "",
+            "## V2 Field Quality",
+            "",
+        ])
+        grades = v2_quality.get("grade_counts", {})
+        total = v2_quality.get("total_with_v2", 0)
+        lines.append(f"Total cards with V2 fields: {total}")
+        lines.append(f"Grade distribution: A={grades.get('A', 0)}, B={grades.get('B', 0)}, C={grades.get('C', 0)}, F={grades.get('F', 0)}")
+        lines.append("")
+        lines.append("| Disease | V2 Count | A | B | C | F |")
+        lines.append("|---|---:|---:|---:|---:|---:|")
+        for disease in DISEASES:
+            if disease not in v2_quality.get("by_disease", {}):
+                continue
+            d = v2_quality["by_disease"][disease]
+            g = d.get("grades", {})
+            lines.append(f"| {disease} | {d.get('v2_count', 0)} | {g.get('A', 0)} | {g.get('B', 0)} | {g.get('C', 0)} | {g.get('F', 0)} |")
+
+        problems = v2_quality.get("problems", [])
+        if problems:
+            lines.extend(["", f"### V2 Quality Issues ({len(problems)} cards)", ""])
+            for item in problems[:20]:
+                issues = "; ".join(item.get("issues", [])[:2])
+                lines.append(f"- [{item['grade']}] {item['id']}: {issues}")
+            if len(problems) > 20:
+                lines.append(f"- ... {len(problems) - 20} more")
 
     if inventory["missing_required_fields"] or inventory["invalid_field_values"]:
         lines.extend(["", "## Source Schema Issues", ""])
@@ -1161,6 +1257,35 @@ def compile_read(status: dict) -> str:
     return f"{len(status['changed_sources'])} changed source cards, {status['queue_count']} downstream files"
 
 
+def v2_quality_summary_row(v2_quality: dict) -> str:
+    """Generate summary row for V2 field quality."""
+    if not v2_quality.get("available"):
+        return summary_row("V2 field quality", "SKIP", "quality gates not available")
+
+    total = v2_quality.get("total_with_v2", 0)
+    grades = v2_quality.get("grade_counts", {})
+    problems = len(v2_quality.get("problems", []))
+
+    if total == 0:
+        return summary_row("V2 field quality", "SKIP", "no V2 fields found")
+
+    a_count = grades.get("A", 0)
+    b_count = grades.get("B", 0)
+    c_count = grades.get("C", 0)
+    f_count = grades.get("F", 0)
+
+    # Status based on problem count
+    if f_count > 0:
+        status = "WARN"
+    elif c_count > total * 0.2:  # More than 20% C-grade
+        status = "WARN"
+    else:
+        status = "PASS"
+
+    read = f"{total} V2 cards: A={a_count}, B={b_count}, C={c_count}, F={f_count}"
+    return summary_row("V2 field quality", status, read)
+
+
 def clip(text: str, limit: int = 4000) -> str:
     return text if len(text) <= limit else text[:limit] + "\n... clipped ..."
 
@@ -1223,6 +1348,15 @@ def next_actions(data: dict) -> list[str]:
         actions.append("- Verify one non-candidate image/table asset for: " + ", ".join(non_ckd_without_images) + ".")
     if data["inbox_inventory"]["active"]:
         actions.append("- Clear active inbox files by promote / reject / keep-with-blocker.")
+    v2_quality = data.get("v2_quality", {})
+    if v2_quality.get("available"):
+        problems = v2_quality.get("problems", [])
+        f_count = sum(1 for p in problems if p.get("grade") == "F")
+        c_count = sum(1 for p in problems if p.get("grade") == "C")
+        if f_count > 0:
+            actions.append(f"- Re-extract {f_count} F-grade V2 cards that failed quality gate.")
+        if c_count > 5:
+            actions.append(f"- Review and improve {c_count} C-grade V2 cards (use `python3 scripts/audit_v2_cards.py --problems`).")
     if not actions:
         actions.append("- No immediate structural action from this report.")
     return actions
@@ -1252,6 +1386,7 @@ def main() -> int:
         "research_cases": validate_case_corpus(VAULT_ROOT),
         "compile_trigger": compile_trigger_status(),
         "api_keys": api_key_status(),
+        "v2_quality": v2_quality_inventory(),
     }
 
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
