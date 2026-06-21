@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This is likely one of the most important boundary papers against treatment overclaim.
     - Translation pages should keep `what clinicians do` and `what evidence justifies` as parallel but separate layers.
+  # V2 enhanced fields
+  study_design: "综述和调查，99 名心脏科医生或心脏病学兴趣临床医生对 12 个假设 HCM 场景的治疗调查，结合文献检索"
+  core_argument: "临床医生经常开处治疗时知道几乎没有文献支持他们的决定——合理的治疗目标不等于强证据支持"
+  implicit_premise: "假设处方行为频率不应与循证确定性混淆；假设 2011 年的证据空白在此后会有所填补但核心怀疑逻辑仍然适用"
+  unexpected_finding: "调查和文献检索设计使证据空白成为证据结构发现——而不仅仅是风格性观点"
+  title_gap: "标题直接质疑'科学还是信仰'，但真正发现是系统性空白：99 名心脏科医生中大多数承认开处没有文献支持的治疗——处方频率≠循证确定性"
+  evidence_boundary: "强于证据质量边界设定而非个别疗法排名；摘要级别无法确定每种疗法的具体证据水平"
 ---
 
 # One-line Summary

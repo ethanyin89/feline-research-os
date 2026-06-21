@@ -35,6 +35,12 @@ evidence_policy:
   llm_inference:
     - It is a strong candidate for first-wave deep extraction after the broad HCM and genetics anchors.
     - HCM workup pages should preserve multimodal diagnosis without flattening the hierarchy between supportive tests and structural definition.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 HCM 的临床诊断和治疗进展（2025 年）"
+  core_argument: "猫 HCM 诊断应基于临床评估、实验室检查和影像的多模态组合——治疗聚焦于控制症状、减缓进展和改善生活质量，而非疾病逆转"
+  implicit_premise: "假设多模态诊断优于单一标志物方法；假设管理和进展控制是治疗的现实目标"
+  title_gap: "标题说诊断和治疗进展，但真正边界是期望管理：治疗目标是控制症状和减缓进展，而不是疾病逆转——这限制了对'治愈'的过度期待"
+  evidence_boundary: "架构和现代框架综述，不提供基于完整证据审查的精细干预层级"
 ---
 
 # One-line Summary

@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted practical-control guideline anchor in the FCV module.
     - The safest downstream read is `carrier-aware diagnosis plus supportive/environmental control`, not `test-first certainty`.
+  # V2 enhanced fields
+  study_design: "指南型研究，基于已有文献和专家共识，聚焦猫杯状病毒感染的预防与管理"
+  core_argument: "猫杯状病毒感染的诊断与管理应警惕携带猫的低水平病毒排泄，诊断不宜仅依赖单一PCR检测，应综合环境控制与支持治疗措施"
+  implicit_premise: "PCR检测结果在携带猫中可能产生假阳性，且病毒环境中可持续存在较长时间，影响防控策略效果"
+  title_gap: "标题强调防治指南，但实际揭示了携带猫病毒持续排泄对诊断解读和环境消毒策略的复杂挑战"
+  evidence_boundary: "本指南未系统评估特异性药物治疗效果，也未覆盖病毒突变株的流行病学变化"
+  unexpected_finding: "猫杯状病毒在环境中能存活近一个月且对多种常用消毒剂具高度抗性，这超出常规病毒存活预期"
 ---
 
 # Feline Calicivirus Infection: ABCD Guidelines on Prevention and Management

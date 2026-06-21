@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - Mechanism pages should continue to rank fibrosis-backed lesion convergence above more speculative initiating-cause stories.
     - Risk-and-recognition summaries should frame high-risk screening as a structural consequence of late symptom emergence, not as optional clinic housekeeping.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 CKD 的病理生理和危险因素"
+  core_argument: "猫 CKD 的共同最终结局是肾小管间质纤维化——尽管上游病因可能不同，纤维化是最稳定的机制锚点；蛋白尿、血磷和血肌酐是主要进展因素"
+  implicit_premise: "假设人类肾脏病学和实验动物研究的外推适用于猫；假设纤维化优先于病因学作为机制核心是合理的"
+  unexpected_finding: "临床症状通常在肾病晚期才出现——这提示高风险猫群（如甲亢、尿石症、高血压）需要基于风险的筛查策略，而非等待明显症状"
+  title_gap: "标题问'我们知道什么'，但真正发现是时机问题：临床症状通常在晚期才出现——必须对高风险猫群做基于风险的筛查，而非等待症状"
+  evidence_boundary: "综述层面无法为上游病因排序；各进展因素的相对权重需参考原始研究；并发症分支的完整层级需更多来源验证"
 ---
 
 # Feline CKD: Pathophysiology and risk factors — what do we know?

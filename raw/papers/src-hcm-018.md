@@ -37,6 +37,13 @@ evidence_policy:
   llm_inference:
     - This may later become useful for cardiomyopathy-boundary framing rather than core HCM detail.
     - Synthesis and boundary pages should keep this source at the module edge, not in the disease spine.
+  # V2 enhanced fields
+  study_design: "病例系列，回顾性审查 1994-2001 年 106 只特发性心肌病猫的病历"
+  core_argument: "HCM 是该队列中最常见的形式（57.5%），但 RCM/DCM/UCM 仍占相当比例——HCM 不等于猫特发性心肌病"
+  implicit_premise: "假设更广泛的回顾性心肌病队列有助于保持 HCM 模块边界诚实；假设历史队列分布可以指导当前分类但不能替代现代诊断标准"
+  unexpected_finding: "UCM 中位生存期长于 HCM、RCM 或 DCM——亚型生存差异使这不仅仅是分类论文"
+  title_gap: "标题说猫特发性心肌病回顾，但真正发现是亚型预后差异：UCM 生存期最长——这使论文从分类学升级为预后框架"
+  evidence_boundary: "1994-2001 年历史队列，可能与当前诊断分类或管理不完全一致；转诊中心背景可能扭曲表观频率和生存"
 ---
 
 # One-line Summary

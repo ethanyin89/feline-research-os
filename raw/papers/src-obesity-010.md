@@ -28,6 +28,12 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "横断面研究，比较1993年与2007年新西兰家猫肥胖率及风险因素，基于两个时间点的猫群体数据分析"
+  core_argument: "新西兰家猫的肥胖率和相关风险因素在1993年到2007年间发生了显著变化，提示环境与生活方式对肥胖流行有重要影响"
+  implicit_premise: "采样和测量方法在两个时间点之间具有可比性，且调查结果能够反映当时新西兰猫的总体肥胖状况"
+  title_gap: "标题强调肥胖流行率和风险因素的变化，但真正发现表明这些变化可能反映了更广泛的环境和社会因素对猫体重管理的影响——不仅仅是简单的比例变化"
+  evidence_boundary: "该研究未评估肥胖对猫健康结果的具体影响，也未探讨预防或干预策略的有效性"
 ---
 
 # A cross-sectional study to compare changes in the prevalence and risk factors for feline obesity between 1993 and 2007 in New Zealand

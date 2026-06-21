@@ -27,6 +27,12 @@ evidence_policy:
     - "FCV uses junctional adhesion molecule 1 (JAM-1) for cell entry."
   llm_inference:
     - "Receptor identification enables understanding of tissue tropism and potential therapeutic targets."
+  # V2 enhanced fields
+  study_design: "原始实验研究，利用体外培养的猫细胞系，采用病毒感染与受体结合分析方法鉴定功能性细胞受体"
+  core_argument: "猫杯状病毒利用连接黏附分子1（JAM-1）作为细胞进入的功能性受体"
+  implicit_premise: "细胞受体与病毒结合的实验体外模型能够准确模拟病毒入侵猫体细胞的生物过程"
+  title_gap: "标题提到连接黏附分子1是功能受体，但真正发现是明确了JAM-1在猫杯状病毒细胞进入过程中的关键作用——这为疫苗设计和抗病毒药物开发提供了靶点"
+  evidence_boundary: "本研究未涉及JAM-1在猫体内的表达调控机制，也未评估阻断JAM-1对猫杯状病毒感染的体内保护效果"
 ---
 
 # JAM-1 as Functional Receptor for Feline Calicivirus

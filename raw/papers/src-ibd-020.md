@@ -27,6 +27,13 @@ evidence_policy:
     - This source belongs in an extension branch adjacent to but not identical with core IBD.
   llm_inference:
     - This paper may help define infectious or organism-linked intestinal inflammation as a neighboring but distinct branch.
+  # V2 enhanced fields
+  study_design: "病例报告，成年猫单个病例，结合组织病理学和细菌学确认大肠杆菌相关肉芽肿性结肠炎"
+  core_argument: "成年猫也可出现与大肠杆菌相关的肉芽肿性结肠炎，表明该病不再仅限于犬类"
+  implicit_premise: "本病例的组织学特征和细菌相关联性能够准确区分于典型的炎症性肠病"
+  title_gap: "标题暗示肉芽肿性结肠炎主要为犬类疾病，但本文揭示成年猫也可发生该病——揭示新的物种病理谱"
+  evidence_boundary: "该病例报告未能回答该病在猫中发病率、病理机制及治疗响应的广泛性和长期结局"
+  unexpected_finding: "发现成年猫肠道中大肠杆菌与肉芽肿性炎症的明确关联，与犬类类似，挑战了该病物种限制的传统认知"
 ---
 
 # One-line Summary

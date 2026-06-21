@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - "Key review for lymphoma.md FeLV pathogenesis section."
     - "May provide mechanism framework for FeLV-associated neoplasia."
+  # V2 enhanced fields
+  study_design: "综述文章（1992 年 Cancer Invest），FeLV 肿瘤性疾病的发病机制，Rojko/Neil 实验室——FeLV 研究关键团队"
+  core_argument: "无法从可用信息确定——无 PubMed 摘要（1992 年论文）——但标题和作者暗示这是 FeLV 致肿瘤机制的全面综述——Rojko 是 FeLV 发病机制研究先驱"
+  implicit_premise: "假设该综述总结了 1992 年之前对 FeLV 诱导肿瘤机制的理解——可能包括原癌基因激活、肿瘤抑制基因失活等机制"
+  unexpected_finding: "无法从可用信息确定——需要全文；但作为 1992 年的综述，可能整合了从分子生物学到流行病学的多层次证据"
+  title_gap: "标题说 FeLV 肿瘤性疾病的发病机制，但真正价值是知识整合：Rojko/Rezanka/Neil 代表了当时 FeLV 分子肿瘤学的最高水平——这篇综述应该提供了疫苗接种时代前的机制框架"
+  evidence_boundary: "无 PubMed 摘要的历史综述；仅支持 FeLV 肿瘤发生机制的历史背景，不支持当代诊断或治疗声明；全文需要获取才能提取具体机制"
 ---
 
 # Feline Leukemia Virus: Pathogenesis of Neoplastic Disease

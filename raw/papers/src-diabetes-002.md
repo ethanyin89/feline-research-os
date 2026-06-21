@@ -40,6 +40,13 @@ evidence_policy:
     - "Use as historical cross-check when newer synthesis risks oversimplifying toward pure human type 2 analogy."
     - "The insulin-dependence paradox (type-2-like but needs insulin) remains clinically relevant."
     - "Amyloid/amylin pathway deserves continued visibility in mechanism maps despite newer obesity-focused framing."
+  # V2 enhanced fields
+  study_design: "综述文章，回顾1995年前关于猫糖尿病发病机制的研究，综合比较人类2型糖尿病病理生理特征与猫糖尿病的异同"
+  core_argument: "猫糖尿病的发病机制本质上类似于人类2型糖尿病，但同时猫糖尿病表现出独特的胰岛β细胞退化和胰岛淀粉样变性特征，这为后续研究奠定了基础。"
+  implicit_premise: "猫糖尿病的病理特征能够通过与人类2型糖尿病的比较得到有效阐释和理解。"
+  title_gap: "标题表明研究猫糖尿病发病机制，但实际上揭示了猫糖尿病虽具2型糖尿病机制特征，却有频繁的胰岛素依赖及酮症酸中毒风险这一悖论，深化了对疾病复杂性的认识。"
+  evidence_boundary: "本文未涉及猫糖尿病与肥胖、糖尿病缓解及最新治疗方法之间的关系，也未提供最新的临床干预数据。"
+  unexpected_finding: "猫糖尿病中胰岛淀粉样变性（淀粉样多肽(amylin)沉积）早期被识别为特异性病理特征，提示猫与人类病理过程存在显著差异。"
 ---
 
 # Pathogenesis of Feline Diabetes Mellitus

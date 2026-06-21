@@ -40,6 +40,13 @@ evidence_policy:
     - "Risk assessment should include breed, sex, neuter status, body weight, activity level, and medication history."
     - "The 5 kg weight threshold provides a practical screening cutoff for weight-related risk."
     - "Burmese breed risk appears consistent across UK and Australian populations."
+  # V2 enhanced fields
+  study_design: "横断面研究，英国投保猫群体中，采用问卷调查与保险数据库分析糖尿病患病率及潜在风险因素"
+  core_argument: "英国投保猫中糖尿病的患病率为0.43%，且缅甸猫、雄性及绝育猫的糖尿病风险显著升高，表明这些为主要的潜在风险因素。"
+  implicit_premise: "保险猫群体的健康状况和疾病报告能代表英国整体猫群的糖尿病流行特征及风险因素。"
+  title_gap: "标题仅表明患病率及风险因素分析，但实际发现缅甸猫糖尿病风险高出非纯种猫3.7倍，这与其他国家数据一致，揭示了强烈的品种遗传风险信号——强调遗传背景在猫糖尿病中的作用。"
+  evidence_boundary: "结果仅适用于英国投保的猫群体，未涵盖未投保猫或其他国家的猫，且未探讨糖尿病的发病机制或治疗效果。"
+  unexpected_finding: "绝育猫糖尿病风险显著高于未绝育猫，暗示激素变化可能对糖尿病发病有重要影响。"
 ---
 
 # Feline diabetes mellitus in the UK

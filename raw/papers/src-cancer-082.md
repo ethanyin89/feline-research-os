@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "Key reference for understanding FeLV-induced lymphoma mechanism."
     - "Full-text required for specific pathogenesis details."
+  # V2 enhanced fields
+  study_design: "实验感染研究（1979 年 JNCI），控制条件下的 FeLV 发病机制研究，Rojko/Hoover 实验室"
+  core_argument: "FeLV 实验感染可阐明病毒发病机制——受控实验条件允许研究感染动力学、病毒复制和宿主反应——为理解 FeLV 诱导淋巴瘤机制奠定基础"
+  implicit_premise: "假设实验感染条件下的发病机制可代表自然感染；假设 1979 年的基础研究仍有当代参考价值"
+  unexpected_finding: "无法从可用信息确定——无 PubMed 摘要（1979 年论文）——全文需要获取才能识别具体机制发现"
+  title_gap: "标题说实验性 FeLV 感染的发病机制，但真正价值是方法学基础：Rojko/Hoover 实验室是 FeLV 研究先驱——建立了实验感染模型——为后续淋巴瘤机制研究奠定基础"
+  evidence_boundary: "无 PubMed 摘要的历史论文；仅支持 FeLV 发病机制历史背景，不支持当代诊断或治疗声明；全文需要获取才能提取具体机制"
 ---
 
 # Pathogenesis of Experimental Feline Leukemia Virus Infection

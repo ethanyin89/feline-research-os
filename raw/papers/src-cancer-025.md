@@ -30,6 +30,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "系统综述，使用兽医肿瘤学预后研究推荐指南评估 FMC 预后参数文献"
+  core_argument: "肿瘤分级和淋巴结/淋巴管侵犯是统计学显著可靠的 FMC 预后参数——但方法学和研究设计标准化不足削弱了领域证据质量"
+  implicit_premise: "假设人类乳腺癌预后研究方法论可直接应用于 FMC；假设标记物表达与临床结局直接相关"
+  unexpected_finding: "领域内方法学和研究设计标准化不足使研究结果比较困难——这一基础设施问题可能比任何单一预后标记物更重要"
+  title_gap: "标题说 FMC 预后评估文献综述，但真正发现是方法学危机：回顾性设计和缺乏标准化削弱了领域内几乎所有研究——肿瘤分级和淋巴管侵犯是少数幸存的可靠标记物"
+  evidence_boundary: "2015 年综述，Ki67/HER2/ER 等标记物表达需共识方案——'替代标记物'（与分级相关而非临床结局）方法削弱部分标记物证据"
 ---
 
 # Prognostic Evaluation of Feline Mammary Carcinomas: A Review of the Literature

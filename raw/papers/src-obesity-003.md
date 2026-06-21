@@ -29,6 +29,12 @@ evidence_policy:
     - "Because it is cross-species and management-focused, it should be read after feline-specific shell sources and before any owner-facing management page."
   llm_inference:
     - "The article may help organize weight-loss and prevention branches, but cannot yet support a protocol recommendation."
+  # V2 enhanced fields
+  study_design: "综述性研究，涵盖犬猫跨物种肥胖管理文献，分析现有肥胖治疗策略及管理措施"
+  core_argument: "跨物种的犬猫肥胖管理策略为优化 feline 肥胖治疗路径提供了重要的管理框架和实践指南"
+  implicit_premise: "犬猫肥胖的病理生理机制和管理策略具有可比性，跨物种研究能够为 feline 肥胖管理提供指导意义"
+  title_gap: "标题强调犬猫肥胖管理，但真正价值在于该综述提供了跨物种视角，有助于填补 feline 肥胖管理技术和临床路径的空白——提供了系统化的管理候选方案"
+  evidence_boundary: "未涉及具体 feline 肥胖病理的分子机制研究及单独物种的临床试验数据，缺乏详细的个体化干预效果评估"
 ---
 
 # Canine and Feline Obesity Management

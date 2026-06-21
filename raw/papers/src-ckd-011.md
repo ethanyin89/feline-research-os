@@ -41,6 +41,13 @@ evidence_policy:
   llm_inference:
     - The vault should continue to treat fibrosis as the mechanism anchor and TGF-beta as the first serious mediator-level expansion under that anchor.
     - Future mediator cards should preserve a visible `cat-specific evidence ceiling` rather than importing broad non-feline fibrosis literature unqualified.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 CKD 中已知的肾纤维化介质和机制"
+  core_argument: "肾小管间质纤维化是猫 CKD 最常见的病理诊断，也是与功能最相关的病变——它是最稳定的机制锚点，但只有少数介质在猫中被研究过"
+  implicit_premise: "假设纤维化作为收敛病变比推测性启动病因更稳定；假设抗纤维化靶点在转化上有吸引力"
+  unexpected_finding: "文献中报告了许多纤维化介质和机制，但只有少数在猫中被研究过——这需要物种特异性证据上限"
+  title_gap: "标题说已知介质和机制，但真正发现是证据天花板：文献中许多纤维化介质只在其他物种研究过——猫特异性证据基础仍然薄弱"
+  evidence_boundary: "机制综述，不是猫的干预研究；抗纤维化干预在猫中尚未临床验证"
 ---
 
 # Renal fibrosis in feline chronic kidney disease: Known mediators and mechanisms of injury

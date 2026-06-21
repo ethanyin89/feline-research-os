@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "Likely contains baseline cancer morbidity rates for cats and dogs in Alameda County."
     - "May provide historical prevalence data for registry-and-prevalence.md."
+  # V2 enhanced fields
+  study_design: "基于人群的流行病学调查（1968 年 JNCI），阿拉米达县动物肿瘤登记处，犬猫癌症发病率统计"
+  core_argument: "这是美国动物癌症登记系统的基础性研究——来自人口定义明确的地理区域——为后续 Schneider 等人的研究奠定基础"
+  implicit_premise: "假设 1968 年的登记方法在流行病学上仍有参考价值；假设阿拉米达县代表更广泛的美国伴侣动物群体"
+  unexpected_finding: "无法确定——1975 年前论文无 PubMed 摘要；需要全文提取具体发现"
+  title_gap: "标题说阿拉米达县犬猫癌症发病率调查，但真正价值是基础数据：这是 Schneider 等人后续白血病和淋巴瘤研究的基础——建立了基于人群的兽医肿瘤流行病学范式"
+  evidence_boundary: "1968 年历史数据；无摘要可用；具体发病率数字需要全文访问；仅限参考来源所有权"
 ---
 
 # Survey of animal neoplasms in Alameda and Contra Costa Counties, California. II. Cancer morbidity in dogs and cats from Alameda County

@@ -38,6 +38,13 @@ evidence_policy:
     - "Pancreatitis should be considered in any diabetic cat with difficult glycemic control."
     - "The complexity of concurrent disease argues against single-pathway treatment algorithms."
     - "DKA plus pancreatitis warrants intensive management and monitoring."
+  # V2 enhanced fields
+  study_design: "综述性研究，汇总既有文献，重点讨论猫糖尿病与胰腺炎的临床相关性"
+  core_argument: "猫糖尿病与胰腺炎之间存在双向病理关联，胰腺炎既可能导致糖尿病，也可能因糖尿病而加重，二者共病显著增加临床管理难度"
+  implicit_premise: "现有的临床和病理证据能够反映糖尿病与胰腺炎之间的因果与相互影响，且这些证据具有一定的代表性和可靠性"
+  title_gap: "标题表明研究糖尿病与胰腺炎的共病关系，但实际发现明确提出二者关系多为双向交互作用，提示单向因果解释不足"
+  evidence_boundary: "论文未确定糖尿病与胰腺炎之间的具体分子病理机制，也未提供前瞻性临床试验数据来验证因果关系"
+  unexpected_finding: "糖尿病酮症酸中毒合并胰腺炎是特别复杂且治疗难度极高的临床情形，凸显二者共病的严重性"
 ---
 
 # Feline Comorbidities: Clinical perspective on diabetes mellitus and pancreatitis

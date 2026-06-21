@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first modern deep-extracted broad-review shell anchor in the FCV module.
     - The safest downstream wording is `modern shell review for common, variable, control-relevant FCV`, not `final narrow-branch authority`.
+  # V2 enhanced fields
+  study_design: "综述性研究，整合全球范围内猫科杯状病毒（FCV）相关文献，涵盖遗传学、免疫学、诊断学、预防及卫生控制等多个方面"
+  core_argument: "猫科杯状病毒具有高度变异性，临床识别时应保持谨慎，并且诊断与控制需要将卫生管理纳入疾病综合防控体系，而非仅作为附加措施"
+  implicit_premise: "现有的文献与研究数据能够全面反映FCV的遗传变异、免疫应答及临床诊断挑战，从而支持构建统一且实用的临床诊疗框架"
+  title_gap: "标题强调FCV的最新进展，但本文突出强调变异性和识别上的谨慎性，以及卫生控制的重要性——这些常被忽视却对临床决策关键"
+  evidence_boundary: "本文未解决具体FCV治疗方案的效果评估，也未提供新疫苗的临床试验数据，且未涉及猫群体中病毒传播动力学的详细实证研究"
+  unexpected_finding: "最新瑞士研究表明，并非所有疑似FCV感染的猫均为病毒阳性，提示传统诊断方法存在一定假阳性风险"
 ---
 
 # An Update on Feline Calicivirus

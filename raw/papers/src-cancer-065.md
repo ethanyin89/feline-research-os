@@ -40,6 +40,13 @@ evidence_policy:
   llm_inference:
     - "Combined with src-cancer-063 (LGAL molecular) and src-cancer-068 (Australian demographics), provides modern lymphoma context."
     - "The IBD-diet-lymphoma connection needs explicit uncertainty framing."
+  # V2 enhanced fields
+  study_design: "回顾性流行病学研究（2005 年 JVIM），UC Davis VMTH 1983-2003 年 21 年猫淋巴瘤病例回顾"
+  core_argument: "后 FeLV 时代淋巴瘤流行病学发生了根本转变——FeLV 相关淋巴瘤减少但总发病率反而增加——增加主要由肠道淋巴瘤驱动——暹罗/东方品种在年轻猫中纵隔淋巴瘤高发——IBD 和饮食与肠道淋巴瘤的关联值得进一步研究"
+  implicit_premise: "假设单中心（UC Davis）数据可代表更广泛趋势；假设 FeLV 检测/疫苗接种是 FeLV 相关淋巴瘤减少的主因"
+  unexpected_finding: "尽管 FeLV 相关淋巴瘤减少，总淋巴瘤发病率实际上增加了——这个'悖论'表明非 FeLV 因素在现代猫淋巴瘤中更重要——肠道淋巴瘤的崛起是主要驱动力"
+  title_gap: "标题说后 FeLV 时代的猫淋巴瘤，但真正发现是流行病学转变的量化：FeLV-淋巴瘤减少同时总淋巴瘤增加——由肠道型驱动——暗示新的病因学关注点（IBD、饮食）"
+  evidence_boundary: "单中心回顾性研究（UC Davis）；支持 FeLV 转变背景和肠道淋巴瘤崛起假说，不直接支持 IBD-饮食病因声明；2005 年发表可能不反映 2020s 模式"
 ---
 
 # Feline Lymphoma in the Post—Feline Leukemia Virus Era

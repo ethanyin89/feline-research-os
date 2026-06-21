@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "Novel molecular biomarker research; FA-SAT is present in both cat and human genomes."
     - "May inform mammary-carcinoma.md claims about emerging biomarkers."
+  # V2 enhanced fields
+  study_design: "原始研究（2022 年 OMICS），猫乳腺肿瘤中 FA-SAT 卫星 ncRNA 的 DNA 和 RNA 水平分析，与临床病理参数相关"
+  core_argument: "FA-SAT ncRNA 与猫乳腺肿瘤临床病理参数相关——DNA 水平与淋巴血管侵犯正相关——长链 RNA 与 Ki-67 负相关、与 ER 状态正相关——小 RNA 与肿瘤大小和皮肤溃疡正相关——FA-SAT 在猫和人类基因组中都存在"
+  implicit_premise: "假设相关性代表因果关系或预后价值；假设猫-人类 FA-SAT 保守性意味着转化研究价值"
+  unexpected_finding: "FA-SAT 长链 RNA 与 ERBB2 和 c-MYC RNA 水平相关——这种卫星 ncRNA-癌基因关联提示新的调控机制——可能为猫乳腺癌分子亚型提供新的生物标记物"
+  title_gap: "标题问卫星 ncRNA 能否作为癌症生物标记物，但真正发现是多重相关：FA-SAT 不同形式（DNA、长 RNA、小 RNA）与不同临床参数相关——提示复杂的生物学功能——但临床效用尚未验证"
+  evidence_boundary: "研究阶段生物标记物证据；支持新型分子标记物研究背景，不支持临床诊断或预后声明；相关性不等于因果"
 ---
 
 # Satellite Noncoding RNAs (ncRNA) as Cancer Biomarkers? New Insights from FA-SAT ncRNA Molecular and Clinical Profiles in Feline Mammary Tumors

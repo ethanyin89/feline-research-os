@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Potential pan-cancer biomarker for feline oncology."
     - "May inform cancer diagnosis section across tumor types."
+  # V2 enhanced fields
+  study_design: "分子表征研究（2021 年 BMC Vet Res），猫 TK1 的分子克隆、表达纯化和酶学特性研究"
+  core_argument: "血清 TK1 可作为猫癌症的诊断生物标志物——TK1 在癌细胞中上调并泄漏入血——猫 TK1 与其他物种高度相似——底物包括嘧啶脱氧核苷和抗癌/抗病毒核苷类似物"
+  implicit_premise: "假设人类医学中 TK1 作为癌症生物标志物的成功经验可转化到猫；假设血清 TK1 水平与肿瘤负荷相关"
+  unexpected_finding: "猫 TK1 可磷酸化抗癌和抗病毒核苷类似物——暗示这些药物在猫中可能有效——这扩展了 TK1 研究的临床相关性"
+  title_gap: "标题说猫 TK1 的分子表征和血清形式的诊断生物标志物评估，但真正价值是泛癌应用：TK1 不特异于任何肿瘤类型——可作为淋巴瘤、乳腺癌等多种肿瘤的监测标志物——并可能预测核苷类药物敏感性"
+  evidence_boundary: "分子表征证据；支持 TK1 作为生物标志物候选的基础，不直接支持诊断应用——临床验证研究需要"
 ---
 
 # Feline thymidine kinase 1: molecular characterization and evaluation of its serum form as a diagnostic biomarker

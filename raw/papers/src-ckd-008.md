@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - Prevention pages should continue to distinguish `aspirational upstream prevention` from `current management and earlier recognition`.
     - This source belongs in translation and conflict tracking, not only as a broad philosophical review.
+  # V2 enhanced fields
+  study_design: "综述，探讨猫 CKD 能否从治疗转向预防（2011 年）"
+  core_argument: "真正的 CKD 预防仍受限于上游病因未知——肾脏处方粮和蛋白尿仍是最可靠的实践锚点，但绝大多数猫 CKD 的病因仍然未知"
+  implicit_premise: "假设预防需要解决病因学；假设当前支持性治疗不等于真正的疾病预防"
+  unexpected_finding: "与狗、啮齿动物和人类不同，猫的显著蛋白尿不常见——这限制了从其他物种导入蛋白尿逻辑"
+  title_gap: "标题问能否从治疗转向预防，但真正边界是物种特异性：猫的显著蛋白尿不常见，限制了从其他物种导入治疗逻辑——真正的预防需要解决未知病因"
+  evidence_boundary: "2011 年综述，部分关于高血压预后价值的声明需与后续文献调和"
 ---
 
 # Feline chronic kidney disease: Can we move from treatment to prevention?

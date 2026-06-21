@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the early field-fit stress-test anchor beneath later UK breadth and challenge papers.
     - The safest downstream wording is `laboratory neutralization can look much cleaner than field-isolate coverage`.
+  # V2 enhanced fields
+  study_design: "原始实验研究，使用特定病原体清除猫（SPF猫）接种市售四种不同猫杯状病毒（FCV）疫苗，通过两次注射后采集免疫血清，评估其对实验室及36种现场分离株的中和效力"
+  core_argument: "市售FCV疫苗诱导的免疫血清对实验室株中和效果较好，但对大量现场分离株中和能力不足，且存在现场株与疫苗株中和抗原性差异显著"
+  implicit_premise: "疫苗诱导的中和抗体水平可直接反映疫苗对现场流行株的保护能力"
+  title_gap: "标题强调市售FCV疫苗免疫血清的中和特性，但实际发现大多数现场分离株不能被各疫苗血清充分中和——提示存在疫苗抗原覆盖范围局限"
+  evidence_boundary: "本研究未评估疫苗对临床预防效果及具体保护率，亦未探讨免疫机制及疫苗改良策略"
+  unexpected_finding: "有八种现场分离株未被任何一种疫苗免疫血清中和，表明现有疫苗株与部分现场株抗原显著不匹配"
 ---
 
 # Neutralizing Feature of Commercially Available Feline Calicivirus (FCV) Vaccine Immune Sera against FCV Field Isolates

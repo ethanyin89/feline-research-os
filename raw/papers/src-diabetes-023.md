@@ -36,6 +36,13 @@ evidence_policy:
     - "Herbal or broad therapeutic discussion should not be promoted without separate evidence review."
   llm_inference:
     - "Use this card for context and branch reminders, not core feline-specific conclusions."
+  # V2 enhanced fields
+  study_design: "综述比较研究，涵盖犬、猫及部分野生动物糖尿病发生情况，结合文献回顾和病例对比分析"
+  core_argument: "猫与人类糖尿病在胰岛淀粉样变性及β细胞和α细胞丧失方面表现出相似的病理特征，表明两者糖尿病有共通的病因机制。"
+  implicit_premise: "不同物种间糖尿病的病理特征和发病机制具备可比性，且胰腺疾病与糖尿病之间存在普遍相关性。"
+  title_gap: "标题强调犬、猫和野生动物糖尿病的比较，但核心发现揭示了猫糖尿病与人类糖尿病在胰岛病理上的高度相似性——这为猫糖尿病研究提供了重要的人类参考价值。"
+  evidence_boundary: "本研究未针对猫糖尿病的特异流行病学数据与临床管理方案进行详尽分析，亦未验证具体治疗方法的疗效。"
+  unexpected_finding: "尽管涵盖多物种，研究指出猫糖尿病与人类糖尿病在胰岛淀粉样变性方面的相似性，而非仅仅与犬类相似，提示猫更适合作为人类糖尿病模型。"
 ---
 
 # Comparative occurrence of diabetes in canine, feline, and few wild animals and their association with pancreatic diseases and ketoacidosis with therapeutic approach

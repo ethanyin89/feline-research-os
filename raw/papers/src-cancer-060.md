@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "回顾性病例系列（1979 年 Cancer Research），184 例猫白血病/淋巴瘤，波士顿 1972-1976，荧光抗体 FeLV 检测"
+  core_argument: "FeLV 阴性猫白血病/淋巴瘤是真实存在的独立实体——33% 病例 FeLV 阴性——阴性猫诊断年龄更大（4.9 vs 3.5 岁）——68% >8 岁猫是 FeLV 阴性——病毒感染到癌症的平均诱导期 16.7 个月"
+  implicit_premise: "假设荧光抗体检测代表真正的病毒状态（1970s 技术局限）；假设波士顿队列可外推到其他地区"
+  unexpected_finding: "FeLV 阴性猫在老年猫中占主导——挑战了'猫白血病/淋巴瘤主要是病毒引起的'简单叙事——提示存在非病毒致癌途径或病毒清除后的迟发效应"
+  title_gap: "标题说病毒阳性和病毒阴性猫白血病/淋巴瘤的比较，但真正发现是年龄分层：FeLV 阴性病例集中在老年猫——这种年龄-病毒状态关联在 1979 年是新发现"
+  evidence_boundary: "历史性 FeLV 时代流行病学；支持历史比较背景，不支持当代患病率估计或治疗决策；检测技术已过时"
 ---
 
 # Comparison of virus-positive and virus-negative cases of feline leukemia and lymphoma

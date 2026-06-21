@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "回顾性病理学实验室研究（2010 年 JSAP），233 例 ≤12 月龄猫肿瘤，英国 Idexx 实验室 1993-2008 活检提交"
+  core_argument: "幼猫肿瘤谱系与成年猫不同——淋巴瘤最常见（22%）、软组织肉瘤（15%）、肥大细胞瘤（9%）、鳞状细胞癌（7%）——70% 为恶性——皮肤/软组织是最常见部位（41%）——血液肿瘤占 31%"
+  implicit_premise: "假设活检提交比例代表真实肿瘤发生率（存在转诊和提交偏倚）；假设单一实验室数据集可代表更广泛的幼猫肿瘤流行病学"
+  unexpected_finding: "淋巴瘤在幼猫中占主导地位——这与成年猫中淋巴瘤也是常见恶性肿瘤的发现一致——但幼猫淋巴瘤可能与 FeLV 关联更强（历史数据支持）"
+  title_gap: "标题说幼猫肿瘤学的回顾性评估，但真正发现是分母纪律：活检提交比例（6% 为肿瘤性）不等于种群发病率——需要将幼猫肿瘤数据与全年龄数据分开标注"
+  evidence_boundary: "活检提交队列，非种群发病率；支持幼猫肿瘤学概述和肿瘤类别架构，不支持全年龄患病率估计或种群风险计算"
 ---
 
 # Feline paediatric oncology: retrospective assessment of 233 tumours from cats up to one year (1993 to 2008)

@@ -28,6 +28,12 @@ evidence_policy:
     - "mRNA vaccine technology is applicable to FCV and provides protective immunity."
   llm_inference:
     - "Novel vaccine platform for FCV; potential for improved cross-protection."
+  # V2 enhanced fields
+  study_design: "原始实验研究，使用家猫进行FCV VP1基因编码的mRNA疫苗免疫及病毒挑战试验"
+  core_argument: "基于猫杯状病毒VP1蛋白的mRNA疫苗能够有效激发免疫反应，从而在病毒挑战中保护猫免受FCV感染"
+  implicit_premise: "mRNA疫苗设计正确表达VP1蛋白，且动物体内的免疫系统能够识别并产生保护性免疫"
+  title_gap: "标题强调疫苗保护作用，但真正发现是mRNA技术在猫病毒疫苗领域的实用性和潜力——突破传统疫苗平台的限制"
+  evidence_boundary: "未探讨疫苗长期免疫持续性、安全性及在不同品种或年龄猫群中的效果"
 ---
 
 # Feline calicivirus VP1-based mRNA vaccine protects cats against FCV challenge

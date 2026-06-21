@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - "Key paper for lymphoma.md FeLV transmission epidemiology."
     - "Hardy WD Jr is seminal FeLV researcher."
+  # V2 enhanced fields
+  study_design: "实验感染研究（1977 年 JNCI），37 只 SPF 猫，Rickard 株 FeLV 接种，同笼接触传播 40 周观察"
+  core_argument: "水平传播需要病毒血症（gsa 阳性）源猫——20/37 接种猫变为 gsa 阳性——与 gsa+ 猫接触的 17/20 接触猫感染——与 gsa- 猫接触的 0% 感染——gsa 状态可预测传播风险"
+  implicit_premise: "假设实验条件（SPF 猫、同笼接触）可代表自然多猫家庭传播；假设 Rickard 株可代表野生型 FeLV"
+  unexpected_finding: "17/37 接种猫保持 gsa 阴性但产生抗体——这些猫不传播病毒——暗示病毒清除者是安全的共处伙伴——这对多猫家庭管理有重要意义"
+  title_gap: "标题说实验条件下 FeLV 水平传播，但真正发现是传播风险分层：gsa 状态（而非感染史）决定传播能力——gsa- 抗体阳性猫不传播——这为 FeLV 阳性猫的管理提供依据"
+  evidence_boundary: "实验传播证据（Hoover/Hardy 实验室）；支持 gsa 状态与传播风险的关联，但不直接支持当代多猫家庭管理建议——需要结合当代诊断方法解读"
 ---
 
 # Horizontal Transmission of Feline Leukemia Virus Under Experimental Conditions

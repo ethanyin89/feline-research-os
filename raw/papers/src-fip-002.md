@@ -29,6 +29,11 @@ evidence_policy:
   llm_inference:
     - This paper will likely help keep the FIP endpoint layer from collapsing into only mutation and clinicopathology logic.
     - The paper is most valuable when the case is already suspicious and needs richer laboratory context rather than a shortcut.
+  # V2 enhanced fields
+  study_design: "原始研究，比较 FIP 猫与冠状病毒暴露猫的急性期蛋白和免疫球蛋白变化"
+  core_argument: "FIP 猫与单纯冠状病毒暴露猫在急性期蛋白和免疫球蛋白浓度上存在差异——这提供了非突变、非临床病理学的实验室支持证据"
+  implicit_premise: "假设急性期蛋白/免疫球蛋白变化可作为诊断支持而非确诊依据；假设冠状病毒暴露组是合理的比较对象"
+  evidence_boundary: "支持性实验室证据，不能替代临床病理学主导的诊断；具体标志物的判别性能需阅读全文确定"
 ---
 
 # One-line Summary

@@ -41,6 +41,13 @@ evidence_policy:
     - "Any remission claim should be qualified with evidence-grade caveats from this review."
     - "Single-factor remission predictors (diet alone, insulin type alone) should not be promoted."
     - "Remission potential supports treatment engagement but should not dominate disease framing."
+  # V2 enhanced fields
+  study_design: "系统综述，纳入22项关于猫糖尿病缓解的研究，采用Cochrane协作网系统综述方法学"
+  core_argument: "猫糖尿病缓解是真实并有文献支持的现象，但没有单一因素或治疗方案能够可靠预测缓解发生"
+  implicit_premise: "现有纳入研究的数据质量和方法学足以进行系统评价且能够综合判断缓解的证据强度"
+  title_gap: "标题强调系统综述猫糖尿病缓解，但真正发现是多数缓解主张缺乏强有力证据支持，显示了领域内的认知分歧"
+  evidence_boundary: "无法确定影响猫糖尿病缓解的具体单一预测因子以及最优胰岛素治疗方案"
+  unexpected_finding: "不同类型和方案的胰岛素治疗均有可能达到缓解，没有单一胰岛素类型或治疗协议优于其他"
 ---
 
 # Systematic review of feline diabetic remission: Separating fact from opinion

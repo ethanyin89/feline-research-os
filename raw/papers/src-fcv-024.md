@@ -29,6 +29,13 @@ evidence_policy:
     - The paper supports keeping vaccine-failure investigation below simplistic “new resistant strain” narratives.
   llm_inference:
     - This source should pair naturally with later phylogeny and vaccine-breadth papers.
+  # V2 enhanced fields
+  study_design: "病毒分离与基因测序研究，采集多起猫杯状病毒（FCV）感染病例病毒样本，应用高变区序列分析进行流行病学关联性调查"
+  core_argument: "猫杯状病毒高变区序列分析能够精准区分疫情相关的病毒株与非相关株，有助于识别疫苗失效背后的病毒起源"
+  implicit_premise: "高变区序列的遗传差异能够反映病毒传播链条及疫苗相关性，且序列聚类结果与流行病学数据一致"
+  title_gap: "标题强调高变区序列在流行病调查中的应用，但真正揭示的是疫苗失效株既可能来源于疫苗，也可能来自多样的野外株——疫苗失效不应简单归因于新耐药株"
+  evidence_boundary: "该研究未评估不同疫苗保护效力或临床症状差异，亦未探讨病毒免疫逃逸机制及疫苗改进策略"
+  unexpected_finding: "部分疫苗失效病毒株序列与疫苗株高度相似，提示疫苗株本身可能参与流行过程，突破传统仅把疫苗失效归因于野外变异株的观念"
 ---
 
 # The use of sequence analysis of a feline calicivirus (FCV) hypervariable region in the epidemiological investigation of FCV related disease and vaccine failures

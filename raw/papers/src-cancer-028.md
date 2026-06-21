@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述（2012 年 Vet J），FMC 组织病理学和分子预后标记物，与人类乳腺癌比较"
+  core_argument: "肿瘤分级和有丝分裂指数是经验证的 FMC 预后标记物——高 ER 阴性率使 FMC 成为晚期激素独立型乳腺癌的模型"
+  implicit_premise: "假设'替代标记物'方法（与分级相关而非临床结局）可验证分子标记物的预后价值；假设 Ki67 等标记物在标准化后将有预后价值"
+  unexpected_finding: "许多研究使用'替代标记物'（如与组织学分级相关）而非临床结局来评估分子标记物预后价值——这一方法学缺陷削弱了部分标记物的证据"
+  title_gap: "标题说 FMC 的组织病理学和分子预后标记物，但真正发现是模型特异性：FMC 高 ER 阴性率使其仅适合作为晚期激素独立型乳腺癌的模型——而非所有乳腺癌亚型"
+  evidence_boundary: "2012 年综述，分子标记物建议可能已进化；'替代标记物'方法警告削弱部分标记物证据"
 ---
 
 # Prognostic histopathological and molecular markers in feline mammary neoplasia

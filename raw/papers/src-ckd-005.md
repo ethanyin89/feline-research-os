@@ -39,6 +39,13 @@ evidence_policy:
   llm_inference:
     - Early-detection and translation pages should explicitly connect earlier recognition to the limited set of interventions that currently change meaningful outcomes.
     - Future-oriented review language should be compiled as strategic direction, not as proof that prevention or disease modification is already operationally solved.
+  # V2 enhanced fields
+  study_design: "综述，探讨猫 CKD 的未来方向和未解决问题"
+  core_argument: "猫 CKD 管理仍受限于晚期诊断和缺乏阻止疾病进展的能力——只有肾脏处方粮被证明显著改善生存时间，其他为支持治疗"
+  implicit_premise: "假设早期检测是解决晚期诊断问题的主要策略；假设当前以支持性治疗为主的现状反映了真正的证据空白"
+  unexpected_finding: "与人类 CKD 不同，猫 CKD 最常见的是肾小管间质病变而非主要肾小球病变——这限制了人类肾脏病学知识的直接转移"
+  title_gap: "标题说未来方向，但真正发现是物种边界：猫 CKD 主要是肾小管间质病变而非肾小球病变——限制了人类肾脏病学知识的直接转移"
+  evidence_boundary: "未来方向综述包含议程设置语言；不验证任何特定未来治疗类别"
 ---
 
 # Feline CKD: New horizons – where do we go from here?

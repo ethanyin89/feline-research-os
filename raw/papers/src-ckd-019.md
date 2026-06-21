@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - The vault should now treat hyperthyroidism as a comorbidity that can both trigger CKD suspicion and distort CKD biomarker interpretation.
     - The safest operational framing is `concurrent hyperthyroidism changes interpretation cadence`, not `hyperthyroidism creates a new CKD subtype`.
+  # V2 enhanced fields
+  study_design: "综述，讨论猫甲亢与 CKD 并发的相互掩盖、监测和管理"
+  core_argument: "甲亢可掩盖 CKD，CKD 可使甲状腺解释复杂化——恢复甲状腺功能正常后需要主动肾脏再评估，因为氮质血症可能出现或恶化"
+  implicit_premise: "假设并发病改变解释而非创造新 CKD 亚型；假设医源性甲减是所有甲亢治疗选择的公认并发症"
+  unexpected_finding: "医源性甲减增加氮质血症风险——这使甲亢治疗后随访逻辑从被动观察变为主动肾脏再评估"
+  title_gap: "标题说平衡甲亢和 CKD，但真正发现是双向掩盖：甲亢可掩盖 CKD，恢复甲功后氮质血症可能出现——需要主动肾脏再评估而非被动观察"
+  evidence_boundary: "综述文章，强于解释和监测逻辑而非新的生物标志物或疗效声明"
 ---
 
 # Feline Comorbidities: Balancing hyperthyroidism and concurrent chronic kidney disease

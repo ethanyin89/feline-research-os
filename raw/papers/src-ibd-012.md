@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports an inflammatory-imbalance interpretation for idiopathic feline IBD, but not an operational diagnostic shortcut.
   llm_inference:
     - This paper is most useful as an idiopathic-IBD-side pathology depth page rather than a boundary-separation page.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，纳入9只患有特发性炎症性肠病的猫及健康对照样本，采用免疫组织化学方法检测多种炎症及免疫标志物表达差异"
+  core_argument: "特发性猫炎症性肠病患者肠组织中TNF-α、IL-1β、IL-12及CD3阳性表达显著不同于健康猫，提示该病存在炎症失衡机制，但单凭组织学无法确诊"
+  implicit_premise: "不同炎症因子和免疫细胞的表达差异直接反映了炎症性肠病的病理生理状态，且这些标志物的检测足以揭示疾病机制"
+  title_gap: "标题强调免疫组织化学发现，但实际揭示的是组织学检查不足以独立诊断特发性炎症性肠病，强调需综合诊断思路——这一点常被忽视"
+  evidence_boundary: "该研究未评估临床治疗效果、病因学机制及长期预后，也未系统验证免疫标志物的诊断敏感性与特异性"
+  unexpected_finding: "TGF-β、IL-10和FOXP3等免疫调节相关因子的表达在患病猫与健康猫间无显著差异，挑战了其作为免疫抑制标志物的作用假设"
 ---
 
 # One-line Summary

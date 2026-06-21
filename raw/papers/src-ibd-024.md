@@ -27,6 +27,12 @@ evidence_policy:
     - This source likely helps keep the module framed in real-world chronic enteropathy practice, not only narrow IBD research language.
   llm_inference:
     - This paper may become a useful secondary overview anchor after the broad IBD review is extracted.
+  # V2 enhanced fields
+  study_design: "综述文章，涵盖猫慢性肠病的临床表现和管理，基于现有文献及实践经验总结"
+  core_argument: "本综述强调，在猫慢性肠病的临床处理中，应将视野拓宽至实际慢性肠道疾病的多维管理，而非仅聚焦于狭义的炎症性肠病研究"
+  implicit_premise: "现有慢性肠病的研究语言过于狭窄，难以完全反映临床多样化的病理表现和治疗需求"
+  title_gap: "标题表明是关于猫慢性肠病的常见问题，但文章深入展示了如何将理论研究与临床实际案例紧密结合，从而提升诊疗实用性——这远超出一般综述的概括性介绍"
+  evidence_boundary: "本文未具体解决慢性肠病中各亚型的分子机制，也未提供新型诊断技术的验证数据"
 ---
 
 # One-line Summary

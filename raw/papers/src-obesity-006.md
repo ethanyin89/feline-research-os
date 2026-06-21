@@ -29,6 +29,12 @@ evidence_policy:
     - "It should be read before any obesity management topic page is written."
   llm_inference:
     - "The source may become a management owner, but only after extraction confirms what claims are evidence-supported."
+  # V2 enhanced fields
+  study_design: "综述文章，聚焦于猫的肥胖管理，综合分析已有文献和实践指南"
+  core_argument: "针对猫的肥胖管理策略需基于其特有的生理和行为特征，以实现有效的减重和长期体重控制"
+  implicit_premise: "猫的肥胖机制和管理方法与其他物种存在显著差异，因此需要专门针对猫的研究和指导"
+  title_gap: "标题强调肥胖管理，但真正的价值在于全面总结猫肥胖管理的独特挑战与策略，指导临床实践"
+  evidence_boundary: "未详细解答具体减重方案的临床试验效果，也未涉及肥胖预防策略的长期追踪"
 ---
 
 # Management of obesity in cats

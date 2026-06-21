@@ -31,6 +31,13 @@ evidence_policy:
     - The review supports modeling the early IBD module around diagnostic exclusion and disease-boundary handling, not around one lead biomarker.
   llm_inference:
     - This was the correct first IBD deep extraction target because it stabilizes the whole workup architecture before narrower branches are deepened.
+  # V2 enhanced fields
+  study_design: "综述性研究，聚焦猫炎症性肠病，综合分析文献和病例资料"
+  core_argument: "猫炎症性肠病是一种排除性诊断，必须排除饮食不耐受、过敏及肠道淋巴肉瘤等疾病才能确诊"
+  implicit_premise: "临床与组织学表现相似的疾病能被准确区分，且有经验的病理专家能够正确解读肠道活检结果"
+  title_gap: "标题提到炎症性肠病，但真正重点在于诊断过程中如何通过排除其他相似疾病来界定IBD的诊断边界"
+  evidence_boundary: "本综述未明确指出具体治疗方案或长远预后，仅聚焦于诊断学层面"
+  unexpected_finding: "饮食不耐受或过敏以及肠道淋巴肉瘤在临床和组织学上能高度模拟IBD，增加诊断复杂度"
 ---
 
 # One-line Summary

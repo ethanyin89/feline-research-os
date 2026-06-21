@@ -43,6 +43,13 @@ evidence_policy:
     - "Human HER2-targeted therapies may translate to FMC given 90-95% homology."
     - "Multi-target combination therapies may overcome single-agent resistance."
     - "Checkpoint inhibitors (anti-PD1) represent emerging therapeutic avenue."
+  # V2 enhanced fields
+  study_design: "综合综述（2021 年 Vet Sci），FMC 生物标志物和靶向治疗综述，葡萄牙研究团队"
+  core_argument: "FMC 是研究 HER2+ 和三阴性人类乳腺癌的有效模型——HER2+ 占 33-60%——猫/人 HER2 同源性 90-95%——TKIs（拉帕替尼、奈拉替尼）和 mAbs（曲妥珠单抗、帕妥珠单抗）在体外显示疗效——联合治疗有协同效应"
+  implicit_premise: "假设体外疗效可转化为临床疗效；假设人类 HER2 靶向药物的作用机制在猫中保守；假设 90-95% 同源性足以预测药物反应"
+  unexpected_finding: "HER2 阴性细胞系（FMCp）对拉帕替尼显示 100% 细胞毒性反应——暗示 TKIs 可能通过非 HER2 靶点也有效——这扩展了潜在治疗人群"
+  title_gap: "标题说 FMC 中新兴的生物标志物和靶向治疗，但真正发现是治疗策略框架：单药治疗 → 联合治疗 → 多靶点策略——HDACis 和 MTis 是新兴候选药物——但仍需要临床验证"
+  evidence_boundary: "综述文章综合体外数据；支持靶向治疗研究方向和比较肿瘤学框架，不支持临床治疗推荐——体外到体内转化尚未证明"
 ---
 
 # Emerging Biomarkers and Targeted Therapies in Feline Mammary Carcinoma

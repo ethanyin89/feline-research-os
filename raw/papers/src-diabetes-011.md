@@ -39,6 +39,13 @@ evidence_policy:
     - "SGLT2 inhibitors represent a treatment option for selected patients, not a replacement for insulin in all cases."
     - "Patient selection should emphasize residual beta-cell function and absence of DKA risk factors."
     - "The regulatory and safety framework should guide treatment decisions, not marketing convenience."
+  # V2 enhanced fields
+  study_design: "综述性研究，聚焦FDA批准的Bexagliflozin和Velagliflozin在猫糖尿病中的应用，综合分析现有临床试验和病例报告"
+  core_argument: "SGLT2抑制剂作为治疗选定无并发症猫糖尿病的有效药物，需要有残余β细胞功能才能发挥疗效，并且患者筛选至关重要以避免严重并发症如正常血糖性糖尿病酮症酸中毒。"
+  implicit_premise: "SGLT2抑制剂的功效依赖于猫体内仍保有足够的β细胞功能以维持一定的胰岛素分泌，且适当的患者选择能够最大限度降低潜在风险。"
+  title_gap: "标题强调SGLT2抑制剂在猫糖尿病管理中的应用，但真正发现是其仅适用于无并发症且具有残余β细胞功能的特定患者，且存在严重但少见的酮症酸中毒风险——治疗适用范围更受限。"
+  evidence_boundary: "未涉及SGLT2抑制剂对复杂糖尿病病例（如胰岛素依赖型或酮症酸中毒高风险患者）的安全性与疗效，也未涵盖长期使用的潜在影响及与其他治疗手段的直接比较。"
+  unexpected_finding: "发现如正常血糖性糖尿病酮症酸中毒（euglycemic DKA）这一严重并发症与传统认知不同，可能在临床使用中被低估。"
 ---
 
 # SGLT2 inhibitor use in the management of feline diabetes mellitus

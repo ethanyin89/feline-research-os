@@ -9,9 +9,9 @@ models: [open-label clinical trial]
 endpoints: [clinical remission, survival]
 jurisdictions: []
 evidence_level: original-study
-status: extracted
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [fip, molnupiravir, antiviral, treatment, clinical-trial, effusive]
@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Prospective non-inferiority design strengthens molnupiravir evidence vs retrospective case series."
     - "Oral administration may offer practical advantages over GS-441524 formulations."
+  # V2 enhanced fields
+  study_design: "开放标签临床试验，10 只渗出型 FIP 猫使用莫努匹韦 10-15 mg/kg PO BID 84 天，10 只历史对照使用 GS-441524"
+  core_argument: "莫努匹韦作为渗出型 FIP 一线治疗有效——8/10（80%）在 16 周达到缓解，2 只非存活者在治疗前 24 小时内死亡"
+  implicit_premise: "假设历史对照与前瞻性治疗组可比；假设 24 小时内死亡反映疾病严重程度而非药物失败"
+  unexpected_finding: "较低剂量范围（10-15 mg/kg）与病例系列（10-20 mg/kg）相比仍有效——可能降低成本和不良反应"
+  title_gap: "标题说一线治疗有效性，但真正价值是剂量发现：10-15 mg/kg 比文献中 10-20 mg/kg 更低却仍有效——这可能显著降低治疗成本和不良反应风险"
+  evidence_boundary: "小样本（n=10）；开放标签设计；不能外推至非渗出型 FIP；与 GS-441524 的比较为历史对照而非随机对照"
 ---
 
 # Open label clinical trial of molnupiravir as a first-line treatment for effusive FIP

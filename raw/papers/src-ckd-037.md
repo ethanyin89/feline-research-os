@@ -37,6 +37,13 @@ evidence_policy:
     - "FeMV is an emerging pathogen requiring further causation studies."
     - "The 'possible association' wording reflects uncertainty in evidence."
     - "May represent a novel viral etiology for some CKD cases."
+  # V2 enhanced fields
+  study_design: "综述，猫麻疹病毒（FeMV）与猫肾脏疾病可能关联的全球流行病学和机制知识汇总"
+  core_argument: "FeMV 是 2012 年发现的新病毒可能与 TIN 和 CKD 相关——但因果关系未建立，病毒向性和进入机制仍未知"
+  implicit_premise: "假设关联性证据不等于因果证明；假设病毒病因学假说需要机制研究支持而非仅流行病学相关性"
+  unexpected_finding: "病毒在 9 个以上国家检出但机制几乎完全未知——这是罕见的全球分布与知识空白并存的情况"
+  title_gap: "标题说可能与肾病相关的新病毒，但真正发现是知识悖论：FeMV 已在 9 个以上国家检出却机制几乎完全未知——全球分布与知识空白并存，是罕见的'已知未知'状态"
+  evidence_boundary: "叙述性综述有重大知识空白；只能支持关联而非因果；不应用于诊断或治疗建议"
 ---
 
 # Feline Morbillivirus, a New Paramyxovirus Possibly Associated with Feline Kidney Disease

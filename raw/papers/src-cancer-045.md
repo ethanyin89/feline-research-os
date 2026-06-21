@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "前瞻性先导研究（2023 年 Ultrasonics），9 只犬猫表浅乳腺癌，2-MHz 聚焦超声消融后立即手术切除"
+  core_argument: "热聚焦超声可在犬猫乳腺肿瘤中产生明确的凝固性坏死——组织病理学证实所有治疗肿瘤有效消融——但需要更大研究确认安全性和深部肿瘤完全消融的可行性"
+  implicit_premise: "假设聚焦超声在人类乳腺癌中的疗效可转移到伴侣动物；假设先导研究的安全性可扩展到更大群体"
+  unexpected_finding: "摘要未报告脱靶损伤——在表浅肿瘤中实现了精确消融——但立即手术切除使长期结局无法评估"
+  title_gap: "标题说聚焦超声治疗乳腺癌的先导研究，但真正发现是可行性验证：9 例混合犬猫样本仅证明技术可行——临床采用或结局获益需要更大研究"
+  evidence_boundary: "小样本混合犬猫先导研究，FUS 后立即切除；仅支持可行性研究而非临床采用或结局获益"
 ---
 
 # Treatment of mammary cancer with focused ultrasound: A pilot study in canine and feline patients

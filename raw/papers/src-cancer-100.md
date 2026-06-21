@@ -39,6 +39,13 @@ evidence_policy:
     - "FMC drug resistance may relate to triple-negative phenotype and efflux pump expression."
     - "Novel drug combinations or targets are needed for effective FMC therapy."
     - "MCF-7 (ER+) vs FMCm comparison may not reflect TNBC-specific resistance."
+  # V2 enhanced fields
+  study_design: "体外比较研究（2021 年 Animals），FMCm 猫乳腺癌细胞系 vs MCF-7 人乳腺癌细胞系，5-FU 联合药物重定位策略"
+  core_argument: "FMCm 细胞系表现出高度耐药性——与 MCF-7 形成鲜明对比——在 MCF-7 中有效的药物组合（5-FU + 维拉帕米/伊曲康唑）在 FMCm 中无效——这可能解释 FMC 对化疗的临床不良反应"
+  implicit_premise: "假设单细胞系结果可代表整体 FMC 耐药性；假设 MCF-7（ER+）是适当的比较对象——但 FMCm 是 TNBC 样"
+  unexpected_finding: "FMCm 对几乎所有测试药物和组合都表现出耐药——不仅是单药无效，联合用药也无效——暗示 FMC 可能需要完全不同的治疗策略"
+  title_gap: "标题说 FMC 细胞系的高耐药性及与 MCF-7 的比较，但真正发现是翻译差距：人乳腺癌有效的策略不能简单移植到 FMC——可能需要针对 FMC 特异性耐药机制的新方法"
+  evidence_boundary: "体外单细胞系证据；支持 FMC 耐药性概念，但不支持临床治疗推荐——体外到体内转化和多细胞系验证需要"
 ---
 
 # High Drug Resistance in Feline Mammary Carcinoma Cell Line (FMCm) and Comparison with Human Breast Cancer Cell Line (MCF-7)

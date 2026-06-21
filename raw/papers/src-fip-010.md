@@ -31,6 +31,14 @@ evidence_policy:
   llm_inference:
     - This paper should be read alongside mutation-origin and systemic-spread papers to prevent diagnostic overclaim.
     - This paper likely matters most when compared directly against mutation-utility papers such as `src-fip-022`.
+  # V2 enhanced fields
+  core_argument: "刺突蛋白基因突变检测用于 FIP 诊断存在根本性局限，不应作为确诊依据使用"
+  implicit_premise: "假设「突变检测阳性」被临床医生解读为诊断性证据而非仅支持性证据；假设 FIP 病毒与肠道冠状病毒的突变边界是可检测且具有诊断意义的"
+  evidence_boundary: "具体局限性（敏感性/特异性/样本类型/假阳性来源）需阅读全文才能确定；不否定突变检测的全部价值，仅限定其诊断角色上限"
+  tension_with:
+    - source_id: "src-fip-022"
+      type: "qualifies"
+      description: "src-fip-022 报告突变检测的诊断效用，本研究限定其适用边界"
 ---
 
 # One-line Summary

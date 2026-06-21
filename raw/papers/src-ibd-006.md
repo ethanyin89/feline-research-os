@@ -27,6 +27,13 @@ evidence_policy:
     - This source belongs in the microbiota branch of feline IBD mechanism work.
   llm_inference:
     - This paper may become an early mechanistic support anchor behind later microbiota synthesis.
+  # V2 enhanced fields
+  study_design: "原始研究，比较健康猫与炎症性肠病猫的肠道微生物群，采用原位荧光杂交技术分析Desulfovibrio属细菌"
+  core_argument: "炎症性肠病猫的肠道微生物群与健康猫存在显著差异，特别是Desulfovibrio属细菌的丰度变化可能与疾病机制相关"
+  implicit_premise: "原位荧光杂交技术能够准确反映肠道内微生物群的组成和相对丰度，且所选集合样本具有代表性"
+  title_gap: "标题强调对健康与炎症性肠病猫肠道微生物的分子特征描述，但真正揭示的是Desulfovibrio属菌可能在猫肠炎机制中扮演关键角色"
+  evidence_boundary: "未回答肠道微生物群变化是否为炎症性肠病的因果因素，亦未涉及治疗干预或临床结果的影响"
+  unexpected_finding: "发现炎症性肠病猫中Desulfovibrio属细菌相较健康猫显著增多，提示该属细菌与发病可能存在潜在关联"
 ---
 
 # One-line Summary

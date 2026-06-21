@@ -48,6 +48,13 @@ evidence_policy:
     - "Targeted therapies tested in FOSCC could potentially inform human HNSCC treatment and vice versa."
     - "Immunotherapy advances from canine melanoma may have indirect relevance to feline oncology."
     - "The 2-3 month palliative survival emphasizes the urgent need for better FOSCC treatments."
+  # V2 enhanced fields
+  study_design: "叙述性综述（2021 年 Biology），FOSCC 和犬口腔黑色素瘤作为人类 HNSCC 和粘膜黑色素瘤的转化模型"
+  core_argument: "伴侣动物提供独特的转化肿瘤学优势——FOSCC 与人类 HNSCC 共享分子通路（EGFR、p53、VEGF、Cox-2）、组织学表现、环境风险因素（烟草）和临床行为（预后差）——自发肿瘤、相似药物反应、更快进展使临床试验更高效且更便宜"
+  implicit_premise: "假设分子相似性意味着治疗反应可双向转化；假设伴侣动物模型的临床试验优势可超越物种差异的局限性"
+  unexpected_finding: "猫与主人共享环境致癌物暴露——罐头食品高摄入和跳蚤项圈佩戴增加 FOSCC 风险——这种'共同暴露'使伴侣动物成为人类癌症流行病学的哨兵"
+  title_gap: "标题说伴侣动物模型在转化肿瘤学中的应用，但真正论点是模型验证：FOSCC 已被确立为人类 HNSCC 的有效转化模型——填补小鼠模型和人类临床试验之间的差距"
+  evidence_boundary: "叙述性综述证据；支持比较肿瘤学模型框架，不支持具体药物疗效声明或猫的治疗推荐"
 ---
 
 # Companion Animal Model in Translational Oncology; Feline Oral Squamous Cell Carcinoma and Canine Oral Melanoma

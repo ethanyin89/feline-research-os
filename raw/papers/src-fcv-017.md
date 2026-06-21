@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted persistence-control anchor in the FCV module.
     - The safest downstream wording is `disease mitigation without carrier-state closure`, not `vaccine failure` and not `complete protection`.
+  # V2 enhanced fields
+  study_design: "原始实验研究，使用多种猫科病毒株与FCV疫苗株，在多组猫中进行免疫接种及异源挑战，测定抗体反应及病毒持续排泄"
+  core_argument: "虽然广泛交叉反应的FCV疫苗能够显著减少急性临床症状，但并不能有效预防慢性病毒携带与田间持续感染"
+  implicit_premise: "广泛的中和抗体反应应当能够预防病毒的慢性携带和传播"
+  title_gap: "标题聚焦于急性与慢性感染的持续机制，但真正发现是疫苗引发的抗体反应虽广泛，却无法阻断慢性病毒携带和实际环境中的持续传播——揭示了疫苗保护的局限性"
+  evidence_boundary: "本研究未能明确揭示慢性携带状态的具体免疫学机制，也未评估不同疫苗配方对慢性携带率的差异影响"
+  unexpected_finding: "口服接种疫苗株不仅引发急性临床症状，还导致长期口腔病毒排泄，表明疫苗株本身可持续存在于宿主体内"
 ---
 
 # Mechanisms for persistence of acute and chronic feline calicivirus infections in the face of vaccination

@@ -30,6 +30,12 @@ evidence_policy:
     - "Rational vaccine design using field isolate screening."
   llm_inference:
     - "Model for evidence-based multi-strain FCV vaccine development."
+  # V2 enhanced fields
+  study_design: "实验室研究，从日本60个现场分离株中筛选3株猫杯状病毒，通过交叉中和试验进行抗原性和遗传学表征，开发三价灭活疫苗"
+  core_argument: "基于交叉中和试验筛选多株现场分离株用于疫苗开发能显著扩大猫杯状病毒疫苗的抗原覆盖范围"
+  implicit_premise: "现场分离株的交叉中和抗体反应能够代表不同病毒株之间的抗原差异及免疫保护效果"
+  title_gap: "标题强调新剂型三价疫苗的开发，但研究的核心在于通过交叉中和选择多株现场分离株实现更广泛的免疫覆盖——这一方法论创新值得关注"
+  evidence_boundary: "本研究未评估新三价疫苗的临床保护效果和安全性，也未涉及疫苗在实际猫群体中的免疫持久性与广泛适用性"
 ---
 
 # Japanese Trivalent FCV Vaccine Development

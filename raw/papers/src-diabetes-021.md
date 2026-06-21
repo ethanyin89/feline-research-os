@@ -35,6 +35,13 @@ evidence_policy:
     - "Early-control/remission language should defer to src-diabetes-007 for evidence-boundary interpretation."
   llm_inference:
     - "Useful historical clinical overview beneath the 2014 broad overview and newer treatment sources."
+  # V2 enhanced fields
+  study_design: "综述性回顾，汇集多项猫糖尿病临床和流行病学研究，重点分析遗传与环境因素以及临床表现"
+  core_argument: "猫糖尿病是一种多因素疾病，表现大多类似于2型糖尿病，且多数猫在确诊时已需依赖胰岛素治疗"
+  implicit_premise: "多因素发病机制包括遗传背景和环境影响，且现有诊断和治疗手段能够准确区分和管理猫糖尿病类型"
+  title_gap: "标题仅表明讨论猫糖尿病，但论文深入阐释了糖尿病的多因素发病机制及其与胰岛素依赖状态和早期血糖控制的临床相关性——揭示管理策略的重要性"
+  evidence_boundary: "未具体回答最新糖尿病 remission 概念和新兴治疗方法对临床治疗效果的影响"
+  unexpected_finding: "绝大多数猫确诊时已表现为胰岛素依赖状态，而非单纯类似人类2型糖尿病的非胰岛素依赖状态"
 ---
 
 # Diabetes mellitus in cats

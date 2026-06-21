@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "I 期剂量递增研究（2017 年 Human Gene Ther Clin Dev），9 只 FOSCC 猫，3+3 设计，抗 CK2 RNAi 纳米胶囊"
+  core_argument: "抗 CK2 RNAi 纳米胶囊在 FOSCC 猫中显示安全性和初步疗效信号——1 例 PR、3 例 SD、4 例 PD——2/6 可评估活检显示 CK2 免疫组化评分降低——确立 FOSCC 作为人类 HNSCC 转化模型"
+  implicit_premise: "假设 FOSCC 的 CK2 生物学与人类 HNSCC 相似；假设小规模 I 期研究的安全性信号可扩展到更大群体"
+  unexpected_finding: "最常见不良事件是 1-2 级体重下降和厌食——肿瘤反应相关的组织坏死被记录为 3/4 级事件——这种'有效性相关毒性'在评估中需要区分"
+  title_gap: "标题说 FOSCC 中蛋白激酶 CK2 基因表达的治疗靶向，但真正发现是转化模型验证：FOSCC 作为人类 HNSCC 的自然发生大动物模型——可用于临床前治疗开发"
+  evidence_boundary: "小规模早期 FOSCC 研究；支持转化模型和研究性治疗背景，不支持常规治疗推荐；疗效证据仍为初步"
 ---
 
 # Therapeutic Targeting of Protein Kinase CK2 Gene Expression in Feline Oral Squamous Cell Carcinoma: A Naturally Occurring Large-Animal Model of Head and Neck Cancer

@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - This may become a second-generation mediator paper beneath the broader remodeling review.
     - Mechanism pages should probably place this source below the broader remodeling anchor and above any speculative treatment read-through.
+  # V2 enhanced fields
+  study_design: "原始研究，10 只对照猫和 10 只 HCM 猫左心室心肌重塑介质分析"
+  core_argument: "HCM 重塑现在有介质级别子分支——lumican、LOX 和 TGF-beta2 在 HCM 猫心肌中增加，主要归因于心肌细胞表达，与 ECM 和炎症细胞区域相关"
+  implicit_premise: "假设组织/机制数据不等于临床筛查性能；假设介质定位可以在生物标志物或治疗声明之前用于机制页面"
+  unexpected_finding: "介质之间存在强相关性，与促进左心室心肌重塑的通路角色一致——这为模块提供了比泛纤维化桶更丰富的内部结构"
+  title_gap: "标题说重塑介质探索，但真正价值是结构丰富性：lumican、LOX 和 TGF-beta2 之间的强相关性使重塑分支有了比'纤维化'更精细的内部层次"
+  evidence_boundary: "小组织队列（10+10 只猫）；机制深度不直接转化为生物标志物操作或治疗排名"
 ---
 
 # One-line Summary

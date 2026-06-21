@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "This source may anchor the obesity risk-factor architecture page."
     - "It may anchor the associated-pathology branch linking obesity to diabetes, musculoskeletal, skin, and urinary conditions."
+  # V2 enhanced fields
+  study_design: "综述性研究，基于全球多项流行病学数据，系统总结猫的超重与肥胖的风险因素及相关疾病"
+  core_argument: "猫的超重与肥胖的增长与多种外在（如室内久坐、环境刺激不足、加工食品和喂养模式）及内在因素（如遗传、性别和品种）密切相关，并且引发多种伴发病理变化"
+  implicit_premise: "现有流行病学研究和临床观察数据能够准确反映猫群体中超重和肥胖的危险因素及其相关病理之间的关联性"
+  title_gap: "标题关注猫的超重与肥胖及其风险因素，但实际内容详细区分了内在与外在风险架构，并系统映射了相关病理的多维度表现——为进一步机制研究和临床干预提供框架"
+  evidence_boundary: "本文不提供具体的患病率数值、风险因素排序，也不建立明确的因果关系，需结合全文和原始数据验证"
+  unexpected_finding: "尽管超重和肥胖常被认为主要由环境因素驱动，但遗传和品种等内在因素也在流行病学层面显示出显著的风险影响"
 ---
 
 # Overweight and obesity in domestic cats: epidemiological risk factors and associated pathologies

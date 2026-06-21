@@ -11,8 +11,8 @@ jurisdictions: [United Kingdom]
 evidence_level: original-study
 year: 2023
 status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [fip, remdesivir, GS-441524, antiviral, compounded, retrospective, outcome]
@@ -36,6 +36,13 @@ evidence_policy:
     - Cats surviving the initial critical 48 hours of antiviral therapy have a highly favorable long-term prognosis (96% survival).
   llm_inference:
     - Transitioning from injectable remdesivir to oral GS-441524 represents a safe and effective clinical protocol that minimizes injection-site reactions and owner distress while maintaining efficacy.
+  # V2 enhanced fields
+  study_design: "回顾性研究，307 只 FIP 猫（2020-2022）使用英国合法来源兽医复方制剂瑞德西韦 and GS-441524 治疗"
+  core_argument: "合法来源复方抗病毒药物高效且耐受良好——初始治疗期结束时存活率 88.6%，存活最初 48 小时后 6 个月存活率 96%"
+  implicit_premise: "假设基于临床怀疑和辅助检查诊断 of FIP 猫具有高度准确性（回顾性研究中未全部进行病理确诊）；假设通过电邮咨询服务收集的病历数据没有严重的报告选择偏差"
+  unexpected_finding: "排除最初 48 小时内死亡的患猫后，6 个月存活率从 86% 升高至 96%（量化了死亡风险在极早期的集中分布）"
+  title_gap: "标题偏向描述用药结局，但核心决策价值在于量化了前 48 小时这一关键生存时间窗——说明早期强化支持治疗与抗病毒给药速度决定了最终预后"
+  evidence_boundary: "基于摘要提取；回顾性设计存在选择性偏差（未包含全部就诊猫）；缺乏不同剂量、用药途径（注射转口服的具体时机）对复发率的对照分析"
 ---
 
 # Retrospective study and outcome of 307 cats with feline infectious peritonitis treated with legally sourced veterinary compounded preparations of remdesivir and GS-441524 (2020–2022)

@@ -27,6 +27,12 @@ evidence_policy:
     - This source belongs in a broad treatment-context branch, not in direct feline efficacy ranking by itself.
   llm_inference:
     - This review may later be useful for treatment landscape framing after feline-primary anchors are secured.
+  # V2 enhanced fields
+  study_design: "综述文章，汇集人类与动物炎症性肠病治疗策略相关研究，采用系统文献回顾方法"
+  core_argument: "当前炎症性肠病的治疗需要综合考虑多物种的研究成果，以制定更全面有效的治疗方案"
+  implicit_premise: "不同物种间的炎症性肠病病理机制和治疗反应具有一定的相似性，动物研究对人类及猫的治疗策略具有借鉴价值"
+  title_gap: "标题强调炎症性肠病治疗策略的综合探讨，但真正亮点在于跨物种比较启示——尤其对猫病治疗的潜在指导意义"
+  evidence_boundary: "论文未具体评估任何单一猫科动物治疗方案的临床疗效，未给出明确的猫炎症性肠病治疗优先级建议"
 ---
 
 # One-line Summary

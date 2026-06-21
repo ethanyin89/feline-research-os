@@ -29,6 +29,13 @@ evidence_policy:
     - The paper supports keeping carrier-state biology central to FCV epidemiology.
   llm_inference:
     - This is one of the best first FCV deep-extraction candidates.
+  # V2 enhanced fields
+  study_design: "综述性研究，涵盖大量现有文献，重点分析猫杯状病毒（FCV）的遗传多样性、临床表现和疫苗效果"
+  core_argument: "疫苗虽然能减少猫杯状病毒引起的临床疾病，但无法预防感染或病毒的持续携带，携带状态是控制该病毒传播的关键因素"
+  implicit_premise: "文献中报道的病毒多样性和携带状态能反映自然环境中FCV的流行病学特征"
+  title_gap: "标题表明是关于猫杯状病毒的全面综述，但真正深入探讨了病毒持续感染的生物学机制及其对控制策略的限制——提示疫苗控制的局限性"
+  evidence_boundary: "未具体回答不同疫苗配方的比较效果，也未包括新兴变异毒株对疫苗保护性的影响"
+  unexpected_finding: "发现FCV可引发严重的系统性高毒力疾病，超出传统上仅致呼吸道症状的认识"
 ---
 
 # Feline calicivirus

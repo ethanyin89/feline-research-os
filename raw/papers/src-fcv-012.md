@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the main FCV serology-resistance prediction anchor in the endpoint branch.
     - The safest downstream wording is `predictive in vaccinated cats, but not a universal no-booster rule`.
+  # V2 enhanced fields
+  study_design: "疫苗接种与病毒挑战试验，涵盖72只实验室饲养猫和276只宠主持有猫，采用三种商业疫苗接种后测定血清抗体并进行病毒感染挑战"
+  core_argument: "通过血清学检测FCV抗体可以有效预测接种疫苗猫对猫杯状病毒感染的抵抗力，从而提示单纯依赖规律性加强针接种可能导致部分猫只不必要的疫苗接种"
+  implicit_premise: "血清中抗体的存在和水平能够准确反映猫只对相应病毒的免疫保护状态"
+  title_gap: "标题提及利用血清学检测预测猫病毒抵抗，但真正发现是抗体检测不仅能预测免疫，同时揭示常规加强针间隔可能过于武断并导致过度免疫"
+  evidence_boundary: "本研究未回答抗体阳性猫是否完全免疫，以及不同疫苗和加强策略的长期临床保护效果和安全性问题"
+  unexpected_finding: "实验室饲养猫接种后抗FCV和FPV抗体检测阳性预测值达100%，而FHV-1预测值仅为90%，显示不同病毒抗体检测预测准确度存在差异"
 ---
 
 # Use of serologic tests to predict resistance to feline herpesvirus 1, feline calicivirus, and feline parvovirus infection in cats

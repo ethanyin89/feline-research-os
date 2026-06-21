@@ -40,6 +40,13 @@ evidence_policy:
   llm_inference:
     - Mechanism and model pages should now distinguish `upstream aged-cat / ischemia contributors` from `downstream progression variables`.
     - Default feline CKD summaries should stay tubulointerstitial-first unless a narrower glomerular subset is specifically being discussed.
+  # V2 enhanced fields
+  study_design: "综述，涵盖老年猫 CKD 的临床特征、形态学和拟议发病机制"
+  core_argument: "猫 CKD 是老年性、主要特发性、以纤维化为中心的小管间质疾病——与人和狗不同，原发性肾小球病变伴明显蛋白尿在猫中罕见"
+  implicit_premise: "假设衰老、缺血、低氧是上游启动因素；假设磷、蛋白尿、贫血是下游进展因素——两者应分开描述"
+  unexpected_finding: "实验性肾缺血产生与自发性 CKD 相似的形态学改变——这为缺血模型与自然疾病之间建立了桥梁"
+  title_gap: "标题说老年猫临床特征和发病机制，但真正发现是启动-进展分离：衰老和缺血是上游因素，磷/蛋白尿/贫血是下游进展变量——两者不应混为一谈"
+  evidence_boundary: "综述级别，强于组织疾病结构和合理贡献者而非证明任何单一上游假说"
 ---
 
 # Chronic Kidney Disease in Aged Cats: Clinical Features, Morphology, and Proposed Pathogeneses

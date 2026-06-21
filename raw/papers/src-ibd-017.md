@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports fecal S100A12 as a disease-versus-health inflammatory marker, not as an IBD-versus-lymphoma separator.
   llm_inference:
     - This paper is best modeled below metabolomics and below core workup, but above purely speculative markers because it is noninvasive and disease-associated.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，纳入49只慢性肠病猫（其中19只诊断为炎症性肠病或慢性炎症性肠病，30只诊断为消化性淋巴瘤）与19只健康对照猫，采用粪便S100A12浓度检测进行炎症标志物分析"
+  core_argument: "粪便S100A12浓度可作为猫慢性肠病中疾病状态与健康状态的炎症标志物，但无法区分炎症性肠病与肠道淋巴瘤"
+  implicit_premise: "粪便中S100A12浓度与肠道炎症活动水平相关，能够反映肠道炎症的存在但不足以区分不同病因"
+  title_gap: "标题强调粪便S100A12在慢性肠病中的浓度变化，但研究揭示该标志物虽能区分病与健康，无法区分不同类型肠病如IBD与淋巴瘤，挑战了其作为病理亚型鉴别工具的潜力"
+  evidence_boundary: "本研究未能回答粪便S100A12是否能预测疾病预后或疗效，亦未探讨其他潜在炎症或免疫标志物的联合诊断价值"
+  unexpected_finding: "尽管S100A12在炎症性肠病和肠道淋巴瘤猫中均升高，但两者之间无显著差异，提示该指标无法区分这两种不同病理状态"
 ---
 
 # One-line Summary

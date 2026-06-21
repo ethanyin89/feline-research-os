@@ -37,6 +37,13 @@ evidence_policy:
   llm_inference:
     - "Feline GI lymphoma studies could lead advances applicable to human GI lymphoma."
     - "Cytogenomic profiling of feline cancers may identify targetable aberrations."
+  # V2 enhanced fields
+  study_design: "综述（2015 年），猫癌症细胞基因组学进展，从核型分析到基因组微阵列"
+  core_argument: "猫在 One Health 中被低估——但提供独特的炎症-肿瘤发生（FISS）和病毒转化（FeLV 淋巴瘤）研究机会，高质量参考基因组使分子研究成为可能"
+  implicit_premise: "假设细胞基因组技术的进步将转化为可操作的临床发现；假设猫独特的肿瘤生物学可为人类医学提供不可从其他物种获得的洞察"
+  unexpected_finding: "猫的相对淋巴瘤发病率是所有研究物种中最高的——GI 淋巴瘤占所有猫淋巴瘤的 >50%，但分子研究严重不足"
+  title_gap: "标题说猫癌症细胞基因组学的进展和机会，但真正发现是研究空白：猫在分子肿瘤学中被严重低估——尽管提供犬类无法提供的独特研究机会（炎症-肿瘤、病毒转化）"
+  evidence_boundary: "2015 年技术/进展综述；特定染色体畸变发现需要按肿瘤类型查阅全文"
 ---
 
 # Cytogenomics of Feline Cancers: Advances and Opportunities

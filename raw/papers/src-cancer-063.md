@@ -55,6 +55,13 @@ evidence_policy:
     - "JAK/STAT and STAT5 pathway mentions may enable future targeted therapy discussion as JAK inhibitors enter veterinary use."
     - "LGAL vs HGAL distinction should inform lymphoma branch architecture and prognostic framing."
     - "IBD-to-lymphoma diagnostic uncertainty is a critical owner-facing and clinician-facing concern."
+  # V2 enhanced fields
+  study_design: "综合性综述（2026 年 Curr Issues Mol Biol），涵盖猫消化道淋巴瘤的流行病学、分类、分子景观、治疗和比较肿瘤学"
+  core_argument: "猫消化道淋巴瘤是最常见的猫恶性肿瘤之一但分子景观仍未充分表征——LGAL 与 HGAL 预后差异巨大（19-29 个月 vs 17 天-1.5 个月）——与人类 EATL 共享 JAK/STAT 信号通路同源性——存在显著的高通量组学研究空白"
+  implicit_premise: "假设人类 EATL 的分子分类可直接映射到猫消化道淋巴瘤；假设分子同源性意味着 JAK 抑制剂可能对猫有治疗价值"
+  unexpected_finding: "尽管猫消化道淋巴瘤高发且与人类共享环境暴露，但在分子肿瘤学研究中明显代表不足——这种'研究差距'与猫基因组进展形成对比——存在转化研究机会"
+  title_gap: "标题说已建立的概念和未充分探索的分子景观，但真正论点是双重的：1）LGAL 标准治疗（苯丁酸氮芥 + 糖皮质激素）已确立且有效（69-96% 反应率）；2）分子景观是重大研究空白——呼吁系统性组学研究"
+  evidence_boundary: "叙述性综述证据，生存数据来自引用研究；支持分支架构和预后框架，不直接支持具体治疗决策；JAK/STAT 靶向治疗仍处于研究阶段"
 ---
 
 # Feline Alimentary Lymphomas: Established Concepts and an Underexplored Molecular Landscape

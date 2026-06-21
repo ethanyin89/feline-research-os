@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This is one of the strongest mechanism-side deep-extraction candidates after the broad review and genetics anchors.
     - Mechanism pages should probably give macrophage-linked remodeling near-peer weight with genotype and phenotype branches.
+  # V2 enhanced fields
+  study_design: "综述结合原始研究，18 只 HCM 猫和 18 只对照猫心脏的形态学和分子方法分析"
+  core_argument: "重塑是核心 HCM 过程而非后期附加——巨噬细胞丰富的间质变化和促纤维化介质使 HCM 成为活跃的炎症-纤维化重塑故事，而非被动瘢痕累积"
+  implicit_premise: "假设组织水平分子变化可以推断疾病机制；假设 Iba1 阳性细胞代表真正的巨噬细胞功能活性"
+  unexpected_finding: "病变心肌细胞减少同时间质 Iba1 阳性巨噬细胞样细胞增加——这使重塑成为一级机制层而非三级病理标签"
+  title_gap: "标题问重塑是心肌细胞驱动还是巨噬细胞驱动，但真正发现是机制层级：病变心肌细胞减少同时巨噬细胞增加——重塑是一级机制，不是三级病理标签"
+  evidence_boundary: "18 只猫的组织研究，非临床干预证据；机制深度不直接转化为治疗推荐"
 ---
 
 # One-line Summary

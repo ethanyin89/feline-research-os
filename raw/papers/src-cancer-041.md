@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "前瞻性随访研究（1983 年 JNCI），202 只 FMC 手术治疗猫，分析 35 个因素"
+  core_argument: "FMC 有 6 个独立预后因素：年龄、肿瘤直径、显微镜下淋巴结阳性、有丝分裂指数、肿瘤坏死、手术完整性——这些因素在校正后仍独立预测生存"
+  implicit_premise: "假设 1983 年的手术技术和分期系统与现代实践可比；假设单变量显著因素中的混杂因素已被多变量分析充分控制"
+  unexpected_finding: "17 个因素在单变量分析中与生存相关，但只有 6 个在校正后保持独立——这种大幅缩减表明许多传统预后因素实际上是混杂因素"
+  title_gap: "标题说 FMC 预后因素，但真正发现是因素层级：校正后只有 6 个独立因素——其他 11 个单变量显著因素可能与这 6 个相关而非独立预测"
+  evidence_boundary: "1983 年研究——治疗方法和分期可能不反映当前实践；核心预后因素仍具基础价值但具体阈值可能需要更新"
 ---
 
 # Prognostic Factors in Feline Mammary Carcinoma Get access Arrow

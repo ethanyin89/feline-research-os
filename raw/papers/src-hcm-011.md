@@ -39,6 +39,13 @@ evidence_policy:
   llm_inference:
     - This may become the strongest current targeted-therapy anchor after deeper review.
     - Translation pages should keep `acute physiologic signal` separate from `durable treatment leadership`.
+  # V2 enhanced fields
+  study_design: "原始研究，5 只 HCM 猫（有 SAM 和 LVOT 梗阻）研究 MYK-461（选择性肌节抑制剂）对急性缓解 LVOT 梗阻的作用"
+  core_argument: "选择性肌节抑制剂 MYK-461 可急性缓解 LVOT 梗阻——收缩力降低、SAM 消除、LVOT 压力梯度暴露依赖性缓解——证明靶向肌节干预是真正的转化分支"
+  implicit_premise: "假设急性生理学信号可以预测持久临床结局；假设研究殖民地猫的结果可以推广到伴侣猫"
+  unexpected_finding: "无需等待全病程改善证据，单纯的急性 LVOT 梗阻缓解就已经是有意义的证据——这说明 HCM 治疗的第一步可以从机制端切入"
+  title_gap: "标题说小分子抑制剂缓解 LVOT 梗阻，但真正警告是证据边界：这是 5 只猫的急性概念验证，有行业利益冲突——不应直接转化为常规治疗推荐"
+  evidence_boundary: "5 只研究殖民地猫的急性概念验证；非持久临床结局证明；有行业利益冲突；不应直接转化为常规治疗排名"
 ---
 
 # One-line Summary

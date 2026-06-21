@@ -40,6 +40,13 @@ evidence_policy:
     - "Nanopore sequencing represents emerging diagnostic modality for neurological FIP."
     - "Subcutaneous GS-441524 effective for CNS disease (suggests adequate penetration)."
     - "Single case limits generalizability but demonstrates proof of concept."
+  # V2 enhanced fields
+  study_design: "病例报告，2 岁 DSH 神经性 FIP（四肢瘫痪、癫痫发作、脑膜增强）使用 GS-441524 皮下注射 84 天治疗"
+  core_argument: "神经性 FIP 可通过纳米孔测序在 CSF 中确诊 FCoV-1——GS-441524 产生快速神经学改善（抗生素单独无效），>12 个月缓解且病毒清除"
+  implicit_premise: "假设纳米孔测序代表神经性 FIP 的新兴诊断方式；假设皮下 GS-441524 对 CNS 疾病有足够穿透"
+  unexpected_finding: "仅两次皮下注射 GS-441524 后神经症状即显著改善——比预期更快的反应"
+  title_gap: "标题说神经性 FIP 的快速临床缓解和鉴别诊断，但真正发现是诊断方法学：纳米孔测序在 CSF 中确诊 FCoV-1——代表神经性 FIP 的新兴诊断方式，仅两次皮下注射即显著改善"
+  evidence_boundary: "单例报告（n=1）限制推广性；鉴别诊断应排除弓形虫病和隐球菌病"
 ---
 
 # Rapid Clinical Resolution and Differential Diagnosis of a Neurological Case of Feline Infectious Peritonitis (FIP) Using GS-441524

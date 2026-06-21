@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports modeling ileal biopsy as a branch-critical addition rather than an optional afterthought in some cats.
   llm_inference:
     - This was the correct next IBD deep extraction target because it materially changes how the workup branch should be compressed.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，纳入70只患有胃肠道疾病的宠物猫，采用内镜下十二指肠和回肠活检病理诊断"
+  core_argument: "十二指肠和回肠活检的诊断结果一致性较差，因此回肠活检对于部分猫的炎症性肠病和小细胞淋巴瘤诊断是必不可少的补充，不能被忽视"
+  implicit_premise: "内镜活检提供的组织样本足够代表病变区域，且病理诊断可准确反映不同肠段的疾病状态"
+  title_gap: "标题强调了内镜活检的实用性，但研究发现十二指肠与回肠活检结果一致性差，这提示仅依赖单一部位活检可能导致误诊"
+  evidence_boundary: "该研究未评估活检之外的诊断方法（如影像学或血液生物标志物）对炎症性肠病和小细胞淋巴瘤的诊断价值，也未探讨治疗和预后的关系"
+  unexpected_finding: "在诊断为小细胞淋巴瘤的猫中，有近一半的病例仅通过单一肠段（十二指肠或回肠）活检被确诊，表明病变分布高度局限"
 ---
 
 # One-line Summary

@@ -40,6 +40,13 @@ evidence_policy:
     - "TFR-1 may serve as a prognostic marker (higher expression in metastatic disease)."
     - "HFn-DOX could reduce doxorubicin systemic toxicity via targeted delivery."
     - "In vitro efficacy requires in vivo confirmation before clinical application."
+  # V2 enhanced fields
+  study_design: "体外研究 + IHC（2021 年 Cancers），FMCm 细胞系 + FMC 组织样本，TFR-1 表达分析和 HFn-DOX 纳米笼疗效测试"
+  core_argument: "TFR-1 是 FMC 治疗的有效靶点——表达随转移进展递增（健康 40 → 无转移 79 → 有转移 112）——95% 的 FMCm 细胞 TFR-1 阳性——HFn-DOX 比游离 DOX 更有效（更低增殖、更高凋亡）——首次在兽医肿瘤学中证明 HFn 纳米笼疗效"
+  implicit_premise: "假设 TFR-1 表达与转移的相关性暗示因果关系；假设单细胞系结果可代表整体 FMC 反应；假设体外疗效可转化为体内疗效"
+  unexpected_finding: "猫 TFRC 与已知序列的同源性达 99%——暗示 TFR-1 靶向策略可能跨物种适用——人类和猫乳腺癌可能共享这一治疗靶点"
+  title_gap: "标题说评估 FMC 中 TFR-1 表达和 HFn-DOX 纳米笼的体外抗肿瘤疗效，但真正发现是转移预测：TFR-1 H-score 可能作为转移风险分层工具——而 HFn-DOX 是概念验证靶向递送系统"
+  evidence_boundary: "体外证据；支持 TFR-1 作为靶点和 HFn-DOX 概念验证，不支持临床治疗推荐——体内验证需要；H-score 阈值需要前瞻性队列验证"
 ---
 
 # Evaluation of TFR-1 Expression in Feline Mammary Cancer and In Vitro Antitumor Efficacy Study of Doxorubicin-Loaded H-Ferritin Nanocages

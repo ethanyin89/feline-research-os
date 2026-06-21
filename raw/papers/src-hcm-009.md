@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - This is one of the strongest early deep-extraction targets for the HCM recognition and endpoint layers.
     - HCM recognition pages should keep diffuse-versus-segmental phenotype heterogeneity visible rather than compressing the disease into one canonical wall-thickening shape.
+  # V2 enhanced fields
+  study_design: "原始研究，46 只自发 HCM 猫的二维超声心动图表征（1995 年）"
+  core_argument: "自发猫 HCM 在形态学上是异质的——肥厚模式通常弥漫但有时节段性——超声心动图是表型定义的主导工具"
+  implicit_premise: "假设超声心动图表型定义应优先于生物标志物逻辑；假设自发猫疾病本身就是有意义的比较模型"
+  unexpected_finding: "肥厚模式的异质性（弥漫 vs 节段性）——提示 HCM 不应被压缩为单一规范形态图像"
+  title_gap: "标题说超声评估，但真正发现是形态异质性：肥厚可以是弥漫或节段性的——HCM 不应被压缩为单一规范形态图像"
+  evidence_boundary: "较旧的成像方法可能需要现代重新解释；不提供现代测量截点或当前筛查工作流"
 ---
 
 # One-line Summary

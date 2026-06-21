@@ -31,6 +31,11 @@ evidence_policy:
   llm_inference:
     - This may become one of the most operational sources for a later diagnostic-workup page.
     - This paper likely matters most when paired with `src-fip-015` rather than read alone.
+  # V2 enhanced fields
+  study_design: "病例系列，42 例悉尼 FIP 猫的临床病理学发现（1990-2002）"
+  core_argument: "临床病理学模式可以指导 FIP 怀疑——但实验室变量应支持识别架构，而非提供诊断确定性"
+  implicit_premise: "假设病例系列的描述性价值独立于诊断特异性；假设旧队列的模式识别仍适用于现代实践"
+  evidence_boundary: "病例系列证据，不能用于流行率或治疗时代预后；具体实验室变量排序需阅读全文"
 ---
 
 # One-line Summary

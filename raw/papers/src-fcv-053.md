@@ -31,6 +31,13 @@ evidence_policy:
     - "HBDL2 strain promising for vaccine development."
   llm_inference:
     - "Paradox: virulent strain may provide best vaccine protection."
+  # V2 enhanced fields
+  study_design: "病毒分离与免疫学研究，中国2021-2022年分离19株猫杯状病毒（FCV）样本，采用病毒中和试验评估抗体广谱中和活性"
+  core_argument: "中国分离的高毒力系统性猫杯状病毒（VS-FCV）HBDL2株能诱导覆盖多种GⅠ、GⅡ及VS-FCV株的广谱中和抗体，显示其作为广谱疫苗候选毒株的潜力"
+  implicit_premise: "中和抗体滴度的提升能够有效反映病毒免疫保护能力，且体外交叉中和实验结果可预测疫苗的广谱保护效果"
+  title_gap: "标题强调了中国分离的VS-FCV株可能产生广泛中和抗体，但真正的新颖发现是HBDL2株不仅针对VS-FCV，还能交叉中和遗传多样的GⅠ和GⅡ基因型"
+  evidence_boundary: "未评估HBDL2株疫苗在体内的保护效果及安全性，且未包括非中国地区FCV株的中和活性分析"
+  unexpected_finding: "HBDL2株诱导的中和抗体不仅对系统性病原株有效，同时对遗传上差异显著的表浅呼吸道FCV株也表现出较高的交叉中和活性"
 ---
 
 # VS-FCV China Strain Produces Broad Neutralizing Antibodies

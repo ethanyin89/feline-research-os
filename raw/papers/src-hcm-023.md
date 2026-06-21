@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - This may later become a useful screening-augmentation or diagnostic-support boundary paper.
     - Endpoint and recognition pages should keep augmentation-versus-replacement uncertainty explicit.
+  # V2 enhanced fields
+  study_design: "多中心回顾性研究，273 张腹背位胸片（231 训练 / 42 测试），5 种残差网络架构，softmax 投票集成"
+  core_argument: "基于腹背位胸部 X 光片的深度学习模型可以辅助兽医放射科医师进行 HCM 筛查，但不能替代超声心动图作为金标准确诊手段"
+  implicit_premise: "假设 231 张训练图像和 42 张测试图像足以代表临床场景的多样性；假设 HCM vs 正常的二分类任务可以泛化到区分 HCM 与其他心脏疾病"
+  unexpected_finding: "五个 CNN 模型的准确率均超过 90%，且 softmax 投票策略达到 95%——对于仅 273 张图像的小数据集来说，这一表现出乎意料地好"
+  title_gap: "标题说深度学习诊断，但真正边界是输入限制：仅用 VD 位 X 光片训练，不能区分 HCM 与其他心影增大疾病——这是筛查辅助而非超声心动图替代"
+  evidence_boundary: "仅使用 VD 位 X 光片作为输入；不能区分 HCM 与其他导致心影增大的心脏疾病；临床工作流程整合和前瞻性验证未完成；测试集仅 42 张图像"
 ---
 
 # One-line Summary

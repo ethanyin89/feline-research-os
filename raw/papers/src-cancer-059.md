@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（2002 年 Oncogene），RT-PCR、Western blot 和免疫组化检测猫 STK 在乳腺癌中的表达"
+  core_argument: "猫 stk（与 MET 家族受体基因同源）在 FMC 中表达——RT-PCR 检测 7/8 例 FMC 和 1 例同步皮肤转移——免疫组化染色 10/34 例存档标本——表达模式可叠加到人类 RON 受体在乳腺癌中的分布"
+  implicit_premise: "假设猫 STK 与人类 RON 的同源性意味着共同的生物学功能；假设表达模式相似性意味着治疗靶点可转移性"
+  unexpected_finding: "猫 STK 表达模式可叠加到人类 RON 受体在乳腺癌中的分布——这种跨物种分子保守性支持 FMC 作为比较肿瘤学模型"
+  title_gap: "标题说猫 STK 基因在乳腺癌中的表达，但真正发现是分子比较：猫 STK/人类 RON 受体分布的相似性——验证 FMC 作为研究 MET 家族受体生物学的模型"
+  evidence_boundary: "摘要级分子比较证据；不建立猫的临床生物标记物效用或治疗选择；2002 年研究，后续 MET/RON 研究可能已有进展"
 ---
 
 # Feline STK gene expression in mammary carcinomas

@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（2012 年 Res Vet Sci），两种猫癌细胞培养，黏液瘤病毒接种后观察"
+  core_argument: "黏液瘤病毒在猫癌细胞培养中诱导凋亡——病毒蛋白表达和感染性颗粒产生被检测——原代猫癌细胞在接种后 48 小时内显示细胞死亡"
+  implicit_premise: "假设体外溶瘤病毒敏感性可转化为体内治疗效果；假设黏液瘤病毒对正常猫细胞的安全性"
+  unexpected_finding: "黏液瘤病毒（一种兔病毒）对猫癌细胞有溶瘤活性——这种跨物种溶瘤潜力在概念上令人惊讶——但需要体内验证"
+  title_gap: "标题说黏液瘤病毒在培养的猫癌细胞中诱导凋亡，但真正发现是概念验证：这是体外溶瘤病毒敏感性信号——支持临床前可行性而非治疗效果"
+  evidence_boundary: "体外溶瘤病毒证据；支持临床前敏感性信号，不支持猫的治疗效果；需要体内研究验证安全性和疗效"
 ---
 
 # Myxoma virus induces apoptosis in cultured feline carcinoma cells

@@ -45,6 +45,13 @@ evidence_policy:
   llm_inference:
     - The vault should keep SDMA in the map, but continue to rank serial surveillance and multi-marker interpretation above one-marker replacement stories.
     - Emerging urinary or injury biomarkers may justify future expansion, but not routine promotion yet.
+  # V2 enhanced fields
+  study_design: "综述，猫 CKD 肾脏生物标志物现状：从经典标志物到新兴研究标志物"
+  core_argument: "SDMA 是有用的 GFR 生物标志物但特异性数据仍有限——肌酐、USG、UPC、SDMA 和 GFR 应被视为服务不同角色而非折叠为单一肾脏严重程度量表"
+  implicit_premise: "假设单一生物标志物不能替代多标志物解释和连续监测；假设直接 GFR 测量仍主要是研究工具而非常规临床方法"
+  unexpected_finding: "UPC 特异性受非肾脏疾病（甲亢、病毒感染、下泌尿道疾病）降低——蛋白尿解释需要临床情境而非独立阈值"
+  title_gap: "标题说肾脏生物标志物现状，但真正发现是各自为政：SDMA 有用但特异性数据有限，UPC 受非肾病影响——多标志物解释优于单一标志物替代故事"
+  evidence_boundary: "作为广泛生物标志物综述，扩展地图而非解决每个操作排名决定；许多新兴标志物仍处于研究阶段而非常规临床使用"
 ---
 
 # Renal biomarkers in cats: A review of the current status in chronic kidney disease

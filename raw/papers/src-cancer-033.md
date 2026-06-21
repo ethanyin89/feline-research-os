@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综合综述（1991 年），FeLV 生物学、发病机制和疾病机制的全面回顾"
+  core_argument: "FeLV 的效应是矛盾的——同时导致细胞增殖性疾病（淋巴瘤、骨髓增生性疾病）和细胞抑制性疾病（免疫缺陷、骨髓抑制）——感染结局取决于暴露后最初几周的宿主/病毒相互作用"
+  implicit_premise: "假设 1991 年的分子机制描述在基本层面仍然有效；假设宿主免疫控制逆转录病毒的范式可指导疫苗开发"
+  unexpected_finding: "FeLV 的致病性（胸腺淋巴瘤、急性免疫抑制或再生障碍性贫血）被定位到病毒表面糖蛋白和/或长末端重复区域——同一病毒的微小遗传变异可导致完全不同的疾病表型"
+  title_gap: "标题说猫白血病病毒感染和疾病，但真正发现是宿主控制：许多猫能有效遏制和终止病毒复制——这是宿主免疫控制逆转录病毒感染的重要范例——疫苗可选择性增强这一过程"
+  evidence_boundary: "1991 年综述，分子病毒学进展可能已扩展对毒株特异性发病机制的理解；现代 FeLV 检测和疫苗策略可能已演变"
 ---
 
 # Feline leukemia virus infection and diseases

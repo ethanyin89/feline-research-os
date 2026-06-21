@@ -33,6 +33,13 @@ evidence_policy:
     - The evidence is branch-defining but not hierarchy-settling because the sample is four cats.
   llm_inference:
     - This paper is likely essential for any serious FIP outcome or treatment memo.
+  # V2 enhanced fields
+  study_design: "原始研究，4 只临床诊断神经性 FIP 猫使用 GS-441524（5-10 mg/kg）至少 12 周治疗"
+  core_argument: "神经性 FIP 可以对 GS-441524 产生反应（4/4 猫反应，3/4 长期存活）——但可能需要比非神经性疾病更高剂量，复发风险存在"
+  implicit_premise: "假设神经性 FIP 是独特的治疗复杂性分支，剂量、监测和复发解释不同于基线非神经性疾病"
+  unexpected_finding: "一只猫因复发被安乐死——神经性 FIP 治疗不是简单或已解决的问题"
+  title_gap: "标题说神经性 FIP 的 GS-441524 治疗，但真正发现是复杂性层级：3/4 长期存活但 1/4 因复发安乐死，可能需要更高剂量（5-10 mg/kg）——神经性 FIP 是独特的治疗复杂性分支而非普通 FIP 的变体"
+  evidence_boundary: "4 只猫的极小样本；定义分支但不确定层级；更高剂量逻辑需要全文和监管情境后才能推广为方案建议"
 ---
 
 # One-line Summary

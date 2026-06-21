@@ -30,6 +30,13 @@ evidence_policy:
     - "It can define marker and model boundaries, but it should not be used as treatment guidance."
   llm_inference:
     - "Small archival design and partial BRCA amplification limit broad prevalence, prognosis, and mechanism claims."
+  # V2 enhanced fields
+  study_design: "原始研究，24 例存档猫乳腺腺癌的 IHC 和 BRCA 基因检测"
+  core_argument: "猫乳腺腺癌中 14/24 为三阴性，其中 11/14 为基底样亚型——FMC 可作为人类 TNBC 基底样亚型的潜在比较模型"
+  implicit_premise: "假设 IHC 标志物（ER、PR、HER2、CK5/6、EGFR）定义的表型与人类 TNBC 分子亚型具有生物学等价性"
+  unexpected_finding: "BRCA1/BRCA2 在测试的扩增子集中未发现肿瘤特异性异常——这挑战了人类 TNBC 中 BRCA 驱动假设对猫的直接转化"
+  title_gap: "标题说 FMC 基底样腺癌可能是人类 TNBC 的模型，但真正发现是 BRCA 阴性：小样本测试中未发现 BRCA 异常——需谨慎将人类 TNBC 的 BRCA 驱动假设转化到猫"
+  evidence_boundary: "24 例存档样本是小型研究；BRCA 阴性发现不能排除更广泛的 BRCA 相关性"
 ---
 
 # Feline mammary basal-like adenocarcinomas: a potential model for human triple-negative breast cancer (TNBC) with basal-like subtype

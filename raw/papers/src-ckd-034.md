@@ -10,9 +10,9 @@ endpoints: [CKD risk, diet, lifestyle, water source]
 jurisdictions: []
 evidence_level: original-study
 year: 2017
-status: extracted
-extraction_depth: abstract_full
-verification_status: source_checked
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [ckd, risk, protective, factors, diet, dry-food, lifestyle, water, case-control, epidemiology]
@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "Case-control design with retrospective questionnaire limits causal inference."
     - "Commercial dry cat food is a heterogeneous category; formulation details unknown."
+  # V2 enhanced fields
+  study_design: "年龄匹配病例对照研究，130 只猫（101 只 CKD、29 只健康对照 ≥5 岁），问卷访谈收集饮食和生活方式数据，泰国曼谷"
+  core_argument: "商业干猫粮是多变量分析中唯一保持显著性的潜在 CKD 保护因素——男性、自来水和户外生活方式在单变量中显著但未通过多变量调整"
+  implicit_premise: "假设回顾性问卷可准确捕捉长期饮食史；假设干猫粮作为类别是同质的"
+  unexpected_finding: "干猫粮作为保护因素与传统高水分饮食建议相矛盾——可能反映配方质量而非水分含量"
+  title_gap: "标题说风险和保护因素，但真正发现是反直觉的：商业干猫粮是多变量分析中唯一显著的保护因素——与传统高水分饮食建议相矛盾，提示配方质量可能比水分含量更重要"
+  evidence_boundary: "病例对照设计不能建立因果关系；对照组小（n=29）；泰国单中心可能不适用于其他人群；干猫粮的具体配方（蛋白质、磷、水分）未知"
 ---
 
 # Risk and protective factors for cats with naturally occurring chronic kidney disease

@@ -39,6 +39,13 @@ evidence_policy:
     - "Acarbose belongs in the adjunct/historical treatment branch, not as a current first-line recommendation."
     - "Combination interventions require careful attribution; this study cannot isolate drug effect."
     - "Responder status should be distinguished from durable remission in diabetes module architecture."
+  # V2 enhanced fields
+  study_design: "前瞻性临床干预研究，纳入18只患有糖尿病的宠物猫，采用低碳水化合物罐装饮食联合每12小时餐时口服α-葡萄糖苷酶抑制剂阿卡波糖治疗方案"
+  core_argument: "联合使用α-葡萄糖苷酶抑制剂阿卡波糖与低碳水化合物饮食可以帮助部分糖尿病猫实现胰岛素治疗的停用"
+  implicit_premise: "阿卡波糖通过减缓碳水化合物的吸收能够有效改善糖尿病猫的血糖控制，从而使部分猫咪能够停止胰岛素治疗"
+  title_gap: "标题强调α-葡萄糖苷酶抑制剂和低碳水化合物饮食的治疗作用，但实际研究发现其效果难以单独归因于阿卡波糖，且停用胰岛素并不等同于疾病完全缓解"
+  evidence_boundary: "本研究未明确评估阿卡波糖单独疗效，也未应用正式的糖尿病缓解标准来确认治疗效果"
+  unexpected_finding: "尽管大多数猫接受胰岛素治疗，仍有部分猫通过联合治疗方案成功停止胰岛素使用"
 ---
 
 # Treatment of feline diabetes mellitus using an alpha-glucosidase inhibitor and a low-carbohydrate diet

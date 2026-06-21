@@ -34,6 +34,13 @@ evidence_policy:
     - "This source should be paired with src-diabetes-004 for the neuropathy branch."
   llm_inference:
     - "This is a full-text target if the module needs cause-versus-consequence separation or pathology-severity mapping."
+  # V2 enhanced fields
+  study_design: "横断面原始研究，采集12只糖尿病猫和7只非糖尿病猫的神经活检标本，采用神经传导速度测试与组织病理分析方法"
+  core_argument: "猫糖尿病神经病变与运动神经传导受损、髓鞘神经纤维密度减少及内神经微血管病变密切相关"
+  implicit_premise: "糖尿病猫体内的长期血糖控制水平可通过神经生理和组织病理特征反映神经病变情况"
+  title_gap: "标题强调内神经微血管病变，但真正发现是这些病变与运动神经功能障碍及髓鞘纤维密度下降紧密联系，揭示了病理机制全貌"
+  evidence_boundary: "本研究未评估糖尿病神经病变的治疗手段或病变的可逆性，也未探讨其他非微血管因素对病变的影响"
+  unexpected_finding: "糖尿病猫内神经毛细血管直径和腔面积显著增大，然而血管收缩指数显著下降，提示复杂的血管反应机制"
 ---
 
 # Endoneurial microvascular pathology in feline diabetic neuropathy

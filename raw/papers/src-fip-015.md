@@ -30,6 +30,13 @@ evidence_policy:
     - Clinicopathology should remain the leading operational suspicion layer, with molecular tests used as bounded support.
   llm_inference:
     - This paper likely helps turn recognition from loose suspicion into a more structured disease-form architecture.
+  # V2 enhanced fields
+  study_design: "病例系列，51 例台湾 FIP 的临床病理发现和疾病分期（2003-2009）"
+  core_argument: "临床病理可以结构化为疾病形式感知的分期识别——而非平面的体征和实验室异常列表"
+  implicit_premise: "假设分期框架可以提升识别从模糊怀疑到结构化模式；假设 51 例规模使其比更小的病例系列更有价值"
+  unexpected_finding: "分期和疾病形式结合使论文成为识别组织者而非仅描述性队列"
+  title_gap: "标题说临床病理发现和疾病分期，但真正价值是结构化识别：将识别从模糊怀疑提升为分期感知的疾病形式模式——比平面体征列表更有操作价值"
+  evidence_boundary: "病例系列，有地理、时代和转诊背景限制；分期定义需直接审查才能普遍推广"
 ---
 
 # One-line Summary

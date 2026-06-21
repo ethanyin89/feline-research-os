@@ -30,6 +30,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "重复条目——与 src-cancer-091 相同（DOI: 10.3390/vetsci8080164）"
+  core_argument: "参见 src-cancer-091 的 V2 字段——该条目标记为重复"
+  implicit_premise: "N/A——重复条目"
+  unexpected_finding: "N/A——重复条目"
+  title_gap: "N/A——重复条目；应合并到 src-cancer-091"
+  evidence_boundary: "重复条目；使用 src-cancer-091 作为规范来源"
 ---
 
 # Emerging Biomarkers and Targeted Therapies in Feline Mammary Carcinoma

@@ -26,6 +26,13 @@ evidence_policy:
     - "FCV shows significant genetic diversity with phenotypic correlations."
   llm_inference:
     - "Informs understanding of strain-disease associations in European context."
+  # V2 enhanced fields
+  study_design: "原始研究，采集瑞士猫的FCV样本进行基因测序和临床表型分析"
+  core_argument: "瑞士猫群中猫杯状病毒表现出显著的遗传多样性且与临床表现存在相关性"
+  implicit_premise: "基因多样性的数据与临床表型的关联足以揭示病毒变异对疾病表现的影响"
+  title_gap: "标题强调遗传多样性及表型关联，但真正发现是这些遗传变异具体影响临床症状的表现形式多样——揭示了病毒变异对猫疾病表现的复杂影响"
+  evidence_boundary: "未涵盖FCV感染的治疗效果评估及病毒多样性在不同国家或更大区域的对比研究"
+  unexpected_finding: "部分基因类型的FCV与特定临床表现具有更强相关性，暗示病毒基因型可能影响疾病严重程度"
 ---
 
 # Genetic diversity and phenotypic associations of FCV in Switzerland

@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（2000 年 Cancer Letters），77 例猫肿瘤（代表 486 例诊断提交）的 p53 免疫细胞化学分析"
+  core_argument: "p53 免疫反应性在不同猫肿瘤类型中变化很大——SCC 46%、骨肉瘤 50%、乳腺癌 33%、腺癌 16%、血管肉瘤 14% 呈阳性——恶性淋巴瘤和纤维肉瘤均为阴性——支持 p53 异常在某些猫肿瘤类型中的作用"
+  implicit_premise: "假设免疫组化阳性代表功能性 p53 突变/蓄积；假设 77 例样本代表更广泛的猫肿瘤谱系"
+  unexpected_finding: "淋巴瘤和纤维肉瘤中 p53 免疫反应性缺失——这与人类淋巴瘤中 p53 改变的作用形成对比——可能反映猫淋巴瘤的不同分子机制或技术局限性"
+  title_gap: "标题说猫肿瘤中 p53 抑癌蛋白的免疫细胞化学分析，但真正发现是肿瘤类型特异性：上皮和间叶来源肿瘤（SCC、骨肉瘤、乳腺癌）显示 p53 阳性——而淋巴造血肿瘤和纤维肉瘤阴性——提示不同的肿瘤发生机制"
+  evidence_boundary: "摘要级免疫组化证据；支持分子机制背景，不支持诊断、预后或治疗选择；2000 年研究可能有技术局限性"
 ---
 
 # Immunocytochemical analysis of the tumour suppressor protein (p53) in feline neoplasia

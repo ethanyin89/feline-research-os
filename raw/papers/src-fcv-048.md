@@ -30,6 +30,13 @@ evidence_policy:
     - "Concentration and contact time dependent efficacy demonstrated."
   llm_inference:
     - "Ozone may be useful for environmental FCV decontamination."
+  # V2 enhanced fields
+  study_design: "体外实验研究，使用标准培养的猫杯状病毒株，采用臭氧不同浓度和接触时间处理，检测病毒滴度变化"
+  core_argument: "臭氧在浓度为50 μg/mL且接触90秒的条件下，能够显著降低猫杯状病毒的病毒滴度，显示其具有抗病毒和灭活病毒的双重活性"
+  implicit_premise: "体外条件下臭氧对病毒的抗病毒效应能够反映其潜在临床应用价值，包括对体内病毒感染的抑制能力"
+  title_gap: "标题仅提及臭氧对猫杯状病毒的抗病毒及灭活作用，但研究明确展示了其效果高度依赖浓度与接触时间，提示应用时必须精准控制参数"
+  evidence_boundary: "本研究未评估臭氧在猫体内的安全性和疗效，也未探讨臭氧处理对猫体组织或免疫系统的影响"
+  unexpected_finding: "臭氧对病毒的灭活能力超过其抗病毒抑制能力，病毒滴度降低幅度达到2.25 log₁₀，显示较强的直接杀灭效果"
 ---
 
 # Ozone Antiviral Activity Against FCV

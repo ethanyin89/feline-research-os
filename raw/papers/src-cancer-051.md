@@ -31,6 +31,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "工具开发研究（2011 年 Vet Comp Oncol），为犬猫肿瘤患者开发健康相关生活质量（HRQoL）问卷"
+  core_argument: "癌症治疗表格、主人小测试和临床医生小测试是实用的 HRQoL 评估工具——98%（82/84）的主人认为表格准确反映了宠物的生活质量"
+  implicit_premise: "假设主人的主观评估可准确反映宠物的生活质量；假设犬猫肿瘤患者的 QoL 结构相似"
+  unexpected_finding: "98% 的主人同意率非常高——表明主人可以准确感知和报告宠物的生活质量——这验证了主人报告结局（PRO）在兽医肿瘤学中的价值"
+  title_gap: "标题说开发犬猫癌症 HRQoL 问卷，但真正发现是工作流程工具：这支持 QoL 评估作为肿瘤学工作流程的组成部分——而非仅仅是研究工具"
+  evidence_boundary: "支持 QoL 评估作为肿瘤学工作流程工具；未验证猫特异性结局工具或疾病特异性治疗决策规则"
 ---
 
 # Development of a questionnaire assessing health-related quality-of-life in dogs and cats with cancer

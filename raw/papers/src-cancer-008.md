@@ -34,6 +34,13 @@ evidence_policy:
     - "Mediastinal and renal feline lymphomas are typically high-grade malignancies (e.g. small noncleaved cell) with higher mitotic rates and extensive necrosis."
   llm_inference:
     - "Mitotic index counting in feline lymphoma biopsies provides a valuable prognostic indicator corresponding to histologic grade."
+  # V2 enhanced fields
+  study_design: "多机构回顾性队列研究，12 家兽医机构 688 例组织入院，602 例淋巴增殖性疾病，NCI 工作分类法"
+  core_argument: "猫淋巴瘤的解剖位置与组织学分级高度相关——肠道/皮肤淋巴瘤通常为低级别小细胞型，纵隔/肾脏淋巴瘤通常为高级别"
+  implicit_premise: "假设 NCI 人类淋巴瘤工作分类法可直接应用于猫；假设有丝分裂指数是可靠的分级替代指标"
+  unexpected_finding: "高级别小非裂细胞淋巴瘤在纵隔显著高于预期，在肠道显著低于预期——解剖位置本身就是分级的预测因子"
+  title_gap: "标题说用 NCI 工作分类法对 602 例猫淋巴增殖性疾病进行组织学分类，但真正发现是解剖-组织学关联：肿瘤位置预测分级——肠道=低级别，纵隔=高级别"
+  evidence_boundary: "2000 年研究使用 NCI 工作分类法而非当代 WHO 分类；FeLV 抗原状态与年龄相关但现代 FeLV 流行率已大幅下降"
 ---
 
 # The Histologic Classification of 602 Cases of Feline Lymphoproliferative Disease using the National Cancer Institute Working Formulation

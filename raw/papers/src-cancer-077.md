@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - "Early investigational study; n=3 terminal patients only."
     - "May inform oral-squamous-cell-carcinoma.md experimental therapy section."
+  # V2 enhanced fields
+  study_design: "病例系列（2004 年 Appl Radiat Isot），3 例终末期猫头颈癌，BPA-BNCT（硼中子俘获治疗）"
+  core_argument: "BNCT 在自发性猫头颈癌中可行且安全——BPA 递送治疗性硼浓度到肿瘤——无放射毒性——部分肿瘤控制（生长抑制、部分坏死）——改善临床状况并延长终末期生存"
+  implicit_premise: "假设终末期患者的安全性信号可扩展到较早期患者；假设部分肿瘤控制代表有意义的临床获益"
+  unexpected_finding: "终末期患者实现了生存延长和临床状况改善——考虑到终末期基线，任何获益都有意义——但 n=3 限制了任何结论"
+  title_gap: "标题说 3 例自发性猫头颈癌的 BNCT，但真正发现是可行性：治疗性硼浓度可实现、无放射毒性、部分反应——为更大研究奠定基础但本身不支持临床采用"
+  evidence_boundary: "小病例系列（n=3）仅终末期患者；仅支持历史可行性背景，不支持治疗推荐；BNCT 仍为研究性治疗"
 ---
 
 # BNCT of 3 cases of spontaneous head and neck cancer in feline patients

@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（2024 年 In Vivo），50 例猫恶性乳腺肿瘤的 COX-2 和 α-SMA+ CAF 免疫组化表达及预后分析"
+  core_argument: "COX-2 过表达和 α-SMA+ 癌相关成纤维细胞（CAF）均与转移、血管侵犯和较差的 DFS/OS 相关——这是 FMC 中首个 CAF 预后数据"
+  implicit_premise: "假设 COX-2 表达水平与 COX-2 抑制剂治疗反应相关；假设 CAF 评分可常规应用于临床实践"
+  unexpected_finding: "α-SMA+ CAF 是 FMC 预后的独立预测因子——肿瘤微环境中的基质成分与预后显著相关——这扩展了 FMC 预后评估从肿瘤细胞到微环境"
+  title_gap: "标题说 COX-2 和 α-SMA+ CAF 在 FMC 中的表达和预后价值，但真正发现是微环境重要性：CAF 与预后的关联表明肿瘤微环境可能是治疗靶点——而非仅仅是旁观者"
+  evidence_boundary: "摘要级预后标记物证据，50 例样本；不支持治疗选择或 NSAID 推荐；CAF 靶向治疗在 FMC 中未测试"
 ---
 
 # Immunohistochemical Expression and Prognostic Value of COX-2 and Alpha-Smooth Muscle Actin-positive Cancer-associated Fibroblasts in Feline Mammary Cancer

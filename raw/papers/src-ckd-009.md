@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - Future efficacy-study planning should likely stratify CKD cohorts by hypertension status instead of treating blood pressure as background noise.
     - The translational branch may need a more explicit fork for `CKD with hypertension/proteinuria junction` versus `CKD without overt hemodynamic comorbidity`.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 CKD 与高血压的交织关系（2021 年）"
+  core_argument: "CKD 和高血压在猫中是双向共病——高血压增加蛋白尿和靶器官损害，需要常规血压监测和积极治疗"
+  implicit_premise: "假设血压既是后果也是驱动因素；假设靶器官损害使抗高血压治疗超越肾脏生物标志物"
+  unexpected_finding: "CKD 猫的血压监测仍不频繁进行——这意味着高血压可能在该人群中被低诊断"
+  title_gap: "标题说 CKD 与高血压的交织关系，但真正发现是实施差距：血压监测仍不频繁——高血压在 CKD 猫中可能被系统性低诊断"
+  evidence_boundary: "支持抗高血压重要性，但不支持特定药物间的硬性结局优越性声明"
 ---
 
 # Feline comorbidities: The intermingled relationship between chronic kidney disease and hypertension

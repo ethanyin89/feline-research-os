@@ -30,6 +30,13 @@ evidence_policy:
     - The study supports vitamin D as a burden or complication-context marker, not as an IBD-versus-lymphoma separator.
   llm_inference:
     - This paper is best used to keep systemic nutritional-burden markers below frontier discriminators and below core workup layers.
+  # V2 enhanced fields
+  study_design: "前瞻性研究，84只猫分为健康组（23只）、非胃肠疾病住院组（41只）及IBD或肠道小细胞淋巴瘤组（20只），测定血清25-羟基维生素D浓度及血清白蛋白水平"
+  core_argument: "患有炎症性肠病或肠道小细胞淋巴瘤的猫血清25-羟基维生素D浓度显著低于健康猫及非胃肠疾病住院猫，且维生素D水平与血清白蛋白呈中度正相关"
+  implicit_premise: "血清25-羟基维生素D浓度能够反映猫体内的维生素D状态且与胃肠道病理状态相关"
+  title_gap: "标题指出IBD及小细胞淋巴瘤猫血清维生素D浓度低，但研究发现维生素D更适合作为疾病负担或并发症指标，而非区分IBD与淋巴瘤的诊断标志——这提示维生素D水平在临床解读中应体现疾病严重程度而非病种差异"
+  evidence_boundary: "本研究未能区分维生素D水平在诊断IBD与肠道小细胞淋巴瘤上的差异性，亦未探讨维生素D补充对疾病进展或预后的影响"
+  unexpected_finding: "血清25-羟基维生素D浓度与血清白蛋白存在中度正相关，提示营养状态或蛋白质代谢异常可能影响维生素D水平"
 ---
 
 # One-line Summary

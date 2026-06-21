@@ -39,6 +39,13 @@ evidence_policy:
     - "High TNBC prevalence in FMC may explain poor prognosis and chemotherapy resistance."
     - "CK/vimentin luminal progenitor cells may represent cell of origin for FMC."
     - "FMC provides a natural model for studying human TNBC biology."
+  # V2 enhanced fields
+  study_design: "原始研究，156 例猫乳腺病变的 IHC 和基因表达分析（37 例 FMC + 27 例非肿瘤对照）"
+  core_argument: "FMC 绝大多数为三阴性（HR-/HER2-）伴 vimentin+/CK14+/CK5/6+ 表型——仅 10.8% 侵袭性 + 8% 良性为 HR+——类似人类基底样/claudin-low TNBC"
+  implicit_premise: "假设 IHC 表型分类可代替分子分型；假设 vimentin/CK 共表达的管腔祖细胞是 FMC 的起源细胞"
+  unexpected_finding: "非肿瘤导管中发现弥漫性 CKs/vimentin 管腔细胞共表达——这一此前从未描述的发现可能揭示了 FMC 的细胞起源"
+  title_gap: "标题说三阴性 vimentin 阳性 FMC 是乳腺癌的潜在模型，但真正发现是细胞起源线索：非肿瘤导管中的 CKs/vimentin 共表达管腔祖细胞——可能是 FMC 的起源细胞"
+  evidence_boundary: "单机构研究（意大利）；156 例病变提供良好的表型患病率估计但可能不具普遍代表性"
 ---
 
 # Triple-negative vimentin-positive heterogeneous feline mammary carcinomas as a potential comparative model for breast cancer

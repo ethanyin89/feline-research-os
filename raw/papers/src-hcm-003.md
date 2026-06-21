@@ -36,6 +36,13 @@ evidence_policy:
     - This source may become a bridge between mechanism and translation rather than a pure model note.
     - Mechanism and synthesis pages should use this paper as a model-bridge anchor with explicit translational caution.
     - The dual framing (feline clinical disease + human translational model) creates the main overclaim risk: model similarity is not clinical equivalence.
+  # V2 enhanced fields
+  study_design: "综述，探讨猫 HCM 作为人类 HCM 自发大动物模型的价值"
+  core_argument: "猫 HCM 是人类 HCM 的优秀自发大动物模型——基因型和表型相似，患病率 10-15%，具有明确可测的终点"
+  implicit_premise: "假设模型相似性可以支持转化研究设计；假设缅因猫和布偶猫的 myosin binding protein-C 突变代表更广泛的猫 HCM 群体"
+  unexpected_finding: "缅因猫和布偶猫因其特定突变和更高发病率，成为特别有价值的模型亚群——这提示品种特异性研究可能比全猫群研究更有转化价值"
+  title_gap: "标题强调人-猫模型价值，但真正警告是转化边界：模型相似性不等于临床等效——人类 HCM 治疗逻辑不能自动用于猫临床实践"
+  evidence_boundary: "模型价值不等于临床等效；人类 HCM 治疗逻辑不能自动转移到猫临床实践；具体相似性排名需阅读全文"
 ---
 
 # One-line Summary

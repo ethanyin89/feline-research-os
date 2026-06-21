@@ -29,6 +29,13 @@ evidence_policy:
   llm_inference:
     - This paper is likely most valuable as historical mechanism context, not as a high-priority operational source.
     - This source may help prevent the FIP mechanism map from looking too recent or too genetically narrow.
+  # V2 enhanced fields
+  study_design: "原始研究，1970 年实验性 FIP 猫中病毒形态发生的研究"
+  core_argument: "FIP 病毒形态发生有早期实验病毒学基础——这为现代突变/重组框架提供历史连续性，显示该领域并非从基因组学开始"
+  implicit_premise: "假设历史实验病毒学对现代疾病模块有架构连续性价值；假设旧论文应标记为历史和实验性质而非直接操作来源"
+  unexpected_finding: "1970 年的来源——比现代突变起源和抗病毒证据早数十年，这使其成为最古老的实验病毒学锚点之一"
+  title_gap: "标题说实验性 FIP 病毒形态发生，但真正价值是架构连续性：1970 年来源证明该领域并非从基因组学开始——病毒学、细胞生物学和实验感染在现代突变/重组框架之前就已存在"
+  evidence_boundary: "历史实验形态发生学；不适用于现代诊断或治疗决策；其价值是架构连续性而非现代临床杠杆"
 ---
 
 # One-line Summary

@@ -37,6 +37,13 @@ evidence_policy:
     - "Oral formulation provides practical alternative to injectable GS-441524."
     - "Higher dose for CNS/ocular disease reflects need for better tissue penetration."
     - "100% cure rate is exceptional but n=18 is modest sample size."
+  # V2 enhanced fields
+  study_design: "前瞻性队列研究，18 只自发性 FIP 猫使用口服 Xraphconn®（含 GS-441524）84 天方案治疗"
+  core_argument: "口服 GS-441524 制剂高效治愈 FIP（18/18 即 100% 存活）——双层剂量方案（神经/眼部 10 mg/kg，非神经 5 mg/kg）无严重不良反应"
+  implicit_premise: "假设口服制剂提供注射 GS-441524 的实用替代；假设质谱确认活性成分可以验证产品成分"
+  unexpected_finding: "临床和实验室参数在治疗最初几天内即有显著改善——比预期更快的反应时间表"
+  title_gap: "标题说用口服药物治愈 FIP 猫，但真正发现是双层剂量方案：神经/眼部 10 mg/kg vs 非神经 5 mg/kg，且最初几天内即有显著改善——质谱确认活性成分验证了产品成分"
+  evidence_boundary: "n=18 的适度样本量；100% 治愈率可能不可推广到更大更多样化群体；品牌/制剂特异性"
 ---
 
 # Curing Cats with Feline Infectious Peritonitis with an Oral Multi-Component Drug Containing GS-441524

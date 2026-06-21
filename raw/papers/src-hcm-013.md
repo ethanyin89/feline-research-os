@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This may become a useful boundary source between phenotype definition and pathology staging.
     - Risk-recognition pages should probably keep gross structural morphometry inside the recognition branch while holding histologic micromorphometry lower in the depth layer.
+  # V2 enhanced fields
+  study_design: "原始研究，15 只 HCM 猫与 15 只匹配对照比较形态测量标准"
+  core_argument: "相对心脏重量和宏观结构测量可区分 HCM 与正常心脏——但组织学微形态测量（心肌细胞大小、分支、纤维化）未显示显著差异"
+  implicit_premise: "假设病理形态计量可以转化为诊断实践；假设宏观结构优于微观结构用于首要诊断区分"
+  unexpected_finding: "心肌细胞直径和纤维化量化在此数据集中无法可靠区分 HCM——这挑战了细胞级病理测量作为常规诊断标准的假设"
+  title_gap: "标题说形态测量诊断价值，但真正发现是组织学的局限：心肌细胞大小和纤维化量化无法可靠区分 HCM——只有宏观结构指标有效"
+  evidence_boundary: "15 只猫的数据集限制精确阈值推广；形态测量边界不能直接推断到生前成像实践"
 ---
 
 # One-line Summary

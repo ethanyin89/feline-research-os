@@ -34,6 +34,13 @@ evidence_policy:
     - "Older signalment and risk claims should be compared with UK/Australian epidemiology."
   llm_inference:
     - "Useful when answers start borrowing canine or human diabetes assumptions too freely."
+  # V2 enhanced fields
+  study_design: "综述性研究，针对多项关于猫糖尿病的文献进行汇总和分析，重点综述猫糖尿病的特异性病理和流行病学特征"
+  core_argument: "猫糖尿病与犬糖尿病在发病机制和病理表现上存在显著差异，特别是胰岛淀粉样变、肥胖、感染及潜在遗传因素导致其独特的临床病理特征。"
+  implicit_premise: "不同物种之间的糖尿病机制差异明显，猫特有的病理改变能够揭示疾病本质，因此分类与病因分析必须基于物种特异数据。"
+  title_gap: "标题强调猫糖尿病的特殊性，但真正深入指出了猫糖尿病与犬糖尿病的区别及多种潜在促发因素，超出了简单的物种区别讨论。"
+  evidence_boundary: "未详细探讨最新流行病学数据以验证中老年及雄性猫糖尿病发病风险，也未涉及治疗方案和预后评估。"
+  unexpected_finding: "雄性猫比雌性猫更容易患糖尿病，这在某些糖尿病物种模型中并不常见，提示性别相关的易感性因素可能较为特殊。"
 ---
 
 # What is So Special about Feline Diabetes Mellitus?

@@ -33,6 +33,13 @@ evidence_policy:
     - The strong response/remission signal should travel with retrospective case-series caution.
   llm_inference:
     - This paper should help separate treatment-package logic from single-drug efficacy logic.
+  # V2 enhanced fields
+  study_design: "病例系列，32 只渗出性或非渗出性 FIP 猫使用注射用瑞德西韦联合口服 GS-441524 治疗"
+  core_argument: "瑞德西韦+GS-441524 组合方案有效跨越多种疾病表现——包括眼部和神经系统受累，81.3% 在 12 周时处于临床和生化缓解"
+  implicit_premise: "假设回顾性病例系列证据不应被过度解读为明确的比较证明；假设治疗方案逻辑不同于单一药物功效逻辑"
+  unexpected_finding: "临床反应中位数仅 2 天——这为实际 FIP 管理提供了具体的真实世界反应时间表"
+  title_gap: "标题说瑞德西韦+GS 组合治疗 32 只猫，但真正发现是真实世界反应速度：临床反应中位数仅 2 天，12 周时 81.3% 处于缓解——跨越渗出性/非渗出性/眼部/神经系统的治疗方案证据"
+  evidence_boundary: "回顾性病例系列，非对照比较；更广泛的真实世界病例组合改善相关性但使与更干净基线研究的直接比较复杂化"
 ---
 
 # One-line Summary

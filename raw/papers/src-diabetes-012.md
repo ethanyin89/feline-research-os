@@ -34,6 +34,13 @@ evidence_policy:
     - "UK and Australian denominator differences should stay visible in any cross-population synthesis."
   llm_inference:
     - "This is a full-text target if the module needs breed denominator, case definition, or age/sex stratification detail."
+  # V2 enhanced fields
+  study_design: "回顾性流行病学研究，纳入澳大利亚12576只家猫，利用兽医诊所病例数据统计糖尿病发生率及品种易感性"
+  core_argument: "澳大利亚家猫糖尿病五年期患病率为7.4/1000，缅甸猫患病率显著更高，达到22.4/1000，显示缅甸猫具有明显的糖尿病易感性"
+  implicit_premise: "兽医诊所收治病例能够代表总体家猫群体，且品种鉴定和疾病诊断准确无误"
+  title_gap: "标题强调糖尿病频率和品种易感性，但实际上揭示了缅甸猫的年龄特征与疾病初诊时间显著晚于其他品种——暗示该品种糖尿病表现可能不同"
+  evidence_boundary: "本研究基于临床病例，未涉及糖尿病的病因机制、生理病理过程或治疗效果，也未覆盖非澳大利亚地区的猫群体"
+  unexpected_finding: "缅甸猫糖尿病首次诊断时的平均年龄高于家猫短毛和长毛品种，挑战了通常认为易感品种病程更早发的假设"
 ---
 
 # Frequency of feline diabetes mellitus and breed predisposition in domestic cats in Australia

@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "Review article for mammary-carcinoma.md management section."
     - "80% malignancy rate is key clinical reference."
+  # V2 enhanced fields
+  study_design: "综述文章（2010 年 JFMS），猫乳腺肿块的临床管理综述——早期检测和积极治疗策略"
+  core_argument: "约 80% 的猫乳腺肿块是恶性的——腺癌是最常见类型——手术是最广泛使用的治疗——但诊断时往往已晚期/转移——早期诊断对改善预后和生活质量至关重要"
+  implicit_premise: "假设 80% 恶性率适用于所有临床情境（可能受转诊偏倚影响）；假设早期检测可改善结局（因果关系假设）"
+  unexpected_finding: "手术通常无法治愈晚期/转移性疾病——这强调了早期检测的重要性——但也提示需要辅助治疗策略"
+  title_gap: "标题说早期检测和积极治疗以优化猫乳腺肿块管理，但真正信息是临床现实：80% 恶性 + 诊断时往往晚期 = 预后有限——纤维腺瘤样增生（最常见良性肿块）可用 OVH/激素治疗"
+  evidence_boundary: "综述文章证据；支持临床管理概述和 80% 恶性率声明，不支持具体治疗方案或生存估计——需要原始研究支持"
 ---
 
 # Early Detection, Aggressive Therapy: Optimizing the Management of Feline Mammary Masses

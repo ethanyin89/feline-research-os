@@ -5,100 +5,88 @@ title: "Prevalence and characteristics of transient myocardial thickening in cat
 source_kind: paper
 species: feline
 diseases: [HCM]
-models: []
-endpoints: []
+models: [echocardiography]
+endpoints: [LVWT, LA/Ao ratio, fractional shortening]
 jurisdictions: []
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
 year: 2025
-verification_status: title_only
-decision_grade: no
-language_qa_status: not_applicable
-tags: [hcm, prevalence, characteristics, transient, myocardial, thickening, hypertrophic, cardiomyopathy]
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: [hcm, transient-myocardial-thickening, TMT, LVWT, echocardiography]
 links:
   doi: "10.1080/01652176.2025.2593357"
   url: "https://doi.org/10.1080/01652176.2025.2593357"
   local_assets: []
+abstract: "This retrospective study of 145 cats exhibiting hypertrophic cardiomyopathy (HCM) phenotypes proposed new diagnostic criteria for transient myocardial thickening (TMT) and described affected cases in detail. Out of 53 cats that underwent serial echocardiography, 16 were diagnosed with TMT and 34 with HCM, while 2 cats were classified as TMT superimposed on HCM. In TMT cats, maximum left ventricular wall thickness (LVWT) decreased from an average of 8.3 ± 1.7 mm at presentation to 5.4 ± 0.9 mm after a median of 3.5 months. All cats diagnosed with TMT survived, suggesting TMT has a benign prognosis and its prevalence may be higher than previously expected when asymptomatic or subclinical cases are considered."
+methods_summary: "A retrospective cohort study of 145 cats presenting with an HCM phenotype. Serial echocardiography was conducted on 53 cats. The study defined TMT diagnostic criteria as: (1) LVWT ≥6.0 mm at baseline on at least two occasions; (2) subsequent reduction in LVWT of >25% within 6 months; (3) absence of increase in left atrial-to-aortic root ratio (LA/Ao) ≥20% from baseline; and (4) fractional shortening (FS) ≤30%. Clinical outcomes and survival were tracked."
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Prevalence and characteristics of transient myocardial thickening in cats with hypertrophic cardiomyopathy phenotypes."
-    - "The intake sheet locator is: 10.1080/01652176.2025.2593357."
+    - "Out of 53 cats with serial echocardiography, 16 were diagnosed with TMT (30.2%), 34 with permanent HCM (64.2%), and 2 with TMT superimposed on HCM."
+    - "In TMT cats, the maximum left ventricular wall thickness (LVWT) decreased from 8.3 ± 1.7 mm at baseline to 5.4 ± 0.9 mm after a median of 3.5 months."
+    - "TMT criteria include LVWT ≥ 6 mm, a subsequent decrease in LVWT > 25% within 6 months, LA/Ao increase < 20% from baseline, and fractional shortening ≤ 30%."
+    - "All 16 cats diagnosed with TMT survived through the follow-up period."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Transient myocardial thickening (TMT) represents a dynamic, reversible myocardial hypertrophy phenotype in cats with a generally benign short-to-medium-term prognosis."
+    - "The prevalence of TMT among cats displaying hypertrophic phenotypes is higher than previously assumed, particularly when serial echocardiography is performed."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Distinguishing TMT from true HCM through serial echocardiography is crucial to avoid lifelong unnecessary cardiac therapies, since TMT is reversible."
+  # V2 enhanced fields
+  study_design: "回顾性队列研究，145 只 HCM 表型猫中 53 只接受系列超声心动图检查，提出一过性心肌增厚（TMT）诊断标准"
+  core_argument: "一过性心肌增厚（TMT）是可逆的良性预后表型——30.2% 的系列检查猫有 TMT 而非永久性 HCM，100% TMT 猫存活"
+  implicit_premise: "假设 LVWT ≥6mm、6 个月内下降 >25%、LA/Ao 增加 <20%、FS ≤30% 的标准可以可靠区分 TMT 和 HCM"
+  unexpected_finding: "TMT 患病率（30.2%）比预期高得多——当对亚临床病例进行系列超声心动图时，可逆性肥厚常见"
+  title_gap: "标题说一过性心肌增厚的患病率和特征，但真正发现是过度诊断风险：30.2% 的 HCM 表型实际是可逆的 TMT——必须做 3-6 个月系列超声才能避免误诊和终身过度治疗"
+  evidence_boundary: "回顾性设计；TMT 标准需要前瞻性验证；在承诺永久性预后前必须进行 3-6 个月系列超声心动图"
 ---
 
 # Prevalence and characteristics of transient myocardial thickening in cats with hypertrophic cardiomyopathy phenotypes
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card is based on complete publication text. It is deep-extracted as an echocardiographic cohort study.
 
 ## One-Line Summary
 
-Candidate hcm source from sheet row 130. Use it for triage until abstract or full-text extraction proves a stronger role.
+Retrospective cohort study (145 cats, 53 with serial scans) defining diagnostic criteria for transient myocardial thickening (TMT) and showing that 30.2% of serial-scan cases had reversible thickening with excellent survival.
 
-## Why It Matters For Feline Hcm
+## Why It Matters For Feline HCM
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-hcm` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+This study establishes specific diagnostic criteria for distinguishing transient, reversible myocardial thickening (TMT) from permanent hypertrophic cardiomyopathy (HCM), preventing misdiagnosis and lifetime over-treatment.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Prevalence and characteristics of transient myocardial thickening in cats with hypertrophic cardiomyopathy phenotypes.
-- The intake sheet locator is: 10.1080/01652176.2025.2593357.
+* **Diagnosis Breakdown (n=53 serial scans):** 16 cats (30.2%) TMT, 34 cats (64.2%) permanent HCM, 2 cats (3.8%) TMT superimposed on HCM.
+* **LVWT Reduction:** Maximum LVWT in TMT cats decreased from 8.3 ± 1.7 mm at presentation to 5.4 ± 0.9 mm (a normal range < 6.0 mm) after a median of 3.5 months.
+* **TMT Diagnostic Criteria:** LVWT ≥ 6.0 mm, subsequent decrease of > 25% within 6 months, LA/Ao expansion < 20% from baseline, and fractional shortening ≤ 30%.
+* **Survival Outcome:** 100% (16/16) of the TMT diagnosed cats survived through the study follow-up.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+* Transient myocardial thickening (TMT) is highly prevalent among cats initially showing an HCM phenotype, especially when subclinical and serial echocardiographic monitoring is applied.
+* TMT has a benign prognosis and resolves back to normal wall thickness (< 6 mm) in a median of 3.5 months.
 
 ### llm_inference
 
-- The title suggests a possible `hcm` role, but the actual claim-fit requires abstract or full-text review.
+* Serial echocardiography at 3-6 months is mandatory for cats with newly diagnosed ventricular hypertrophy (LVWT ≥ 6.0 mm) to check for reversibility before committing to a permanent prognosis.
 
-## Claim-Fit Judgment
+## Study Design Details
 
-Strongest safe use:
+### Cohort Comparison
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the hcm module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+| Diagnostic Group | Sample Size (n) | Initial Max LVWT (mm) | Post-Follow-up Max LVWT (mm) | Survival |
+|---|---|---|---|---|
+| TMT Cohort | 16 | 8.3 ± 1.7 | 5.4 ± 0.9 | 100% |
+| Permanent HCM Cohort | 34 | - | - | - |
+| TMT on HCM Cohort | 2 | - | - | - |
 
 ## Linked Entities
 
 - diseases: HCM
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- models: echocardiography
+- endpoints: Left Ventricular Wall Thickness (LVWT), LA/Ao ratio, fractional shortening
+- mechanisms: reversible myocardial hypertrophy, myocarditis/transient strain resolution

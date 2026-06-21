@@ -29,6 +29,12 @@ evidence_policy:
     - The paper is useful mainly for locating FCV subtopics in the broader feline-virus literature.
   llm_inference:
     - This source belongs low in the FCV hierarchy and should not control disease or treatment claims.
+  # V2 enhanced fields
+  study_design: "专题评论文章，聚焦猫杯状病毒（FCV）及其相关亚领域的研究进展，整合多篇文献和研究见解"
+  core_argument: "猫杯状病毒是导致猫上呼吸道疾病的常见病原体，且部分病毒株可引起严重的系统性疾病爆发，因而需要多方面的研究视角来全面理解其病理和防控策略"
+  implicit_premise: "已有大量分散的FCV研究工作能够被整合成一个清晰的研究框架，从而展示其在猫病毒领域的重要地位和多样化研究方向"
+  title_gap: "标题强调‘猫病毒及病毒病进展’，但文章真正突破在于系统定位了猫杯状病毒研究的多个子方向及其在系统性疾病和环境控制中的关键作用——为后续专门研究提供了知识框架"
+  evidence_boundary: "该论文不提供直接的实验数据或治疗干预效果评估，亦未涉及具体临床决策或诊疗方案的制定"
 ---
 
 # Advances in Feline Viruses and Viral Diseases

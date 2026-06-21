@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This paper likely helps bridge classical mutation-origin logic and more specific genetic pathobiogenesis logic.
     - This paper is one of the strongest candidates for keeping the mechanism branch from collapsing into a flat mutation story.
+  # V2 enhanced fields
+  study_design: "原始研究，27 只 FECV 感染猫和 28 只 FIPV 感染猫的 3c 基因分析"
+  core_argument: "功能性 3c 基因对肠道 FECV 复制至关重要，但对全身性 FIPV 复制是可有可无的——这解释了为什么 FIP 爆发少见"
+  implicit_premise: "假设 3c 基因功能状态是区分肠道能力和全身疾病能力的关键因素；假设样本量足以支持这些结论"
+  unexpected_finding: "71.4% 的 FIPV 携带 3c 突变，但不是全部——这明确阻止了「单一突变导致 FIP」的简化叙事"
+  title_gap: "标题说 3c 基因和发病机制，但真正发现是功能分离：3c 对肠道复制至关重要但对全身性 FIPV 是可有可无的——这解释了为什么 FIP 暴发少见，同时阻止单一突变简化叙事"
+  evidence_boundary: "机制相关性不能直接转化为诊断工作流；肠道与全身病毒检测应保持区室特异性"
 ---
 
 # One-line Summary

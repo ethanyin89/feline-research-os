@@ -43,6 +43,13 @@ evidence_policy:
     - "EGFR-targeted therapies developed for HNSCC may be candidates for FOSCC trials."
     - "COX-2 inhibitors may have therapeutic potential in FOSCC given expression in 67% of tumors."
     - "The 2013 publication date means some cited statistics may be outdated."
+  # V2 enhanced fields
+  study_design: "叙述性综述，建立 FOSCC 作为人类 HNSCC 自然发生模型的比较肿瘤学框架"
+  core_argument: "FOSCC 与 HNSCC 共享病因病理（烟草、乳头瘤病毒）和分子标志物（EGFR 69-100%、VEGF、p53、COX-2）——是人类头颈癌的生物学相关模型"
+  implicit_premise: "假设分子标志物相似性意味着治疗反应相似；假设猫二手烟暴露与人类直接吸烟在致癌机制上等价"
+  unexpected_finding: "FOSCC 中 EGFR 表达高达 69-100%（vs HNSCC 90%）——这一高度保守的表达模式支持 EGFR 靶向治疗的跨物种转化"
+  title_gap: "标题说 FOSCC 是 HNSCC 的自然模型，但真正发现是分子保守性：EGFR（69-100%）、VEGF、p53 在猫和人类之间高度保守——这为跨物种治疗转化提供了分子基础"
+  evidence_boundary: "2013 年综述，部分引用统计数据可能已过时；比较肿瘤学框架而非 FOSCC 治疗指南"
 ---
 
 # A Naturally Occurring Feline Model of Head and Neck Squamous Cell Carcinoma

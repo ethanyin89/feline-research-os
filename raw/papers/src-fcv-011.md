@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted challenge-protection anchor in the FCV endpoint branch.
     - The safest downstream wording is `high-signal challenge benefit`, not `best current vaccine`.
+  # V2 enhanced fields
+  study_design: "原始实验研究，使用接种与未接种疫苗的猫进行体内挑战试验，评估不同FCV株对高度毒性猫杯状病毒的交叉中和和保护效果"
+  core_argument: "具有广泛血清交叉中和能力的无毒性FCV株FCV-21能够在应激条件下提供比传统仅含F9株疫苗更优的对高度毒性系统性FCV的保护"
+  implicit_premise: "血清中和广谱性是实现疫苗保护效果提升的关键指标，且体内挑战试验能真实反映疫苗保护能力"
+  title_gap: "标题强调无毒性FCV株的特征与交叉中和能力，但真正的发现展示了其在高毒性FCV应激挑战下优于传统疫苗的保护效果——揭示疫苗株选择对实际保护力的实质影响"
+  evidence_boundary: "本研究未评估该无毒性株在自然感染环境下的免疫持久性和安全性，也未探讨其在不同地理地域及多样病毒株中的保护广度"
+  unexpected_finding: "无毒性FCV-21疫苗株在高致死性VS-FCV-33585病毒挑战中实现了零死亡率，而传统未含该株的疫苗组死亡率高达78%"
 ---
 
 # Characterization of an avirulent FCV strain with a broad serum cross-neutralization profile and protection against challenge of a highly virulent vs feline calicivirus

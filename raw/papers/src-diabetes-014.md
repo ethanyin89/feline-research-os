@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - "This should anchor the first clinical architecture write-back, but not detailed protocol ranking."
     - "This is a high-priority full-text target if later outputs need diagnostic or monitoring schedules."
+  # V2 enhanced fields
+  study_design: "综述性研究，综合分析多个文献，涵盖猫糖尿病的诊断、治疗、监测及预后管理"
+  core_argument: "猫糖尿病主要表现为类似人类2型糖尿病的周围胰岛素抵抗及胰岛素分泌逐渐减少，综合饮食调整、胰岛素使用、监测及并发症处理是有效管理的关键。"
+  implicit_premise: "猫糖尿病的临床表现和治疗原则可通过类似人类2型糖尿病的病理机制进行统一框架构建和管理。"
+  title_gap: "标题只是指出猫糖尿病，但实际综述提供了一个涵盖诊断、治疗、监测、并发症及共病处理的临床决策系统框架——超出了单纯疾病介绍的范畴。"
+  evidence_boundary: "本文未深入探讨糖尿病特异性分子机制、基因易感性及新型治疗方案的临床试验效果，亦未细化不同种族或年龄猫群的个体差异。"
+  unexpected_finding: "糖尿病酮症酸中毒及共病虽通常视为严重并发症，但该综述强调在管理目标中持续保持对这些风险的监控同样重要，促进全面治疗策略的制定。"
 ---
 
 # Feline Diabetes mellitus

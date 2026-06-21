@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the main FCV modern broad-control anchor above narrower vaccine and therapy papers.
     - The safest downstream wording is `integrated control under persistent-carrier pressure`, not `vaccination alone solves FCV control`.
+  # V2 enhanced fields
+  study_design: "综述性研究，整合分子生物学、流行病学、发病机制及临床表现相关文献，评估疫苗及防控策略的效果"
+  core_argument: "猫杯状病毒（FCV）的复杂遗传多样性及其持续感染、再感染和隐性感染的现象使得单一防控措施难以有效控制病毒传播，必须采用综合防控策略。"
+  implicit_premise: "有效控制FCV传播需要全面理解病毒的遗传变异、感染动态及疫苗保护机制，且多种防控措施的协同作用是实现控制的关键。"
+  title_gap: "标题强调了对猫杯状病毒感染的现状认知和防控策略，但实际发现是病毒的高度变异性和隐性感染带来了控制上的极大挑战——这要求从根本上重新评估和整合防控方法。"
+  evidence_boundary: "未涉及特定疫苗的临床试验数据，也未提供针对不同变异株的具体免疫保护机制的定量分析；未详细阐述具体治疗方案的临床效果。"
+  unexpected_finding: "部分感染猫持续携带病毒且无临床症状成为重要传播源，且病毒通过多种机制逃避免疫反应，导致传统疫苗及防控方案效果受限。"
 ---
 
 # Feline Calicivirus Infection: Current Understanding and Implications for Control Strategies

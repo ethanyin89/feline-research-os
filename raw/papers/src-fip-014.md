@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - This paper may become one of the strongest later correctives against single-path mechanism stories.
     - This paper likely forces the module to separate ordinary endemic-background logic from outbreak-capable recombinant logic.
+  # V2 enhanced fields
+  study_design: "原始研究，报告由 FCoV-CCoV 重组冠状病毒引起的 FIP 流行病（源自塞浦路斯）"
+  core_argument: "FIP 发病机制需要多于一条路径——重组冠状病毒可引起具有直接传播能力的暴发，经典的个体猫内突变模型不足以涵盖所有 FIP"
+  implicit_premise: "假设一次流行病足以扩展机制分支；假设重组暴发逻辑与地方性多猫背景逻辑是互补而非替代关系"
+  unexpected_finding: "各年龄猫均在暴发中感染——这挑战了 FIP 主要影响幼猫的预期"
+  title_gap: "标题说重组冠状病毒引起的流行病，但真正发现是机制扩展：FIP 发病需要多条路径——经典个体猫内突变模型不足以涵盖所有 FIP，重组暴发可感染所有年龄猫"
+  evidence_boundary: "一次流行病可能拓宽分支但不能确定其普遍性；不应将重组暴发逻辑作为所有 FIP 的默认模型"
 ---
 
 # One-line Summary

@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "临床前研究（2014 年 PLoS One），重组溶瘤痘苗病毒 GLV-5b451 对猫乳腺癌细胞系和异种移植的评估"
+  core_argument: "GLV-5b451 溶瘤痘苗病毒在猫乳腺癌模型中显示抗肿瘤活性——感染、复制并破坏 DT09/06 癌细胞——单次系统给药显著抑制异种移植肿瘤生长——通过表达抗 VEGF 单链抗体（GLAF-2）降低肿瘤内 VEGF 并抑制血管生成"
+  implicit_premise: "假设异种移植小鼠模型结果可转化为猫体内疗效；假设抗 VEGF 机制在猫体内与模型中类似"
+  unexpected_finding: "溶瘤病毒实现了肿瘤特异性感染并产生功能性 GLAF-2——这种'武装'溶瘤病毒策略结合了病毒溶瘤和抗血管生成——概念验证支持进一步开发"
+  title_gap: "标题说评估新型重组溶瘤痘苗病毒用于猫乳腺癌治疗，但真正发现是概念验证：体外/异种移植证据支持 GLV-5b451 的进一步开发——不支持客户猫的临床使用"
+  evidence_boundary: "临床前细胞系/异种移植证据，有利益冲突声明；仅支持研究背景，不支持临床治疗声明或治疗推荐"
 ---
 
 # Evaluation of a New Recombinant Oncolytic Vaccinia Virus Strain GLV-5b451 for Feline Mammary Carcinoma Therapy

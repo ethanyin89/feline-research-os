@@ -35,6 +35,13 @@ evidence_policy:
     - "Carbohydrate and fiber effects should not be isolated from each other without full-text support."
   llm_inference:
     - "This is a high-priority full-text target if the module needs diet effect-size tables, insulin-adjustment context, or remission-definition separation."
+  # V2 enhanced fields
+  study_design: "随机对照试验，63 只糖尿病猫被随机分配到两组罐头饮食方案，比较低碳水化合物低纤维和中等碳水化合物高纤维饮食，持续16 周"
+  core_argument: "低碳水化合物低纤维饮食能更有效使糖尿病猫转变为非胰岛素依赖状态，尽管两种饮食对血糖和果糖胺的降低效果相似"
+  implicit_premise: "饮食成分不同是影响糖尿病猫病理状态改善的关键变量，且随机分组能有效控制其他影响因素"
+  title_gap: "标题关注低碳水化合物低纤维与中等碳水化合物高纤维饮食的管理效果，实际上研究揭示了血糖改善与胰岛素依赖状态逆转是两个可分离的结局"
+  evidence_boundary: "研究未评估长期预后影响、生活质量及饮食外其他治疗干预的交互作用，也未探讨饮食对不同糖尿病病因的适用性"
+  unexpected_finding: "尽管两种饮食均显著降低血糖和果糖胺，两组体重变化无显著差异，且中等碳水化合物高纤维组仍有部分猫实现非胰岛素依赖，表明饮食纤维含量对胰岛素依赖状态的逆转影响较复杂"
 ---
 
 # Comparison of a low carbohydrate-low fiber diet and a moderate carbohydrate-high fiber diet in the management of feline diabetes mellitus

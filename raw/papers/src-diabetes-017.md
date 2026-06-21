@@ -34,6 +34,13 @@ evidence_policy:
     - "The source supports frontier mapping, not routine protocol status."
   llm_inference:
     - "Useful for treatment-branch history and residual beta-cell-function logic."
+  # V2 enhanced fields
+  study_design: "综述文章，未涉及具体样本，主要方法为文献回顾和分析猫类糖尿病最新治疗机制与药理学进展"
+  core_argument: "GLP-1 类似物及相关肠促胰素机制通过促进葡萄糖依赖性胰岛素分泌、抑制胰高血糖素、延缓胃排空及增加饱腹感，构成猫糖尿病治疗的创新前沿"
+  implicit_premise: "肠促胰素及GLP-1作用机制在猫糖尿病中的药理效应与其他物种具有可比性，且临床应用的潜力值得深入探讨"
+  title_gap: "标题聚焦于猫糖尿病的新治疗途径，但文章深入映射了包括肠促胰素/GLP-1相关机制的药理细节及其作为未来治疗创新的重要潜力——而非仅是现有治疗方法的简单总结"
+  evidence_boundary: "未提供针对GLP-1类似物长期疗效、安全性或临床应用指南的实证数据，也未涵盖SGLT2抑制剂等最新治疗方案的临床试验结果"
+  unexpected_finding: "长效GLP-1类似物在猫糖尿病中有潜力减少注射频率，可能比传统胰岛素治疗更便利，这一观点目前尚处于理论探索阶段"
 ---
 
 # New Approaches to Feline Diabetes Mellitus

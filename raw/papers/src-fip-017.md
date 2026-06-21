@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - This paper helps explain why the later natural-disease efficacy branch did not appear from nowhere.
     - This paper should stabilize the lower treatment layer without replacing the natural-disease baseline anchor.
+  # V2 enhanced fields
+  study_design: "原始研究，GS-441524 在组织培养和实验性猫感染研究中的抗病毒效力"
+  core_argument: "GS-441524 有强大的临床前和实验性猫抗病毒基础——10/10 实验感染猫快速逆转疾病体征并恢复正常，无明显毒性"
+  implicit_premise: "假设实验感染结果支持后续自然疾病研究的合理性但不能取代它；假设 PK 可行性需要单独验证"
+  unexpected_finding: "100 uM 时无毒性，1 uM 时抑制病毒复制——安全窗口支持后续临床开发"
+  title_gap: "标题说强效抑制 FIP 病毒，但真正价值是完整的临床前基础：10/10 实验感染猫快速恢复正常、100 倍安全窗口（100 uM 无毒/1 uM 有效）、24 小时 PK 可行性——解释了为什么后续自然疾病研究有合理基础"
+  evidence_boundary: "实验基础，非自然疾病临床表现；不应合并为治愈率或现代方案细节"
 ---
 
 # One-line Summary

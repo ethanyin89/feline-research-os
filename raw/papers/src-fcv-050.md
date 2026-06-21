@@ -31,6 +31,13 @@ evidence_policy:
     - "Cross-protection between genogroups is incomplete."
   llm_inference:
     - "Multi-strain vaccine approach needed to cover both genogroups."
+  # V2 enhanced fields
+  study_design: "病毒基因分型研究，采集15株来自接种不同FCV疫苗（F9、FCV-255、FC-7）猫体内的病毒株，通过基因分析确定基因型分布"
+  core_argument: "疫苗株类型决定猫杯状病毒突破感染株的基因分组分布，且不同基因组间的交叉保护不完全"
+  implicit_premise: "基因组分类方法能够准确反映不同FCV病毒株的免疫学和流行病学特征"
+  title_gap: "标题突出日本猫杯状病毒疫苗株基因分型，但研究真正揭示了疫苗株选择直接影响突破感染病毒的基因组归属及交叉保护缺失——这对疫苗设计有重要启示"
+  evidence_boundary: "该研究未涉及突破感染病毒的临床症状、致病性差异及疫苗保护率的量化评估"
+  unexpected_finding: "FC-7疫苗突破株在两大基因组之间平均分布，显示该疫苗对不同基因组突破株无明显偏好"
 ---
 
 # FCV Vaccine Breakdown Strains Genogrouping in Japan

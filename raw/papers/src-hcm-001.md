@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This is a strong first deep-extraction candidate for the HCM module.
     - HCM pages should keep an explicit `exclusion zone` branch for mild-to-moderate hypertrophy rather than compressing all wall thickening into one diagnosis-positive story.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 HCM 的识别、诊断、后果和治疗"
+  core_argument: "轻中度左心室肥厚在猫中无法仅靠超声心动图确诊——仍是排除性诊断；生物标志物不应独立用于诊断；目前没有治疗能逆转或减缓心肌病进程"
+  implicit_premise: "假设超声心动图是结构表型评估的金标准；假设「排除性诊断」在轻中度病例中是临床上可接受的边界"
+  unexpected_finding: "尽管 HCM 是最常见的猫心肌病（15%），但其临床上大多数是亚临床的——这提示筛查策略应早于心衰表现"
+  title_gap: "标题是 HCM 综述系列，但真正警告是诊断边界：轻中度肥厚仍是排除性诊断，生物标志物不能独立使用，没有治疗能逆转——这直接限制了筛查策略的过度自信"
+  evidence_boundary: "综述层面无法提供个体化治疗方案；轻中度肥厚的具体排除标准仍需参考原始研究"
 ---
 
 # One-line Summary

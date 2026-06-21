@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述（1971 年），Murray Gardner 关于犬猫癌症与人类癌症关系的早期比较肿瘤学研究"
+  core_argument: "比较肿瘤学的历史基础——1971 年即开始系统研究犬猫癌症与人类癌症的关系"
+  implicit_premise: "假设 1971 年的比较肿瘤学框架仍有历史参考价值"
+  unexpected_finding: "无法确定——需要全文访问（1975 年前论文无 PubMed 摘要）"
+  title_gap: "标题说犬猫癌症与人类癌症的关系，但真正价值是历史背景：1971 年 JNCI 论文代表比较肿瘤学研究的早期里程碑——尽管具体发现已过时"
+  evidence_boundary: "1971 年历史性论文，仅限于提供历史背景——不应用于现代临床声明"
 ---
 
 # Current information on feline and canine cancers and relationship or lack of relationship to human cancer

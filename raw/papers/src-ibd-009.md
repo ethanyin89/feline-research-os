@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - In this vault, the safest role is workflow support beneath biopsy strategy, imaging pressure, and pathologist interpretation.
     - This source is useful for LLM-wiki design because it turns pathology-report wording into an explicit information-model problem.
+  # V2 enhanced fields
+  study_design: "原始研究，纳入 60 只临床病例猫（20 例 IBD，20 例肠淋巴瘤，20 例正常对照），采用 WSAVA 指南下单一病理学家盲法重评分及多种机器学习分类器（朴素贝叶斯、C4.5 决策树、人工神经网络）进行自由文本与结构化显微镜特征分类比较"
+  core_argument: "WSAVA 结构化显微镜特征在猫小肠疾病分类中可能遗漏自由文本病理描述中包含的重要判别信息，利用自由文本特征的机器学习模型表现更优"
+  implicit_premise: "基于文本挖掘和机器学习技术，自由文本中的细节能够提供比结构化分数更丰富、更有区分力的诊断信息"
+  title_gap: "标题强调自由文本特征提升自动分类，但真正发现是自由文本模型优于结构化模型表明传统 WSAVA 评分可能丢失关键细节——这对标准化病理报告提出了重要反思"
+  evidence_boundary: "本研究未探讨 IBD 或肠淋巴瘤的发病机制、治疗效果评估或长期预后，仅限于诊断报告文本分类性能比较"
+  unexpected_finding: "朴素贝叶斯和人工神经网络模型利用自由文本特征的分类性能超过了使用 WSAVA 规范结构化特征的模型，表明结构化标准未必是最高效的信息表达方式"
 ---
 
 # One-line Summary

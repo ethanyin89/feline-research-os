@@ -27,6 +27,13 @@ evidence_policy:
     - This source belongs in an extension branch adjacent to but not identical with core feline IBD.
   llm_inference:
     - This paper may later help widen the fibrosis and remodeling architecture without collapsing all chronic enteropathy into IBD.
+  # V2 enhanced fields
+  study_design: "原始研究，收集患有猫胃肠道嗜酸性硬化性纤维增生症的样本，采用免疫组化方法检测细胞外基质蛋白及转化生长因子β1的表达"
+  core_argument: "猫胃肠道嗜酸性硬化性纤维增生症在免疫组化中表现出特定的细胞外基质蛋白和TGF-β1表达模式，提示其病理机制与核心猫炎症性肠病存在旁支分支关系"
+  implicit_premise: "免疫组化检测的细胞外基质蛋白及TGF-β1表达能准确反映猫胃肠道纤维增生的病理生理特征"
+  title_gap: "标题强调了细胞外基质蛋白和TGF-β1的免疫表达，但真正发现是该疾病的病理机制与经典猫炎症性肠病并非完全相同，而是在其邻近的扩展病理谱系中"
+  evidence_boundary: "本研究未解答该病变的临床治疗效果、长期预后及与其它胃肠疾病的明确鉴别诊断问题"
+  unexpected_finding: "病理组织中TGF-β1的高表达提示嗜酸性硬化性纤维增生症可能具有独特的纤维化机制，区别于典型的猫炎症性肠病"
 ---
 
 # One-line Summary

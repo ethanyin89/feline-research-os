@@ -32,6 +32,13 @@ evidence_policy:
     - Early deaths, relapse, retreatment, and dose escalation are part of the evidence architecture.
   llm_inference:
     - This should be one of the first FIP papers to receive deep extraction.
+  # V2 enhanced fields
+  study_design: "原始研究，31 只自然发生 FIP 猫的 GS-441524 疗效和安全性研究"
+  core_argument: "GS-441524 在自然发生 FIP 中转变了治疗——但病例组合不包括严重神经和眼部 FIP，疗效框架应保留复发、再治疗和剂量递增"
+  implicit_premise: "假设 24/31 存活是有意义的基线疗效信号；假设排除的病例子集（神经/眼部）需要单独证据"
+  unexpected_finding: "治疗故事包括早期死亡、复发、再治疗和剂量递增——这挑战了「GS 治愈 FIP」的简化叙事"
+  title_gap: "标题说 GS-441524 疗效和安全性，但真正发现是转化而非治愈：24/31 存活但排除了严重神经/眼部病例，且包括早期死亡、复发和剂量递增——治疗框架应是「反应管理」而非「无摩擦治愈」"
+  evidence_boundary: "基线自然疾病治疗锚点，非严重神经/眼部 FIP；不应转换为普遍全形式治愈语言"
 ---
 
 # One-line Summary

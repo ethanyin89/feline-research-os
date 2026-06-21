@@ -29,6 +29,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "**误收录警告**：这是人类乳腺癌临床试验（FELINE trial），非猫研究——'FELINE' 是试验名称缩写，不是物种"
+  core_argument: "N/A——人类研究，不适用于猫癌症模块"
+  implicit_premise: "N/A——误收录"
+  unexpected_finding: "N/A——误收录"
+  title_gap: "**收录错误**：FELINE 是 'Femara and Ribociclib in the Neoadjuvant Endocrine Setting' 的试验名称缩写——与猫（feline）无关——应从猫癌症来源中移除或重新分类"
+  evidence_boundary: "不适用于猫癌症模块；标记为误收录待清理"
 ---
 
 # Letrozole + ribociclib versus letrozole + placebo as neoadjuvant therapy for ER+ breast cancer (FELINE trial)

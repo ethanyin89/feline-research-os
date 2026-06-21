@@ -41,6 +41,13 @@ evidence_policy:
     - "AR-targeted therapies (e.g., enzalutamide) tested in humans could potentially be investigated in FMC."
     - "The small luminal-AR subgroup (n=7) limits statistical power despite significant HR."
     - "High TNBC prevalence in cats may reflect hormonal differences or lack of early detection."
+  # V2 enhanced fields
+  study_design: "回顾性队列研究（2019 年 BMC Cancer），180 只 FMC 猫，2 年随访，AR/FOXA1/CK14 自动免疫组化"
+  core_argument: "68% FMC 是三阴性——AR 过表达（18%）和 FOXA1（36%）与更长的 DFS、OS 和 CSS 相关——AR+FOXA1+CK14- 亚组（n=7）的 CSS 显著更好（HR=0.26）——可能代表人类 luminal-AR TNBC 的猫等价物"
+  implicit_premise: "假设 AR+FOXA1+CK14- 表型在猫中与人类 luminal-AR TNBC 生物学相似；假设 n=7 的亚组足以得出有意义的结论"
+  unexpected_finding: "FMC 的 TNBC 比例（68%）远高于人类乳腺癌（~15-20%）——猫提供了一个'浓缩'的侵袭性乳腺癌模型——这种富集可能源于激素差异或缺乏早期检测"
+  title_gap: "标题说 AR 和 FOXA1 共表达定义 FMC 的 luminal-AR 亚型，但真正发现是模型机会：猫提供了研究 AR 靶向治疗的自发动物模型——高 TNBC 比例使其成为集中研究侵袭性乳腺癌的平台"
+  evidence_boundary: "支持亚型和比较肿瘤学模型声明；不建立猫的 AR 靶向治疗获益；luminal-AR 亚组（n=7）的小样本限制统计效力"
 ---
 
 # Androgen receptor and FOXA1 coexpression define a “luminal-AR” subtype of feline mammary carcinomas, spontaneous models of breast cancer

@@ -58,6 +58,13 @@ evidence_policy:
     - "Risk factor associations need boundary caveats due to limited study counts and lack of statistical significance."
     - "Comparative oncology angle strengthens translational relevance but cat-specific risk thresholds remain unclear."
     - "Diet factors (canned food, tuna) warrant further investigation but come from single publications."
+  # V2 enhanced fields
+  study_design: "系统综述（2022 年 Vet Sci），PRISMA 合规，628 篇文献筛选 → 26 篇纳入，669 只 FOSCC 猫，病因学风险因素综合"
+  core_argument: "FOSCC 病因学是多因素的，无单一主导原因——乳头瘤病毒（14.7%）、烟草烟雾（2 倍风险）、罐头食品（4.7 倍）、驱虫项圈（5.3 倍）、口腔疾病（6.4%）——但证据质量有限——方法学异质性大"
+  implicit_premise: "假设系统综述可整合异质性研究；假设风险因素关联提示因果关系——但多数未达统计显著性"
+  unexpected_finding: "乳头瘤病毒检出率范围极广（0-100%）——取决于检测方法和样本质量——这种异质性使得 PV 在 FOSCC 中的真实作用难以确定——与人 HPV 在 HNSCC 中的明确作用形成对比"
+  title_gap: "标题说 FOSCC 病因学因素的批判性综述，但真正发现是证据不确定性：所有主要风险因素的证据质量都有限——单一研究、统计学不显著、方法学问题——这是研究差距而非答案"
+  evidence_boundary: "系统综述证据；支持风险因素假设框架和研究优先级设定，不支持具体风险预防建议——证据不足以支持临床指导"
 ---
 
 # Feline Oral Squamous Cell Carcinoma: A Critical Review of Etiologic Factors

@@ -39,6 +39,13 @@ evidence_policy:
   llm_inference:
     - "TiHo-0906 may serve as model for studying doxorubicin resistance in FMC."
     - "EMT markers (HMGA2, CD44) could be therapeutic targets."
+  # V2 enhanced fields
+  study_design: "原始研究（2018 年 Sci Rep），建立并表征猫乳腺癌细胞系 TiHo-0906，CNV 分析、免疫组化、功能测定"
+  core_argument: "TiHo-0906 是具有 EMT 特征的稳定 FMC 细胞系——同时表达上皮（CK）和间充质（vimentin）标记物——CNV 谱与人类化生性乳腺癌基因重叠——显示多柔比星耐药"
+  implicit_premise: "假设细胞系特征可代表原发肿瘤生物学；假设 CNV 模式的物种间同源性意味着共同的分子机制"
+  unexpected_finding: "低传代细胞对多柔比星的耐药性是高传代细胞的两倍（IC50 99.97 nM vs 41.22 nM）——这种传代相关的耐药性变化提示耐药是可变特征而非固有特征"
+  title_gap: "标题说 TiHo-0906 是具有 EMT 特征的新 FMC 细胞系，但真正发现是比较肿瘤学验证：FCA F2 CNV 对应人类 HSA 8q（常见乳腺癌畸变）——验证 FMC 作为化生性乳腺癌模型"
+  evidence_boundary: "细胞系和比较肿瘤学工具证据；不应转化为患者水平的预后或治疗反应声明；研究模型而非临床指导"
 ---
 
 # TiHo-0906: a new feline mammary cancer cell line with molecular, morphological, and immunocytological characteristics of epithelial to mesenchymal transition

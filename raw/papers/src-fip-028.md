@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Treatment choice can be guided by availability, cost, or formulation preference rather than efficacy."
     - "Early mortality (first 10 days) may reflect disease severity at presentation rather than treatment failure."
+  # V2 enhanced fields
+  study_design: "前瞻性比较队列研究，118 只 FIP 猫（GS-441524 59 只 vs molnupiravir 59 只），84 天疗程"
+  core_argument: "GS-441524 与 molnupiravir 在猫 FIP 治疗中疗效相当——死亡率无显著差异（20.3% vs 13.6%, p=0.326），完成治疗者缓解率均接近 100%"
+  implicit_premise: "假设非随机队列设计中的两组匹配足以支持因果推断；假设 84 天随访足以评估缓解而非仅观察早期应答"
+  unexpected_finding: "大多数死亡发生在治疗前 10 天——这提示早期死亡可能反映入组时疾病严重程度，而非药物选择的差异"
+  title_gap: "标题说 GS-441524 和 molnupiravir 疗效相当，但真正发现是临床决策简化：118 只猫头对头比较无显著差异——治疗选择可以由可及性和成本而非疗效差异驱动"
+  evidence_boundary: "非 RCT 设计无法排除选择偏倚；未报告长期复发率；不能回答成本效益或药物耐药性问题"
 ---
 
 # GS-441524 and molnupiravir are similarly effective for treatment of cats with FIP

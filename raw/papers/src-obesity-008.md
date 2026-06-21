@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - "This source may become the first obesity mechanism anchor."
     - "It may also sharpen the existing diabetes obesity/body-condition memo by adding a direct feline metabolic study behind the review-level bridge."
+  # V2 enhanced fields
+  study_design: "前瞻性实验研究，16 只健康猫在 10 个月内体重增加约 44.2%，通过测量胰岛素敏感性和葡萄糖耐量变化进行观察"
+  core_argument: "肥胖降低猫体组织对胰岛素的敏感性，且瘦猫中胰岛素敏感性较低者在体重增加后更易发生葡萄糖耐量异常"
+  implicit_premise: "胰岛素敏感性和葡萄糖耐量测定方法准确反映猫体内代谢状态，且体重变化是导致胰岛素敏感性变化的主要因素"
+  title_gap: "标题强调肥胖降低胰岛素敏感性，但真正发现是瘦猫中胰岛素敏感性低者在增重后更易发生葡萄糖耐量异常——提示个体差异的重要性"
+  evidence_boundary: "该研究未探讨肥胖相关胰岛素抵抗的分子机制，也未验证是否所有肥胖猫均会发展为糖尿病"
+  unexpected_finding: "尽管总体肥胖降低胰岛素敏感性，但瘦猫中本来胰岛素敏感性较低的个体更容易因增重而出现葡萄糖耐量受损，显示个体代谢差异显著"
 ---
 
 # Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain

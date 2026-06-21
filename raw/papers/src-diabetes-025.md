@@ -39,6 +39,13 @@ evidence_policy:
   llm_inference:
     - "GLUT-4 and PI3K may be therapeutic targets for improving insulin sensitivity in cats."
     - "Incretin-based therapies (GLP-1 agonists) may have relevance for feline diabetes."
+  # V2 enhanced fields
+  study_design: "观察性队列研究，纳入54只客户拥有的家猫，分为瘦猫、超重猫和糖尿病猫，采用组织mRNA和蛋白质表达分析"
+  core_argument: "猫糖尿病与外周组织中胰岛素信号标志物的缺失密切相关，表现为胰腺胰岛素合成减少及肝肌组织异位脂质沉积"
+  implicit_premise: "外周组织中胰岛素信号标志物的mRNA及蛋白表达水平变化直接反映糖尿病病理生理机制"
+  title_gap: "标题强调猫糖尿病与胰岛素信号标志物缺失有关，但真正发现是这种缺失伴随肝脏和骨骼肌的异位脂质沉积，对糖尿病的发生机制具有重要影响"
+  evidence_boundary: "未探讨糖尿病治疗的临床疗效及干预策略，因研究为观察性质，无法建立因果关系"
+  unexpected_finding: "未治疗糖尿病猫的肌肉胰岛素受体mRNA显著降低，而治疗组则未表现出同样明显的受体mRNA减少"
 ---
 
 # Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling in Peripheral Tissues

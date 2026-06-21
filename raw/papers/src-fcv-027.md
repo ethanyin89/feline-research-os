@@ -39,6 +39,13 @@ evidence_policy:
     - "Nitazoxanide is the most clinically accessible compound (already approved for other indications)."
     - "Lack of distinguishing VS-FCV mutations complicates diagnostic prediction of virulence."
     - "In vitro efficacy warrants clinical trials but does not constitute treatment recommendation."
+  # V2 enhanced fields
+  study_design: "前瞻性病例系列研究，23例澳大利亚FCV-VSD病例，结合病毒基因组测序和细胞培养中抗病毒药物体外活性检测"
+  core_argument: "澳大利亚VC-FCV病例中发现5条局地进化的病毒谱系，未鉴定出统一的致病毒变异，且三种新型抗病毒药物在低微摩尔浓度显示有效抑制作用，提示其治疗潜力。"
+  implicit_premise: "病毒致病性主要由多基因或环境因素决定，单一基因突变不足以解释致病性差异，体外抗病毒活性可部分反映潜在临床疗效。"
+  title_gap: "标题强调病毒系统性疾病及临床流行病学，但实际揭示的是病毒多源局部进化及缺乏统一致病变异，同时首次验证了多种新抗病毒的体外抑制效果——为治疗提供新方向。"
+  evidence_boundary: "未明确验证三种抗病毒药物的临床疗效及安全性，未探讨病毒致病机制的具体分子基础，也未涉及不同猫群体或免疫状态下的疾病表现差异。"
+  unexpected_finding: "尽管高致病性，FCV-VSD病毒未显示任何统一的致病性相关突变，说明致病性可能由复杂因素共同作用产生。"
 ---
 
 # FCV Virulent Systemic Disease: Clinical Epidemiology + Antivirals (Australia)

@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "May inform lymphoma.md FeLV immune response section."
     - "Full-text required for specific antibody findings."
+  # V2 enhanced fields
+  study_design: "免疫学研究（1980 年 Cancer Res），自然感染猫的体液免疫反应，Lutz/Pedersen/Theilen 实验室"
+  core_argument: "无法从可用信息确定——无 PubMed 摘要（1980 年论文）——全文需要获取才能识别具体发现；但作者团队（Lutz/Pedersen/Theilen）是 FeLV 免疫学先驱"
+  implicit_premise: "假设该论文探索了自然感染猫对 FeLV 及相关抗原的体液免疫反应——具体假设需要全文确认"
+  unexpected_finding: "无法从可用信息确定——需要全文"
+  title_gap: "标题说自然感染猫对 FeLV 及相关抗原的体液免疫反应，但真正价值是方法学基础：Lutz/Pedersen/Theilen 是 FeLV 免疫学研究先驱——为后续疫苗和诊断研究奠定基础"
+  evidence_boundary: "无 PubMed 摘要的历史论文；仅支持 FeLV 免疫学历史背景，不支持当代诊断或治疗声明；全文需要获取才能提取具体机制"
 ---
 
 # Humoral immune reactivity to feline leukemia virus and associated antigens in cats naturally infected with feline leukemia virus

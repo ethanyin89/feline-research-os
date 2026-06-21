@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "血清流行病学研究 + 干预试验（1976 年 Cancer Research），超过 2000 只猫，测试-移除控制策略"
+  core_argument: "FeLV 是可传染的——测试-移除计划可控制传播——当 FeLV 阳性猫留在家庭时，12% 的未感染猫会感染——无证据表明 FeLV 可感染人类"
+  implicit_premise: "假设免疫荧光测试准确识别传染性猫；假设测试-移除策略在所有家庭环境中可行"
+  unexpected_finding: "简单的测试-移除计划在 45 个家庭中控制了 FeLV 传播——这种公共卫生策略在疫苗问世前已有效——最终控制等待有效疫苗（1976 年已有初步免疫研究）"
+  title_gap: "标题说自然环境中 FeLV 的生物学，但真正发现是干预有效性：测试-移除是切实可行的控制策略——不仅是观察性生物学而是可操作的公共卫生方案"
+  evidence_boundary: "1976 年数据早于现代 FeLV 疫苗和检测方案；FeLV-淋巴瘤关系的历史背景而非现代管理指导"
 ---
 
 # Biology of feline leukemia virus in the natural environment

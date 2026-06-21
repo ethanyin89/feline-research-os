@@ -29,6 +29,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "**误收录警告**：这是关于犬（canine）癌症登记的研讨会报告——与猫（feline）无关"
+  core_argument: "N/A——犬类研究，不适用于猫癌症模块"
+  implicit_premise: "N/A——误收录"
+  unexpected_finding: "N/A——误收录"
+  title_gap: "**收录错误**：标题明确说 'canine cancer registration'——这是犬类癌症流行病学/登记研讨会——应从猫癌症来源中移除或重新分类到犬类模块"
+  evidence_boundary: "不适用于猫癌症模块；标记为误收录待清理"
 ---
 
 # Current status of canine cancer registration – report from an international workshop

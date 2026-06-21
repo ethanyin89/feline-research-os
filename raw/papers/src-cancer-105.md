@@ -27,6 +27,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "标题提取错误——'Get access Arrow' 是网页爬取残留；真实标题可能是 'Prognostic Factors in Feline Mammary Carcinoma'（JNCI，年份待确认）"
+  core_argument: "无法从可用信息确定——标题残缺且无摘要——但标题暗示这是 FMC 预后因素研究"
+  implicit_premise: "假设这是关于 FMC 预后因素的原始研究——需要全文确认"
+  unexpected_finding: "无法从可用信息确定——需要全文或正确的书目信息"
+  title_gap: "标题清理需要：移除 'Get access Arrow'——这是 OUP 网站的导航元素——真实标题应为 'Prognostic Factors in Feline Mammary Carcinoma'"
+  evidence_boundary: "标题残缺的占位符卡片；不支持任何声明——需要书目清理和摘要提取"
 ---
 
 # Prognostic Factors in Feline Mammary Carcinoma Get access Arrow

@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述（2003 年 Vet Clin NA Small Animal Practice），猫胃肠道淋巴瘤的临床实践洞察"
+  core_argument: "胃肠道淋巴瘤是老年猫厌食和体重下降的常见原因——低级别淋巴瘤对化疗反应优于高级别——化疗的初始反应是最重要的预后指标"
+  implicit_premise: "假设 2003 年的低级别 vs 高级别分类标准仍有效；假设初始化疗反应可作为长期结局的可靠预测因子"
+  unexpected_finding: "低级别胃肠道淋巴瘤可能比以前认为的更常见——这种认知转变改变了预后预期——且大多数猫是 FeLV 和 FIV 阴性"
+  title_gap: "标题说猫胃肠道淋巴瘤，但真正发现是分级依赖性结局：低级别与高级别淋巴瘤的化疗反应差异巨大——同一诊断名称下预后可能截然不同"
+  evidence_boundary: "2003 年综述；关于分子标记物的陈述可能已过时；治疗反应陈述是方向性的而非具体生存数据"
 ---
 
 # Feline gastrointestinal lymphoma

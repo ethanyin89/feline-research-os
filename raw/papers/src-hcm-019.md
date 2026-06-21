@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This may become a useful phenotype-depth or severity-architecture paper.
     - Endpoint pages should use this source to prevent one-chamber oversimplification rather than to lead diagnosis.
+  # V2 enhanced fields
+  study_design: "原始研究，二维超声心动图评估 151 只健康对照猫和 200 只 HCM 猫的右心室壁厚度和腔室尺寸"
+  core_argument: "HCM 结构表型不应默认为纯左心室故事——47-56% 的 HCM 猫有 RV 肥厚（取决于参考方法），RV 壁厚与 LV 肥厚严重程度和临床状态相关"
+  implicit_premise: "假设超声心动图可以可靠地区分正常和病理性 RV 厚度；假设参考极限方法的选择会实质性地改变患病率估计"
+  unexpected_finding: "RV 肥厚比例取决于参考方法（均值 + 2 SD 为 47%，异速缩放为 56%）——这暴露了 HCM 表型深度测量方法学敏感性"
+  title_gap: "标题说右心室受累，但真正发现是方法学敏感性：RV 肥厚患病率从 47% 到 56% 取决于参考方法——HCM 不是纯左心室故事，而且测量边界本身需要审计"
+  evidence_boundary: "回顾性超声心动图队列；RV 与 CHF 的关联不等于因果证明；不应直接改变一线识别层级"
 ---
 
 # One-line Summary

@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Provides foundational case series evidence for molnupiravir as FIP antiviral."
     - "Early deaths (within 7 days) may reflect severe disease at presentation."
+  # V2 enhanced fields
+  study_design: "病例系列，18 只 FIP 猫（13 只渗出型、5 只非渗出型、3 只神经/眼部），莫努匹韦 10-20 mg/kg PO BID 84 天，日本单中心"
+  core_argument: "莫努匹韦是 FIP 的有效抗病毒替代方案——78%（14/18）实现持续缓解，完成治疗者 100% 缓解"
+  implicit_premise: "假设院内复方制剂与商业产品等效；假设 84 天方案足以根除病毒"
+  unexpected_finding: "4 只猫在 7 天内死亡/安乐死（全为渗出型）——早期死亡率可能反映就诊时疾病严重程度而非药物失败"
+  title_gap: "标题说莫努匹韦治疗 18 只 FIP 猫的病例系列，但真正发现是 GS-441524 替代方案的可行性：78% 持续缓解（14/18），完成治疗者 100% 缓解——早期死亡可能反映就诊严重程度而非药物失败"
+  evidence_boundary: "病例系列而非对照试验；随访 139-206 天，长期复发率未知；复方制剂不等于商业产品"
 ---
 
 # Molnupiravir treatment of 18 cats with feline infectious peritonitis: A case series

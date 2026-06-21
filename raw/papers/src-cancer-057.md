@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（2012 年 Exp Cell Res），21 例 FMC 样本，干细胞许可培养，NOD/SCID 小鼠移植"
+  core_argument: "从 13/21 FMC 中分离出 CD44 阳性乳腺球形成亚群——这些干细胞样细胞显示自我更新、持久增殖和体内成瘤性——分化后丧失 CD44 和成瘤潜能"
+  implicit_premise: "假设体外乳腺球形成能力代表真正的干细胞特性；假设 CD44 是 FMC 癌干细胞的可靠标记物"
+  unexpected_finding: "分化相关的 CD44 和成瘤潜能丧失——这支持癌干细胞模型：干细胞样细胞驱动肿瘤形成，分化后细胞丧失这种能力"
+  title_gap: "标题说从自发性 FMC 分离干细胞样细胞并表征表型和成瘤潜能，但真正发现是模型验证：FMC 包含功能性癌干细胞亚群——这为靶向癌干细胞的治疗策略提供基础"
+  evidence_boundary: "摘要级比较肿瘤学和肿瘤启动细胞模型证据；不建立客户拥有猫的临床诊断或治疗推荐"
 ---
 
 # Isolation of stem-like cells from spontaneous feline mammary carcinomas: phenotypic characterization and tumorigenic potential

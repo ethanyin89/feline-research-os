@@ -27,6 +27,13 @@ evidence_policy:
     - This source belongs on the lymphoma side of the IBD-versus-lymphoma boundary branch.
   llm_inference:
     - This paper may help keep the boundary module from becoming too IBD-centered.
+  # V2 enhanced fields
+  study_design: "病例系列研究，纳入1997年至2000年10例猫的肠上皮趋向性恶性淋巴瘤病例，采用临床诊断与组织病理学分析"
+  core_argument: "猫的肠上皮趋向性恶性淋巴瘤具备特定的临床和病理学特征，可作为鉴别炎症性肠病与淋巴瘤的重要依据"
+  implicit_premise: "病例分析的诊断标准和组织病理检验足够准确，能区分淋巴瘤与其他肠道疾病"
+  title_gap: "标题突出肠上皮趋向性恶性淋巴瘤病例描述，但真正发现是该病表现出与炎症性肠病边界模糊的特征——提示诊断需更加谨慎"
+  evidence_boundary: "本研究未能评估炎症性肠病与淋巴瘤的治疗效果差异及长期预后，亦未涵盖非上皮趋向性肠道淋巴瘤"
+  unexpected_finding: "部分病例呈现肠道病变高度局限，提示肠上皮趋向性淋巴瘤可能具有更复杂的病理分型与进展模式"
 ---
 
 # One-line Summary

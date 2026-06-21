@@ -29,6 +29,13 @@ evidence_policy:
   llm_inference:
     - "Early receptor profiling study for feline mammary cancer."
     - "Full-text required for specific PR expression data."
+  # V2 enhanced fields
+  study_design: "原始研究（Springer 期刊，非 PubMed 索引），猫乳腺癌细胞溶质中孕激素受体的测定"
+  core_argument: "猫乳腺癌表达孕激素受体——细胞溶质受体测定方法（IHC 时代前技术）——早期激素受体分析为后续研究奠定基础"
+  implicit_premise: "假设细胞溶质受体测定代表功能性受体状态；假设早期方法学仍有参考价值"
+  unexpected_finding: "无法从可用信息确定——非 PubMed 索引——全文需要获取才能识别具体 PR 表达率"
+  title_gap: "标题说猫乳腺癌细胞溶质中的孕激素受体，但真正价值是方法学历史：细胞溶质受体测定是 IHC 前时代的标准方法——为现代激素受体研究提供历史基线"
+  evidence_boundary: "无 PubMed 索引；仅支持历史背景和来源所有权，不支持当代 PR 表达率声明；方法学已过时"
 ---
 
 # Progesterone receptors in feline mammary cancer cytosol

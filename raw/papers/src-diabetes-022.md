@@ -35,6 +35,13 @@ evidence_policy:
     - "It adds protein emphasis to the diet architecture but should stay bounded by small completed sample and combined high-protein/low-carbohydrate design."
   llm_inference:
     - "This is a high-priority full-text target if outputs need dropout, inclusion, or diet-composition detail."
+  # V2 enhanced fields
+  study_design: "前瞻性干预研究，9 只成年糖尿病猫从高纤维中脂肪饮食转为高蛋白低碳水化合物罐头饮食，监测胰岛素剂量及血糖控制指标变化"
+  core_argument: "通过饮食调整为高蛋白低碳水化合物配方，绝大多数糖尿病猫的胰岛素需求显著降低，部分猫甚至可以停用胰岛素注射，而糖化果糖胺控制未受影响"
+  implicit_premise: "高蛋白饮食对糖尿病猫的胰岛素敏感性提高及血糖控制有直接影响，而非其他未控变量所致"
+  title_gap: "标题说使用高蛋白饮食管理糖尿病，但真正发现是高蛋白饮食显著减少了外源性胰岛素需求，提示饮食调整对治疗的潜在影响超出单纯辅助作用"
+  evidence_boundary: "未区分蛋白质与碳水化合物各自独立对糖尿病控制的具体贡献，且样本量较小，未评估长期临床结局或不同疾病阶段适应性"
+  unexpected_finding: "有三只猫在饮食调整后完全停用胰岛素注射，显示部分糖尿病猫能通过饮食控制实现胰岛素依赖性逆转"
 ---
 
 # Use of a high-protein diet in the management of feline diabetes mellitus

@@ -41,6 +41,13 @@ evidence_policy:
     - "CXCR4/CXCL12 axis may be a therapeutic target for metastasis prevention in FMC."
     - "HER2+ subtype-specific CXCR4 biology suggests targeted therapy approaches differ by subtype."
     - "Serum CXCL12 could potentially serve as a non-invasive prognostic biomarker."
+  # V2 enhanced fields
+  study_design: "回顾性队列研究（2018 年 BMC Cancer），FMC 原发肿瘤和转移灶的 CXCR4/CXCL12 表达分析，葡萄牙样本"
+  core_argument: "CXCR4/CXCL12 轴在 FMC 转移中表现出相反的表达模式——CXCR4 在原发肿瘤中高表达（p=0.0067）——CXCL12 在肝肺转移中高表达（p<0.0001）——这与人类乳腺癌一致——但 HER2+ 肿瘤是例外：转移灶中 CXCR4 仍高表达"
+  implicit_premise: "假设 CXCR4/CXCL12 趋化因子梯度驱动转移——原发肿瘤表达受体，远处器官表达配体——假设人类乳腺癌模式可直接映射到 FMC"
+  unexpected_finding: "HER2+ 肿瘤是例外——与其他亚型不同，HER2+ 在转移灶中也保持高 CXCR4 表达——CXCL12 阴性原发肿瘤在 HER2+ 中预后不良——暗示 HER2+ 有独特的转移机制"
+  title_gap: "标题说 CXCR4 和 CXCL12 在 FMC 转移中表现出相反的表达模式（HER2+ 除外），但真正发现是预后分层：CXCL12 状态可用于预后判断——HER2+ 亚型需要不同的治疗策略——FMC 是研究人类乳腺癌转移的有效模型"
+  evidence_boundary: "回顾性队列证据；支持 CXCR4/CXCL12 转移机制声明和 HER2+ 亚型特异性声明，不直接支持治疗推荐——CXCR4 抑制剂的治疗意义是推论"
 ---
 
 # CXCR4 and its ligand CXCL12 display opposite expression profiles in feline mammary metastatic disease, with the exception of HER2-overexpressing tumors

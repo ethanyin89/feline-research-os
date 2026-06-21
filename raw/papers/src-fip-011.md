@@ -29,6 +29,11 @@ evidence_policy:
   llm_inference:
     - This paper may be useful mainly as historical context for why serology alone should not dominate the modern workup.
     - This source may help make the endpoint branch look less abruptly modern without changing current operational rank order.
+  # V2 enhanced fields
+  study_design: "原始研究，研究自然发生 FIP 的血清学（1976 年）"
+  core_argument: "血清学是 FIP 实验室支持的历史方法——但冠状病毒暴露可产生血清学信号，而 FIP 疾病需要更特异的临床病理解释"
+  implicit_premise: "假设历史文献有助于理解现代复合诊断的演变；假设单一标志物诊断是有风险的捷径"
+  evidence_boundary: "历史血清学，现代操作价值有限；不能直接推断抗体滴度解释规则"
 ---
 
 # One-line Summary

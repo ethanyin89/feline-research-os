@@ -27,6 +27,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述（Journal of Dairy Research），猫乳腺肿瘤作为比较肿瘤学模型"
+  core_argument: "猫乳腺肿瘤是人类乳腺癌的有效比较模型——具体发现需要全文访问"
+  implicit_premise: "假设乳腺生物学的跨物种相似性支持比较肿瘤学研究"
+  unexpected_finding: "无法确定——需要全文访问（未在 PubMed 索引）"
+  title_gap: "标题说比较肿瘤学中的猫乳腺肿瘤，但具体发现需要全文访问——当前仅为来源占位符"
+  evidence_boundary: "发表于 Journal of Dairy Research（乳腺生物学期刊）而非传统兽医肿瘤学期刊；需要全文访问以获取具体声明"
 ---
 
 # Feline mammary tumours in comparative oncology

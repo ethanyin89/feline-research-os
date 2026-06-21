@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述文章（2014 年 Vet J），FeLV 和 FIV 相关淋巴瘤的机制、流行病学和未来方向"
+  core_argument: "FeLV 疫苗接种成功降低了 FeLV 相关癌症——但淋巴瘤患病率仍然很高——FIV 解释部分病例但机制与 FeLV 不同——可能还有未发现的病毒病因"
+  implicit_premise: "假设 FeLV 下降后淋巴瘤仍高是因为其他病毒原因；假设'GI 转变'现象有病毒学解释"
+  unexpected_finding: "FeLV 疫苗接种的'悖论'——尽管 FeLV 相关淋巴瘤减少，总淋巴瘤患病率仍然高——这表明非 FeLV 因素（包括 FIV 和可能未知的病毒）在现代猫淋巴瘤中更重要"
+  title_gap: "标题说猫淋巴瘤的病毒原因：逆转录病毒及其他，但真正发现是知识差距：FIV 转化机制不完全理解——'其他'病毒病因尚未发现——解释了为什么 FeLV 成功后淋巴瘤仍高发"
+  evidence_boundary: "2014 年综述证据；支持 FeLV/FIV 病因学背景和'GI 转变'假说，不支持具体病毒诊断或治疗推荐；'其他'病毒病因仍是研究问题"
 ---
 
 # Viral causes of feline lymphoma: Retroviruses and beyond

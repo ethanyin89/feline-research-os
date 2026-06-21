@@ -45,6 +45,13 @@ evidence_policy:
   llm_inference:
     - The vault should explicitly distinguish fibrosis-linked markers from glomerulo-vascular injury-linked markers when summarizing CKD consequence patterns.
     - Later treatment or outcome pages should avoid assuming that all pathology-linked endpoints are interchangeable simply because they all worsen in advanced disease.
+  # V2 enhanced fields
+  study_design: "回顾性尸检研究，80 只 CKD 猫（1992-2010 年伦敦两家诊所），死前 2 个月内有生化数据，肾脏组织定量形态学分析"
+  core_argument: "不同临床标志物反映不同的肾脏病理损伤轴——间质纤维化与氮质血症/高磷/贫血相关，而蛋白尿和血压与肾小球硬化/血管病变相关"
+  implicit_premise: "假设晚期疾病的尸检病理能够反映生前疾病进程的结构基础；假设时间平均血压比单次测量更准确反映血管损伤暴露"
+  unexpected_finding: "蛋白尿同时与间质纤维化和肾小球肥大相关，而非仅与肾小球病变相关——这提示蛋白尿可能反映多轴损伤而非单一机制"
+  title_gap: "标题说组织形态学与标志物相关性，但真正发现是多轴损伤映射：不同标志物反映不同病理轴——间质纤维化对应氮质血症/高磷/贫血，血压对应肾小球硬化/血管病变"
+  evidence_boundary: "尸检设计无法建立因果方向或预测价值；所有高血压猫均接受氨氯地平治疗，无法观察未治疗的血压-病理关联；样本来自晚期疾病，不能直接推断早期筛查价值"
 ---
 
 # Histomorphometry of Feline Chronic Kidney Disease and Correlation With Markers of Renal Dysfunction

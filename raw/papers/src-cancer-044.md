@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "实验感染研究（1976 年 JNCI），67 只 SPF 猫，Rickard 和 Kawakami-Theilen FeLV 株腹腔接种，不同年龄组"
+  core_argument: "FeLV 易感性具有强烈的年龄依赖性——新生儿 100% 易感——2 周-2 月龄 85%——4 月龄或 1 岁仅 15%——易感猫持续病毒血症且无抗体——抵抗猫产生 FOCMA 和中和抗体"
+  implicit_premise: "假设实验感染条件（腹腔接种）可代表自然感染模式；假设 1976 年的 SPF 猫结果可外推到当代（疫苗接种时代前）"
+  unexpected_finding: "两种 FeLV 株诱导不同疾病——FeLV-R 主要导致胸腺淋巴肉瘤——FeLV-KT 导致非再生性贫血而无肿瘤——暗示病毒株决定疾病表型"
+  title_gap: "标题说 FeLV 感染对实验感染的年龄相关反应变异，但真正发现是免疫-病毒平衡：易感性不仅与年龄相关——还与免疫反应能力相关——抗体阳性猫抵抗持续感染——支持早期疫苗接种策略"
+  evidence_boundary: "经典实验感染证据（Hoover 实验室）；支持年龄依赖性易感性声明，但在疫苗接种时代的适用性有限——现代 FeLV 管理应结合当代指南"
 ---
 
 # Feline Leukemia Virus Infection: Age-Related Variation in Response of Cats to Experimental Infection

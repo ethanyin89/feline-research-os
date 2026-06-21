@@ -33,6 +33,13 @@ evidence_policy:
     - "COX-1 expression has a documented negative prognostic value in feline oral squamous cell carcinoma (SCC), supporting its clinical use as a prognostic marker."
   llm_inference:
     - "Standardization of COX immunohistochemical evaluation methodologies by tumor type is required to resolve high inter-study heterogeneity."
+  # V2 enhanced fields
+  study_design: "系统综述，PubMed 检索预后研究，评估 COX-1 和 COX-2 在犬猫恶性肿瘤中的预后价值，共分析 18 项研究"
+  core_argument: "COX-2 是猫乳腺肿瘤的负性预后因子，而 COX-1 是猫口腔 SCC 的负性预后因子——不同 COX 亚型对不同肿瘤类型的预后意义不同"
+  implicit_premise: "假设 IHC 评估方法的异质性不影响汇总结论的有效性；假设 COX 表达水平与功能活性直接相关"
+  unexpected_finding: "COX-1 而非 COX-2 是猫口腔 SCC 的负性预后因子——与传统上 COX-2 被认为是主要致癌 COX 亚型的观念相矛盾"
+  title_gap: "标题说 COX 表达在预后中的作用，但真正发现是亚型特异性：COX-1 而非 COX-2 是猫口腔 SCC 的负性预后因子——这一发现颠覆了 'COX-2 才是坏角色' 的传统认知"
+  evidence_boundary: "研究间 IHC 方法异质性高；需要按肿瘤类型标准化 COX 评估方法"
 ---
 
 # The role of COX expression in the prognostication of overall survival of canine and feline cancer: A systematic review

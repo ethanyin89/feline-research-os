@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted mechanism spine anchor in the FCV module.
     - The safest downstream wording is `diversity-first, tropism-aware mechanism-control spine`, not `simple respiratory virus`.
+  # V2 enhanced fields
+  study_design: "综述文章，聚焦猫杯状病毒（FCV）的分子病毒学机制，整合多项关于病毒遗传多样性、病毒组织嗜性、基因组结构及复制机制的研究结果"
+  core_argument: "猫杯状病毒的临床多样性及疫苗逃逸主要源于其遗传多样性、组织嗜性、基因组结构和衣壳变异机制紧密相连，且这些分子机制受疫苗及控制措施的选择压力显著影响"
+  implicit_premise: "病毒分子结构和复制机制的变异直接导致临床表现及疫苗效力的差异，病毒遗传多样性不是偶发现象而是受选择压力驱动的结果"
+  title_gap: "标题强调猫杯状病毒的分子病毒学，但真正发现是其分子特征与临床表现多样性及疫苗抗性之间存在紧密的机制联系，揭示病毒控制难度的本质原因"
+  evidence_boundary: "本文未涉及临床治疗方案的具体效果评估，也未直接研究猫群体中FCV的流行病学数据及疫苗接种后的免疫响应强度"
+  unexpected_finding: "虽然FCV疫苗用于防控，但疫苗抗性病毒株频繁爆发，表明传统疫苗难以覆盖所有基因变异株"
 ---
 
 # Molecular Virology of Feline Calicivirus

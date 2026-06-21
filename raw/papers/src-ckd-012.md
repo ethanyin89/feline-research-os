@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - Early-detection summaries should probably include a bounded `owner-observed prompts` subsection rather than focusing exclusively on laboratory surveillance.
     - Recognition pages should treat polyuria and polydipsia as useful prompts for workup escalation, not as late-stage trivia.
+  # V2 enhanced fields
+  study_design: "年龄匹配病例对照研究，确定猫和狗 CKD 的主要风险因素"
+  core_argument: "猫 CKD 病例更可能在诊断前一年出现多饮多尿——大多数情况下应该可以更早诊断"
+  implicit_premise: "假设主人观察到的行为变化是有价值的识别提示；假设识别延迟部分是行为和工作流问题"
+  unexpected_finding: "延迟诊断不仅是生物标志物问题——主人经常在正式诊断前注意到饮水和排尿变化"
+  title_gap: "标题说风险因素病例对照，但真正发现是识别延迟的人因层面：主人经常在诊断前一年就注意到多饮多尿——更早诊断本应可能"
+  evidence_boundary: "病例对照设计，强于识别框架而非因果排序或终点层级"
 ---
 
 # Case-Control Study of Risk Factors Associated with Feline and Canine Chronic Kidney Disease

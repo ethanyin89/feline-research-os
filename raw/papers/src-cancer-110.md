@@ -29,6 +29,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "**误收录警告**：这是人类膀胱癌研究——'feline sarcoma-related protein' (Fer) 是蛋白名称，不是物种"
+  core_argument: "N/A——人类研究；Fer 蛋白因其与猫肉瘤病毒的历史关联而得名，但这是人类膀胱癌细胞存活和凋亡研究"
+  implicit_premise: "N/A——误收录"
+  unexpected_finding: "N/A——误收录"
+  title_gap: "**收录错误**：'Feline sarcoma-related protein' (Fer) 是非受体酪氨酸激酶的名称——因最初在猫肉瘤病毒中发现而得名——但本研究对象是人类膀胱癌细胞——应从猫癌症来源中移除"
+  evidence_boundary: "不适用于猫癌症模块；Fer 激酶的命名历史可作为背景知识，但研究内容不涉及猫——标记为误收录"
 ---
 
 # Role of feline sarcoma‑related protein in the viability and apoptosis of bladder cancer cells

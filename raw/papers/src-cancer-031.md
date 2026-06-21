@@ -36,6 +36,13 @@ evidence_policy:
     - "Targeting CD44/CD271+ cancer stem cells could be a therapeutic strategy for FOSCC."
     - "pEMT phenotype may explain local invasion and recurrence in FOSCC."
     - "FPV status was evaluated but specific findings not detailed in abstract."
+  # V2 enhanced fields
+  study_design: "原始研究（2023 年 Pathogens），n=14 猫头颈部肿瘤，免疫组化和免疫荧光分析 EMT 和癌症干细胞标记物"
+  core_argument: "13/14 猫 HNSCC 肿瘤显示部分 EMT（pEMT），同时表达上皮标记物（角蛋白、E-钙粘蛋白、β-连环蛋白）和间充质标记物（波形蛋白、N-钙粘蛋白、CD146）——CD44+/CD271+ 癌症干细胞集中在侵袭性边缘"
+  implicit_premise: "假设 pEMT 表型与临床侵袭性相关；假设人类 HNSCC 的 CSC 标记物可直接应用于猫"
+  unexpected_finding: "猫 HNSCC 显示部分 EMT 而非完全 EMT——同时表达上皮和间充质标记物——这种'混合'表型可能解释局部侵袭性和复发"
+  title_gap: "标题说猫头颈部 SCC 显示部分 EMT 并携带干细胞样癌细胞，但真正发现是模型验证：猫肿瘤在细胞可塑性机制上密切反映人类——验证 FOSCC 作为人类 HNSCC 比较肿瘤学模型"
+  evidence_boundary: "n=14 小样本；pEMT 的预后价值和 CD44/CD271 靶向治疗效果未在本研究中评估"
 ---
 
 # Feline SCCs of the Head and Neck Display Partial Epithelial-Mesenchymal Transition and Harbor Stem Cell-like Cancer Cells

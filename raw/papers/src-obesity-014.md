@@ -28,6 +28,12 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "横断面调查研究，收集宠物主对猫肥胖态度及其拥有的猫体重状况数据，采用问卷分析相关性"
+  core_argument: "对猫肥胖持积极态度的宠物主更有可能拥有肥胖的猫"
+  implicit_premise: "宠物主的态度能够显著影响其猫的体重管理和肥胖发生率"
+  title_gap: "标题强调态度与肥胖猫所有权的强关联，但研究揭示这种态度本身可能促进猫肥胖的形成——提示干预目标应包括宠物主观念"
+  evidence_boundary: "本研究未评估肥胖猫的健康结果或具体干预措施，仅限于态度与肥胖拥有权的关联分析"
 ---
 
 # Positive attitudes towards feline obesity are strongly associated with ownership of obese cats

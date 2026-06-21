@@ -29,6 +29,13 @@ evidence_policy:
     - The paper supports keeping vaccine-locality pressure visible rather than assuming one universal strain solution.
   llm_inference:
     - This source should sit near the vaccine-breadth branch, not only under epidemiology.
+  # V2 enhanced fields
+  study_design: "前瞻性队列研究，包含武汉地区1158只患有上呼吸道感染的猫，通过病原检测确定FCV感染率和分布"
+  core_argument: "武汉地区上呼吸道感染猫中FCV的高感染率和不同病毒株的地理分布支持开发地域特异性的FCV疫苗策略"
+  implicit_premise: "不同地理区域的猫群中FCV菌株存在显著变异，且这些差异足以影响疫苗的保护效果"
+  title_gap: "标题强调了上呼吸道感染的流行病学调查，但真正的发现是基于流行病学数据提出了地理特异性疫苗开发的新思路——这突破了传统单一疫苗株的理念"
+  evidence_boundary: "本研究未评估地域特异性疫苗的实际免疫保护效果，也未探讨其他呼吸道病毒如猫疱疹病毒的流行情况及疫苗策略"
+  unexpected_finding: "猫群中FCV携带率高达40.2%，远高于此前部分研究报道的感染率，显示病毒在该地区流行强度极高"
 ---
 
 # Epidemiological Investigation of Feline Upper Respiratory Tract Infection Encourages a Geographically Specific FCV Vaccine

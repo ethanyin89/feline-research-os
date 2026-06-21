@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - This paper is likely one of the most important supports for treating neurologic FIP workup as a separate layer rather than a minor variation.
     - The paper is strongest when used to justify branch shift into CNS-aware workup, not one-test certainty.
+  # V2 enhanced fields
+  study_design: "原始研究，检测脑脊液中猫冠状病毒用于有无神经系统症状猫的 FIP 诊断"
+  core_argument: "CSF 实时 RT-PCR 是高特异性专业化工具（特异性 100%，PPV 100%）但敏感性有限（42.1%）——在有神经和/或眼部症状猫中敏感性升至 85.7%"
+  implicit_premise: "假设诊断工具性能因呈现亚组而异；假设 CSF 检测属于神经/眼科专业化分支而非通用 FIP 筛查"
+  unexpected_finding: "同一检测可以作为广泛排除工具较弱而作为专业化支持工具较强——这表明诊断性能必须按亚组呈现"
+  title_gap: "标题说 CSF 检测用于 FIP 诊断，但真正发现是情境依赖性能：总体敏感性仅 42.1%（不能广泛排除），但神经/眼部猫中升至 85.7%——同一检测在不同亚组中有不同价值"
+  evidence_boundary: "总体 NPV 仅 57.7%，阴性 CSF 结果不能广泛排除 FIP；85.7% 敏感性仅限于神经和/或眼部情境"
 ---
 
 # One-line Summary

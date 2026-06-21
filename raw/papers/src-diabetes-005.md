@@ -40,6 +40,13 @@ evidence_policy:
     - "Weight management is high-leverage but must be sequenced appropriately based on presentation state."
     - "The 40% prevalence justifies routine body condition assessment in all cats, not just diabetic ones."
     - "Remission potential supports aggressive early management in appropriate candidates."
+  # V2 enhanced fields
+  study_design: "综述，涵盖家猫肥胖与糖尿病共病机制及管理策略，基于现有临床及实验数据综合分析"
+  core_argument: "猫的肥胖通过多种机制导致胰岛素抵抗，且当肥胖相关的胰岛素抵抗与β细胞功能障碍共存时，表现为明显的糖尿病风险，且在伴有体重和肌肉流失的肥胖糖尿病猫中，糖尿病控制可能需先于热量限制。"
+  implicit_premise: "肥胖与胰岛素抵抗之间的因果关系明确，且体重变化及β细胞功能状态能显著影响糖尿病发病及管理效果。"
+  title_gap: "标题聚焦于肥胖猫的共病情况与管理，但真正专注于将肥胖引发的胰岛素抵抗与β细胞功能障碍结合，提出了糖尿病管理的先后顺序问题——这为临床治疗提供了重要的实践指导。"
+  evidence_boundary: "本综述未具体评估不同减重饮食方案的长期效果，也未包括肥胖糖尿病猫的疫苗或药物新治疗方法的临床试验数据。"
+  unexpected_finding: "每增加一公斤体重，胰岛素敏感性降低具有可量化的线性关系，为制定体重管理目标提供了量化依据。"
 ---
 
 # Feline comorbidities: Pathophysiology and management of the obese diabetic cat

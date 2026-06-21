@@ -41,6 +41,13 @@ evidence_policy:
     - "PKM2 and CCND1 may be candidate therapeutic targets given high overexpression rates."
     - "Oral contraceptive association suggests hormonal influence on FMC molecular profile."
     - "Gene expression panel could inform FMC molecular subtyping."
+  # V2 enhanced fields
+  study_design: "原始研究（2019 年 PLOS ONE），27 例 FMC vs 正常组织的 RT-qPCR 基因表达分析，评估 7 个癌相关基因"
+  core_argument: "CCND1（52%）、PKM2（67%）、PTBP1（46%）在 FMC 中过表达——口服避孕药使用与多个基因表达水平相关——c-MYC 表达与淋巴结转移相关"
+  implicit_premise: "假设 mRNA 表达水平反映蛋白功能活性；假设口服避孕药与基因表达的关联是因果关系而非混杂因素"
+  unexpected_finding: "口服避孕药使用与 TP53、YBX1、CCND1、FUS 和 PTBP1 RNA 水平正相关——这种激素暴露与分子谱的关联超出传统 ER/PR 框架——提示更广泛的转录调控影响"
+  title_gap: "标题说 FMC 基因表达关联研究，但真正发现是网络结构：癌相关基因形成相关表达网络（r = 0.42-0.97）——只有 c-MYC 和 PKM2 例外——这种协调表达提示共同调控机制"
+  evidence_boundary: "n=27 小样本；基因表达模式是研究生物标记物而非临床诊断工具；口服避孕药关联需要更大队列验证"
 ---
 
 # Gene expression association study in feline mammary carcinomas

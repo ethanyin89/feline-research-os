@@ -28,6 +28,13 @@ evidence_policy:
     - "Multi-strain vaccines offer improved cross-protection against diverse FCV strains including VS-FCV."
   llm_inference:
     - "Supports use of multi-strain vaccines for broader FCV protection."
+  # V2 enhanced fields
+  study_design: "原创实验研究，使用接种单株和双株猫杯状病毒疫苗的家猫群体，评估疫苗诱导的交叉中和抗体反应及对毒力系统病相关猫杯状病毒株的临床保护效果"
+  core_argument: "双株猫杯状病毒疫苗比单株疫苗诱导更广泛的交叉中和抗体，并在同株病毒挑战时显著减轻疫苗猫的临床症状"
+  implicit_premise: "交叉中和抗体水平能够有效反映疫苗对异株及同株猫杯状病毒的保护能力"
+  title_gap: "标题强调双株疫苗刺激更广泛交叉中和抗体，但真正发现是这种疫苗在针对致命毒力系统型猫杯状病毒挑战时也表现出更好的保护性能——这提示多株疫苗在临床防护上具有重要优势"
+  evidence_boundary: "该研究未评估疫苗对其他非毒力系统型猫杯状病毒株或长期免疫持续性的保护效果"
+  unexpected_finding: "尽管单株疫苗也能诱导一定抗体，双株疫苗在同株致病性更强的病毒挑战中显著减少临床症状，显示多株疫苗优势超过预期"
 ---
 
 # Dual-strain FCV vaccine provides broader cross-neutralization

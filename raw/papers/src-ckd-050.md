@@ -27,6 +27,13 @@ evidence_policy:
     - "Primary feline renal fibroblasts mount a TGF-beta-driven profibrotic transcriptional response in vitro."
   llm_inference:
     - "This supports TGF-beta pathway plausibility and model use, but not in-vivo CKD causation or treatment efficacy."
+  # V2 enhanced fields
+  study_design: "体外实验，4 只正常猫肾脏的原代肾皮质成纤维细胞培养，TGF-β1 刺激 24 小时后检测 20 个纤维化相关基因"
+  core_argument: "猫原代肾成纤维细胞对 TGF-β1 产生促纤维化转录反应（13/20 基因变化）——SB431542 抑制剂可部分阻断该反应，证明受体介导的通路"
+  implicit_premise: "假设正常猫肾脏体外模型可外推至自发性 CKD；假设基因表达变化反映组织纤维化"
+  unexpected_finding: "MMP1 和 MMP3 下调——提示 TGF-β1 不仅增加 ECM 产生还减少基质降解"
+  title_gap: "标题说成纤维细胞培养和转录反应，但真正发现是双重机制：TGF-β1 不仅上调胶原蛋白（COL1A1、COL4A1）还下调基质降解酶（MMP1、MMP3）——纤维化是产生增加+降解减少的双重失衡"
+  evidence_boundary: "供体来自正常猫肾脏而非 CKD 猫；体外模型不能证明体内疗效或因果关系；不应直接指导临床剂量"
 ---
 
 # Characterisation of feline renal cortical fibroblast cultures and their transcriptional response to transforming growth factor β1

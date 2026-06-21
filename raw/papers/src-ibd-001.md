@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports microbiota differences as a real boundary-pressure branch, but not yet as a routine lead diagnostic layer.
   llm_inference:
     - This was a high-value early deep extraction because it prevents microbiota from being modeled as generic dysbiosis with no diagnostic consequences.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，纳入14只炎症性肠病猫及14只小细胞肠道淋巴瘤猫，采用肠黏膜微生物群16S rRNA测序分析"
+  core_argument: "小细胞肠道淋巴瘤猫的肠道黏膜微生物群与炎症性肠病猫存在显著差异，尤其是肠杆菌科丰度增加而双歧杆菌属、拟杆菌属及普氏菌属丰度降低"
+  implicit_premise: "肠道黏膜微生物群的组成变化能够反映和影响猫的肠道炎症状态及肠道淋巴瘤的发生发展"
+  title_gap: "标题强调肠道微生物群与炎症及淋巴瘤的关系，但真正发现是特定细菌群在炎症性肠病和小细胞肠道淋巴瘤中呈现对比丰度差异——提示微生物群可能参与不同病理机制"
+  evidence_boundary: "研究未揭示这些微生物群变化是否具有诊断敏感性或预测价值，也未确定因果关系或治疗靶点"
+  unexpected_finding: "小细胞肠道淋巴瘤猫中肠杆菌科明显增多，而通常认为益生的双歧杆菌属和普氏菌属却显著减少，提示肿瘤相关微生物失衡特征"
 ---
 
 # One-line Summary

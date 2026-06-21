@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - This paper may help distinguish broad population risk from referral-cluster or hospital-case enrichment.
     - This paper is best used to separate referral burden from general-population risk context.
+  # V2 enhanced fields
+  study_design: "原始研究，兽医教学医院就诊猫中 FIP 的流行病学"
+  core_argument: "FIP 在转诊群体中具有独特的制度富集模式——约每 200 只新入院猫中有 1 只、每 300 只总入院猫中有 1 只、每 100 只诊断实验室送检中有 1 只为 FIP"
+  implicit_premise: "假设医院群体可能扭曲一般群体患病率逻辑；假设机构入院不应被视为社区分母"
+  unexpected_finding: "按年份、月份或地区的比例无显著变化——这支持研究期内稳定的机构负担声明，而非 FIP 在任何地方都恒定的普遍声明"
+  title_gap: "标题说教学医院流行病学，但真正发现是制度富集程度的量化：每 200 只新入院/300 只总入院/100 只实验室送检中有 1 只 FIP——转诊负担与社区患病率是不同的知识对象"
+  evidence_boundary: "转诊群体流行病学；制度富集不同于社区患病率；信号模式特征（年轻、纯种、完整雄性）部分与其他风险研究趋同"
 ---
 
 # One-line Summary

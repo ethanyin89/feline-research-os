@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the main FCV interferon-sensitivity caution anchor in the therapy branch.
     - The safest downstream wording is `heterogeneous interferon sensitivity`, not `generic interferon responsiveness`.
+  # V2 enhanced fields
+  study_design: "实验室体外试验，日本采集的47个猫杯状病毒现场分离株，采用重组猫干扰素敏感性评估法"
+  core_argument: "猫杯状病毒现场分离株对重组猫干扰素的敏感性存在显著变异，且疫苗失效状态不能单独解释这种敏感性差异"
+  implicit_premise: "体外干扰素敏感性测定反映了病毒对干扰素的潜在反应能力，并能代表实际治疗中的病毒异质性"
+  title_gap: "标题强调FCV对重组猫干扰素敏感性，但真正发现是疫苗失效状态与干扰素敏感性无明确关联，提示治疗需考虑病毒株特异性差异"
+  evidence_boundary: "本研究未评估临床干扰素治疗的疗效，仅限于病毒体外敏感性的测定，未涵盖体内治疗响应或临床预后"
+  unexpected_finding: "部分疫苗失效株表现出高度敏感性，而至少有一株低敏感性病毒突变，显示病毒干扰素敏感性与疫苗保护状态解耦"
 ---
 
 # Sensitivity of FCV to recombinant feline interferon (rFeIFN)

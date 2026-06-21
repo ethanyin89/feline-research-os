@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted in vivo therapeutic anchor in the FCV therapy branch.
     - The safest downstream wording is `promising in vivo therapeutic signal`, not `established FCV treatment standard`.
+  # V2 enhanced fields
+  study_design: "原创实验研究，采用临床流行的猫杯状病毒（FCV）FG24-1毒株构建感染模型，使用体内外实验评估CpG49免疫刺激剂的抗病毒疗效"
+  core_argument: "CpG49通过诱导Th1偏向的Ⅰ型和Ⅱ型干扰素反应，有效抑制FCV复制，显著减少病毒排泄并加速感染猫的临床恢复"
+  implicit_premise: "FCV临床流行株FG24-1感染模型能真实模拟天然感染状态，且体内外指标变化能准确反映疗效"
+  title_gap: "标题强调流行株鉴定和CpG49抗病毒效用，但真正价值在于揭示免疫刺激疗法显著改善病毒清除和炎症恢复，区别于传统疫苗研究"
+  evidence_boundary: "未涉及CpG49长期安全性评估、不同猫种及感染程度的疗效差异，亦未比较其他免疫或抗病毒治疗方案"
+  unexpected_finding: "高剂量CpG49组不仅缩短发热和口腔炎症恢复时间，病毒排泄在6天和9天后分别下降53.4%和97.4%，显示出极强的体内抗病毒信号"
 ---
 
 # Identification of prevalent Feline Calicivirus strains and novel antiviral efficacy of CpG49 stimulus in Feline Calicivirus-infected cats

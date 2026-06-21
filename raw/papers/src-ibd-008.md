@@ -27,6 +27,12 @@ evidence_policy:
     - This source likely works as a broad dysbiosis-context page rather than a feline IBD-specific authority by itself.
   llm_inference:
     - This may be a good secondary review anchor once the feline-primary branch is denser.
+  # V2 enhanced fields
+  study_design: "综述性研究，涵盖犬猫消化系统疾病中的肠道微生物群变化，主要基于已发表文献的综合分析与比较"
+  core_argument: "犬猫消化系统疾病中肠道微生物群的紊乱是病理机制中的关键组成部分，影响疾病的诊断与治疗"
+  implicit_premise: "已有文献中关于犬猫肠道微生物群的研究结果具有较高的可比性与综述整合价值"
+  title_gap: "标题提及犬猫消化疾病中的微生物变化，但其真正价值在于提供一种广泛的微生物失调背景视角，而非专门针对猫炎症性肠病的权威分析——体现其综述的广度而非深度"
+  evidence_boundary: "本文未针对炎症性肠病（IBD）在猫中的具体机制、诊断标准或治疗方案提供细节性、针对性的实证数据"
 ---
 
 # One-line Summary

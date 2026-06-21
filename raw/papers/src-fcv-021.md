@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted ocular-extension anchor in the FCV recognition branch.
     - The safest downstream wording is `ocular extension with co-pathogen caution`, not `FCV front-door ocular diagnosis`.
+  # V2 enhanced fields
+  study_design: "原始观察性研究，包含63只有呼吸道疾病史或症状且存在眼表感染的猫，采用病原体检测及临床症状分析"
+  core_argument: "猫杯状病毒(FCV)在伴有呼吸道或口腔综合症的猫眼表感染中具有重要识别价值，尤其表现为糜烂性结膜炎和口腔溃疡"
+  implicit_premise: "FCV感染在伴随呼吸和口腔症状的猫中能够直接导致特定的眼表病变，并且这些病变能被准确检测和关联"
+  title_gap: "标题提出猫杯状病毒是被忽视的眼表感染原因，但研究发现FCV不仅相关，且在综合其它呼吸口腔症状下具有关键识别作用——眼部症状需结合综合症上下文判断"
+  evidence_boundary: "本研究未解答FCV眼部感染的具体病理机制及单纯眼部症状中的FCV检测价值，也未涉及FCV疫苗对眼部病变的保护效应"
+  unexpected_finding: "所有检测出FCV感染的猫均伴有口腔溃疡，且FCV既可单独存在于眼部感染中，也可与其他病原体共存"
 ---
 
 # Feline calicivirus: a neglected cause of feline ocular surface infections?

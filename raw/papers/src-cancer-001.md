@@ -41,6 +41,13 @@ evidence_policy:
     - "TP53 may be a pan-cancer therapeutic target in feline oncology."
     - "c-KIT inhibitors (toceranib, masitinib) may have relevance for feline MCT."
     - "BRCA1/2 testing may inform mammary cancer risk assessment."
+  # V2 enhanced fields
+  study_design: "叙述性综述，系统梳理猫肿瘤基因组学研究现状，涵盖淋巴瘤、乳腺癌、SCC、肉瘤、肥大细胞瘤、血管肉瘤、骨肉瘤等"
+  core_argument: "TP53 是猫多种癌症类型的泛癌突变基因——c-KIT 突变见于 60% 的猫肥大细胞瘤，高质量参考基因组（Felis_catus_9.0）使全面肿瘤基因组研究成为可能"
+  implicit_premise: "假设人类/犬类肿瘤基因组研究的范式可直接应用于猫；假设基因突变热点意味着治疗靶点"
+  unexpected_finding: "低级别胃肠道淋巴瘤对苯丁酸氮芥+糖皮质激素方案的临床反应率高达 96%，可实现 2-3 年缓解——而高级别仅 30%——同一疾病分级的预后差异如此巨大"
+  title_gap: "标题说猫肿瘤基因组学的已知认识，但真正发现是研究空白：相比犬类和人类，猫癌症研究严重不足——尽管高质量基因组已可用，实际研究仍然稀缺"
+  evidence_boundary: "2022 年综述提供框架但多数发现来自小样本研究；TP53 泛癌靶向治疗的临床验证仍缺乏"
 ---
 
 # Feline Oncogenomics: What Do We Know about the Genetics of Cancer in Domestic Cats?

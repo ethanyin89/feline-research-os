@@ -38,6 +38,13 @@ evidence_policy:
     - "Natural transmission confirms experimental findings of pathotype persistence."
     - "Household contact is sufficient for limping syndrome spread."
     - "Synonymous mutations suggest ongoing viral evolution without phenotype change."
+  # V2 enhanced fields
+  study_design: "原始研究，涉及两只家养猫患有跛行综合征，通过病毒基因组测序分析变异及传播模式"
+  core_argument: "猫科杯状病毒的跛行综合征能够在家养猫群体中自然传播，且病毒在传播过程中保持跛行致病谱系不变"
+  implicit_premise: "基因组测序和病毒表型特征能够准确反映病毒的传播来源及致病性变化"
+  title_gap: "标题仅指出跛行综合征爆发，但实际发现呼吸道来源的病毒在自然传播过程中能够保持跛行病型，揭示了病毒传播与表型维持的机制"
+  evidence_boundary: "未评估该病毒在大型猫群中的传播动力学及不同环境下的致病性差异，未涵盖临床治疗和预防措施效果"
+  unexpected_finding: "呼吸道来源的猫科杯状病毒不仅能感染呼吸系统，还能引发跛行综合征，且其致病表型在猫与猫之间传播时未发生丢失"
 ---
 
 # An Outbreak of Limping Syndrome Associated with Feline Calicivirus

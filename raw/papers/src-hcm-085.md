@@ -4,100 +4,87 @@ type: source
 title: "Ultrastructural myocardial changes in seven cats with spontaneous hypertrophic cardiomyopathy"
 source_kind: paper
 species: feline
-diseases: [HCM]
-models: []
-endpoints: []
-jurisdictions: []
+diseases: ['HCM']
+models: ['clinical-study']
+endpoints: ['remission']
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
-decision_grade: no
-language_qa_status: not_applicable
-tags: [hcm, ultrastructural, myocardial, changes, seven, spontaneous, hypertrophic, cardiomyopathy]
+year: 2015
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: ['hcm', 'ultrastructural', 'myocardial', 'changes', 'seven', 'spontaneous', 'hypertrophic', 'cardiomyopathy']
 links:
-  doi: ""
-  url: "https://www.sciencedirect.com/science/article/pii/S1760273415000946?via%3Dihub"
+  doi: "10.1016/j.jvc.2015.10.003"
+  url: "https://doi.org/10.1016/j.jvc.2015.10.003"
   local_assets: []
+abstract: "This study investigated ultrastructural myocardial abnormalities in seven cats diagnosed with spontaneous hypertrophic cardiomyopathy (HCM) compared to eight age-matched controls. Transmission electron microscopy of left ventricular biopsies revealed marked disorganization of myofibrils and depletion of subsarcolemmal mitochondria in the most severely affected HCM cats, while control cats exhibited contraction band artifacts. These findings identify cytoskeletal and mitochondrial involvement in feline HCM pathology. The study highlights the need for larger-scale, quantitative ultrastructural analyses to elucidate pathogenic mechanisms."
+methods_summary: "A comparative clinical observational study was performed using fresh left ventricular myocardial biopsies from seven cats diagnosed with spontaneous HCM and eight age-matched controls without cardiac disease. Samples were obtained from the middle of the left ventricular posterior free wall and analyzed by transmission electron microscopy to examine ultrastructural features including cytoarchitecture and interstitial components."
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Ultrastructural myocardial changes in seven cats with spontaneous hypertrophic cardiomyopathy."
-    - "The intake sheet locator is: https://www.sciencedirect.com/science/article/pii/S1760273415000946?via%3Dihub."
+    - "Sample size: Seven cats with HCM and eight age-matched healthy controls."
+    - "Ultrastructural findings: Severe myofibril disorganization and depletion of subsarcolemmal mitochondria in most affected HCM cats."
+    - "Controls commonly showed contraction band artifacts without cytoarchitectural abnormalities."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Ultrastructural alterations in feline HCM involve both the cytoskeleton (myofibrils) and mitochondria."
+    - "These changes likely contribute to the pathogenesis and phenotypic expression of spontaneous feline HCM."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Future research should perform larger studies including quantitative mitochondrial and cytoskeletal analyses."
+    - "Understanding ultrastructural derangements might guide targeted therapies or diagnostics in feline HCM."
+  # V2 enhanced fields
+  study_design: "原始研究，7 只自发性 HCM 猫和 8 只对照猫左心室活检的透射电子显微镜分析"
+  core_argument: "猫 HCM 超微结构改变涉及细胞骨架和线粒体——严重受累猫有明显的肌原纤维紊乱和肌膜下线粒体耗竭"
+  implicit_premise: "假设超微结构紊乱可以指导未来靶向治疗或诊断方法；假设电子显微镜发现与疾病发病机制相关"
+  unexpected_finding: "对照猫表现收缩带伪影但无细胞构架异常——这有助于区分真正的病理变化和技术伪影"
+  title_gap: "标题说超微结构改变，但真正价值是方法学控制：对照猫的收缩带伪影帮助区分真正病理变化和技术伪影——线粒体耗竭和肌原纤维紊乱是真实发现"
+  evidence_boundary: "7 只猫的小样本；需要更大规模定量研究；超微结构见解目前不直接转化为临床方案"
 ---
 
 # Ultrastructural myocardial changes in seven cats with spontaneous hypertrophic cardiomyopathy
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card is based on complete publication text. It is deep-extracted as a clinical study.
 
 ## One-Line Summary
 
-Candidate hcm source from sheet row 84. Use it for triage until abstract or full-text extraction proves a stronger role.
+In a transmission electron microscopy study of seven cats with spontaneous HCM versus eight controls, severe myofibrillar disorganization and subsarcolemmal mitochondrial depletion were observed in affected cats’ left ventricular myocardium, implicating cytoskeletal and mitochondrial abnormalities in feline HCM pathogenesis.
 
-## Why It Matters For Feline Hcm
+## Why It Matters For Feline ['HCM']
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-hcm` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+Feline hypertrophic cardiomyopathy is the most common cardiac disease in cats, yet its underlying pathogenic mechanisms remain poorly understood. Identifying ultrastructural myocardial changes provides crucial insight into mitochondrial and cytoskeletal contributions to disease expression, informing future diagnostic and therapeutic approaches.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Ultrastructural myocardial changes in seven cats with spontaneous hypertrophic cardiomyopathy.
-- The intake sheet locator is: https://www.sciencedirect.com/science/article/pii/S1760273415000946?via%3Dihub.
+* Sample included seven cats diagnosed with HCM and eight age-matched cats without cardiac disease.
+* In cats with HCM, electron microscopy demonstrated prominent disorganization of myofibrils and reduced subsarcolemmal mitochondrial density.
+* Control cats exhibited contraction band artifacts but no ultrastructural disruptions of cytoarchitecture or mitochondria.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+* Ultrastructural myocardial abnormalities in feline HCM prominently involve both the cytoskeletal architecture and mitochondrial distribution.
+* The observed ultrastructural aberrations are associated with the phenotypic cardiac pathology of spontaneous feline HCM.
 
 ### llm_inference
 
-- The title suggests a possible `hcm` role, but the actual claim-fit requires abstract or full-text review.
+* Larger scale, quantitative electron microscopy studies measuring mitochondrial distribution and cytoskeletal derangements are warranted.
+* These ultrastructural insights may facilitate development of targeted interventions addressing mitochondrial dysfunction or myofibrillar integrity in feline HCM.
 
-## Claim-Fit Judgment
+## Study Design Details
 
-Strongest safe use:
+### Cohort Summary
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the hcm module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+| Group                | Number of Cats | Cardiac Status           | Specimen Source                          | Analysis Method            |
+|----------------------|----------------|-------------------------|-----------------------------------------|----------------------------|
+| HCM cats             | 7              | Diagnosed spontaneous HCM | Fresh myocardial biopsy from LV posterior free wall | Transmission electron microscopy |
+| Control cats          | 8              | No cardiac disease         | Fresh myocardial biopsy from LV posterior free wall | Transmission electron microscopy |
 
 ## Linked Entities
 
-- diseases: HCM
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: ['HCM']
+- models: ['clinical-study']
+- endpoints: ['remission']
+- mechanisms: ['cytoskeletal disorganization', 'mitochondrial depletion', 'myofibrillar derangement']

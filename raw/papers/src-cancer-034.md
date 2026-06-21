@@ -30,6 +30,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "原始研究（2009 年 Vet Pathol），猫 COX-2 基因分子表征 + 40 例 FMC 免疫组化表达分析"
+  core_argument: "87%（35/40）的猫乳腺癌表达 COX-2——猫 COX-2 基因已被克隆和测序，这为 COX-2 抑制剂治疗研究奠定基础"
+  implicit_premise: "假设高 COX-2 表达率意味着 COX-2 在 FMC 发病机制中起作用；假设 COX-2 抑制剂在犬或人类乳腺癌中的疗效可外推到猫"
+  unexpected_finding: "COX-2 表达率高达 87%——这一比例超过许多人类乳腺癌亚型——提示 COX-2 抑制剂可能对大多数 FMC 有潜在治疗价值"
+  title_gap: "标题说猫 COX-2 分子表征和 FMC 表达，但真正发现是靶点普遍性：87% 的表达率确立了 COX-2 作为治疗靶点的广泛性——但疗效仍需后续研究验证"
+  evidence_boundary: "表达流行率（87%）不能证明 COX-2 因果关系或预测 COX 抑制剂反应；2009 年数据，猫特异性 COX-2 抑制剂临床试验数据有限"
 ---
 
 # Molecular Characterization of Feline COX-2 and Expression in Feline Mammary Carcinomas

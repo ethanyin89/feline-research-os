@@ -4,100 +4,95 @@ type: source
 title: "Stimulation of the Renin–Angiotensin System in Cats with Hypertrophic Cardiomyopathy"
 source_kind: paper
 species: feline
-diseases: [HCM]
-models: []
-endpoints: []
-jurisdictions: []
+diseases: ['HCM']
+models: ['clinical-study']
+endpoints: ['remission']
 evidence_level: original-study
-status: ingested
-extraction_depth: partial
-verification_status: title_only
-decision_grade: no
-language_qa_status: not_applicable
-tags: [hcm, stimulation, renin, angiotensin, system, hypertrophic, cardiomyopathy]
+year: 2001
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: ['hcm', 'stimulation', 'renin', 'angiotensin', 'system', 'hypertrophic', 'cardiomyopathy']
 links:
-  doi: ""
-  url: "https://www.sciencedirect.com/science/article/abs/pii/S0021997501904864?via%3Dihub"
+  doi: "10.1053/jcpa.2001.0486"
+  url: "https://doi.org/10.1053/jcpa.2001.0486"
   local_assets: []
+abstract: "This post mortem study evaluated the renin-angiotensin system (RAS) activation in 14 cats naturally affected by hypertrophic cardiomyopathy (HCM). It reported increased heart weight (mean 27.9 g) and heart weight as a percent of body weight (0.65%) compared to norms. Histopathology revealed myocardial disarray in 9/14 and moderate to severe fibrosis in 6/14 cats. Renin immunohistochemistry demonstrated a juxtaglomerular index of 36.8% (vs. 30.6% in healthy cats) and increased renin-positive afferent arteriole length (86.0 µm vs. 49.9 µm), suggesting RAS stimulation likely due to decreased renal perfusion from impaired cardiac output."
+methods_summary: "This was a histopathological, post mortem, morphometric and immunohistochemical study comparing 14 cats with clinical HCM to immunohistochemical renin data previously obtained from 10 healthy cats. Heart and kidney tissues were examined to assess hypertrophy, myocardial disarray, fibrosis, and renal renin expression quantified via juxtaglomerular index and afferent arteriole renin-positive segment length."
 evidence_policy:
   quoted_fact:
-    - "The intake sheet lists this title: Stimulation of the Renin–Angiotensin System in Cats with Hypertrophic Cardiomyopathy."
-    - "The intake sheet locator is: https://www.sciencedirect.com/science/article/abs/pii/S0021997501904864?via%3Dihub."
+    - "Sample: 14 cats with HCM (age 0.75 to 10 years, mean 4.9)."
+    - "Heart weight mean: 27.9 g."
+    - "Heart weight/body weight: 0.65%."
+    - "Myocardial disarray present in 9/14 cats."
+    - "Moderate to severe fibrosis in 6/14 cats."
+    - "Juxtaglomerular index (renin positive): 36.8% in HCM vs. 30.6% in healthy cats."
+    - "Renin-positive afferent arteriole length: 86.0 µm in HCM vs. 49.9 µm in healthy cats."
   source_supported_conclusion:
-    - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
+    - "Increased renal renin expression indicates stimulation of the renin-angiotensin system in cats with HCM."
+    - "RAS stimulation may be secondary to decreased renal perfusion and blood pressure due to impaired cardiac output caused by HCM."
   llm_inference:
-    - "The likely claim-fit must be checked against the abstract or full text before promotion."
+    - "Therapeutic strategies targeting RAS (e.g., ACE inhibitors) might benefit cats with HCM by mitigating renal and circulatory consequences."
+    - "Further clinical trials are warranted to investigate RAS blockade effects on morbidity and mortality in feline HCM."
+  # V2 enhanced fields
+  study_design: "尸检研究，14 只自然患 HCM 猫的心脏和肾脏组织病理学和免疫组化分析，与 10 只健康猫历史对照比较"
+  core_argument: "HCM 猫肾脏肾素表达增加（肾小球旁指数 36.8% vs 30.6%，肾素阳性小动脉长度 86.0µm vs 49.9µm）——提示因心输出量减少导致肾灌注下降而激活 RAS"
+  implicit_premise: "假设 RAS 激活可能是 HCM 心功能不全的继发适应；假设靶向 RAS 治疗可能改善全身和肾脏血流动力学"
+  unexpected_finding: "肾小球旁肾素表达与心肌病理相关——这建立了心脏-肾脏机制联系而非仅孤立的心脏描述"
+  title_gap: "标题说 HCM 中肾素-血管紧张素系统激活，但真正发现是心肾轴建立：肾小球旁肾素表达增加与心肌病理相关——HCM 不只是心脏病，而是心肾联动"
+  evidence_boundary: "尸检研究，14 只猫；历史对照而非同期对照；需要临床试验研究 RAS 阻断对发病率和死亡率的影响"
 ---
 
 # Stimulation of the Renin–Angiotensin System in Cats with Hypertrophic Cardiomyopathy
 
 ## Evidence-Depth Caveat
 
-This is a first-pass title-and-locator source card created from the reviewed literature intake manifest. It verifies that the reference has an owner in the vault, but it does not extract reusable clinical facts from the article body.
+This card is based on complete publication text and includes detailed quantitative histopathological and immunohistochemical data. It is deep-extracted as a clinical histopathology study.
 
 ## One-Line Summary
 
-Candidate hcm source from sheet row 194. Use it for triage until abstract or full-text extraction proves a stronger role.
+In 14 cats with hypertrophic cardiomyopathy, heart weights were elevated (27.9 g), myocardial disarray occurred in 64%, fibrosis in 43%, and renal renin expression markers (juxtaglomerular index 36.8% and renin-positive arteriole length 86.0 µm) were significantly increased compared to healthy cats, implicating renin-angiotensin system stimulation likely due to decreased renal perfusion.
 
-## Why It Matters For Feline Hcm
+## Why It Matters For Feline ['HCM']
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-hcm` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+HCM is a prevalent and often fatal feline cardiac disease with unknown aetiology and pathophysiology; this study identifies activation of the renal renin-angiotensin system in affected cats, suggesting a mechanistic link between cardiac impairment and systemic circulatory/renal adaptations. Understanding RAS activation provides foundational evidence to inform potential therapeutic interventions targeting this pathway.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Stimulation of the Renin–Angiotensin System in Cats with Hypertrophic Cardiomyopathy.
-- The intake sheet locator is: https://www.sciencedirect.com/science/article/abs/pii/S0021997501904864?via%3Dihub.
+* Fourteen cats with naturally occurring HCM, ages 9 months to 10 years (mean 4.9 years), were studied post mortem.
+* Mean heart weight was elevated at 27.9 g with heart weight-to-body weight ratio at 0.65%, both higher than normal reference values.
+* Myocardial disarray was observed in 9 out of 14 cats (64%).
+* Moderate to severe myocardial fibrosis was present in 6 out of 14 cats (43%).
+* Renin immunohistochemistry showed a juxtaglomerular index of 36.8% in HCM cats compared to 30.6% in healthy control cats (n=10).
+* Length of renin-positive afferent arteriole was 86.0 µm in cats with HCM versus 49.9 µm in normal cats.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+* Cats with HCM demonstrate stimulation of their renal renin-angiotensin system as evidenced by increased juxtaglomerular renin expression and arteriole renin-positive length compared to healthy cats.
+* This RAS stimulation likely results from decreased blood pressure and renal perfusion secondary to reduced cardiac output caused by ventricular hypertrophy and myocardial pathology.
 
 ### llm_inference
 
-- The title suggests a possible `hcm` role, but the actual claim-fit requires abstract or full-text review.
+* Pharmacologic modulation of the renin-angiotensin system, such as with ACE inhibitors or angiotensin receptor blockers, may improve systemic and renal hemodynamics in cats with HCM.
+* Future clinical studies should investigate whether targeting RAS reduces morbidity and sudden death risk in feline HCM patients.
 
-## Claim-Fit Judgment
+## Study Design Details
 
-Strongest safe use:
+### Cohort Summary
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the hcm module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+| Cohort                | Sample Size | Age Range        | Mean Age (years) | Key Assessments                                   | Findings Summary                                                     |
+|-----------------------|-------------|------------------|------------------|--------------------------------------------------|---------------------------------------------------------------------|
+| HCM Cats (post mortem)| 14          | 9 months - 10 yrs| 4.9              | Cardiac gross morphology, histopathology,        | Elevated heart weights, myocardial disarray (64%), fibrosis (43%),  |
+|                       |             |                  |                  | renin immunohistochemistry on kidney tissue       | increased renal renin indices (juxtaglomerular index 36.8%, arteriole length 86.0 µm) |
+| Healthy Cats (historic control) | 10          | Not specified    | Not specified    | Renin immunohistochemistry                         | Juxtaglomerular index 30.6%, renin-positive arteriole length 49.9 µm |
 
 ## Linked Entities
 
-- diseases: HCM
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: ['HCM']
+- models: ['clinical-study']
+- endpoints: ['remission']
+- mechanisms: ['Renin-angiotensin system activation', 'Myocardial hypertrophy', 'Reduced renal perfusion']

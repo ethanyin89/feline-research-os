@@ -31,6 +31,13 @@ evidence_policy:
     - "Capsid gene mutations may drive virulent phenotype through immune mechanism changes."
   llm_inference:
     - "Cytokine profiling relevant to understanding VS-FCV severity."
+  # V2 enhanced fields
+  study_design: "实验室病毒学和免疫学研究，使用健康成年猫进行 VS-FCV 感染模型，采用病毒测序和细胞因子检测分析"
+  core_argument: "VS-FCV 导致严重出血热样症状，系病毒入侵与宿主局部细胞因子（IL-10、TNF-α、MIP-1α）失调共同作用，病毒衣壳基因突变促进致病表型形成"
+  implicit_premise: "局部细胞因子表达水平的改变能反映和促进 VS-FCV 感染的病理进展"
+  title_gap: "标题强调病毒性系统性感染，但真正发现病毒衣壳基因突变通过影响免疫调节加剧病情，揭示了分子病理机制的复杂性"
+  evidence_boundary: "未能评估其他猫科动物或幼猫中 VS-FCV 的致病机制及临床表现，未明确病毒变异对传染性和传播动力学的具体影响"
+  unexpected_finding: "在受感染皮肤组织中同时显著上调抗炎性因子 IL-10 与促炎因子 TNF-α，表明免疫反应的双重调节异常"
 ---
 
 # VS-FCV: Cytokine modulation and viral mutants

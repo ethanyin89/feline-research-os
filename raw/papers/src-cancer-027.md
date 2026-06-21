@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "Feline mammary tumors share polyreceptive characteristics with canine and human tumors."
     - "Historical foundation for receptor profiling in comparative mammary oncology."
+  # V2 enhanced fields
+  study_design: "原始研究（1984 年），犬猫乳腺肿瘤受体谱分析，45 只犬乳腺癌生存随访"
+  core_argument: "犬猫乳腺肿瘤可为多受体型（ER、PR、雄激素、糖皮质激素、盐皮质激素）——受体丰富肿瘤生存率更高"
+  implicit_premise: "假设犬类受体-生存关联可外推到猫；假设受体表达与激素依赖性治疗反应相关"
+  unexpected_finding: "乳腺肿瘤不仅表达 ER/PR，还表达雄激素、糖皮质激素和盐皮质激素受体——多受体性超出传统激素受体关注范围"
+  title_gap: "标题说激素依赖性乳腺癌的动物模型和受体谱与生存率，但真正发现是多受体性：犬猫乳腺肿瘤表达 5 种受体类型——这一复杂受体谱超出简单 ER/PR 分类"
+  evidence_boundary: "1984 年研究，生存数据仅来自犬类队列（45 只）——猫特异性生存数据未在摘要中报告"
 ---
 
 # Animal models for hormone-dependent human breast cancer

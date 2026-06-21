@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - This may become a useful framing source for recognition and extension branches.
     - Recognition and synthesis pages should keep this source at the edge of the module, not in the center.
+  # V2 enhanced fields
+  study_design: "综述，猫心肌病的分类、病理生理学和临床表现"
+  core_argument: "HCM 应保持在更广泛的猫心肌病框架内——分类主要依赖超声心动图，但表型变异导致主观解释风险，管理仍有争议"
+  implicit_premise: "假设更广泛的心肌病边界有助于保持 HCM 模块边界诚实；假设 2009 年分类语言可能与后来共识术语不完全一致"
+  unexpected_finding: "诊断年龄中位数 5.5 年但范围从 4 个月到 16 年——比预期更宽的年龄范围强化广泛临床警惕"
+  title_gap: "标题说分类和病理生理学，但真正价值是边界警示：管理仍有争议，表型变异导致诊断主观解释——这阻止 HCM 模块坍缩成自洽的分类学"
+  evidence_boundary: "2009 年综述，分类语言可能过时；更广泛的心肌病框架应稳定边界而非重写 HCM 核心"
 ---
 
 # One-line Summary

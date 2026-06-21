@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "May inform fibrosarcoma/sarcoma viral etiology section."
     - "Historical foundation for understanding feline sarcoma virus."
+  # V2 enhanced fields
+  study_design: "原始研究（1971 年 Cancer Res），病毒性起源的可传播猫纤维肉瘤，Hardy WD Jr 实验室——FeLV/FeSV 研究先驱"
+  core_argument: "无法从可用信息确定——无 PubMed 摘要（1971 年论文）——但标题明确：存在病毒起源的可传播猫纤维肉瘤——这是 FeSV 研究的早期基础工作"
+  implicit_premise: "假设该论文描述了 FeSV 诱导的纤维肉瘤的传播实验——证明病毒性肿瘤病因学——具体假设需要全文确认"
+  unexpected_finding: "无法从可用信息确定——需要全文；但'可传播'性质暗示可能是实验性传播研究——为后续 FeSV 分子生物学研究奠定基础"
+  title_gap: "标题说病毒性起源的可传播猫纤维肉瘤，但真正价值是历史意义：这是 FeSV 研究的早期里程碑——Hardy 实验室是病毒致癌研究先驱——为后续注射部位肉瘤研究提供对比背景"
+  evidence_boundary: "无 PubMed 摘要的历史论文；仅支持 FeSV 历史背景，不支持当代纤维肉瘤诊断或治疗声明；全文需要获取才能提取具体机制"
 ---
 
 # A transmissible feline fibrosarcoma of viral origin

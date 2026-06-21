@@ -37,6 +37,12 @@ evidence_policy:
   llm_inference:
     - This may become a boundary or extension anchor rather than a core HCM paper.
     - Synthesis and boundary pages should use this review to keep the module from equating feline cardiomyopathy with HCM alone.
+  # V2 enhanced fields
+  study_design: "综述，涵盖 HCM 以外的猫心肌病（DCM、RCM、ARVC、LVNC 等）"
+  core_argument: "非 HCM 心肌病（DCM、RCM、ARVC、LVNC）在家猫中均有发现——但它们通常在心衰或血栓栓塞表现时才被识别，很少在亚临床阶段被怀疑"
+  implicit_premise: "假设 HCM 模块需要边界压力来防止将所有心肌病等同于 HCM；假设超声心动图是区分这些表型的确定性检测"
+  title_gap: "标题说非 HCM 心肌病，但真正价值是识别盲区：DCM、RCM、ARVC 在亚临床阶段几乎不被怀疑——HCM 筛查可能让其他心肌病成为临床盲点"
+  evidence_boundary: "边界框架来源，不重写 HCM 核心机制；非 HCM 表型的详细层级需阅读全文"
 ---
 
 # One-line Summary

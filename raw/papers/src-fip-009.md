@@ -32,6 +32,11 @@ evidence_policy:
     - Foundational origin evidence should define the mutation branch but not close later recombination, spike-spread, or diagnostic-limit questions.
   llm_inference:
     - This paper should be deep-extracted early because many later diagnostic and pathobiogenesis arguments depend on it.
+  # V2 enhanced fields
+  study_design: "原始研究，研究 FIP 病毒从流行猫肠冠状病毒突变产生的机制（1998 年）"
+  core_argument: "FIP 病毒通过突变从流行猫肠冠状病毒产生——这定义了疾病起源分支：FIP 是更广泛冠状病毒生态中的疾病涌现"
+  implicit_premise: "假设突变起源模型是 FIP 发病机制的核心；假设机制起源与诊断应用是可区分的"
+  evidence_boundary: "机制起源来源，不能直接验证任何特定突变检测为诊断捷径；需与后续诊断限制论文一起阅读"
 ---
 
 # One-line Summary

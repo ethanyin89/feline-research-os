@@ -30,6 +30,13 @@ evidence_policy:
     - "Breed predisposition is a significant factor in the development of specific feline cancers, particularly fibrosarcomas and squamous cell carcinomas."
   llm_inference:
     - "Setting up international standards for animal cancer registries will enhance comparative veterinary epidemiological studies."
+  # V2 enhanced fields
+  study_design: "回顾性登记分析，瑞士猫癌症登记处 51,322 份患者记录（1965-2008），多元 logistic 回归分析"
+  core_argument: "猫肿瘤发生率与人口统计学强相关——纤维肉瘤和鳞状细胞癌的品种差异最大，中老年猫肿瘤更常见"
+  implicit_premise: "假设 43 年跨度的登记数据方法学一致；假设瑞士猫群可代表更广泛猫群"
+  unexpected_finding: "纤维肉瘤和 SCC 的品种差异最大——品种遗传背景可能比环境因素更重要地决定特定癌症风险"
+  title_gap: "标题说性别、品种和年龄对肿瘤类型和位置的影响，但真正发现是标准化差距：缺乏国际动物癌症登记标准使研究间比较困难——这一基础设施空白限制了流行病学洞察"
+  evidence_boundary: "1965-2008 数据不包含现代诊断技术进步；瑞士特定品种分布可能不可推广到其他地区"
 ---
 
 # Swiss Feline Cancer Registry 1965–2008: the Influence of Sex, Breed and Age on Tumour Types and Tumour Locations

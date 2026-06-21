@@ -40,6 +40,13 @@ evidence_policy:
     - "Use for model-value and comparative biology questions, not as primary clinical-treatment source."
     - "The obesity-diabetes link in cats supports translational research but requires feline-specific clinical validation."
     - "Complication visibility justifies keeping neuropathy and retinopathy in endpoint maps."
+  # V2 enhanced fields
+  study_design: "综述性研究，回顾多项涉及猫为2型糖尿病模型的研究，分析其病理生理特征与人类T2DM的相似性"
+  core_argument: "猫的糖尿病自然发病过程与人类2型糖尿病在病理和临床特征上高度相似，使其成为研究2型糖尿病的宝贵比较模型"
+  implicit_premise: "猫糖尿病的病理机制和临床表现足够稳定且具有代表性，能够反映人类2型糖尿病的主要特征"
+  title_gap: "标题仅指出猫作为2型糖尿病模型，但论文强调必须区分模型研究价值与对临床治疗的直接推荐——提示模型研究与实际临床应用有本质差异"
+  evidence_boundary: "未涉及针对糖尿病猫的具体临床治疗方案，不提供如何改善宠物猫临床管理的直接建议"
+  unexpected_finding: "糖尿病猫虽然胰岛素分泌能力下降，但仍保留一定残余分泌功能，这点与部分人类T2DM患者相似，为模型研究提供特别价值"
 ---
 
 # Feline Models of Type 2 Diabetes Mellitus

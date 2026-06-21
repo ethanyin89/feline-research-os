@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports Bcl-2 as a lymphoma-leaning tissue marker, but not a clean standalone separator because expression remains high in both groups.
   llm_inference:
     - This paper is useful as a stronger tissue-marker boundary signal than COX-2, while still requiring bounded interpretation.
+  # V2 enhanced fields
+  study_design: "原始观察性研究，包含55只经组织学诊断为炎症性肠病（8只）或胃肠道淋巴瘤（47只）的猫，采用小肠活检组织的Bcl-2免疫标记检测"
+  core_argument: "Bcl-2蛋白在胃肠道淋巴瘤组猫的免疫阳性细胞比例显著高于炎症性肠病组，但两组均表现出较高的Bcl-2表达，表明其并非能单独区分两种疾病的特异性标记"
+  implicit_premise: "Bcl-2蛋白表达水平与细胞抗凋亡功能相关，且其免疫标记强度可以反映组织病理状态的差异"
+  title_gap: "标题指出Bcl-2表达于IBD和胃肠淋巴瘤中，但真正发现是两者均有较高表达，且淋巴瘤组虽更高，却不能通过Bcl-2单独明确区分这两种疾病"
+  evidence_boundary: "该研究未涉及Bcl-2表达与临床预后、治疗反应或其他分子标记物联合诊断的相关性，亦未扩展至其他猫种疾病病理状态的比较"
+  unexpected_finding: "尽管预期淋巴瘤组Bcl-2表达明显高于IBD组，但IBD组同样显示整体较高的Bcl-2免疫阳性，提示抗凋亡机制可能在炎症状态中亦活跃"
 ---
 
 # One-line Summary

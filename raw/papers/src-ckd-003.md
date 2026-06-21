@@ -40,6 +40,13 @@ evidence_policy:
   llm_inference:
     - Translation pages should separate `baseline-supported interventions` from `widely used but more weakly bounded adjuncts`.
     - The safest treatment narrative remains `improve quality of life and complication control first`, with disease-modification claims left bounded.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 CKD 的当前治疗方案"
+  core_argument: "猫 CKD 治疗主要针对肾功能下降的不良后果而非根本病因——肾脏处方粮（限制蛋白质和磷）是证据最强的干预，其他为辅助治疗"
+  implicit_premise: "假设支持性管理与疾病修饰是可区分的概念；假设各干预措施的证据层级差异是临床相关的"
+  unexpected_finding: "贝那普利改善了蛋白尿性肾病猫的食欲，但未改善生存——这提示临床改善与生存获益需分开评估，不能混为一谈"
+  title_gap: "标题问'什么是可实现的'，但真正发现是证据分层：贝那普利改善食欲但不改善生存——症状改善≠生存获益，只有肾脏处方粮有生存证据"
+  evidence_boundary: "综述层面无法提供产品特定剂量或分期特定监测方案；磷酸盐结合剂与肾脏处方粮的生存获益是否可比仍未知"
 ---
 
 # Feline CKD: Current therapies – what is achievable?

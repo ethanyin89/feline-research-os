@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - The safest treatment matrix is one that separates `baseline-supported`, `context-dependent`, and `weak-evidence/common-practice` branches.
     - Translation summaries should use this source to challenge overconfident intervention ranking language, not to introduce novelty claims.
+  # V2 enhanced fields
+  study_design: "系统综述，使用 I-IV 级证据分级框架评估猫 CKD 治疗方法"
+  core_argument: "许多猫 CKD 干预措施虽被广泛使用，但缺乏或仅有弱证据支持——长期皮下补液仅有 IV 级证据，不应等同于有效性证明"
+  implicit_premise: "假设常规做法与证据支持是可区分的概念；假设证据分级框架适用于指导治疗决策"
+  unexpected_finding: "长期皮下补液——一种常见的猫 CKD 治疗方法——仅有 IV 级（最弱）证据支持"
+  title_gap: "标题问证据是什么，但真正发现是实践与证据的分离：长期皮下补液虽广泛使用但仅有 IV 级证据——常规做法≠循证支持"
+  evidence_boundary: "较旧综述，部分干预措施讨论可能需要更新；强于证据分级架构，弱于当前产品级推荐"
 ---
 
 # Therapies for Feline Chronic Kidney Disease: What is the Evidence?

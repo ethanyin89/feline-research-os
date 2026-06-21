@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - "Podoplanin represents a potential therapeutic target for feline OSCC."
     - "Supports oral-squamous-cell-carcinoma.md biomarker and targeted therapy claims."
+  # V2 enhanced fields
+  study_design: "原始研究（2017 年 Monoclon Antib），40 例猫 SCC（口底 14、皮肤 13、耳 9、舌 4），PMab-52 抗体免疫组化染色"
+  core_argument: "Podoplanin 在猫 SCC 中高度表达——95%（38/40）阳性——30%（12/40）强膜染色——Podoplanin 通过 CLEC-2 激活血小板聚集参与转移——PMab-52 抗体可用于靶向治疗"
+  implicit_premise: "假设免疫组化表达模式代表功能性 podoplanin 活性；假设抗 podoplanin 抗体治疗在猫体内与体外模型类似有效"
+  unexpected_finding: "95% 的猫 SCC 表达 podoplanin——这种高表达率使其成为理想的治疗靶点——跨解剖部位（口腔、皮肤、耳）一致性强"
+  title_gap: "标题说猫 podoplanin 在猫 SCC 中的表达，但真正发现是治疗潜力：高表达率（95%）+ 抗体开发（PMab-52）+ 转移相关机制（CLEC-2）——为抗体靶向治疗奠定基础"
+  evidence_boundary: "摘要级免疫组化和抗体开发证据；支持生物标记物和潜在治疗靶点声明，不支持临床治疗推荐；抗体治疗仍处于研究阶段"
 ---
 
 # Expression of Cat Podoplanin in Feline Squamous Cell Carcinomas

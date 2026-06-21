@@ -29,6 +29,11 @@ evidence_policy:
   llm_inference:
     - This paper may later support a dedicated effusive-vs-non-effusive mechanism comparison.
     - This source may help stop the effusive branch from becoming only a fluid-recognition shortcut.
+  # V2 enhanced fields
+  study_design: "原始研究，研究渗出型 FIP 的免疫学现象（1981 年）"
+  core_argument: "渗出型 FIP 不仅是液体识别问题——它与免疫和炎症过程相关联，值得单独分支建模"
+  implicit_premise: "假设 1981 年的免疫学框架在概念上仍有参考价值；假设疾病形式在机制上有意义的区别"
+  evidence_boundary: "较旧的免疫学框架可能无法直接映射到现代抗病毒时代；分支澄清角色，非当前诊断领导"
 ---
 
 # One-line Summary

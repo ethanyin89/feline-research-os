@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Strong evidence for PDT efficacy in early-stage feline SCC."
     - "Supports oral-squamous-cell-carcinoma.md treatment section."
+  # V2 enhanced fields
+  study_design: "回顾性病例系列（2018 年 JFMS），38 只猫 63 个病变，脂质体 mTHPC 光动力治疗，长期随访"
+  core_argument: "PDT 在非侵袭性猫 SCC 中实现优秀的长期控制——总反应率 84%（CR 61%，PR 22%）——中位 PFI 35 个月——中位 OS 40 个月——但侵袭性肿瘤预后差（全部 <6 个月进展）"
+  implicit_premise: "假设回顾性病例系列的疗效数据可代表前瞻性治疗预期；假设病例选择（非侵袭性）偏倚可接受"
+  unexpected_finding: "侵袭性肿瘤与非侵袭性肿瘤结局差异巨大——所有侵袭性肿瘤 <6 个月进展——这是强烈的病例选择信号：PDT 不适用于晚期病变"
+  title_gap: "标题说评估 PDT 治疗猫 SCC 的长期结局和预后因素，但真正发现是适应证限制：PDT 对早期/非侵袭性病变有效——但侵袭性和大肿瘤不是好适应证——病例选择至关重要"
+  evidence_boundary: "回顾性病例系列证据（n=38 猫，63 病变）；支持 PDT 在早期 SCC 中的疗效声明，但仅限于非侵袭性病变——晚期病变不推荐 PDT"
 ---
 
 # Evaluation of long-term outcome and prognostic factors of feline squamous cell carcinomas treated with photodynamic therapy

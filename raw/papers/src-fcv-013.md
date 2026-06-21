@@ -29,6 +29,13 @@ evidence_policy:
     - The paper supports treating multivalent or platform-vaccine design as an active modern branch.
   llm_inference:
     - This source should likely be deep-extracted in the first vaccine-focused FCV batch.
+  # V2 enhanced fields
+  study_design: "原始实验研究，使用家猫作为研究对象，采用复制缺陷性猫杯状病毒（FCV）疫苗构建体接种及同源高毒力系统性FCV挑战测试免疫效果"
+  core_argument: "复制缺陷性FCV疫苗能够在猫中诱导高效的中和抗体水平并显著减轻同源毒株感染的临床症状，且通过结合异源VP1基因构建实现广谱中和抗体反应。"
+  implicit_premise: "诱导的中和抗体水平是评估疫苗保护效果的关键指标，且异源VP1基因的组合不会削弱疫苗免疫原性。"
+  title_gap: "标题强调复制缺陷性FCV疫苗的新颖性，但真正发现是利用异源VP1设计实现了对多种FCV株的广谱中和保护——这为多价和平台疫苗设计提供了实验依据。"
+  evidence_boundary: "本研究未评估该疫苗对猫长期免疫记忆的维持效果，也未涵盖疫苗在野外复杂感染环境中的实际保护效果。"
+  unexpected_finding: "结合遗传距离较远的VP1基因片段反而增强了中和抗体的广谱性，挑战了单一株疫苗设计的传统思路。"
 ---
 
 # A novel replication-deficient FCV vaccine provides strong immune protection in cats

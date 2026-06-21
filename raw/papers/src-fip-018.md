@@ -30,6 +30,13 @@ evidence_policy:
     - Spike amino acid changes can be biologically meaningful while still falling short of direct disease definition.
   llm_inference:
     - This paper may become one of the most important supports for the mutation-diagnostics boundary branch.
+  # V2 enhanced fields
+  study_design: "原始研究，研究猫冠状病毒 spike 蛋白氨基酸变化与病毒从肠道系统传播的相关性"
+  core_argument: "Spike 氨基酸变化与病毒从肠道的系统传播相关，而非与 FIP 疾病本身相关——系统传播和 FIP 疾病身份是相关但不相同的"
+  implicit_premise: "假设分子信号可以追踪系统传播而非直接疾病定义；假设突变或氨基酸变化信号可以在生物学上有意义但仍不足以作为独立 FIP 标志物"
+  unexpected_finding: "标题明确表述相关性不是与 FIP 本身——这为突变诊断边界提供了一个中间层"
+  title_gap: "标题明确说「相关性不是与 FIP 本身」——这正是核心发现：Spike 氨基酸变化追踪的是系统传播而非疾病定义，分子信号可以生物学上有意义但仍不足以作为独立 FIP 诊断标志物"
+  evidence_boundary: "传播相关性语言不应被转换为诊断认可或诊断否定本身；需要全文审查才能引用性能指标或采样规则"
 ---
 
 # One-line Summary

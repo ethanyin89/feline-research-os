@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "回顾性研究（韩国 2012-2022），683 只猫的肿瘤数据，回归分析预测恶性因素"
+  core_argument: "猫肿瘤谱系存在显著区域差异——韩国皮肤 SCC 罕见（vs 西方研究），可能反映环境暴露差异（室内生活方式）"
+  implicit_premise: "假设 683 只猫样本可代表韩国猫群；假设皮肤 SCC 差异主要由 UV 暴露而非其他因素解释"
+  unexpected_finding: "韩国皮肤 SCC 罕见，与西方研究形成鲜明对比——这一区域差异可能反映韩国猫的室内生活方式减少了 UV 暴露"
+  title_gap: "标题说韩国猫肿瘤恶性的区域差异和关键预测因子，但真正发现是生活方式决定论：韩国皮肤 SCC 罕见——室内生活方式可能保护猫免受 UV 诱导的 SCC"
+  evidence_boundary: "韩国单国数据，环境和生活方式因素可能解释区域差异；需要多中心数据集纳入环境、遗传和生活方式因素"
 ---
 
 # Regional Variations in and Key Predictors of Feline Tumor Malignancy: A Decade-Long Retrospective Study in Korea

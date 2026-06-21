@@ -29,6 +29,13 @@ evidence_policy:
     - The paper supports using junctional-integrity disruption as a mechanism bridge for FCV lesion diversity.
   llm_inference:
     - This source should likely pair with ocular, enteric, and VS-FCV extension papers during deep extraction.
+  # V2 enhanced fields
+  study_design: "原始实验研究，使用多种猫组织样本，采用免疫组化和分子生物学技术检测猫结合粘附分子A（fJAM-A）表达分布"
+  core_argument: "猫结合粘附分子A（fJAM-A）是猫杯状病毒（FCV）的功能性受体，其广泛分布于多种猫组织并在血小板上高表达，解释了FCV感染的广泛病变谱和组织嗜性"
+  implicit_premise: "fJAM-A的组织分布模式与病毒的组织侵袭性和病变表现直接相关"
+  title_gap: "标题关注fJAM-A在猫组织中的分布，但真正的发现是fJAM-A表达的广泛性和丰富性说明了FCV多样化病变机制的基础——为理解FCV的组织嗜性提供了重要机制支撑"
+  evidence_boundary: "本研究未涉及fJAM-A受体与FCV感染致病性关系的动态变化，也未探讨受体阻断对临床治疗效果的影响"
+  unexpected_finding: "fJAM-A不仅在预期的上皮组织中表达，还在猫血小板上高度表达，提示血小板可能在FCV感染中扮演未充分认识的角色"
 ---
 
 # Distribution of the Feline Calicivirus Receptor Junctional Adhesion Molecule A in Feline Tissues

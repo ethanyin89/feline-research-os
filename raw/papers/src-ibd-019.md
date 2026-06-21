@@ -32,6 +32,13 @@ evidence_policy:
     - The study supports metabolomics as a real frontier separation signal, but not yet as routine-ready workup leadership.
   llm_inference:
     - This paper is best modeled as a frontier-marker branch that sits above support markers but below biopsy-centered workup.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，纳入14只健康猫和22只慢性肠病猫（包括11只炎症性肠病和11只小细胞淋巴瘤猫），采用无靶向粪便代谢组学分析"
+  core_argument: "多元不饱和脂肪酸的粪便代谢物谱特征能区分猫的炎症性肠病与小细胞淋巴瘤，从而为二者的诊断提供代谢组学证据"
+  implicit_premise: "粪便代谢物反映了肠道内的病理状态，且不同类型的慢性肠病在代谢产物组成上存在可检测的差异"
+  title_gap: "标题强调无靶向代谢组学分析，但真正的新发现是多元不饱和脂肪酸代谢物在诊断炎症性肠病与小细胞淋巴瘤中具有辨别力——为疾病鉴别提供了新的生物标志物方向"
+  evidence_boundary: "本研究未解决代谢组学指标与临床预后、治疗反应的关联性，也未评估其在日常临床诊断中的实用性和稳定性"
+  unexpected_finding: "粪便代谢组数据不仅区分慢性肠病与健康猫，还能细分炎症性肠病与小细胞淋巴瘤，即使这两者在临床上极难区分"
 ---
 
 # One-line Summary

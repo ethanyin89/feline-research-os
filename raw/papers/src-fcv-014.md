@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the main FCV assay-stage therapy anchor beneath the interferon and in vivo branches.
     - The safest downstream wording is `screening and assay infrastructure with selective hits`, not `candidate treatment recommendations`.
+  # V2 enhanced fields
+  study_design: "体外抗病毒筛选研究，使用不同抗病毒类别的15种化合物，通过蛋白酶抑制和细胞培养抑制实验评估对猫杯状病毒（FCV）的抑制效果"
+  core_argument: "通过建立针对FCV蛋白酶和聚合酶的专门体外抑制实验，可以有效区分具有酶抑制活性和细胞培养中抑制病毒复制的候选抗病毒化合物，推动FCV抗病毒药物的研发"
+  implicit_premise: "体外蛋白酶和聚合酶抑制活性能够反映化合物对病毒复制过程的直接干预，且这种活性与体内抗病毒效果具备潜在相关性"
+  title_gap: "标题暗示潜在治疗剂筛选，但真正亮点在于开发了区分酶抑制和细胞复制抑制的双重体外评价体系，为后续抗FCV药物研发提供方法学基础"
+  evidence_boundary: "该研究未涉及临床家猫中的药物疗效验证和安全性评估，也未探索化合物的体内药代动力学及抗病毒机制"
+  unexpected_finding: "黄酮类化合物quercetagetin和核苷类似物PPNDS在低微摩尔浓度下对FCV聚合酶展现出强抑制活性，且细胞培养实验和酶抑制实验结果明显分离，支持分层筛选策略"
 ---
 
 # Potential Therapeutic Agents for Feline Calicivirus Infection

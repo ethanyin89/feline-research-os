@@ -39,6 +39,13 @@ evidence_policy:
     - "In vitro only for cytotoxicity; xenograft results described as 'preliminary' — clinical translation requires further studies."
     - "GRP78 targeting may have broader applicability across FMC subtypes."
     - "Combination with existing chemotherapy (doxorubicin, carboplatin) not yet tested."
+  # V2 enhanced fields
+  study_design: "原始研究（2018 年 BMC Cancer），体外细胞系研究 + 小鼠异种移植初步测试，PAD 抑制剂 BB-Cl-Amidine 对犬猫乳腺癌细胞的作用"
+  core_argument: "BB-Cl-Amidine（PAD 抑制剂）通过激活内质网应激通路（下调 GRP78、上调 DDIT3）在体外降低犬猫乳腺癌细胞活力和成瘤性——GRP78 是乳腺癌分子治疗的潜在靶点"
+  implicit_premise: "假设体外细胞毒性可转化为临床疗效；假设内质网应激激活是足够的抗肿瘤机制而非仅仅是非特异性细胞毒性"
+  unexpected_finding: "PAD 酶抑制通过内质网应激通路杀死乳腺癌细胞——这一机制连接了表观遗传调控（蛋白质瓜氨酸化）与细胞死亡通路——不同于传统化疗靶点"
+  title_gap: "标题说 BB-Cl-Amidine 作为新型犬猫乳腺癌治疗药物，但真正发现是机制验证：GRP78 下调和 DDIT3 上调定义了内质网应激激活机制——但临床转化仍需后续研究"
+  evidence_boundary: "主要是体外证据；异种移植结果描述为'初步'；2 周体内测试不足以评估临床疗效；与现有化疗（多柔比星、卡铂）的联合用药未测试"
 ---
 
 # BB-Cl-Amidine as a novel therapeutic for canine and feline mammary cancer via activation of the endoplasmic reticulum stress pathway

@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - "Modern treatment outcomes may differ from 2015 review context."
     - "Risk factor mechanisms require further investigation."
+  # V2 enhanced fields
+  study_design: "综述（2015 年 J Vet Dent），猫口腔 SCC 临床表现、风险因素、治疗和预后的文献回顾"
+  core_argument: "SCC 是猫最常见的口腔恶性肿瘤——上颌 SCC 表现为溃疡性，下颌 SCC 表现为增殖性——治愈仅在少数可完全切除或切除+放疗的猫中实现"
+  implicit_premise: "假设 2015 年的治疗标准反映最佳实践；假设风险因素关联（跳蚤项圈、罐头食品）是真正的因果关系而非混杂"
+  unexpected_finding: "跳蚤项圈和罐头食品/罐头金枪鱼被确定为风险因素——这些饮食和环境关联出乎意料——但机制未阐明"
+  title_gap: "标题说猫口腔 SCC 临床表现和文献综述，但真正发现是预后现实：治愈仅在少数病例实现——多数晚期病例以安乐死告终——这是难以传达给宠物主人的现实"
+  evidence_boundary: "2015 年临床综述；治疗声明反映当时标准；'治愈仅在少数亚组实现'是定性而非定量陈述"
 ---
 
 # Feline Oral Squamous Cell Carcinoma: Clinical Manifestations and Literature Review

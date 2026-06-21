@@ -29,6 +29,12 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "原始研究，使用肥胖猫作为模型，分析不同脂肪库相关的炎症标志物"
+  core_argument: "猫肥胖与脂肪库特异性炎症之间存在显著关联，这些炎症机制可为理解人类肥胖提供新的见解"
+  implicit_premise: "肥胖猫的脂肪组织炎症反应与人类肥胖生理机制具有可比性和代表性"
+  title_gap: "标题仅强调猫作为人类肥胖模型，但实际发现揭示了肥胖猫脂肪库特异性炎症差异的重要生理细节——这为靶向治疗提供潜在方向"
+  evidence_boundary: "本研究未探讨肥胖与临床疾病结果的直接因果关系，也未涉及肥胖干预或治疗效果评估"
 ---
 
 # The cat as a model for human obesity: insights into depot-specific inflammation associated with feline obesity

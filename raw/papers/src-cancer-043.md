@@ -31,6 +31,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "回顾性队列研究（2020 年 Tumour Biology），180 只手术治疗的猫侵袭性乳腺癌，2 年随访，FoxP3/ER/PR/Ki-67/HER2/CK14 标记物分析"
+  core_argument: "调节性 T 细胞（Tregs）识别 FMC 的免疫抑制亚型——瘤周 Tregs 比瘤内多 300 倍——高 Tregs 与更差的 DFI 和 OS 相关——三阴性基底样（CK14+）肿瘤中存在 Treg 富集亚组——这是免疫治疗的潜在靶点"
+  implicit_premise: "假设 Tregs 富集是免疫抑制的标记物而非旁观者效应；假设猫 TNBC 可作为人类 TNBC 免疫治疗研究的自发模型"
+  unexpected_finding: "瘤周 Tregs 比瘤内多 300 倍——这种空间分布暗示免疫抑制主要发生在肿瘤边界而非核心——可能影响免疫治疗策略设计"
+  title_gap: "标题说识别猫三阴性基底样侵袭性乳腺癌的免疫抑制亚型，但真正发现是预后分层：Treg 富集状态可用于患者分层——高 Tregs = 差预后——为免疫检查点抑制剂研究提供依据"
+  evidence_boundary: "回顾性队列证据（n=180）；支持 Tregs 作为预后标记物和比较肿瘤学框架，不支持免疫治疗推荐——治疗意义是推论"
 ---
 
 # Identification of an immune-suppressed subtype of feline triple-negative basal-like invasive mammary carcinomas, spontaneous models of breast cancer

@@ -38,6 +38,13 @@ evidence_policy:
     - "Early genetic testing enables preventive breeding strategies."
     - "No curative treatment; management is supportive as CKD progresses."
     - "Human ADPKD parallels support translational relevance."
+  # V2 enhanced fields
+  study_design: "综述，猫多囊肾病（PKD）的遗传学、诊断和管理更新"
+  core_argument: "猫 PKD 是常染色体显性遗传病（ADPKD），由 PKD1 基因突变引起——波斯猫患病率最高，是最常见的猫遗传病之一"
+  implicit_premise: "假设早期基因检测可以支持预防性繁殖策略；假设人类 ADPKD 平行关系支持转化相关性"
+  unexpected_finding: "囊肿可能在肝脏和胰腺形成而不仅仅是肾脏——多器官累及扩展了疾病理解"
+  title_gap: "标题说多囊肾病更新，但真正发现是多器官累及：囊肿可能在肝脏和胰腺形成而不仅仅是肾脏——疾病理解从单器官扩展到系统性，早期基因检测可支持繁殖策略"
+  evidence_boundary: "叙述性综述；诊断主要靠影像学，基因检测正在扩展；无治愈性治疗，管理为支持性"
 ---
 
 # Feline Polycystic Kidney Disease: An Update

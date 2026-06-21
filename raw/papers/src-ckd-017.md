@@ -41,6 +41,13 @@ evidence_policy:
   llm_inference:
     - The proteinuria branch should now distinguish `proteinuria as glomerular disease signal` from `proteinuria as secondary CKD progression signal`.
     - A future dedicated proteinuric-subset note would be justified if the vault starts answering more subtype-specific questions.
+  # V2 enhanced fields
+  study_design: "原始研究，回顾性审查提交至国际兽医肾脏病理服务的蛋白尿猫的肾活检或尸检样本"
+  core_argument: "猫蛋白尿性肾病常为肾小球性且常为免疫复合物介导——58% 为 ICGN；UPC 幅度不能将所有蛋白尿病理归入一个疾病桶"
+  implicit_premise: "假设蛋白尿需要区室意识解释——肾小球直接信号 vs 继发性 CKD 进展信号；假设病理学参考标准可以区分这些"
+  unexpected_finding: "蛋白丢失性肾病发病年龄较年轻（ICGN 中位 3.5 岁，其他肾小球病 1.3 岁）——挑战了蛋白尿只是老年猫 CKD 故事的假设"
+  title_gap: "标题说蛋白尿性肾病，但真正发现是区室意识：58% 为免疫复合物性肾小球肾炎，发病年龄年轻（中位 3.5 岁）——不是所有蛋白尿都属于老年猫 CKD 故事"
+  evidence_boundary: "聚焦蛋白尿性肾病和蛋白丢失性肾病，对全部猫 CKD 人群的泛化应谨慎"
 ---
 
 # Clinicopathologic and pathologic characteristics of feline proteinuric kidney disease

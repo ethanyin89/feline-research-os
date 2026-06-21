@@ -29,6 +29,13 @@ evidence_policy:
     - The paper supports caution against simple geography-or-time clustering assumptions.
   llm_inference:
     - This source should help anchor the molecular-diversity branch beneath broader reviews.
+  # V2 enhanced fields
+  study_design: "分子遗传学研究，采集英国和澳大利亚多株猫杯状病毒（FCV）分离株，采用核苷酸测序和系统发育分析"
+  core_argument: "猫杯状病毒的不同地理来源分离株在基因组上存在广泛多样性，但不表现出明显的地域性或时间性聚类"
+  implicit_premise: "系统发育和序列分析能够准确反映病毒的遗传关系及其地理和时间分布特征"
+  title_gap: "标题强调了序列测定及系统发育分析，但真正的发现是这些FCV株虽遗传多样，却没有预期中的地域或时间聚类——这挑战了基于地理或时间推断病毒传播路径的传统假设"
+  evidence_boundary: "未探讨FCV的临床表现、致病机制或疫苗效果，也未涵盖亚洲或其他大陆的病毒株遗传情况"
+  unexpected_finding: "尽管采样涵盖不同国家和时间，系统发育树未见分明显的地域或时间相关性，违背了通常病毒群体在地理和时间上的分层预期"
 ---
 
 # Nucleotide sequence of UK and Australian isolates of feline calicivirus (FCV) and phylogenetic analysis of FCVs

@@ -27,6 +27,11 @@ evidence_policy:
     - This source is likely to serve as a broad reference anchor for mechanism, clinical presentation, and baseline disease framing.
   llm_inference:
     - This chapter is likely best used as a historical broad anchor, not as the sole modern treatment authority.
+  # V2 enhanced fields
+  study_design: "教科书章节，涵盖 FIP 和猫冠状病毒的全貌（2005 年）"
+  core_argument: "FIP 属于猫冠状病毒疾病谱系——理解其病理需要多层框架：病毒学、发病机制、临床表现和诊断，任何单一分支都无法完全解释"
+  implicit_premise: "假设 2005 年的疾病框架在术语和架构上仍有参考价值；假设历史文献有助于理解后续专业化研究的上下文"
+  evidence_boundary: "2005 年出版，早于 GS-441524 抗病毒治疗时代和现代分子诊断；不应作为当前治疗指导使用"
 ---
 
 # One-line Summary

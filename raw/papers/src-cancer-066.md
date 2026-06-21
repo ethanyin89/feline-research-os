@@ -30,6 +30,13 @@ evidence_policy:
     - "Short commentary format; no abstract available in PubMed."
   llm_inference:
     - "Early perspective on FeLV epidemiology from a key researcher in the field."
+  # V2 enhanced fields
+  study_design: "评论/增刊文章（1971 年 JAVMA），Schneider R 关于 FeLV 流行病学意义的早期观点"
+  core_argument: "FeLV 发现后早期对其流行病学意义的学术评论——来自 Alameda County 肿瘤登记研究的关键研究者——代表 FeLV 研究早期的专家视角"
+  implicit_premise: "假设 1971 年的 FeLV 流行病学理解仍有历史参考价值；假设 Schneider 的 Alameda 登记背景为评论提供可信度"
+  unexpected_finding: "无摘要可用——这种历史文献格式反映了 1970 年代学术出版规范——全文需要获取才能确定具体发现"
+  title_gap: "标题说 FeLV 的流行病学意义评论，但真正价值是历史背景：来自 FeLV 发现早期的专家视角——可为理解后续 FeLV 测试/疫苗研究的演变提供基线"
+  evidence_boundary: "无摘要的历史评论；仅支持历史背景价值，不支持任何当代流行病学声明；全文需要获取才能提取具体内容"
 ---
 
 # Comments on epidemiologic implications of feline leukemia virus

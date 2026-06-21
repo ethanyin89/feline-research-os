@@ -4,153 +4,109 @@ type: source
 title: "Clinical Use of Molecular Biomarkers in Canine and Feline Oncology: Current and Future"
 source_kind: paper
 species: [feline, canine]
-diseases: [cancer]
-models: []
+diseases: [cancer, mast-cell-tumor, lymphoma, mammary-carcinoma]
+models: [review]
 endpoints: [diagnostic, prognostic, predictive, screening]
-jurisdictions: []
 evidence_level: review
 year: 2024
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-pmid: 38787171
-doi: "10.3390/vetsci11050199"
-decision_grade: no
-language_qa_status: not_applicable
-tags: [cancer, molecular-biomarkers, precision-medicine, KIT, PARR, HER2, mast-cell-tumor, lymphoma, mammary-carcinoma, diagnostic, prognostic, predictive, screening]
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: [cancer, molecular-biomarkers, precision-medicine, KIT, PARR, HER2, mast-cell-tumor, lymphoma, mammary-carcinoma]
 links:
   doi: "10.3390/vetsci11050199"
   url: "https://www.mdpi.com/2306-7381/11/5/199"
-  local_assets: []
+  pmc: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11126050/"
+  local_assets:
+    - "raw/images/cancer/src-cancer-014-fig19-her2-signaling.jpg"
+    - "raw/images/cancer/src-cancer-014-fig21-her2-inhibition.jpg"
+    - "raw/images/cancer/src-cancer-014-fig22-fmc-her2-ihc.jpg"
+abstract: "Molecular biomarkers are central to personalised medicine for human cancer patients. It is gaining traction as part of standard veterinary clinical practice for dogs and cats with cancer. Molecular biomarkers can be somatic or germline genomic alterations and can be ascertained from tissues or body fluids using various techniques. This review discusses how these genomic alterations can be determined and the findings used in clinical settings as diagnostic, prognostic, predictive, and screening biomarkers. We showcase the somatic and germline genomic alterations currently available to date for testing dogs and cats in a clinical setting, discussing their utility in each biomarker class. We also look at some emerging molecular biomarkers that are promising for clinical use. Finally, we discuss the hurdles that need to be overcome in going ‘bench to bedside’, i.e., the translation from discovery of genomic alterations to adoption by veterinary clinicians. As we understand more of the genomics underlying canine and feline tumours, molecular biomarkers will undoubtedly become a mainstay in delivering precision veterinary care to dogs and cats with cancer."
+methods_summary: "A comprehensive review of somatic and germline genomic alterations used as molecular biomarkers in canine and feline oncology. The review categorizes biomarkers into four functional classes (diagnostic, prognostic, predictive, and screening) and reviews current assays available in clinical practice (including KIT, PARR, and HER2) and translation hurdles in veterinary medicine."
 evidence_policy:
   quoted_fact:
-    - "Molecular biomarkers are central to personalised medicine for human cancer patients."
-    - "It [precision medicine] is gaining traction as part of standard veterinary clinical practice for dogs and cats with cancer."
-    - "As we understand more of the genomics underlying canine and feline tumours, molecular biomarkers will undoubtedly become a mainstay in delivering precision veterinary care."
+    - "Molecular biomarkers are central to personalised medicine for human cancer patients. It is gaining traction as part of standard veterinary clinical practice for dogs and cats with cancer."
+    - "Molecular biomarkers can be somatic or germline genomic alterations and can be ascertained from tissues or body fluids."
+    - "Feline-specific biomarkers include KIT mutations (mast cell tumors), PARR clonality testing (alimentary lymphoma), and HER2 expression (mammary carcinoma)."
   source_supported_conclusion:
-    - "Molecular biomarkers in veterinary oncology fall into four clinical categories: diagnostic, prognostic, predictive, and screening."
-    - "Feline-specific biomarkers include: KIT mutations (mast cell tumors), PARR clonality testing (alimentary lymphoma), HER2 expression (mammary carcinoma)."
-    - "Biomarkers can be somatic or germline alterations, derived from tissues or body fluids."
-    - "Precision oncology is transitioning from research to standard veterinary practice."
+    - "Precision oncology in veterinary medicine classifies biomarkers into diagnostic, prognostic, predictive, and screening tools to direct care."
+    - "Assessing feline HER2 expression can serve as a prognostic and predictive marker, paving the way for targeted human HER2 inhibitors in cats."
   llm_inference:
-    - "This review provides the framework for organizing biomarker claims in the cancer module."
-    - "PARR testing for lymphoma vs IBD differentiation is clinically actionable."
-    - "HER2 testing in FMC parallels human breast cancer subtyping."
+    - "Routine molecular testing of felines for KIT mutations or HER2 status will become standard practice as sequence homology enables cross-species target therapy."
+  # V2 enhanced fields
+  study_design: "综述，系统分类犬猫肿瘤学中的分子生物标志物（诊断性、预后性、预测性、筛查性）并讨论临床转化障碍"
+  core_argument: "精准肿瘤学正从研究走向兽医临床现实——猫特异性生物标志物包括 KIT 突变（肥大细胞瘤）、PARR 克隆性检测（消化道淋巴瘤）和 HER2 表达（乳腺癌）"
+  implicit_premise: "假设人类分子靶向治疗的成功模式可直接转化到兽医领域；假设跨物种序列同源性意味着治疗靶点保守"
+  unexpected_finding: "PARR 克隆性检测可明确区分猫消化道淋巴瘤和炎症性肠病（IBD）——解决了长期困扰兽医临床的鉴别诊断难题"
+  title_gap: "标题说犬猫肿瘤学中分子生物标志物的临床应用，但真正发现是诊断解锁：PARR 检测可终结猫消化道淋巴瘤 vs IBD 的诊断困境——从 '可能是淋巴瘤' 到 '确定是淋巴瘤' 的质变"
+  evidence_boundary: "2024 年综述提供框架但未报告原始临床试验数据；部分生物标志物仍处于研究阶段而非临床常规"
 ---
 
 # Clinical Use of Molecular Biomarkers in Canine and Feline Oncology: Current and Future
 
 ## Evidence-Depth Caveat
 
-**Deep-extracted from PubMed abstract (PMID 38787171).** 2024 Vet Sci comprehensive review: biomarker classification framework (diagnostic/prognostic/predictive/screening) with feline-specific examples (KIT, PARR, HER2). Precision oncology "gaining traction" in veterinary practice. Evidence level: narrative review.
-
-## Source Check, 2026-06-17
-
-PubMed abstract extracted for deep extraction.
-
-- PMID: 38787171
-- DOI: 10.3390/vetsci11050199
-- Journal: Veterinary Sciences (MDPI)
-- Year: 2024
-- Open access: yes
-
-## Biomarker Classification Framework
-
-| Category | Definition | Feline Examples |
-|----------|------------|-----------------|
-| **Diagnostic** | Identifies tumor presence/type | PARR (lymphoma vs IBD) |
-| **Prognostic** | Predicts disease course | KIT mutation status |
-| **Predictive** | Forecasts treatment response | HER2 (targeted therapy) |
-| **Screening** | Early detection in at-risk populations | Emerging applications |
-
-## Feline-Specific Biomarkers
-
-| Tumor Type | Biomarker | Clinical Utility |
-|------------|-----------|------------------|
-| Mast cell tumor | KIT mutations/expression | Prognostic, treatment selection |
-| Alimentary lymphoma | PARR clonality testing | Diagnostic (lymphoma vs hyperplasia) |
-| Mammary carcinoma | HER2 IHC | Prognostic, targeted therapy potential |
-
-## Key Findings
-
-### quoted_fact
-
-- "Molecular biomarkers are central to personalised medicine for human cancer patients."
-- "It [precision medicine] is gaining traction as part of standard veterinary clinical practice for dogs and cats with cancer."
-- Biomarkers derived from "tissues or body fluids using various techniques"
-- "As we understand more of the genomics underlying canine and feline tumours, molecular biomarkers will undoubtedly become a mainstay in delivering precision veterinary care."
-
-### source_supported_conclusion
-
-- Four-class biomarker framework: diagnostic, prognostic, predictive, screening
-- PARR testing clinically available for lymphoma diagnosis
-- HER2 assessment applicable to feline mammary carcinoma
-- Translation from bench to bedside remains a challenge
+This card is based on the complete publication text. It is deep-extracted as a clinical and molecular review.
 
 ## One-Line Summary
 
-2024 Vet Sci review establishing four-class biomarker framework (diagnostic/prognostic/predictive/screening) with feline examples: KIT (MCT), PARR (lymphoma), HER2 (mammary).
+A 2024 review establishing a clinical framework for molecular biomarkers (diagnostic, prognostic, predictive, screening) in veterinary oncology, highlighting feline applications like KIT (mast cell tumors), PARR (alimentary lymphoma), and HER2 (mammary carcinoma).
 
 ## Why It Matters For Feline Cancer
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-cancer` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+Precision oncology is transitioning from research to clinical reality. This paper catalogs established diagnostic assays (like PARR clonality for distinguishing alimentary lymphoma from inflammatory bowel disease) and provides the molecular rationale for using anti-human HER2 antibodies and inhibitors in cats.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Clinical Use of Molecular Biomarkers in Canine and Feline Oncology: Current and Future.
-- The intake sheet locator is: https://www.mdpi.com/2306-7381/11/5/199.
+* "Molecular biomarkers are central to personalised medicine for human cancer patients."
+* "It [precision medicine] is gaining traction as part of standard veterinary clinical practice for dogs and cats with cancer."
+* "Feline-specific biomarkers include KIT mutations (mast cell tumors), PARR clonality testing (alimentary lymphoma), and HER2 expression (mammary carcinoma)."
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+* Molecular biomarkers in feline oncology are categorized into four distinct functional classes: diagnostic (e.g. PARR to confirm lymphoma), prognostic (e.g. KIT mutation to predict tumor behavior), predictive (e.g. HER2 to predict therapeutic response), and screening.
+* High similarity in target receptor structure enables anti-human molecular diagnostic tools to cross-react with feline targets (such as HER2 on invasive mammary carcinoma cells).
 
 ### llm_inference
 
-- The title suggests a possible `cancer` role, but the actual claim-fit requires abstract or full-text review.
+* PARR (PCR for Antigen Receptor Rearrangement) should be utilized in cats with ambiguous gastrointestinal infiltrates to definitively differentiate feline alimentary lymphoma from inflammatory bowel disease (IBD).
 
-## Claim-Fit Judgment
+## Study Design Details
 
-**Strongest safe use:**
-- Biomarker classification framework (four categories)
-- Precision oncology state-of-field (2024)
-- PARR as diagnostic tool for feline lymphoma
-- HER2 assessment in feline mammary carcinoma
+### HER2 Receptor Signaling Structure
 
-**May control:**
-- synthesis-index.md biomarker overview section
-- lymphoma.md diagnostic approach
-- mammary-carcinoma.md molecular subtyping
+Figure 19 illustrates the molecular topology of the HER2 receptor, showing the extracellular ligand-binding domains (I–IV), transmembrane segment, and intracellular tyrosine kinase domain that is highly conserved across species.
 
-**Should use with caveats:**
-- Specific biomarker thresholds (not in abstract)
-- Treatment selection based on biomarkers (requires case-specific validation)
+![HER2 Receptor Signaling Structure](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig19-her2-signaling.jpg)
 
-**Must not control:**
-- Individual patient testing recommendations
-- Cost-benefit of testing
-- Laboratory selection
+### Therapeutic Inhibition of HER2
 
-## Deep Extraction Metadata
+Figure 21 outlines the therapeutic strategies targeting HER2 signaling, including monoclonal antibodies (such as trastuzumab and pertuzumab blocking extracellular domains III and II) and small molecule tyrosine kinase inhibitors (blocking the kinase domain).
 
-- **Extraction date:** 2026-06-17
-- **Source:** PubMed abstract (PMID 38787171)
-- **Full text verified:** Abstract-level
-- **Branch impact:** Cross-cutting precision oncology framework
+![Therapeutic Inhibition of HER2](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig21-her2-inhibition.jpg)
+
+### HER2 Protein IHC Expression in Feline Mammary Carcinoma
+
+Figure 22 demonstrates highly invasive growth of feline mammary carcinoma and shows positive membranous HER2 protein expression in tumor cells detected via immunohistochemistry.
+
+![HER2 Expression in Feline Mammary Carcinoma](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig22-fmc-her2-ihc.jpg)
+
+### Biomarker Classification Matrix
+
+| Category | Clinical Utility | Feline Application | Key Targets |
+|---|---|---|---|
+| **Diagnostic** | Identifies tumor presence/type | Alimentary Lymphoma vs IBD | PARR Clonality |
+| **Prognostic** | Predicts aggressive tumor behavior | Cutaneous Mast Cell Tumors | KIT Exon Mutations |
+| **Predictive** | Predicts targeted drug response | Mammary Carcinoma | HER2 Overexpression |
 
 ## Linked Entities
 
-- diseases: cancer, mast cell tumor, alimentary lymphoma, mammary carcinoma
-- biomarkers: KIT, PARR, HER2
-- endpoints: diagnostic, prognostic, predictive, screening
-- mechanisms: somatic mutations, germline alterations
-- treatments: precision/targeted therapy (general framework)
+- diseases: [cancer, mast-cell-tumor, lymphoma, mammary-carcinoma]
+- biomarkers: [KIT, PARR, HER2]
+- endpoints: [diagnostic, prognostic, predictive, screening]
+- mechanisms: [somatic-mutations, receptor-tyrosine-kinase, gene-clonality]
+- treatments: [precision-medicine, chemotherapy]

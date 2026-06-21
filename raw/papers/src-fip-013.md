@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - This paper will likely matter most once the treatment branch starts differentiating initial response from post-treatment durability.
     - The paper is best used as a selected remission-cohort durability anchor, not a whole-branch success estimate.
+  # V2 enhanced fields
+  study_design: "病例系列，18 只口服 GS-441524 治疗后完全缓解猫的长期随访（最长 1 年）"
+  core_argument: "完全缓解后的猫在 1 年随访中保持稳定——实验室参数稳定，血液病毒载量大多检测不到，无确认复发"
+  implicit_premise: "假设选定的缓解队列可以代表成功轨迹；假设无确认复发不等于无需监测"
+  unexpected_finding: "尽管缓解持久，部分猫仍出现复发性粪便脱落、短暂抗体升高和轻微延迟神经症状——持久缓解不等于「无需监测」"
+  title_gap: "标题说完全缓解后长期随访，但真正发现是残余复杂性：无确认复发但部分猫仍有粪便脱落、抗体升高和延迟神经症状——「持久缓解」需要伴随「持续监测」理解"
+  evidence_boundary: "缓解队列聚焦，不是整体治疗成功率；不能作为普遍治愈语言使用"
 ---
 
 # One-line Summary

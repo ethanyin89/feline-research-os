@@ -42,6 +42,13 @@ evidence_policy:
   llm_inference:
     - "Pamidronate may have a role in OSCC palliative care given the survival data, but larger studies needed."
     - "NSAID concurrent use should be approached with caution given azotemia reports."
+  # V2 enhanced fields
+  study_design: "回顾性先导研究 + 体外实验（2014 年 Vet Med Int），8 只骨侵袭性肿瘤猫，帕米膦酸钠 1-2 mg/kg IV q21-28d"
+  core_argument: "帕米膦酸钠在猫骨侵袭性肿瘤中姑息治疗可行——体外抑制猫癌细胞增殖——8 只猫无直接归因于药物的急性毒性——口腔 SCC 亚组中位 OS 170 天（优于全部肿瘤的 116.5 天）"
+  implicit_premise: "假设人类和犬的双膦酸盐抗肿瘤机制可转移到猫；假设小规模先导研究的安全性信号可扩展到更大群体"
+  unexpected_finding: "3 只猫发生氮质血症但同时使用 NSAIDs——双膦酸盐-NSAID 相互作用或累加肾毒性需要警惕——这限制了广泛的姑息联合用药"
+  title_gap: "标题说猫骨侵袭性肿瘤的帕米膦酸钠姑息治疗，但真正发现是可行性验证：8 只猫的先导研究仅支持可行性而非疗效——口腔 SCC 亚组显示更好生存但样本量太小无法得出结论"
+  evidence_boundary: "小规模回顾性先导研究，混合肿瘤类型和并发治疗；仅支持可行性背景，不支持治疗推荐或方案选择"
 ---
 
 # Pamidronate Disodium for Palliative Therapy of Feline Bone-Invasive Tumors

@@ -27,6 +27,11 @@ evidence_policy:
     - This source belongs in the breed-structure branch of FIP risk architecture.
   llm_inference:
     - This paper may help keep breed effects from being overgeneralized into universal risk claims.
+  # V2 enhanced fields
+  study_design: "原始研究，研究特定猫品种的 FIP 患病率"
+  core_argument: "品种可以塑造 FIP 验前怀疑和群体水平风险建模——但品种患病率不诊断个体猫的 FIP"
+  implicit_premise: "假设品种是群体结构证据而非简单单基因因果声明；假设品种富集可能受繁殖实践、多猫环境或转诊行为混淆"
+  evidence_boundary: "流行病学信号，不证明遗传因果关系；不能作为个体猫的诊断证据"
 ---
 
 # One-line Summary

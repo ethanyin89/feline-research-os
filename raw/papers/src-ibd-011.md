@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports epithelial COX-2 as a shared inflammatory or reparative signal rather than a clean separator between IBD and lymphoma.
   llm_inference:
     - This paper is best modeled as a shared tissue-response marker page, not as a decisive boundary marker.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，共纳入20只经过筛选的患有炎症性肠病（11只）及低级别消化道淋巴瘤（9只）的猫，采用免疫组化方法检测肠上皮和固有层中的环氧合酶-2（COX-2）表达情况"
+  core_argument: "肠上皮中的COX-2免疫表达在患有IBD和低级别消化道淋巴瘤的猫中显著高于健康对照猫，但其表达水平不足以区分这两种疾病"
+  implicit_premise: "肠道上皮COX-2表达反映的是炎症或组织修复的共同信号，而非专门用于区分IBD和低级别消化道淋巴瘤的特异性生物标志物"
+  title_gap: "标题强调了IBD与低级别消化道淋巴瘤肠组织中COX-2的免疫表达差异，但实际发现是两者之间的上皮COX-2表达相似，表明其更多反映炎症和修复过程，而非鉴别诊断"
+  evidence_boundary: "本研究未评估COX-2表达随疾病进展的动态变化，也未探讨COX-2抑制剂治疗对IBD或淋巴瘤临床表现的影响"
+  unexpected_finding: "在肠固有层中，COX-2的表达在健康猫和病猫之间无显著差异，提示固有层COX-2并非疾病状态下的关键指标"
 ---
 
 # One-line Summary

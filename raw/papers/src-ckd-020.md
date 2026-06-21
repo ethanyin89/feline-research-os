@@ -34,6 +34,13 @@ evidence_policy:
     - Diffuse renal disease remains harder to characterize ultrasonographically than focal disease, which limits overpromotion of ultrasound in CKD staging logic.
   llm_inference:
     - The vault should now treat ultrasound as a bounded `workup realism` branch: important for structural context and renal differential assessment, but below core biochemical/hemodynamic endpoints in default CKD summaries.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫肾超声检查的技术、解剖和疾病相关变化"
+  core_argument: "超声是猫肾脏评估的参考成像方式——但弥漫性变化比局灶性病变更难表征，限制了超声在 CKD 分期逻辑中的过度推广"
+  implicit_premise: "假设实用性和结构信息使超声有价值，但不能取代核心生化和血流动力学终点"
+  unexpected_finding: "B 模式超声在区分良性和恶性局灶性病变方面有限——成像优势有边界"
+  title_gap: "标题说肾脏超声检查，但真正发现是技术边界：弥漫性变化比局灶性病变更难表征——超声提供结构背景但不能取代核心生化终点"
+  evidence_boundary: "综述跨越肾脏疾病广泛，非仅 CKD；工作流完整性强于终点提升"
 ---
 
 # Ultrasonography of the feline kidney: Technique, anatomy and changes associated with disease

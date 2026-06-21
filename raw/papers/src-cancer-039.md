@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述（2021 年 Vet Clin NA Small Animal Practice），犬猫癌症、恶病质、衰弱和肌少症的营养管理"
+  core_argument: "恶病质和肌少症由炎症驱动，导致瘦肌肉丧失——蛋白质、脂肪、omega-3 脂肪酸和特定维生素的饮食调整显示获益——但具体方案需要更多研究"
+  implicit_premise: "假设人类恶病质营养干预原则可应用于伴侣动物；假设炎症是主要可修改的病因驱动因素"
+  unexpected_finding: "恶病质和衰弱是营养不良和衰老的相互关联组成部分——瘦肌肉丧失是统一特征——这种概念整合超出传统'癌症厌食'框架"
+  title_gap: "标题说犬猫癌症、恶病质、衰弱和肌少症的营养关注，但真正限制是证据空白：进一步研究对循证推荐至关重要——综述提供概念框架而非具体喂养方案"
+  evidence_boundary: "概念综述而非具体喂养方案；未提供热量目标或补充剂剂量；猫特异性证据有限"
 ---
 
 # Nutritional Concerns for Cancer, Cachexia, Frailty, and Sarcopenia in Canine and Feline Pets

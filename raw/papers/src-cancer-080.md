@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Novel targeted therapy approach for FOSCC."
     - "Supports oral-squamous-cell-carcinoma.md investigational therapy section."
+  # V2 enhanced fields
+  study_design: "临床前研究（2020 年 Vet Comp Oncol），MCT1/MCT4 双重抑制剂 MD-1 在猫 OSCC 细胞系、异种移植和原位模型中的评估"
+  core_argument: "MCT1/MCT4 双重抑制剂 MD-1 在猫 OSCC 中显示临床前疗效——体外降低活力、改变代谢、与铂类协同——体内抑制异种移植生长并延长原位模型生存——猫 OSCC 是人类 HNSCC MCT 抑制剂开发的有效大动物模型"
+  implicit_premise: "假设体外/异种移植疗效可转化为临床获益；假设 MCT 靶向在猫体内与模型中类似有效"
+  unexpected_finding: "MD-1 未改变猫 OSCC 细胞中的乳酸水平——这表明 MCT 非依赖性活性——机制比单纯 MCT 抑制更复杂"
+  title_gap: "标题说新型 MCT1/MCT4 双重抑制剂降低线粒体代谢并抑制猫 OSCC 肿瘤生长，但真正发现是双重的：1）临床前疗效信号强；2）机制部分 MCT 非依赖性——需要进一步研究"
+  evidence_boundary: "临床前证据（细胞系、异种移植、原位模型）；支持研究性治疗背景和比较肿瘤学模型价值，不支持临床治疗推荐"
 ---
 
 # A novel MCT1 and MCT4 dual inhibitor reduces mitochondrial metabolism and inhibits tumour growth of feline oral squamous cell carcinoma

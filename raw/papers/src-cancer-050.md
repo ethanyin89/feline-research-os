@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（1989 年 Anticancer Research），FMC 阿霉素敏感性体外（肿瘤岛）vs 体内（30 mg/m² × 5 IV）比较"
+  core_argument: "体外阿霉素敏感性可预测体内反应——最佳敏感性 100% 在 2.00 µg/ml——复发肿瘤显示获得性耐药——验证 FMC 作为比较肿瘤学药物模型"
+  implicit_premise: "假设 1989 年的阿霉素剂量方案仍有参考价值；假设体外肿瘤岛敏感性可预测临床反应"
+  unexpected_finding: "治疗后复发的肿瘤在体外显示获得性耐药——这证明化疗耐药可在治疗过程中发展——而非全部是固有特征"
+  title_gap: "标题说 FMC 作为人类乳腺癌模型的阿霉素敏感性比较，但真正发现是耐药动态：复发肿瘤的获得性耐药提示需要持续监测敏感性而非假设持续反应"
+  evidence_boundary: "历史性模型和药物敏感性证据；不建立现代化疗方案或猫的预期临床获益"
 ---
 
 # Feline mammary carcinomas as a model for human breast cancer. II. Comparison of in vivo and in vitro adriamycin sensitivity

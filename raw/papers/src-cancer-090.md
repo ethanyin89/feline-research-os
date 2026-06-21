@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "Supports mammary-carcinoma.md molecular pathway claims."
     - "Feline model valid for human breast cancer AKT pathway research."
+  # V2 enhanced fields
+  study_design: "回顾性队列研究（2012 年 Vet J），39 只猫的 27 例恶性 + 12 例良性乳腺肿瘤，24 个月随访，p-AKT/HER2/PTEN 表达分析"
+  core_argument: "p-AKT 激活是 FMC 的新预后因素——与恶性程度、组织学去分化、临床复发相关——p-AKT+ 肿瘤的无病期更短——AKT 激活与 HER2 表达和 PTEN 下调相关——猫 AKT 与人 AKT 高度同源"
+  implicit_premise: "假设 PI3K/AKT/PTEN 通路在 FMC 中的失调模式与人类乳腺癌相似；假设免疫组化检测的 p-AKT 可代表通路功能活性"
+  unexpected_finding: "AKT 激活与 ERα 或 PR 表达无关——暗示 FMC 中 AKT 通路激活是激素非依赖性机制——与人类激素非依赖性乳腺癌亚型一致"
+  title_gap: "标题说 AKT 激活是 FMC 的新预后因素，但真正发现是机制整合：p-AKT-HER2-PTEN 轴共同失调——与人类乳腺癌分子亚型一致——支持 FMC 作为人类乳腺癌研究模型的有效性"
+  evidence_boundary: "回顾性队列证据（n=39 猫）；支持 AKT 预后标记物声明和比较肿瘤学框架，不直接支持 PI3K 抑制剂治疗推荐——治疗意义是推论"
 ---
 
 # Activation of AKT in feline mammary carcinoma: A new prognostic factor for feline mammary tumours

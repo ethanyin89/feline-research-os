@@ -44,6 +44,13 @@ evidence_policy:
     - "The rarity (3 cases in 3 years) limits generalizability but establishes the entity exists."
     - "Steroid receptor positivity (ER+/PR+/AR+) contrasts with typically ER-negative human IBC."
     - "Secondary/postsurgical presentation suggests surgical manipulation may trigger IMC in cats."
+  # V2 enhanced fields
+  study_design: "病例系列（2004 年 Breast Cancer Research），3 年内发现的 3 例猫炎性乳腺癌，临床病理和免疫组化分析"
+  core_argument: "这是猫炎性乳腺癌（IMC）的首次描述——所有 3 例均为继发性/术后 IMC——生存期仅 10-45 天——猫 IMC 可作为人类炎性乳腺癌的动物模型"
+  implicit_premise: "假设 3 例病例足以确立该实体的存在；假设猫 IMC 与犬和人类 IMC 具有可比性"
+  unexpected_finding: "所有 3 例均为继发性/术后 IMC（而非原发性）——与犬 IMC（原发性和继发性均有）不同——这提示手术操作可能在猫中触发 IMC"
+  title_gap: "标题说猫 IMC 的首次描述，但真正发现是受体悖论：所有肿瘤均为 ER+/PR+/AR+——与典型的 ER 阴性人类 IBC 形成对比——这可能限制猫 IMC 作为人类 IBC 模型的适用性"
+  evidence_boundary: "3 例病例的极小样本；可支持罕见侵袭性表型和模型背景声明，但不能用于流行率、预后范围或管理建议"
 ---
 
 # First description of feline inflammatory mammary carcinoma: clinicopathological and immunohistochemical characteristics of three cases

@@ -37,6 +37,13 @@ evidence_policy:
   llm_inference:
     - This is one of the strongest early deep-extraction targets after the broad review anchor.
     - The safer current compiled move is `keep genetics first-class, keep variant compression bounded`.
+  # V2 enhanced fields
+  study_design: "综述，专门讨论猫肥厚型心肌病的遗传学（2020 年）"
+  core_argument: "猫 HCM 在表型上与人类 HCM 高度相似，但猫的遗传研究局限于少数肌节基因——已知变异在健康猫中的高流行率阻碍了致病性判定"
+  implicit_premise: "假设人-猫表型相似性可以支持比较病理生理学；假设已知变异的流行率问题是系统性的而非偶然"
+  unexpected_finding: "报告的变异在未受影响猫中的高流行率——这阻止了简单的「变异阳性=疾病」诊断逻辑"
+  title_gap: "标题说遗传学，但真正发现是基因检测的局限：已知变异在健康猫中流行率也高——'变异阳性≠疾病'阻止了简单的遗传筛查逻辑"
+  evidence_boundary: "不提供变异级别的致病性层级；品种相关变异解读应保持谨慎；不能用于临床遗传咨询的具体建议"
 ---
 
 # One-line Summary

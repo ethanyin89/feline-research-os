@@ -47,6 +47,13 @@ evidence_policy:
   llm_inference:
     - The vault should separate `routine diagnostic core` from `early-detection support tools`, with SDMA and GFR in the second bucket.
     - Treatment pages should keep phosphorus control close to renal diet rather than burying it among generic adjunct therapies.
+  # V2 enhanced fields
+  study_design: "专家共识指南（ISFM），基于系统性文献回顾和专家讨论，涵盖诊断、分期、监测和治疗全流程"
+  core_argument: "猫 CKD 是需要终身定期复查的进行性疾病，诊断应基于持续存在的肾功能下降（肌酐 >140 µmol/l + 尿比重 <1.035），而非单次检测"
+  implicit_premise: "假设 IRIS 分期系统和人工测量的肌酐/尿比重阈值能够准确反映猫的实际肾功能状态；假设专家共识能够弥合证据不足领域的诊疗规范"
+  unexpected_finding: "SDMA 虽然比肌酐更早检测到 CKD，但指南明确拒绝将其作为单独筛查工具——这与 SDMA 上市后的临床推广形成对比"
+  title_gap: "标题说诊断和管理指南，但真正发现是 SDMA 的证据边界：指南明确拒绝 SDMA 作为单独筛查工具——这与商业推广叙事形成对比"
+  evidence_boundary: "指南层面的建议而非原始研究证据；不能回答具体临床场景下的个体化治疗选择；不同并发症（高血压、蛋白尿、贫血）的处理优先级证据等级参差不齐"
 ---
 
 # ISFM Consensus Guidelines on the Diagnosis and Management of Feline Chronic Kidney Disease

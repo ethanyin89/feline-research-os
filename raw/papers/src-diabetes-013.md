@@ -34,6 +34,13 @@ evidence_policy:
     - "Difficult control, high insulin requirement, non-remission, or unexpected treatment response should route to endocrine-secondary thinking."
   llm_inference:
     - "This is a high-priority full-text target if later outputs need screening triggers, prevalence estimates, or treatment algorithms."
+  # V2 enhanced fields
+  study_design: "综述性文献回顾，涵盖多篇关于猫糖尿病及相关内分泌疾病的研究，主要方法为整合现有文献中的临床表现、诊断与治疗信息"
+  core_argument: "大多数糖尿病猫符合2型糖尿病类似的假设，但存在显著比例的糖尿病猫因内分泌疾病如高生长激素症、肢端肥大症和高皮质醇症导致继发性糖尿病，需要专门识别和管理"
+  implicit_premise: "糖尿病在猫中并非单一病理过程，而是包含多种病因，尤其内分泌病变在病理机制和治疗反应中具有决定性作用"
+  title_gap: "标题强调了三种内分泌疾病与猫糖尿病的关系，但真正揭示的是这些内分泌疾病构成了糖尿病异质性的重要分支，影响诊断和治疗策略——不仅仅是共病关系"
+  evidence_boundary: "本文未详细解析各内分泌疾病的具体分子机制与猫糖尿病的直接因果关系，也未提供新发病例的原始数据支持"
+  unexpected_finding: "尽管大部分猫糖尿病被归类为2型类似，其实有相当一部分病例属于继发性内分泌糖尿病，提示临床上需重视这些不同病因的鉴别"
 ---
 
 # Hypersomatotropism, Acromegaly, and Hyperadrenocorticism and Feline Diabetes Mellitus

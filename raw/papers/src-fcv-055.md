@@ -31,6 +31,13 @@ evidence_policy:
     - "FCV prevalence in FCGS cats is 2.5x that of controls."
   llm_inference:
     - "FCV testing indicated in cats with chronic gingivostomatitis."
+  # V2 enhanced fields
+  study_design: "横断面流行病学研究，纳入62只带有牙齿破坏性吸收病变（FORL）和慢性牙龈口腔炎（FCGS）的猫，以及对照组猫，采用RT-PCR检测猫杯状病毒（FCV）感染率"
+  core_argument: "慢性牙龈口腔炎猫的猫杯状病毒感染率显著高于对照组，而牙齿破坏性吸收病变猫与杯状病毒感染无相关性"
+  implicit_premise: "RT-PCR检测结果准确反映猫体内猫杯状病毒的实际感染状态"
+  title_gap: "标题强调猫杯状病毒在牙齿破坏性吸收病变及慢性牙龈口腔炎猫中的流行率，但研究发现杯状病毒仅与慢性牙龈口腔炎显著相关，而与牙齿破坏性吸收病变无关，揭示了病因的差异性"
+  evidence_boundary: "未评估猫杯状病毒感染对疾病严重程度的影响，亦未确定其他病毒或细菌在FORL和FCGS中的作用机制"
+  unexpected_finding: "虽然常认为猫杯状病毒可能与牙齿破坏性吸收病变相关，但本研究发现其感染率在FORL猫中并未高于对照组"
 ---
 
 # FCV Prevalence in FORL and Chronic Gingivostomatitis

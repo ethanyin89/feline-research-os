@@ -36,6 +36,13 @@ evidence_policy:
     - "This source should support a treatment branch, not a final insulin hierarchy."
   llm_inference:
     - "This is a high-priority full-text target if later outputs need insulin protocol details, dose-adjustment rules, or durability claims."
+  # V2 enhanced fields
+  study_design: "前瞻性临床试验，13 只由客户拥有的糖尿病猫，排除疑似生长激素过多症猫，使用每日两次胰岛素格拉欣300 U/ml治疗并配合低碳水化合物饮食"
+  core_argument: "胰岛素格拉欣300 U/ml在短期内对猫糖尿病具有潜在疗效，但生长激素过多症会显著影响胰岛素治疗效果的评估"
+  implicit_premise: "该研究假设排除疑似生长激素过多症的猫后，剩余糖尿病猫的胰岛素反应可以准确反映胰岛素格拉欣300 U/ml的疗效"
+  title_gap: "标题表明针对猫糖尿病的胰岛素格拉欣300 U/ml治疗，但研究揭示了生长激素过多症的影响可能导致疗效评估偏差——强调需谨慎解读"
+  evidence_boundary: "未比较胰岛素格拉欣300 U/ml与其他胰岛素制剂的疗效差异，也未评估长期治疗安全性和疗效"
+  unexpected_finding: "尽管多次血糖曲线出现生化性低血糖，但未观察到相关临床低血糖症状"
 ---
 
 # Insulin glargine 300 U/ml for the treatment of feline diabetes mellitus

@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - It may be useful for historical branch comparison rather than first anchor priority.
     - Mechanism and synthesis pages should use this source for time-depth rather than for modern hierarchy leadership.
+  # V2 enhanced fields
+  study_design: "综述，涵盖病因、流行病学、病理生理和治疗（2010 年）"
+  core_argument: "猫 HCM 在形态学上定义为非扩张型心室的肥厚，是猫最常见的心脏病——但尽管在病因、临床表现和分布上有所进展，机制理解仍不完整"
+  implicit_premise: "假设 2010 年的治疗和生物标志物假设在当时的证据背景下合理；假设形态学定义足以作为诊断锚点"
+  unexpected_finding: "尽管多年研究，论文明确强调「仍有大量未知」——这提示 HCM 的病因学和最佳治疗至今未有定论"
+  title_gap: "标题说'更新'，但真正价值是历史锚点：2010 年的治疗和生物标志物假设可能已过时——对比现代文献可以看到 15 年间的认知变化"
+  evidence_boundary: "2010 年综述，早于现代 sarcomere 基因学深度和 NT-proBNP 使用案例分离；治疗建议可能反映过时假设"
 ---
 
 # One-line Summary

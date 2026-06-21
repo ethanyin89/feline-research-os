@@ -29,6 +29,12 @@ evidence_policy:
     - "Use it below feline-only anchors when writing feline-specific conclusions."
   llm_inference:
     - "The source is useful for branch discovery and management vocabulary, not for final feline-only prevalence or treatment ranking."
+  # V2 enhanced fields
+  study_design: "综述性研究，涵盖犬猫肥胖的病理生理学、流行病学及临床管理，基于已有文献汇总分析"
+  core_argument: "犬猫肥胖作为跨物种的临床管理问题，其病理机制和流行特点具有相似性，但具体治疗策略需结合各自物种特性制定"
+  implicit_premise: "肥胖的病理生理学和流行病学特征在犬猫之间存在可比性，且相关文献支持跨物种比较的有效性"
+  title_gap: "标题表明关注犬猫肥胖的综述，但实际深入探讨了跨物种管理策略的相互借鉴潜力——为不同物种肥胖管理提供新视角"
+  evidence_boundary: "未详细探讨任何单一物种内肥胖的分子机制及特异性治疗方法，缺乏专门针对猫科动物的独立临床研究数据"
 ---
 
 # Canine and feline obesity: a review of pathophysiology, epidemiology, and clinical management

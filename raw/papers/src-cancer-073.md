@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "Supports comparative oncology value of FOSCC model while noting species differences."
     - "Inflammation markers (COX-2, mPGES1) relevant for FOSCC pathogenesis."
+  # V2 enhanced fields
+  study_design: "比较肿瘤学研究（2024 年 Vet Comp Oncol），45 例 FOSCC vs 42 例 HOSCC，mPGES1 和 p16 免疫组化表达分析"
+  core_argument: "FOSCC 和 HOSCC 在 mPGES1/p16 表达模式上不同——p16（HPV 标记物）在 HOSCC 肿瘤细胞中更高——mPGES1 在 FOSCC 邻近上皮中更高——不同的表达模式可能反映不同的风险因素——FOSCC 可能更好地模拟 HPV 阴性 HOSCC"
+  implicit_premise: "假设免疫组化表达差异反映真正的生物学差异；假设 FOSCC 与 HPV 阴性 HOSCC 的相似性使其成为更好的模型"
+  unexpected_finding: "p16 在 FOSCC 中的因果作用尚未明确证实——而在 HOSCC 中 p16 是 HPV 感染的已建立标记物——这种物种差异限制了某些比较肿瘤学推论"
+  title_gap: "标题说 mPGES1 和 p16 在猫和人类 OSCC 中表达的比较肿瘤学方法，但真正发现是物种差异：FOSCC 和 HOSCC 有不同的表达模式——可能反映不同的病因学（FOSCC 非 HPV 驱动）"
+  evidence_boundary: "摘要级比较研究证据；支持比较肿瘤学模型讨论同时注意物种差异，不支持直接的治疗转化声明"
 ---
 
 # Expression of mPGES1 and p16 in feline and human oral squamous cell carcinoma: A comparative oncology approach

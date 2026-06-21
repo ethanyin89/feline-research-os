@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "Key review for lymphoma.md FeLV etiology section."
     - "Historical perspective on viral oncogenesis in cats."
+  # V2 enhanced fields
+  study_design: "综述文章（1982 年 Epidemiol Rev），FeLV 作为感染性癌症病因的全面综述，作者 Essex ME——FeLV/逆转录病毒研究先驱"
+  core_argument: "无法从可用信息确定——无 PubMed 摘要（1982 年论文）——但标题明确：猫白血病是一种自然发生的感染性起源癌症——这是病毒致癌的重要范例"
+  implicit_premise: "假设该综述总结了当时对 FeLV 流行病学、传播、致病机制和肿瘤发生的理解——具体假设需要全文确认"
+  unexpected_finding: "无法从可用信息确定——需要全文；但作为 1982 年的综述，可能包含疫苗接种时代前的流行病学数据——这对理解自然感染历史有价值"
+  title_gap: "标题说猫白血病是自然发生的感染性起源癌症，但真正价值是历史视角：Essex 是 FeLV 领域奠基人之一——这篇综述代表了 1982 年对病毒致癌的理解水平——为后续研究提供历史基准"
+  evidence_boundary: "无 PubMed 摘要的历史综述；仅支持 FeLV 病因学历史背景，不支持当代诊断或治疗声明；全文需要获取才能提取具体观点"
 ---
 
 # Feline leukemia: a naturally occurring cancer of infectious origin

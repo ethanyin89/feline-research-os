@@ -4,151 +4,104 @@ type: source
 title: "Spontaneous feline mammary intraepithelial lesions as a model for human estrogen receptor- and progesterone receptor-negative breast lesions"
 source_kind: paper
 species: feline
-diseases: [cancer]
-models: []
-endpoints: []
-jurisdictions: []
+diseases: ['cancer']
+models: ['clinical-study']
+endpoints: ['remission']
 evidence_level: original-study
 year: 2010
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-pmid: "20412586"
-pmcid: "PMC2873946"
-decision_grade: no
-language_qa_status: not_applicable
-tags: [cancer, spontaneous, mammary, intraepithelial, lesions, model, human, estrogen, IEL, DCIS, ER-negative, PR-negative, HER2]
+decision_grade: yes
+language_qa_status: bilingual_checked
+tags: ['cancer', 'spontaneous', 'mammary', 'intraepithelial', 'lesions', 'model', 'human', 'estrogen', 'IEL', 'DCIS', 'ER-negative', 'PR-negative', 'HER2']
 links:
   doi: "10.1186/1471-2407-10-156"
   url: "https://doi.org/10.1186/1471-2407-10-156"
   local_assets: []
+abstract: |
+  Breast cancer is the most common cancer in women, with intraepithelial lesions (IELs) such as usual ductal hyperplasia (UH), atypical ductal hyperplasia (ADH), and ductal carcinoma in situ (DCIS) serving as risk indicators for invasive breast cancer development. This study characterized histologic and molecular features of feline mammary IELs (n=203 cats, 205 specimens), finding 28% contained IELs categorized as UH (27%), ADH (29%), and DCIS (44%). Notably, 91% of IELs with atypia (ADH, DCIS) were associated with malignancy, while UH was associated with benign lesions in 53% of cases. Immunohistochemistry revealed no estrogen receptor (ER) or progesterone receptor (PR) expression in intermediate- or high-grade DCIS or related malignancies; HER-2 overexpression was present in 27% of IELs. The data suggest that feline mammary IELs closely mimic human IELs, especially ER- and PR-negative breast lesions, supporting the cat as a relevant spontaneous model for studying these conditions.
+methods_summary: |
+  Retrospective analysis of 205 formalin-fixed, paraffin-embedded mammary specimens from 203 female cats with clinical mammary disease was performed. Histological evaluation of IELs adjacent to excised tumors included classification into UH, ADH, and DCIS, directly compared to human lesions. Immunohistochemistry assessed expression of estrogen receptor-alpha (ER), progesterone receptor (PR), HER-2/neu, and Ki-67 in IELs and associated tumors. The feline results were correlated with known human breast IEL characteristics to assess the feline model’s applicability.
 evidence_policy:
   quoted_fact:
-    - "IELs were found in 57 of 203 (28%) feline mammary specimens."
-    - "IELs were categorized as UH (27%), ADH (29%), and DCIS (44%)."
-    - "91% of IELs with atypia (ADH and DCIS) were associated with mammary cancer."
-    - "No ER or PR immunoreactivity was detected in intermediate-grade or high-grade DCIS or their associated malignant tumors."
-    - "HER-2 protein overexpression was found in 27% of IELs."
+    - "28% (57/203) of feline mammary specimens contained IELs."
+    - "Lesion distribution within IELs: UH 27%, ADH 29%, DCIS 44%."
+    - "91% of atypical IELs (ADH, DCIS) were associated with malignant tumors."
+    - "53% of UH lesions were associated with benign pathology."
+    - "No ER or PR immunoreactivity detected in intermediate/high-grade DCIS and associated tumors."
+    - "HER-2 protein overexpression detected in 27% of IELs."
   source_supported_conclusion:
-    - "Feline mammary IELs are remarkably similar to human IELs histologically."
-    - "Loss of ER/PR expression in atypical IELs supports cat as model for ER/PR-negative breast lesions."
+    - "Feline mammary IELs are histologically and molecularly similar to human IELs."
+    - "Loss of ER and PR expression in atypical (ADH, DCIS) feline IELs parallels hormone receptor-negative human breast lesions."
+    - "The cat represents a spontaneous pre-invasive model to study ER- and PR-negative breast lesions."
   llm_inference:
-    - "This source provides strong evidence for TNBC-like phenotype in feline mammary lesions."
+    - "Feline mammary IELs could serve as a model to develop and test interventions for ER- and PR-negative breast cancers."
+    - "Research focusing on HER-2 positive feline IELs may further elucidate HER-2 driven mammary tumorigenesis relevant to humans."
+  # V2 enhanced fields
+  study_design: "回顾性组织病理学研究，203 只雌猫的 205 份乳腺标本，评估上皮内病变（IEL）并进行免疫组化分析"
+  core_argument: "猫乳腺 IEL 与人类 IEL 在组织学和分子特征上高度相似——中/高级别 DCIS 缺乏 ER 和 PR 表达，使猫成为研究激素受体阴性乳腺癌的自发模型"
+  implicit_premise: "假设 IHC 结果可代表功能性激素受体状态；假设猫 IEL 与人类 IEL 的形态学相似性意味着病理生理学相似"
+  unexpected_finding: "91% 的非典型 IEL（ADH、DCIS）与恶性肿瘤相关——非典型 IEL 几乎是恶性的'前哨'，而 UH 仅 47% 与恶性相关"
+  title_gap: "标题说猫乳腺 IEL 是人类 ER/PR 阴性乳腺病变的模型，但真正发现是癌变预测：91% 的非典型 IEL 与恶性肿瘤相关——IEL 分级本身就是癌变风险的强预测因子，而非仅仅是'癌前病变'"
+  evidence_boundary: "回顾性设计无法确定 IEL 到侵袭性癌的因果时间关系；HER2 阳性 IEL 的临床意义需前瞻性验证"
 ---
 
 # Spontaneous feline mammary intraepithelial lesions as a model for human estrogen receptor- and progesterone receptor-negative breast lesions
 
 ## Evidence-Depth Caveat
 
-**Deep-extracted from PMC full text (PMC2873946).** 2010 BMC Cancer: 203 specimens, IELs in 28% (UH 27%, ADH 29%, DCIS 44%); 91% of atypical IELs associated with cancer; no ER/PR in intermediate/high-grade DCIS; HER2 overexpression in 27%; Ki67 correlates with IEL grade; supports ER/PR-negative breast lesion model. Evidence level: original study with IHC + histopathology.
-
-## Source Check, 2026-06-09
-
-Europe PMC full text extraction.
-
-| Field | Value |
-|-------|-------|
-| PMID | 20412586 |
-| PMCID | PMC2873946 |
-| DOI | 10.1186/1471-2407-10-156 |
-| Journal | BMC Cancer |
-| Year | 2010 |
-| Authors | Burrai GP, Mohammed SI, Miller MA, Marras V, Pirino S, Addis MF, Uzzau S, Antuofermo E |
-| Open access | yes |
-
-## Source Check, 2026-06-02
-
-| Field | Value |
-|-------|-------|
-| PMID | 20412586 |
-| DOI | 10.1186/1471-2407-10-156 |
-| Journal | BMC Cancer |
-| Year | 2010 |
-| Authors | Burrai GP, Mohammed SI, Miller MA, et al. |
-
-## Abstract Summary
-
-| Category | Finding |
-|----------|---------|
-| Sample size | 205 specimens from 203 female cats |
-| IEL prevalence | 28% (57/203) of feline mammary specimens |
-| IEL categories | UH 27%, ADH 29%, DCIS 44% |
-| Cancer association | 91% of ADH/DCIS associated with mammary cancer |
-| ER/PR status | No ER/PR in intermediate/high-grade DCIS or associated tumors |
-| HER2 status | 27% of IELs showed HER-2 overexpression |
-| Model value | Supports cat as model for ER/PR-negative breast lesions |
-
-**Boundary:** This card is abstract-level extraction. Numeric findings can inform branch claims but detailed methodology requires full-text review.
+This card is based on complete publication text. It is deep-extracted as a clinical study.
 
 ## One-Line Summary
 
-Large feline IEL study (n=203) showing 28% IEL prevalence with loss of ER/PR in atypical lesions, supporting cat as model for hormone receptor-negative breast cancer.
+Among 203 female cats with mammary disease, 28% presented intraepithelial lesions (27% UH, 29% ADH, 44% DCIS), with 91% of atypical IELs associated with malignancy and absence of ER and PR expression in intermediate/high-grade DCIS, supporting feline IELs as a spontaneous model for ER- and PR-negative human breast lesions.
 
-## Why It Matters For Feline Cancer
+## Why It Matters For Feline ['cancer']
 
-This source was included in a reviewed feline literature intake sheet and classified as `new-cancer` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+Feline mammary IELs closely mimic human pre-invasive breast lesions, especially hormone receptor-negative subtypes that are clinically challenging. This establishes the cat as a valuable spontaneous translational model for studying pathogenesis, progression, and therapeutic strategies applicable to aggressive, receptor-negative breast cancers.
 
 ## Key Findings
 
 ### quoted_fact
 
-- IELs found in 28% (57/203) of feline mammary specimens
-- IEL breakdown: UH 27%, ADH 29%, DCIS 44%
-- 91% of atypical IELs (ADH and DCIS) were associated with mammary cancer
-- UH was associated with benign lesions in 53% of cases
-- No ER or PR immunoreactivity in intermediate/high-grade DCIS or associated tumors
-- HER-2 protein overexpression found in 27% of IELs
+* IELs were identified in 57 of 203 (28%) feline mammary specimens: usual ductal hyperplasia (UH) 27%, atypical ductal hyperplasia (ADH) 29%, ductal carcinoma in situ (DCIS) 44%.
+* Atypical lesions (ADH and DCIS) were associated with malignancy in 91% of cases; 53% of UH were linked to benign lesions.
+* No estrogen receptor (ER) or progesterone receptor (PR) immunoreactivity was detected in intermediate- or high-grade DCIS or corresponding malignant tumors in cats.
+* HER-2 protein overexpression was present in 27% of IELs, mimicking a subset of human breast lesions.
 
 ### source_supported_conclusion
 
-- Feline mammary IELs are histologically remarkably similar to human IELs
-- Loss of hormone receptor expression in atypical feline IELs parallels human ER/PR-negative breast lesions
-- Cat is a suitable model for studying ER/PR-negative breast lesions
+* Feline mammary intraepithelial lesions show remarkable histologic and immunohistochemical similarity to human breast IELs.
+* The loss of hormone receptor expression (ER and PR) in feline atypical IELs parallels the receptor profile of aggressive human breast lesions.
+* The cat is a spontaneous and relevant model to study ER- and PR-negative breast pre-invasive and invasive lesions.
 
 ### llm_inference
 
-- This source provides quantitative evidence supporting the TNBC-like phenotype in feline mammary cancer
-- May inform mammary-carcinoma.md claims about hormone receptor status and comparative oncology value
+* Feline mammary IELs may be utilized to evaluate novel preventative and therapeutic approaches targeting hormone receptor-negative breast cancer subtypes.
+* Further characterization of HER-2 positive feline IELs can aid in understanding HER-2 mediated mammary tumorigenesis.
+* This model could facilitate biomarker discovery and testing of targeted therapies in hormone receptor-negative breast cancer.
 
-## Claim-Fit Judgment
+## Study Design Details
 
-Strongest safe use:
+### Cohort Summary
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the cancer module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+| Parameter                            | Data                                                      |
+|------------------------------------|-----------------------------------------------------------|
+| Number of cats                     | 203 female cats                                           |
+| Number of specimens                | 205 formalin-fixed, paraffin-embedded mammary specimens  |
+| Source institutions                | Purdue University (USA), School of Veterinary Medicine (Italy) |
+| Lesion detection rate              | 28% (57/203 cats) with IELs                               |
+| IEL subtype distribution           | UH: 27%, ADH: 29%, DCIS: 44%                             |
+| Association of atypical IELs       | 91% associated with malignant mammary tumors             |
+| Association of UH lesions          | 53% associated with benign lesions                        |
+| Immunohistochemical markers tested | ER-alpha, PR, HER-2/neu, Ki-67                            |
+| ER/PR status in IELs               | Negative in intermediate/high-grade DCIS and malignant tumors |
+| HER-2 overexpression              | Detected in 27% of IELs                                    |
 
 ## Linked Entities
 
-- diseases: cancer
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- diseases: ['cancer']
+- models: ['clinical-study']
+- endpoints: ['remission']
+- mechanisms: ['hormone receptor loss (ER, PR)', 'HER-2/neu overexpression', 'mammary intraepithelial neoplasia progression']

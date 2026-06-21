@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "原始研究（2010 年 JVMS），犬（n=52）和猫（n=18）原发性肺癌的多药耐药蛋白免疫组化检测"
+  core_argument: "猫肺癌频繁表达 PGP、MRP、LRP，约 50% 表达 MT——所有阳性病例显示重叠表达——固有多药耐药解释化疗反应差"
+  implicit_premise: "假设 MDR 蛋白表达水平与功能性药物外排相关；假设 MDR 机制是猫肺癌化疗耐药的主要原因"
+  unexpected_finding: "所有 MDR 蛋白阳性病例显示重叠表达——大多数肺癌同时表达多种耐药机制——这种冗余可能解释为何克服任何单一 MDR 途径的策略效果有限"
+  title_gap: "标题说犬猫原发性肺癌中与多药耐药相关的蛋白检测，但真正发现是治疗困境：固有 MDR 使化疗极难有效——这是观察性数据而非治疗指导"
+  evidence_boundary: "观察性 MDR 表达数据；未指定哪些化疗药物受影响；n=18 猫样本相对较小"
 ---
 
 # Immunohistochemical Detection of Proteins Associated with Multidrug Resistance to Anti-Cancer Drugs in Canine and Feline Primary Pulmonary Carcinoma

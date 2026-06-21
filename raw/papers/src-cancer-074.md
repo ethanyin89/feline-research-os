@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "Supports comparative oncology value of FOSCC as HNSCC model."
     - "Treg infiltration may explain poor immunotherapy response."
+  # V2 enhanced fields
+  study_design: "原始研究（2018 年 Vet Immunol Immunopathol），12 例 FOSCC IHC 分析 + 9 例流式细胞术分析循环免疫细胞"
+  core_argument: "FOSCC 显示免疫浸润模式与人类 HNSCC 相似——92% CD3+ T 细胞浸润——57% FoxP3+ Treg 浸润——循环 Treg 升高（P=0.045）——COX-2 阳性 75%——支持 FOSCC 作为免疫治疗相关的 HNSCC 模型"
+  implicit_premise: "假设免疫浸润模式相似性意味着免疫治疗反应可转化；假设小样本量足以得出有意义的结论"
+  unexpected_finding: "57% FOSCC 有 Treg 浸润且循环 Treg 升高——这种 Treg 富集提示免疫抑制性肿瘤微环境——可能解释 FOSCC 对免疫治疗反应差"
+  title_gap: "标题说调查 FOSCC 中的免疫细胞标记物，但真正发现是 Treg 富集：T 细胞浸润高（92%）但包含大量 Treg（57%）——局部和全身 Treg 升高——为免疫治疗靶向策略提供依据"
+  evidence_boundary: "小样本免疫分析研究（n=12 IHC，n=9 流式）；支持肿瘤微环境特征和比较肿瘤学价值，不支持预后相关或免疫治疗反应预测"
 ---
 
 # Investigation of immune cell markers in feline oral squamous cell carcinoma

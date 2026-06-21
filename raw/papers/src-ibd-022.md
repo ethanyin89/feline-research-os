@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports intestinal fibrosis as a real burden-associated chronicity layer, not as a minor incidental pathology note.
   llm_inference:
     - This was the correct next deep extraction because it gives the module a structural chronicity branch above single-marker stories.
+  # V2 enhanced fields
+  study_design: "前瞻性队列研究，纳入65只确诊为慢性炎症性肠病的客户自养猫，采用肠道活检组织学及免疫组化分析肠道纤维化"
+  core_argument: "肠道纤维化是伴随慢性炎症性肠病在猫肠道中的一种常见且临床相关的慢性病理特征，且与较低的体重和血清白蛋白浓度显著相关"
+  implicit_premise: "组织学及免疫组化检测方法能够准确反映肠道纤维化的存在及程度，且这些病理改变与临床表现有因果关联"
+  title_gap: "标题强调肠道纤维化的特征描述，但真正发现是肠道纤维化在慢性炎症性肠病猫中普遍存在，且与临床病情严重度密切相关——提示其非偶发病理现象"
+  evidence_boundary: "本文未评估肠道纤维化对猫临床预后、治疗响应或存活率的直接影响，也未考察纤维化形成的具体机制及其潜在治疗靶点"
+  unexpected_finding: "肠道纤维化的检出率因检测方法不同在十二指肠和结肠活检标本中差异显著，显示依赖方法选择的诊断敏感性较高"
 ---
 
 # One-line Summary

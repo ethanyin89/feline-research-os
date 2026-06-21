@@ -42,6 +42,13 @@ evidence_policy:
     - "sCD8+ TILs may serve as patient stratification marker for FMC prognosis."
     - "M2 macrophage repolarization could be a therapeutic strategy."
     - "Immunotherapy approaches from human breast cancer may translate to FMC."
+  # V2 enhanced fields
+  study_design: "回顾性队列研究（2022 年 Cells），73 例 FMC，免疫荧光分析 TILs 和 TAMs，中位随访 14.5 个月"
+  core_argument: "FMC 肿瘤微环境与人类乳腺癌相似——基质 CD8+ TILs 是有利预后标记物（HR 0.421，p=0.026）——肿瘤内 CD4+ TILs 与淋巴结转移正相关——CD163+ M2 巨噬细胞与未分化/侵袭性表型相关——三阴性正常样 FMC 亚型富集免疫细胞"
+  implicit_premise: "假设人类乳腺癌免疫微环境模式可直接映射到 FMC；假设免疫细胞浸润模式的预后意义可转化为治疗策略"
+  unexpected_finding: "基质 vs 肿瘤内定位有相反的预后意义——基质 CD8+ 有利但肿瘤内 CD4+ 与转移相关——这种空间特异性可能解释以往研究的矛盾结果"
+  title_gap: "标题说 FMC 中肿瘤浸润免疫细胞的景观及其病理学和临床意义，但真正发现是预后分层：sCD8+ TILs 是独立预后因素——可用于患者分层——为 FMC 免疫治疗靶向提供依据"
+  evidence_boundary: "回顾性队列证据（n=73）；支持预后标记物声明和比较肿瘤学框架，不直接支持免疫治疗推荐——免疫治疗意义是推论而非证明"
 ---
 
 # The Landscape of Tumor-Infiltrating Immune Cells in Feline Mammary Carcinoma: Pathological and Clinical Implications

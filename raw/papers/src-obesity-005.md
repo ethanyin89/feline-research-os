@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - "This source may anchor the obesity prevention branch."
     - "It may help justify separating prevention from treatment in the obesity module architecture."
+  # V2 enhanced fields
+  study_design: "综述文章，聚焦于5-12个月龄绝育后小猫，综合分析现有预防肥胖策略"
+  core_argument: "针对5-12个月龄绝育后小猫的预防干预是有效遏制猫肥胖的关键，而预防策略优于治疗手段。"
+  implicit_premise: "肥胖在绝育后幼龄猫中的发生率较高且预防措施能够显著改变其健康结局。"
+  title_gap: "标题关注目标人群与预防策略，但真正发现是强调绝育后幼龄猫为首要目标，且治疗较为缓慢且存在副作用——预防比治疗更具优越性。"
+  evidence_boundary: "未涉及具体治疗方法的效果评估及成年肥胖猫的管理策略。"
+  unexpected_finding: "确认治疗猫肥胖进展缓慢且常常失败，强调预防的重要性而非治疗效果。"
 ---
 
 # Identifying the target population and preventive strategies to combat feline obesity

@@ -30,6 +30,13 @@ evidence_policy:
     - "It does not demonstrate probiotic efficacy, uremic-toxin reduction, or controlled CKD improvement."
   llm_inference:
     - "Microbiome changes and creatinine movement remain hypothesis-generating because there was no control group and only six completers."
+  # V2 enhanced fields
+  study_design: "单臂开放标签 8 周试验，12 只猫入组仅 6 只完成，益生菌零食（Lacticaseibacillus paracasei + Lactiplantibacillus plantarum）"
+  core_argument: "益生菌零食在猫 CKD 中的可行性和试验设计经验——主要价值在于展示为什么需要更大规模对照试验"
+  implicit_premise: "假设 50% 脱落率不会系统性偏倚完成者结果；假设微生物组变化可预测临床获益"
+  unexpected_finding: "血清磷酸盐显著升高——任何未来益生菌 CKD 研究必须包括矿物质监测"
+  title_gap: "标题说益生菌疗效，但真正发现是试验设计教训：50% 脱落、无对照组、尿毒症毒素无显著变化、磷反而升高——主要价值是展示为什么需要更大规模对照试验"
+  evidence_boundary: "无对照组、无随机化、无盲法；尿毒症毒素（TMAO、IS、PCS、PS）变化均不显著；不能支持益生菌疗效主张"
 ---
 
 # Investigating the Efficacy of Kidney-Protective Lactobacillus Mixture-Containing Pet Treats in Feline Chronic Kidney Disease and Its Possible Mechanism

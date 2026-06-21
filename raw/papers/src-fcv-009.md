@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the main FCV diagnosis/control bridge between older guidelines and the 2025 broad-control review.
     - The safest downstream wording is `PCR-best-but-bounded, vaccination-core-but-non-sterilizing`.
+  # V2 enhanced fields
+  study_design: "综述性研究，涵盖多项关于猫杯状病毒（FCV）的临床和实验室检测文献，重点分析诊断方法与疫苗效果"
+  core_argument: "猫杯状病毒感染的诊断和控制应区分疾病预防与感染预防，且当前逆转录PCR虽是最佳检测工具，仍存在诊断限制"
+  implicit_premise: "现有检测技术和疫苗不能完全阻断FCV感染，且病毒高度变异导致免疫保护有限"
+  title_gap: "标题表明研究猫杯状病毒感染，但核心发现强调诊断限制及疫苗不能完全防感染——提示疾病管理需更精细划分感染与临床表现"
+  evidence_boundary: "未回答不同FCV亚型间免疫交叉保护的具体机制及新型疫苗改进方案"
+  unexpected_finding: "健康猫可能PCR检测阳性表明无症状携带，负PCR结果也不能完全排除感染，诊断复杂性超出传统预期"
 ---
 
 # Calicivirus Infection in Cats

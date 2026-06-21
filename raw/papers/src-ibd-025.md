@@ -28,6 +28,12 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "病例系列研究，分析1997年至2000年期间确诊为上皮趋向性肠恶性淋巴瘤的10只猫，采用临床资料回顾和病理诊断方法"
+  core_argument: "上皮趋向性肠恶性淋巴瘤在猫中可表现为独特的临床和病理特征，提示该疾病应作为猫慢性肠病鉴别诊断的重要考虑"
+  implicit_premise: "诊断和归类所涉及的病例确实符合上皮趋向性肠恶性淋巴瘤的病理标准，且收集的临床资料完整且准确"
+  title_gap: "标题强调‘10例病例’，但研究真正揭示了该类型淋巴瘤的临床表现和病理学特征，对慢性肠病的诊断有潜在指导意义——这为进一步探索与炎症性肠病鉴别诊断提供了基础"
+  evidence_boundary: "该研究未评估治疗方案的疗效或长期预后，也未比较该淋巴瘤与其他肠道肿瘤或炎症性疾病的分子机制"
 ---
 
 # Feline Epitheliotropic Intestinal Malignant Lymphoma: 10 Cases (1997–2000)

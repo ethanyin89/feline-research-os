@@ -29,6 +29,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "基因组资源论文（2020 年 PLoS Genet），新的家猫基因组组装（长序列读取），发现侏儒症新基因"
+  core_argument: "**分类澄清**：这是猫基因组基础设施论文——提供改进的参考基因组——使猫基因组医学（包括癌症研究）成为可能——但本身不是癌症研究"
+  implicit_premise: "假设改进的参考基因组将促进猫癌症基因组学研究——这是合理的基础设施投资"
+  unexpected_finding: "发现了侏儒症新基因——但这与癌症无关——论文的主要贡献是基因组组装质量改进"
+  title_gap: "标题说新的家猫基因组组装赋能猫基因组医学并发现侏儒症新基因，但对癌症模块的真正价值是基础设施：提供高质量参考基因组——使后续癌症基因组学研究成为可能——但本身不包含癌症特异性发现"
+  evidence_boundary: "基因组资源论文；支持猫基因组学基础设施声明，不直接支持任何癌症声明——应重新分类为基础设施/资源来源"
 ---
 
 # A new domestic cat genome assembly based on long sequence reads empowers feline genomic medicine and identifies a novel gene for dwarfism

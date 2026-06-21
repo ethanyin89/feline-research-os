@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports hydrolysed diet response as a real early treatment anchor, but not one that cleanly separates idiopathic IBD from food-responsive disease.
   llm_inference:
     - This is the cleanest current early treatment anchor in the IBD seed set, but it must stay bounded by mixed-case composition.
+  # V2 enhanced fields
+  study_design: "前瞻性临床试验，8 只诊断为慢性肠病或食物不良反应的猫，采用内镜及完全诊断流程，单独使用水解蛋白质饮食作为治疗手段"
+  core_argument: "水解蛋白质饮食作为单一治疗能在4至8天内缓解猫的炎症性肠病或食物反应相关临床症状"
+  implicit_premise: "临床症状改善和体重增加可直接归因于水解蛋白质饮食的应用，且饮食诱发的症状复发与该饮食的暂停和重新引入有关"
+  title_gap: "标题强调水解饮食疗效，但真正发现是该饮食虽有效缓解症状，却未能明确区分特发性炎症性肠病与食物反应性疾病——这表明两者治疗上有重叠"
+  evidence_boundary: "未回答水解蛋白质饮食对长远预后影响，也未探讨其他治疗组合和不同炎症性肠病亚型的疗效差异"
+  unexpected_finding: "停用原饮食后症状复发，而七只猫重新使用水解饮食后临床症状再次消失，显示强烈的食物相关性，但并非所有病例均如此"
 ---
 
 # One-line Summary

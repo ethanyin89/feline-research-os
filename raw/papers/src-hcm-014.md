@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This source may become more useful as a cautionary or historical comparator than as a lead modern recommendation anchor.
     - Translation pages should keep older conventional therapy visible without letting it flatten into present-day certainty.
+  # V2 enhanced fields
+  study_design: "原始研究，回顾性评价 19 只 HCM 猫使用依那普利的临床反应"
+  core_argument: "依那普利在此回顾性队列中表现出可耐受性和 CHF 状态改善关联——但作者本人呼吁需要对照前瞻性研究证明疗效"
+  implicit_premise: "假设回顾性改善信号可以支持治疗可行性但不能证明因果疗效；假设 1998 年证据标准应与现代标准区分"
+  unexpected_finding: "最重要的发现是作者自己的谨慎——即使在发表时他们也没有把回顾性信号当作疗效证明"
+  title_gap: "标题说依那普利治疗，但真正价值是作者的谨慎：即使在 1998 年发表时他们也没把回顾性信号当疗效证明——这是历史参照而非现代推荐"
+  evidence_boundary: "1998 年回顾性研究，前于现代遗传学、超声心动图分期和循证 HCM 管理框架；无对照组"
 ---
 
 # One-line Summary

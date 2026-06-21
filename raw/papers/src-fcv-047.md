@@ -31,6 +31,13 @@ evidence_policy:
     - "5% sodium bicarbonate is effective disinfectant for FCV."
   llm_inference:
     - "Environmental decontamination protocols critical for FCV outbreak control."
+  # V2 enhanced fields
+  study_design: "现场感染研究，涉及研究设施内被现场株猫杯状病毒感染的多只猫及其环境，采用PCR检测环境样品中病毒RNA"
+  core_argument: "猫杯状病毒感染后，病毒RNA在环境中可持续存在至少28天，且5%碳酸氢钠消毒剂对病毒有效"
+  implicit_premise: "环境中检测到的病毒RNA代表具有潜在传染性的病原物残留，且PCR结果能准确反映环境污染状况"
+  title_gap: "标题关注环境污染及卫生措施，但真正发现是病毒基因物质在环境中长时间持续存在，且普通清洁措施可能不足以消除病毒"
+  evidence_boundary: "未评估病毒RNA持续存在是否等同于活病毒存在，也未论及不同浓度或其他消毒剂的效果及实际传染风险"
+  unexpected_finding: "病毒RNA在猫停止排病毒后仍在所有检测样品中普遍存在，且包括猫毛在内的表面均被污染"
 ---
 
 # FCV Environmental Contamination and Disinfection

@@ -34,6 +34,13 @@ evidence_policy:
     - "This source should sharpen, not replace, the broader endocrine-secondary branch controlled by src-diabetes-013."
   llm_inference:
     - "This is a high-priority full-text target if later outputs need an HST diagnostic workup or treatment-effects-on-diabetes-control map."
+  # V2 enhanced fields
+  study_design: "综述文章，总结并分析现有文献中猫的高生长激素症导致的糖尿病相关研究，涵盖约200只患糖尿病的猫病例数据及多项诊断和治疗方法"
+  core_argument: "高生长激素症引起的胰岛素抵抗是猫中糖尿病的主要继发原因之一，导致这类糖尿病的管理难度加大且对胰岛素的需求量较高。"
+  implicit_premise: "所汇总的研究数据和诊断标准在不同研究中具有可比性且足以反映高生长激素症对猫糖尿病的因果关系。"
+  title_gap: "标题聚焦于共病关系，但真正发现是高生长激素症不仅是猫糖尿病常见继发原因，还极大影响了治疗策略及胰岛素用量需求——这对临床管理提出了新挑战。"
+  evidence_boundary: "本文未详细制定高生长激素症引起糖尿病的具体诊断阈值，也未系统比较不同治疗方案的长期疗效和预后。"
+  unexpected_finding: "IGF1虽为首选诊断标志物，但其水平受慢性胰岛素治疗影响较大，诊断解释存在复杂性和不确定性。"
 ---
 
 # Feline comorbidities: hypersomatotropism-induced diabetes in cats

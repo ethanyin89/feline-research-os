@@ -10,9 +10,9 @@ endpoints: [FGF-23, phosphorus, iPTH, CKD staging]
 jurisdictions: []
 evidence_level: original-study
 year: 2021
-status: extracted
-extraction_depth: abstract_full
-verification_status: source_checked
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [ckd, serum, fibroblast, growth, factor, fgf-23, associations, hyperphosphatemia, biomarker, staging, phosphorus, iPTH]
@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "FGF-23 may serve as an earlier-stage biomarker than serum phosphorus for CKD monitoring."
     - "Cross-sectional design cannot establish temporal precedence; association does not prove prediction."
+  # V2 enhanced fields
+  study_design: "横断面研究，304 只猫（196 只 CKD 按 IRIS 分期、108 只健康对照），ELISA 检测血清 FGF-23 和 iPTH"
+  core_argument: "FGF-23 在所有 CKD 分期均升高且早于高磷血症出现——高磷血症仅在 3-4 期出现，而 FGF-23 在 1-2 期已升高"
+  implicit_premise: "假设横断面关联反映纵向时间顺序；假设 ELISA 检测在猫中经过验证"
+  unexpected_finding: "健康猫中 FGF-23 与年龄无关（p=0.15）——减少了年龄相关混杂的担忧"
+  title_gap: "标题说 FGF-23 与高磷和分期的关联，但真正发现是时间顺序提示：FGF-23 在所有分期均升高而高磷仅在 3-4 期——FGF-23 可能是比血磷更早的标志物"
+  evidence_boundary: "横断面设计不能建立时间先后顺序；不能提供 FGF-23 诊断阈值或治疗决策指导；单中心研究"
 ---
 
 # Serum fibroblast growth factor 23 (FGF-23): associations with hyperphosphatemia and clinical staging of feline chronic kidney disease

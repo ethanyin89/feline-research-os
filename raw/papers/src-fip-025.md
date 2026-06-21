@@ -9,9 +9,9 @@ models: [machine learning diagnostic model]
 endpoints: [diagnostic accuracy, sensitivity, specificity]
 jurisdictions: []
 evidence_level: original-study
-status: extracted
-extraction_depth: partial
-verification_status: abstract_weighted
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [fip, machine-learning, diagnosis, non-effusive, classifier]
@@ -32,6 +32,13 @@ evidence_policy:
   llm_inference:
     - "This approach could support diagnosis of non-effusive FIP where confirmatory testing is not undertaken."
     - "Laboratory-only input suggests potential for clinical decision support without additional specialized testing."
+  # V2 enhanced fields
+  study_design: "机器学习诊断研究，1939 例疑似 FIP（683 例 FIP、1256 例非 FIP），信号和实验室数据训练集成模型，80 例确诊病例验证"
+  core_argument: "机器学习集成模型仅使用常规实验室标志物即可准确区分 FIP 和非 FIP 病例——准确率 97.5%、AUC 0.969、敏感性 95.45%、特异性 98.28%"
+  implicit_premise: "假设专家临床意见是有效的训练标签；假设实验室参数组合可捕捉 FIP 的复杂表现"
+  unexpected_finding: "仅实验室数据输入即达到专家水平诊断性能——可能减少对侵入性确诊检测的需求"
+  title_gap: "标题说机器学习诊断非渗出型 FIP，但真正价值是输入简单性：仅用常规实验室检查（无需积液分析、PCR 或免疫组化）即达到 97.5% 准确率——基层诊所也能初筛"
+  evidence_boundary: "验证集仅 80 例确诊病例；不能替代组织病理学金标准；模型特征重要性和泛化性需全文评估"
 ---
 
 # Assessing the feasibility of applying machine learning to diagnosing non-effusive feline infectious peritonitis

@@ -30,6 +30,13 @@ evidence_policy:
     - "It should not control tumor-specific treatment protocols or survival estimates."
   llm_inference:
     - "Use as workflow architecture before branch-specific tumor sources are promoted."
+  # V2 enhanced fields
+  study_design: "实践综述（2013 年 JFMS），面向兽医从业者的猫肿瘤诊疗工作流程指南"
+  core_argument: "猫癌症诊疗应遵循结构化工作流程：临床表现 → 诊断 → 分期 → 治疗计划——分期必须在治疗决策之前完成"
+  implicit_premise: "假设人医肿瘤学的诊断-分期-治疗工作流程直接适用于猫；假设读者是具有病理学和细胞学资源的执业兽医"
+  unexpected_finding: "文章明确承认许多猫肿瘤的证据基础有限——这种诚实的认识论边界在临床指南中不常见"
+  title_gap: "标题说'猫癌症：从哪里开始'，但真正价值是工作流程架构：它不是肿瘤特异性治疗指南——而是诊断和分期门控的元结构，防止在证据不足时过早推荐治疗"
+  evidence_boundary: "工作流程架构来源而非肿瘤特异性治疗方案；不应控制具体预后或存活率估计；2013 年综述可能不反映最新治疗进展"
 ---
 
 # Cats with Cancer: Where to start

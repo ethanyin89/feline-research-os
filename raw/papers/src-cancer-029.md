@@ -30,6 +30,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "基于人群的前瞻性登记研究（1978 年），美国第二个动物肿瘤登记处，Tulsa 地区定义人群，组织学确认"
+  core_argument: "猫的肿瘤发生率约 0.5%（11,909 只），淋巴肉瘤是猫最常见肿瘤——猫的良性肿瘤发生率仅为犬的十分之一，恶性肿瘤发生率相似"
+  implicit_premise: "假设登记期间的群体特征可代表一般伴侣动物群体；假设组织学确认标准在登记期间保持一致"
+  unexpected_finding: "犬的良性肿瘤发生率是猫的 10 倍以上——但恶性肿瘤发生率两种动物相似——这种良性/恶性比例的物种差异在当时是新发现"
+  title_gap: "标题说定义人群中犬猫肿瘤频率，但真正价值是基线数据：这是美国第二个基于人群的动物肿瘤登记处——提供真正的发病率估计而非转诊偏倚的医院数据"
+  evidence_boundary: "1978 年数据，FeLV 疫苗前时代——淋巴肉瘤高发可能反映当时 FeLV 流行率；现代发病率模式可能已改变"
 ---
 
 # Frequency of Canine and Feline Tumors in a Defined Population

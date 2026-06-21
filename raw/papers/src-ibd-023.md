@@ -27,6 +27,12 @@ evidence_policy:
     - This source belongs in the hepatobiliary extension and triaditis-adjacent branch around feline enteropathy.
   llm_inference:
     - This paper may later help define how far the IBD module should widen into comorbidity architecture.
+  # V2 enhanced fields
+  study_design: "尸检研究，包含1986年至2008年共44只患有猫胆管炎的猫，通过解剖病理分析胆道及相关肝组织病变"
+  core_argument: "猫胆管炎的病变特征可通过尸检系统性分析揭示，为肝胆系统疾病及三联炎的病理机制提供重要依据"
+  implicit_premise: "尸检样本能够真实反映猫胆管炎的病理特点且具备代表性"
+  title_gap: "标题强调胆管炎，但研究深入探讨了其与猫肠病相关的肝胆扩展及三联炎的病理联系——揭示了肝胆疾病与肠道疾病复杂的交互关系"
+  evidence_boundary: "本研究未涵盖胆管炎的临床表现、治疗方案及预后评估，亦未探讨活体诊断方法的敏感性和特异性"
 ---
 
 # One-line Summary

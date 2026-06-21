@@ -31,6 +31,13 @@ evidence_policy:
   llm_inference:
     - "Early systematic comparison of feline, canine, and human mammary carcinomas."
     - "Full-text required for specific morphological/biological findings."
+  # V2 enhanced fields
+  study_design: "比较病理学研究（1972 年 JNCI），猫恶性乳腺肿瘤的形态学和生物学与人和犬乳腺癌的比较"
+  core_argument: "猫乳腺肿瘤与人和犬乳腺癌共享形态学和生物学特征——这篇 1972 年的论文是比较乳腺肿瘤学的奠基性工作——建立了跨物种比较的方法学基础"
+  implicit_premise: "假设 1972 年确定的形态学分类仍然相关（尽管分子时代已更新）；假设比较方法可揭示保守的肿瘤生物学"
+  unexpected_finding: "无法从可用信息确定——无 PubMed 摘要（1975 年前论文）——全文需要获取才能识别具体发现"
+  title_gap: "标题说猫恶性乳腺肿瘤的形态学和生物学以及与人/犬乳腺癌的比较，但真正价值是历史基础：确立了比较乳腺肿瘤学领域——作者（Weijer、Head、Misdorp、Hampe）是该领域先驱"
+  evidence_boundary: "无 PubMed 摘要的历史论文；仅支持历史背景价值，不支持当代分类或治疗声明；1972 年方法学可能已过时"
 ---
 
 # Feline Malignant Mammary Tumors. I. Morphology and Biology: Some Comparisons With Human and Canine Mammary Carcinomas

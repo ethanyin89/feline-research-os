@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports treating FCEAI as a response-tracking and severity-staging tool across chronic enteropathy, not as a disease-class discriminator.
   llm_inference:
     - This was the correct second-wave IBD deep extraction target because it gives the module a concrete operational endpoint architecture.
+  # V2 enhanced fields
+  study_design: "前瞻性与回顾性结合队列研究，共纳入82只患慢性肠病的猫，构建并验证猫慢性肠病活动指数（FCEAI）"
+  core_argument: "猫慢性肠病的疾病活动度可以通过结合胃肠症状、内窥镜异常及多项血清生化指标形成的临床指数有效评估，且该指数可用于追踪治疗反应和疾病严重程度分期"
+  implicit_premise: "疾病活动度的多维临床和生化指标组合能够准确反映猫慢性肠病的实际病理状态和治疗效果"
+  title_gap: "标题强调构建疾病活动临床指数，但真正发现是该指数不仅评估疾病活动，还能作为治疗反应追踪及严重程度分期的工具，扩展了其临床应用价值"
+  evidence_boundary: "本研究未探讨FCEAI在鉴别不同类型慢性肠病（如IBD与食物反应性肠病）中的准确性，也未验证该指数对长期预后的预测能力"
+  unexpected_finding: "治疗有效时FCEAI评分显著降低，证明该指数具有动态监测疾病状态的能力，而非仅为静态诊断指标"
 ---
 
 # One-line Summary

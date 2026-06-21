@@ -37,6 +37,13 @@ evidence_policy:
   llm_inference:
     - This belongs in a frontier-marker branch, not in first-pass operational authority.
     - Endpoint pages should keep novelty and confidence ranked together, especially because this source is SSRN-hosted.
+  # V2 enhanced fields
+  study_design: "探索性三组研究，8 只健康对照 + 8 只亚临床 HCM + 6 只 HCM 伴 CHF，采用血清 RT-qPCR 和 ELISA"
+  core_argument: "NT-proBNP 和 cTnI 用于猫 HCM 筛查存在局限，IGFBP-2、WNT5A 和 IL-18 可能是值得进一步评估的潜在新型生物标志物"
+  implicit_premise: "假设心肌组织中差异表达的基因可以通过血清 RNA/蛋白检测反映并用于临床诊断；假设小样本探索性研究的信号方向在大规模验证中可重复"
+  unexpected_finding: "PYGB 在三组间无显著差异，尽管它在之前的心肌组织研究中被识别为差异表达基因——这提示组织水平与循环水平的表达可能不一致"
+  title_gap: "标题说新型生物标志物评估，但真正发现是负面结果的价值：PYGB 在组织中差异表达，但在循环中无法区分——这挑战了'组织信号=循环信号'的假设"
+  evidence_boundary: "样本量极小（8 对照 + 8 亚临床 + 6 CHF），仅为探索性研究；不能确定这些标志物的临床诊断阈值、敏感性/特异性或预后价值；不能替代现有的 NT-proBNP/cTnI"
 ---
 
 # One-line Summary

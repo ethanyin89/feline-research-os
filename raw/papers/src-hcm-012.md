@@ -35,6 +35,13 @@ evidence_policy:
   llm_inference:
     - This may become a key bridge between genetics and recognition after deep extraction.
     - HCM pages should keep genetics stratified by dosage and age-related penetrance instead of flattening mutation-positive cats into one uniform risk class.
+  # V2 enhanced fields
+  study_design: "原始研究，研究 MYBPC3 p.A31P 突变杂合子和纯合子猫的 HCM 严重程度和发展"
+  core_argument: "基因型剂量影响临床表型——纯合子猫有中重度 HCM，更高外显率和显著心脏死亡风险；年龄相关外显率使遗传风险无法直接转化为即时表型确定性"
+  implicit_premise: "假设单一突变的剂量效应可以推广到其他 HCM 变异；假设年龄相关外显率使识别需要时间感知"
+  unexpected_finding: "1 岁以下猫无疾病，7 岁及以上猫比例最高——这挑战了突变阳性等于即时风险的简化叙事"
+  title_gap: "标题说临床和遗传因素，但真正发现是时间维度：1 岁以下无疾病，7 岁及以上最高——突变阳性≠即时风险，需要年龄感知的筛查策略"
+  evidence_boundary: "聚焦 p.A31P 突变，不应过度泛化到所有猫 HCM 变异或品种"
 ---
 
 # One-line Summary

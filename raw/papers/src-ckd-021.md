@@ -39,6 +39,13 @@ evidence_policy:
   llm_inference:
     - The vault should now represent RAAS injury logic as broader than ACEI/ARB alone, while still keeping MR antagonists in a second-generation target tier.
     - This paper strengthens the argument for a future aldosterone/MR entity or subpage, but not for an immediate treatment recommendation upgrade.
+  # V2 enhanced fields
+  study_design: "综述，讨论醛固酮和盐皮质激素受体作为猫 CKD 的潜在治疗靶点"
+  core_argument: "醛固酮/MR 信号是合理的肾损伤驱动因素和转化靶点——但最强证据来自实验动物和人类 CKD，而非猫临床试验"
+  implicit_premise: "假设人类和实验动物证据可以指导猫特异性研究方向；假设 RAAS 损伤逻辑比仅 ACEI/ARB 更广"
+  unexpected_finding: "在自然发生的正常血压氮质血症猫 CKD 中，血浆肾素活性和醛固酮浓度可能与对照无差异——混合信号使醛固酮生物学在自然疾病解释中需要谨慎"
+  title_gap: "标题说醛固酮/MR 作为潜在治疗靶点，但真正发现是证据分层：最强支持来自实验动物和人类 CKD——猫自然疾病中醛固酮信号混合"
+  evidence_boundary: "治疗靶点论文，可能过度承诺相对于当前临床证据；非验证的猫 CKD 干预类别"
 ---
 
 # Aldosterone and the mineralocorticoid receptor in renal injury: A potential therapeutic target in feline chronic kidney disease

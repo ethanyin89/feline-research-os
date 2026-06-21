@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - This is one of the most useful early sources for building a practical recognition map.
     - This paper is best used to sharpen pretest suspicion rather than to broaden diagnostic claims.
+  # V2 enhanced fields
+  study_design: "病例对照研究，382 例确诊 FIP 猫 vs NSW 伴侣动物登记处 + 悉尼普通猫群（澳大利亚）"
+  core_argument: "FIP 风险因素呈结构化模式——年幼、雄性、特定品种（英短、德文卷毛、阿比西尼亚）过度代表，而非简单的「所有纯种猫」警告"
+  implicit_premise: "假设澳大利亚猫群的品种分布和环境因素可泛化到其他地区；假设 FIP 确诊病例的入选标准足够严格以排除假阳性"
+  unexpected_finding: "波斯猫和喜马拉雅猫反而在 FIP 病例中「低于预期」——这与「纯种猫高风险」的简单叙事形成对比"
+  title_gap: "标题说风险因素，但真正发现是结构化模式：英短、德文卷毛、阿比西尼亚过度代表，而波斯猫和喜马拉雅猫反而低于预期——「所有纯种猫高风险」是过度简化"
+  evidence_boundary: "风险因素研究不能用于个体诊断；品种效应可能受地区繁殖谱系影响而无法直接移植；不能回答「为什么」某些品种高风险"
 ---
 
 # One-line Summary

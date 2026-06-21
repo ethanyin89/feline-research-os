@@ -30,6 +30,13 @@ evidence_policy:
     - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+  # V2 enhanced fields
+  study_design: "病例对照研究（1972 年），221 例猫恶性淋巴瘤，年龄、性别和品种匹配对照"
+  core_argument: "猫恶性淋巴瘤的环境因素研究——早期 FeLV 时代淋巴瘤流行病学的历史基础"
+  implicit_premise: "假设 1972 年的病例对照设计在方法学上仍有参考价值；假设 FeLV 是主要病因驱动因素"
+  unexpected_finding: "无法确定——需要全文访问（1972 年论文无 PubMed 摘要）"
+  title_gap: "标题说猫恶性淋巴瘤的环境因素和病毒癌发生，但真正价值是历史基础：1972 年（FeLV 发现后 8 年）即开始系统研究环境风险因素——是猫淋巴瘤流行病学的早期里程碑"
+  evidence_boundary: "1972 年历史性论文，电子时代前无摘要；仅限于提供历史背景而非现代临床声明"
 ---
 
 # Feline malignant lymphoma: Environmental factors and the occurrence of this viral cancer in cats

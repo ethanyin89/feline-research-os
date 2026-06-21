@@ -35,6 +35,12 @@ evidence_policy:
   llm_inference:
     - This is one of the best first deep-extraction targets for the HCM shell.
     - The HCM module should keep an outer cardiomyopathy frame so extension branches do not have to be recreated ad hoc later.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫心肌病的一般概念（2021 年）"
+  core_argument: "HCM 应保持在更广泛的心肌病框架内——不同心肌病在临床上常难以区分，超声心动图是确定性诊断，一旦出现明显临床表现则预后不良"
+  implicit_premise: "假设心肌病分类在 HCM 识别之前是必要的；假设怀疑与确认应保持分离"
+  title_gap: "标题是一般概念，但真正警告是预后：一旦出现明显临床表现则预后不良——这强调了早期识别的价值和晚期诊断的代价"
+  evidence_boundary: "框架综述，不提供详细的表型对表型预后层级"
 ---
 
 # One-line Summary

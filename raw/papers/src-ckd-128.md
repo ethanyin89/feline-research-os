@@ -11,8 +11,8 @@ jurisdictions: []
 evidence_level: original-study
 year: 2026
 status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [ckd, urinary, fibroblast, growth, factor-23, soluble, alpha-klotho, biomarker]
@@ -35,6 +35,13 @@ evidence_policy:
     - These biomarkers reflect renal mineral and bone disorder (CKD-MBD) pathophysiology in feline CKD.
   llm_inference:
     - uKL holds promise as a negative prognostic marker, meaning lower urinary excretion of soluble Klotho correlates with a higher risk of disease progression.
+  # V2 enhanced fields
+  study_design: "原始研究，112 只猫（13 只健康对照、71 只 CKD、28 只急性失代偿 CKD）的尿 FGF23 和可溶性 α-Klotho 分析"
+  core_argument: "尿 FGF23/肌酐比值在晚期 CKD 和 ACKD 中显著升高，尿 Klotho/FGF23 比值随疾病进展下降——较低的 uKL 是 CKD 进展的独立预后因素"
+  implicit_premise: "假设尿液生物标志物浓度能够反映肾脏局部的病理生理改变而无需侵入性活检；假设使用肌酐进行尿液浓度校正可消除排尿量差异的影响"
+  unexpected_finding: "N/A（摘要中未报告显著偏离预期的反直觉发现）"
+  title_gap: "标题涵盖了尿液 FGF23 和 Klotho 的检测，而摘要具体明确了尿 Klotho/FGF23 比值的进行性下降，并指明较低的尿 Klotho 是独立预后因子"
+  evidence_boundary: "基于摘要提取；缺乏特定治疗（如限制磷饮食或磷结合剂）对这些尿液标志物浓度的长期干预效应数据；缺乏确切的临床风险分层截断值（Cutoff values）"
 ---
 
 # Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease

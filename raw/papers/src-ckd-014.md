@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - The vault should now treat practice-friction as a real part of translational CKD reasoning, not only an afterthought.
     - This paper is best used as a `real-world implementation gap` source, not an efficacy source.
+  # V2 enhanced fields
+  study_design: "原始研究，葡萄牙 409 名兽医从业者问卷调查猫 CKD 临床管理实践"
+  core_argument: "92.7% 的从业者使用 IRIS 指南，但只有 19.1% 系统性测量所有 CKD 猫的血压——指南意识与实际执行之间存在显著差距"
+  implicit_premise: "假设报告的行为可以代表真实实践；假设葡萄牙的实践模式可以代表其他地区"
+  unexpected_finding: "主人约束是最大障碍——只有 35.7% 能够遵守建议的稳定患者复查频率"
+  title_gap: "标题说葡萄牙临床管理，但真正发现是实施差距：92.7% 知道 IRIS 指南但只有 19.1% 系统性测血压——主人约束限制了 64.3% 的复查执行"
+  evidence_boundary: "问卷研究，强于实践模式映射而非疗效声明；葡萄牙特定，可能无法直接泛化"
 ---
 
 # Clinical management of feline chronic kidney disease in Portugal: a questionnaire-based study

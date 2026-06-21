@@ -11,8 +11,8 @@ jurisdictions: []
 evidence_level: original-study
 year: 2025
 status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [hcm, assessment, longitudinal, systolic, function, using, tissue, motion, TMAD]
@@ -34,6 +34,13 @@ evidence_policy:
     - TMAD can detect myocardial longitudinal systolic dysfunction in HCM cats even when conventional parameters like fractional shortening (LVFS) remain normal.
   llm_inference:
     - TMAD provides an efficient speckle-tracking based surrogate for assessing subclinical systolic impairment in cats before overt global systolic failure develops.
+  # V2 enhanced fields
+  study_design: "前瞻性病例对照研究，21 只 HCM 猫 vs 26 只健康对照，采用组织运动环位移（TMAD）及斑点追踪超声心动图"
+  core_argument: "TMAD 是评估猫 HCM 左心室纵向收缩功能的敏感且可行方法，能够在传统缩短分数正常时检测到亚临床心肌功能障碍"
+  implicit_premise: "假设 TMAD 测量的二尖瓣环向心尖位移能够准确反映整体心肌纵向收缩功能；假设斑点追踪技术在猫超声心动图中的重复性与人类研究一致"
+  unexpected_finding: "TMAD 测量值不受品种、性别、年龄或心率的影响"
+  title_gap: "标题陈述了纵向收缩功能评估，而摘要明确指出 TMAD 测量值不受品种、性别、年龄或心率等生理/统计变量的影响，简化了临床校正需求"
+  evidence_boundary: "基于摘要提取；样本量较小（21 HCM vs 26 对照）；缺乏与长期预后（如 CHF 发生、生存期）的相关性验证；不能用于区分 HCM 与其他导致左室肥厚的疾病"
 ---
 
 # Assessment of longitudinal systolic function using tissue motion annular displacement in cats with hypertrophic cardiomyopathy: a prospective case-control study

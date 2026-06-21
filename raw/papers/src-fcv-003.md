@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted neutralisation-breadth anchor in the FCV endpoint branch.
     - The safest downstream wording is `broad but incomplete breadth`, not `current vaccines cover FCV`.
+  # V2 enhanced fields
+  study_design: "原始实验室中和研究，采集1206份来自英国兽医就诊猫只的拭子，检测122例分离的猫杯状病毒株，评估两种疫苗血清对不同野外分离株的中和能力"
+  core_argument: "目前使用的猫杯状病毒疫苗株能够对大部分英国野外分离的病毒株表现出较广泛的交叉中和活性，但无法完全覆盖所有采样的病毒多样性"
+  implicit_premise: "实验室中和试验结果能代表体内疫苗对野外病毒株的免疫保护情况"
+  title_gap: "标题强调不同疫苗对当前英国猫杯状病毒株的中和能力，但研究具体揭示了现有疫苗虽广泛交叉反应，却并未实现对病毒群体的完全覆盖——提示疫苗保护存在盲区"
+  evidence_boundary: "未评估疫苗对病毒株体内保护力及临床预防效果；未涵盖英国以外的病毒株多样性；未检测疫苗对新兴变异株的中和能力"
+  unexpected_finding: "即使是使用中的疫苗血清，也存在部分野外病毒分离株未被中和，说明病毒多样性带来的免疫逃逸风险"
 ---
 
 # Comparison of the ability of feline calicivirus (FCV) vaccines to neutralise a panel of current UK FCV isolates

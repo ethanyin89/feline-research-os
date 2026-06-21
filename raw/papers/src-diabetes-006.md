@@ -38,6 +38,13 @@ evidence_policy:
     - "Diet architecture should separate prevention, treatment, and remission contexts rather than using one global recommendation."
     - "Evidence-grade labels should accompany diet claims to distinguish trial-backed from experience-based guidance."
     - "Low-carbohydrate emphasis is common but should carry appropriate caveats about evidence strength."
+  # V2 enhanced fields
+  study_design: "综述性回顾文章，汇总多项关于猫糖尿病饮食管理的临床和实验研究"
+  core_argument: "适宜的饮食组成不仅能影响猫糖尿病的发生风险，还能有效辅助其治疗和长期管理。"
+  implicit_premise: "饮食成分直接影响猫体内的代谢和血糖调控机制，因此调整饮食能改变糖尿病发展过程。"
+  title_gap: "标题强调饮食在糖尿病预防和管理中的角色，但真正价值在于食谱具体成分如何作用于不同疾病阶段的机理分析——这为临床实践提供了多阶段干预视角。"
+  evidence_boundary: "文章未详述具体饮食干预对猫糖尿病长期并发症及生活质量的量化影响，也未涵盖不同品种猫的个体化饮食适应性。"
+  unexpected_finding: "部分饮食建议基于临床经验和生理原理而非严格的直接实验数据，显示此领域仍存在较大实证空白。"
 ---
 
 # The Role of Diet in the Prevention and Management of Feline Diabetes

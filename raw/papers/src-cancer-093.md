@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "May inform mammary-carcinoma.md molecular grading section."
     - "Novel biomarker candidates for FMC prognosis."
+  # V2 enhanced fields
+  study_design: "磷酸化蛋白质组学研究（2025 年 PLoS One），31 例 FMC + 6 例正常对照，11942 个磷酸化蛋白分析"
+  core_argument: "磷酸化蛋白质组学可识别 FMC 分级相关蛋白和治疗靶点——17 个显著下调的磷酸化蛋白——PRKAG3 与 Ki-67 显著相关（p=0.03）——高三阴性比例（35.5%）——但肿瘤分级间无显著差异"
+  implicit_premise: "假设蛋白质磷酸化失调是 FMC 进展的驱动因素；假设识别的磷酸化蛋白差异具有功能意义而非旁观者效应"
+  unexpected_finding: "尽管研究目标是识别分级生物标志物，但肿瘤分级间（G1 vs G2 vs G3）未发现显著差异——生物标志物区分恶性 vs 正常组织，但不能区分恶性程度——这限制了分级应用"
+  title_gap: "标题说 FMC 磷酸化蛋白质组学分析提供分级和治疗靶点洞察，但真正发现是分级局限性：现有分级系统可能不能反映磷酸化蛋白差异——需要替代分子分级策略——ABCC3/ACPP/PPP1CA/PRKAG3/RNASEL 是治疗靶点候选"
+  evidence_boundary: "探索性磷酸化蛋白质组学证据（n=31）；支持生物标志物发现假设生成，不支持诊断应用或预后预测——需要独立验证"
 ---
 
 # Phosphoproteomic profiling of feline mammary carcinoma: Insights into tumor grading and potential therapeutic targets

@@ -40,6 +40,13 @@ evidence_policy:
   llm_inference:
     - Future endpoint summaries should distinguish `visible serum phosphorus abnormality` from `earlier hidden phosphate burden`.
     - A later dedicated PTH card would be justified once the mineral branch is deepened further.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 CKD 高磷血症的治疗选择"
+  core_argument: "磷潴留是 CKD 进展和继发性甲旁亢的主要推动因素——磷限制饮食有证据支持，但磷酸盐结合剂的兽医证据较薄弱且无许可产品"
+  implicit_premise: "假设磷控制的重要性可以从人类肾脏病学合理外推；假设饮食优先于结合剂的层级是临床相关的"
+  unexpected_finding: "在早期 CKD，升高的 PTH 可使血清磷维持在参考范围内——这意味着正常血磷不能排除早期磷潴留"
+  title_gap: "标题问有什么治疗选择，但真正发现是隐藏的磷负担：早期 CKD 中 PTH 升高可使血磷正常——正常血磷不等于正常磷代谢"
+  evidence_boundary: "结合剂证据较薄弱，不支持产品优越性声明；铝中毒是铝基结合剂的潜在风险"
 ---
 
 # Treatment Options for Hyperphosphatemia in Feline CKD: What's Out there?

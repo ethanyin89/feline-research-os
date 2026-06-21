@@ -27,6 +27,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "药代动力学研究（发表于 Clin Cancer Res），脂质体 mTHPC 在猫鳞状细胞癌中的体内药代动力学，优化 PDT 方案"
+  core_argument: "无法从可用信息确定——需要摘要或全文——但标题暗示这是优化 PDT 给药方案的药代动力学研究——脂质体 mTHPC 是光敏剂"
+  implicit_premise: "假设药代动力学数据可指导 PDT 剂量和时机优化；假设猫 SCC 是研究 PDT 的有效临床模型"
+  unexpected_finding: "无法从可用信息确定——需要全文；可能包括最佳给药-照射间隔或组织分布数据"
+  title_gap: "标题说优化 PDT 和脂质体 mTHPC 在猫 SCC 中的体内药代动力学，但真正价值可能是临床方案优化：确定最佳给药时机和剂量——为 PDT 治疗猫 SCC 提供循证指导"
+  evidence_boundary: "占位符卡片；标题暗示高价值的 PDT 优化数据——需要摘要/全文提取才能支持具体声明"
 ---
 
 # Optimizing Photodynamic Therapy: In vivo Pharmacokinetics of Liposomal meta-(Tetrahydroxyphenyl)Chlorin in Feline Squamous Cell Carcinoma

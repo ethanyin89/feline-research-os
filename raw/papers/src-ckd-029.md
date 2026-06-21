@@ -30,6 +30,13 @@ evidence_policy:
     - "Nonrandomized grouping, small sample size, a multi-ingredient product, and commercial conflict prevent comparative or product-level recommendations."
   llm_inference:
     - "The most reusable lesson is the need to pair phosphorus response with calcium, bicarbonate, renal-function, and tolerability monitoring."
+  # V2 enhanced fields
+  study_design: "非随机化 360 天研究，20 只 IRIS 3 或 4 期 CKD 猫（10 只补充组、10 只数据库对照），多成分磷酸盐结合和碱化补充剂"
+  core_argument: "多成分磷酸盐结合补充剂（碳酸钙、乳酸葡萄糖酸钙、壳聚糖、碳酸氢钠）可降低晚期 CKD 猫血清磷——但非随机化设计和商业利益冲突需要独立验证"
+  implicit_premise: "假设数据库对照（拒绝补充剂的所有者的猫）具有可比性；假设多成分制剂效果可归因于磷酸盐结合"
+  unexpected_finding: "离子钙升高但据作者称仍在范围内——钙基磷酸盐结合剂需要钙监测"
+  title_gap: "标题说磷酸盐结合剂长期补充，但真正发现是方法学警告：非随机化设计、商业利益冲突、钙升高——需要独立验证才能转化为实践"
+  evidence_boundary: "不能建立生存获益、肾功能恢复或成分特异性效应；两位作者为制造商员工；不应用于早期 CKD"
 ---
 
 # A long term feed supplementation based on phosphate binders in Feline Chronic Kidney Disease

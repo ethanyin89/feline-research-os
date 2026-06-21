@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted cellular-immunity anchor in the FCV vaccine branch.
     - The safest downstream wording is `benefit beyond titre logic`, not `superior vaccine`.
+  # V2 enhanced fields
+  study_design: "实验性挑战研究，使用接种了改良活疫苗的家猫，评估其针对异源野外流行毒株的免疫反应"
+  core_argument: "改良活疫苗接种的猫虽缺乏体液交叉中和抗体，但能产生针对当前流行猫杯状病毒毒株的显著细胞免疫应答"
+  implicit_premise: "细胞免疫反应的存在及其测定能反映疫苗诱导的保护效果，且不同免疫指标（细胞免疫与体液免疫）对保护作用有独立贡献"
+  title_gap: "标题强调疫苗诱导细胞免疫，但实际上其发现揭示了细胞免疫能在缺乏体液交叉中和的情况下提供保护——提示传统抗体检测可能低估了疫苗效益"
+  evidence_boundary: "未评价疫苗对整体临床保护率的直接影响，也未研究长期免疫持续性及不同病毒亚型间完整交叉保护能力"
+  unexpected_finding: "接种疫苗的猫在缺乏体液交叉中和抗体的情况下仍能显著产生针对异源毒株的Th1细胞因子及IFN-γ释放，表明细胞免疫在交叉保护中起关键作用"
 ---
 
 # Modified-Live Feline Calicivirus Vaccination Elicits Cellular Immunity against a Current Feline Calicivirus Field Strain in an Experimental Feline Challenge Study

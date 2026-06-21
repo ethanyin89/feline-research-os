@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports muscularis thickening as a bounded lymphoma-leaning signal rather than a stand-alone diagnostic separator.
   llm_inference:
     - This was the correct next deep-extraction target because it turns the boundary branch into a multimodal workup story instead of a biopsy-only story.
+  # V2 enhanced fields
+  study_design: "回顾性队列研究，142 只经组织学确诊为正常小肠、弥漫性小肠淋巴瘤或炎症性肠病的猫，采用超声评估肌层增厚及淋巴结肿大"
+  core_argument: "猫的弥漫性小肠淋巴瘤患者相比正常小肠和炎症性肠病患者更可能表现为肌层增厚，肌层增厚是倾向于淋巴瘤的超声信号，但不足以单独用于诊断区分"
+  implicit_premise: "超声检查的肌层厚度和淋巴结状态可以反映猫肠道病理变化的类型和严重程度"
+  title_gap: "标题说是超声评估肌层变化，但真正发现是肌层增厚虽倾向淋巴瘤却非单独诊断指标——提示诊断需结合更多信息"
+  evidence_boundary: "该研究未评估肌层厚度是否能区分其他类型肠道肿瘤，亦未验证超声以外的诊断方法准确性和预后相关性"
+  unexpected_finding: "淋巴结肿大不仅与淋巴瘤相关，也存在于炎症性肠病猫中，提示该超声表现非特异性"
 ---
 
 # One-line Summary

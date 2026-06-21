@@ -34,6 +34,13 @@ evidence_policy:
     - "Individual clinical judgment remains part of the diet branch because the abstract preserves high-fiber responders."
   llm_inference:
     - "This is a high-priority full-text target if outputs need the evidence behind the remission-odds language."
+  # V2 enhanced fields
+  study_design: "综述性研究，回顾并分析多项关于猫糖尿病饮食管理的文献，重点比较低碳水化合物与高纤维饮食的效果"
+  core_argument: "低碳水化合物饮食在促进猫糖尿病缓解率方面具有优势，但高纤维饮食仍为部分猫群体提供了有效的治疗响应，因此饮食管理应结合个体差异和其他干预手段综合考虑"
+  implicit_premise: "猫糖尿病的缓解率与饮食成分密切相关，且不同个体对饮食干预的反应存在变异，允许能够通过饮食调控实现治愈或缓解"
+  title_gap: "标题强调低碳水化合物与高纤维的对比，但真正发现是两者皆在不同猫群中各有疗效，不能简单取代或否定"
+  evidence_boundary: "该综述未能明确指出不同猫种或糖尿病分期对饮食反应的具体差异，也未独立评估体重管理和胰岛素治疗的交互作用"
+  unexpected_finding: "有相当比例（高达68%）的猫通过饮食和胰岛素联合管理实现糖尿病缓解，且部分猫对高纤维饮食的缓解反应优于低碳水化合物饮食"
 ---
 
 # Feline Diabetes Mellitus: Low Carbohydrates Versus High Fiber?

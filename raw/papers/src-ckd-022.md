@@ -40,6 +40,13 @@ evidence_policy:
   llm_inference:
     - Model pages should now give ischemic injury a dedicated place rather than treating the model layer as purely observational.
     - Mechanism summaries can cite this study as experimental support for lesion progression, but should not present it as the dominant spontaneous-disease explanation.
+  # V2 enhanced fields
+  study_design: "原始研究，6 只成年雌猫经历单侧 90 分钟肾缺血后随访 6 个月的肾功能和结构变化"
+  core_argument: "单次缺血事件可产生持续的功能损害（GFR 下降 31%，肌酐升高 42%）和慢性结构病变（小管间质炎症、萎缩、纤维化、后期肾小球硬化）——这使缺血假说有具体的猫功能-病变轨迹支持"
+  implicit_premise: "假设实验性诱导损伤可以支持但不能证明自然发生 CKD 的因果机制；假设单侧诱导模型的转化相关性应明确界定而非假设"
+  unexpected_finding: "缺血肾有可变数量的废用性肾小球，符合无小管肾小球的发展和随后的缺血性肾小球硬化——急性损伤可演变为后期肾小球后果"
+  title_gap: "标题说单次缺血事件的慢性变化，但真正发现是疾病轨迹：GFR 下降 31%、肌酐升高 42%、纤维化和后期肾小球硬化——这是 vault 最强的实验模型锚点"
+  evidence_boundary: "6 只猫的实验模型，非自然发生疾病；单侧诱导设计限制直接转化为临床疾病预期"
 ---
 
 # Chronic Renal Changes After a Single Ischemic Event in an Experimental Model of Feline Chronic Kidney Disease

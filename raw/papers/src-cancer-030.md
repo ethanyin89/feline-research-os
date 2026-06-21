@@ -30,6 +30,13 @@ evidence_policy:
   llm_inference:
     - "Likely contains comprehensive review of canine/feline mammary cancer as human models."
     - "Full-text required for extractable findings."
+  # V2 enhanced fields
+  study_design: "书籍章节（2020 年 Springer），Advances in Experimental Medicine and Biology 系列，比较肿瘤学综述"
+  core_argument: "犬猫自发性乳腺肿瘤可作为人类乳腺癌的比较肿瘤学模型——书籍章节格式通常提供比原始论文更多的综合分析"
+  implicit_premise: "假设自发性伴侣动物肿瘤比诱导模型更能代表人类疾病进程；假设书籍章节已综合最新研究"
+  unexpected_finding: "无法确定——书籍章节未被 PubMed 收录，无摘要可用，需要全文提取"
+  title_gap: "标题说犬猫自发性乳腺肿瘤作为人类乳腺癌模型，但真正限制是可及性：书籍章节在 PubMed 中不可索引——获取全文成本高于期刊论文"
+  evidence_boundary: "无摘要可用，书籍章节格式；具体声明需要全文访问——仅限参考来源所有权"
 ---
 
 # Canine and Feline Spontaneous Mammary Tumours as Models of Human Breast Cancer

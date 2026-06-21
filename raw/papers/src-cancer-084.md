@@ -34,6 +34,13 @@ evidence_policy:
   llm_inference:
     - "Key reference for age-dependent FeLV susceptibility claims."
     - "Supports lymphoma.md FeLV epidemiology section."
+  # V2 enhanced fields
+  study_design: "前瞻性流行病学研究（1980 年 Cancer Res），42 只幼猫 + 28 只成年猫作为示踪者置于 FeLV 聚集环境"
+  core_argument: "FeLV 易感性具有明显的年龄依赖性——幼猫 7 个月时 71% 病毒血症（55% 持续感染）——成年猫 7 个月时仅 11%（2 年时 43%）——潜伏期差异大：幼猫 3.4 月 vs 成年猫 13.0 月——病毒中和抗体在一过性病毒血症清除后出现"
+  implicit_premise: "假设示踪者研究设计可代表自然暴露模式；假设 1980 年的感染率可外推到当代（疫苗接种时代前）"
+  unexpected_finding: "成年猫的'抵抗力'不是由于即时保护性体液免疫——而是延迟的潜伏期和较低的感染率——但 2 年内仍有 61% 感染"
+  title_gap: "标题说不同年龄猫的自然 FeLV 感染和免疫反应，但真正发现是年龄-易感性分层：幼猫快速高度易感——成年猫有延迟但非绝对抵抗——支持幼猫优先疫苗接种策略"
+  evidence_boundary: "经典流行病学证据（Essex/Gardner/Hardy 实验室）；支持年龄依赖性 FeLV 易感性声明，但在疫苗接种时代的适用性有限"
 ---
 
 # Natural feline leukemia virus infection and the immune response of cats of different ages

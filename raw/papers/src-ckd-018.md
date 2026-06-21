@@ -41,6 +41,13 @@ evidence_policy:
   llm_inference:
     - This paper does not overturn the vault's serial-surveillance framing, but it does justify adding a new layer: emerging metabolomic classifiers may eventually augment serial surveillance rather than replace it.
     - The most defensible promotion path is from `serial surveillance only` to `serial surveillance plus emerging biomarker-panel augmentation`.
+  # V2 enhanced fields
+  study_design: "原始研究，使用代谢组学和机器学习在传统 CKD2 诊断前 6 个月识别早期 CKD"
+  core_argument: "血清/尿液 3-羟基犬尿氨酸比值是最佳单一生物标志物候选（AUC 0.844）——多代谢物 ML 模型在 T-6 达到 AUC 0.929，比 SDMA 表现更好"
+  implicit_premise: "假设 CKD2 是有意义的早期检测目标；假设代谢组学工作流可以转化为实际筛查"
+  unexpected_finding: "SDMA 仅是 T-6 时第 14 位最具预测性的个体代谢物——这削弱了 SDMA 是最佳早期检测解决方案的假设"
+  title_gap: "标题说 3-羟基犬尿氨酸和机器学习早期检测，但真正发现是 SDMA 的局限：SDMA 仅是第 14 位预测物——多代谢物模型在 T-6 达到 AUC 0.929"
+  evidence_boundary: "研究环境中的早期区分，非常规筛查就绪；仅包括 CKD2 猫，缺乏 GFR 和肾脏超声"
 ---
 
 # Early detection of feline chronic kidney disease via 3-hydroxykynurenine and machine learning

@@ -29,6 +29,13 @@ evidence_policy:
     - "It should not be treated as feline-only until species scope is extracted."
   llm_inference:
     - "The source may be useful for preventing the management branch from becoming diet-only."
+  # V2 enhanced fields
+  study_design: "**误收录警告**：本文为综述文章，综述了多种动物环境和行为改变干预对肥胖治疗的效果，未限定于猫，因此无特定猫样本或实验方法描述。"
+  core_argument: "通过环境和行为的调整可以有效改善肥胖问题，且肥胖治疗应超越单纯饮食限制，采用更广泛的综合管理策略。"
+  implicit_premise: "环境和行为因素在肥胖的发生和维持中起重要作用，且这些因素的调整能够在临床上实现并带来显著益处。"
+  title_gap: "标题强调环境和行为的干预作为肥胖治疗重点，但综述内容未限于猫类，提示此方法的适用范围更广，且强调多维干预超越单一饮食。"
+  evidence_boundary: "本文未具体针对猫的肥胖治疗做出明确结论，也未涉及具体的物种差异及针对猫的行为或环境干预方案的详细数据。"
+  unexpected_finding: "综述中强调行为和环境调整的重要性超过传统饮食限制的观点，挑战了肥胖治疗以节食为核心的传统思路。"
 ---
 
 # Obesity Treatment: Environment and Behavior Modification

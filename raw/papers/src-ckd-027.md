@@ -30,6 +30,13 @@ evidence_policy:
     - "The findings are discovery-grade associations and do not provide diagnostic thresholds or treatment recommendations."
   llm_inference:
     - "Impaired renal excretion is the leading explanation for toxin accumulation, while altered gut production or dietary precursor effects remain plausible but unproven contributors."
+  # V2 enhanced fields
+  study_design: "观察性代谢组学研究，94 只 CKD 猫（59 只 2 期、29 只 3 期、6 只 4 期）vs 84 只健康老年猫，非靶向血清和尿液代谢组分析"
+  core_argument: "猫 CKD 存在广泛的色氨酸、酪氨酸、肉碱、尿素循环和肠源性尿毒症毒素代谢紊乱——吲哚酚硫酸盐、对甲酚硫酸盐和 TMAO 升高与疾病状态相关"
+  implicit_premise: "假设非靶向代谢组学关联反映病理生理学而非混杂因素；假设肾脏排泄受损是毒素蓄积的主要解释"
+  unexpected_finding: "色氨酸与分解代谢物比值在 2 期即发生逆转——提示代谢紊乱早于晚期 CKD"
+  title_gap: "标题说肠源性尿毒症毒素和色氨酸代谢，但真正发现是早期紊乱：色氨酸/分解代谢物比值在 2 期即逆转——代谢组学可能检测比传统标志物更早的变化"
+  evidence_boundary: "发现级关联，无绝对定量；不能提供诊断阈值或治疗建议；不能证明饮食或微生物组干预的因果效应"
 ---
 
 # Metabolomics reveals alterations in gut-derived uremic toxins and tryptophan metabolism in feline chronic kidney disease

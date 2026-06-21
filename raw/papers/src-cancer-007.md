@@ -32,6 +32,13 @@ evidence_policy:
     - "The overrepresentation of white or part-white cats in the squamous cell carcinoma cohort supports ultraviolet (UV) light exposure as a major environmental risk factor."
   llm_inference:
     - "Feline healthcare protocols in high-UV regions should place stronger emphasis on sun protection and early screening for squamous cell carcinoma, especially in light-pigmented cats."
+  # V2 enhanced fields
+  study_design: "回顾性登记分析，南非 Onderstepoort 兽医学术医院 12,893 例猫入院记录（1998-2005），其中 100 例癌症"
+  core_argument: "猫癌症谱系存在显著地理差异——南非 SCC 占 48%（主导），而北半球淋巴瘤占主导地位"
+  implicit_premise: "假设单一学术医院数据可代表南非猫群；假设肿瘤类型差异主要由 UV 暴露而非其他因素（如 FeLV 流行率）解释"
+  unexpected_finding: "SCC 占南非猫肿瘤的 48%——完全颠覆了'淋巴瘤是猫最常见癌症'的北半球认知"
+  title_gap: "标题说南非猫癌症患病率与世界其他地区的对比，但真正发现是环境决定论：UV 暴露彻底重塑了癌症谱系——南非 SCC 48% vs 北半球淋巴瘤主导"
+  evidence_boundary: "单一机构数据（n=100 癌症病例），样本量有限；1998-2005 数据可能不反映当前趋势"
 ---
 
 # Feline cancer prevalence in South Africa (1998-2005): contrasts with the rest of the world

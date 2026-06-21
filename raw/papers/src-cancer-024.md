@@ -29,6 +29,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "回顾性流行病学研究，UC Davis VMTH 150,063 例患者（2000-2019），分析 9 种主要癌症类型"
+  core_argument: "加州猫患者中 17.0% 被诊断为癌症——年龄是最强预测因子，但这是转诊医院群体而非一般流行率"
+  implicit_premise: "假设学术转诊医院数据可代表癌症流行病学；假设犬类详细发现可外推到猫"
+  unexpected_finding: "犬类中老年（≥12 岁）肉瘤、淋巴瘤和 MCT 的几率实际下降——可能反映竞争性死亡风险而非真正发病率下降"
+  title_gap: "标题说加州犬猫癌症描述性流行病学，但真正发现是数据基础设施差距：摘要主要报告犬类发现——猫特异性风险比需要全文提取——需要加州范围癌症登记处"
+  evidence_boundary: "转诊医院群体不代表一般群体癌症发病率；猫特异性风险比在摘要中未详细报告"
 ---
 
 # Descriptive epidemiology of canine and feline cancer in California, United States from 2000 to 2019

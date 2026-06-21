@@ -31,6 +31,13 @@ evidence_policy:
     - The study supports MDR1 as a shared chronic-enteropathy disturbance signal rather than a clean IBD-versus-lymphoma separator.
   llm_inference:
     - This paper is best used as a bounded molecular-layer note, not as a lead diagnostic page.
+  # V2 enhanced fields
+  study_design: "前瞻性队列试点研究，纳入20只炎症性肠病猫、9只低级别消化道淋巴瘤猫及3只健康对照猫，采用定量PCR检测十二指肠组织中MDR1和COX2基因mRNA表达水平"
+  core_argument: "猫的炎症性肠病和低级别消化道淋巴瘤患者均表现出十二指肠MDR1基因表达降低，但COX2基因表达无显著差异，表明MDR1是慢性肠病共有的分子干扰信号，而非区分IBD与淋巴瘤的明确标志"
+  implicit_premise: "十二指肠组织中MDR1和COX2基因mRNA表达的变化能够反映猫炎症性肠病及低级别消化道淋巴瘤的分子病理特征"
+  title_gap: "标题强调MDR1和COX2基因表达比较，但实际发现MDR1表达虽降低却不能区分IBD和淋巴瘤，这提示两种疾病在分子层面存在重叠与共性"
+  evidence_boundary: "本研究未探讨MDR1和COX2蛋白水平的变化、本研究未涉及猫肠疾病的临床治疗效果或病理机制的深入解析"
+  unexpected_finding: "尽管期望COX2表达在炎症性肠病中升高，但本研究发现COX2 mRNA水平均无显著组间差异"
 ---
 
 # One-line Summary

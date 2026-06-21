@@ -37,6 +37,13 @@ evidence_policy:
   llm_inference:
     - The vault can now frame senescence as a second-generation aged-cat mechanism layer under the broader fibrosis-centered natural-history story.
     - The safest wording is `senescence-associated enrichment of the aged-cat CKD mechanism map`, not `CKD is primarily a telomere disease`.
+  # V2 enhanced fields
+  study_design: "原始研究，评估 12 只 CKD 猫、12 只年轻正常猫和 6 只老年正常猫的肾脏、肝脏和皮肤样本的端粒长度和细胞衰老标志物"
+  core_argument: "自然发生的猫 CKD 与肾脏特异性端粒缩短和细胞衰老增加相关——肝脏和皮肤未见相同模式，这是肾脏定位的衰老信号而非全身老化"
+  implicit_premise: "假设 SABG 染色和端粒荧光强度是细胞衰老的有效替代指标；假设关联丰富的研究不能证明端粒缩短是猫 CKD 的起始驱动因素"
+  unexpected_finding: "所有组别肾脏端粒酶活性都相当低——端粒缩短可能不是通过端粒酶活性差异发生的，暗示不同的衰老途径"
+  title_gap: "标题说端粒缩短和细胞衰老，但真正发现是肾脏定位：肝脏和皮肤未见相同模式——这是肾脏特异性衰老信号而非全身老化"
+  evidence_boundary: "样本量适中（12+12+6 只猫）；CKD 与老年正常猫之间 SABG 染色差异未达统计显著性；不应直接改变临床工作流"
 ---
 
 # Feline chronic kidney disease is associated with shortened telomeres and increased cellular senescence

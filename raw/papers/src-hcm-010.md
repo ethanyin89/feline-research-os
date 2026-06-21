@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This may become a key boundary paper for screening versus diagnosis.
     - HCM recognition pages should explicitly separate `severe-disease biomarker signal` from `general early screening competence`.
+  # V2 enhanced fields
+  study_design: "原始研究，40 只成年缅因猫研究 NT-proBNP 作为亚临床 HCM 筛查工具"
+  core_argument: "NT-proBNP 是重度 HCM 的有效标志物（>44 pmol/L 准确预测重度 HCM）——但不能用于筛查轻中度 HCM"
+  implicit_premise: "假设重度疾病与轻中度疾病需要不同的生物标志物使用案例；假设群体特异性结果可以泛化"
+  unexpected_finding: "NT-proBNP 在中度或模棱两可的 HCM 猫中与正常猫相比没有升高——这正是筛查最需要帮助的地方"
+  title_gap: "标题说 NT-proBNP 筛查，但真正发现是筛查盲区：它在中度/模棱两可 HCM（正是筛查最需要帮助的地方）与正常猫没有区别——只能标记重度疾病"
+  evidence_boundary: "群体基于缅因猫研究殖民地，泛化应保持谨慎；筛查边界逻辑强于常规多模态排序"
 ---
 
 # One-line Summary

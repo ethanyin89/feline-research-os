@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This may later become a bridge page between model value and translational caution.
     - Mechanism and translation pages should keep this paper as a comparison bridge, not as a direct treatment-logic importer.
+  # V2 enhanced fields
+  study_design: "综述，比较人类和猫的肥厚型心肌病表型、病理和遗传学"
+  core_argument: "人猫 HCM 在表型和病理上高度相似（疾病异质性、非对称 LV 肥厚、微血管病、间质纤维化、终末期重塑）——但遗传发现深度不对称（猫 2 个 MYBPC3 突变，人类 11 个肌节蛋白基因）"
+  implicit_premise: "假设比较类比可以指导研究方向但不能直接导入治疗层级；假设猫作为模型价值主要在病理生理和管理研究而非所有者导向治疗排名"
+  unexpected_finding: "表型/病理类比可以强大，即使遗传发现深度差异很大——这为比较阅读提供了明确规则"
+  title_gap: "标题说人猫 HCM 比较，但真正价值是方法论规则：表型/病理类比可以强大，即使遗传发现深度差异很大——这为跨物种阅读提供了明确的借用边界"
+  evidence_boundary: "比较框架应保持有界类比而非无批判导入；猫特异性优先推理应保持在借用的人类治疗逻辑之上"
 ---
 
 # One-line Summary

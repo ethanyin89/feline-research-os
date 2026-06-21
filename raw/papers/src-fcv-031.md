@@ -26,6 +26,12 @@ evidence_policy:
     - "3C-like protease inhibitors show activity against both feline coronaviruses and caliciviruses."
   llm_inference:
     - "Dual-target antivirals could address both FIP and FCV with single compound class."
+  # V2 enhanced fields
+  study_design: "体外药理研究，使用猫冠状病毒 (FCoV) 和猫杯状病毒 (FCV) 的 3C 样蛋白酶作为靶点，筛选和评价广谱蛋白酶抑制剂的抑制活性"
+  core_argument: "针对猫冠状病毒和猫杯状病毒的 3C 样蛋白酶抑制剂具有广谱抗病毒活性，能够同时抑制两种病毒的蛋白酶功能。"
+  implicit_premise: "3C 样蛋白酶是猫冠状病毒和猫杯状病毒生命周期中不可或缺的酶，抑制其活性能够有效阻断病毒复制。"
+  title_gap: "标题提到广谱抑制剂针对两种病毒的 3C 样蛋白酶，但真正的创新在于首次证实一种抑制剂能够同时高效针对两种不同病毒的关键蛋白酶，展示其潜在的多病毒抗感染价值。"
+  evidence_boundary: "本研究未涵盖抑制剂在体内猫体中的药代动力学、安全性及临床疗效，也未研究病毒对抑制剂的潜在耐药机制。"
 ---
 
 # Broad-Spectrum Inhibitors against 3C-Like Proteases of FCoV and FCV

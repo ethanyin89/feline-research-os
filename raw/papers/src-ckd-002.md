@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - Endpoint and early-detection pages should continue to describe a two-layer logic: practical diagnosis first, earlier recognition second.
     - Any one-test screening narrative would overstate what this source supports.
+  # V2 enhanced fields
+  study_design: "综述，涵盖猫 CKD 的诊断、分期和筛查"
+  core_argument: "猫 CKD 诊断基于临床症状和肾性氮质血症，尿检（特别是尿比重）是诊断确认的必要条件——但早期或非氮质血症期 CKD 检测难度显著高于晚期"
+  implicit_premise: "假设常规血尿检测的局限性是系统性的而非仅限于特定检测方法；假设 GFR 在理论上是早期检测的金标准"
+  unexpected_finding: "尽管 GFR 是理想的早期检测指标，实际操作限制使其不适合常规临床使用——这提示「概念金标准」与「实用工作流」需要分开讨论"
+  title_gap: "标题说诊断、分期和筛查，但真正挑战是早期检测的实用性落差：GFR 是概念金标准但不可常规使用——早期 CKD 检测与晚期诊断是不同的问题"
+  evidence_boundary: "综述层面无法为每个升级检测排序；早期检测技术讨论的临床可操作性仍待验证"
 ---
 
 # Feline CKD: Diagnosis, staging and screening – what is recommended?

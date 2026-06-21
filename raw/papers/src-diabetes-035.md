@@ -11,8 +11,8 @@ jurisdictions: [United States]
 evidence_level: original-study
 year: 2024
 status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [diabetes, velagliflozin, SGLT2, insulin, glycemic, oral, SENSATION, DKA]
@@ -38,6 +38,13 @@ evidence_policy:
     - The safety profile of SGLT2 inhibitors requires strict monitoring for ketosis and DKA, especially during the first 14 days of therapy.
   llm_inference:
     - Velagliflozin provides an attractive, high-compliance alternative to twice-daily insulin injections for newly diagnosed, stable diabetic cats without ketonuria.
+  # V2 enhanced fields
+  study_design: "前瞻性多中心临床试验，252 只患猫（85% 初诊、15% 胰岛素治疗史），评估每日一次口服维拉格列净的有效性与安全性"
+  core_argument: "每日一次口服维拉格列净能有效控制猫糖尿病血糖及临床症状（Day 180 血糖控制率 81%），但具有 7.1% 的 DKA 发生风险，且胰岛素治疗史患猫风险显著升高（18.4% vs 5.1%）"
+  implicit_premise: "假设纳入的 client-owned 患猫在家庭环境下的用药依从性及症状记录准确；假设所报告的血糖控制率（排除中途脱落者）能代表整体疗效"
+  unexpected_finding: "既往接受过胰岛素治疗的患猫，在接受维拉格列净治疗后其 DKA 发生率显著高于初诊用药猫（18.4% vs 5.1%）"
+  title_gap: "标题强调维拉格列净作为独立疗法的有效性，但摘要核心数据揭示了明显的安全边界：既往有胰岛素使用史的猫在转换治疗后 DKA 风险几乎翻了两番（18.4% vs 5.1%）"
+  evidence_boundary: "基于摘要提取；缺乏关于中途脱落猫（attrition rate）的具体原因、DKA 发生的具体时间分布、以及长期使用（超过 180 天）胰岛功能恢复及安全性数据"
 ---
 
 # Velagliflozin, a once-daily, liquid, oral SGLT2 inhibitor, is effective as a stand-alone therapy for feline diabetes mellitus: the SENSATION study

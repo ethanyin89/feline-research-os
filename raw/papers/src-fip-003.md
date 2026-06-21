@@ -33,6 +33,10 @@ evidence_policy:
     - The source supports a central distinction between coronavirus exposure/background and FIP disease emergence.
   llm_inference:
     - This is the best candidate for the first FIP deep extraction pass.
+  # V2 enhanced fields
+  core_argument: "FIP 的临床表现和实验室检查均为非特异性，诊断必须基于多维度支持性证据的综合判断，而非任何单一「金标准」检测"
+  implicit_premise: "假设综述能够准确整合不同时代、不同样本来源、不同研究设计的证据；假设 GS-441524 时代的治疗转型不改变诊断框架的基本逻辑"
+  evidence_boundary: "综述性质无法提供原始诊断性能数据；不能用于评估具体检测方法的敏感性/特异性；治疗方案的证据等级需回溯原始研究"
 ---
 
 # One-line Summary

@@ -37,6 +37,13 @@ evidence_policy:
   llm_inference:
     - "Areas for progress: standardization of target assessments, feline-specific microarrays."
     - "Triple-negative enrichment makes cats valuable for studying aggressive breast cancer biology."
+  # V2 enhanced fields
+  study_design: "叙述性综述，论证猫作为比较肿瘤学模型的价值，聚焦口腔 SCC、乳腺癌和注射部位肉瘤"
+  core_argument: "猫在 One Medicine 方法中被低估——口腔 SCC 模拟人类头颈癌，乳腺癌富集三阴性表型，注射部位肉瘤模拟炎症驱动的肿瘤发生"
+  implicit_premise: "假设猫癌症的自发性和免疫功能完整使其比小鼠模型更有转化价值；假设三阴性富集使猫成为研究侵袭性乳腺癌的理想模型"
+  unexpected_finding: "猫乳腺肿瘤中三阴性表型比人类更常见——这一富集使猫成为研究这一最难治乳腺癌亚型的独特资源"
+  title_gap: "标题说猫、癌症和比较肿瘤学，但真正发现是被忽视的资源：猫在 One Medicine 中被严重低估——尽管拥有与犬类相同的优势（自发肿瘤、共享环境、更短寿命、治疗初治群体）"
+  evidence_boundary: "2015 年综述，三阴性富集声明需要更新的患病率数据验证"
 ---
 
 # Cats, Cancer and Comparative Oncology

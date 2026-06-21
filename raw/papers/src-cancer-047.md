@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - "Combined with src-cancer-002 and src-cancer-004, this provides strong FISS branch foundation."
     - "Non-adjuvanted vaccine recommendation needs policy-level framing, not individual advice."
+  # V2 enhanced fields
+  study_design: "基于登记处的流行病学研究（2018 年 JCPA），瑞士猫癌症登记处 2009-2014 数据，与早期观察期比较"
+  core_argument: "2007 年非佐剂 FeLV 疫苗引入后，瑞士纤维肉瘤发病率显著下降——这一观察支持含铝佐剂疫苗参与 FISS 发生——但发病机制仍未完全阐明"
+  implicit_premise: "假设纤维肉瘤下降与疫苗配方改变有因果关系而非巧合；假设瑞士趋势可外推到其他地区"
+  unexpected_finding: "尽管进行了广泛研究，FISS 的发病机制仍未确定阐明——慢性炎症反应假说被接受但佐剂的作用仍有争议"
+  title_gap: "标题说瑞士 FISS 数据 2009-2014，但真正发现是因果推断：非佐剂疫苗引入后发病率下降——这是最接近'自然实验'的证据——支持但不证明佐剂因果关系"
+  evidence_boundary: "瑞士登记处数据，提供纵向背景；疫苗推荐需要政策层面而非个体建议框架；与 src-cancer-002 同一登记系统的连续性"
 ---
 
 # Feline Injection Site Sarcomas: Data from Switzerland 2009–2014

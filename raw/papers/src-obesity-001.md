@@ -36,6 +36,12 @@ evidence_policy:
     - "This source provides the broadest foundation for the obesity module shell."
     - "It can support the five-branch architecture: prevalence, risk factors, pathogenesis, associated conditions, assessment."
     - "J.S. Rand's involvement (known for feline diabetes work) strengthens the diabetes-obesity connection."
+  # V2 enhanced fields
+  study_design: "综述研究，汇总不同国家猫肥胖率及相关风险因素，采用文献回顾与分析方法"
+  core_argument: "猫肥胖症是最常见的多因素营养障碍，其患病率高达11.5%至63%，且与动物内在及环境相关多种风险因素密切相关。"
+  implicit_premise: "不同研究中测量和定义肥胖的标准具有一定一致性，且现有文献数据能够代表全球范围内猫肥胖的基本流行趋势与原因。"
+  title_gap: "标题仅提及肥胖的概况，真正发现是详尽阐释了肥胖的复杂风险因素及防治中体况评估的重要性——这为临床实践提供了实用指导。"
+  evidence_boundary: "本综述未涉及肥胖具体的治疗效果评估及长期预后，也未分析特定干预措施的临床试验数据。"
 ---
 
 # Feline obesity - prevalence, risk factors, pathogenesis, associated conditions and assessment: a review

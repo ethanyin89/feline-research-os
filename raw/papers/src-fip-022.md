@@ -30,6 +30,13 @@ evidence_policy:
     - It should be used as a workup-strengthening source, not as a standalone definitive test source.
   llm_inference:
     - This paper should be read directly beside `src-fip-010` to keep utility and limitation claims from drifting apart.
+  # V2 enhanced fields
+  study_design: "原始研究，检测猫冠状病毒 spike 基因突变作为 FIP 诊断工具"
+  core_argument: "突变检测可以作为诊断支持工具——这是突变诊断分支的正面/实用侧，防止模块过度倾向纯谨慎立场"
+  implicit_premise: "假设突变检测实用性需要与限制论文（如 src-fip-010）和传播相关性论文（如 src-fip-018）平衡阅读"
+  unexpected_finding: "标题将突变检测明确框定为诊断工具——这为有界效用主张提供支持，而非仅仅是机制好奇心"
+  title_gap: "标题说 spike 突变检测作为诊断工具，但真正价值是提供突变诊断分支的正面/实用侧——防止模块在读完限制论文后过度倾向纯谨慎立场，使有界效用可以被承认"
+  evidence_boundary: "标题级别无法揭示敏感性、特异性或样本情境限制；实用性语言应保持在临床病理学主导怀疑和复合检查逻辑之下"
 ---
 
 # One-line Summary

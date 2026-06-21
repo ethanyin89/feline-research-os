@@ -39,6 +39,13 @@ evidence_policy:
     - "This is a key source for complication visibility in the diabetes module."
     - "Plantigrade posture can serve as a clinical marker for underlying neuropathic damage."
     - "The progression from demyelination to axonal degeneration suggests early intervention may limit severity."
+  # V2 enhanced fields
+  study_design: "病例对照研究，比较19只糖尿病猫与28只非糖尿病对照猫，采用体格检查、神经学检查、电生理检测、生化分析及神经肌肉活检"
+  core_argument: "自发性猫糖尿病会导致真实存在的神经病理性并发症，包括神经功能、结构及生化缺陷"
+  implicit_premise: "糖尿病导致的神经病变能够通过临床、功能和组织学多层面方法准确识别和区别于非糖尿病猫的神经状态"
+  title_gap: "标题聚焦神经并发症，但真正发现是通过电生理和组织病理证据确认了糖尿病神经病变的具体机制和表征——揭示了临床症状背后的细胞损伤过程"
+  evidence_boundary: "未回答糖尿病神经并发症的具体治疗方法及长期临床预后，也未涉及糖尿病早期神经病变的预防策略"
+  unexpected_finding: "跖行姿势作为最显著的临床表现，其背后对应着鞘细胞损伤和脱髓鞘病理变化，而不仅仅是简单的运动障碍"
 ---
 
 # Neurological Complications Associated with Spontaneously Occurring Feline Diabetes Mellitus

@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This may become a key endpoint-separation paper after deeper review.
     - HCM endpoint pages should separate `injury/severity biomarker` from `screening biomarker` rather than ranking all blood markers in one flat list.
+  # V2 enhanced fields
+  study_design: "原始研究，33 只健康对照猫和 20 只中重度 HCM 猫的血浆心肌肌钙蛋白 I 测量"
+  core_argument: "心肌肌钙蛋白 I 在中重度 HCM 猫中显著升高（敏感性 85%，特异性 97%）——但与结构指标仅弱相关，提示其反映损伤负担而非结构定义"
+  implicit_premise: "假设中重度 HCM vs 健康对照的比较可以推广到更广泛的临床场景；假设弱结构相关性是系统性的而非样本限制"
+  unexpected_finding: "cTnI 与左心室壁厚度仅弱相关，但与活动性充血性心衰明确相关——这提示其作为损伤/严重程度标志物而非早期筛查工具的角色"
+  title_gap: "标题说心肌肌钙蛋白，但真正发现是其局限：cTnI 与结构（壁厚度）弱相关但与活动性心衰强相关——它是损伤/严重程度标志物而非早期筛查工具"
+  evidence_boundary: "2002 年研究，早于现代多标志物策略和 NT-proBNP 使用案例分离；不能用于当前多标志物筛查策略"
 ---
 
 # One-line Summary

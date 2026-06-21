@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - This may become a key bridge between recognition, endpoint hierarchy, and pathology depth.
     - Mechanism and endpoint pages should probably use this as an end-stage remodeling anchor rather than as a general diagnostic authority paper.
+  # V2 enhanced fields
+  study_design: "原始研究，21 只 HCM 猫和 6 只对照猫心脏的定量形态测量和组织病理学分析"
+  core_argument: "终末期 HCM 是结构重塑表型而非简单的更厚壁——进展主要以纤维组织沉积增加、左心室腔扩张、左心房扩张和冠状动脉硬化为特征"
+  implicit_premise: "假设病理分期可以深化严重程度架构而不取代超声心动图主导的一线识别"
+  unexpected_finding: "壁内冠状动脉硬化与终末期进展相关——血管重塑是晚期疾病的组成部分而非独立病理"
+  title_gap: "标题说定量病理分期，但真正发现是终末期重塑模式：冠状动脉硬化与纤维化和腔室扩张关联——晚期 HCM 不是'更厚的墙'，而是不同的表型"
+  evidence_boundary: "摘要级别访问不能将病理分期转化为临床优先诊断方案；最适合用于晚期架构和分支定位"
 ---
 
 # One-line Summary

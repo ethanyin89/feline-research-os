@@ -28,6 +28,11 @@ evidence_policy:
     - This source is best used as an ecology-aware risk anchor rather than as a generic risk-factor list.
   llm_inference:
     - This paper likely helps keep risk architecture tied to endemic coronavirus context instead of generic population factors only.
+  # V2 enhanced fields
+  study_design: "原始研究，研究多猫环境中流行猫肠冠状病毒的 FIP 风险因素"
+  core_argument: "FIP 风险不仅是个体猫的属性——它受背景生态学塑造：冠状病毒暴露、传播压力、密度和共享环境"
+  implicit_premise: "假设环境生态学是独立于宿主信号学的风险维度；假设流行肠道冠状病毒背景改变验前风险评估"
+  evidence_boundary: "风险因素研究，不诊断 FIP；多猫暴露不是充分病因；具体风险因素权重需阅读全文"
 ---
 
 # One-line Summary

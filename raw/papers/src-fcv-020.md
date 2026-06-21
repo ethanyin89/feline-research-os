@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - This source now serves as the first deep-extracted enteric-extension anchor in the FCV recognition branch.
     - The safest downstream wording is `bounded enteric extension`, not `FCV as a routine enteritis lead cause`.
+  # V2 enhanced fields
+  study_design: "横断面研究，采集患有肠炎的猫及健康对照猫的粪便样本，采用分子生物学方法检测猫杯状病毒（FCV）RNA"
+  core_argument: "猫杯状病毒不仅存在于呼吸道，还可作为一种肠道致病型变体在患肠炎的猫体内持续存在，表现出不同于经典呼吸道毒株的适应特征"
+  implicit_premise: "粪便中检测到的FCV RNA代表活病毒的存在，且肠道分离株的理化耐受性变化与其肠道适应性相关"
+  title_gap: "标题强调猫杯状病毒在肠炎猫中的鉴定，但真正发现是FCV可作为一个独立且具有耐环境能力的肠道变异株存在，提示需要重新考虑其致病机制"
+  evidence_boundary: "未涉及FCV肠道毒株的具体致病机制、感染发展过程及临床治疗效果"
+  unexpected_finding: "肠道分离株相较于呼吸道分离株表现出更强的低pH、胰蛋白酶和胆汁耐受性，提示其对肠道环境的独特适应"
 ---
 
 # Identification of feline calicivirus in cats with enteritis

@@ -30,6 +30,13 @@ evidence_policy:
     - "This card is a first-pass intake object only; it should control triage and source ownership, not reader-facing claims."
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
+  # V2 enhanced fields
+  study_design: "综述（1985 年 Vet Clin NA），猫乳腺肿瘤的临床管理"
+  core_argument: "FMC 的侵袭性特征（快速生长、高复发、预后差）决定了管理三元组：早期诊断、积极手术、频繁随访"
+  implicit_premise: "假设 1985 年建立的临床管理框架在基本原则上仍然适用"
+  unexpected_finding: "管理三元组的核心——早期诊断、积极手术、频繁随访——在 40 年后仍是 FMC 管理的基石"
+  title_gap: "标题仅说猫乳腺肿瘤，但真正发现是管理范式：1985 年即建立的'早期诊断、积极手术、频繁随访'三元组至今仍是 FMC 管理的核心框架"
+  evidence_boundary: "1985 年综述，治疗方案和预后因素理解已显著进化；仅限历史背景"
 ---
 
 # Feline Mammary Tumors

@@ -36,6 +36,13 @@ evidence_policy:
   llm_inference:
     - "May inform lymphoma.md FeLV subgroup epidemiology section."
     - "Subgroup distribution relevant to disease risk assessment."
+  # V2 enhanced fields
+  study_design: "横断面流行病学研究（1978 年 Int J Cancer），Glasgow 和 New York 猫，淋巴肉瘤猫 vs 健康携带者 FeLV 亚群分布"
+  core_argument: "FeLV 亚群组成在患病猫和健康携带者之间存在差异——FeLV-B 在淋巴肉瘤猫中更常见（58% vs 33%）——FeLV-C 仅在患病猫中出现——暗示 FeLV-B 和 FeLV-C 具有更高致病性"
+  implicit_premise: "假设 Glasgow 和 New York 两地的 FeLV 亚群分布可代表更广泛人群；假设横断面关联可推断因果——FeLV-B 导致淋巴肉瘤而非淋巴肉瘤选择 FeLV-B"
+  unexpected_finding: "多猫家庭中 FeLV-AB 混合感染的携带率（53%）高于 FeLV-A 单独感染（28%）——暗示 FeLV-B 可能增强传播效率或感染持续性"
+  title_gap: "标题说猫中 FeLV 亚群出现频率，但真正发现是亚群-疾病关联：FeLV-B 富集于淋巴肉瘤——FeLV-C 排他性出现在患病猫——亚群组成可能是疾病风险指标"
+  evidence_boundary: "早期流行病学证据（Jarrett/Hardy 实验室）；支持亚群-疾病关联声明，不直接支持因果机制——亚群致病性差异是推论"
 ---
 
 # The frequency of occurrence of feline leukaemia virus subgroups in cats

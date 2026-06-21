@@ -40,6 +40,13 @@ evidence_policy:
   llm_inference:
     - Future trial-design work should map intervention classes onto routine endpoints, context endpoints, and minimum trial outcomes rather than forcing one flat outcome list.
     - The vault may eventually need a dedicated CKD trial-design page if treatment-design work becomes a separate track.
+  # V2 enhanced fields
+  study_design: "综述（系统综述 + eDelphi + 共识会议），确定猫 CKD 治疗试验的核心结局集"
+  core_argument: "猫 CKD 治疗试验应测量最少 29 个参数跨 9 个核心主题——包括临床检查、生活质量、血清生化、全血细胞计数、尿液分析、食物摄入量、CKD 进展、生存时间和死亡原因"
+  implicit_premise: "假设治疗试验需要比常规临床工作流更广泛的结局架构；假设共识方法学可以产生有效的最低报告标准"
+  unexpected_finding: "104 个已发表参数被筛选至 29 个——这揭示了现有文献结局选择的高度不一致性"
+  title_gap: "标题问应测量什么结局，但真正发现是碎片化现状：104 个已发表参数被筛选至 29 个——这是猫医学第一个核心结局集，揭示了此前研究的高度不一致"
+  evidence_boundary: "定义试验最低报告架构，非每个干预类别的通用优先级排序；不规定常规诊所工作流程"
 ---
 
 # What outcomes should be measured in feline chronic kidney disease treatment trials? Establishing a core outcome set for research

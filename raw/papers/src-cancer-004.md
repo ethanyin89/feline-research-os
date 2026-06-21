@@ -33,6 +33,13 @@ evidence_policy:
   llm_inference:
     - "The cancer module should split early by tumor family rather than compile a single flat oncology page."
     - "Comparative oncology model language should remain separated from feline clinical guidance."
+  # V2 enhanced fields
+  study_design: "分子机制综述，覆盖淋巴瘤、口腔 SCC、肉瘤/FISS、乳腺癌和肥大细胞瘤的分子通路"
+  core_argument: "猫癌症模块应按肿瘤家族分支而非单一扁平肿瘤学页面——FISS 发生率为每 10,000 只接种猫中 1-10 例"
+  implicit_premise: "假设人类肿瘤分子机制框架可直接应用于猫；假设分子通路相似意味着治疗反应相似"
+  unexpected_finding: "脾脏肥大细胞瘤脾切除术后中位生存期 856 天 vs 未切除 342 天——手术在 MCT 中的价值被量化"
+  title_gap: "标题说猫癌症的分子机制，但真正发现是模块架构：癌症模块应按肿瘤家族（淋巴瘤、SCC、肉瘤、乳腺癌、MCT）分支——而非单一扁平页面"
+  evidence_boundary: "综述提供架构指导但不应用于治疗排名、预后声明或生物标志物决策规则"
 ---
 
 # Molecular Mechanisms of Feline Cancers

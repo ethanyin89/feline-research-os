@@ -38,6 +38,13 @@ evidence_policy:
   llm_inference:
     - "This source can complement src-cancer-008 for modern lymphoma epidemiology."
     - "Breed risk claims need Australian-population caveats."
+  # V2 enhanced fields
+  study_design: "回顾性流行病学研究（2024 年 Vet Sci），1705 例澳大利亚猫淋巴瘤病例与 85,741 只参考群体比较"
+  core_argument: "澳大利亚猫淋巴瘤有可量化的风险因素——雄性风险增加（OR 1.2）——病例年龄更大（中位 11.7 vs 9.0 岁）——病例体重更轻（中位 3.7 vs 4.0 kg）——8 个品种风险增加，3 个品种风险降低——解剖位置模式因品种而异"
+  implicit_premise: "假设澳大利亚猫群体可代表更广泛模式；假设体重与淋巴瘤的关联不仅仅是疾病导致的消瘦"
+  unexpected_finding: "品种特异性解剖位置模式——暹罗、Burmilla、澳大利亚雾猫、布偶、英国短毛和家猫在解剖表现上有显著差异——这种品种-位置关联提示遗传因素可能影响淋巴瘤亚型"
+  title_gap: "标题说澳大利亚猫群体的淋巴瘤人口统计学，但真正发现是风险分层：可量化的品种、性别、年龄和体重风险因素——大样本量（1705 例）提供统计效力——但品种名称需要全文提取"
+  evidence_boundary: "澳大利亚群体数据；支持流行病学背景和风险因素量化，不支持普适性品种风险声明或因果机制结论"
 ---
 
 # Demographics of Feline Lymphoma in Australian Cat Populations: 1705 Cases
