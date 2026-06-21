@@ -2547,7 +2547,8 @@ def render_search_context_panel() -> None:
             st.caption(active["file"])
             st.code(preview, language=None)
 
-        if st.button("Clear this selection", key="clear-search-context"):
+        panel_id = "search_context"
+        if st.button("Clear this selection", key=f"clear_{panel_id}"):
             clear_search_context()
             st.rerun()
 
@@ -2911,7 +2912,7 @@ def render_evidence_profile_v2(profile: "EvidenceProfile") -> None:
     st_markdown_html(profile_html)
 
 
-def render_source_card_v2(card: "SourceDisplay") -> None:
+def render_source_card_v2(card: "SourceDisplay", key_prefix: str = "") -> None:
     """Render a single source card with canonical link, IF, citations, and expandable sections."""
     if not RESULT_PRESENTATION_AVAILABLE:
         return
@@ -2991,42 +2992,48 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
     cited_by_links = get_cited_by_links(source_id) if source_id.startswith("src-") else []
     has_cited_by = bool(cited_by_links)
 
+    # State keys
+    state_key_abs = f"show_abs_{key_prefix}_{card_id}"
+    state_key_meth = f"show_meth_{key_prefix}_{card_id}"
+    state_key_refs = f"show_refs_{key_prefix}_{card_id}"
+    state_key_cited = f"show_cited_{key_prefix}_{card_id}"
+
     if has_abstract or has_methods or has_refs or has_cited_by:
         # Use columns to create inline expander buttons
         expand_cols = st.columns([1, 1, 1, 1, 2])
         with expand_cols[0]:
             if has_abstract:
                 abstract_label = "摘要" if is_zh else "Abstract"
-                if st.button(f"📄 {abstract_label}", key=f"abs_{card_id}", use_container_width=True):
-                    st.session_state[f"show_abs_{card_id}"] = not st.session_state.get(f"show_abs_{card_id}", False)
+                if st.button(f"📄 {abstract_label}", key=f"abs_{key_prefix}_{card_id}", use_container_width=True):
+                    st.session_state[state_key_abs] = not st.session_state.get(state_key_abs, False)
         with expand_cols[1]:
             if has_methods:
                 methods_label = "方法" if is_zh else "Methods"
-                if st.button(f"🔬 {methods_label}", key=f"meth_{card_id}", use_container_width=True):
-                    st.session_state[f"show_meth_{card_id}"] = not st.session_state.get(f"show_meth_{card_id}", False)
+                if st.button(f"🔬 {methods_label}", key=f"meth_{key_prefix}_{card_id}", use_container_width=True):
+                    st.session_state[state_key_meth] = not st.session_state.get(state_key_meth, False)
         with expand_cols[2]:
             if has_refs:
                 refs_label = f"参考文献 ({len(card.reference_ids)})" if is_zh else f"References ({len(card.reference_ids)})"
-                if st.button(f"📚 {refs_label}", key=f"refs_{card_id}", use_container_width=True):
-                    st.session_state[f"show_refs_{card_id}"] = not st.session_state.get(f"show_refs_{card_id}", False)
+                if st.button(f"📚 {refs_label}", key=f"refs_{key_prefix}_{card_id}", use_container_width=True):
+                    st.session_state[state_key_refs] = not st.session_state.get(state_key_refs, False)
         with expand_cols[3]:
             if has_cited_by:
                 cited_label = f"被引用 ({len(cited_by_links)})" if is_zh else f"Cited By ({len(cited_by_links)})"
-                if st.button(f"🔗 {cited_label}", key=f"cited_{card_id}", use_container_width=True):
-                    st.session_state[f"show_cited_{card_id}"] = not st.session_state.get(f"show_cited_{card_id}", False)
+                if st.button(f"🔗 {cited_label}", key=f"cited_{key_prefix}_{card_id}", use_container_width=True):
+                    st.session_state[state_key_cited] = not st.session_state.get(state_key_cited, False)
 
         # Show expanded content
-        if st.session_state.get(f"show_abs_{card_id}"):
+        if st.session_state.get(state_key_abs):
             st.markdown(
                 f"<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #60a5fa;font-size:13px;color:#c9cdd5;line-height:1.6;'>{html.escape(card.abstract_text)}</div>",
                 unsafe_allow_html=True,
             )
-        if st.session_state.get(f"show_meth_{card_id}"):
+        if st.session_state.get(state_key_meth):
             st.markdown(
                 f"<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #22c55e;font-size:13px;color:#c9cdd5;line-height:1.6;'>{html.escape(card.methods_summary)}</div>",
                 unsafe_allow_html=True,
             )
-        if st.session_state.get(f"show_refs_{card_id}"):
+        if st.session_state.get(state_key_refs):
             # Use citation graph for richer reference display
             source_id = getattr(card, '_internal_id', None) or card.title[:20]
             ref_links = get_reference_links(source_id) if source_id.startswith("src-") else []
@@ -3064,7 +3071,7 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
             st.markdown(refs_html, unsafe_allow_html=True)
 
         # P3: Show "Cited By" content
-        if st.session_state.get(f"show_cited_{card_id}") and cited_by_links:
+        if st.session_state.get(state_key_cited) and cited_by_links:
             cited_html = "<div style='margin:8px 0 12px 0;padding:10px 14px;background:rgba(20,20,25,0.8);border-left:3px solid #f59e0b;font-size:13px;color:#c9cdd5;'>"
             header_label = "引用本文的文献" if is_zh else "Papers citing this work"
             cited_html += f"<div style='margin-bottom:8px;color:#f59e0b;font-weight:500;'>{header_label}:</div>"
@@ -3082,7 +3089,7 @@ def render_source_card_v2(card: "SourceDisplay") -> None:
             st.markdown(cited_html, unsafe_allow_html=True)
 
 
-def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
+def render_sources_section_v2(source_cards: list["SourceDisplay"], key_prefix: str = "") -> None:
     """Render sources section with canonical links (v2)."""
     if not source_cards:
         return
@@ -3094,12 +3101,12 @@ def render_sources_section_v2(source_cards: list["SourceDisplay"]) -> None:
 
     # Show first 4 expanded, rest collapsed
     for card in source_cards[:4]:
-        render_source_card_v2(card)
+        render_source_card_v2(card, key_prefix=key_prefix)
 
     if len(source_cards) > 4:
         with st.expander(f"查看更多 ({len(source_cards) - 4} 篇)", expanded=False):
             for card in source_cards[4:]:
-                render_source_card_v2(card)
+                render_source_card_v2(card, key_prefix=key_prefix)
 
 
 def render_next_actions_v2(actions: list, key_prefix: str = "next") -> None:
@@ -3276,7 +3283,7 @@ VERIFICATION_STATUS_MAP = {
 }
 
 
-def render_translatable_content(doc_id: str, content: str, show_translate_btn: bool) -> None:
+def render_translatable_content(doc_id: str, content: str, show_translate_btn: bool, key_prefix: str = "") -> None:
     """Render document markdown content, and optionally provide a one-click AI translation to Chinese."""
     st.markdown(content)
     
@@ -3290,11 +3297,11 @@ def render_translatable_content(doc_id: str, content: str, show_translate_btn: b
         st.markdown("---")
         st.markdown("<div style='font-size:13px;color:#14b8a6;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-top:12px;margin-bottom:8px;'>🇨🇳 AI 中文翻译对照 / AI Translation</div>", unsafe_allow_html=True)
         st.markdown(translated_text)
-        if st.button("清除翻译缓存 / Clear Translation", key=f"clear_{cache_key}"):
+        if st.button("清除翻译缓存 / Clear Translation", key=f"clear_{key_prefix}_{cache_key}"):
             del st.session_state[cache_key]
             st.rerun()
     else:
-        if st.button("✨ 翻译本段文献 (AI) / Translate to Chinese", key=f"btn_{cache_key}"):
+        if st.button("✨ 翻译本段文献 (AI) / Translate to Chinese", key=f"btn_{key_prefix}_{cache_key}"):
             available_backend = None
             client_obj = None
             active_model_name = ""
@@ -3345,13 +3352,13 @@ def render_translatable_content(doc_id: str, content: str, show_translate_btn: b
                     st.error(f"翻译过程中出错：{e}")
 
 
-def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially_expanded: bool = True) -> None:
+def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially_expanded: bool = True, key_prefix: str = "") -> None:
     if not loaded_paths:
         return
         
     chinese_session = is_session_chinese()
     st.markdown("<div class='vault-panel-label' style='margin-top:16px;margin-bottom:8px'>匹配的本地文献与文档内容 / Matched Documents</div>", unsafe_allow_html=True)
-    for p_str in loaded_paths:
+    for idx, p_str in enumerate(loaded_paths):
         path = Path(p_str)
         if not path.exists():
             continue
@@ -3366,6 +3373,7 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
         
         is_source_card = "raw/papers" in rel_path or "raw/regulations" in rel_path or filename.startswith("src-")
         
+        doc_key_prefix = f"{key_prefix}-{idx}"
         if is_source_card:
             # Load metadata
             meta_list = load_source_metadata(VAULT_ROOT, [source_id])
@@ -3397,12 +3405,12 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
                 if meta_str:
                     st.markdown(f"<div style='font-size:12px;color:#8b90a0;margin-bottom:8px'>{meta_str}</div>", unsafe_allow_html=True)
                 content = read_markdown_without_frontmatter(path)
-                render_translatable_content(rel_path, content, chinese_session)
+                render_translatable_content(rel_path, content, chinese_session, key_prefix=doc_key_prefix)
         else:
             expander_title = f"📄 {rel_path}"
             with st.expander(expander_title, expanded=initially_expanded):
                 content = read_markdown_without_frontmatter(path)
-                render_translatable_content(rel_path, content, chinese_session)
+                render_translatable_content(rel_path, content, chinese_session, key_prefix=doc_key_prefix)
 
 
 def render_query_refinement(refined_query: Optional[str], objectives: Optional[list[str]]) -> None:
@@ -3617,33 +3625,76 @@ def format_to_agent_ii_style(text: str) -> str:
             boundary = ""
             relevance = ""
 
+            # Track if we're in a multi-line 关键发现 block (V2 format)
+            in_multiline_finding = False
+            multiline_finding_parts = []
+
             for el in entry_lines:
                 el_stripped = el.strip()
                 if el_stripped.startswith("**文献信息：**"):
                     meta_info = el_stripped.replace("**文献信息：**", "").strip()
+                    in_multiline_finding = False
                 elif el_stripped.startswith("**链接：**"):
                     link = el_stripped.replace("**链接：**", "").strip()
+                    in_multiline_finding = False
                 elif el_stripped.startswith("**为什么值得读：**"):
                     why_it_matters = el_stripped.replace("**为什么值得读：**", "").strip()
+                    in_multiline_finding = False
                 elif el_stripped.startswith("**关键发现：**"):
-                    key_finding = el_stripped.replace("**关键发现：**", "").strip()
-                elif el_stripped.startswith("**证据边界：**"):
-                    boundary = el_stripped.replace("**证据边界：**", "").strip()
+                    content = el_stripped.replace("**关键发现：**", "").strip()
+                    if content:
+                        # Single-line format (old style)
+                        key_finding = content
+                        in_multiline_finding = False
+                    else:
+                        # Multi-line format (V2 style) - start collecting
+                        in_multiline_finding = True
+                        multiline_finding_parts = []
                 elif el_stripped.startswith("**临床相关性：**"):
+                    # This marks the end of the entry, capture and exit multiline mode
                     relevance = el_stripped.replace("**临床相关性：**", "").strip()
+                    in_multiline_finding = False
+                elif in_multiline_finding and el_stripped:
+                    # Collect V2 multi-line content (核心论点, 研究设计, 关键证据, 证据边界, 意外发现)
+                    # Convert V2 labels to compact inline format
+                    if el_stripped.startswith("**核心论点：**"):
+                        multiline_finding_parts.append(el_stripped.replace("**核心论点：**", "核心论点：").strip())
+                    elif el_stripped.startswith("**研究设计：**"):
+                        multiline_finding_parts.append(el_stripped.replace("**研究设计：**", "研究设计：").strip())
+                    elif el_stripped.startswith("**关键证据：**"):
+                        multiline_finding_parts.append(el_stripped.replace("**关键证据：**", "").strip())
+                    elif el_stripped.startswith("**证据边界：**"):
+                        # Capture boundary but stay in multiline mode (意外发现 may follow)
+                        boundary = el_stripped.replace("**证据边界：**", "").strip()
+                    elif el_stripped.startswith("**意外发现：**"):
+                        multiline_finding_parts.append(el_stripped.replace("**意外发现：**", "意外发现：").strip())
+                elif el_stripped.startswith("**证据边界：**"):
+                    # Non-V2 format: standalone 证据边界 field
+                    boundary = el_stripped.replace("**证据边界：**", "").strip()
+
+            # If we collected V2 multi-line findings, join them
+            if multiline_finding_parts:
+                key_finding = " ".join(multiline_finding_parts)
 
             # Reconstruct meta/author details
+            # Format varies: "Author 等｜Year｜Journal｜..." or "Year｜EvidenceType｜Theme"
             meta_parts = [p.strip() for p in meta_info.split("｜") if p.strip()]
             author = ""
             year = ""
             journal = ""
 
-            if len(meta_parts) >= 1:
-                author = meta_parts[0]
-            if len(meta_parts) >= 2:
-                year = meta_parts[1]
-            if len(meta_parts) >= 3:
-                journal = meta_parts[2]
+            # Check if first part is a year (4-digit number) - then no author
+            if meta_parts and meta_parts[0].isdigit() and len(meta_parts[0]) == 4:
+                year = meta_parts[0]
+                # Skip evidence_type and theme, they're not journal
+                # Just use year for citation
+            else:
+                if len(meta_parts) >= 1:
+                    author = meta_parts[0]
+                if len(meta_parts) >= 2:
+                    year = meta_parts[1]
+                if len(meta_parts) >= 3:
+                    journal = meta_parts[2]
 
             author_str = f"{author}. " if author else ""
             journal_str = f" {journal}." if journal else ""
@@ -3845,10 +3896,10 @@ def render_answer_block_v2(
     # Render matched documents section
     if loaded_paths and question_type != "research_search":
         if backend == "local":
-            render_loaded_documents_section(loaded_paths, initially_expanded=True)
+            render_loaded_documents_section(loaded_paths, initially_expanded=True, key_prefix=key_prefix)
         else:
             with st.expander(f"🔍 查看本次加载的 {len(loaded_paths)} 篇本地原始文献与文档内容", expanded=False):
-                render_loaded_documents_section(loaded_paths, initially_expanded=False)
+                render_loaded_documents_section(loaded_paths, initially_expanded=False, key_prefix=key_prefix)
 
     # Research trace (unchanged)
     render_research_trace(research_trace)
@@ -3883,7 +3934,7 @@ def render_answer_block_v2(
                     st.image(str(fig_path), caption=fig_title)
 
     # Sources with canonical links (v2)
-    render_sources_section_v2(presentation.source_cards)
+    render_sources_section_v2(presentation.source_cards, key_prefix=key_prefix)
 
     # Next actions
     render_next_actions_v2(presentation.next_actions, key_prefix=key_prefix)
@@ -3899,7 +3950,7 @@ def render_answer_block_v2(
             if selected_topic:
                 content = get_search_result_preview(selected_topic, max_chars=5000)
                 if content:
-                    render_translatable_content(selected_topic, content, is_session_chinese())
+                    render_translatable_content(selected_topic, content, is_session_chinese(), key_prefix=key_prefix)
                 else:
                     st.warning(f"未能加载文档：{selected_topic}")
 
@@ -4766,10 +4817,10 @@ def render_answer_block(
     # Render matched documents section
     if loaded_paths and question_type != "research_search":
         if backend == "local":
-            render_loaded_documents_section(loaded_paths, initially_expanded=True)
+            render_loaded_documents_section(loaded_paths, initially_expanded=True, key_prefix=key_prefix)
         else:
             with st.expander(f"🔍 查看本次加载的 {len(loaded_paths)} 篇本地原始文献与文档内容", expanded=False):
-                render_loaded_documents_section(loaded_paths, initially_expanded=False)
+                render_loaded_documents_section(loaded_paths, initially_expanded=False, key_prefix=key_prefix)
 
     render_research_trace(research_trace)
     render_expert_review_loop(
@@ -4814,7 +4865,7 @@ def render_answer_block(
             if selected_topic:
                 content = get_search_result_preview(selected_topic, max_chars=5000)
                 if content:
-                    render_translatable_content(selected_topic, content, is_session_chinese())
+                    render_translatable_content(selected_topic, content, is_session_chinese(), key_prefix=key_prefix)
                 else:
                     st.warning(f"未能加载文档：{selected_topic}")
 

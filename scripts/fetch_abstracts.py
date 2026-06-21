@@ -172,10 +172,116 @@ def fetch_paper_abstract(title: str, doi: str) -> tuple[str, dict]:
 
     return "", {}
 
+def extract_pmcid_from_text(text: str) -> str:
+    if not text:
+        return ""
+    match = re.search(r'(PMC\d+)', text, re.I)
+    if match:
+        return match.group(1).upper()
+    return ""
+
+def extract_pmcid_from_meta(orig_meta: dict) -> str:
+    # Check under links dict
+    links = orig_meta.get("links")
+    if isinstance(links, dict):
+        for k in ["pmc", "pmcid", "pmc_id"]:
+            val = links.get(k)
+            if isinstance(val, str) and val:
+                pmcid = extract_pmcid_from_text(val)
+                if pmcid:
+                    return pmcid
+    # Check top-level frontmatter keys
+    for k in ["pmc", "pmcid", "pmc_id"]:
+        val = orig_meta.get(k)
+        if isinstance(val, str) and val:
+            pmcid = extract_pmcid_from_text(val)
+            if pmcid:
+                return pmcid
+    return ""
+
+def resolve_pmcid(doi: str, pmid: str) -> str:
+    import urllib.request
+    import urllib.parse
+    target_id = doi or pmid
+    if not target_id:
+        return ""
+    try:
+        url = f"https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?ids={urllib.parse.quote(target_id)}&format=json&tool=feline-research-os&email=research@example.com"
+        req = urllib.request.Request(url, headers={"User-Agent": "feline-research-os/1.0"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = json.loads(response.read().decode("utf-8"))
+        records = data.get("records", [])
+        if records:
+            return records[0].get("pmcid", "")
+    except Exception as e:
+        print(f"    PMC ID converter error for {target_id}: {e}")
+    return ""
+
+def download_pmc_figures(pmcid: str, card_id: str, disease: str) -> list[str]:
+    import urllib.request
+    if not pmcid:
+        return []
+    
+    target_dir = PROJECT_ROOT / "raw" / "images" / disease
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    url = f"https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"})
+    
+    print(f"  Scraping PMC figures from {url}...")
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            html = resp.read().decode("utf-8")
+    except Exception as e:
+        print(f"    Failed to fetch PMC page {url}: {e}")
+        return []
+        
+    blobs = re.findall(r"https://cdn\.ncbi\.nlm\.nih\.gov/pmc/blobs/[^\s\"<>]+", html)
+    blobs = sorted(set(blobs))
+    if not blobs:
+        print("    No figure blobs found in PMC page.")
+        return []
+        
+    local_assets = []
+    for blob_url in blobs:
+        filename = blob_url.split("/")[-1]
+        ext_match = re.search(r'\.(jpg|jpeg|png|gif)$', filename, re.I)
+        if not ext_match:
+            continue
+        ext = ext_match.group(1).lower()
+        
+        fig_num_match = re.search(r'-g(\d+)\.', filename, re.I)
+        if fig_num_match:
+            fig_num = int(fig_num_match.group(1))
+            local_filename = f"{card_id}-fig{fig_num}.{ext}"
+        else:
+            local_filename = f"{card_id}-{filename}"
+            
+        dest_path = target_dir / local_filename
+        rel_dest_path = f"raw/images/{disease}/{local_filename}"
+        
+        if dest_path.exists():
+            print(f"    Asset already exists: {rel_dest_path}")
+            local_assets.append(rel_dest_path)
+            continue
+            
+        print(f"    Downloading {blob_url} -> {rel_dest_path}...")
+        try:
+            img_req = urllib.request.Request(blob_url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"})
+            with urllib.request.urlopen(img_req, timeout=15) as img_resp:
+                img_data = img_resp.read()
+            dest_path.write_bytes(img_data)
+            local_assets.append(rel_dest_path)
+        except Exception as e:
+            print(f"      Failed to download {blob_url}: {e}")
+            
+    return local_assets
+
 def main():
     parser = argparse.ArgumentParser(description="Fetch abstracts for placeholders.")
     parser.add_argument("--limit", type=int, default=5, help="Number of abstracts to fetch.")
     parser.add_argument("--output", type=str, default="scratch/fetched_abstracts.json", help="Output JSON file.")
+    parser.add_argument("--cards", type=str, help="Comma-separated card IDs to fetch specifically (e.g. src-ckd-163,src-fip-235).")
     args = parser.parse_args()
 
     placeholders = find_placeholder_papers()
@@ -184,7 +290,20 @@ def main():
         sys.exit(0)
 
     print(f"Found {len(placeholders)} placeholder cards in raw/papers/.")
-    targets = placeholders[:args.limit]
+    if args.cards:
+        card_ids = [c.strip() for c in args.cards.split(",") if c.strip()]
+        targets = []
+        for cid in card_ids:
+            found = False
+            for path, orig_meta in placeholders:
+                if (orig_meta.get("id") or path.stem) == cid:
+                    targets.append((path, orig_meta))
+                    found = True
+                    break
+            if not found:
+                print(f"Warning: requested card ID {cid} not found as placeholder.")
+    else:
+        targets = placeholders[:args.limit]
     print(f"Fetching up to {len(targets)} abstracts...")
 
     output_path = PROJECT_ROOT / args.output
@@ -201,11 +320,33 @@ def main():
         elif isinstance(orig_meta.get("doi"), str):
             doi = orig_meta.get("doi")
 
+        pmid = ""
+        if orig_meta.get("pmid"):
+            pmid = str(orig_meta.get("pmid"))
+
         print(f"\nProcessing {card_id}: {title[:60]}...")
         abstract, meta = fetch_paper_abstract(title, doi)
         if not abstract:
             print(f"  Failed to retrieve a validated abstract.")
             continue
+
+        # Extract/resolve PMCID
+        pmcid = extract_pmcid_from_meta(orig_meta)
+        if not pmcid:
+            print("  Attempting to resolve PMCID from DOI/PMID...")
+            pmcid = resolve_pmcid(meta.get("doi") or doi, pmid)
+        
+        local_assets = []
+        if pmcid:
+            print(f"  Found PMCID: {pmcid}")
+            parts = card_id.split("-")
+            disease = parts[1] if len(parts) >= 2 else "unknown"
+            local_assets = download_pmc_figures(pmcid, card_id, disease)
+            # Add pmcid to links in metadata
+            if "links" not in meta or not isinstance(meta["links"], dict):
+                meta["links"] = {}
+            meta["links"]["pmc"] = f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/"
+            meta["links"]["pmcid"] = pmcid
 
         results.append({
             "card_id": card_id,
@@ -214,7 +355,8 @@ def main():
             "doi": meta.get("doi") or doi,
             "abstract": abstract,
             "metadata": meta,
-            "orig_metadata": orig_meta
+            "orig_metadata": orig_meta,
+            "local_assets": local_assets
         })
 
     with output_path.open("w", encoding="utf-8") as f:

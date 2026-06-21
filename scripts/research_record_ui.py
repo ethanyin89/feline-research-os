@@ -177,28 +177,28 @@ def render_claim_promotion_panel(record: ResearchRecord, vault_root: Path) -> No
     st.caption("Common Targets / 常见目标页面:")
     
     col_a, col_b, col_c = st.columns(3)
-    # Set default in session state first if not present
-    tgt_key = f"target_page_{record.record_id}"
-    if tgt_key not in st.session_state:
-        st.session_state[tgt_key] = default_target
+    record_id = record.record_id
+    tgt_key_record_id = f"target_page_{record_id}"
+    if tgt_key_record_id not in st.session_state:
+        st.session_state[tgt_key_record_id] = default_target
         
     with col_a:
-        if st.button("Validated Claims", key=f"btn_tgt_vc_{record.record_id}", use_container_width=True):
-            st.session_state[tgt_key] = f"topics/{disease_name}/validated-claims.md"
+        if st.button("Validated Claims", key=f"btn_tgt_vc_{record_id}", use_container_width=True):
+            st.session_state[tgt_key_record_id] = f"topics/{disease_name}/validated-claims.md"
             st.rerun()
     with col_b:
-        if st.button("Model Map (Bilingual)", key=f"btn_tgt_mm_{record.record_id}", use_container_width=True):
-            st.session_state[tgt_key] = f"topics/{disease_name}/model-map-bilingual.md"
+        if st.button("Model Map (Bilingual)", key=f"btn_tgt_mm_{record_id}", use_container_width=True):
+            st.session_state[tgt_key_record_id] = f"topics/{disease_name}/model-map-bilingual.md"
             st.rerun()
     with col_c:
-        if st.button("Early Detection", key=f"btn_tgt_ed_{record.record_id}", use_container_width=True):
-            st.session_state[tgt_key] = f"topics/{disease_name}/early-detection-bilingual.md"
+        if st.button("Early Detection", key=f"btn_tgt_ed_{record_id}", use_container_width=True):
+            st.session_state[tgt_key_record_id] = f"topics/{disease_name}/early-detection-bilingual.md"
             st.rerun()
             
     target_page = st.text_input(
         target_lbl,
-        value=st.session_state[tgt_key],
-        key=tgt_key,
+        value=st.session_state[tgt_key_record_id],
+        key=tgt_key_record_id,
         help=target_help
     )
     
@@ -278,7 +278,8 @@ def render_claim_promotion_panel(record: ResearchRecord, vault_root: Path) -> No
         st.success(success_msg)
         
         btn_label = "Confirm Promotion & Write to Vault / 确认晋升并写入库" if is_zh else "Confirm Promotion & Write to Vault"
-        if st.button(btn_label, key=f"btn_promote_{record.record_id}", type="primary", use_container_width=True):
+        record_id = record.record_id
+        if st.button(btn_label, key=f"btn_promote_{record_id}", type="primary", use_container_width=True):
             try:
                 res = validated_store.promote_draft(draft, vault_root)
                 manifest_id = res['manifest'].manifest_id
@@ -398,10 +399,11 @@ def render_task_evaluator_demo(vault_root: Path) -> None:
 
     evaluator = TaskEvaluator()
 
+    record_id_demo = "evaluator"
     demo_query = st.text_input(
         "Test query",
         placeholder="e.g., 猫CKD的终点指标有哪些？",
-        key="evaluator-demo-query",
+        key=f"evaluator-demo-query-{record_id_demo}",
     )
 
     if demo_query:
@@ -473,19 +475,20 @@ def render_research_records(vault_root: Path) -> None:
         # Filters
         col1, col2, col3 = st.columns(3)
         with col1:
+            record_id_filter = "filter"
             disease_filter = st.selectbox(
                 "Disease",
                 ["All", "CKD", "FIP", "HCM", "IBD", "FCV", "Diabetes", "Obesity", "Cancer"],
-                key="record-disease-filter",
+                key=f"record-disease-filter-{record_id_filter}",
             )
         with col2:
             status_filter = st.selectbox(
                 "Status",
                 ["All", "Passed", "Failed", "Needs Review", "Pending"],
-                key="record-status-filter",
+                key=f"record-status-filter-{record_id_filter}",
             )
         with col3:
-            limit = st.number_input("Limit", min_value=5, max_value=100, value=20, key="record-limit")
+            limit = st.number_input("Limit", min_value=5, max_value=100, value=20, key=f"record-limit-{record_id_filter}")
 
         # Convert filters
         disease_arg = None if disease_filter == "All" else disease_filter.lower()

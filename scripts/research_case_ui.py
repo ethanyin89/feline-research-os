@@ -80,20 +80,22 @@ def _render_case_header(case: dict) -> None:
 
 def _render_frame(store: ResearchCaseStore, case: dict) -> None:
     frame = case["current"]["frame"]
-    with st.form(f"frame-{case['case_id']}-{case['revision']}"):
-        question = st.text_area("Atomic research question", value=frame["question"])
-        scope = st.text_area("Scope", value=frame["scope"])
+    case_id = case["case_id"]
+    with st.form(f"frame-{case_id}-{case['revision']}"):
+        question = st.text_area("Atomic research question", value=frame["question"], key=f"frame-question-{case_id}")
+        scope = st.text_area("Scope", value=frame["scope"], key=f"frame-scope-{case_id}")
         alternatives = st.text_area(
             "Alternatives, one per line",
             value="\n".join(frame["alternatives"]),
+            key=f"frame-alternatives-{case_id}"
         )
-        asset = st.text_input("Asset", value=frame["asset"])
-        indication = st.text_input("Indication", value=frame["indication"])
-        jurisdiction = st.text_input("Jurisdiction", value=frame["jurisdiction"])
-        owner = st.text_input("Owner", value=frame["owner"])
-        reviewer = st.text_input("Reviewer label", value=frame["reviewer"])
-        deadline = st.text_input("Deadline", value=frame["deadline"])
-        actor = st.text_input("Attesting actor", value=frame["owner"], key=f"frame-actor-{case['case_id']}")
+        asset = st.text_input("Asset", value=frame["asset"], key=f"frame-asset-{case_id}")
+        indication = st.text_input("Indication", value=frame["indication"], key=f"frame-indication-{case_id}")
+        jurisdiction = st.text_input("Jurisdiction", value=frame["jurisdiction"], key=f"frame-jurisdiction-{case_id}")
+        owner = st.text_input("Owner", value=frame["owner"], key=f"frame-owner-{case_id}")
+        reviewer = st.text_input("Reviewer label", value=frame["reviewer"], key=f"frame-reviewer-{case_id}")
+        deadline = st.text_input("Deadline", value=frame["deadline"], key=f"frame-deadline-{case_id}")
+        actor = st.text_input("Attesting actor", value=frame["owner"], key=f"frame-actor-{case_id}")
         submitted = st.form_submit_button("Save Frame")
     if submitted:
         _commit(
@@ -121,16 +123,17 @@ def _render_frame(store: ResearchCaseStore, case: dict) -> None:
 
 def _render_criteria(store: ResearchCaseStore, case: dict) -> None:
     criteria = case["current"]["criteria"]
+    case_id = case["case_id"]
     if criteria:
         st.dataframe(criteria, use_container_width=True, hide_index=True)
-    with st.form(f"criteria-{case['case_id']}-{case['revision']}"):
-        name = st.text_input("Criterion name")
-        threshold = st.text_area("Threshold")
-        applicability = st.text_input("Applicability", value=case["current"]["frame"]["indication"])
-        required = st.checkbox("Required criterion", value=True)
-        owner = st.text_input("Criterion owner", value=case["current"]["frame"]["owner"])
-        rationale = st.text_area("Rationale")
-        actor = st.text_input("Attesting actor", value=owner, key=f"criteria-actor-{case['case_id']}")
+    with st.form(f"criteria-{case_id}-{case['revision']}"):
+        name = st.text_input("Criterion name", key=f"criteria-name-{case_id}")
+        threshold = st.text_area("Threshold", key=f"criteria-threshold-{case_id}")
+        applicability = st.text_input("Applicability", value=case["current"]["frame"]["indication"], key=f"criteria-applicability-{case_id}")
+        required = st.checkbox("Required criterion", value=True, key=f"criteria-required-{case_id}")
+        owner = st.text_input("Criterion owner", value=case["current"]["frame"]["owner"], key=f"criteria-owner-{case_id}")
+        rationale = st.text_area("Rationale", key=f"criteria-rationale-{case_id}")
+        actor = st.text_input("Attesting actor", value=owner, key=f"criteria-actor-{case_id}")
         submitted = st.form_submit_button("Add and freeze Criteria version")
     if submitted:
         criterion_id = f"criterion-{_slug(name, 'item')}"
@@ -189,20 +192,22 @@ def _render_evidence(store: ResearchCaseStore, case: dict, vault_root: Path) -> 
                 st.write(f"Evidence links: {len(claim.get('evidence', []))}")
 
     criterion_options = [item["criterion_id"] for item in criteria]
-    with st.form(f"evidence-{case['case_id']}-{case['revision']}"):
-        text = st.text_area("Atomic claim")
-        linked = st.multiselect("Linked criteria", criterion_options)
+    case_id = case["case_id"]
+    with st.form(f"evidence-{case_id}-{case['revision']}"):
+        text = st.text_area("Atomic claim", key=f"evidence-text-{case_id}")
+        linked = st.multiselect("Linked criteria", criterion_options, key=f"evidence-linked-{case_id}")
         disposition = st.selectbox(
             "Human-reviewed disposition",
             ["uncertain", "supports", "contradicts", "mixed", "irrelevant"],
+            key=f"evidence-disposition-{case_id}"
         )
-        explicit_gap = st.checkbox("Record as explicit evidence gap")
-        source_id = st.text_input("Source ID", placeholder="src-ckd-001")
-        polarity = st.selectbox("Evidence polarity", ["support", "counter", "mixed", "context"])
+        explicit_gap = st.checkbox("Record as explicit evidence gap", key=f"evidence-gap-{case_id}")
+        source_id = st.text_input("Source ID", placeholder="src-ckd-001", key=f"evidence-source-{case_id}")
+        polarity = st.selectbox("Evidence polarity", ["support", "counter", "mixed", "context"], key=f"evidence-polarity-{case_id}")
         actor = st.text_input(
             "Attesting actor",
             value=case["current"]["frame"]["reviewer"],
-            key=f"evidence-actor-{case['case_id']}",
+            key=f"evidence-actor-{case_id}",
         )
         submitted = st.form_submit_button("Add reviewed claim evidence")
     if submitted:
@@ -245,18 +250,19 @@ def _render_evidence(store: ResearchCaseStore, case: dict, vault_root: Path) -> 
 def _render_challenge(store: ResearchCaseStore, case: dict) -> None:
     claims = case["current"]["claims"]
     challenges = case["current"]["challenges"]
+    case_id = case["case_id"]
     if not claims:
         st.warning("Add reviewed claims before Challenge.")
         return
     if challenges:
         st.dataframe(challenges, use_container_width=True, hide_index=True)
     claim_ids = [item["claim_id"] for item in claims]
-    with st.form(f"challenge-{case['case_id']}-{case['revision']}"):
-        claim_id = st.selectbox("Claim", claim_ids)
-        counterclaim = st.text_area("Counterclaim or dissent")
-        disposition = st.selectbox("Challenge disposition", ["unresolved", "upheld", "revised", "rejected"])
-        rationale = st.text_area("Rationale")
-        reviewer = st.text_input("Reviewer label", value=case["current"]["frame"]["reviewer"])
+    with st.form(f"challenge-{case_id}-{case['revision']}"):
+        claim_id = st.selectbox("Claim", claim_ids, key=f"challenge-claim-{case_id}")
+        counterclaim = st.text_area("Counterclaim or dissent", key=f"challenge-counter-{case_id}")
+        disposition = st.selectbox("Challenge disposition", ["unresolved", "upheld", "revised", "rejected"], key=f"challenge-disposition-{case_id}")
+        rationale = st.text_area("Rationale", key=f"challenge-rationale-{case_id}")
+        reviewer = st.text_input("Reviewer label", value=case["current"]["frame"]["reviewer"], key=f"challenge-reviewer-{case_id}")
         submitted = st.form_submit_button("Record Challenge")
     if submitted:
         challenge_id = f"challenge-{_slug(claim_id, 'claim')}"
@@ -301,17 +307,18 @@ def _render_history(case: dict) -> None:
 
 def _render_create(store: ResearchCaseStore) -> None:
     st.markdown("## Create Research Case")
+    create_case_id = "create"
     with st.form("create-research-case"):
-        case_id = st.text_input("Case ID", placeholder="case-ckd-phosphorus")
-        question = st.text_area("Atomic research question")
-        scope = st.text_area("Scope")
-        alternatives = st.text_area("Alternatives, one per line")
-        asset = st.text_input("Asset")
-        indication = st.text_input("Indication")
-        jurisdiction = st.text_input("Jurisdiction")
-        owner = st.text_input("Owner")
-        reviewer = st.text_input("Reviewer label")
-        deadline = st.text_input("Deadline", placeholder="2026-06-30")
+        case_id = st.text_input("Case ID", placeholder="case-ckd-phosphorus", key=f"create-{create_case_id}-case-id")
+        question = st.text_area("Atomic research question", key=f"create-{create_case_id}-question")
+        scope = st.text_area("Scope", key=f"create-{create_case_id}-scope")
+        alternatives = st.text_area("Alternatives, one per line", key=f"create-{create_case_id}-alternatives")
+        asset = st.text_input("Asset", key=f"create-{create_case_id}-asset")
+        indication = st.text_input("Indication", key=f"create-{create_case_id}-indication")
+        jurisdiction = st.text_input("Jurisdiction", key=f"create-{create_case_id}-jurisdiction")
+        owner = st.text_input("Owner", key=f"create-{create_case_id}-owner")
+        reviewer = st.text_input("Reviewer label", key=f"create-{create_case_id}-reviewer")
+        deadline = st.text_input("Deadline", placeholder="2026-06-30", key=f"create-{create_case_id}-deadline")
         submitted = st.form_submit_button("Create case")
     if submitted:
         frame = {
@@ -343,7 +350,8 @@ def render_research_cases(vault_root: Path) -> None:
     options = ["Create new case"] + [item["case_id"] for item in summaries]
     requested = st.query_params.get("case")
     default_index = options.index(requested) if requested in options else 0
-    selection = st.selectbox("Research Case", options, index=default_index)
+    case_id_val = "selection"
+    selection = st.selectbox("Research Case", options, index=default_index, key=f"research_case_selection_{case_id_val}")
     if selection == "Create new case":
         _render_create(store)
         return

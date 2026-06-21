@@ -47,6 +47,14 @@ except ImportError:
 
 
 @dataclass
+class TensionWith:
+    """Represents tension between this source and another source."""
+    source_id: str
+    tension_type: str  # "contradicts" | "extends" | "qualifies"
+    description: str
+
+
+@dataclass
 class SourceCard:
     """Structured representation of a source card from raw/papers/."""
     id: str  # Internal only - never show in user-facing output
@@ -66,10 +74,18 @@ class SourceCard:
     # Optional metadata (not all cards have these)
     authors: list[str] = field(default_factory=list)
     journal: Optional[str] = None
-    # Evidence policy fields
+    # Evidence policy fields (existing)
     quoted_facts: list[str] = field(default_factory=list)
     supported_conclusions: list[str] = field(default_factory=list)
     llm_inferences: list[str] = field(default_factory=list)
+    # Evidence policy fields (new for enhanced presentation)
+    core_argument: Optional[str] = None  # 论文的核心论点（一句话）
+    implicit_premise: Optional[str] = None  # 论文隐含的前提假设
+    unexpected_finding: Optional[str] = None  # 意外发现或反直觉结果（旧字段，向后兼容）
+    title_gap: Optional[str] = None  # 这篇论文比标题看起来更值得读的原因
+    evidence_boundary: Optional[str] = None  # 证据边界：这篇论文回答不了什么问题
+    study_design: Optional[str] = None  # 研究设计摘要（如：回顾性横断面，91猫按ACVIM分期）
+    tension_with: list[TensionWith] = field(default_factory=list)  # 与其他文献的张力
     # Computed
     one_line_summary: Optional[str] = None
     file_path: Optional[str] = None  # Internal only
@@ -236,6 +252,67 @@ def parse_source_card(file_path: Path) -> Optional[SourceCard]:
                     break
         return None
 
+    def extract_evidence_policy_field(fm: str, field_name: str) -> Optional[str]:
+        """Extract a simple string field from evidence_policy."""
+        lines = fm.splitlines()
+        in_evidence_policy = False
+        for line in lines:
+            if line.strip() == "evidence_policy:":
+                in_evidence_policy = True
+                continue
+            if in_evidence_policy:
+                if line.startswith(f"  {field_name}:"):
+                    value = line.split(":", 1)[1].strip().strip("\"'")
+                    return value if value else None
+                elif line.strip() and not line.startswith(" "):
+                    break
+        return None
+
+    def extract_tension_with(fm: str) -> list[TensionWith]:
+        """Extract tension_with list from evidence_policy."""
+        lines = fm.splitlines()
+        tensions = []
+        in_evidence_policy = False
+        in_tension_with = False
+        current_tension: dict = {}
+
+        for line in lines:
+            if line.strip() == "evidence_policy:":
+                in_evidence_policy = True
+                continue
+            if in_evidence_policy:
+                if line.strip() == "tension_with:":
+                    in_tension_with = True
+                    continue
+                if in_tension_with:
+                    if line.startswith("    - source_id:"):
+                        if current_tension:
+                            tensions.append(TensionWith(
+                                source_id=current_tension.get("source_id", ""),
+                                tension_type=current_tension.get("type", ""),
+                                description=current_tension.get("description", ""),
+                            ))
+                        current_tension = {"source_id": line.split(":", 1)[1].strip().strip("\"'")}
+                    elif line.startswith("      type:"):
+                        current_tension["type"] = line.split(":", 1)[1].strip().strip("\"'")
+                    elif line.startswith("      description:"):
+                        current_tension["description"] = line.split(":", 1)[1].strip().strip("\"'")
+                    elif line.strip() and not line.startswith("    "):
+                        if current_tension:
+                            tensions.append(TensionWith(
+                                source_id=current_tension.get("source_id", ""),
+                                tension_type=current_tension.get("type", ""),
+                                description=current_tension.get("description", ""),
+                            ))
+                        break
+        if current_tension and in_tension_with:
+            tensions.append(TensionWith(
+                source_id=current_tension.get("source_id", ""),
+                tension_type=current_tension.get("type", ""),
+                description=current_tension.get("description", ""),
+            ))
+        return tensions
+
     # Extract one-line summary from body
     one_line_summary = None
     summary_match = re.search(r"##\s*One-Line Summary\s*\n+(.+?)(?:\n\n|\n##|$)", body)
@@ -279,6 +356,14 @@ def parse_source_card(file_path: Path) -> Optional[SourceCard]:
         quoted_facts=extract_evidence_policy_list(frontmatter, "quoted_fact"),
         supported_conclusions=extract_evidence_policy_list(frontmatter, "source_supported_conclusion"),
         llm_inferences=extract_evidence_policy_list(frontmatter, "llm_inference"),
+        # New enhanced evidence policy fields
+        core_argument=extract_evidence_policy_field(frontmatter, "core_argument"),
+        implicit_premise=extract_evidence_policy_field(frontmatter, "implicit_premise"),
+        unexpected_finding=extract_evidence_policy_field(frontmatter, "unexpected_finding"),
+        title_gap=extract_evidence_policy_field(frontmatter, "title_gap"),
+        evidence_boundary=extract_evidence_policy_field(frontmatter, "evidence_boundary"),
+        study_design=extract_evidence_policy_field(frontmatter, "study_design"),
+        tension_with=extract_tension_with(frontmatter),
         one_line_summary=one_line_summary,
         file_path=str(file_path.relative_to(VAULT_ROOT)),  # Internal use only
     )
@@ -952,10 +1037,35 @@ def _chinese_reading_hook(card: SourceCard) -> str:
     """
     Explain why a researcher should open the paper first.
 
-    This is deliberately not a generic "this is a 2024 original study" sentence.
-    It uses extracted summaries/conclusions/facts where available, then falls
-    back to theme-specific hooks without overstating evidence.
+    Priority order (field-first approach):
+    1. title_gap → directly use as the hook (it's already a complete statement)
+    2. unexpected_finding → legacy field, also use directly
+    3. core_argument + implicit_premise → show argument with its hidden assumption
+    4. tension_with → highlight the conflict with other sources
+    5. Fall back to existing heuristics and theme-based hooks
     """
+    # Priority 1: title_gap - the most compelling (already a complete sentence)
+    # title_gap explains why this paper is worth reading beyond the title
+    if card.title_gap:
+        return card.title_gap
+
+    # Priority 2: unexpected_finding (legacy, backward compatible)
+    # If present, use it directly without mechanical prefix
+    if card.unexpected_finding:
+        return card.unexpected_finding
+
+    # Priority 3: core_argument + implicit_premise
+    if card.core_argument and card.implicit_premise:
+        return f"{card.core_argument}——但隐含前提是{card.implicit_premise}"
+    if card.core_argument:
+        return card.core_argument
+
+    # Priority 4: tension_with - show intellectual conflict
+    if card.tension_with:
+        tension = card.tension_with[0]
+        return f"与现有研究存在张力：{tension.description}"
+
+    # Fallback: existing heuristics for deep_extracted cards
     if card.verification_status == "deep_extracted":
         conclusion = _first_non_placeholder(card.supported_conclusions or [])
         if conclusion:
@@ -967,6 +1077,7 @@ def _chinese_reading_hook(card: SourceCard) -> str:
             if translated:
                 return translated
 
+    # Fallback: keyword-based heuristics
     text = " ".join(
         value for value in [
             card.one_line_summary or "",
@@ -979,7 +1090,7 @@ def _chinese_reading_hook(card: SourceCard) -> str:
     lower = text.lower()
 
     if any(term in lower for term in ["single-arm", "pilot", "completer", "dropout", "dropped out"]):
-        return "值得读的是它暴露了干预研究的真实难点：入组、脱落、端点选择 and 主人报告都可能决定试验是否站得住，而不是只看标题里的“有效性”。"
+        return "值得读的是它暴露了干预研究的真实难点：入组、脱落、端点选择和主人报告都可能决定试验是否站得住，而不是只看标题里的「有效性」。"
     if any(term in lower for term in ["proteinuria", "upc"]):
         return "值得读的是它把早期风险分层前移到看似边界的临床信号，适合判断哪些猫需要更密集随访。"
     if any(term in lower for term in ["machine-learning", "machine learning", "3-hydroxykynurenine", "biomarker", "metabolite model"]):
@@ -1008,7 +1119,56 @@ def _chinese_reading_hook(card: SourceCard) -> str:
 
 
 def _chinese_key_finding(card: SourceCard) -> str:
-    """Return one concrete, bounded finding for a paper card."""
+    """
+    Return structured key findings for a paper card.
+
+    For cards with new enhanced fields, returns multi-part structure:
+    - 核心论点
+    - 关键证据
+    - 证据边界
+    - 意外发现（如有）
+
+    Falls back to existing behavior for cards without new fields.
+    """
+    # Check if we have the new enhanced fields
+    has_enhanced_fields = card.core_argument or card.evidence_boundary or card.title_gap or card.unexpected_finding
+
+    if has_enhanced_fields:
+        parts = []
+
+        # Core argument (required if present)
+        if card.core_argument:
+            parts.append(f"**核心论点：** {card.core_argument}")
+
+        # Study design (optional, but valuable for quick assessment)
+        if card.study_design:
+            parts.append(f"**研究设计：** {card.study_design}")
+
+        # Key evidence from quoted_facts or supported_conclusions
+        fact = _first_non_placeholder(card.quoted_facts or [])
+        conclusion = _first_non_placeholder(card.supported_conclusions or [])
+        key_evidence = None
+        if fact:
+            key_evidence = _acceptable_chinese_snippet(fact)
+        if not key_evidence and conclusion:
+            key_evidence = _acceptable_chinese_snippet(conclusion)
+        if key_evidence:
+            parts.append(f"**关键证据：** {key_evidence}")
+
+        # Evidence boundary (required if present)
+        if card.evidence_boundary:
+            parts.append(f"**证据边界：** {card.evidence_boundary}")
+
+        # Title gap or unexpected finding (the hook that creates curiosity)
+        if card.title_gap:
+            parts.append(f"**标题之外：** {card.title_gap}")
+        elif card.unexpected_finding:
+            parts.append(f"**意外发现：** {card.unexpected_finding}")
+
+        if parts:
+            return "\n\n".join(parts)
+
+    # Fallback: existing behavior for cards without new fields
     conclusion = _first_non_placeholder(card.supported_conclusions or [])
     summary = card.one_line_summary if card.one_line_summary and not _is_placeholder_content(card.one_line_summary) else None
     fact = _first_non_placeholder(card.quoted_facts or [])
@@ -1116,6 +1276,11 @@ def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
     themes = _theme_labels(card)
     theme_text = "、".join(themes) if themes else "该疾病研究"
 
+    # Avoid duplicate labels when evidence_level and source_kind overlap
+    # e.g., both "guideline" would show "指南/共识｜指南" - skip kind in this case
+    if "指南" in evidence and kind == "指南":
+        kind = ""
+
     lines.append(f"### {index}. {card.title}")
     lines.append("")
     meta_bits = [bit for bit in [author.rstrip("｜"), str(card.year or ""), card.journal or "", evidence, kind, theme_text] if bit]
@@ -1129,10 +1294,26 @@ def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
 
     lines.append(f"**为什么值得读：** {_chinese_reading_hook(card)}")
     lines.append("")
-    lines.append(f"**关键发现：** {_chinese_key_finding(card)}")
+
+    # Handle key findings: check if it's multi-part (contains newlines from enhanced fields)
+    key_finding = _chinese_key_finding(card)
+    if "\n" in key_finding:
+        # Multi-part structured finding - use section header then content
+        lines.append("**关键发现：**")
+        lines.append("")
+        lines.append(key_finding)
+    else:
+        # Single-line finding - inline format
+        lines.append(f"**关键发现：** {key_finding}")
     lines.append("")
-    lines.append(f"**证据边界：** {_chinese_evidence_boundary(card)}")
-    lines.append("")
+
+    # For cards with explicit evidence_boundary field, don't duplicate
+    # The _chinese_key_finding already includes it for enhanced cards
+    has_enhanced_fields = card.core_argument or card.evidence_boundary or card.title_gap or card.unexpected_finding
+    if not has_enhanced_fields:
+        lines.append(f"**证据边界：** {_chinese_evidence_boundary(card)}")
+        lines.append("")
+
     lines.append(f"**临床相关性：** {_chinese_clinical_relevance(card)}")
 
     return "\n".join(lines)
