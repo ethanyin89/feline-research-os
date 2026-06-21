@@ -27,7 +27,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Paper source cards | PASS | 1414 strict disease paper cards; baseline >= 246 |
 | Regulation source cards | PASS | 14 regulation cards |
 | Source IDs | PASS | 0 duplicates, 0 missing ids |
-| Low-word paper cards | FAIL | 11 cards below 700 words |
+| Low-word paper cards | FAIL | 6 cards below 700 words |
 | Source schema fields | PASS | 0 cards missing required fields, 0 invalid field values |
 | Source state consistency | PASS | 0 title-only depth/status conflicts |
 | Source link proof | PASS | 0 source cards without DOI or URL |

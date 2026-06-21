@@ -29,14 +29,14 @@
 | src-ckd-023 | Feline chronic kidney disease is associated with shortened telomeres and increased cellular senescence | mechanism | original-study | deep-extracted round 1 |
 | src-ckd-024 | Renal biomarkers in cats: A review of the current status in chronic kidney disease | endpoint | review | deep-extracted round 1 |
 
-## Extension Intake Queue, Updated 2026-06-20
+## Extension Intake Queue, Updated 2026-06-21
 
 These source cards came from the user-provided `feline CKD` Google Sheet. They are source-ownership and triage material only until abstract extraction, source worksheet review, or full-text extraction is complete.
 
 | ID | Title | Evidence Level | Extraction Depth | Verification Status | Year |
 |---|---|---|---|---|---|
 | src-ckd-025 | Resistivity and pulsatility indexes in feline kidney disease: a systematic review | review | partial | abstract_weighted | 2022 |
-| src-ckd-026 | Serum fibroblast growth factor 23 (FGF-23): associations with hyperphosphatemia and clinical staging of feline chronic kidney disease | original-study | abstract_full | source_checked | 2021 |
+| src-ckd-026 | Serum fibroblast growth factor 23 (FGF-23): associations with hyperphosphatemia and clinical staging of feline chronic kidney disease | original-study | full | deep_extracted | 2021 |
 | src-ckd-027 | Metabolomics reveals alterations in gut-derived uremic toxins and tryptophan metabolism in feline chronic kidney disease | original-study | full | deep_extracted | 2025 |
 | src-ckd-028 | Acute on chronic kidney disease in cats: Etiology, clinical and clinicopathologic findings, prognostic markers, and outcome | original-study | partial | abstract_weighted |  |
 | src-ckd-029 | A long term feed supplementation based on phosphate binders in Feline Chronic Kidney Disease | original-study | full | deep_extracted | 2018 |
@@ -44,7 +44,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-031 | Prognostic Factors in Cats with Chronic Kidney Disease | original-study | partial | abstract_weighted |  |
 | src-ckd-032 | Chronic kidney disease in cats | original-study | partial | title_only |  |
 | src-ckd-033 | Urinary tract infections in cats with chronic kidney disease | original-study | partial | abstract_weighted | 2013 |
-| src-ckd-034 | Risk and protective factors for cats with naturally occurring chronic kidney disease | original-study | abstract_full | source_checked | 2017 |
+| src-ckd-034 | Risk and protective factors for cats with naturally occurring chronic kidney disease | original-study | full | deep_extracted | 2017 |
 | src-ckd-035 | Urinary cytokine levels in apparently healthy cats and cats with chronic kidney disease | original-study | partial | abstract_weighted | 2013 |
 | src-ckd-036 | Renal Senescence, Telomere Shortening and Nitrosative Stress in Feline Chronic Kidney Disease | original-study | partial | abstract_weighted |  |
 | src-ckd-037 | Feline Morbillivirus, a New Paramyxovirus Possibly Associated with Feline Kidney Disease | review | full | deep_extracted | 2020 |
@@ -61,7 +61,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-048 | Evaluation of health-related quality of life in cats with chronic kidney disease | original-study | partial | abstract_weighted |  |
 | src-ckd-049 | Utilization of Feeding Tubes in the Management of Feline Chronic Kidney Disease | original-study | partial | abstract_weighted | 2016 |
 | src-ckd-050 | Characterisation of feline renal cortical fibroblast cultures and their transcriptional response to transforming growth factor β1 | original-study | full | deep_extracted |  |
-| src-ckd-051 | When should we start to treat feline CKD: A narrative review of early diagnosis and the evidence for pre-azotaemic intervention | narrative-review | partial | abstract_weighted | 2025 |
+| src-ckd-051 | When should we start to treat feline CKD: A narrative review of early diagnosis and the evidence for pre-azotaemic intervention | narrative-review | full | deep_extracted | 2025 |
 | src-ckd-052 | Comparison of serum concentrations of symmetric dimethylarginine and creatinine as kidney function biomarkers in cats with chronic kidney disease | original-study | partial | abstract_weighted | 2014 |
 | src-ckd-053 | Clinicopathological Variables Predicting Progression of Azotemia in Cats with Chronic Kidney Disease | original-study | partial | abstract_weighted | 2012 |
 | src-ckd-054 | Evidence-based step-wise approach to managing chronic kidney disease in dogs and cats | narrative-review | partial | abstract_weighted | 2013 |
@@ -138,7 +138,7 @@ These source cards came from the user-provided `feline CKD` Google Sheet. They a
 | src-ckd-125 | Reasoning for obligatory preclinical diagnostics of feline chronic kidney disease | original-study | partial | title_only |  |
 | src-ckd-126 | A comparative study of chronic kidney disease in dogs and cats: Induction of cyclooxygenases | original-study | partial | title_only |  |
 | src-ckd-127 | Acceptance and effects of a therapeutic renal food in pet cats with chronic kidney disease | original-study | partial | title_only | 2015 |
-| src-ckd-128 | Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease | original-study | full | deep_extracted | 2026 |
+| src-ckd-128 | Urinary Fibroblast Growth Factor-23 and Soluble Alpha-Klotho in Cats with Chronic Kidney Disease | original-study | partial | abstract_weighted | 2026 |
 | src-ckd-129 | Prospective evaluation of healthy Ragdoll cats for chronic kidney disease by routine laboratory parameters and ultrasonography | original-study | partial | title_only |  |
 | src-ckd-130 | Management of Chronic Kidney Disease | original-study | partial | title_only |  |
 | src-ckd-131 | Absence of renal cortical anisotropic backscattering artifact in feline chronic kidney disease | original-study | partial | title_only | 2021 |
