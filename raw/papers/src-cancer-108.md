@@ -32,8 +32,8 @@ evidence_policy:
   core_argument: "FIV（猫免疫缺陷病毒）可作为人类乳腺癌预防策略的基因治疗载体——这是病毒学/基因治疗工具应用——不是猫癌症研究"
   implicit_premise: "假设 FIV 载体的安全性和有效性使其适合人类基因治疗应用——猫病毒学贡献于人类医学"
   unexpected_finding: "无法从可用信息确定——需要全文"
-  title_gap: "**收录澄清**：标题说 FIV 载体作为人类乳腺癌预防策略的工具——'feline' 指病毒来源而非癌症研究对象——应重新分类为比较病毒学/基因治疗来源而非猫癌症来源"
-  evidence_boundary: "对猫癌症模块的相关性有限；FIV 作为载体工具的知识可能对理解逆转录病毒生物学有价值，但不直接支持猫癌症诊断或治疗声明"
+  title_gap: "标题说FIV载体作为人类乳腺癌预防策略的工具——但feline指病毒来源而非癌症研究对象——应重新分类为比较病毒学/基因治疗来源"
+  evidence_boundary: "人类乳腺癌前瞻性基因治疗研究，FIV作为逆转录病毒载体；不直接适用于猫癌症临床诊断或治疗"
 ---
 
 # Feline immunodeficiency virus vector as a tool for preventative strategies against human breast cancer

@@ -29,10 +29,10 @@ evidence_policy:
     - "Frames the vaccine cross-protection problem and potential solutions."
   # V2 enhanced fields
   study_design: "综述性合成研究，汇总不同研究关于猫杯状病毒疫苗的挑战和进展"
-  core_argument: "猫杯状病毒的毒株多样性显著影响疫苗的广泛交叉保护能力，成为下一代疫苗研发的主要难题"
+  core_argument: "当前FCV疫苗无法提供广谱交叉保护——毒株多样性是下一代疫苗必须克服的核心限制，而非可忽略的边缘问题"
   implicit_premise: "现有的研究和数据能够全面反映猫杯状病毒不同毒株的变异特征及其对免疫反应的影响"
   title_gap: "标题看似仅讨论下一代疫苗的挑战，但真正强调的是毒株多样性如何具体限制广泛保护效果——这对未来疫苗设计方向提出了新的思考"
-  evidence_boundary: "未回答具体哪些毒株间存在交叉保护百分比，也未提供针对特定新毒株的疫苗开发数据"
+  evidence_boundary: "综述性质（2006年），未提供原始交叉中和数据；早于VS-FCV大规模研究和现代多价疫苗临床试验文献"
 ---
 
 # The challenge for the next generation of feline calicivirus vaccines

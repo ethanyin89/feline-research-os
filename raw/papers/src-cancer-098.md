@@ -35,7 +35,7 @@ evidence_policy:
   core_argument: "参见 src-cancer-091 的 V2 字段——该条目标记为重复"
   implicit_premise: "N/A——重复条目"
   unexpected_finding: "N/A——重复条目"
-  title_gap: "N/A——重复条目；应合并到 src-cancer-091"
+  title_gap: "此条目与 src-cancer-091 重复——但保留占位符以防止重复收录——规范来源见 src-cancer-091"
   evidence_boundary: "重复条目；使用 src-cancer-091 作为规范来源"
 ---
 

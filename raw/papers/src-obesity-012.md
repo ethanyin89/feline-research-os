@@ -31,10 +31,10 @@ evidence_policy:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
   # V2 enhanced fields
   study_design: "横断面研究，调查格拉斯哥一普通兽医诊所中猫的肥胖患病率及相关风险因素，采用问卷和体形评分方法"
-  core_argument: "格拉斯哥普通兽医诊所中猫的肥胖有较高的患病率，其风险因素包括生活方式和饮食习惯"
+  core_argument: "猫肥胖是普遍问题——格拉斯哥一级诊所横断面研究表明患病率显著，生活方式和饮食习惯是主要风险因素"
   implicit_premise: "体形评分和问卷调查能准确反映猫的肥胖状况及其潜在风险因素的关联性"
   title_gap: "标题强调肥胖的患病率和风险因素，但研究可能揭示特定区域或环境对猫肥胖影响的独特性——这为制定更有针对性的干预措施提供了线索"
-  evidence_boundary: "本研究未评估肥胖对猫健康的具体临床后果，也未分析肥胖的遗传因素及长期干预效果"
+  evidence_boundary: "单中心横断面研究（2010年，格拉斯哥），无法外推至其他地区或人群；未追踪肥胖的健康后果"
 ---
 
 # Prevalence and risk factors for feline obesity in a first opinion practice in Glasgow, Scotland

@@ -28,12 +28,12 @@ evidence_policy:
   llm_inference:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
   # V2 enhanced fields
-  study_design: "**误收录警告**：这是人类卵巢癌深度学习算法论文——'Feline Wolf Net' 是算法名称，不是猫研究"
-  core_argument: "N/A——人类研究（计算方法），不适用于猫癌症模块"
-  implicit_premise: "N/A——误收录"
+  study_design: "人类卵巢癌深度学习算法论文——Feline Wolf Net是算法名称，不是猫研究"
+  core_argument: "此来源不适用于猫癌症模块——Feline Wolf Net是深度学习算法名称，用于人类卵巢癌检测，与猫作为物种无关"
+  implicit_premise: "N/A——误收录到猫癌症来源库"
   unexpected_finding: "N/A——误收录"
-  title_gap: "**收录错误**：'Feline Wolf Net' 是混合狮子-灰狼优化深度学习算法的名称——用于人类卵巢癌检测——与猫（feline）作为物种无关——应从猫癌症来源中移除"
-  evidence_boundary: "不适用于猫癌症模块；标记为误收录待清理"
+  title_gap: "标题中的Feline是算法命名的一部分，但被误认为是猫研究——Feline Wolf Net是混合狮子-灰狼优化算法——应标记为非猫来源并移除"
+  evidence_boundary: "计算方法论文（人类卵巢癌），不适用于猫癌症模块；标记为误收录待清理"
 ---
 
 # Feline Wolf Net: A Hybrid Lion-Grey Wolf Optimization Deep Learning Model for Ovarian Cancer Detection

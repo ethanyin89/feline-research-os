@@ -29,11 +29,11 @@ evidence_policy:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
   # V2 enhanced fields
   study_design: "标题提取错误——'Get access Arrow' 是网页爬取残留；真实标题可能是 'Prognostic Factors in Feline Mammary Carcinoma'（JNCI，年份待确认）"
-  core_argument: "无法从可用信息确定——标题残缺且无摘要——但标题暗示这是 FMC 预后因素研究"
+  core_argument: "此来源是JNCI发表的FMC预后因素研究——但标题含网页爬取残留'Get access Arrow'，需书目清理后才能提取实际内容"
   implicit_premise: "假设这是关于 FMC 预后因素的原始研究——需要全文确认"
   unexpected_finding: "无法从可用信息确定——需要全文或正确的书目信息"
-  title_gap: "标题清理需要：移除 'Get access Arrow'——这是 OUP 网站的导航元素——真实标题应为 'Prognostic Factors in Feline Mammary Carcinoma'"
-  evidence_boundary: "标题残缺的占位符卡片；不支持任何声明——需要书目清理和摘要提取"
+  title_gap: "标题含网页爬取残留'Get access Arrow'，但真实标题应为'Prognostic Factors in Feline Mammary Carcinoma'——需要书目清理"
+  evidence_boundary: "标题残缺的占位符卡片（JNCI早期论文），仅支持来源所有权；需书目清理和摘要提取后才能评估证据价值"
 ---
 
 # Prognostic Factors in Feline Mammary Carcinoma Get access Arrow

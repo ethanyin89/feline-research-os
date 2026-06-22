@@ -29,10 +29,11 @@ evidence_policy:
   llm_inference:
     - This paper likely helps keep risk architecture tied to endemic coronavirus context instead of generic population factors only.
   # V2 enhanced fields
-  study_design: "原始研究，研究多猫环境中流行猫肠冠状病毒的 FIP 风险因素"
+  study_design: "原始研究，研究多猫环境中流行猫肠冠状病毒的 FIP 风险因素（1997 年）"
   core_argument: "FIP 风险不仅是个体猫的属性——它受背景生态学塑造：冠状病毒暴露、传播压力、密度和共享环境"
   implicit_premise: "假设环境生态学是独立于宿主信号学的风险维度；假设流行肠道冠状病毒背景改变验前风险评估"
-  evidence_boundary: "风险因素研究，不诊断 FIP；多猫暴露不是充分病因；具体风险因素权重需阅读全文"
+  title_gap: "标题说多猫环境风险因素，但关键词是「endemic feline enteric coronavirus」——这将风险逻辑绑定到冠状病毒生态学，而非泛泛的群体因素或个体易感性"
+  evidence_boundary: "风险因素关联研究，无法确定因果；多猫暴露增加验前概率但不能直接诊断 FIP；具体风险因素的效应量和交互作用需阅读全文"
 ---
 
 # One-line Summary

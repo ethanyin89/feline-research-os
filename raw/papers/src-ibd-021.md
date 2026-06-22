@@ -28,11 +28,11 @@ evidence_policy:
   llm_inference:
     - This review may later be useful for treatment landscape framing after feline-primary anchors are secured.
   # V2 enhanced fields
-  study_design: "综述文章，汇集人类与动物炎症性肠病治疗策略相关研究，采用系统文献回顾方法"
-  core_argument: "当前炎症性肠病的治疗需要综合考虑多物种的研究成果，以制定更全面有效的治疗方案"
+  study_design: "综述文章，汇集人类与动物炎症性肠病治疗策略相关研究，采用系统文献回顾方法（2024 年）"
+  core_argument: "IBD 治疗策略无法从单一物种研究直接外推——不同物种的病理机制和治疗反应存在差异，猫 IBD 治疗需要猫特异性临床验证"
   implicit_premise: "不同物种间的炎症性肠病病理机制和治疗反应具有一定的相似性，动物研究对人类及猫的治疗策略具有借鉴价值"
-  title_gap: "标题强调炎症性肠病治疗策略的综合探讨，但真正亮点在于跨物种比较启示——尤其对猫病治疗的潜在指导意义"
-  evidence_boundary: "论文未具体评估任何单一猫科动物治疗方案的临床疗效，未给出明确的猫炎症性肠病治疗优先级建议"
+  title_gap: "标题强调「综合探讨」人类与动物研究，但覆盖多物种意味着猫特异性证据被稀释——真正价值是提供治疗景观背景，而非猫 IBD 的直接疗效证据"
+  evidence_boundary: "综述性质无法提供原始疗效数据；跨物种合并分析可能掩盖猫特异性反应差异；未评估任何猫 IBD 治疗方案的疗效、安全性或优先级"
 ---
 
 # One-line Summary

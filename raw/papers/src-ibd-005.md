@@ -28,11 +28,11 @@ evidence_policy:
   llm_inference:
     - This paper may be useful later as a bounded translational mechanism note.
   # V2 enhanced fields
-  study_design: "体外培养的猫脂肪组织来源间充质干细胞，采用小鼠DSS诱导结肠炎模型评估治疗效果"
-  core_argument: "猫脂肪组织来源的间充质干细胞通过分泌前列腺素E2促进小鼠体内调节性T细胞增多，从而缓解DSS诱导的结肠炎"
+  study_design: "体外培养的猫脂肪组织来源间充质干细胞，采用小鼠 DSS 诱导结肠炎模型评估治疗效果（2018 年）"
+  core_argument: "猫脂肪组织来源的间充质干细胞通过分泌前列腺素 E2 促进小鼠体内调节性 T 细胞增多，从而缓解 DSS 诱导的结肠炎——这是跨物种机制证据，而非猫临床疗效证据"
   implicit_premise: "小鼠结肠炎模型中猫干细胞的免疫调节作用可以部分反映其潜在的跨物种治疗效果"
-  title_gap: "标题强调猫脂肪组织间充质干细胞分泌前列腺素E2缓解炎症，但真正发现是通过增加调节性T细胞实现的免疫调节作用——揭示了免疫机制的新视角"
-  evidence_boundary: "本研究未直接评价该干细胞治疗在猫本身结肠炎或其他临床病症中的疗效及安全性"
+  title_gap: "标题强调猫脂肪组织间充质干细胞分泌 PGE2 缓解炎症，但真正发现是通过增加调节性 T 细胞实现——揭示了 Treg 介导的免疫调节机制"
+  evidence_boundary: "小鼠模型研究，无法直接外推到猫临床；DSS 诱导结肠炎与自发性猫 IBD 病理机制可能不同；未评估猫体内的疗效、安全性或给药方案"
   unexpected_finding: "猫来源的间充质干细胞在小鼠体内能有效提升调节性T细胞比例，显示出跨物种的免疫调节潜力"
 ---
 

@@ -30,10 +30,10 @@ evidence_policy:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
   # V2 enhanced fields
   study_design: "原始队列研究，收集了约一岁家养猫的饮食和生活方式数据，采用问卷调查和主人报告的方法评估肥胖发生率"
-  core_argument: "干粮饮食和室内生活方式是家养猫一岁左右肥胖的重要风险因素"
+  core_argument: "幼猫肥胖风险不能忽视饮食类型和生活环境——队列研究表明干粮饮食和室内生活方式是一岁猫肥胖的显著风险因素"
   implicit_premise: "主人报告的猫体重和生活习惯信息准确反映了猫的实际肥胖状态和行为特征"
   title_gap: "标题强调了干粮饮食与室内生活影响肥胖，但研究还揭示了主人报告作为肥胖识别工具的潜在局限性——影响数据的准确性"
-  evidence_boundary: "本研究未评估遗传因素、运动量或具体干粮成分在猫肥胖中的作用，也未探索肥胖相关并发症的发病机制"
+  evidence_boundary: "队列研究（2015年），依赖主人报告可能存在信息偏倚；未控制所有混杂因素或追踪长期健康后果"
 ---
 
 # Risk factors identified for owner-reported feline obesity at around one year of age: Dry diet and indoor lifestyle

@@ -28,11 +28,11 @@ evidence_policy:
   llm_inference:
     - This paper may become a useful secondary overview anchor after the broad IBD review is extracted.
   # V2 enhanced fields
-  study_design: "综述文章，涵盖猫慢性肠病的临床表现和管理，基于现有文献及实践经验总结"
-  core_argument: "本综述强调，在猫慢性肠病的临床处理中，应将视野拓宽至实际慢性肠道疾病的多维管理，而非仅聚焦于狭义的炎症性肠病研究"
+  study_design: "综述文章，涵盖猫慢性肠病的临床表现和管理，基于现有文献及实践经验总结（2024 年，德语）"
+  core_argument: "猫慢性肠病在临床实践中不能等同于狭义的「炎症性肠病」——慢性肠病是更广泛的临床实体，包含食物反应性、抗生素反应性和真正的 IBD 等亚型"
   implicit_premise: "现有慢性肠病的研究语言过于狭窄，难以完全反映临床多样化的病理表现和治疗需求"
-  title_gap: "标题表明是关于猫慢性肠病的常见问题，但文章深入展示了如何将理论研究与临床实际案例紧密结合，从而提升诊疗实用性——这远超出一般综述的概括性介绍"
-  evidence_boundary: "本文未具体解决慢性肠病中各亚型的分子机制，也未提供新型诊断技术的验证数据"
+  title_gap: "标题使用「慢性肠病」而非「IBD」，这本身就是关键信息——提示临床实践中需要更宽泛的诊断框架，而非仅聚焦于组织学定义的 IBD"
+  evidence_boundary: "综述性质无法提供诊断准确性或治疗疗效的原始数据；未针对慢性肠病亚型的分子机制或新型诊断技术提供验证数据；德语文献可能限制引用可及性"
 ---
 
 # One-line Summary

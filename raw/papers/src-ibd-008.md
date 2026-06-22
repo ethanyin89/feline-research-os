@@ -28,11 +28,11 @@ evidence_policy:
   llm_inference:
     - This may be a good secondary review anchor once the feline-primary branch is denser.
   # V2 enhanced fields
-  study_design: "综述性研究，涵盖犬猫消化系统疾病中的肠道微生物群变化，主要基于已发表文献的综合分析与比较"
-  core_argument: "犬猫消化系统疾病中肠道微生物群的紊乱是病理机制中的关键组成部分，影响疾病的诊断与治疗"
+  study_design: "综述性研究，涵盖犬猫消化系统疾病中的肠道微生物群变化，基于已发表文献的综合分析（2020 年）"
+  core_argument: "犬猫消化系统疾病中肠道微生物群的紊乱是病理机制的关键组成部分——但微生物群失调是疾病的关联因素还是因果因素仍需区分"
   implicit_premise: "已有文献中关于犬猫肠道微生物群的研究结果具有较高的可比性与综述整合价值"
-  title_gap: "标题提及犬猫消化疾病中的微生物变化，但其真正价值在于提供一种广泛的微生物失调背景视角，而非专门针对猫炎症性肠病的权威分析——体现其综述的广度而非深度"
-  evidence_boundary: "本文未针对炎症性肠病（IBD）在猫中的具体机制、诊断标准或治疗方案提供细节性、针对性的实证数据"
+  title_gap: "标题提及犬猫消化疾病中的微生物变化，但覆盖两个物种意味着猫特异性证据被稀释——真正价值是提供微生物失调的广泛背景视角，而非猫 IBD 的权威分析"
+  evidence_boundary: "综述性质无法提供原始菌群数据或干预效应量；犬猫合并分析可能掩盖物种特异性差异；未针对猫 IBD 的具体诊断标准、治疗方案或微生物干预提供实证数据"
 ---
 
 # One-line Summary

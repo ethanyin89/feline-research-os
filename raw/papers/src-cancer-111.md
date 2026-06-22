@@ -30,12 +30,12 @@ evidence_policy:
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
   # V2 enhanced fields
-  study_design: "**误收录警告**：这是人类肾细胞癌研究——'feline sarcoma-related protein' (Fer) 是蛋白名称，不是物种"
-  core_argument: "N/A——人类研究；Fer 蛋白表达与人类肾细胞癌恶性程度和预后相关——与猫无关"
-  implicit_premise: "N/A——误收录"
+  study_design: "人类肾细胞癌研究（2013年Cancer Science），Fer蛋白是蛋白名称不是物种"
+  core_argument: "此来源不适用于猫癌症模块——Fer蛋白表达与人类肾细胞癌恶性程度和预后相关，与猫无关"
+  implicit_premise: "N/A——误收录到猫癌症来源库"
   unexpected_finding: "N/A——误收录"
-  title_gap: "**收录错误**：与 src-cancer-110 同样的问题——'Feline sarcoma-related protein' (Fer) 是蛋白名称而非物种——本研究关于人类肾细胞癌——应从猫癌症来源中移除"
-  evidence_boundary: "不适用于猫癌症模块；标记为误收录；Fer 激酶命名历史可作为术语背景，但研究不涉及猫"
+  title_gap: "标题中feline sarcoma-related protein (Fer)是蛋白名称——但因命名中含feline而被误收录——本研究关于人类肾细胞癌"
+  evidence_boundary: "人类肾细胞癌临床相关性研究（2013年），不适用于猫癌症模块；Fer蛋白命名历史可作为术语背景"
 ---
 
 # Feline sarcoma‐related protein expression correlates with malignant aggressiveness and poor prognosis in renal cell carcinoma

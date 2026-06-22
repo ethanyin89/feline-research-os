@@ -39,7 +39,7 @@ evidence_policy:
   implicit_premise: "假设 DNA 拷贝数异常是猫癌症的重要分子特征；假设猫-人比较基因组学可产生转化洞察"
   unexpected_finding: "无法从摘要确定——可能包括猫特异性拷贝数变异模式或与人类癌症的意外相似/差异"
   title_gap: "标题说开发全基因组微阵列平台检测猫癌症 DNA 拷贝数异常，但真正价值是基础设施：这是猫癌症基因组学的技术基础——Thomas/Breen 是比较肿瘤基因组学先驱——使系统性拷贝数分析成为可能"
-  evidence_boundary: "方法学开发论文；支持技术平台可用性声明，不直接支持任何特定肿瘤类型的基因组发现——后续应用研究需要"
+  evidence_boundary: "方法学开发论文（2020年），仅证明平台可用性；不直接支持特定肿瘤的基因组发现或临床应用"
 ---
 
 # Development of a Genome-Wide Oligonucleotide Microarray Platform for Detection of DNA Copy Number Aberrations in Feline Cancers

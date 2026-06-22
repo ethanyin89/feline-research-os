@@ -22,11 +22,11 @@ links:
   local_assets: []
 evidence_policy:
   quoted_fact:
-    - "MDPI abstract reports FCV is highly contagious, resistant to many disinfectants, and demonstrates high genetic variability."
-    - "MDPI abstract reports FCV infections are particularly problematic in multicat environments."
-    - "MDPI abstract reports FCV can best be detected by reverse-transcriptase PCR, but a negative result does not rule out infection and healthy cats can test positive."
-    - "MDPI abstract reports all cats should be vaccinated against FCV, but vaccination protects cats from disease and not from infection."
-    - "MDPI abstract reports infection-induced immunity is not life-long and does not protect against all strains, so cats recovered from caliciviral disease should still be vaccinated."
+    - "FCV is highly contagious, resistant to many disinfectants, and demonstrates high genetic variability"
+    - "FCV infections are particularly problematic in multicat environments"
+    - "FCV can best be detected by reverse-transcriptase PCR, but a negative result does not rule out infection and healthy cats can test positive"
+    - "Vaccination protects cats from disease and not from infection"
+    - "Infection-induced immunity is not life-long and does not protect against all strains"
   source_supported_conclusion:
     - This is a major modern FCV diagnosis-and-control anchor.
     - The paper supports separating disease reduction from infection prevention.
@@ -40,7 +40,7 @@ evidence_policy:
   core_argument: "猫杯状病毒感染的诊断和控制应区分疾病预防与感染预防，且当前逆转录PCR虽是最佳检测工具，仍存在诊断限制"
   implicit_premise: "现有检测技术和疫苗不能完全阻断FCV感染，且病毒高度变异导致免疫保护有限"
   title_gap: "标题表明研究猫杯状病毒感染，但核心发现强调诊断限制及疫苗不能完全防感染——提示疾病管理需更精细划分感染与临床表现"
-  evidence_boundary: "未回答不同FCV亚型间免疫交叉保护的具体机制及新型疫苗改进方案"
+  evidence_boundary: "综述性质无法提供原始诊断敏感性/特异性数据；未回答不同 FCV 亚型间免疫交叉保护的具体机制；未评估新型疫苗改进方案的临床效果"
   unexpected_finding: "健康猫可能PCR检测阳性表明无症状携带，负PCR结果也不能完全排除感染，诊断复杂性超出传统预期"
 ---
 

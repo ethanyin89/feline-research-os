@@ -31,10 +31,10 @@ evidence_policy:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
   # V2 enhanced fields
   study_design: "横断面研究，涵盖英国47家宠物医院的猫科伴侣动物，采用问卷调查和临床记录分析以评估肥胖流行病学"
-  core_argument: "英国家猫中肥胖的流行病学特征在不同宠物实践中存在明显差异，需针对具体环境和管理措施制定个性化肥胖干预策略"
+  core_argument: "猫肥胖患病率无法用单一数字概括——英国47家诊所横断面研究表明不同实践间差异显著，提示诊断标准和管理水平的不一致性"
   implicit_premise: "参与研究的宠物医院能够准确记录和报告猫只的体重及肥胖相关数据，且样本能代表英国整体猫只群体"
   title_gap: "标题强调猫肥胖的流行病学调查，但实际发现不同宠物医院的管理和诊断标准差异显著，影响肥胖率估算的准确性——揭示了数据一致性与标准化的必要性"
-  evidence_boundary: "未回答猫肥胖的具体生理机制、遗传风险因素或肥胖对猫疾病预后的直接临床影响"
+  evidence_boundary: "多中心横断面研究（2012年，n=47家诊所），无法确定因果关系；未追踪肥胖的长期健康后果"
 ---
 
 # An investigation into the epidemiology of feline obesity in Great Britain: results of a cross-sectional study of 47 companion animal practises

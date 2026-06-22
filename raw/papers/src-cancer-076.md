@@ -31,11 +31,11 @@ evidence_policy:
     - "Full-text required for extractable findings."
   # V2 enhanced fields
   study_design: "体外研究（SCIRP 期刊，非 PubMed 索引），多西他赛作为犬猫癌细胞系放射增敏剂的评估"
-  core_argument: "多西他赛可能增强犬猫癌细胞系的放射敏感性——体外放化疗联合研究——具体发现需要全文获取"
+  core_argument: "多西他赛可能是有效的放射增敏剂——但SCIRP期刊体外研究仅提供初步信号，具体发现需全文获取且存在同行评审严谨性疑虑"
   implicit_premise: "假设体外放射增敏可转化为临床获益；假设 SCIRP 期刊研究质量可接受"
   unexpected_finding: "无法从可用信息确定——全文需要获取才能识别意外发现"
   title_gap: "标题说多西他赛作为犬猫癌细胞系放射增敏剂的体外表征，但真正发现未知——非 PubMed 索引来源需要直接出版商访问——SCIRP 期刊的同行评审严谨性可变"
-  evidence_boundary: "无 PubMed 摘要；仅支持来源所有权，不支持任何实质性声明；SCIRP 出版商质量存疑"
+  evidence_boundary: "体外细胞系研究，发表于SCIRP期刊（非PubMed索引，同行评审严谨性可变）；仅支持来源所有权，不支持治疗建议"
 ---
 
 # In Vitro Characterization of Docetaxel as a Radiosensitizer in Canine and Feline Cancer Cell Lines

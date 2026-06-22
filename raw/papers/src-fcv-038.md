@@ -29,10 +29,10 @@ evidence_policy:
     - "Entry inhibitors represent alternative antiviral mechanism for FCV."
   # V2 enhanced fields
   study_design: "体外细胞实验，使用猫杯状病毒株，评估饶昔明对病毒进入细胞的抑制作用"
-  core_argument: "饶昔明能够有效抑制猫杯状病毒侵入细胞，从而阻断病毒感染过程"
+  core_argument: "饶昔明是一种有效的FCV入侵阻断剂——体外研究证明其能阻止病毒进入细胞，为抗病毒药物开发提供了新靶点"
   implicit_premise: "体外细胞模型中饶昔明的抑制效果能够反映其在实际感染中对病毒进入机制的阻断作用"
   title_gap: "标题只提到饶昔明作为猫杯状病毒入口阻断剂，但研究深入验证了该药物在细胞层面的确切作用机制——这为抗病毒药物开发提供了新的方向"
-  evidence_boundary: "本研究未评估饶昔明在猫体内的安全性、疗效及临床应用效果，也未探讨其对其他猫病毒株或不同病毒家族的影响"
+  evidence_boundary: "纯体外细胞实验，未在猫体内验证药代动力学、安全性或临床疗效；IC50数值不能直接转化为有效给药方案"
 ---
 
 # Fexaramine as an entry blocker for feline caliciviruses

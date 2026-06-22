@@ -30,10 +30,10 @@ evidence_policy:
     - "The likely claim-fit must be checked against the abstract or full text before promotion."
   # V2 enhanced fields
   study_design: "前瞻性试点研究，纳入患肥胖症的家猫，采用血液学和生化指标检测及氧化应激相关标志物的评估"
-  core_argument: "猫的肥胖会导致血液学和生化指标的显著变化，并引发氧化应激"
+  core_argument: "猫肥胖不仅是体重问题——试点研究证明其导致血液学和生化指标显著变化并引发氧化应激，揭示系统性代谢影响"
   implicit_premise: "血液学、生化及氧化应激指标的变化能够有效反映肥胖对猫体内生理状态的影响"
   title_gap: "标题强调肥胖引发生化及血液变化与氧化应激，但研究具体揭示了这些变化的具体指标和潜在机制——为肥胖导致的系统性影响提供初步证据"
-  evidence_boundary: "未对肥胖干预或治疗效果进行评估，亦未探讨肥胖相关疾病的具体临床表现与预后"
+  evidence_boundary: "试点研究（小样本），仅描述相关性而非因果关系；未评估干预效果或长期临床后果"
 ---
 
 # Feline obesity causes hematological and biochemical changes and oxidative stress – a pilot study
