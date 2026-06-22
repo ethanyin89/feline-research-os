@@ -12,7 +12,7 @@ year: 2014
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: [cancer, oncolytic-virotherapy, adenovirus, vaccinia, poxvirus, myxoma, fibrosarcoma, mammary-carcinoma, IL-12, VEGF, tumor-immunology, experimental-therapy]
 links:
@@ -80,7 +80,7 @@ Oncolytic virotherapy represents an innovative class of feline cancer immunother
 
 ### Mechanisms of Oncolytic Virotherapy
 
-![Possible mechanisms of oncolytic virus mediated tumor ablation](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-010-fig1.jpg)
+![Possible mechanisms of oncolytic virus mediated tumor ablation](../../raw/images/cancer/src-cancer-010-fig1.jpg)
 
 ### Overview of Feline Applications
 

@@ -12,7 +12,7 @@ year: 1981
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: [cancer, mammary-carcinoma, epidemiology, breed-predisposition, siamese-cats, hormone-dependency]
 links:

@@ -12,7 +12,7 @@ year: 2021
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: [cancer, cox, review, prognosis, mammary-tumours, scc]
 links:
@@ -77,11 +77,11 @@ It clarifies the prognostic utility of COX isoforms in feline oncology, distingu
 
 ### PRISMA Flowchart
 
-![PRISMA Flowchart](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-003-fig1-prisma.jpg)
+![PRISMA Flowchart](../../raw/images/cancer/src-cancer-003-fig1-prisma.jpg)
 
 ### Risk of Bias Summary
 
-![Risk of Bias Summary](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-003-fig2-bias.jpg)
+![Risk of Bias Summary](../../raw/images/cancer/src-cancer-003-fig2-bias.jpg)
 
 ### Cohort Summary
 

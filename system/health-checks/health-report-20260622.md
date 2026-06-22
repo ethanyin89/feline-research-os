@@ -20,7 +20,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | FAIL | FAIL: 7 markdown link issue(s) found. |
+| Markdown links | PASS | PASS: checked 2612 markdown files, no local link issues found. |
 | Query tests | PASS | 113 passed  \|  0 failed  \|  113 total |
 | Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls. |
 | Research Case integrity | PASS | 1/1 valid; 0 issues |
@@ -43,12 +43,12 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Reader quoted-fact discipline | PASS | 0 reader quoted_fact items look interpretive |
 | High-visibility language QA | PASS | 0 high-visibility pages unchecked or missing |
 | Obesity compiled guidance gate | PASS | 0 obesity reader pages exceed shell/source-indexed status |
-| Decision-grade gate | FAIL | 29 source-card violations |
+| Decision-grade gate | PASS | 0 source-card violations |
 | Candidate image gate | PASS | 0 candidate refs remain gated in local_assets frontmatter |
 | Inbox backlog | PASS | 0 active files, 1 blocked/held files, 15 rejected audit files |
 | Acceptance report | WARN | system/health-checks/ask-the-vault-acceptance-report-20260620.md; mode=executed; status=needs_review |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260519.md; mode=executed; status=pass |
-| Compile trigger | PASS | 281 changed source cards, 555 downstream files |
+| Compile trigger | PASS | 289 changed source cards, 581 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 | V2 field quality | PASS | 340 V2 cards: A=91, B=249, C=0, F=0 |
 
@@ -153,53 +153,6 @@ Grade distribution: A=91, B=249, C=0, F=0
 - topics/obesity/weight-loss-energy-calibration-bilingual.md: src-obesity-089 (abstract_weighted), src-obesity-094 (abstract_weighted)
 - topics/obesity/weight-loss-energy-calibration.md: src-obesity-089 (abstract_weighted), src-obesity-094 (abstract_weighted)
 
-## Decision-Grade Gate Violations
-
-- raw/papers/src-ckd-015.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-ckd-044.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-ckd-155.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-ckd-163.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-ckd-176.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-fip-127.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-fip-235.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-027.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-076.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-085.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-131.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-136.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-194.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-hcm-205.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-ibd-070.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-002.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-003.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-007.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-008.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-009.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-010.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-012.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-013.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-014.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-015.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-016.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-017.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-038.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-- raw/papers/src-cancer-069.md: `decision_grade: yes` requires `verification_status: audited` (current `deep_extracted`, `yes`)
-
 ## Next Actions
 
 - Review and fix the latest executed acceptance report until `Acceptance status: pass`.
-- Resolve decision-grade gate violations before using affected source cards for high-risk conclusions.
-
-## Link Check Output
-
-```text
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-cancer-003.md:80: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-003-fig1-prisma.jpg
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-cancer-003.md:84: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-003-fig2-bias.jpg
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-cancer-010.md:83: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-010-fig1.jpg
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-cancer-014.md:84: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig19-her2-signaling.jpg
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-cancer-014.md:90: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig21-her2-inhibition.jpg
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-cancer-014.md:96: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig22-fmc-her2-ihc.jpg
-/Users/jiawei/Desktop/insclaude/feline-research-os/raw/papers/src-fip-235.md:83: missing target: file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/fip/src-fip-235-AV2011-609465.001.jpg
-
-FAIL: 7 markdown link issue(s) found.
-```

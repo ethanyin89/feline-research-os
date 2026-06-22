@@ -12,7 +12,7 @@ year: 2001
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: ['hcm', 'stimulation', 'renin', 'angiotensin', 'system', 'hypertrophic', 'cardiomyopathy']
 links:

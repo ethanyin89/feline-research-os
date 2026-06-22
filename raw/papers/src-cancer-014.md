@@ -12,7 +12,7 @@ year: 2024
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: [cancer, molecular-biomarkers, precision-medicine, KIT, PARR, HER2, mast-cell-tumor, lymphoma, mammary-carcinoma]
 links:
@@ -81,19 +81,19 @@ Precision oncology is transitioning from research to clinical reality. This pape
 
 Figure 19 illustrates the molecular topology of the HER2 receptor, showing the extracellular ligand-binding domains (I–IV), transmembrane segment, and intracellular tyrosine kinase domain that is highly conserved across species.
 
-![HER2 Receptor Signaling Structure](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig19-her2-signaling.jpg)
+![HER2 Receptor Signaling Structure](../../raw/images/cancer/src-cancer-014-fig19-her2-signaling.jpg)
 
 ### Therapeutic Inhibition of HER2
 
 Figure 21 outlines the therapeutic strategies targeting HER2 signaling, including monoclonal antibodies (such as trastuzumab and pertuzumab blocking extracellular domains III and II) and small molecule tyrosine kinase inhibitors (blocking the kinase domain).
 
-![Therapeutic Inhibition of HER2](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig21-her2-inhibition.jpg)
+![Therapeutic Inhibition of HER2](../../raw/images/cancer/src-cancer-014-fig21-her2-inhibition.jpg)
 
 ### HER2 Protein IHC Expression in Feline Mammary Carcinoma
 
 Figure 22 demonstrates highly invasive growth of feline mammary carcinoma and shows positive membranous HER2 protein expression in tumor cells detected via immunohistochemistry.
 
-![HER2 Expression in Feline Mammary Carcinoma](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/cancer/src-cancer-014-fig22-fmc-her2-ihc.jpg)
+![HER2 Expression in Feline Mammary Carcinoma](../../raw/images/cancer/src-cancer-014-fig22-fmc-her2-ihc.jpg)
 
 ### Biomarker Classification Matrix
 

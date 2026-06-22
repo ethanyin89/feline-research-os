@@ -12,7 +12,7 @@ year: 2011
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: [fip, coronaviruses, CCoV, FCoV, genetics, recombination, genotypes]
 links:
@@ -80,7 +80,7 @@ Understanding the genetic structures and cell-receptor interactions of feline co
 
 Figure 1 schematizes the phylogenetic relationships and genetic structures of Feline Coronavirus (FCoV) and Canine Coronavirus (CCoV) genotypes:
 
-![FCoV and CCoV Genetic Relationships](file:///Users/jiawei/Desktop/insclaude/feline-research-os/raw/images/fip/src-fip-235-AV2011-609465.001.jpg)
+![FCoV and CCoV Genetic Relationships](../../raw/images/fip/src-fip-235-AV2011-609465.001.jpg)
 
 ### Genotype Classification Matrix
 

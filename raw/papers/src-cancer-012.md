@@ -12,7 +12,7 @@ year: 1984
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: no
 language_qa_status: bilingual_checked
 tags: [cancer, prognostic-factors, mammary-tumors, tumor-size, surgery-type]
 links:
