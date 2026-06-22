@@ -748,6 +748,8 @@ def build_source_index(vault_root: Path) -> dict[str, Path]:
     if not raw_dir.exists():
         return index
     for md_file in raw_dir.rglob("*.md"):
+        if "deep-extractions" in md_file.parts:
+            continue
         try:
             content = md_file.read_text(encoding="utf-8")
         except (OSError, UnicodeDecodeError):
@@ -1177,6 +1179,7 @@ def aggregate_vault_search(
     vault_root: Path,
     scope: str = "all",
     limit: int = 8,
+    disease: Optional[str] = None,
 ) -> tuple[list[dict], list[str]]:
     """Search whole query plus important terms, then merge ranked results."""
     if not SEARCH_AVAILABLE:
@@ -1184,7 +1187,7 @@ def aggregate_vault_search(
     terms = local_search_terms(question)
     merged: dict[str, dict] = {}
     for term in terms:
-        for result in vault_search(term, vault_root, scope=scope, limit=limit):
+        for result in vault_search(term, vault_root, scope=scope, limit=limit, disease=disease):
             key = result["file"]
             if key not in merged:
                 item = dict(result)
@@ -1263,7 +1266,7 @@ def heuristic_question_type(question: str) -> str:
     """Deterministic high-risk question typing guardrails before/after LLM routing."""
     lowered = question.lower()
 
-    if any(token in lowered for token in ["verify whether", "verify ", "treated as a core", "settled fact", "anchor in this vault"]):
+    if any(token in lowered for token in ["verify whether", "verify ", "treated as a core", "settled fact", "anchor in this vault", "验证", "是否已", "是否应当", "证实", "证伪"]):
         return "claim_verification"
     if (
         "separated between recognition and endpoints" in lowered
@@ -1278,11 +1281,11 @@ def heuristic_question_type(question: str) -> str:
         "识别", "区分", "怎么识别", "怎么区分", "诊断", "鉴别",
     ]):
         return "recognition"
-    if any(token in lowered for token in ["regulatory", "fda", "vmd", "ema", "jurisdiction", "china"]):
+    if any(token in lowered for token in ["regulatory", "fda", "vmd", "ema", "jurisdiction", "china", "监管", "审批", "法规", "注册", "批准文号"]):
         return "regulatory"
-    if any(token in lowered for token in ["compare ", "compare ckd", "versus", "vs ", " vs."]):
+    if any(token in lowered for token in ["compare ", "compare ckd", "versus", "vs ", " vs.", "比较", "对比", "跨疾病"]):
         return "synthesis"
-    if any(token in lowered for token in ["maturity", "cross-disease", "cross disease"]):
+    if any(token in lowered for token in ["maturity", "cross-disease", "cross disease", "成熟度"]):
         return "synthesis"
     
     # Heuristics for PK design
@@ -1304,7 +1307,7 @@ def heuristic_question_type(question: str) -> str:
 
     if any(token in lowered for token in [
         "endpoint", "endpoints", "efficacy evaluation", "usable for", "outcome", "remission",
-        "缓解", "为什么会缓解", "为什么缓解",
+        "缓解", "为什么会缓解", "为什么缓解", "终点", "指标", "疗效", "效果", "评估", "改善", "结局"
     ]):
         return "endpoints"
     if any(token in lowered for token in ["treatment", "therapy", "diet", "insulin", "glargine", "sglt2", "bexacat", "senvelgo"]):
@@ -2492,8 +2495,8 @@ def run_local_query_core(
     search_question = question
     if disease in disease_search_terms and disease_search_terms[disease] not in question.lower():
         search_question = f"{question} {disease_search_terms[disease]}"
-    raw_results, raw_terms = aggregate_vault_search(search_question, vault_root, scope="raw", limit=search_limit)
-    topic_results, topic_terms = aggregate_vault_search(search_question, vault_root, scope="topics", limit=search_limit)
+    raw_results, raw_terms = aggregate_vault_search(search_question, vault_root, scope="raw", limit=search_limit, disease=disease)
+    topic_results, topic_terms = aggregate_vault_search(search_question, vault_root, scope="topics", limit=search_limit, disease=disease)
     terms = []
     for term in raw_terms + topic_terms:
         if term not in terms:
@@ -2935,14 +2938,14 @@ def run_query_core(
     # Search pre-heat: use full-text search to find relevant source cards
     # that the router might have missed. Only loads source cards (not topic pages)
     # to avoid polluting context with redundant wiki text.
-    if SEARCH_AVAILABLE:
+    if SEARCH_AVAILABLE and (question_type == "overview" or not any(item['loaded'] for item in initial_loaded)):
         _status("Searching vault...")
         search_scope = "raw" if disease != "unknown" else "all"
         search_limit = 3 if question_type == "overview" else 5
         search_query = question
         if prefers_chinese(question) and english_search_terms:
             search_query = "|".join(english_search_terms)
-        search_results = vault_search(search_query, vault_root, scope=search_scope, limit=search_limit)
+        search_results = vault_search(search_query, vault_root, scope=search_scope, limit=search_limit, disease=disease)
         search_trace_items: list[dict] = []
         
         event_retained_ids = []

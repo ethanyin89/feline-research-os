@@ -45,6 +45,18 @@ except ImportError:
     except ImportError:
         EXTERNAL_SEARCH_AVAILABLE = False
 
+# Import deep extraction module
+try:
+    from deep_extraction import (
+        has_deep_extraction,
+        parse_deep_extraction,
+        get_distilled_why_it_matters,
+        get_distilled_takeaway,
+    )
+    DEEP_EXTRACTION_AVAILABLE = True
+except ImportError:
+    DEEP_EXTRACTION_AVAILABLE = False
+
 
 @dataclass
 class TensionWith:
@@ -86,6 +98,11 @@ class SourceCard:
     evidence_boundary: Optional[str] = None  # 证据边界：这篇论文回答不了什么问题
     study_design: Optional[str] = None  # 研究设计摘要（如：回顾性横断面，91猫按ACVIM分期）
     tension_with: list[TensionWith] = field(default_factory=list)  # 与其他文献的张力
+    # Deep extraction (V3)
+    has_deep_extraction: bool = False  # Whether a deep extraction file exists
+    evidence_nodes: list[str] = field(default_factory=list)
+    deep_extraction_why: Optional[str] = None  # Distilled from Phase 2/3
+    deep_extraction_takeaway: Optional[str] = None  # Distilled from Phase 2/3
     # Computed
     one_line_summary: Optional[str] = None
     file_path: Optional[str] = None  # Internal only
@@ -366,6 +383,10 @@ def parse_source_card(file_path: Path) -> Optional[SourceCard]:
         tension_with=extract_tension_with(frontmatter),
         one_line_summary=one_line_summary,
         file_path=str(file_path.relative_to(VAULT_ROOT)),  # Internal use only
+        # Deep extraction fields populated later by enrich_with_deep_extraction
+        has_deep_extraction=False,
+        deep_extraction_why=None,
+        deep_extraction_takeaway=None,
     )
 
 
@@ -396,9 +417,38 @@ def load_disease_sources(disease: str, vault_root: Path = VAULT_ROOT) -> list[So
     for md_file in papers_dir.glob(f"{prefix}*.md"):
         card = parse_source_card(md_file)
         if card:
+            # Enrich with deep extraction if available
+            card = enrich_with_deep_extraction(card)
             cards.append(card)
 
     return cards
+
+
+def enrich_with_deep_extraction(card: SourceCard) -> SourceCard:
+    """
+    Enrich a source card with content from its deep extraction file if available.
+
+    Updates:
+    - has_deep_extraction: True if ext-{source_id}.md exists
+    - deep_extraction_why: Distilled "Why it matters" from Phase 2/3
+    - deep_extraction_takeaway: Distilled takeaway from Phase 2/3
+    """
+    if not DEEP_EXTRACTION_AVAILABLE:
+        return card
+
+    if not has_deep_extraction(card.id):
+        return card
+
+    extraction = parse_deep_extraction(card.id)
+    if not extraction:
+        return card
+
+    card.has_deep_extraction = True
+    card.deep_extraction_why = get_distilled_why_it_matters(extraction)
+    card.deep_extraction_takeaway = get_distilled_takeaway(extraction)
+    card.evidence_nodes = getattr(extraction, "evidence_nodes", [])
+
+    return card
 
 
 def categorize_sources(cards: list[SourceCard]) -> dict[str, list[SourceCard]]:
@@ -1281,7 +1331,10 @@ def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
     if "指南" in evidence and kind == "指南":
         kind = ""
 
-    lines.append(f"### {index}. {card.title}")
+    if card.has_deep_extraction:
+        lines.append(f"### 📖 {index}. {card.title}")
+    else:
+        lines.append(f"### {index}. {card.title}")
     lines.append("")
     meta_bits = [bit for bit in [author.rstrip("｜"), str(card.year or ""), card.journal or "", evidence, kind, theme_text] if bit]
     if meta_bits:
@@ -1292,29 +1345,46 @@ def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
         lines.append(f"**链接：** {link}")
         lines.append("")
 
-    lines.append(f"**为什么值得读：** {_chinese_reading_hook(card)}")
+    # Use deep extraction content when available, otherwise fall back to heuristics
+    if card.has_deep_extraction and card.deep_extraction_why:
+        lines.append(f"**为什么值得读：** {card.deep_extraction_why}")
+    else:
+        lines.append(f"**为什么值得读：** {_chinese_reading_hook(card)}")
     lines.append("")
 
-    # Handle key findings: check if it's multi-part (contains newlines from enhanced fields)
-    key_finding = _chinese_key_finding(card)
-    if "\n" in key_finding:
-        # Multi-part structured finding - use section header then content
-        lines.append("**关键发现：**")
-        lines.append("")
-        lines.append(key_finding)
+    # Handle key findings: prefer deep extraction takeaway
+    if card.has_deep_extraction and card.deep_extraction_takeaway:
+        lines.append(f"**关键发现：** {card.deep_extraction_takeaway}")
     else:
-        # Single-line finding - inline format
-        lines.append(f"**关键发现：** {key_finding}")
+        key_finding = _chinese_key_finding(card)
+        if "\n" in key_finding:
+            # Multi-part structured finding - use section header then content
+            lines.append("**关键发现：**")
+            lines.append("")
+            lines.append(key_finding)
+        else:
+            # Single-line finding - inline format
+            lines.append(f"**关键发现：** {key_finding}")
     lines.append("")
 
     # For cards with explicit evidence_boundary field, don't duplicate
     # The _chinese_key_finding already includes it for enhanced cards
     has_enhanced_fields = card.core_argument or card.evidence_boundary or card.title_gap or card.unexpected_finding
-    if not has_enhanced_fields:
+    if not has_enhanced_fields and not card.has_deep_extraction:
         lines.append(f"**证据边界：** {_chinese_evidence_boundary(card)}")
         lines.append("")
 
     lines.append(f"**临床相关性：** {_chinese_clinical_relevance(card)}")
+
+    # Add evidence nodes if present
+    if card.has_deep_extraction and card.evidence_nodes:
+        lines.append("")
+        lines.append(f"**证据节点：** {', '.join(card.evidence_nodes)}")
+
+    # Add link to detail page if deep extraction exists
+    if card.has_deep_extraction:
+        lines.append("")
+        lines.append(f"📖 [查看深度提炼详情](?detail={card.id})")
 
     return "\n".join(lines)
 
@@ -1351,16 +1421,22 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
     year_str = f" {card.year}." if card.year else ""
 
     # Main citation line
-    lines.append(f"{index}. {author_str}*{card.title}.*{journal_str}{year_str}")
+    if card.has_deep_extraction:
+        lines.append(f"📖 {index}. {author_str}*{card.title}.*{journal_str}{year_str}")
+    else:
+        lines.append(f"{index}. {author_str}*{card.title}.*{journal_str}{year_str}")
 
     # Line 2: URL (DOI preferred, then PMID, then PMCID, then source URL)
     link = _source_link(card)
     if link:
         lines.append(f"   URL: {link}")
 
-    # Line 3: Why it matters (from supported_conclusions - skip placeholders)
+    # Line 3: Why it matters - prefer deep extraction, then fall back to heuristics
     why_shown = False
-    if card.supported_conclusions:
+    if card.has_deep_extraction and card.deep_extraction_why:
+        lines.append(f"   **Why it matters:** {card.deep_extraction_why}")
+        why_shown = True
+    elif card.supported_conclusions:
         for conclusion in card.supported_conclusions:
             if not _is_placeholder_content(conclusion):
                 why_label = "**要点：**" if chinese else "**Why it matters:**"
@@ -1369,9 +1445,11 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
                 why_shown = True
                 break
 
-    # Line 4: Takeaway (from one_line_summary or quoted_facts - skip placeholders)
+    # Line 4: Takeaway - prefer deep extraction, then fall back to heuristics
     takeaway = None
-    if card.one_line_summary and not _is_placeholder_content(card.one_line_summary):
+    if card.has_deep_extraction and card.deep_extraction_takeaway:
+        takeaway = card.deep_extraction_takeaway
+    elif card.one_line_summary and not _is_placeholder_content(card.one_line_summary):
         takeaway = card.one_line_summary
     elif card.quoted_facts:
         # Find first non-placeholder quoted fact
@@ -1386,6 +1464,14 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
         takeaway_text = _to_chinese_research_text(takeaway) if chinese else takeaway
         takeaway_text = takeaway_text[:250] + '...' if len(takeaway_text) > 250 else takeaway_text
         lines.append(f"   {takeaway_label} {takeaway_text}")
+
+    # Add evidence nodes if present
+    if card.has_deep_extraction and card.evidence_nodes:
+        lines.append(f"   **Evidence nodes:** {', '.join(card.evidence_nodes)}")
+
+    # Add link to detail page if deep extraction exists
+    if card.has_deep_extraction:
+        lines.append(f"   📖 [View deep extraction](?detail={card.id})")
 
     return "\n".join(lines)
 

@@ -18,13 +18,13 @@ tags: ['hcm', 'prevalence', 'hypertrophic', 'cardiomyopathy', 'alms1', 'variant'
 links:
   doi: "10.3390/ani14182629"
   url: "https://doi.org/10.3390/ani14182629"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-hcm-205.md"]
 abstract: "This prospective study assessed 55 apparently healthy Sphynx cats from New Zealand for hypertrophic cardiomyopathy (HCM) and the ALMS1 gene variant to determine prevalence and association. Screening by a cardiologist revealed a 40% prevalence of HCM at a median age of 5.8 years. The ALMS1 variant was present in 70.9% of cats but showed no association with HCM status. Three cats with HCM died during the study with congestive heart failure and myocardial ischemia/infarction at necropsy, indicating severe cardiac pathology. Findings suggest a high predisposition for HCM in this breed despite lack of correlation with the ALMS1 variant."
 methods_summary: "A prospective cohort design recruited 55 apparently healthy Sphynx cats from registered breeders and pet owners in New Zealand. All cats underwent cardiologist-performed cardiac screening including echocardiography. Forty-two cats had repeat cardiac exams after a median of 1.8 years (range: 1.6–2.2 years). Genetic testing determined ALMS1 variant status. Clinical diagnosis of HCM was established based on echocardiographic criteria. Statistical association between ALMS1 variant presence and HCM diagnosis was analyzed."
 evidence_policy:
   quoted_fact:
     - "Sample size: 55 Sphynx cats screened initially; 42 cats re-examined after median 1.8 years."
-    - "Prevalence of HCM: 40% (20/55 cats) at median age 5.8 years (range 2.4–13.1)."
+    - "Prevalence of HCM: 40% (22/55 cats) at median age 5.8 years (range 2.4–13.1)."
     - "ALMS1 variant frequency: 70.9% (11 homozygous, 28 heterozygous)."
     - "Three cats with HCM died with congestive heart failure; necropsy showed focal but extensive myocardial ischemia or infarction."
     - "No statistical association found between ALMS1 variant and HCM diagnosis."
@@ -64,7 +64,7 @@ Hypertrophic cardiomyopathy is a common cardiac disorder in cats with significan
 ### quoted_fact
 
 * 55 Sphynx cats were prospectively screened; 42 had repeat exams after a median interval of 1.8 years (range 1.6–2.2).
-* HCM prevalence was 40% (20/55 cats) at median 5.8 years (range 2.4–13.1).
+* HCM prevalence was 40% (22/55 cats) at median 5.8 years (range 2.4–13.1).
 * ALMS1 variant was present in 70.9% of cats: 11 homozygous and 28 heterozygous carriers.
 * Three cats with HCM died during the study with congestive heart failure; necropsies revealed focal but extensive myocardial ischemia or infarction.
 * No statistically significant association between ALMS1 variant status and HCM diagnosis was found.
@@ -91,7 +91,7 @@ Hypertrophic cardiomyopathy is a common cardiac disorder in cats with significan
 | Number of cats screened      | 55                                         |
 | Follow-up re-examined cats   | 42 (median interval 1.8 years, range 1.6–2.2 years) |
 | Age at screening             | Median 5.8 years (range 2.4–13.1 years)    |
-| HCM prevalence              | 40% (20/55 cats)                           |
+| HCM prevalence              | 40% (22/55 cats)                           |
 | ALMS1 variant frequency       | 70.9% (11 homozygous, 28 heterozygous)    |
 | Deaths during study with HCM | 3 cats, cause: congestive heart failure    |
 | Necropsy findings             | Focal but extensive myocardial ischemia or infarction |
