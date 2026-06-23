@@ -490,7 +490,6 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
                     <span>{topic}</span><span>{question_type}</span><span>{confidence}</span><span>{generated_at}</span>
                   </div>
                   <div class="vault-answer-sources">{sources}</div>
-                  <div class="vault-answer-file">{file_path}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -523,7 +522,7 @@ def is_session_chinese() -> bool:
                 return True
     except Exception:
         pass
-    return False
+    return True
 
 
 def extract_topic_paths_from_text(text: str) -> list[str]:
@@ -6568,7 +6567,7 @@ with st.sidebar:
                     written_to = str(out_path.relative_to(VAULT_ROOT))
                     st.session_state.last_meta["written_to"] = written_to
                     render_notice(
-                        f"Saved to <code>{html.escape(written_to)}</code>.",
+                        "✅ 已保存至知识库 (Saved to vault).",
                         tone="green",
                     )
                 except ValueError as e:

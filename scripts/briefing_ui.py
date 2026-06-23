@@ -164,9 +164,15 @@ def parse_briefing_sections(content: str) -> list[tuple[str, str]]:
 
 
 def sanitize_user_facing_markdown(text: str) -> str:
-    """Remove raw local file names, .md file links, and paths from user-facing markdown."""
+    """Remove raw local file names, .md file links, and paths from user-facing markdown.
+    Also replace internal source IDs with external links if available."""
     import re
     from pathlib import Path
+    
+    # 0. Completely remove the "Derived from:" / "源自：" block
+    text = re.sub(r"(?i)Derived from:\s*-\s*[^\n]+(?:\n|$)", "", text)
+    text = re.sub(r"提取自：\s*-\s*[^\n]+(?:\n|$)", "", text)
+    text = re.sub(r"源自：\s*-\s*[^\n]+(?:\n|$)", "", text)
     
     # 1. Clean markdown links pointing to local files (e.g., [file.md](file.md))
     def replace_md_link(match):
@@ -187,18 +193,36 @@ def sanitize_user_facing_markdown(text: str) -> str:
     
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", replace_md_link, text)
     
-    # 2. Clean standalone md files or paths (e.g. out-ckd-briefing-20260408-round1-working-en.md)
-    def replace_md_file(match):
-        filename = match.group(0)
-        stem = filename.replace(".md", "").replace("-zh", "").replace("-", " ")
-        stem_clean = " ".join(w.capitalize() for w in stem.split())
-        acronyms = {"Hcm": "HCM", "Ckd": "CKD", "Fip": "FIP", "Ibd": "IBD", "Fcv": "FCV", "Working": "Working Draft", "En": "(English)", "Zh": "(Chinese)"}
-        stem_clean = " ".join(acronyms.get(w, w) for w in stem_clean.split())
-        return f"**{stem_clean}**"
-        
-    text = re.sub(r"\b\w+-\w+-briefing-\d+-[\w-]+\.md\b", replace_md_file, text)
+    # 2. Clean standalone md files or paths
+    text = re.sub(r"\b\w+-\w+-briefing-\d+-[\w-]+\.md\b", "内部知识库简报", text)
     text = re.sub(r"\btopics/[\w/-]+\.md\b", lambda m: f"**{Path(m.group(0)).stem.replace('-', ' ').title()}**", text)
     text = re.sub(r"\braw/papers/[\w/-]+\.md\b", lambda m: f"**{Path(m.group(0)).stem.upper()}**", text)
+
+    # 3. Replace source IDs with external links
+    source_ids = list(set(re.findall(r"\bsrc-[a-z]+-\d{3}\b", text)))
+    if source_ids:
+        try:
+            from core.source_metadata import load_source_metadata
+            metadata_list = load_source_metadata(VAULT_ROOT, source_ids)
+            id_to_meta = {m["id"]: m for m in metadata_list}
+            
+            def replace_src(match):
+                sid = match.group(0)
+                meta = id_to_meta.get(sid, {})
+                title = meta.get("title") or sid.upper()
+                if len(title) > 60:
+                    title = title[:57] + "..."
+                url = meta.get("url") or meta.get("doi")
+                if url:
+                    if not url.startswith("http"):
+                        url = f"https://doi.org/{url}"
+                    return f"[{title}]({url})"
+                return f"**{title}**"
+            
+            text = re.sub(r"\bsrc-[a-z]+-\d{3}\b", replace_src, text)
+        except Exception:
+            pass
+
     return text
 
 
