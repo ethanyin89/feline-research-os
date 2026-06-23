@@ -4,7 +4,7 @@
 **Context:** This task was executed as a conscious "branch" from the main development line of Feline Research OS. The objective was to process a batch of reference materials (deep extractions of scientific literature) into "Gold Standard" Research Workspace outputs without interfering with the primary system architecture or main tasks.
 
 ## 1. Branch Objectives
-- Safely ingest 6 raw "deep extract" markdown files provided by the user on the Desktop.
+- Safely ingest 7 raw "deep extract" markdown files provided by the user on the Desktop.
 - Apply the strict "Research Workspace" codification standard: Evidence-based, rich in judgment, clear translation/recommendation value, and ZERO fabricated data.
 - Ensure strict exclusion of unrelated topics (e.g., NewPets).
 - Generate a comprehensive, multi-dimensional evaluation matrix for **Feline Diabetes Model Endpoints**.
@@ -28,7 +28,7 @@ All outputs have been safely isolated in the following directory:
 
 **Generated Assets:**
 - **Paper Cards (7 files):** Located in `outputs/gold_standards/diabetes_model_endpoints/paper_cards/`. Each card contains standardized sections: paper positioning, research questions, core findings, methodology value, limitations, and translational inspiration.
-- **Evidence Map (`evidence_map.md`):** A synthesis document mapping the 6 papers into distinct mechanistic themes (Pathological mechanisms, Early screening limitations, Short-term glycemic monitoring, Acute metabolic decompensation, and Kidney complications).
+- **Evidence Map (`evidence_map.md`):** A synthesis document mapping the 7 papers into distinct mechanistic themes (Pathological mechanisms, IAPP/genetics/chronic complications, Early screening limitations, Short-term glycemic monitoring, Acute metabolic decompensation, and Kidney complications).
 - **Research Workspace Gold Matrix (`research_workspace_gold.md`):** The final deliverable. A structured evaluation matrix classifying evaluation endpoints by dimension (Diagnosis/Enrollment, Short/Long-term Efficacy, Mechanism/Target Efficacy, Safety/Ketosis, Safety/Kidney, Stratification/Confounders), explicitly stating application scenarios and evidentiary boundaries.
 
 ## 4. Quality Assurance & Re-verification (100% Evidentiary Fidelity)
