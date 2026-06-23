@@ -6633,6 +6633,60 @@ else:
         st.markdown(f"<div style='text-align:center;padding:32px;color:#8b90a0'><span style='font-size:24px'>⏳</span><br/>{processing_msg}</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
+# Quick Start response renderer (must be defined before chat history display)
+# ---------------------------------------------------------------------------
+
+def render_quick_start_response(output: QuickStartOutput, key_prefix: str = "qs") -> None:
+    """Render Quick Start output with navigation buttons."""
+    is_zh = is_session_chinese()
+
+    # Render the Quick Start content
+    st.markdown(format_quick_start_markdown(output))
+
+    # Add navigation buttons
+    st.divider()
+    nav_label = "继续深入" if is_zh else "Go deeper"
+    st.markdown(f"**{nav_label}**")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        briefing_label = f"📖 进入 {output.disease} 简报" if is_zh else f"📖 Open {output.disease} Briefing"
+        if output.has_briefing:
+            if st.button(briefing_label, key=f"{key_prefix}-briefing-{output.disease.lower()}", use_container_width=True):
+                st.session_state.show_briefing = output.disease.lower()
+                st.rerun()
+        else:
+            st.button(briefing_label, key=f"{key_prefix}-briefing-disabled-{output.disease.lower()}", use_container_width=True, disabled=True)
+            st.caption("暂无简报" if is_zh else "No briefing available")
+
+    with col2:
+        workspace_label = f"🔬 启动 {output.disease} 研究工作台" if is_zh else f"🔬 Start {output.disease} Research Workspace"
+        if st.button(workspace_label, key=f"{key_prefix}-workspace-{output.disease.lower()}", use_container_width=True):
+            # Queue a task-oriented research mode query
+            if is_zh:
+                research_queries = {
+                    "hcm": "构建 feline HCM 近三年证据地图",
+                    "ckd": "比较 CKD 诊断与分期指标的研究价值",
+                    "fip": "梳理 FIP 治疗研究的药效终点",
+                    "diabetes": "提炼猫糖尿病模型的关键评价指标",
+                    "ibd": "提炼猫炎症性肠病与小细胞淋巴瘤鉴别诊断的研究发现",
+                    "fcv": "分析猫杯状病毒免疫逃逸与毒力演化的关键发现",
+                }
+            else:
+                research_queries = {
+                    "hcm": "Build feline HCM evidence map",
+                    "ckd": "Compare feline CKD diagnostic and staging indicators",
+                    "fip": "Analyze FIP treatment trial efficacy endpoints",
+                    "diabetes": "Distill key metrics for feline diabetes models",
+                    "ibd": "Distill differentiation of feline IBD and small cell lymphoma",
+                    "fcv": "Analyze feline calicivirus immune evasion and virulence evolution",
+                }
+            query_str = research_queries.get(output.disease.lower(), f"构建 feline {output.disease.upper()} 证据研究工作台" if is_zh else f"Build feline {output.disease.upper()} research workspace")
+            queue_question(query_str)
+            st.rerun()
+
+
+# ---------------------------------------------------------------------------
 # Chat history display
 # ---------------------------------------------------------------------------
 
@@ -6700,56 +6754,6 @@ if st.session_state.get("scroll_to_latest_research_result"):
 # ---------------------------------------------------------------------------
 # Query execution
 # ---------------------------------------------------------------------------
-
-def render_quick_start_response(output: QuickStartOutput, key_prefix: str = "qs") -> None:
-    """Render Quick Start output with navigation buttons."""
-    is_zh = is_session_chinese()
-
-    # Render the Quick Start content
-    st.markdown(format_quick_start_markdown(output))
-
-    # Add navigation buttons
-    st.divider()
-    nav_label = "继续深入" if is_zh else "Go deeper"
-    st.markdown(f"**{nav_label}**")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        briefing_label = f"📖 进入 {output.disease} 简报" if is_zh else f"📖 Open {output.disease} Briefing"
-        if output.has_briefing:
-            if st.button(briefing_label, key=f"{key_prefix}-briefing-{output.disease.lower()}", use_container_width=True):
-                st.session_state.show_briefing = output.disease.lower()
-                st.rerun()
-        else:
-            st.button(briefing_label, key=f"{key_prefix}-briefing-disabled-{output.disease.lower()}", use_container_width=True, disabled=True)
-            st.caption("暂无简报" if is_zh else "No briefing available")
-
-    with col2:
-        workspace_label = f"🔬 启动 {output.disease} 研究工作台" if is_zh else f"🔬 Start {output.disease} Research Workspace"
-        if st.button(workspace_label, key=f"{key_prefix}-workspace-{output.disease.lower()}", use_container_width=True):
-            # Queue a task-oriented research mode query
-            if is_zh:
-                research_queries = {
-                    "hcm": "构建 feline HCM 近三年证据地图",
-                    "ckd": "比较 CKD 诊断与分期指标的研究价值",
-                    "fip": "梳理 FIP 治疗研究的药效终点",
-                    "diabetes": "提炼猫糖尿病模型的关键评价指标",
-                    "ibd": "提炼猫炎症性肠病与小细胞淋巴瘤鉴别诊断的研究发现",
-                    "fcv": "分析猫杯状病毒免疫逃逸与毒力演化的关键发现",
-                }
-            else:
-                research_queries = {
-                    "hcm": "Build feline HCM evidence map",
-                    "ckd": "Compare feline CKD diagnostic and staging indicators",
-                    "fip": "Analyze FIP treatment trial efficacy endpoints",
-                    "diabetes": "Distill key metrics for feline diabetes models",
-                    "ibd": "Distill differentiation of feline IBD and small cell lymphoma",
-                    "fcv": "Analyze feline calicivirus immune evasion and virulence evolution",
-                }
-            query_str = research_queries.get(output.disease.lower(), f"构建 feline {output.disease.upper()} 证据研究工作台" if is_zh else f"Build feline {output.disease.upper()} research workspace")
-            queue_question(query_str)
-            st.rerun()
-
 
 def run_query(question: str) -> bool:
     """Route, hop, synthesize, render, optionally write back."""
