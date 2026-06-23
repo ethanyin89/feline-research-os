@@ -9,9 +9,9 @@ models: [open-label clinical trial]
 endpoints: [clinical remission, survival]
 jurisdictions: []
 evidence_level: original-study
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [fip, molnupiravir, antiviral, treatment, clinical-trial, effusive]

@@ -10,9 +10,9 @@ endpoints: [viral-detection, kidney-pathology, host-range]
 jurisdictions: [Hong-Kong, Japan, Italy, USA, Brazil, Turkey, UK, Germany, Malaysia]
 evidence_level: review
 year: 2020
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 pmid: "32370044"
 doi: "10.3390/v12050501"
 decision_grade: no

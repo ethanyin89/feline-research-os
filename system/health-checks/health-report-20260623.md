@@ -1,18 +1,18 @@
 ---
-id: system-health-report-20260622
+id: system-health-report-20260623
 type: health-check
 topic: operating-system
 question_type: health
 language: bilingual
-last_compiled_at: 2026-06-22
+last_compiled_at: 2026-06-23
 verification_status: compiled
 decision_grade: provisional
 language_qa_status: light_checked
 owner: codex
-status: needs_attention
+status: active
 ---
 
-# Vault Health Report, 2026-06-22
+# Vault Health Report, 2026-06-23
 
 This report aggregates existing checks. It does not call an LLM and does not replace human review.
 
@@ -20,9 +20,9 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 
 | Check | Status | Read |
 |---|---|---|
-| Markdown links | PASS | PASS: checked 2622 markdown files, no local link issues found. |
+| Markdown links | PASS | PASS: checked 2624 markdown files, no local link issues found. |
 | Query tests | PASS | 113 passed  \|  0 failed  \|  113 total |
-| Ordinary-user vault eval | FAIL | - first_line: 这是本地 vault 的猫癌症解释，不是 API 综合回答；本次没有调用 API。 [inference] |
+| Ordinary-user vault eval | PASS | All ordinary-user free-mode samples passed without API calls. |
 | Research Case integrity | PASS | 1/1 valid; 0 issues |
 | Paper source cards | PASS | 1414 strict disease paper cards; baseline >= 246 |
 | Regulation source cards | PASS | 14 regulation cards |
@@ -48,7 +48,7 @@ This report aggregates existing checks. It does not call an LLM and does not rep
 | Inbox backlog | PASS | 0 active files, 1 blocked/held files, 15 rejected audit files |
 | Acceptance report | PASS | system/health-checks/ask-the-vault-acceptance-report-20260622.md; mode=executed; status=pass |
 | Ordinary-user acceptance | PASS | system/health-checks/ordinary-user-acceptance-report-20260519.md; mode=executed; status=pass |
-| Compile trigger | PASS | 89 changed source cards, 349 downstream files |
+| Compile trigger | PASS | 39 changed source cards, 158 downstream files |
 | API keys | PASS | present: OPENROUTER_API_KEY, OPENAI_API_KEY |
 | V2 field quality | PASS | 340 V2 cards: A=91, B=249, C=0, F=0 |
 
@@ -155,169 +155,4 @@ Grade distribution: A=91, B=249, C=0, F=0
 
 ## Next Actions
 
-- Fix `scripts/ordinary_user_vault_eval.py` failures before trusting the public ordinary-user surface.
-
-## Ordinary-User Vault Eval Output
-
-```text
-# Ordinary User Vault Eval
-
-## 解释CKD
-- status: PASS
-- disease: ckd
-- mode: local_explanation
-- surface: ckd_overview
-- sources: 4
-- cited_sources: 4
-- sections: 10
-- first_line: 这是本地 vault 的猫慢性肾病解释，不是 API 综合回答；本次没有调用 API。 [inference]
-
-## the explanation of feline CKD
-- status: PASS
-- disease: ckd
-- mode: local_explanation
-- surface: ckd_overview
-- sources: 4
-- cited_sources: 4
-- sections: 10
-- first_line: This is a local vault CKD explanation, not API synthesis. No API call was made. [inference]
-
-## current understanding of feline CKD
-- status: PASS
-- disease: ckd
-- mode: local_explanation
-- surface: ckd_researcher_overview
-- sources: 41
-- cited_sources: 11
-- sections: 8
-- first_line: This is a local vault CKD researcher overview, not API synthesis. No API call was made. [llm_inference]
-
-## what should a researcher know about feline CKD
-- status: PASS
-- disease: ckd
-- mode: local_explanation
-- surface: ckd_researcher_overview
-- sources: 41
-- cited_sources: 11
-- sections: 8
-- first_line: This is a local vault CKD researcher overview, not API synthesis. No API call was made. [llm_inference]
-
-## FIP怎么识别
-- status: PASS
-- disease: fip
-- mode: local_explanation
-- surface: fip_recognition
-- sources: 4
-- cited_sources: 3
-- sections: 3
-- first_line: 这是本地 vault 的 FIP 识别解释，不是 API 综合回答；本次没有调用 API。 [inference]
-
-## current understanding of feline FIP
-- status: PASS
-- disease: fip
-- mode: local_explanation
-- surface: fip_overview
-- sources: 4
-- cited_sources: 3
-- sections: 8
-- first_line: This is a local FIP overview, not API synthesis. No API call was made. [inference]
-
-## what should a researcher know about feline FIP
-- status: PASS
-- disease: fip
-- mode: local_explanation
-- surface: fip_overview
-- sources: 4
-- cited_sources: 3
-- sections: 8
-- first_line: This is a local FIP overview, not API synthesis. No API call was made. [inference]
-
-## feline FIP disease model overview
-- status: PASS
-- disease: fip
-- mode: local_explanation
-- surface: fip_overview
-- sources: 4
-- cited_sources: 3
-- sections: 8
-- first_line: This is a local FIP overview, not API synthesis. No API call was made. [inference]
-
-## HCM是什么，为什么危险
-- status: PASS
-- disease: hcm
-- mode: local_explanation
-- surface: hcm_overview
-- sources: 4
-- cited_sources: 4
-- sections: 10
-- first_line: 这是本地 vault 的猫心肌病解释，不是 API 综合回答；本次没有调用 API。 [inference]
-
-## what should a researcher know about feline HCM
-- status: PASS
-- disease: hcm
-- mode: local_explanation
-- surface: hcm_overview
-- sources: 4
-- cited_sources: 4
-- sections: 10
-- first_line: This is a local vault HCM explanation, not API synthesis. No API call was made. [inference]
-
-## current understanding of feline HCM
-- status: PASS
-- disease: hcm
-- mode: local_explanation
-- surface: hcm_overview
-- sources: 4
-- cited_sources: 4
-- sections: 10
-- first_line: This is a local vault HCM explanation, not API synthesis. No API call was made. [inference]
-
-## IBD和淋巴瘤怎么区分
-- status: PASS
-- disease: ibd
-- mode: local_explanation
-- surface: ibd_lymphoma
-- sources: 8
-- cited_sources: 8
-- sections: 5
-- first_line: 这是本地 vault 的 IBD/淋巴瘤鉴别解释，不是 API 综合回答；本次没有调用 API。 [llm_inference]
-
-## 猫炎症性肠病是什么
-- status: PASS
-- disease: ibd
-- mode: local_explanation
-- surface: ibd_overview
-- sources: 4
-- cited_sources: 4
-- sections: 9
-- first_line: 这是本地 vault 的猫IBD解释，不是 API 综合回答；本次没有调用 API。 [inference]
-
-## 猫IBD是什么
-- status: PASS
-- disease: ibd
-- mode: local_explanation
-- surface: ibd_overview
-- sources: 4
-- cited_sources: 4
-- sections: 9
-- first_line: 这是本地 vault 的猫IBD解释，不是 API 综合回答；本次没有调用 API。 [inference]
-
-## what should a researcher know about feline IBD and lymphoma
-- status: PASS
-- disease: ibd
-- mode: local_explanation
-- surface: ibd_lymphoma
-- sources: 8
-- cited_sources: 8
-- sections: 5
-- first_line: This is a local IBD-versus-lymphoma explanation, not API synthesis. No API call was made. [llm_inference]
-
-## current understanding of feline IBD versus lymphoma
-- status: PASS
-- disease: ibd
-- mode: local_explanation
-- surface: ibd_lymphoma
-- sources: 8
-- cited_sources: 
-... clipped ...
-```
+- No immediate structural action from this report.

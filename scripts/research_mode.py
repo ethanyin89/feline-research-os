@@ -117,6 +117,7 @@ def is_research_mode_query(query: str) -> bool:
     - "find recent studies on feline CKD"
     - "最新HCM文献"
     - "搜索FIP研究"
+    - "构建 feline HCM 近三年证据地图"
     """
     query_lower = query.lower()
 
@@ -134,6 +135,9 @@ def is_research_mode_query(query: str) -> bool:
         r"recent.*studies",
         r"literature.*search",
         r"literature.*review",
+        r"evidence.*map",
+        r"endpoint",
+        r"workspace",
     ]
 
     # Chinese patterns
@@ -148,13 +152,30 @@ def is_research_mode_query(query: str) -> bool:
         r"最新.*论文",
         r"文献.*搜索",
         r"文献.*检索",
+        r"构建.*证据",
+        r"构建.*地图",
+        r"比较.*指标",
+        r"比较.*诊断",
+        r"梳理.*终点",
+        r"梳理.*药效",
+        r"提炼.*指标",
+        r"提炼.*发现",
+        r"分析.*病毒",
+        r"分析.*演化",
+        r"研究.*工作台",
     ]
 
     for pattern in en_patterns + zh_patterns:
         if re.search(pattern, query_lower):
             return True
 
+    # Check for direct presence of research task keywords in Chinese
+    research_task_keywords = ["构建", "比较", "梳理", "提炼", "证据地图", "药效终点", "评价指标", "工作台"]
+    if any(kw in query_lower for kw in research_task_keywords):
+        return True
+
     return False
+
 
 
 def extract_disease_from_query(query: str) -> Optional[str]:
@@ -1904,6 +1925,96 @@ def handle_research_query_local_only(query: str, chinese: bool = False) -> tuple
     Use this for local-only mode or when external search is not desired.
     """
     return handle_research_query(query, chinese=chinese, include_external=False)
+
+
+def handle_research_query_structured(
+    query: str,
+    chinese: bool = False,
+    include_external: bool = True,
+) -> dict:
+    """
+    Research query returning structured output for Workspace Tabs.
+
+    Returns:
+        Dict with structured data for WorkspaceOutput conversion.
+    """
+    disease = extract_disease_from_query(query)
+
+    if not disease:
+        return {
+            "error": True,
+            "message": "未能识别具体疾病类型" if chinese else "Could not identify disease",
+            "query": query,
+        }
+
+    cards = load_disease_sources(disease)
+
+    if not cards:
+        return {
+            "error": True,
+            "message": f"未找到 {disease.upper()} 相关文献" if chinese else f"No {disease.upper()} sources found",
+            "query": query,
+            "disease": disease,
+        }
+
+    # Rank cards
+    ranked_cards = rank_research_ready_sources(cards, top_n=10)
+
+    # Build structured output
+    result = {
+        "error": False,
+        "query": query,
+        "disease": disease,
+        "query_interpretation": f"Searching for {disease.upper()} literature" if not chinese else f"搜索 {disease.upper()} 相关文献",
+        "time_window": "2020-2026",
+        "search_scope": "Local vault + PubMed" if include_external else "Local vault only",
+        "source_priorities": ["JVIM", "J Vet Cardiol", "Scientific Reports", "Frontiers", "PubMed indexed journals"],
+        "filters": ["peer-reviewed", "feline-specific"],
+        "total_considered": len(cards),
+        "ranked_cards": [],
+        "gaps": [],
+        "next_steps": [],
+    }
+
+    # Convert cards to structured format
+    for card in ranked_cards:
+        card_dict = {
+            "id": card.id,
+            "title": card.title,
+            "year": card.year,
+            "journal": card.journal,
+            "evidence_level": card.evidence_level,
+            "why_included": f"Relevant to {disease.upper()} research; Evidence level: {card.evidence_level or 'not specified'}",
+            "one_line_summary": card.one_line_summary or "",
+            "limitations": card.evidence_boundary or "Not specified",
+            "url": card.url,
+            "doi": card.doi,
+            "pmid": card.pmid,
+            "has_deep_extraction": card.has_deep_extraction,
+            "deep_extraction_why": card.deep_extraction_why,
+            "deep_extraction_takeaway": card.deep_extraction_takeaway,
+            "supported_conclusions": card.supported_conclusions or [],
+            "study_design": card.study_design or "",
+            "endpoints": card.endpoints or [],
+            "core_argument": card.core_argument or "",
+        }
+        result["ranked_cards"].append(card_dict)
+
+    # Extract gaps from evidence boundaries
+    gaps = []
+    for card in ranked_cards[:5]:
+        if card.evidence_boundary:
+            gaps.append(card.evidence_boundary)
+    result["gaps"] = gaps[:3]  # Top 3 gaps
+
+    # Suggest next steps
+    result["next_steps"] = [
+        f"Review deep extractions for top {disease.upper()} papers",
+        f"Compare study designs and endpoints across {disease.upper()} literature",
+        f"Check for recent PubMed publications not yet in vault",
+    ]
+
+    return result
 
 
 # ---------------------------------------------------------------------------

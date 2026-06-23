@@ -1,0 +1,63 @@
+[
+  {
+    "card_id": "src-fip-235",
+    "file_path": "raw/papers/src-fip-235.md",
+    "title": "Feline and Canine Coronaviruses: Common Genetic and Pathobiological Features",
+    "doi": "10.1155/2011/609465",
+    "abstract": "<jats:p>A new human coronavirus responsible for severe acute respiratory syndrome (SARS) was identified in 2003, which raised concern about coronaviruses as agents of serious infectious disease. Nevertheless, coronaviruses have been known for about 50 years to be major agents of respiratory, enteric, or systemic infections of domestic and companion animals. Feline and canine coronaviruses are widespread among dog and cat populations, sometimes leading to the fatal diseases known as feline infectious peritonitis (FIP) and pantropic canine coronavirus infection in cats and dogs, respectively. In this paper, different aspects of the genetics, host cell tropism, and pathogenesis of the feline and canine coronaviruses (FCoV and CCoV) will be discussed, with a view to illustrating how study of FCoVs and CCoVs can improve our general understanding of the pathobiology of coronaviruses.</jats:p>",
+    "metadata": {
+      "journal": "Advances in Virology",
+      "year": "2011",
+      "authors": [
+        "Sophie Le Poder"
+      ],
+      "doi": "10.1155/2011/609465",
+      "verified": true,
+      "links": {
+        "pmc": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3265309/",
+        "pmcid": "PMC3265309"
+      }
+    },
+    "orig_metadata": {
+      "id": "src-fip-235",
+      "type": "source",
+      "title": "Feline and Canine Coronaviruses: Common Genetic and Pathobiological Features",
+      "source_kind": "paper",
+      "species": "feline",
+      "diseases": [
+        "FIP"
+      ],
+      "models": [],
+      "endpoints": [],
+      "jurisdictions": [],
+      "evidence_level": "original-study",
+      "status": "ingested",
+      "extraction_depth": "partial",
+      "year": "2011",
+      "verification_status": "title_only",
+      "decision_grade": "no",
+      "language_qa_status": "not_applicable",
+      "tags": [
+        "fip",
+        "coronaviruses",
+        "common",
+        "genetic",
+        "pathobiological",
+        "features"
+      ],
+      "links": "",
+      "doi": "10.1155/2011/609465",
+      "url": "https://doi.org/10.1155/2011/609465",
+      "local_assets": [],
+      "evidence_policy": "",
+      "quoted_fact": "",
+      "- \"The intake sheet lists this title": "Feline and Canine Coronaviruses: Common Genetic and Pathobiological Features.",
+      "- \"The intake sheet locator is": "10.1155/2011/609465.",
+      "source_supported_conclusion": "",
+      "llm_inference": ""
+    },
+    "local_assets": [
+      "raw/images/fip/src-fip-235-AV2011-609465.001.jpg"
+    ]
+  }
+]

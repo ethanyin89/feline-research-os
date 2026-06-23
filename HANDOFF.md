@@ -2,12 +2,13 @@
 
 If you are a new model taking over this repo because of token loss, model switch, or usage limit, do this first.
 
-## Current Override, 2026-06-20
+## Current Override, 2026-06-22
 
-The current production-facing branch is `main`, not the older feature-branch wording below.
+The current production-facing branch is `main`.
 
 Read this current handoff first:
 
+- [deep-extraction-v3-handoff-20260622-next.md](file:///Users/jiawei/Desktop/insclaude/feline-research-os/system/handoffs/deep-extraction-v3-handoff-20260622-next.md)
 - [HANDOFF-2026-06-21-CONSOLIDATED.md](HANDOFF-2026-06-21-CONSOLIDATED.md)
 - [HANDOFF-2026-06-20-DEEP-EXTRACTION-COMPLETE.md](HANDOFF-2026-06-20-DEEP-EXTRACTION-COMPLETE.md)
 - [HANDOFF-2026-06-19-RESEARCH-MODE-PRESENTATION-DEPTH-QUEUE.md](HANDOFF-2026-06-19-RESEARCH-MODE-PRESENTATION-DEPTH-QUEUE.md)

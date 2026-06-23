@@ -110,6 +110,7 @@ def vault_search(
     limit: int = 20,
     case_sensitive: bool = False,
     sort_by: str = "relevance",
+    disease: Optional[str] = None,
 ) -> list[dict]:
     """
     Search .md files in the vault for a query string (plain text or regex).
@@ -121,6 +122,7 @@ def vault_search(
         limit: Maximum number of results
         case_sensitive: Whether to match case
         sort_by: Sort order - "relevance", "year_desc", "citations_desc", "if_desc"
+        disease: Optional disease name or comma-separated list to filter results
 
     Returns a list of result dicts:
       {
@@ -150,6 +152,20 @@ def vault_search(
         if not search_dir.exists():
             continue
         for md_file in search_dir.rglob("*.md"):
+            # Filter by disease if specified
+            if disease and disease != "unknown":
+                diseases = [d.strip() for d in disease.split(",")]
+                rel_path = str(md_file.relative_to(vault_root))
+                # For source cards
+                if md_file.name.startswith("src-"):
+                    if not any(md_file.name.startswith(f"src-{d}-") for d in diseases):
+                        continue
+                # For topics pages
+                elif "topics/" in rel_path:
+                    parts = rel_path.split("/")
+                    if len(parts) > 1 and parts[1] not in diseases:
+                        continue
+
             try:
                 content = md_file.read_text(encoding="utf-8")
             except (OSError, UnicodeDecodeError):

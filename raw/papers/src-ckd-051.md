@@ -10,9 +10,9 @@ endpoints: [renal_function, weight_loss, phosphorus]
 jurisdictions: []
 evidence_level: narrative-review
 year: 2025
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [ckd, early-intervention, pre-azotemic, sdma, phosphorus, treatment-timing]

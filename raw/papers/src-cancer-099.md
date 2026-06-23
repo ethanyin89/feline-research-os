@@ -10,9 +10,9 @@ endpoints: [geriatric-care, palliative-care, end-of-life, pain-management]
 jurisdictions: [USA]
 evidence_level: book-review
 year: 2007
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
 pmcid: PMC2034422

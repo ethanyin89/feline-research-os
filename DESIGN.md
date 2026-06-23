@@ -13,42 +13,45 @@
 - **Key constraint:** The three provenance badge colors (green / amber / gray) are the ONLY semantic accent colors in the entire UI. Nothing competes with them.
 
 ## Typography
-- **Display/Hero:** Geist Sans 600 — page titles, section headings
-- **Body:** Geist Sans 400, 15px, line-height 1.7 — answer text, expander content, help text
-- **UI/Labels:** Geist Sans 500, 13px — sidebar labels, selectbox text, button text, captions
-- **Data/Metadata:** Geist Mono 400/500, 11–12px — source IDs (src-ckd-001), file paths, token counts, hop counts, confidence values, all `st.code()` content
-- **Code:** Geist Mono (same as Data)
-- **Loading:** Google Fonts — `https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap`
+- **Display/Hero:** Inter 600, letter-spacing -0.025em — page titles, section headings
+- **Body (prose):** Source Serif 4, 16px, line-height 1.75 — answer text, expander content (elegant editorial serif for readability)
+- **Body (UI):** Inter 400, 14px, line-height 1.6 — sidebar, forms, general UI text
+- **UI/Labels:** Inter 500, 13px — sidebar labels, selectbox text, button text, captions
+- **Data/Metadata:** JetBrains Mono 400/500, 11–12.5px — source IDs, file paths, token counts, hop counts, confidence values, all `st.code()` content
+- **Code:** JetBrains Mono (same as Data)
+- **Loading:** Google Fonts — `https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap`
 - **Scale:**
   - xs: 11px (mono metadata, badge text)
   - sm: 13px (UI labels, sidebar captions)
-  - md: 15px (body text, answer prose)
+  - md: 14–16px (body text, answer prose)
   - lg: 18px (section subheadings)
   - xl: 24px (page title)
-  - 2xl: 32px (hero)
+  - 2xl: 28–36px (hero)
 
 ## Color
 - **Approach:** Restrained dark-mode-first; badge colors carry all semantic weight
-- **Background:** `#0f1117` — primary page background (Streamlit dark, barely warm)
-- **Surface:** `#1a1d27` — sidebar, cards, expanders, input backgrounds
-- **Surface 2:** `#222535` — hover states, code blocks, nested surfaces
-- **Border:** `#2d3147` — all dividers, input borders, expander borders
-- **Primary text:** `#e8eaf0` — main readable text
-- **Muted text:** `#8b90a0` — labels, captions, placeholder text, metadata
-- **Subtle text:** `#4a4f64` — secondary metadata, disabled states
+- **Background:** `#0a0c10` — primary page background (deeper, colder dark for better contrast)
+- **Surface:** `#12151c` — sidebar, cards, expanders, input backgrounds
+- **Surface 2:** `#1a1e28` — hover states, code blocks, nested surfaces
+- **Border:** `#252a38` — all dividers, input borders, expander borders
+- **Border (subtle):** `#1e222d` — header/sidebar borders, subtle separators
+- **Primary text:** `#eceff4` — main readable text
+- **Secondary text:** `#b8bfcc` — body prose, descriptions
+- **Muted text:** `#7c8494` — labels, captions, placeholder text, metadata
+- **Subtle text:** `#4a5064` — secondary metadata, disabled states
 
 ### Provenance Accents (the ONLY accent colors — do not add more)
 | Role | Foreground | Background tint | Border tint |
 |---|---|---|---|
-| `quoted_fact` | `#16a34a` | `rgba(22,163,74,0.12)` | `rgba(22,163,74,0.25)` |
-| `source_supported_conclusion` | `#ca8a04` | `rgba(202,138,4,0.12)` | `rgba(202,138,4,0.25)` |
-| `llm_inference` | `#6b7280` | `rgba(107,114,128,0.12)` | `rgba(107,114,128,0.25)` |
+| `quoted_fact` | `#10b981` | `rgba(16,185,129,0.1)` | `rgba(16,185,129,0.25)` |
+| `source_supported_conclusion` | `#d97706` | `rgba(217,119,6,0.1)` | `rgba(217,119,6,0.25)` |
+| `llm_inference` | `#6b7280` | `rgba(107,114,128,0.1)` | `rgba(107,114,128,0.25)` |
 
 ### Confidence Colors (derived from badge accents)
 | Level | Color |
 |---|---|
-| high | `#16a34a` |
-| medium | `#ca8a04` |
+| high | `#10b981` |
+| medium | `#d97706` |
 | low | `#ef4444` |
 
 - **Dark mode:** This IS dark mode. No light mode variant needed for internal use.

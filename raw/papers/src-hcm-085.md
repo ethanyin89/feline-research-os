@@ -9,9 +9,9 @@ models: ['clinical-study']
 endpoints: ['remission']
 evidence_level: original-study
 year: 2015
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: bilingual_checked
 tags: ['hcm', 'ultrastructural', 'myocardial', 'changes', 'seven', 'spontaneous', 'hypertrophic', 'cardiomyopathy']

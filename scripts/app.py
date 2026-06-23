@@ -91,7 +91,29 @@ from search import vault_search
 from local_answer_surfaces import build_ckd_researcher_overview, is_researcher_overview_question, build_ckd_topic_index
 from research_case_ui import render_research_cases
 from research_record_ui import render_research_records
-from research_mode import is_research_mode_query, handle_research_query
+from research_mode import is_research_mode_query, handle_research_query, handle_research_query_structured
+from workspace_tabs import (
+    render_workspace_tabs,
+    convert_research_mode_output_to_workspace,
+    WorkspaceOutput,
+)
+from quick_start import (
+    get_quick_start,
+    detect_quick_start_intent,
+    format_quick_start_markdown,
+    QuickStartOutput,
+)
+from briefing_ui import (
+    get_briefing,
+    render_briefing_page,
+    get_available_diseases,
+    BriefingFile,
+)
+from deep_extraction import (
+    has_deep_extraction,
+    parse_deep_extraction,
+    render_detail_page_markdown,
+)
 from harness_loop import get_harness_loop, format_harness_summary
 from core import (
     build_promotion_draft,
@@ -172,23 +194,23 @@ USE_RESULT_PRESENTATION_V2 = os.environ.get("USE_RESULT_PRESENTATION_V2", "1").l
 BADGE_PATTERNS = [
     (
         r"\[quoted_fact: ([^\]]+)\]",
-        r'<span style="background:rgba(22,163,74,0.12);color:#16a34a;padding:2px 8px;'
-        r'border:1px solid rgba(22,163,74,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
-        r'font-family:\'Geist Mono\',monospace">'
+        r'<span style="background:rgba(16,185,129,0.1);color:#10b981;padding:3px 10px;'
+        r'border:1px solid rgba(16,185,129,0.25);border-radius:5px;font-size:0.72em;white-space:nowrap;'
+        r'font-family:\'JetBrains Mono\',monospace;font-weight:500">'
         r"quote: \1</span>",
     ),
     (
         r"\[source_supported_conclusion: ([^\]]+)\]",
-        r'<span style="background:rgba(202,138,4,0.12);color:#ca8a04;padding:2px 8px;'
-        r'border:1px solid rgba(202,138,4,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
-        r'font-family:\'Geist Mono\',monospace">'
+        r'<span style="background:rgba(217,119,6,0.1);color:#d97706;padding:3px 10px;'
+        r'border:1px solid rgba(217,119,6,0.25);border-radius:5px;font-size:0.72em;white-space:nowrap;'
+        r'font-family:\'JetBrains Mono\',monospace;font-weight:500">'
         r"supported: \1</span>",
     ),
     (
         r"\[llm_inference\]",
-        r'<span style="background:rgba(107,114,128,0.12);color:#6b7280;padding:2px 8px;'
-        r'border:1px solid rgba(107,114,128,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
-        r'font-family:\'Geist Mono\',monospace">'
+        r'<span style="background:rgba(107,114,128,0.1);color:#6b7280;padding:3px 10px;'
+        r'border:1px solid rgba(107,114,128,0.25);border-radius:5px;font-size:0.72em;white-space:nowrap;'
+        r'font-family:\'JetBrains Mono\',monospace;font-weight:500">'
         r"inference</span>",
     ),
 ]
@@ -201,12 +223,12 @@ EXAMPLE_QUESTIONS_BASIC = [
     "HCM是什么，为什么危险",
 ]
 
-# Research mode examples (agent.ii.inc style)
+# Research Workspace examples (agent.ii.inc style)
 EXAMPLE_QUESTIONS_RESEARCH = [
-    "搜索HCM最新文献",
-    "search the latest papers about feline CKD, prioritize high-impact journals",
-    "查找FIP最新治疗研究",
-    "find recent diabetes papers with clinical relevance",
+    "构建 feline HCM 近三年证据地图",
+    "比较 CKD 诊断与分期指标的研究价值",
+    "梳理 FIP 治疗研究的药效终点",
+    "提炼猫糖尿病模型的关键评价指标",
 ]
 
 # Combined for backwards compatibility
@@ -214,19 +236,18 @@ EXAMPLE_QUESTIONS = EXAMPLE_QUESTIONS_BASIC + EXAMPLE_QUESTIONS_RESEARCH[:1]
 
 PROVENANCE_GUIDE_HTML = """
 <div class="vault-panel" style="margin-top:24px">
-  <div class="vault-panel-label">证据标签指南 / Evidence labels</div>
-  <div class="vault-guide-row"><span class="prov-badge prov-quoted">直接来源 / quote</span><span>文献原文引用或近义改写 / source wording or close paraphrase</span></div>
-  <div class="vault-guide-row"><span class="prov-badge prov-supported">来源支持 / supported</span><span>基于已加载文献的综合推断 / synthesis supported by loaded sources</span></div>
-  <div class="vault-guide-row"><span class="prov-badge prov-inference">分析推断 / inference</span><span>超出文献直接范围的推理 / reasoning beyond direct source support</span></div>
+  <div class="vault-panel-label">证据标签指南</div>
+  <div class="vault-guide-row"><span class="prov-badge prov-quoted">直接来源</span><span>文献原文或指南明确支持的结论</span></div>
+  <div class="vault-guide-row"><span class="prov-badge prov-supported">来源支持</span><span>由多篇文献共同支持的综合判断</span></div>
+  <div class="vault-guide-row"><span class="prov-badge prov-inference">分析推断</span><span>基于已有证据作出的合理推理，需要人工复核</span></div>
 </div>
 """
 
 EMPTY_STATE_INTRO_HTML = """
 <div class="vault-hero">
-  <div class="vault-kicker">文献感知型猫科医学知识库 / SOURCE-AWARE FELINE WIKI</div>
-  <h1>Ask the vault / 知识库检索与解答</h1>
-  <p>提出一个猫科疾病相关的医学或研究问题。系统将生成一份紧凑的回答，明确区分直接证据、综合推断、不确定性，并推荐下一步阅读的主题页面。</p>
-  <p>与通用百科不同，这里的每一个回答都源自知识库的主题页面和文献卡片，并会诚实地展示回答中哪些部分有强有力的文献支持，哪些仅是合理的逻辑外推。</p>
+  <div class="vault-kicker">猫科医学与药物研发操作系统</div>
+  <h1>证据研究工作台</h1>
+  <p>面向猫疾病模型、药效评价与研究方案设计的证据工作台。<br/><br/>系统整合 1,400+ 篇结构化文献、疾病 Briefing 与深度提炼卡片，帮助研究者围绕一个具体问题，快速构建证据地图、比较研究方法、识别关键终点，并生成可追溯的研究结论。</p>
   <div class="vault-statline">0 sources · 0 topic pages · 0 diseases</div>
 </div>
 """
@@ -246,9 +267,10 @@ NOTICE_TEMPLATE = """
 
 HOW_IT_WORKS_HTML = """
 <div class="vault-panel">
-  <div class="vault-panel-label">设计初衷 / Why this exists</div>
+  <div class="vault-panel-label">工作原理</div>
   <p class="vault-panel-copy">
-    知识库旨在将繁复的猫科医学文献转化为第一解答界面：实用解释优先、文献出处即时可见，且将不确定性直接保留在回答中，而非隐藏在尾注里。
+    系统不会直接生成一个看似完整的答案，而是先从结构化文献、Briefing 和深度提炼卡片中检索证据，再区分直接来源、来源支持和分析推断，最后生成带有证据边界的研究结论。<br/><br/>
+    它的目标不是替代研究者判断，而是帮助研究者更快找到关键文献、关键指标和关键不确定性。
   </p>
 </div>
 """
@@ -260,34 +282,68 @@ HOW_IT_WORKS_COPY = (
 )
 
 
+def _humanize_source_ids(ids_str: str) -> str:
+    """Convert internal source IDs to human-readable paper titles.
+
+    Example: "src-ckd-004, src-ckd-010" -> "Renal Diet Study (2019), IRIS Guidelines (2023)"
+    """
+    if not ids_str:
+        return ids_str
+    ids = [s.strip() for s in ids_str.split(",")]
+    titles = []
+    for sid in ids:
+        if is_internal_source_id(sid):
+            title = get_source_titles().get(sid)
+            if title:
+                # Truncate long titles for badge display
+                short_title = title[:40] + "…" if len(title) > 40 else title
+                titles.append(short_title)
+            else:
+                # Fallback: show generic label instead of internal ID
+                titles.append("文献" if is_session_chinese() else "source")
+        else:
+            titles.append(sid)
+    return ", ".join(titles)
+
+
 def render_provenance(text: str) -> str:
-    """Replace provenance tags with colored HTML badges."""
+    """Replace provenance tags with colored HTML badges.
+
+    IMPORTANT: Internal source IDs (src-xxx) are converted to paper titles
+    to avoid exposing internal file structure to users.
+    """
     is_zh = is_session_chinese()
     badge_quote = "直接来源" if is_zh else "quote"
     badge_supported = "来源支持" if is_zh else "supported"
     badge_inference = "分析推断" if is_zh else "inference"
 
-    text = re.sub(
-        r"\[quoted_fact: ([^\]]+)\]",
-        r'<span style="background:rgba(22,163,74,0.12);color:#16a34a;padding:2px 8px;'
-        r'border:1px solid rgba(22,163,74,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
-        r'font-family:\'Geist Mono\',monospace">'
-        f'{badge_quote}: \\1</span>',
-        text
-    )
-    text = re.sub(
-        r"\[source_supported_conclusion: ([^\]]+)\]",
-        r'<span style="background:rgba(202,138,4,0.12);color:#ca8a04;padding:2px 8px;'
-        r'border:1px solid rgba(202,138,4,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
-        r'font-family:\'Geist Mono\',monospace">'
-        f'{badge_supported}: \\1</span>',
-        text
-    )
+    # quoted_fact badges - humanize source IDs
+    def replace_quoted_fact(match: re.Match) -> str:
+        humanized = _humanize_source_ids(match.group(1))
+        return (
+            f'<span style="background:rgba(16,185,129,0.1);color:#10b981;padding:3px 10px;'
+            f'border:1px solid rgba(16,185,129,0.25);border-radius:5px;font-size:0.72em;white-space:nowrap;'
+            f"font-family:'JetBrains Mono',monospace;font-weight:500\">"
+            f'{badge_quote}: {html.escape(humanized)}</span>'
+        )
+    text = re.sub(r"\[quoted_fact: ([^\]]+)\]", replace_quoted_fact, text)
+
+    # source_supported_conclusion badges - humanize source IDs
+    def replace_supported(match: re.Match) -> str:
+        humanized = _humanize_source_ids(match.group(1))
+        return (
+            f'<span style="background:rgba(217,119,6,0.1);color:#d97706;padding:3px 10px;'
+            f'border:1px solid rgba(217,119,6,0.25);border-radius:5px;font-size:0.72em;white-space:nowrap;'
+            f"font-family:'JetBrains Mono',monospace;font-weight:500\">"
+            f'{badge_supported}: {html.escape(humanized)}</span>'
+        )
+    text = re.sub(r"\[source_supported_conclusion: ([^\]]+)\]", replace_supported, text)
+
     text = re.sub(
         r"\[llm_inference\]",
-        r'<span style="background:rgba(107,114,128,0.12);color:#6b7280;padding:2px 8px;'
-        r'border:1px solid rgba(107,114,128,0.25);border-radius:4px;font-size:0.75em;white-space:nowrap;'
-        r'font-family:\'Geist Mono\',monospace">'
+        r'<span style="background:rgba(107,114,128,0.1);color:#6b7280;padding:3px 10px;'
+        r'border:1px solid rgba(107,114,128,0.25);border-radius:5px;font-size:0.72em;white-space:nowrap;'
+        r'font-family:\'JetBrains Mono\',monospace;font-weight:500">'
         f'{badge_inference}</span>',
         text
     )
@@ -336,38 +392,57 @@ def render_example_question_chips(prefix: str, show_research: bool = True) -> No
     """Render clickable example questions with category separation."""
     is_zh = is_session_chinese()
 
-    # Basic explanation questions
-    basic_label = "快速解释 / Quick explanations" if is_zh else "Quick explanations"
-    st.markdown(
-        f"""<div style="font-size:11px;color:#8b90a0;margin-bottom:8px;margin-top:12px">
-        {html.escape(basic_label)}</div>""",
-        unsafe_allow_html=True,
-    )
-    cols = st.columns(2)
-    for i, question in enumerate(EXAMPLE_QUESTIONS_BASIC):
-        with cols[i % 2]:
-            if st.button(question, key=f"{prefix}-basic-{i}", use_container_width=True):
-                queue_question(question)
-
     if show_research:
-        # Research mode questions (agent.ii.inc style)
-        research_label = "🔬 研究模式 / Research mode" if is_zh else "🔬 Research mode"
-        research_hint = (
-            "搜索最新文献、高影响因子期刊、临床相关性总结"
-            if is_zh else
-            "Search latest papers, prioritize high-impact journals, summarize findings"
-        )
+        # Side-by-side layout: Research Workspace (left, wider) and Quick Start (right, narrower)
+        col_research, col_quick = st.columns([1.2, 0.8])
+
+        with col_research:
+            research_label = "🔬 研究工作台" if is_zh else "🔬 Research Workspace"
+            research_hint = (
+                "学术检索、证据地图、药效终点与评价指标比较"
+                if is_zh else
+                "Evidence mapping, endpoint analysis, model evaluation"
+            )
+            st.markdown(
+                f"""<div style="font-size:11px;color:#10b981;margin-bottom:2px;font-weight:600">
+                {html.escape(research_label)}</div>
+                <div style="font-size:10px;color:#8b90a0;margin-bottom:10px">
+                {html.escape(research_hint)}</div>""",
+                unsafe_allow_html=True,
+            )
+            for i, question in enumerate(EXAMPLE_QUESTIONS_RESEARCH):
+                if st.button(question, key=f"{prefix}-research-{i}", use_container_width=True):
+                    queue_question(question)
+
+        with col_quick:
+            basic_label = "⚡ 快速理解" if is_zh else "⚡ Quick Start"
+            quick_start_hint = (
+                "疾病核心概念速查，一屏即刻理解"
+                if is_zh else
+                "30s core concepts & onboarding check"
+            )
+            st.markdown(
+                f"""<div style="font-size:11px;color:#d97706;margin-bottom:2px;font-weight:600">
+                {html.escape(basic_label)}</div>
+                <div style="font-size:10px;color:#8b90a0;margin-bottom:10px">
+                {html.escape(quick_start_hint)}</div>""",
+                unsafe_allow_html=True,
+            )
+            for i, question in enumerate(EXAMPLE_QUESTIONS_BASIC):
+                if st.button(question, key=f"{prefix}-basic-{i}", use_container_width=True):
+                    queue_question(question)
+    else:
+        # Fallback without research chips
+        basic_label = "⚡ 快速理解" if is_zh else "⚡ Quick Start"
         st.markdown(
-            f"""<div style="font-size:11px;color:#8b90a0;margin-bottom:4px;margin-top:16px">
-            {html.escape(research_label)}</div>
-            <div style="font-size:10px;color:#6b7280;margin-bottom:8px">
-            {html.escape(research_hint)}</div>""",
+            f"""<div style="font-size:11px;color:#d97706;margin-bottom:4px;font-weight:600">
+            {html.escape(basic_label)}</div>""",
             unsafe_allow_html=True,
         )
         cols = st.columns(2)
-        for i, question in enumerate(EXAMPLE_QUESTIONS_RESEARCH):
+        for i, question in enumerate(EXAMPLE_QUESTIONS_BASIC):
             with cols[i % 2]:
-                if st.button(question, key=f"{prefix}-research-{i}", use_container_width=True):
+                if st.button(question, key=f"{prefix}-basic-{i}", use_container_width=True):
                     queue_question(question)
 
 
@@ -378,7 +453,7 @@ def render_provenance_guide() -> None:
 
 def render_how_it_works() -> None:
     """Show a lightweight onboarding explainer for first-time users."""
-    with st.expander("工作原理 / How this works", expanded=not st.session_state.how_it_works_seen):
+    with st.expander("工作原理", expanded=not st.session_state.how_it_works_seen):
         st.markdown(HOW_IT_WORKS_HTML, unsafe_allow_html=True)
         st.caption(HOW_IT_WORKS_COPY)
     st.session_state.how_it_works_seen = True
@@ -390,7 +465,7 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
     if not saved_answers:
         return
 
-    with st.expander("历史回答 / Previously answered", expanded=False):
+    with st.expander("历史回答", expanded=False):
         for i, item in enumerate(saved_answers):
             question = html.escape(str(item["question"]))
             topic = html.escape(str(item["topic"]).upper())
@@ -430,7 +505,6 @@ def render_saved_answers_panel(prefix: str, disease_filter: Optional[str] = None
 
             if st.button("Ask again", key=f"{prefix}-saved-answer-{i}", use_container_width=False):
                 queue_question(str(item["question"]))
-                st.rerun()
 
 
 def detect_chinese(text: str) -> bool:
@@ -464,6 +538,50 @@ def extract_topic_paths_from_text(text: str) -> list[str]:
             seen.add(p_clean)
             res.append(p_clean)
     return res
+
+
+def format_topic_path(path_str: str) -> str:
+    """Format a topic page path like topics/ckd/mechanism-overview.md to a human-friendly title."""
+    try:
+        from pathlib import Path
+        stem = Path(path_str).stem
+        clean_name = stem.replace("topic-", "").replace("-zh", "").replace("-", " ")
+        title = " ".join(w.capitalize() for w in clean_name.split())
+        acronyms = {"Hcm": "HCM", "Ckd": "CKD", "Fip": "FIP", "Ibd": "IBD", "Fcv": "FCV", "Pmd": "PMD", "Pk": "PK", "Pd": "PD"}
+        title = " ".join(acronyms.get(w, w) for w in title.split())
+        return title
+    except Exception:
+        return path_str
+
+
+def format_target_choice(choice_str: str) -> str:
+    """Format a promotion target path to a clean, non-revealing human-friendly name."""
+    try:
+        from pathlib import Path
+        stem = Path(choice_str).stem
+        disease = "General"
+        # Extract disease keyword if present
+        parts = choice_str.split("/")
+        for part in parts:
+            p_lower = part.lower()
+            if p_lower in {"hcm", "ckd", "fip", "ibd", "fcv", "diabetes"}:
+                disease = p_lower.upper()
+                break
+        
+        is_zh = is_session_chinese()
+        if "validated-claims" in stem:
+            return f"{disease} Validated Claims" if not is_zh else f"{disease} 已验证声称"
+        elif "model-map" in stem:
+            return f"{disease} Model Map (Bilingual)" if not is_zh else f"{disease} 双语模型图"
+        elif "early-detection" in stem:
+            return f"{disease} Early Detection" if not is_zh else f"{disease} 早期筛查与诊断"
+        else:
+            clean_name = stem.replace("-", " ").title()
+            return f"{disease} {clean_name}"
+    except Exception:
+        return choice_str
+
+
 
 
 
@@ -2271,13 +2389,17 @@ def run_app_local_query_core(
     explanation_surface = choose_local_explanation_surface(question, disease)
 
     # Research-mode: structured literature search output (agent.ii.inc style)
-    if is_research_mode_query(question):
+    if is_research_mode_query(question) and not explanation_surface:
         if on_status:
-            status_msg = "研究模式：检索本地知识库 + PubMed..." if chinese else "Research mode: searching local vault + PubMed..."
+            status_msg = "研究工作台：检索本地知识库 + PubMed..." if chinese else "Research Workspace: searching local vault + PubMed..."
             on_status(status_msg)
         # PubMed E-utilities is free (no API key needed) - include external by default
         output_chinese = prefers_chinese(question)
+
+        # Get both formatted output and structured data
         answer, research_source_ids = handle_research_query(question, chinese=output_chinese, include_external=True)
+        structured_result = handle_research_query_structured(question, chinese=output_chinese, include_external=True)
+
         for sid in research_source_ids:
             path = source_index.get(sid)
             if path and path.exists():
@@ -2303,16 +2425,32 @@ def run_app_local_query_core(
                                 })
                                 break
 
+        research_trace = [
+            {
+                "step": "Interpreted query",
+                "detail": f"disease={disease}; question_type=research_search; engine=local",
+            },
+            {
+                "step": "Searched literature",
+                "detail": f"sources={len(loaded_source_ids)}; api_calls=0",
+                "items": [{"source_id": sid} for sid in loaded_source_ids[:12]],
+            },
+        ]
         return {
             "answer": answer,
-            "source_ids": loaded_source_ids,
-            "loaded_paths": list(loaded_paths),
+            "figures_used": figures_used,
             "disease": disease,
             "question_type": "research_search",
+            "answer_mode": "research_search",
             "hops_used": 0,
-            "figures_used": figures_used,
-            "external_search_trace": None,
+            "loaded_paths": loaded_paths,
+            "loaded_source_ids": loaded_source_ids,
+            "first_family_loaded": "local-search",
+            "research_trace": research_trace,
             "est_tokens": 0,
+            "retrieval_events": [],
+            "source_snapshots": [],
+            "workspace_data": structured_result,
         }
 
     if explanation_surface:
@@ -2368,14 +2506,55 @@ def run_app_local_query_core(
     if not explanation_surface:
         evidence_lines: list[str] = []
         for result in selected_results[:5]:
-            rid = result.get("id") or result["file"]
-            title = result.get("title") or result["file"]
+            raw_rid = result.get("id") or result["file"]
+            raw_title = result.get("title") or result["file"]
+            
+            # Clean ID: get stem (no suffix or folders)
+            rid = Path(raw_rid).stem
+            
+            # Clean Title: map to paper title, or humanize topic name
+            if "/" in raw_title or "\\" in raw_title or raw_title.endswith(".md"):
+                stem = Path(raw_title).stem
+                mapped_title = get_source_titles().get(stem)
+                if mapped_title:
+                    title = mapped_title
+                else:
+                    # Clean up topic names e.g., topic-hcm-current-state-dashboard -> HCM Current State Dashboard
+                    clean_name = stem.replace("topic-", "").replace("-zh", "").replace("-", " ")
+                    title = " ".join(w.capitalize() for w in clean_name.split())
+                    acronyms = {"Hcm": "HCM", "Ckd": "CKD", "Fip": "FIP", "Ibd": "IBD", "Fcv": "FCV", "Pmd": "PMD", "Pk": "PK", "Pd": "PD"}
+                    title = " ".join(acronyms.get(w, w) for w in title.split())
+            else:
+                title = raw_title
+                
             matched = ", ".join(result.get("matched_terms", [])) or "n/a"
-            line = f"- **`{rid}` — {title}** (匹配词: {matched})" if chinese else f"- **`{rid}` — {title}** (matched: {matched})"
+            line = f"- **`{rid}`** — {title} (匹配词: {matched})" if chinese else f"- **`{rid}`** — {title} (matched: {matched})"
+            
+            # Clean snippets: remove YAML frontmatter to prevent raw metadata dump
             snippets = result.get("snippets", [])
             if snippets:
-                snippets_block = "\n".join(f"  > ... {s.strip()} ..." for s in snippets)
-                line += f"\n{snippets_block}"
+                cleaned_snippets = []
+                for s in snippets:
+                    lines = s.split("\n")
+                    cleaned_lines = []
+                    in_frontmatter = False
+                    for l_str in lines:
+                        l_strip = l_str.strip()
+                        # Toggle frontmatter flag on triple dashes
+                        if l_strip == "---":
+                            in_frontmatter = not in_frontmatter
+                            continue
+                        if in_frontmatter:
+                            continue
+                        # Skip lines that look like frontmatter keys (e.g. id: xxx, title: xxx)
+                        if re.match(r"^[a-zA-Z_]+:\s*.*$", l_strip):
+                            continue
+                        cleaned_lines.append(l_str)
+                    cleaned_snippet = "\n".join(cleaned_lines).strip()
+                    if cleaned_snippet:
+                        cleaned_snippets.append(f"  > ... {cleaned_snippet} ...")
+                if cleaned_snippets:
+                    line += "\n" + "\n".join(cleaned_snippets)
             evidence_lines.append(line)
         if not evidence_lines:
             evidence_lines.append(no_hits)
@@ -2630,7 +2809,7 @@ def render_expert_review_loop(
     verification_status = harness_result.get("verification_status", "pending") if harness_result else None
     has_harness = harness_result is not None
 
-    with st.expander("验证结果 / Expert Review", expanded=has_harness and verification_status != "passed"):
+    with st.expander("验证结果", expanded=has_harness and verification_status != "passed"):
         # Show harness verification results if available
         if has_harness:
             icon, color, label = status_icons.get(verification_status, ("?", "#94a3b8", "Unknown"))
@@ -3283,9 +3462,48 @@ VERIFICATION_STATUS_MAP = {
 }
 
 
+def sanitize_user_facing_markdown(text: str) -> str:
+    """Remove raw local file names, .md file links, and paths from user-facing markdown."""
+    import re
+    from pathlib import Path
+    
+    # 1. Clean markdown links pointing to local files (e.g., [file.md](file.md))
+    def replace_md_link(match):
+        label = match.group(1)
+        url = match.group(2)
+        if url.endswith(".md") or "/" in url or "\\" in url:
+            stem = Path(url).stem
+            if stem.startswith("src-"):
+                return f"**{stem.upper()}**"
+            
+            # For general md links, format human-friendly title
+            label_clean = label.replace(".md", "").replace("-zh", "").replace("-", " ")
+            label_clean = " ".join(w.capitalize() for w in label_clean.split())
+            acronyms = {"Hcm": "HCM", "Ckd": "CKD", "Fip": "FIP", "Ibd": "IBD", "Fcv": "FCV", "Working": "Working Draft", "En": "(English)", "Zh": "(Chinese)"}
+            label_clean = " ".join(acronyms.get(w, w) for w in label_clean.split())
+            return f"**{label_clean}**"
+        return match.group(0)
+    
+    text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", replace_md_link, text)
+    
+    # 2. Clean standalone md files or paths (e.g. out-ckd-briefing-20260408-round1-working-en.md)
+    def replace_md_file(match):
+        filename = match.group(0)
+        stem = filename.replace(".md", "").replace("-zh", "").replace("-", " ")
+        stem_clean = " ".join(w.capitalize() for w in stem.split())
+        acronyms = {"Hcm": "HCM", "Ckd": "CKD", "Fip": "FIP", "Ibd": "IBD", "Fcv": "FCV", "Working": "Working Draft", "En": "(English)", "Zh": "(Chinese)"}
+        stem_clean = " ".join(acronyms.get(w, w) for w in stem_clean.split())
+        return f"**{stem_clean}**"
+        
+    text = re.sub(r"\b\w+-\w+-briefing-\d+-[\w-]+\.md\b", replace_md_file, text)
+    text = re.sub(r"\btopics/[\w/-]+\.md\b", lambda m: f"**{Path(m.group(0)).stem.replace('-', ' ').title()}**", text)
+    text = re.sub(r"\braw/papers/[\w/-]+\.md\b", lambda m: f"**{Path(m.group(0)).stem.upper()}**", text)
+    return text
+
+
 def render_translatable_content(doc_id: str, content: str, show_translate_btn: bool, key_prefix: str = "") -> None:
     """Render document markdown content, and optionally provide a one-click AI translation to Chinese."""
-    st.markdown(content)
+    st.markdown(sanitize_user_facing_markdown(content))
     
     if not show_translate_btn:
         return
@@ -3295,13 +3513,13 @@ def render_translatable_content(doc_id: str, content: str, show_translate_btn: b
     
     if translated_text:
         st.markdown("---")
-        st.markdown("<div style='font-size:13px;color:#14b8a6;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-top:12px;margin-bottom:8px;'>🇨🇳 AI 中文翻译对照 / AI Translation</div>", unsafe_allow_html=True)
-        st.markdown(translated_text)
-        if st.button("清除翻译缓存 / Clear Translation", key=f"clear_{key_prefix}_{cache_key}"):
+        st.markdown("<div style='font-size:13px;color:#14b8a6;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-top:12px;margin-bottom:8px;'>🇨🇳 AI 中文翻译对照</div>", unsafe_allow_html=True)
+        st.markdown(sanitize_user_facing_markdown(translated_text))
+        if st.button("清除翻译缓存", key=f"clear_{key_prefix}_{cache_key}"):
             del st.session_state[cache_key]
             st.rerun()
     else:
-        if st.button("✨ 翻译本段文献 (AI) / Translate to Chinese", key=f"btn_{key_prefix}_{cache_key}"):
+        if st.button("✨ 翻译本段文献 (AI)", key=f"btn_{key_prefix}_{cache_key}"):
             available_backend = None
             client_obj = None
             active_model_name = ""
@@ -3327,7 +3545,7 @@ def render_translatable_content(doc_id: str, content: str, show_translate_btn: b
                 st.info("💡 请在左侧侧边栏配置并激活任一 API 引擎（如输入 ANTHROPIC_API_KEY 或启动本地 Ollama），以开启 AI 实时翻译功能。")
                 return
                 
-            with st.spinner("正在通过 AI 翻译文献，请稍候... / Translating..."):
+            with st.spinner("正在通过 AI 翻译文献，请稍候..."):
                 try:
                     system_prompt = (
                         "You are an expert veterinary medicine and clinical trial translator. "
@@ -3338,7 +3556,7 @@ def render_translatable_content(doc_id: str, content: str, show_translate_btn: b
                     
                     text_to_translate = content[:2500]
                     if len(content) > 2500:
-                        text_to_translate += "\n\n[... 剩余内容由于长度限制已被截断 / Remaining content truncated ...]"
+                        text_to_translate += "\n\n[... 剩余内容由于长度限制已被截断 ...]"
                         
                     messages = [{"role": "user", "content": f"Text to translate:\n\n{text_to_translate}"}]
                     translated = _chat(client_obj, active_model_name, system_prompt, messages, 2548)
@@ -3357,7 +3575,7 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
         return
         
     chinese_session = is_session_chinese()
-    st.markdown("<div class='vault-panel-label' style='margin-top:16px;margin-bottom:8px'>匹配的本地文献与文档内容 / Matched Documents</div>", unsafe_allow_html=True)
+    st.markdown("<div class='vault-panel-label' style='margin-top:16px;margin-bottom:8px'>匹配的本地文献与文档内容</div>", unsafe_allow_html=True)
     for idx, p_str in enumerate(loaded_paths):
         path = Path(p_str)
         if not path.exists():
@@ -3407,7 +3625,7 @@ def render_loaded_documents_section(loaded_paths: Optional[list[str]], initially
                 content = read_markdown_without_frontmatter(path)
                 render_translatable_content(rel_path, content, chinese_session, key_prefix=doc_key_prefix)
         else:
-            expander_title = f"📄 {rel_path}"
+            expander_title = f"📄 {format_topic_path(rel_path)}"
             with st.expander(expander_title, expanded=initially_expanded):
                 content = read_markdown_without_frontmatter(path)
                 render_translatable_content(rel_path, content, chinese_session, key_prefix=doc_key_prefix)
@@ -3424,7 +3642,7 @@ def render_query_refinement(refined_query: Optional[str], objectives: Optional[l
         f"""
         <div style="padding:14px 16px;background:rgba(99,102,241,0.08);border-left:4px solid #6366f1;border-radius:0 8px 8px 0;margin-bottom:20px;">
           <div style="font-size:11px;color:#818cf8;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:4px;">
-            🔍 研究课题精化 / Refined Research Objective
+            🔍 研究课题精化
           </div>
           <div style="font-size:14px;color:#e8eaf0;font-weight:500;line-height:1.5;">
             {html.escape(refined_query)}
@@ -3444,14 +3662,14 @@ def render_local_query_evaluation(disease: Optional[str], task_type: Optional[st
     
     dis_str = disease.upper() if disease else "UNKNOWN"
     task_labels = {
-        "research_search": "文献检索 / Research Search",
+        "research_search": "文献检索",
     }
     task_str = task_labels.get(task_type or "", task_type.upper() if task_type else "UNKNOWN")
     st.markdown(
         f"""
         <div style="padding:12px 14px;background:rgba(94,234,212,0.06);border-left:4px solid #14b8a6;border-radius:0 6px 6px 0;margin-bottom:18px;">
           <div style="font-size:11px;color:#14b8a6;font-family:ui-monospace,SFMono-Regular,monospace;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:4px;">
-            🔍 检索课题分类与子检索项 / Query Classification & Subqueries
+            🔍 检索课题分类与子检索项
           </div>
           <div style="font-size:13px;color:#e8eaf0;line-height:1.5;">
             识别病种: <code style="color:#2dd4bf">{html.escape(dis_str)}</code> | 任务类型: <code style="color:#2dd4bf">{html.escape(task_str)}</code>
@@ -3473,8 +3691,8 @@ def split_research_contract(answer: str) -> tuple[Optional[str], str]:
         "## 研究范围与审计说明",
     ]
     body_markers = [
-        "\n# Research Deliverables / 研究交付物",
-        "\n# 研究交付物 / Research Deliverables",
+        "\n# 研究交付物",
+        "\n# Research Deliverables",
         "\n# Research Literature:",
         "\n# 文献检索：",
     ]
@@ -3517,7 +3735,7 @@ def render_research_contract_panel(answer: str, question_type: str) -> str:
         return answer
 
     is_zh = is_session_chinese() or contract.startswith("## 研究范围")
-    title = "研究范围与审计说明 / Research contract" if is_zh else "Research contract and audit note"
+    title = "研究范围与审计说明" if is_zh else "Research contract and audit note"
     note = (
         "这不是原始思考链，而是本次研究任务的可审计边界：系统如何解释问题、如何排序、以及哪些最新性声明仍需外部验证。"
         if is_zh else
@@ -3945,8 +4163,8 @@ def render_answer_block_v2(
     # Render related topic pages preview for user accessibility
     topic_paths = extract_topic_paths_from_text(answer)
     if topic_paths:
-        with st.expander("📖 本地关联主题页面阅读 / Read Related Topic Pages", expanded=False):
-            selected_topic = st.selectbox("选择要阅读的文档 / Select a document to read", topic_paths, key=f"{key_prefix}-topic-selector")
+        with st.expander("📖 本地关联主题页面阅读", expanded=False):
+            selected_topic = st.selectbox("选择要阅读的文档", topic_paths, key=f"{key_prefix}-topic-selector", format_func=format_topic_path)
             if selected_topic:
                 content = get_search_result_preview(selected_topic, max_chars=5000)
                 if content:
@@ -3959,11 +4177,11 @@ def render_query_scope_panel(harness_result: Optional[dict], key_prefix: str) ->
     is_zh = is_session_chinese()
     record = harness_result.get("record") if harness_result else None
     
-    panel_title = "搜索范围 / Search Coverage" if is_zh else "Search Coverage"
+    panel_title = "搜索范围" if is_zh else "Search Coverage"
     
     if not record or not getattr(record, "retrieval_events", None):
         with st.expander(panel_title, expanded=False):
-            st.warning("未执行搜索 / No search executed" if is_zh else "No search executed")
+            st.warning("未执行搜索" if is_zh else "No search executed")
         return
 
     events = record.retrieval_events
@@ -3983,29 +4201,29 @@ def render_query_scope_panel(harness_result: Optional[dict], key_prefix: str) ->
         summary_text = f"Searched {len(unique_engines)} engines, {total_candidates} candidates → {total_retained} retained"
         
     with st.expander(f"▶ {panel_title} ({summary_text})", expanded=False):
-        st.markdown("##### 检索事件 / Retrieval Events" if is_zh else "##### Retrieval Events")
+        st.markdown("##### 检索事件" if is_zh else "##### Retrieval Events")
         
         for idx, event in enumerate(events):
             engine_display = {
-                "vault": "本地知识库 / Local Vault" if is_zh else "Local Vault",
+                "vault": "本地知识库" if is_zh else "Local Vault",
                 "pubmed": "PubMed",
                 "crossref": "CrossRef",
             }.get(event.engine, event.engine)
             
             st.markdown(f"**{engine_display}** ({event.scope})")
-            st.markdown(f"- **Query / 检索词:** `{event.query}`")
-            st.markdown(f"- **Candidates / 候选:** {event.candidate_count} | **Retained / 保留:** {len(event.retained_ids)}")
+            st.markdown(f"- **检索词:** `{event.query}`")
+            st.markdown(f"- **候选:** {event.candidate_count} | **保留:** {len(event.retained_ids)}")
             if event.filters_applied:
-                st.markdown(f"- **Filters / 过滤器:** `{', '.join(event.filters_applied)}`")
+                st.markdown(f"- **过滤器:** `{', '.join(event.filters_applied)}`")
             if event.excluded_ids:
-                with st.expander(f"已排除结果 / Excluded results ({len(event.excluded_ids)})", expanded=False):
+                with st.expander(f"已排除结果 ({len(event.excluded_ids)})", expanded=False):
                     for exc_id in event.excluded_ids:
                         reason = event.exclusion_reasons.get(exc_id, "Unknown reason")
                         st.markdown(f"- `{exc_id}`: {reason}")
             st.markdown("---")
             
         if snapshots:
-            st.markdown("##### 来源快照 / Source Snapshots" if is_zh else "##### Source Snapshots")
+            st.markdown("##### 来源快照" if is_zh else "##### Source Snapshots")
             for snapshot in snapshots:
                 st.markdown(f"**`{snapshot.source_id}` — {snapshot.title}**")
                 meta_details = []
@@ -4046,8 +4264,8 @@ def render_save_research_record_panel(harness_result: Optional[dict], key_prefix
     
     st.markdown('<div style="padding:15px; background:rgba(30, 30, 35, 0.4); border:1px solid rgba(255, 255, 255, 0.08); border-radius:8px; margin-top:10px;">', unsafe_allow_html=True)
     
-    title_label = "记录标题 / Record Title" if is_zh else "Record Title"
-    placeholder = "输入标题或使用默认 / Enter title or use default" if is_zh else "Enter title or use default"
+    title_label = "记录标题" if is_zh else "Record Title"
+    placeholder = "输入标题或使用默认" if is_zh else "Enter title or use default"
     
     default_title = record.title or record.user_request[:50]
     
@@ -4076,7 +4294,7 @@ def render_save_research_record_panel(harness_result: Optional[dict], key_prefix
         st.warning(dup_msg)
         
     if already_saved:
-        btn_lbl = "已保存 ✓ / Saved ✓"
+        btn_lbl = "已保存 ✓"
         st.button(btn_lbl, key=f"{key_prefix}-save-btn-disabled", disabled=True, use_container_width=True)
         path_to_show = saved_path or f"system/research-records/{record.record_id}.json"
         if is_zh:
@@ -4085,9 +4303,9 @@ def render_save_research_record_panel(harness_result: Optional[dict], key_prefix
             st.success(f"Saved: `{path_to_show}`")
     else:
         if duplicate:
-            btn_lbl = "保存为新版本 / Save as New Version" if is_zh else "Save as New Version"
+            btn_lbl = "保存为新版本" if is_zh else "Save as New Version"
         else:
-            btn_lbl = "保存研究记录 / Save Research Record" if is_zh else "Save Research Record"
+            btn_lbl = "保存研究记录" if is_zh else "Save Research Record"
             
         if st.button(btn_lbl, key=f"{key_prefix}-save-btn", use_container_width=True):
             try:
@@ -4111,10 +4329,10 @@ def render_save_research_record_panel(harness_result: Optional[dict], key_prefix
             except Exception as e:
                 err_msg = str(e)
                 st.session_state[error_key] = err_msg
-                st.error(f"保存失败 / Save failed: {err_msg}" if is_zh else f"Save failed: {err_msg}")
+                st.error(f"保存失败：{err_msg}" if is_zh else f"Save failed: {err_msg}")
                 
         if save_error:
-            st.error(f"保存失败 / Save failed: {save_error}" if is_zh else f"Save failed: {save_error}")
+            st.error(f"保存失败：{save_error}" if is_zh else f"Save failed: {save_error}")
             
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -4402,14 +4620,14 @@ def render_decision_tree_card(
 
     if intent == "treatment" and "treatment_branch" in content_map:
         display_path = content_map["treatment_branch"]
-        title = "治疗决策路径 / Treatment Decision Path" if is_zh else "Treatment Decision Path"
+        title = "治疗决策路径" if is_zh else "Treatment Decision Path"
         icon = "🌳"
     elif intent == "diagnostic":
         if "diagnostic_workup" in content_map:
             display_path = content_map["diagnostic_workup"]
         elif "diagnostic_route" in content_map:
             display_path = content_map["diagnostic_route"]
-        title = "诊断决策路径 / Diagnostic Pathway" if is_zh else "Diagnostic Pathway"
+        title = "诊断决策路径" if is_zh else "Diagnostic Pathway"
         icon = "🔬"
 
     if not display_path:
@@ -4566,7 +4784,7 @@ def render_route_by_question(
         return
 
     # Render as expander per DESIGN.md
-    expander_title = "🔀 不确定从哪里开始？ / Not sure where to start?" if is_zh else "🔀 Not sure where to start?"
+    expander_title = "🔀 不确定从哪里开始？" if is_zh else "🔀 Not sure where to start?"
 
     with st.expander(expander_title, expanded=False):
         for branch in branches:
@@ -4662,7 +4880,7 @@ def render_research_trace(research_trace: Optional[list[dict]]) -> None:
         return
 
     is_zh = is_session_chinese()
-    title = "检索与分析轨迹 / Research trace" if is_zh else "Research trace"
+    title = "检索与分析轨迹" if is_zh else "Research trace"
     note = (
         "这是系统解释问题、检索本地证据、加载文献卡片并得出回答的过程。这是系统运行的审计轨迹，不是额外的临床证据。"
         if is_zh else
@@ -4670,16 +4888,16 @@ def render_research_trace(research_trace: Optional[list[dict]]) -> None:
     )
 
     step_translations = {
-        "Interpreted query": "解析问题 / Interpreted query",
-        "Searched vault": "检索本地库 / Searched vault",
-        "Loaded evidence": "加载证据文献 / Loaded evidence",
-        "Loaded routed files": "加载路由文件 / Loaded routed files",
-        "Applied selected source": "应用所选来源 / Applied selected source",
-        "Loaded overview baseline evidence": "加载概述基线证据 / Loaded overview baseline evidence",
-        "Fallback source preload": "预加载后备来源 / Fallback source preload",
-        "Checked verified figures": "验证图表检查 / Checked verified figures",
-        "Synthesized answer": "合成最终回答 / Synthesized answer",
-        "Returned local answer": "返回本地回答 / Returned local answer",
+        "Interpreted query": "解析问题",
+        "Searched vault": "检索本地库",
+        "Loaded evidence": "加载证据文献",
+        "Loaded routed files": "加载路由文件",
+        "Applied selected source": "应用所选来源",
+        "Loaded overview baseline evidence": "加载概述基线证据",
+        "Fallback source preload": "预加载后备来源",
+        "Checked verified figures": "验证图表检查",
+        "Synthesized answer": "合成最终回答",
+        "Returned local answer": "返回本地回答",
     }
 
     with st.expander(title, expanded=False):
@@ -4696,12 +4914,14 @@ def render_research_trace(research_trace: Optional[list[dict]]) -> None:
             # Try to match dynamic hop names
             if raw_step.startswith("Agent hop"):
                 step_num = raw_step.replace("Agent hop", "").strip()
-                step = f"智能导航第{step_num}步 / Agent hop {step_num}" if is_zh else raw_step
+                step = f"智能导航第{step_num}步" if is_zh else raw_step
             else:
                 step = step_translations.get(raw_step, raw_step)
 
             step = html.escape(str(step))
-            detail = html.escape(str(entry.get("detail", "")))
+            raw_detail = str(entry.get("detail", ""))
+            clean_detail = sanitize_user_facing_markdown(raw_detail).replace("**", "")
+            detail = html.escape(clean_detail)
 
             # Check if this is an external search step
             is_external_step = "External" in raw_step or "PubMed" in raw_step or "Crossref" in raw_step
@@ -4860,8 +5080,8 @@ def render_answer_block(
     # Render related topic pages preview for user accessibility
     topic_paths = extract_topic_paths_from_text(answer)
     if topic_paths:
-        with st.expander("📖 本地关联主题页面阅读 / Read Related Topic Pages", expanded=False):
-            selected_topic = st.selectbox("选择要阅读的文档 / Select a document to read", topic_paths, key=f"{key_prefix}-topic-selector")
+        with st.expander("📖 本地关联主题页面阅读", expanded=False):
+            selected_topic = st.selectbox("选择要阅读的文档", topic_paths, key=f"{key_prefix}-topic-selector", format_func=format_topic_path)
             if selected_topic:
                 content = get_search_result_preview(selected_topic, max_chars=5000)
                 if content:
@@ -4870,18 +5090,76 @@ def render_answer_block(
                     st.warning(f"未能加载文档：{selected_topic}")
 
 
+def render_briefing_entry_cards() -> None:
+    """Render Disease Briefing entry cards for available diseases."""
+    is_zh = is_session_chinese()
+    available_diseases = get_available_diseases()
+
+    if not available_diseases:
+        return
+
+    label = "📂 疾病专题与研究简报" if is_zh else "📂 Disease Dossiers & Briefings"
+    hint = "查看已整理的疾病机制、分期体系、模型依据、关键终点与参考文献。" if is_zh else "Explore compiled mechanisms, staging, and study endpoints"
+
+    st.markdown(
+        f"""<div style="font-size:11px;color:#8b90a0;margin-bottom:4px;margin-top:20px;font-weight:600">
+        {html.escape(label)}</div>
+        <div style="font-size:10px;color:#6b7280;margin-bottom:8px">
+        {html.escape(hint)}</div>""",
+        unsafe_allow_html=True,
+    )
+
+    # Display available diseases as buttons
+    cols = st.columns(min(len(available_diseases), 4))
+    disease_labels = {
+        "hcm": "HCM 心肌病",
+        "ckd": "CKD 肾病",
+        "fip": "FIP 传腹",
+        "ibd": "IBD 肠病",
+        "diabetes": "Diabetes 糖尿病",
+        "fcv": "FCV 杯状病毒",
+    }
+
+    for i, disease in enumerate(sorted(available_diseases)):
+        with cols[i % len(cols)]:
+            label = disease_labels.get(disease, disease.upper())
+            if st.button(label, key=f"briefing-entry-{disease}", use_container_width=True):
+                st.session_state.show_briefing = disease
+                st.rerun()
+
+
 def render_empty_state() -> None:
     """Render first-run onboarding for ordinary users."""
     source_index = get_source_index()
     topic_count = len(list((VAULT_ROOT / "topics").rglob("*.md")))
     disease_count = len([p for p in (VAULT_ROOT / "topics").iterdir() if p.is_dir()])
+    
+    # 1. Title and kicker
     st.markdown(
         EMPTY_STATE_INTRO_HTML.replace("0 sources · 0 topic pages · 0 diseases",
                                        f"{len(source_index)} sources · {topic_count} topic pages · {disease_count} diseases"),
         unsafe_allow_html=True,
     )
-    st.markdown("<div class='vault-panel'><div class='vault-panel-label'>推荐提问 / Try asking</div></div>", unsafe_allow_html=True)
+
+    # 2. Primary Action Card (Start Evidence Research)
+    primary_action_html = """
+    <div class="vault-panel" style="background: linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(16,185,129,0) 100%); border: 1px solid rgba(16,185,129,0.18); margin-bottom: 20px; padding: 16px 20px; border-radius: 12px">
+      <div class="vault-kicker" style="color: #10b981; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;">🔬 核心工作流</div>
+      <div style="font-size: 16px; font-weight: 600; color: #eceff4; font-family: 'Inter', sans-serif;">开始研究任务</div>
+      <div style="font-size: 13px; color: #b8bfcc; margin-top: 4px; line-height: 1.5; font-family: 'Source Serif 4', serif;">
+        围绕一个具体问题，生成证据地图、关键文献、方法比较和研究建议。在下方输入框键入并提交即可 [进入 Research Workspace]。
+      </div>
+    </div>
+    """
+    st.markdown(primary_action_html, unsafe_allow_html=True)
+
+    # 3. Two column Suggested queries (Research examples on left, Quick Start on right)
     render_example_question_chips("empty")
+
+    # 4. Disease Dossiers (re-compiled topic page shortcuts)
+    render_briefing_entry_cards()
+
+    # 5. Saved Answers / Guide panels
     render_saved_answers_panel("empty")
     render_provenance_guide()
     render_how_it_works()
@@ -4930,15 +5208,15 @@ def render_setup_required(what_happened: str, technical_detail: str, extra_actio
     extra_action = f"<div style='margin-top:6px'>{extra_action_html}</div>" if extra_action_html else ""
     is_zh = is_session_chinese()
     
-    label = "需要配置 / Setup required" if is_zh else "Setup required"
-    what_happened_lbl = "发生原因 / What happened" if is_zh else "What happened"
-    what_to_do_lbl = "解决方案 / What to do" if is_zh else "What to do"
+    label = "需要配置" if is_zh else "Setup required"
+    what_happened_lbl = "发生原因" if is_zh else "What happened"
+    what_to_do_lbl = "解决方案" if is_zh else "What to do"
     action_text = (
         "请检查侧边栏选择的后端，或在启动应用时带上所需环境配置。"
         if is_zh else
         "Check the selected backend in the sidebar, or restart the app with the required environment variables."
     )
-    details_lbl = "配置详情 / Setup details" if is_zh else "Setup details"
+    details_lbl = "配置详情" if is_zh else "Setup details"
 
     render_notice(
         f"""
@@ -4961,9 +5239,9 @@ def render_query_error(what_happened: str, technical_detail: str, extra_action_h
     extra_action = f"<div>{extra_action_html}</div>" if extra_action_html else ""
     is_zh = is_session_chinese()
 
-    label = "查询失败 / Query failed" if is_zh else "Query failed"
-    what_happened_lbl = "发生原因 / What happened" if is_zh else "What happened"
-    what_to_try_lbl = "解决方案 / What to try" if is_zh else "What to try"
+    label = "查询失败" if is_zh else "Query failed"
+    what_happened_lbl = "发生原因" if is_zh else "What happened"
+    what_to_try_lbl = "解决方案" if is_zh else "What to try"
     check_api_text = "检查您的 API Key 是否配置正确" if is_zh else "Check your API key is set correctly"
     switch_backend_text = (
         "尝试在侧边栏切换使用 Anthropic 或 OpenRouter 接口后端"
@@ -4975,7 +5253,7 @@ def render_query_error(what_happened: str, technical_detail: str, extra_action_h
         if is_zh else
         "If local Ollama is intentionally enabled, make sure it's running: <code>ollama serve</code>"
     )
-    details_lbl = "错误详情 / Error details" if is_zh else "Error details"
+    details_lbl = "错误详情" if is_zh else "Error details"
 
     render_notice(
         f"""
@@ -5010,7 +5288,7 @@ def query_error_label(error: Exception) -> str:
     """Short label for the collapsed Streamlit status row."""
     detail = re.sub(r"\s+", " ", sanitize_error_detail(str(error))).strip()
     is_zh = is_session_chinese()
-    fail_lbl = "查询失败 / Query failed" if is_zh else "Query failed"
+    fail_lbl = "查询失败" if is_zh else "Query failed"
     if not detail:
         return fail_lbl
     if len(detail) > 150:
@@ -5064,49 +5342,63 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap');
 
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --surface-2: #222535;
-      --border: #2d3147;
-      --text: #e8eaf0;
-      --muted: #8b90a0;
-      --subtle: #4a4f64;
+      --bg: #0a0c10;
+      --surface: #12151c;
+      --surface-2: #1a1e28;
+      --border: #252a38;
+      --border-subtle: #1e222d;
+      --text: #eceff4;
+      --text-secondary: #b8bfcc;
+      --muted: #7c8494;
+      --subtle: #4a5064;
+      /* Accent colors - refined */
+      --accent-green: #10b981;
+      --accent-amber: #d97706;
+      --accent-gray: #6b7280;
     }
 
-    /* Base font */
+    /* Base font - Inter for UI, better screen rendering */
     html, body, [class*="css"] {
-      font-family: 'Geist', system-ui, sans-serif !important;
-      font-size: 15px;
-      line-height: 1.7;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.011em;
     }
 
-    /* Elegant serif typography for primary body text matching agent.ii.inc */
+    /* Elegant serif typography for primary body text - Source Serif 4 */
     .block-container [data-testid="stMarkdownContainer"] p,
     .block-container [data-testid="stMarkdownContainer"] li,
     .block-container [data-testid="stMarkdownContainer"] p *,
     .block-container [data-testid="stMarkdownContainer"] li * {
-      font-family: 'Crimson Pro', 'Georgia', 'Times New Roman', serif !important;
-      font-size: 16.5px !important;
-      line-height: 1.8 !important;
-      color: #f1f5f9 !important;
+      font-family: 'Source Serif 4', 'Georgia', serif !important;
+      font-size: 16px !important;
+      line-height: 1.75 !important;
+      letter-spacing: 0.003em !important;
+      color: var(--text) !important;
     }
 
-    /* Keep inline code and code blocks monospace */
+    /* Keep inline code and code blocks monospace - JetBrains Mono */
     .block-container [data-testid="stMarkdownContainer"] code {
-      font-family: 'Geist Mono', monospace !important;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace !important;
       font-size: 13px !important;
+      letter-spacing: -0.02em !important;
     }
 
-    /* Keep headings sans-serif for clean editorial contrast */
+    /* Keep headings sans-serif with better tracking */
     .block-container [data-testid="stMarkdownContainer"] h1,
     .block-container [data-testid="stMarkdownContainer"] h2,
     .block-container [data-testid="stMarkdownContainer"] h3,
     .block-container [data-testid="stMarkdownContainer"] h4 {
-      font-family: 'Geist', system-ui, sans-serif !important;
+      font-family: 'Inter', system-ui, sans-serif !important;
       font-weight: 600 !important;
+      letter-spacing: -0.025em !important;
+      margin-top: 1.5em !important;
+      margin-bottom: 0.75em !important;
     }
 
     [data-testid="stAppViewContainer"],
@@ -5117,55 +5409,62 @@ st.markdown(
     }
 
     [data-testid="stHeader"] {
-      background: rgba(15,17,23,0.88);
-      border-bottom: 1px solid rgba(45,49,71,0.5);
+      background: rgba(10,12,16,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-subtle);
     }
 
     [data-testid="stSidebar"] {
-      background: linear-gradient(180deg, rgba(26,29,39,0.96) 0%, rgba(15,17,23,0.98) 100%);
-      border-right: 1px solid rgba(45,49,71,0.85);
+      background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+      border-right: 1px solid var(--border-subtle);
     }
 
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
     [data-testid="stSidebar"] label,
     [data-testid="stSidebar"] .stCaption {
       color: var(--muted) !important;
+      font-size: 13px !important;
     }
 
     .block-container {
-      max-width: 1120px;
-      padding-top: 2rem;
-      padding-bottom: 3rem;
+      max-width: 1080px;
+      padding-top: 2.5rem;
+      padding-bottom: 4rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
 
     /* Monospace: code, source IDs, file paths */
     code, pre, .stCode, [data-testid="stCode"] {
-      font-family: 'Geist Mono', monospace !important;
-      font-size: 12px !important;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace !important;
+      font-size: 12.5px !important;
+      letter-spacing: -0.01em !important;
     }
 
     /* Captions and metadata in muted mono */
     .stCaption, [data-testid="stCaptionContainer"] {
-      font-family: 'Geist Mono', monospace !important;
+      font-family: 'JetBrains Mono', monospace !important;
       font-size: 11px !important;
-      color: #8b90a0 !important;
+      color: var(--muted) !important;
+      letter-spacing: 0.01em !important;
     }
 
-    /* Chat answer max-width */
+    /* Chat answer max-width - slightly wider for readability */
     [data-testid="stChatMessageContent"] {
-      max-width: 720px;
+      max-width: 760px;
     }
 
     [data-testid="stChatMessage"] {
       background: transparent;
+      margin-bottom: 1rem;
     }
 
     [data-testid="stChatMessageContent"] > div {
-      background: rgba(26,29,39,0.58);
-      border: 1px solid rgba(45,49,71,0.72);
-      border-radius: 10px;
-      padding: 16px 18px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.015);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
     [data-testid="stChatMessage"] [data-testid="stMarkdownContainer"] p {
@@ -5184,9 +5483,11 @@ st.markdown(
     [data-testid="stTextArea"] textarea {
       background: var(--surface) !important;
       border: 1px solid var(--border) !important;
-      border-radius: 6px !important;
+      border-radius: 8px !important;
       color: var(--text) !important;
       box-shadow: none !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
     }
 
     [data-testid="stButton"] button,
@@ -5194,239 +5495,257 @@ st.markdown(
       background: var(--surface) !important;
       color: var(--text) !important;
       border: 1px solid var(--border) !important;
-      border-radius: 6px !important;
-      transition: background 120ms ease-out, border-color 120ms ease-out, transform 120ms ease-out;
+      border-radius: 8px !important;
+      font-weight: 500 !important;
+      font-size: 13px !important;
+      padding: 8px 16px !important;
+      transition: all 150ms ease-out;
     }
 
     [data-testid="stButton"] button:hover,
     [data-testid="baseButton-secondary"]:hover {
       background: var(--surface-2) !important;
-      border-color: #3a3f58 !important;
+      border-color: var(--subtle) !important;
       transform: translateY(-1px);
     }
 
     [data-testid="stExpander"] {
       border: 1px solid var(--border) !important;
-      border-radius: 10px !important;
-      background: rgba(26,29,39,0.44);
+      border-radius: 12px !important;
+      background: var(--surface);
       overflow: hidden;
+      margin-bottom: 1rem;
     }
 
     [data-testid="stExpander"] details summary {
-      background: rgba(26,29,39,0.84);
+      background: var(--surface);
+      padding: 14px 16px;
+      font-weight: 500;
     }
 
     [data-testid="stChatInput"] {
-      background: linear-gradient(180deg, rgba(15,17,23,0) 0%, rgba(15,17,23,0.92) 22%, rgba(15,17,23,1) 100%);
-      padding-top: 12px;
+      background: linear-gradient(180deg, transparent 0%, var(--bg) 30%);
+      padding-top: 16px;
+      padding-bottom: 8px;
     }
 
     [data-testid="stChatInput"] textarea,
     [data-testid="stChatInput"] input {
       background: var(--surface) !important;
       border: 1px solid var(--border) !important;
-      border-radius: 10px !important;
+      border-radius: 12px !important;
       color: var(--text) !important;
+      font-size: 15px !important;
+      padding: 14px 18px !important;
     }
 
     /* Figure captions under st.image() */
     [data-testid="stImage"] figcaption,
     [data-testid="stImageCaption"] {
-      font-family: 'Geist Mono', monospace !important;
+      font-family: 'JetBrains Mono', monospace !important;
       font-size: 11px !important;
-      color: #8b90a0 !important;
-      margin-top: 4px;
+      color: var(--muted) !important;
+      margin-top: 6px;
+      letter-spacing: 0.01em;
     }
 
     .vault-hero {
-      padding: 8px 0 24px 0;
+      padding: 12px 0 32px 0;
     }
 
     .vault-kicker,
     .vault-panel-label {
-      font-family: 'Geist Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .vault-hero h1 {
       margin: 0;
-      font-size: 40px;
-      line-height: 1.05;
+      font-size: 36px;
+      line-height: 1.15;
       font-weight: 600;
+      letter-spacing: -0.03em;
       color: var(--text);
     }
 
     .vault-hero p,
     .vault-panel-copy {
-      margin: 10px 0 0 0;
+      margin: 14px 0 0 0;
       font-size: 15px;
-      color: var(--muted);
-      max-width: 680px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 640px;
     }
 
     .vault-statline {
-      margin-top: 14px;
-      font-family: 'Geist Mono', monospace;
+      margin-top: 18px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: var(--muted);
+      letter-spacing: 0.02em;
     }
 
     .vault-panel {
-      background: rgba(26,29,39,0.72);
-      border: 1px solid rgba(45,49,71,0.9);
-      border-radius: 10px;
-      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
     }
 
     .vault-main-header {
-      padding: 4px 0 18px 0;
+      padding: 8px 0 24px 0;
     }
 
     .vault-main-header h1 {
       margin: 0;
-      font-size: 32px;
-      line-height: 1.08;
+      font-size: 28px;
+      line-height: 1.2;
       font-weight: 600;
+      letter-spacing: -0.025em;
       color: var(--text);
     }
 
     .vault-search-card {
-      padding: 12px 14px;
-      margin-bottom: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
     }
 
     .vault-search-title {
-      font-family: 'Geist Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
       color: var(--text);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
     }
 
     .vault-search-subtitle {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .vault-search-snippet {
-      margin: 8px 0 10px 0;
-      padding: 10px 12px;
-      font-family: 'Geist Mono', monospace;
+      margin: 10px 0 12px 0;
+      padding: 12px 14px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      line-height: 1.6;
-      color: var(--muted);
-      background: rgba(34,37,53,0.78);
-      border: 1px solid rgba(45,49,71,0.82);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
       border-radius: 8px;
       overflow-wrap: anywhere;
     }
 
     .vault-search-snippet mark {
-      background: rgba(202,138,4,0.18);
-      color: #f0d08b;
-      padding: 0 2px;
+      background: rgba(217,119,6,0.2);
+      color: #fbbf24;
+      padding: 1px 3px;
       border-radius: 3px;
     }
 
     .vault-answer-row {
-      padding: 12px 0 10px 0;
-      border-top: 1px solid rgba(45,49,71,0.72);
+      padding: 14px 0 12px 0;
+      border-top: 1px solid var(--border-subtle);
     }
 
     .vault-answer-title {
       color: var(--text);
       font-size: 14px;
       font-weight: 500;
-      line-height: 1.45;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
     }
 
     .vault-answer-meta,
     .vault-answer-file,
     .vault-answer-sources {
-      margin-top: 5px;
-      font-family: 'Geist Mono', monospace;
+      margin-top: 8px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .vault-answer-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .vault-answer-sources {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
       align-items: center;
     }
 
     .vault-answer-preview {
-      margin: 2px 0 6px 0;
-      color: var(--muted);
+      margin: 4px 0 8px 0;
+      color: var(--text-secondary);
       font-size: 13px;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .vault-inline-note {
-      margin: 12px 0;
-      padding: 10px 12px;
-      background: rgba(26,29,39,0.6);
-      border: 1px solid rgba(45,49,71,0.85);
-      border-radius: 8px;
-      color: var(--muted);
+      margin: 14px 0;
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-secondary);
       font-size: 13px;
+      line-height: 1.6;
     }
 
     .vault-inline-note-amber {
-      background: rgba(202,138,4,0.08);
-      border-color: rgba(202,138,4,0.22);
-      color: #d6b56b;
+      background: rgba(217,119,6,0.08);
+      border-color: rgba(217,119,6,0.2);
+      color: #fbbf24;
     }
 
     .vault-inline-note-red {
       background: rgba(239,68,68,0.08);
-      border-color: rgba(239,68,68,0.22);
-      color: #f2b0b0;
+      border-color: rgba(239,68,68,0.2);
+      color: #fca5a5;
     }
 
     .vault-inline-note-green {
-      background: rgba(22,163,74,0.08);
-      border-color: rgba(22,163,74,0.22);
-      color: #79d094;
+      background: rgba(16,185,129,0.08);
+      border-color: rgba(16,185,129,0.2);
+      color: #6ee7b7;
     }
 
     .vault-inline-note code {
       color: var(--text);
-      background: rgba(34,37,53,0.9);
-      padding: 1px 6px;
+      background: var(--surface-2);
+      padding: 2px 6px;
       border-radius: 4px;
-      border: 1px solid rgba(45,49,71,0.8);
+      border: 1px solid var(--border);
     }
 
     .vault-trace-step {
       display: grid;
       grid-template-columns: 28px minmax(150px, 0.36fr) minmax(0, 1fr);
-      gap: 10px;
+      gap: 12px;
       align-items: start;
-      padding: 8px 0;
-      border-top: 1px solid rgba(45,49,71,0.55);
+      padding: 10px 0;
+      border-top: 1px solid var(--border-subtle);
       color: var(--text);
       font-size: 13px;
     }
 
     .vault-trace-step code {
       color: var(--muted);
-      background: rgba(34,37,53,0.72);
-      border: 1px solid rgba(45,49,71,0.8);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
       border-radius: 4px;
       text-align: center;
+      font-size: 11px;
     }
 
     .vault-trace-step strong {
@@ -5434,21 +5753,21 @@ st.markdown(
     }
 
     .vault-trace-step span {
-      color: var(--muted);
+      color: var(--text-secondary);
       overflow-wrap: anywhere;
     }
 
     .vault-trace-item {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      padding: 4px 0 4px 38px;
+      gap: 10px;
+      padding: 6px 0 6px 40px;
       color: var(--muted);
       font-size: 12px;
     }
 
     .vault-trace-item span {
-      font-family: 'Geist Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       color: var(--text);
     }
 
@@ -5460,79 +5779,80 @@ st.markdown(
     .vault-guide-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 8px;
+      gap: 12px;
+      margin-top: 10px;
       color: var(--text);
       font-size: 13px;
     }
 
     .vault-review-steps {
       display: grid;
-      gap: 8px;
-      margin: 8px 0 12px 0;
+      gap: 10px;
+      margin: 10px 0 14px 0;
     }
 
     .vault-review-steps div {
       display: grid;
       grid-template-columns: 28px minmax(0, 1fr);
-      gap: 8px;
+      gap: 10px;
       align-items: start;
-      color: var(--muted);
+      color: var(--text-secondary);
       font-size: 13px;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .vault-review-steps code {
       display: inline-flex;
       justify-content: center;
       color: var(--text);
-      background: rgba(34,37,53,0.9);
-      border: 1px solid rgba(45,49,71,0.8);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 1px 0;
+      padding: 2px 0;
     }
 
     .prov-badge {
       display: inline-flex;
       align-items: center;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: 'Geist Mono', monospace;
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       white-space: nowrap;
       border: 1px solid transparent;
+      font-weight: 500;
     }
 
     .prov-quoted {
-      color: #16a34a;
-      background: rgba(22,163,74,0.12);
-      border-color: rgba(22,163,74,0.25);
+      color: var(--accent-green);
+      background: rgba(16,185,129,0.1);
+      border-color: rgba(16,185,129,0.25);
     }
 
     .prov-supported {
-      color: #ca8a04;
-      background: rgba(202,138,4,0.12);
-      border-color: rgba(202,138,4,0.25);
+      color: var(--accent-amber);
+      background: rgba(217,119,6,0.1);
+      border-color: rgba(217,119,6,0.25);
     }
 
     .prov-inference {
-      color: #6b7280;
-      background: rgba(107,114,128,0.12);
+      color: var(--accent-gray);
+      background: rgba(107,114,128,0.1);
       border-color: rgba(107,114,128,0.25);
     }
 
     .vault-sidebar-meta {
-      margin-top: 10px;
-      padding: 12px 14px;
+      margin-top: 12px;
+      padding: 14px 16px;
     }
 
     .vault-sidebar-meta-row {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
-      margin-top: 8px;
+      gap: 14px;
+      margin-top: 10px;
       font-size: 11px;
-      font-family: 'Geist Mono', monospace;
+      font-family: 'JetBrains Mono', monospace;
       color: var(--muted);
     }
 
@@ -5577,6 +5897,10 @@ if "preferred_source_ids" not in st.session_state:
     st.session_state.preferred_source_ids = []
 if "how_it_works_seen" not in st.session_state:
     st.session_state.how_it_works_seen = False
+if "show_briefing" not in st.session_state:
+    st.session_state.show_briefing = None  # Disease code to show briefing for
+if "use_workspace_tabs" not in st.session_state:
+    st.session_state.use_workspace_tabs = True  # ENABLED: Research Workspace split into 5 tabs
 if "last_answer_payload" not in st.session_state:
     st.session_state.last_answer_payload = None
 if "last_record_draft" not in st.session_state:
@@ -5596,6 +5920,32 @@ backend_blocker: Optional[str] = None
 
 is_zh = is_session_chinese()
 
+# ---------------------------------------------------------------------------
+# Deep Extraction Detail Page
+# ---------------------------------------------------------------------------
+detail_source_id = st.query_params.get("detail")
+if detail_source_id:
+    # Render the deep extraction detail page
+    if has_deep_extraction(detail_source_id):
+        extraction = parse_deep_extraction(detail_source_id)
+        if extraction:
+            # Back button
+            if st.button("← 返回" if is_zh else "← Back"):
+                del st.query_params["detail"]
+                st.rerun()
+
+            # Render the detail page
+            detail_md = render_detail_page_markdown(extraction)
+            st.markdown(detail_md, unsafe_allow_html=True)
+            st.stop()
+
+    # If no deep extraction found, show error and redirect
+    st.error(f"Deep extraction not found for {detail_source_id}")
+    if st.button("← 返回" if is_zh else "← Back"):
+        del st.query_params["detail"]
+        st.rerun()
+    st.stop()
+
 workspace_param = st.query_params.get("workspace", "ask")
 if workspace_param == "cases":
     with st.sidebar:
@@ -5606,14 +5956,14 @@ if workspace_param == "cases":
             horizontal=True,
             label_visibility="collapsed",
             format_func=lambda x: {
-                "Ask": "知识解答 / Ask",
-                "Research Cases": "研究案例 / Cases",
-                "Research Records": "研究记录 / Records"
+                "Ask": "知识解答",
+                "Research Cases": "研究案例",
+                "Research Records": "研究记录"
             }.get(x, x) if is_zh else x
         )
         st.divider()
-        cases_title = "研究案例 / Research Cases" if is_zh else "Research Cases"
-        cases_desc = "从架构分析到挑战评估的持久性证据工作流。 / Durable evidence work from Frame through Challenge." if is_zh else "Durable evidence work from Frame through Challenge."
+        cases_title = "研究案例" if is_zh else "Research Cases"
+        cases_desc = "从架构分析到挑战评估的持久性证据工作流。" if is_zh else "Durable evidence work from Frame through Challenge."
         st.markdown(
             f"""
             <div class="vault-panel">
@@ -5644,14 +5994,14 @@ if workspace_param == "records":
             horizontal=True,
             label_visibility="collapsed",
             format_func=lambda x: {
-                "Ask": "知识解答 / Ask",
-                "Research Cases": "研究案例 / Cases",
-                "Research Records": "研究记录 / Records"
+                "Ask": "知识解答",
+                "Research Cases": "研究案例",
+                "Research Records": "研究记录"
             }.get(x, x) if is_zh else x
         )
         st.divider()
-        records_title = "研究记录 / Research Records" if is_zh else "Research Records"
-        records_desc = "自动化评估循环进度与验证历史。 / Harness loop progress and verification history." if is_zh else "Harness loop progress and verification history."
+        records_title = "研究记录" if is_zh else "Research Records"
+        records_desc = "自动化评估循环进度与验证历史。" if is_zh else "Harness loop progress and verification history."
         st.markdown(
             f"""
             <div class="vault-panel">
@@ -5674,8 +6024,8 @@ if workspace_param == "records":
     st.stop()
 
 with st.sidebar:
-    ask_title = "知识解答 / Ask the vault" if is_zh else "Ask the vault"
-    ask_desc = "提出猫科医学问题，获取科学证据、不确定性及下一步建议。 / Ask a natural question. Get evidence, uncertainty, and a next step." if is_zh else "Ask a natural question. Get evidence, uncertainty, and a next step."
+    ask_title = "知识解答" if is_zh else "Ask the vault"
+    ask_desc = "提出猫科医学问题，获取科学证据、不确定性及下一步建议。" if is_zh else "Ask a natural question. Get evidence, uncertainty, and a next step."
     st.markdown(
         f"""
         <div class="vault-panel" style="margin-bottom:12px">
@@ -5693,9 +6043,9 @@ with st.sidebar:
         horizontal=True,
         label_visibility="collapsed",
         format_func=lambda x: {
-            "Ask": "知识解答 / Ask",
-            "Research Cases": "研究案例 / Cases",
-            "Research Records": "研究记录 / Records"
+            "Ask": "知识解答",
+            "Research Cases": "研究案例",
+            "Research Records": "研究记录"
         }.get(x, x) if is_zh else x
     )
     if workspace == "Research Cases":
@@ -5706,7 +6056,7 @@ with st.sidebar:
         st.rerun()
     st.divider()
 
-    engine_lbl = "回答引擎 / Answer engine" if is_zh else "Answer engine"
+    engine_lbl = "回答引擎" if is_zh else "Answer engine"
     st.markdown(f"<div class='vault-panel-label'>{engine_lbl}</div>", unsafe_allow_html=True)
     
     backend_options = [BACKEND_LABELS[name] for name in AVAILABLE_BACKENDS]
@@ -5741,19 +6091,19 @@ with st.sidebar:
 
     if backend == "local":
         local_msg = (
-            "本地检索免费且不调用任何 API。需要多源合成与推理时再切换到 API 引擎。 / Vault Search is free and does not call an API. Switch to an API engine only when you need synthesis."
+            "本地检索免费且不调用任何 API。需要多源合成与推理时再切换到 API 引擎。"
             if is_zh else
             "Vault Search is free and does not call an API. Switch to an API engine only when you need synthesis."
         )
         render_notice(local_msg, tone="green")
     elif backend == "ollama":
         if is_ollama_reachable():
-            ollama_ok = "Ollama 已连接。 / Ollama connected." if is_zh else "Ollama connected."
+            ollama_ok = "Ollama 已连接。" if is_zh else "Ollama connected."
             render_notice(ollama_ok, tone="green")
         else:
-            ollama_fail_block = "本地 Ollama 未能连接。请在提问前运行 `ollama serve`。 / Ollama is not reachable. Run `ollama serve` before asking." if is_zh else "Ollama is not reachable. Run `ollama serve` before asking."
+            ollama_fail_block = "本地 Ollama 未能连接。请在提问前运行 `ollama serve`。" if is_zh else "Ollama is not reachable. Run `ollama serve` before asking."
             backend_blocker = ollama_fail_block
-            ollama_fail_notice = "Ollama 未能连接。请运行 <code>ollama serve</code>。 / Ollama not reachable. Run <code>ollama serve</code>." if is_zh else "Ollama not reachable. Run <code>ollama serve</code>."
+            ollama_fail_notice = "Ollama 未能连接。请运行 <code>ollama serve</code>。" if is_zh else "Ollama not reachable. Run <code>ollama serve</code>."
             render_notice(ollama_fail_notice, tone="amber")
     elif backend == "openrouter":
         if os.environ.get("OPENROUTER_API_KEY"):
@@ -5767,25 +6117,25 @@ with st.sidebar:
                 )
             else:
                 or_ok = (
-                    f"OpenRouter 密钥已加载。项目每日额度守护：${openrouter_budget:.2f}。 / OpenRouter key loaded. Project daily budget guard: ${openrouter_budget:.2f}."
+                    f"OpenRouter 密钥已加载。项目每日额度守护：${openrouter_budget:.2f}。"
                     if is_zh else
                     f"OpenRouter key loaded. Project daily budget guard: ${openrouter_budget:.2f}."
                 )
                 render_notice(or_ok, tone="green")
         else:
-            or_block = "未检测到 OPENROUTER_API_KEY。请配置环境变量。 / OPENROUTER_API_KEY is not set in this shell or Streamlit secrets." if is_zh else "OPENROUTER_API_KEY is not set in this shell or Streamlit secrets."
+            or_block = "未检测到 OPENROUTER_API_KEY。请配置环境变量。" if is_zh else "OPENROUTER_API_KEY is not set in this shell or Streamlit secrets."
             backend_blocker = or_block
             or_notice = (
-                "未检测到 OPENROUTER_API_KEY。请在提问前配置该密钥或切换引擎。 / OPENROUTER_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
+                "未检测到 OPENROUTER_API_KEY。请在提问前配置该密钥或切换引擎。"
                 if is_zh else
                 "OPENROUTER_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
             )
             render_notice(or_notice, tone="amber")
     elif backend == "anthropic" and not os.environ.get("ANTHROPIC_API_KEY"):
-        ant_block = "未检测到 ANTHROPIC_API_KEY。请配置环境变量。 / ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets." if is_zh else "ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets."
+        ant_block = "未检测到 ANTHROPIC_API_KEY。请配置环境变量。" if is_zh else "ANTHROPIC_API_KEY is not set in this shell or Streamlit secrets."
         backend_blocker = ant_block
         ant_notice = (
-            "未检测到 ANTHROPIC_API_KEY。请在提问前配置该密钥或切换引擎。 / ANTHROPIC_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
+            "未检测到 ANTHROPIC_API_KEY。请在提问前配置该密钥或切换引擎。"
             if is_zh else
             "ANTHROPIC_API_KEY not set. Switch backend or set the key in the shell or Streamlit secrets before asking."
         )
@@ -5793,9 +6143,9 @@ with st.sidebar:
 
     paid_api_confirmed = False
     if backend not in {"local", "ollama"}:
-        chk_lbl = "允许在此会话中调用付费 API / Allow paid API synthesis for this session" if is_zh else "Allow paid API synthesis for this session"
+        chk_lbl = "允许在此会话中调用付费 API" if is_zh else "Allow paid API synthesis for this session"
         chk_hlp = (
-            "简单查询请保持关闭。只有在需要模型跨文献合成并接受 Token 开销时再开启。 / Keep this off for simple lookup. Turn it on only when you want the model to synthesize across sources and accept token cost."
+            "简单查询请保持关闭。只有在需要模型跨文献合成并接受 Token 开销时再开启。"
             if is_zh else
             "Keep this off for simple lookup. Turn it on only when you want the model to synthesize across sources and accept token cost."
         )
@@ -5806,16 +6156,16 @@ with st.sidebar:
         )
         if not paid_api_confirmed:
             paid_lock = (
-                "付费 API 综合解答已锁定。使用本地免费检索，或勾选上方选项以确认调用 API。 / Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally."
+                "付费 API 综合解答已锁定。使用本地免费检索，或勾选上方选项以确认调用 API。"
                 if is_zh else
                 "Paid API synthesis is locked. Use Vault Search for free lookup, or tick the checkbox above to spend tokens intentionally."
             )
             render_notice(paid_lock, tone="amber")
 
-    disease_lbl = "分析病种 / Condition" if is_zh else "Condition"
+    disease_lbl = "分析病种" if is_zh else "Condition"
     st.markdown(f"<div class='vault-panel-label'>{disease_lbl}</div>", unsafe_allow_html=True)
     disease_hlp = (
-        "保持在自动检测以使路由器从您的问题中自动判定病种。 / Leave on Auto-detect to let the router determine the disease from your question."
+        "保持在自动检测以使路由器从您的问题中自动判定病种。"
         if is_zh else
         "Leave on Auto-detect to let the router determine the disease from your question."
     )
@@ -5826,24 +6176,24 @@ with st.sidebar:
         help=disease_hlp,
         label_visibility="collapsed",
         format_func=lambda x: {
-            "Auto-detect": "自动检测 / Auto-detect",
-            "CKD": "慢性肾脏病 / CKD",
-            "HCM": "肥厚型心肌病 / HCM",
-            "FIP": "传染性腹膜炎 / FIP",
-            "IBD": "炎症性肠病 / IBD",
-            "Diabetes": "糖尿病 / Diabetes",
-            "FCV": "杯状病毒 / FCV",
-            "Obesity": "肥胖症 / Obesity",
-            "Cancer": "肿瘤与癌症 / Cancer"
+            "Auto-detect": "自动检测",
+            "CKD": "慢性肾脏病",
+            "HCM": "肥厚型心肌病",
+            "FIP": "传染性腹膜炎",
+            "IBD": "炎症性肠病",
+            "Diabetes": "糖尿病",
+            "FCV": "杯状病毒",
+            "Obesity": "肥胖症",
+            "Cancer": "肿瘤与癌症"
         }.get(x, x) if is_zh else x
     )
     disease_arg = None if disease_choice == "Auto-detect" else disease_choice.lower()
 
-    adv_title = "高级设置 / Advanced settings" if is_zh else "Advanced settings"
+    adv_title = "高级设置" if is_zh else "Advanced settings"
     with st.expander(adv_title, expanded=False):
-        depth_lbl = "搜索深度 / Search depth" if is_zh else "Search depth"
+        depth_lbl = "搜索深度" if is_zh else "Search depth"
         depth_hlp = (
-            "Auto依据问题自动决定；Quick=1-2篇文献；Standard=2-3篇文献；Deep=包含缺陷反思；Audit=寻找冲突证据。 / Auto detects depth from question type. Quick=1-2 sources. Standard=2-3 sources. Deep=gap reflection. Audit=contrary evidence required."
+            "Auto依据问题自动决定；Quick=1-2篇文献；Standard=2-3篇文献；Deep=包含缺陷反思；Audit=寻找冲突证据。"
             if is_zh else
             "Auto detects depth from question type. Quick=1-2 sources. Standard=2-3 sources. Deep=gap reflection. Audit=contrary evidence required."
         )
@@ -5855,11 +6205,11 @@ with st.sidebar:
             index=0,
             help=depth_hlp,
             format_func=lambda x: {
-                "Auto": "自动 / Auto",
-                "Quick": "快速 / Quick",
-                "Standard": "标准 / Standard",
-                "Deep": "深度 / Deep",
-                "Audit": "审计 / Audit"
+                "Auto": "自动",
+                "Quick": "快速",
+                "Standard": "标准",
+                "Deep": "深度",
+                "Audit": "审计"
             }.get(x, x) if is_zh else x
         )
         search_depth_labels = {
@@ -5871,9 +6221,9 @@ with st.sidebar:
         }
         explicit_search_depth = search_depth_labels.get(search_depth_mode)
 
-        hops_lbl = "智能体深度 / Agent depth" if is_zh else "Agent depth"
+        hops_lbl = "智能体深度" if is_zh else "Agent depth"
         hops_hlp = (
-            "智能体深度控制在最终合成前允许跳转加载文献的步数。 / Higher depth pulls in more readings before the answer is written."
+            "智能体深度控制在最终合成前允许跳转加载文献的步数。"
             if is_zh else
             "Higher depth pulls in more readings before the answer is written."
         )
@@ -5885,9 +6235,9 @@ with st.sidebar:
             help=hops_hlp,
         )
 
-        save_lbl = "自动保存回答 / Auto-save answers" if is_zh else "Auto-save answers"
+        save_lbl = "自动保存回答" if is_zh else "Auto-save answers"
         save_hlp = (
-            "合成后将每个回答作为 Markdown 文件自动保存到本地库中。 / Saves each answer as a markdown file in the vault after synthesis."
+            "合成后将每个回答作为 Markdown 文件自动保存到本地库中。"
             if is_zh else
             "Saves each answer as a markdown file in the vault after synthesis."
         )
@@ -5897,9 +6247,9 @@ with st.sidebar:
             help=save_hlp,
         )
 
-        ext_lbl = "本地结果稀疏时检索 PubMed/Crossref / Search PubMed/Crossref" if is_zh else "Search PubMed/Crossref if local results sparse"
+        ext_lbl = "本地结果稀疏时检索 PubMed/Crossref" if is_zh else "Search PubMed/Crossref if local results sparse"
         ext_hlp = (
-            "当本地库中匹配文献少于3篇时检索外部数据库。外部结果仅供参考且需要录入。 / When the vault has fewer than 3 matching sources, search external databases. External results are marked and need intake before becoming vault evidence."
+            "当本地库中匹配文献少于3篇时检索外部数据库。外部结果仅供参考且需要录入。"
             if is_zh else
             "When the vault has fewer than 3 matching sources, search external databases. External results are marked and need intake before becoming vault evidence."
         )
@@ -5910,9 +6260,9 @@ with st.sidebar:
         )
 
     st.divider()
-    find_lbl = "关键词检索 / Find by keyword" if is_zh else "Find by keyword"
+    find_lbl = "关键词检索" if is_zh else "Find by keyword"
     st.markdown(f"<div class='vault-panel-label'>{find_lbl}</div>", unsafe_allow_html=True)
-    placeholder_text = "尝试输入肌酐、SDMA、FIP、肥胖... / Try phosphorus, SDMA, fibrosis..." if is_zh else "Try phosphorus, SDMA, fibrosis..."
+    placeholder_text = "尝试输入肌酐、SDMA、FIP、肥胖..." if is_zh else "Try phosphorus, SDMA, fibrosis..."
     search_query = st.text_input(
         "Keyword",
         placeholder=placeholder_text,
@@ -5924,19 +6274,19 @@ with st.sidebar:
         horizontal=True,
         label_visibility="collapsed",
         format_func=lambda x: {
-            "Everywhere": "全局 / Everywhere",
-            "Sources": "文献卡片 / Sources",
-            "Topic pages": "主题页面 / Topics"
+            "Everywhere": "全局",
+            "Sources": "文献卡片",
+            "Topic pages": "主题页面"
         }.get(x, x) if is_zh else x
     )
 
     # Sorting controls for researcher workflow
-    sort_lbl = "排序方式 / Sort by" if is_zh else "Sort by"
+    sort_lbl = "排序方式" if is_zh else "Sort by"
     sort_options = {
-        "relevance": "相关性 / Relevance" if is_zh else "Relevance",
-        "year_desc": "发表时间 / Year (newest)" if is_zh else "Year (newest)",
-        "citations_desc": "被引次数 / Citations" if is_zh else "Citations",
-        "if_desc": "影响因子 / Impact Factor" if is_zh else "Impact Factor",
+        "relevance": "相关性" if is_zh else "Relevance",
+        "year_desc": "发表时间" if is_zh else "Year (newest)",
+        "citations_desc": "被引次数" if is_zh else "Citations",
+        "if_desc": "影响因子" if is_zh else "Impact Factor",
     }
     sort_by = st.radio(
         sort_lbl,
@@ -5954,7 +6304,12 @@ with st.sidebar:
         results = vault_search(search_query, VAULT_ROOT, scope=scope_map[search_scope], limit=5, sort_by=current_sort)
         if results:
             for i, result in enumerate(results):
-                result_id = result["id"] or result["file"]
+                result_id = result["id"] or format_topic_path(result["file"])
+                if result_id and result_id.startswith("src-"):
+                    display_title = user_visible_source_label(result_id)
+                else:
+                    display_title = result_id
+                
                 # Build subtitle with researcher metadata when available
                 subtitle_parts = []
                 if result.get("title"):
@@ -5969,30 +6324,30 @@ with st.sidebar:
                 subtitle = " · ".join(subtitle_parts)
                 st.markdown(
                     SEARCH_CARD_TEMPLATE.format(
-                        title=result_id,
+                        title=display_title,
                         subtitle=subtitle,
                     ),
                     unsafe_allow_html=True,
                 )
                 if result["snippets"]:
                     render_search_snippet(result["snippets"][0], search_query)
-                button_label = "预览 / Preview"
+                button_label = "预览" if is_zh else "Preview"
                 if result["id"] and result["id"].startswith("src-"):
-                    button_label = "设为下次提问的首选背景 / Use for next answer"
+                    button_label = "设为下次提问的首选背景" if is_zh else "Use for next answer"
                 if st.button(button_label, key=f"search-result-{i}", use_container_width=True):
                     activate_search_result(result)
                     st.rerun()
                 if i < len(results) - 1:
                     st.markdown("<div style='margin:6px 0;border-top:1px solid #2d3147'></div>", unsafe_allow_html=True)
         else:
-            no_results_msg = "未找到检索结果。请尝试使用简短关键词或切换检索范围。 / No search results yet. Try a simpler keyword or switch scope." if is_zh else "No search results yet. Try a simpler keyword or switch scope."
+            no_results_msg = "未找到检索结果。请尝试使用简短关键词或切换检索范围。" if is_zh else "No search results yet. Try a simpler keyword or switch scope."
             render_notice(no_results_msg, tone="neutral")
 
     st.divider()
 
     # Last query metadata — populated after each query
     if "last_files_loaded" in st.session_state and st.session_state.last_files_loaded:
-        readings_lbl = f"已使用文献 / Readings used ({len(st.session_state.last_files_loaded)})" if is_zh else f"Readings used ({len(st.session_state.last_files_loaded)})"
+        readings_lbl = f"已使用文献 ({len(st.session_state.last_files_loaded)})" if is_zh else f"Readings used ({len(st.session_state.last_files_loaded)})"
         with st.expander(
             readings_lbl,
             expanded=False,
@@ -6007,36 +6362,42 @@ with st.sidebar:
                 except ValueError:
                     # Path is not relative to VAULT_ROOT, just show as-is
                     rel = p
-                source_label = user_visible_source_label(Path(str(rel)).stem)
-                st.write(source_label)
+                
+                rel_str = str(rel)
+                stem = Path(rel_str).stem
+                if "raw/papers" in rel_str or "raw/regulations" in rel_str or stem.startswith("src-"):
+                    source_label = user_visible_source_label(stem)
+                else:
+                    source_label = format_topic_path(rel_str)
+                st.write(f"- {source_label}")
 
     if "last_meta" in st.session_state and st.session_state.last_meta:
         meta = st.session_state.last_meta
-        summary_lbl = "回答摘要 / Answer summary" if is_zh else "Answer summary"
+        summary_lbl = "回答摘要" if is_zh else "Answer summary"
         with st.expander(summary_lbl, expanded=False):
-            topic_lbl = "分析病种 / Topic" if is_zh else "Topic"
+            topic_lbl = "分析病种" if is_zh else "Topic"
             st.markdown(f"**{topic_lbl}:** `{meta.get('disease', '—')}`")
             conf = meta.get("confidence", "—")
             color = {"high": "green", "medium": "orange", "low": "red"}.get(conf, "gray")
-            conf_lbl = "可信度 / Confidence" if is_zh else "Confidence"
+            conf_lbl = "可信度" if is_zh else "Confidence"
             st.markdown(
                 f"**{conf_lbl}:** <span style='color:{color};font-weight:bold'>{conf}</span>",
                 unsafe_allow_html=True,
             )
             if meta.get("source_ids"):
-                sources_lbl = "引用文献卡片 / Sources cited" if is_zh else "Sources cited"
+                sources_lbl = "引用文献卡片" if is_zh else "Sources cited"
                 st.write(f"**{sources_lbl}:**")
                 for sid in meta["source_ids"]:
                     st.write(user_visible_source_label(str(sid)))
             if meta.get("written_to"):
-                saved_msg = f"已保存至 <code>{html.escape(str(meta['written_to']))}</code>。 / Saved to <code>{html.escape(str(meta['written_to']))}</code>." if is_zh else f"Saved to <code>{html.escape(str(meta['written_to']))}</code>."
+                saved_msg = f"已保存至 <code>{html.escape(str(meta['written_to']))}</code>。" if is_zh else f"Saved to <code>{html.escape(str(meta['written_to']))}</code>."
                 render_notice(
                     saved_msg,
                     tone="green",
                 )
             draft_record = st.session_state.last_record_draft
             if draft_record is not None:
-                record_lbl = "研究记录 / Research Record" if is_zh else "Research Record"
+                record_lbl = "研究记录" if is_zh else "Research Record"
                 st.markdown(f"**{record_lbl}:**")
                 st.markdown(f"- **Record ID:** `{draft_record.record_id}`")
                 st.markdown(f"- **Verifier:** `{draft_record.verifier_status.value}`")
@@ -6054,12 +6415,12 @@ with st.sidebar:
                     except Exception:
                         duplicate = None
                     if duplicate:
-                        dup_msg = f"已存在等效的记录： <code>{html.escape(duplicate.record_id)}</code>。 / An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>." if is_zh else f"An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>."
+                        dup_msg = f"已存在等效的记录： <code>{html.escape(duplicate.record_id)}</code>。" if is_zh else f"An equivalent record already exists: <code>{html.escape(duplicate.record_id)}</code>."
                         render_notice(
                             dup_msg,
                             tone="amber",
                         )
-                btn_lbl = "保存研究记录 / Save Research Record" if is_zh else "Save Research Record"
+                btn_lbl = "保存研究记录" if is_zh else "Save Research Record"
                 if st.button(
                     btn_lbl,
                     key="save-research-record",
@@ -6072,14 +6433,15 @@ with st.sidebar:
                         st.session_state.last_record_saved_path = saved_path
                         st.session_state.last_meta["research_record_saved"] = True
                         st.session_state.last_meta["research_record_path"] = saved_path
-                        ok_msg = f"研究记录已保存至 <code>{html.escape(saved_path)}</code>。 / Research Record saved to <code>{html.escape(saved_path)}</code>." if is_zh else f"Research Record saved to <code>{html.escape(saved_path)}</code>."
+                        safe_path_display = Path(saved_path).stem
+                        ok_msg = f"研究记录已保存至 <code>{html.escape(safe_path_display)}</code>。" if is_zh else f"Research Record saved to <code>{html.escape(safe_path_display)}</code>."
                         render_notice(
                             ok_msg,
                             tone="green",
                         )
                         st.rerun()
                     except Exception as e:
-                        fail_msg = f"无法保存研究记录：{html.escape(str(e))} / Couldn't save Research Record: {html.escape(str(e))}" if is_zh else f"Couldn't save Research Record: {html.escape(str(e))}"
+                        fail_msg = f"无法保存研究记录：{html.escape(str(e))}" if is_zh else f"Couldn't save Research Record: {html.escape(str(e))}"
                         render_notice(
                             fail_msg,
                             tone="red",
@@ -6087,13 +6449,13 @@ with st.sidebar:
             if st.session_state.last_record_saved_path and draft_record is not None:
                 claim_candidates = extract_claim_candidates(draft_record)
                 if claim_candidates:
-                    claim_lbl = "声称选择草案 / Claim Selection Draft" if is_zh else "Claim Selection Draft"
+                    claim_lbl = "声称选择草案" if is_zh else "Claim Selection Draft"
                     st.markdown(f"**{claim_lbl}:**")
                     candidate_labels = [
                         f"{claim.claim_id}: {claim.text[:120]}{'...' if len(claim.text) > 120 else ''}"
                         for claim in claim_candidates
                     ]
-                    multiselect_lbl = "待验证声称 / Claims to validate" if is_zh else "Claims to validate"
+                    multiselect_lbl = "待验证声称" if is_zh else "Claims to validate"
                     selected_claim_labels = st.multiselect(
                         multiselect_lbl,
                         candidate_labels,
@@ -6104,11 +6466,12 @@ with st.sidebar:
                         f"topics/{draft_record.disease or 'general'}/validated-claims.md",
                         f"system/indexes/{draft_record.disease or 'general'}-validated-claims.md",
                     ]
-                    select_lbl = "推广目标 / Promotion target" if is_zh else "Promotion target"
+                    select_lbl = "推广目标" if is_zh else "Promotion target"
                     target_page = st.selectbox(
                         select_lbl,
                         target_choices,
                         key=f"claim-target-{draft_record.record_id}",
+                        format_func=format_target_choice,
                     )
                     selected_claim_ids = [
                         label.split(":", 1)[0] for label in selected_claim_labels
@@ -6129,13 +6492,13 @@ with st.sidebar:
                                 f"- {icon} **{result.check_name}** ({result.severity}): {html.escape(result.message)}"
                             )
 
-                    confirm_lbl = "我确认此推广草案已准备就绪，可以应用 / I confirm this promotion draft is ready to apply" if is_zh else "I confirm this promotion draft is ready to apply"
+                    confirm_lbl = "我确认此推广草案已准备就绪，可以应用" if is_zh else "I confirm this promotion draft is ready to apply"
                     confirm_promotion = st.checkbox(
                         confirm_lbl,
                         key=f"confirm-promotion-{draft_record.record_id}",
                         disabled=not draft.ready_for_patch,
                     )
-                    apply_lbl = "应用推广 / Apply Promotion" if is_zh else "Apply Promotion"
+                    apply_lbl = "应用推广" if is_zh else "Apply Promotion"
                     if st.button(
                         apply_lbl,
                         key=f"apply-promotion-{draft_record.record_id}",
@@ -6159,7 +6522,7 @@ with st.sidebar:
                             }
                             st.session_state.last_meta["promotion_applied"] = True
                             st.session_state.last_meta["promotion_target"] = draft.target_page
-                            apply_ok = f"成功应用了 {len(written['claims'])} 项声称的推广。 / Promotion applied for {len(written['claims'])} claim(s)." if is_zh else f"Promotion applied for {len(written['claims'])} claim(s)."
+                            apply_ok = f"成功应用了 {len(written['claims'])} 项声称的推广。" if is_zh else f"Promotion applied for {len(written['claims'])} claim(s)."
                             render_notice(
                                 apply_ok,
                                 tone="green",
@@ -6239,16 +6602,35 @@ with st.sidebar:
     )
 
 submitted_question = st.chat_input(
-    "提出关于猫咪健康的问题... / Ask a natural feline health question...",
+    "提出猫科研究问题...",
 )
 if submitted_question and not st.session_state.pending_question:
     st.session_state.pending_question = submitted_question
 
 show_empty_state = len(st.session_state.messages) == 0 and not st.session_state.pending_question
-if show_empty_state:
+
+# Check if we should show a briefing page (Layer 2)
+if st.session_state.show_briefing:
+    disease_code = st.session_state.show_briefing
+    language = "zh" if is_session_chinese() else "en"
+    briefing = get_briefing(disease_code, language)
+    if briefing:
+        render_briefing_page(briefing, st)
+    else:
+        st.warning(f"No briefing available for {disease_code.upper()}")
+        if st.button("← 返回主页"):
+            st.session_state.show_briefing = None
+            st.rerun()
+    st.stop()
+elif show_empty_state:
     render_empty_state()
 else:
     render_main_header()
+    # Show immediate feedback when a question is queued but not yet processed
+    if st.session_state.pending_question and len(st.session_state.messages) == 0:
+        is_zh = is_session_chinese()
+        processing_msg = "正在处理您的问题..." if is_zh else "Processing your question..."
+        st.markdown(f"<div style='text-align:center;padding:32px;color:#8b90a0'><span style='font-size:24px'>⏳</span><br/>{processing_msg}</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
 # Chat history display
@@ -6259,25 +6641,55 @@ render_search_context_panel()
 for i, msg in enumerate(st.session_state.messages):
     with st.chat_message(msg["role"]):
         if msg["role"] == "assistant":
-            # Phase 4: Use v2 renderer when feature flag is enabled
-            render_fn = render_answer_block_v2 if USE_RESULT_PRESENTATION_V2 and RESULT_PRESENTATION_AVAILABLE else render_answer_block
-            render_fn(
-                answer=msg["content"],
-                confidence=msg.get("confidence", "medium"),
-                figures_used=msg.get("figures_used", []),
-                key_prefix=f"history-{i}",
-                source_ids=msg.get("source_ids"),
-                loaded_source_ids=msg.get("loaded_source_ids"),
-                question=msg.get("question", ""),
-                disease=msg.get("disease", ""),
-                question_type=msg.get("question_type", ""),
-                research_trace=msg.get("research_trace"),
-                harness_result=msg.get("harness_result"),
-                loaded_paths=msg.get("loaded_paths"),
-                backend=msg.get("backend", "openrouter"),
-                refined_query=msg.get("refined_query"),
-                objectives=msg.get("objectives"),
-            )
+            # Check if this is a Quick Start response (Layer 1)
+            msg_question_type = msg.get("question_type", "")
+            quick_start_data = msg.get("quick_start_data")
+            if msg_question_type == "quick_start" and quick_start_data:
+                # Re-render Quick Start with navigation buttons
+                qs_output = QuickStartOutput(
+                    disease=quick_start_data["disease"],
+                    one_liner=quick_start_data["one_liner"],
+                    why_matters=quick_start_data["why_matters"],
+                    misconception=quick_start_data["misconception"],
+                    when_to_dig_deeper=quick_start_data.get("when_to_dig_deeper", ""),
+                    has_briefing=quick_start_data["has_briefing"],
+                    language=quick_start_data["language"],
+                )
+                render_quick_start_response(qs_output, key_prefix=f"history-qs-{i}")
+            else:
+                # Check if we should use Tab-based Research Workspace (Layer 3)
+                msg_workspace_data = msg.get("workspace_data")
+                use_tabs = (
+                    msg_question_type == "research_search"
+                    and msg_workspace_data
+                    and st.session_state.get("use_workspace_tabs", True)
+                )
+
+                if use_tabs:
+                    # Convert structured data to WorkspaceOutput and render with tabs
+                    language = "zh" if is_session_chinese() else "en"
+                    workspace_output = convert_research_mode_output_to_workspace(msg_workspace_data, language)
+                    render_workspace_tabs(workspace_output, st)
+                else:
+                    # Phase 4: Use v2 renderer when feature flag is enabled
+                    render_fn = render_answer_block_v2 if USE_RESULT_PRESENTATION_V2 and RESULT_PRESENTATION_AVAILABLE else render_answer_block
+                    render_fn(
+                        answer=msg["content"],
+                        confidence=msg.get("confidence", "medium"),
+                        figures_used=msg.get("figures_used", []),
+                        key_prefix=f"history-{i}",
+                        source_ids=msg.get("source_ids"),
+                        loaded_source_ids=msg.get("loaded_source_ids"),
+                        question=msg.get("question", ""),
+                        disease=msg.get("disease", ""),
+                        question_type=msg_question_type,
+                        research_trace=msg.get("research_trace"),
+                        harness_result=msg.get("harness_result"),
+                        loaded_paths=msg.get("loaded_paths"),
+                        backend=msg.get("backend", "openrouter"),
+                        refined_query=msg.get("refined_query"),
+                        objectives=msg.get("objectives"),
+                    )
         else:
             st.markdown(msg["content"])
 
@@ -6289,8 +6701,87 @@ if st.session_state.get("scroll_to_latest_research_result"):
 # Query execution
 # ---------------------------------------------------------------------------
 
+def render_quick_start_response(output: QuickStartOutput, key_prefix: str = "qs") -> None:
+    """Render Quick Start output with navigation buttons."""
+    is_zh = is_session_chinese()
+
+    # Render the Quick Start content
+    st.markdown(format_quick_start_markdown(output))
+
+    # Add navigation buttons
+    st.divider()
+    nav_label = "继续深入" if is_zh else "Go deeper"
+    st.markdown(f"**{nav_label}**")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        briefing_label = f"📖 进入 {output.disease} 简报" if is_zh else f"📖 Open {output.disease} Briefing"
+        if output.has_briefing:
+            if st.button(briefing_label, key=f"{key_prefix}-briefing-{output.disease.lower()}", use_container_width=True):
+                st.session_state.show_briefing = output.disease.lower()
+                st.rerun()
+        else:
+            st.button(briefing_label, key=f"{key_prefix}-briefing-disabled-{output.disease.lower()}", use_container_width=True, disabled=True)
+            st.caption("暂无简报" if is_zh else "No briefing available")
+
+    with col2:
+        workspace_label = f"🔬 启动 {output.disease} 研究工作台" if is_zh else f"🔬 Start {output.disease} Research Workspace"
+        if st.button(workspace_label, key=f"{key_prefix}-workspace-{output.disease.lower()}", use_container_width=True):
+            # Queue a task-oriented research mode query
+            if is_zh:
+                research_queries = {
+                    "hcm": "构建 feline HCM 近三年证据地图",
+                    "ckd": "比较 CKD 诊断与分期指标的研究价值",
+                    "fip": "梳理 FIP 治疗研究的药效终点",
+                    "diabetes": "提炼猫糖尿病模型的关键评价指标",
+                    "ibd": "提炼猫炎症性肠病与小细胞淋巴瘤鉴别诊断的研究发现",
+                    "fcv": "分析猫杯状病毒免疫逃逸与毒力演化的关键发现",
+                }
+            else:
+                research_queries = {
+                    "hcm": "Build feline HCM evidence map",
+                    "ckd": "Compare feline CKD diagnostic and staging indicators",
+                    "fip": "Analyze FIP treatment trial efficacy endpoints",
+                    "diabetes": "Distill key metrics for feline diabetes models",
+                    "ibd": "Distill differentiation of feline IBD and small cell lymphoma",
+                    "fcv": "Analyze feline calicivirus immune evasion and virulence evolution",
+                }
+            query_str = research_queries.get(output.disease.lower(), f"构建 feline {output.disease.upper()} 证据研究工作台" if is_zh else f"Build feline {output.disease.upper()} research workspace")
+            queue_question(query_str)
+            st.rerun()
+
+
 def run_query(question: str) -> bool:
     """Route, hop, synthesize, render, optionally write back."""
+
+    # Quick Start detection - check if this is a simple explanation request
+    quick_start_disease = detect_quick_start_intent(question)
+    if quick_start_disease:
+        language = "zh" if is_session_chinese() else "en"
+        quick_start_output = get_quick_start(quick_start_disease, language)
+        if quick_start_output:
+            # Render live
+            with st.chat_message("assistant"):
+                render_quick_start_response(quick_start_output, key_prefix="live-qs")
+            # Save Quick Start to session messages so buttons persist across reruns
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": format_quick_start_markdown(quick_start_output),
+                "question": question,
+                "disease": quick_start_output.disease,
+                "question_type": "quick_start",
+                "quick_start_data": {
+                    "disease": quick_start_output.disease,
+                    "one_liner": quick_start_output.one_liner,
+                    "why_matters": quick_start_output.why_matters,
+                    "misconception": quick_start_output.misconception,
+                    "when_to_dig_deeper": quick_start_output.when_to_dig_deeper,
+                    "has_briefing": quick_start_output.has_briefing,
+                    "language": quick_start_output.language,
+                },
+            })
+            return True
+
     source_index = get_source_index()
     source_weights = get_source_weights()
 
@@ -6435,6 +6926,7 @@ def run_query(question: str) -> bool:
         est_tokens = result["est_tokens"]
         refined_query = result.get("refined_query", "")
         objectives = result.get("objectives", [])
+        workspace_data = result.get("workspace_data")  # Structured data for Tab rendering
 
         status.update(label="Done", state="complete", expanded=False)
 
@@ -6462,25 +6954,38 @@ def run_query(question: str) -> bool:
 
     # --- Render answer ---
     with st.chat_message("assistant"):
-        # Phase 4: Use v2 renderer when feature flag is enabled
-        render_fn = render_answer_block_v2 if USE_RESULT_PRESENTATION_V2 and RESULT_PRESENTATION_AVAILABLE else render_answer_block
-        render_fn(
-            answer=answer,
-            confidence=confidence,
-            figures_used=figures_used,
-            key_prefix=f"live-{len(st.session_state.messages)}",
-            source_ids=source_ids,
-            loaded_source_ids=loaded_source_ids,
-            question=question,
-            disease=detected_disease,
-            question_type=question_type,
-            research_trace=research_trace,
-            harness_result=harness_result,
-            loaded_paths=[str(p) for p in loaded_paths],
-            backend=backend,
-            refined_query=refined_query,
-            objectives=objectives,
+        # Check if we should use Tab-based Research Workspace (Layer 3)
+        use_tabs = (
+            question_type == "research_search"
+            and workspace_data
+            and st.session_state.get("use_workspace_tabs", True)
         )
+
+        if use_tabs:
+            # Convert structured data to WorkspaceOutput and render with tabs
+            language = "zh" if is_session_chinese() else "en"
+            workspace_output = convert_research_mode_output_to_workspace(workspace_data, language)
+            render_workspace_tabs(workspace_output, st)
+        else:
+            # Phase 4: Use v2 renderer when feature flag is enabled
+            render_fn = render_answer_block_v2 if USE_RESULT_PRESENTATION_V2 and RESULT_PRESENTATION_AVAILABLE else render_answer_block
+            render_fn(
+                answer=answer,
+                confidence=confidence,
+                figures_used=figures_used,
+                key_prefix=f"live-{len(st.session_state.messages)}",
+                source_ids=source_ids,
+                loaded_source_ids=loaded_source_ids,
+                question=question,
+                disease=detected_disease,
+                question_type=question_type,
+                research_trace=research_trace,
+                harness_result=harness_result,
+                loaded_paths=[str(p) for p in loaded_paths],
+                backend=backend,
+                refined_query=refined_query,
+                objectives=objectives,
+            )
         if question_type == "research_search":
             st.session_state.scroll_to_latest_research_result = True
             scroll_to_latest_research_result()
@@ -6521,6 +7026,7 @@ def run_query(question: str) -> bool:
         "backend": backend,
         "refined_query": refined_query,
         "objectives": objectives,
+        "workspace_data": workspace_data,  # For Tab-based Research Workspace
     })
     if question_type == "research_search":
         st.session_state.scroll_to_latest_research_result = True

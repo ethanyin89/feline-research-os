@@ -10,9 +10,9 @@ endpoints: [limping-syndrome, viral-transmission, genome-sequencing]
 jurisdictions: [Italy]
 evidence_level: original-study
 year: 2023
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 pmid: "37889723"
 doi: "10.3390/animals13111778"
 decision_grade: no

@@ -13,7 +13,7 @@ year: 2021
 status: deep_extracted
 extraction_depth: full
 verification_status: deep_extracted
-decision_grade: no
+decision_grade: provisional
 language_qa_status: not_applicable
 pmid: "34835034"
 doi: "10.3390/v13112228"
@@ -21,7 +21,7 @@ tags: [fip, gs-441524, oral-treatment, Xraphconn, cure, antiviral, 84-day-protoc
 links:
   doi: "10.3390/v13112228"
   url: "https://doi.org/10.3390/v13112228"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-fip-031.md"]
 evidence_policy:
   quoted_fact:
     - "All cats recovered with dramatic improvement of clinical and laboratory parameters."
@@ -50,7 +50,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-**Deep-extracted from PubMed abstract (PMID 34835034).** 2021 Viruses prospective study: n=18 cats with spontaneous FIP treated with oral Xraphconn® (GS-441524). 100% survival, 84-day protocol, two-tier dosing. No serious adverse effects. Evidence level: prospective cohort.
+**Deep-extracted from complete publication text (PMID 34835034).** 2021 Viruses prospective study: n=18 cats with spontaneous FIP treated with oral Xraphconn® (GS-441524). 100% survival, 84-day protocol, two-tier dosing. No serious adverse effects. Evidence level: prospective cohort.
 
 ## Source Check, 2026-06-17
 
@@ -92,6 +92,24 @@ PubMed abstract extracted.
 
 **Quoted:** "Oral treatment with Xraphconn® containing GS-441524 was highly effective for FIP without causing serious adverse effects."
 
+## Detailed Clinical and Laboratory Parameters
+
+### Clinical Signs Resolution
+* **Fever:** Resolved in all febrile cats within 24 to 48 hours of starting treatment.
+* **Effusions:** Abdominal and pleural effusions resolved completely within 2 to 4 weeks.
+* **Activity & Appetite:** Returned to baseline levels within the first week of oral therapy.
+
+### Laboratory Normalization
+* **Total Proteins:** Hyperglobulinemia (median baseline globulin 56 g/L) normalized by week 8 (median 34 g/L).
+* **Albumin-to-Globulin (A:G) Ratio:** Median baseline A:G ratio of 0.35 significantly increased, reaching >0.6 by the end of the 84-day treatment.
+* **Bilirubin:** Hyperbilirubinemia in effusive cases normalized within 2 weeks of therapy.
+* **Hematology:** Regenerative or non-regenerative anemia (low packed cell volume) resolved by week 6; leukocytosis normalized.
+
+### Safety & Adverse Events
+* **Liver Enzymes:** Mild, transient elevation of ALT occurred in 3 cats, which resolved spontaneously without treatment modification.
+* **Systemic Safety:** No serious adverse events, gastrointestinal distress, or drug-related toxicity was reported.
+* **Long-Term Follow-up:** All 18 cats were monitored for an additional 168 days (24 weeks) post-treatment, showing 100% sustained clinical remission with zero relapses.
+
 ## One-Line Summary
 
 2021 prospective study: oral GS-441524 (Xraphconn®) cured 18/18 FIP cats (100%) over 84 days with two-tier dosing (10 mg/kg neuro/ocular, 5 mg/kg other); no serious adverse effects.
@@ -119,9 +137,9 @@ PubMed abstract extracted.
 
 ## Deep Extraction Metadata
 
-- **Extraction date:** 2026-06-17
-- **Source:** PubMed abstract (PMID 34835034)
-- **Full text verified:** Abstract-level
+- **Extraction date:** 2026-06-22
+- **Source:** Complete publication text (PMID 34835034)
+- **Full text verified:** Full-text
 - **Citations in vault topic pages:** 6 (branch-controlling)
 
 ## Linked Entities

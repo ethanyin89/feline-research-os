@@ -12,3 +12,4 @@ anthropic>=0.94.0
 openai>=1.50.0
 streamlit>=1.40.0
 matplotlib>=3.9.0
+pyyaml>=6.0.0

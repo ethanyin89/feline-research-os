@@ -10,9 +10,9 @@ endpoints: [cyst-progression, kidney-failure, genetic-testing]
 jurisdictions: []
 evidence_level: review
 year: 2021
-status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+status: ingested
+extraction_depth: partial
+verification_status: abstract_weighted
 pmid: "34822642"
 doi: "10.3390/vetsci8110269"
 decision_grade: no

@@ -11,8 +11,8 @@ jurisdictions: [Australia]
 evidence_level: original-study
 year: 2021
 status: deep_extracted
-extraction_depth: full
-verification_status: deep_extracted
+extraction_depth: partial
+verification_status: abstract_weighted
 pmid: "34696470"
 doi: "10.3390/v13102040"
 decision_grade: no

@@ -21,7 +21,7 @@ tags: [diabetes, insulin-signaling, insulin-resistance, incretin, GLP-1, GIP, GL
 links:
   doi: "10.3390/ijms252313195"
   url: "https://doi.org/10.3390/ijms252313195"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-025.md"]
 evidence_policy:
   quoted_fact:
     - "54 client-owned cats: lean (n=15), overweight (n=15), diabetic (n=24)."
@@ -82,69 +82,55 @@ Europe PMC full text extraction.
 
 **Boundary:** This is an observational study. Treatment implications are inferences, not clinical recommendations.
 
-## One-Line Summary
+## Why This Paper Matters
 
-Candidate diabetes source from sheet row 27. Use it for triage until abstract or full-text extraction proves a stronger role.
+**Core contribution:** This paper advances feline diabetes from "obesity-related, similar to human T2DM" clinical consensus to a molecular signaling defect map across pancreas, skeletal muscle, and liver.
 
-## Why It Matters For Feline Diabetes
+**For model researchers:**
+- Provides tissue-level molecular readouts beyond blood glucose and insulin levels
+- Demonstrates that insulin resistance has a concrete molecular basis (GLUT-4, PI3K, IRS pathway deficits), not just clinical speculation
+- Shows ectopic lipid deposition correlates with signaling defects — glucose metabolism must be understood alongside lipid metabolism
 
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-diabetes` by the intake workflow.
+**For drug evaluation:**
+- The paper suggests GLP-1/GIP therapy evaluation should measure receptor downstream signaling, not just plasma incretin concentrations
+- Evaluation matrices should include: pancreatic incretin/insulin signaling + muscle GLUT-4/PI3K + hepatic lipid/ACC/HSL status
+- Study design must stratify by treatment status: obese non-diabetic, untreated diabetic, and treated diabetic cats show different molecular profiles
 
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+**Critical reading note:** This is cross-sectional tissue mechanism research — it cannot prove causation. Treated diabetic cats showing some elevated signals may represent compensation, not therapeutic recovery.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling in Peripheral Tissues.
-- The intake sheet locator is: 10.3390/ijms252313195.
+- 54 client-owned cats: lean (n=15), overweight (n=15), diabetic (n=24).
+- Diabetic cats showed increased liver and muscle adiposity (ectopic lipid deposition).
+- Insulin mRNA abundance decreased in pancreas of both untreated and treated diabetic cats.
+- GLUT-4 protein abundance decreased in muscle of diabetic cats.
+- Untreated diabetic cats showed decreased insulin receptor mRNA in muscle.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- Feline diabetes involves deficits at both pancreatic secretion (insulin synthesis) and peripheral response (muscle/liver insulin signaling).
+- Ectopic lipid deposition in liver and muscle is associated with feline diabetes.
+- The molecular defects parallel human T2DM but with species-specific incretin response differences.
 
 ### llm_inference
 
-- The title suggests a possible `diabetes` role, but the actual claim-fit requires abstract or full-text review.
+- GLUT-4 and PI3K may be therapeutic targets for improving insulin sensitivity in cats.
+- Incretin receptor downstream signaling dysfunction may limit GLP-1 agonist efficacy in cats.
+- Low-carbohydrate diet + insulin + weight management may work by controlling glucotoxicity and reducing ectopic fat deposition.
 
-## Claim-Fit Judgment
+## Evidence Boundary
 
-Strongest safe use:
-
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
-
-Must not control yet:
-
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the diabetes module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- Cross-sectional design cannot establish causation between signaling defects and clinical diabetes.
+- Sample size is modest (n=24 diabetic), with treated group only n=8 using different insulin products (Lantus, ProZinc, Caninsulin).
+- Diet information not consistently reported — important limitation for feline diabetes research.
+- mRNA/protein abundance ≠ functional activity; no direct glucose uptake or dynamic insulin secretion measurements.
 
 ## Linked Entities
 
-- diseases: diabetes mellitus
-- models:
-- endpoints:
-- mechanisms:
+- diseases: diabetes mellitus, insulin resistance, obesity
+- models: tissue mRNA/protein expression analysis
+- endpoints: insulin mRNA, GLUT-4 protein, PI3K-p85α, insulin receptor, IRS-1, IRS-2, GLP-1R, GIP-R, ACC, HSL, liver/muscle fat percentage
+- mechanisms: insulin signaling pathway, incretin signaling, ectopic lipid deposition, glucotoxicity
 - regulations:
