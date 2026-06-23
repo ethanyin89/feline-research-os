@@ -3922,7 +3922,9 @@ def format_to_agent_ii_style(text: str) -> str:
 
             # Indented details with soft breaks
             if link:
-                new_lines.append(f"   URL: {link}")
+                # Convert plain URL to clickable HTML link for unsafe_allow_html=True rendering
+                escaped_link = html.escape(link, quote=True)
+                new_lines.append(f'   URL: <a href="{escaped_link}" target="_blank" rel="noopener" style="color:#60a5fa">{html.escape(link)}</a>')
             if why_it_matters:
                 new_lines.append(f"   **Why it matters:** {why_it_matters}")
 
@@ -3976,7 +3978,9 @@ def format_to_agent_ii_style(text: str) -> str:
 
             new_lines.append(f"{index}. {citation}")
             if url_val:
-                new_lines.append(f"   URL: {url_val}")
+                # Convert plain URL to clickable HTML link for unsafe_allow_html=True rendering
+                escaped_url = html.escape(url_val, quote=True)
+                new_lines.append(f'   URL: <a href="{escaped_url}" target="_blank" rel="noopener" style="color:#60a5fa">{html.escape(url_val)}</a>')
             if why_val:
                 new_lines.append(f"   **Why it matters:** {why_val}")
             if takeaway_val:
