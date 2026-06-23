@@ -186,7 +186,9 @@ def render_evidence_tab(cards: list[EvidenceCard], excluded: list[ExcludedSource
                     st.markdown("🔬 *Has deep extraction*")
             with col2:
                 if card.doi:
-                    st.markdown(f"[DOI]({card.doi})")
+                    # Build proper DOI URL - handle both raw DOI (10.xxx) and full URL
+                    doi_url = card.doi if card.doi.startswith("http") else f"https://doi.org/{card.doi}"
+                    st.markdown(f"[DOI]({doi_url})")
                 if card.pmid:
                     st.markdown(f"[PubMed](https://pubmed.ncbi.nlm.nih.gov/{card.pmid})")
 
