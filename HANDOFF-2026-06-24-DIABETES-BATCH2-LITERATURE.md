@@ -11,28 +11,44 @@
 ### Batch 1 (COMPLETE - 7 papers)
 已于 2026-06-23 完成，输出至 `outputs/gold_standards/diabetes_model_endpoints/`，包含 7 篇论文的 paper cards、evidence map 和 research workspace gold matrix。详见 `HANDOFF-2026-06-23-DIABETES-ENDPOINTS-BRANCH.md`。
 
-### Batch 2 (IN PROGRESS)
+### Batch 2 (6 篇 — 用户确认数量)
 第二批材料用于扩展 `raw/deep-extractions/` 中的深度提炼文件。
 
-**用户桌面上检测到的 Batch 2 候选文件（共 7 篇）：**
+根据文件时间戳和用户确认的 6 篇数量，Batch 2 定义为 **Jun 23 晚间 + Jun 24 的 6 篇文献**：
 
 | # | 文件名 | 日期 | 状态 | 备注 |
 |---|--------|------|------|------|
-| 1 | Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling (2024) | Jun 22 | ✅ 已入库 | `ext-src-diabetes-025.md` |
+| 1 | ISFM Consensus Guidelines on the Practical Management of Diabetes Mellitus in Cats | Jun 23 22:54 | ❌ 未处理 | 指南类 |
 | 2 | 2018 AAHA Diabetes Management Guidelines for Dogs and Cats | Jun 23 22:58 | ❌ 未处理 | 指南类 |
-| 3 | ISFM Consensus Guidelines on the Practical Management of Diabetes Mellitus in Cats | Jun 23 22:54 | ❌ 未处理 | 指南类 |
-| 4 | Systematic review of feline diabetic remission: Separating fact from opinion | Jun 23 23:00 | ❌ 未处理 | 系统综述 |
-| 5 | Predictors of clinical remission in cats with diabetes mellitus (Zini 2010) | Jun 24 08:32 | ✅ 已入库 | `ext-src-diabetes-zini-2010-remission-predictors.md` |
-| 6 | Survival, remission, and quality of life in diabetic cats (Rothlin 2023) | Jun 24 08:38 | ✅ 已入库 | `ext-src-diabetes-rothlin-2023-survival-qol.md` |
-| 7 | Treatment with glargine insulin... (Marshall 2009) | Jun 24 08:43 | ✅ 已入库 | `ext-src-diabetes-marshall-2009-glargine.md` |
+| 3 | Systematic review of feline diabetic remission: Separating fact from opinion | Jun 23 23:00 | ❌ 未处理 | 系统综述 |
+| 4 | Predictors of clinical remission in cats with diabetes mellitus (Zini 2010) | Jun 24 08:32 | ✅ 已入库 | `ext-src-diabetes-zini-2010-remission-predictors.md` |
+| 5 | Survival, remission, and quality of life in diabetic cats (Rothlin 2023) | Jun 24 08:38 | ✅ 已入库 | `ext-src-diabetes-rothlin-2023-survival-qol.md` |
+| 6 | Treatment with glargine insulin... (Marshall 2009) | Jun 24 08:43 | ✅ 已入库 | `ext-src-diabetes-marshall-2009-glargine.md` |
 
-**当前统计：**
-- 已处理入库：4 篇
-- 未处理：3 篇（AAHA 2018、ISFM Guidelines、Systematic review）
+**Batch 2 统计：**
+- 已处理入库：3 篇（#4-6）
+- 未处理：3 篇（#1-3）
 
-**⚠️ 需用户确认：** 用户提到 Batch 2 应有 6 篇深度提炼，但桌面检测到 7 篇候选文件。请确认：
-1. Batch 2 的确切范围是哪 6 篇？
-2. 是否有文件尚未提供到桌面？
+---
+
+### 早期批次材料（Jun 22 - Jun 23 白天，共 8 篇）
+
+以下文献在 Batch 2 之前提供，尚未统一入库：
+
+| # | 文件名 | 日期 | 状态 |
+|---|--------|------|------|
+| 1 | Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling (2024) | Jun 22 11:52 | ✅ 已入库 `ext-src-diabetes-025.md` |
+| 2 | Feline Models of Type 2 Diabetes Mellitus | Jun 23 11:54 | ❌ 未处理 |
+| 3 | The Cat as a Model for Human Obesity and Diabetes | Jun 23 11:58 | ❌ 未处理 |
+| 4 | Insulin sensitivity in normal and diabetic cats | Jun 23 12:02 | ❌ 未处理 |
+| 5 | Clinical usefulness of fructosamine measurements | Jun 23 12:04 | ❌ 未处理 |
+| 6 | Point-of-care β-hydroxybutyrate measurement for diabetic ketoacidaemia | Jun 23 12:07 | ❌ 未处理 |
+| 7 | Evaluation of routine hematology profile results and fructosamine | Jun 23 12:09 | ❌ 未处理 |
+| 8 | Routine kidney variables in cats with diabetes mellitus | Jun 23 12:11 | ❌ 未处理 |
+
+**早期批次统计：**
+- 已处理入库：1 篇（Patra 2024）
+- 未处理：7 篇
 
 ---
 
@@ -77,23 +93,27 @@ raw/deep-extractions/
 
 ## 4. 待处理任务
 
-### 4.1 Batch 2 剩余文献（需用户确认后处理）
+### 4.1 Batch 2 剩余文献（3 篇）
 
-以下 3 篇文件在用户桌面但尚未入库：
+| 文件 | 类型 | 路径 |
+|------|------|------|
+| 2018 AAHA Diabetes Management Guidelines | 临床指南 | `~/Desktop/2018 AAHA Diabetes Management Guidelines...deep extract.md` |
+| ISFM Consensus Guidelines | 临床指南 | `~/Desktop/ISFM Consensus Guidelines...deep extract.md` |
+| Systematic review of feline diabetic remission | 系统综述 | `~/Desktop/Systematic review of feline diabetic remission...deep extract.md` |
 
-1. **2018 AAHA Diabetes Management Guidelines for Dogs and Cats**
-   - 类型：临床指南
-   - 路径：`/Users/jiawei/Desktop/2018 AAHA Diabetes Management Guidelines for Dogs and Cats   deep extract.md`
+### 4.2 早期批次剩余文献（7 篇）
 
-2. **ISFM Consensus Guidelines on the Practical Management of Diabetes Mellitus in Cats**
-   - 类型：临床指南
-   - 路径：`/Users/jiawei/Desktop/ISFM Consensus Guidelines on the Practical Management of Diabetes Mellitus in Cats   deep extract.md`
+| 文件 | 路径 |
+|------|------|
+| Feline Models of Type 2 Diabetes Mellitus | `~/Desktop/Feline Models of Type 2 Diabetes Mellitus  deep extract.md` |
+| The Cat as a Model for Human Obesity and Diabetes | `~/Desktop/The Cat as a Model for Human Obesity and Diabetes  deep extract.md` |
+| Insulin sensitivity in normal and diabetic cats | `~/Desktop/ Insulin sensitivity in normal and diabetic cats   deep extract.md` |
+| Clinical usefulness of fructosamine measurements | `~/Desktop/Clinical usefulness of fructosamine...deep extract.md` |
+| Point-of-care β-hydroxybutyrate measurement | `~/Desktop/Point-of-care β-hydroxybutyrate...deep extract.md` |
+| Evaluation of routine hematology profile | `~/Desktop/Evaluation of routine hematology profile...deep extract.md` |
+| Routine kidney variables in cats with diabetes mellitus | `~/Desktop/Routine kidney variables...deep extract.md` |
 
-3. **Systematic review of feline diabetic remission: Separating fact from opinion**
-   - 类型：系统综述
-   - 路径：`/Users/jiawei/Desktop/Systematic review of feline diabetic remission: Separating fact from opinion  deep extract.md`
-
-### 4.2 其他 Pending 任务
+### 4.3 其他 Pending 任务
 
 - **Task #6: 补充缺失的 DOI/PMID 元数据** — 529 篇论文缺少 DOI 和 PMID，待批量补充
 
@@ -124,10 +144,15 @@ raw/deep-extractions/
 
 ## 6. 下一步建议
 
-1. **用户确认 Batch 2 范围** — 请明确 6 篇具体是哪些
-2. **处理剩余 3 篇** — 确认后可继续入库
-3. **与 Gold Standards 关联** — 考虑将 Batch 2 深度提炼与 Batch 1 的 evidence map 整合
+1. **完成 Batch 2 入库** — 剩余 3 篇（AAHA、ISFM、Systematic review）待处理
+2. **评估早期批次** — 7 篇 Jun 23 白天的文献是否需要入库
+3. **与 Gold Standards 关联** — 考虑将深度提炼与 Batch 1 的 evidence map 整合
 4. **补充 DOI/PMID** — 完成 Task #6 的元数据补充
+
+**总计待处理：**
+- Batch 2 剩余：3 篇
+- 早期批次：7 篇
+- 共 10 篇深度提炼待入库
 
 ---
 
