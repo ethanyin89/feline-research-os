@@ -18,35 +18,40 @@ language_qa_status: not_applicable
 tags: [diabetes, obesity, comorbidity, nutrition, management]
 links:
   doi: "10.1177/1098612X211021540"
-  url: "https://doi.org/10.1177/1098612X211021540"
-  local_assets: []
+  url: "https://pubmed.ncbi.nlm.nih.gov/34167340/"
+  local_assets:
+    - "../../raw/deep-extractions/ext-src-diabetes-005.md"
 evidence_policy:
   quoted_fact:
-    - "Up to 40% of domestic cats are overweight or obese."
+    - "In 2016 data from approximately 500,000 cats seen in US corporate veterinary hospitals, 33% were classified as overweight or obese."
+    - "Obese cats have 2-4 times the diabetes risk of ideal-condition cats."
+    - "Each kilogram of excess body weight is associated with an approximately 30% reduction in insulin sensitivity."
+    - "In one IVGTT study, each kilogram of weight gain was associated with 17% lower insulin sensitivity and 15% lower non-insulin-dependent glucose uptake."
+    - "In non-diabetic overweight/obese cats, median fructosamine was separated from untreated diabetic cats: 226 umol/L versus 500 umol/L."
     - "Obesity in cats leads to insulin resistance via multiple mechanisms."
-    - "Insulin sensitivity declines with each excess kilogram of body weight."
     - "Overt diabetes risk is highest when obesity-associated insulin resistance coexists with beta-cell dysfunction."
     - "Diabetic control may need to precede caloric restriction in obese diabetic cats presenting after weight and muscle loss."
-    - "Low-carbohydrate, high-protein diets are recommended for diabetic cats."
+    - "Weight loss targets are 0.5-1% body weight per week once the cat is clinically stable."
+    - "The review recommends canned diets targeting <=12-15% metabolizable energy from carbohydrate and >40% from protein, while stating that the optimal carbohydrate content is not known."
     - "Remission is possible in some cats with appropriate management."
   source_supported_conclusion:
     - "This 2021 JFMS review is a Tier A anchor for obesity-diabetes pathophysiology and management sequencing."
-    - "The 40% obesity prevalence makes body condition a routine, not edge-case, consideration in feline practice."
+    - "The 33% overweight/obesity figure in a large US corporate-practice dataset makes body condition a routine, not edge-case, consideration in feline practice."
     - "Per-kilogram insulin sensitivity decline provides a quantitative basis for weight management goals."
     - "The two-hit model (obesity + beta-cell dysfunction) explains why not all obese cats become diabetic."
     - "Management sequencing matters: some cats need glycemic stabilization before weight loss due to muscle wasting."
     - "Body condition is simultaneously a risk factor, mechanism contributor, endpoint, and treatment-sequencing variable."
   llm_inference:
     - "Weight management is high-leverage but must be sequenced appropriately based on presentation state."
-    - "The 40% prevalence justifies routine body condition assessment in all cats, not just diabetic ones."
+    - "The high overweight/obesity prevalence justifies routine body condition assessment in all cats, not just diabetic ones."
     - "Remission potential supports aggressive early management in appropriate candidates."
   # V2 enhanced fields
   study_design: "综述，涵盖家猫肥胖与糖尿病共病机制及管理策略，基于现有临床及实验数据综合分析"
   core_argument: "猫的肥胖通过多种机制导致胰岛素抵抗，且当肥胖相关的胰岛素抵抗与β细胞功能障碍共存时，表现为明显的糖尿病风险，且在伴有体重和肌肉流失的肥胖糖尿病猫中，糖尿病控制可能需先于热量限制。"
   implicit_premise: "肥胖与胰岛素抵抗之间的因果关系明确，且体重变化及β细胞功能状态能显著影响糖尿病发病及管理效果。"
   title_gap: "标题聚焦于肥胖猫的共病情况与管理，但真正专注于将肥胖引发的胰岛素抵抗与β细胞功能障碍结合，提出了糖尿病管理的先后顺序问题——这为临床治疗提供了重要的实践指导。"
-  evidence_boundary: "本综述未具体评估不同减重饮食方案的长期效果，也未包括肥胖糖尿病猫的疫苗或药物新治疗方法的临床试验数据。"
-  unexpected_finding: "每增加一公斤体重，胰岛素敏感性降低具有可量化的线性关系，为制定体重管理目标提供了量化依据。"
+  evidence_boundary: "本文是临床综述，不是原创临床试验；低碳水、高蛋白、减重和胰岛素选择的具体效果仍需回到各原始研究，且2021年时SGLT2猫糖尿病证据尚未完成。"
+  unexpected_finding: "许多肥胖糖尿病猫就诊时已经发生主动体重下降和肌肉流失，因此不能机械地先减重；应先控糖、稳体重，再进入可控减重。"
 ---
 
 # Feline comorbidities: Pathophysiology and management of the obese diabetic cat
@@ -62,17 +67,17 @@ Review anchor connecting obesity, insulin resistance, diet strategy, and diabete
 
 ## Key Findings
 
-- abstract-weighted extraction explicitly links obesity with insulin resistance and overt diabetes risk when beta-cell dysfunction is also present
-- abstract frames diet composition, insulin therapy, glycemic control, and remission as connected management questions
-- abstract warns that some obese diabetic cats present after weight and muscle loss, so diabetic control may need to precede caloric restriction
+- desktop deep extraction links obesity with insulin resistance and overt diabetes risk when beta-cell dysfunction is also present
+- diet composition, insulin therapy, glycemic control, weight trend, muscle condition, and remission must be treated as connected management questions
+- the review warns that some obese diabetic cats present after weight and muscle loss, so diabetic control may need to precede caloric restriction
 - obesity is a high-prevalence upstream pressure, not an edge-case modifier
 - body weight affects insulin sensitivity, but overt diabetes still needs the beta-cell dysfunction threshold
 - the strongest practical implication is staged management: stabilize diabetes state, preserve muscle, then pursue weight loss when clinically appropriate
 
 ## Limits / Caveats
 
-- extraction is abstract-weighted, not full-text
-- numerical diet or weight-loss targets should be rechecked against the article before promotion
+- extraction is based on a desktop deep extract of the review
+- product-specific diet or drug recommendations still require checking the underlying primary studies
 - do not turn the abstract into universal weight-loss sequencing rules
 - do not moralize obesity or assume every diabetic cat is currently overweight at presentation
 - do not collapse diet composition, caloric restriction, insulin stabilization, and remission into one intervention claim

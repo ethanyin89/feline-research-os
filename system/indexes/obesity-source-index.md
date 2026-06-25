@@ -24,7 +24,7 @@ This index tracks the first-pass obesity source-card layer. The full obesity she
 | Scope | Count | State |
 |---|---:|---|
 | First-pass obesity cards | 87 | `src-obesity-001` through `src-obesity-087` |
-| Deep-extracted obesity cards | 4 | Tier 1 anchors `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008` are evidence-usable for bounded architecture only |
+| Deep-extracted obesity cards | 5 | Tier 1 anchors `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008`, plus `src-obesity-027` as a GLUT4/early insulin-resistance mechanism anchor |
 | Shared diabetes/obesity sources | 10 | cross-link to existing disease-owner cards |
 
 ## First-Pass Source Cards
@@ -41,6 +41,7 @@ The table below keeps the original Tier A shell visible. The remaining `src-obes
 | src-obesity-006 | Management of obesity in cats | management | review | first-pass partial, title-only |
 | src-obesity-007 | Obesity Treatment: Environment and Behavior Modification | environment / behavior | review | first-pass partial, title-only |
 | src-obesity-008 | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | insulin sensitivity / diabetes bridge | original-study | deep-extracted; bounded mechanism anchor |
+| src-obesity-027 | GLUT4 but not GLUT1 expression decreases early in the development of feline obesity | molecular mechanism / insulin resistance | original-study | deep-extracted; abstract-level GLUT4 early-change anchor |
 
 ## Shared Existing Sources
 

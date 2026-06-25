@@ -34,8 +34,9 @@
 The diabetes / obesity sheet added `94` diabetes extension cards:
 
 - `src-diabetes-025` through `src-diabetes-118`
-- all are `extraction_depth: partial`
-- all are `verification_status: title_only`
+- most remain `extraction_depth: partial`
+- most remain `verification_status: title_only`
+- selected extension cards have since been upgraded, including `src-diabetes-028` for obesity-to-diabetes progression mechanism review
 - none should control topic-page claims until source-check or deep extraction
 
 Use [diabetes extension source queue](diabetes-extension-source-queue-20260513.md) for priority order. The canonical compiled diabetes module still rests on the 24 deep-extracted seed papers plus regulatory/label controls.
