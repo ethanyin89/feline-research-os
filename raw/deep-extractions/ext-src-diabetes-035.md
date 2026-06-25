@@ -9,6 +9,21 @@ journal: "Journal of the American Veterinary Medical Association"
 volume: "262"
 issue: "10"
 pages: "1343-1353"
+source_passages:
+  - passage_id: sensation-abstract-efficacy-001
+    section: Abstract / Results
+    quoted_passage: "The trial enrolled 252 client-owned diabetic cats: 85% were newly diagnosed (insulin-naive) and 15% were previously treated with insulin. By Day 180, 81% of the cats remaining in the study achieved glycemic control based on blood glucose and/or fructosamine levels."
+    highlight_text: "By Day 180, 81% of the cats remaining in the study achieved glycemic control based on blood glucose and/or fructosamine levels."
+    supports_claim_types: [treatment_response, efficacy_endpoint, glycemic_control]
+    evidence_type: quoted_fact
+    chinese_explanation: "这段直接给出研究样本量、入组构成和 Day 180 血糖/果糖胺控制结果，可支撑关于 velagliflozin 疗效终点的判断。"
+  - passage_id: sensation-abstract-safety-001
+    section: Abstract / Safety
+    quoted_passage: "Ketonuria developed in 13.9% of cats, with diabetic ketoacidosis (DKA) occurring in 7.1% overall. DKA risk was significantly higher in insulin-experienced cats (18.4%) compared to insulin-naive cats (5.1%). No clinical hypoglycemia occurred."
+    highlight_text: "DKA risk was significantly higher in insulin-experienced cats (18.4%) compared to insulin-naive cats (5.1%)."
+    supports_claim_types: [safety_endpoint, patient_selection, dka_risk]
+    evidence_type: quoted_fact
+    chinese_explanation: "这段直接定位到安全性边界，支持 SGLT2 抑制剂使用时需要区分既往胰岛素治疗史和 DKA 风险。"
 extracted_date: 2026-06-25
 extraction_source: phase-0-enhanced
 ---

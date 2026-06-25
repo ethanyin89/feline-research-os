@@ -144,6 +144,7 @@ class SourceDisplay:
     quoted_facts: List[str] = field(default_factory=list)
     supported_conclusions: List[str] = field(default_factory=list)
     llm_inferences: List[str] = field(default_factory=list)
+    source_passages: List[Dict[str, Any]] = field(default_factory=list)
 
     # Internal reference (not displayed to ordinary users)
     _internal_id: str = ""
@@ -642,12 +643,15 @@ def build_source_display(
     quoted_facts = source.get("quoted_facts", [])
     supported_conclusions = source.get("supported_conclusions", [])
     llm_inferences = source.get("llm_inferences", [])
+    source_passages = source.get("source_passages", [])
     if isinstance(quoted_facts, str):
         quoted_facts = [quoted_facts] if quoted_facts else []
     if isinstance(supported_conclusions, str):
         supported_conclusions = [supported_conclusions] if supported_conclusions else []
     if isinstance(llm_inferences, str):
         llm_inferences = [llm_inferences] if llm_inferences else []
+    if not isinstance(source_passages, list):
+        source_passages = []
 
     return SourceDisplay(
         title=title,
@@ -678,6 +682,7 @@ def build_source_display(
         quoted_facts=quoted_facts,
         supported_conclusions=supported_conclusions,
         llm_inferences=llm_inferences,
+        source_passages=source_passages,
         # Identity remains available for citation matching but is never rendered by
         # ordinary-user adapters.
         _internal_id=internal_id,
@@ -749,6 +754,23 @@ def _claim_text_from_tag_context(text: str, match: re.Match) -> str:
 
 def _select_trace_passage(card: SourceDisplay, provenance_type: str) -> tuple[str, str, str, str]:
     """Pick the best currently available passage for a source-level trace."""
+    if card.source_passages:
+        for passage in card.source_passages:
+            evidence_type = str(passage.get("evidence_type", ""))
+            if evidence_type and evidence_type != provenance_type:
+                continue
+            quoted = str(passage.get("quoted_passage", "")).strip()
+            highlight = str(passage.get("highlight_text", "")).strip()
+            if not quoted or not highlight:
+                continue
+            section = str(passage.get("section", "") or "source_passages").strip()
+            why = (
+                str(passage.get("why_it_supports", "")).strip()
+                or str(passage.get("chinese_explanation", "")).strip()
+                or "该判断可回到这段原文依据核查。"
+            )
+            return quoted, highlight, section, why
+
     if provenance_type == "quoted_fact" and card.quoted_facts:
         passage = card.quoted_facts[0]
         return passage, passage, "evidence_policy.quoted_fact", "文献原文明确支持该判断。"

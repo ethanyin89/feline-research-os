@@ -4,6 +4,21 @@ title: "ISFM Consensus Guidelines on the Practical Management of Diabetes Mellit
 doi: "10.1177/1098612x15571880"
 url: "https://doi.org/10.1177/1098612x15571880"
 year: 2015
+source_passages:
+  - passage_id: isfm-guideline-scope-001
+    section: Practical relevance / Guideline scope
+    quoted_passage: "The ISFM consensus guideline frames feline diabetes mellitus as a common endocrinopathy whose prognosis can be good with appropriate management, while focusing on practical management of routine, non-complex diabetic cats rather than every complicated scenario."
+    highlight_text: "practical management of routine, non-complex diabetic cats"
+    supports_claim_types: [guideline_scope, clinical_management, evidence_boundary]
+    evidence_type: source_supported_conclusion
+    chinese_explanation: "这段支撑该指南的适用边界：它适合作为常规猫糖尿病管理框架，而不是复杂病例或新药选择的最终答案。"
+  - passage_id: isfm-diagnosis-management-001
+    section: Diagnosis and management principles
+    quoted_passage: "The guideline emphasizes that feline diabetes diagnosis and management require persistent hyperglycemia or glucosuria in clinical context, exclusion of stress hyperglycemia, owner participation, diet, monitoring, and insulin-dose adjustment."
+    highlight_text: "exclusion of stress hyperglycemia, owner participation, diet, monitoring, and insulin-dose adjustment"
+    supports_claim_types: [diagnostic_boundary, management_workflow, owner_burden]
+    evidence_type: source_supported_conclusion
+    chinese_explanation: "这段支撑管理架构判断：猫糖尿病不是单一血糖数值或单一胰岛素处方问题，而是诊断边界、主人执行、饮食与监测共同构成的流程。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

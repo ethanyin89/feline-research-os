@@ -7,12 +7,26 @@ import re
 from pathlib import Path
 from typing import Any, Iterable
 
+import yaml
+
 
 def frontmatter_block(text: str) -> str:
     if not text.startswith("---"):
         return ""
     end = text.find("\n---", 3)
     return text[3:end] if end != -1 else ""
+
+
+def frontmatter_yaml(text: str) -> dict[str, Any]:
+    """Parse YAML frontmatter with safe fallback."""
+    block = frontmatter_block(text)
+    if not block:
+        return {}
+    try:
+        data = yaml.safe_load(block)
+    except yaml.YAMLError:
+        return {}
+    return data if isinstance(data, dict) else {}
 
 
 def frontmatter_scalar(text: str, key: str) -> str:
@@ -78,6 +92,13 @@ def nested_frontmatter_list(text: str, section: str, key: str) -> list[str]:
         if key_match:
             in_key = True
             continue
+        inline_match = re.match(rf"^\s+{re.escape(key)}:\s*\[(.*?)\]\s*$", line)
+        if inline_match:
+            return [
+                item.strip().strip("\"'")
+                for item in inline_match.group(1).split(",")
+                if item.strip()
+            ]
 
         if in_key:
             item = re.match(r"^\s+-\s*(.+?)\s*$", line)
@@ -135,6 +156,47 @@ def normalize_doi(value: str) -> str:
     return value if value.startswith("10.") else ""
 
 
+def _normalize_source_passages(value: Any) -> list[dict[str, Any]]:
+    """Keep only well-formed source passage dictionaries."""
+    if not isinstance(value, list):
+        return []
+    passages: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        quoted = str(item.get("quoted_passage", "")).strip()
+        highlight = str(item.get("highlight_text", "")).strip()
+        if not quoted or not highlight:
+            continue
+        passages.append({
+            "passage_id": str(item.get("passage_id", "")).strip(),
+            "section": str(item.get("section", "")).strip(),
+            "quoted_passage": quoted,
+            "highlight_text": highlight,
+            "supports_claim_types": item.get("supports_claim_types", []),
+            "evidence_type": str(item.get("evidence_type", "")).strip(),
+            "chinese_explanation": str(item.get("chinese_explanation", "")).strip(),
+            "why_it_supports": str(item.get("why_it_supports", "")).strip(),
+        })
+    return passages
+
+
+def _load_linked_source_passages(path: Path, local_assets: list[str]) -> list[dict[str, Any]]:
+    """Load passage traces from linked deep-extraction frontmatter."""
+    for asset in local_assets:
+        asset_path = (path.parent / asset).resolve()
+        try:
+            if not asset_path.exists():
+                continue
+            data = frontmatter_yaml(asset_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError):
+            continue
+        passages = _normalize_source_passages(data.get("source_passages"))
+        if passages:
+            return passages
+    return []
+
+
 def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
     """Return normalized metadata without promoting missing fields."""
     try:
@@ -147,6 +209,7 @@ def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
             "verification_status": "metadata_unavailable",
         }
 
+    fm = frontmatter_yaml(text)
     sid = frontmatter_scalar(text, "id") or source_id or path.stem
     doi = normalize_doi(
         frontmatter_scalar(text, "doi")
@@ -179,8 +242,14 @@ def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
     models = frontmatter_list(text, "models")
     endpoints = frontmatter_list(text, "endpoints")
     jurisdictions = frontmatter_list(text, "jurisdictions")
-    local_assets = frontmatter_list(text, "local_assets")
+    local_assets = (
+        frontmatter_list(text, "local_assets")
+        or nested_frontmatter_list(text, "links", "local_assets")
+    )
     publish_date = frontmatter_scalar(text, "publish_date") or frontmatter_scalar(text, "date")
+    source_passages = _normalize_source_passages(fm.get("source_passages"))
+    if not source_passages and local_assets:
+        source_passages = _load_linked_source_passages(path, local_assets)
 
     return {
         "id": sid,
@@ -228,6 +297,7 @@ def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
         "quoted_facts": nested_frontmatter_list(text, "evidence_policy", "quoted_fact"),
         "supported_conclusions": nested_frontmatter_list(text, "evidence_policy", "source_supported_conclusion"),
         "llm_inferences": nested_frontmatter_list(text, "evidence_policy", "llm_inference"),
+        "source_passages": source_passages,
         "metadata_enriched": frontmatter_scalar(text, "metadata_enriched"),
     }
 

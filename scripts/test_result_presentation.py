@@ -158,6 +158,25 @@ def test_source_metadata_loads_block_abstract_and_evidence_policy() -> None:
     assert "The SENSATION study was a prospective" in metadata["abstract_text"]
     assert metadata["quoted_facts"]
     assert "252 client-owned diabetic cats" in metadata["quoted_facts"][0]
+    assert metadata["source_passages"]
+    assert metadata["source_passages"][0]["passage_id"] == "sensation-abstract-efficacy-001"
+
+
+def test_evidence_trace_prefers_source_passage_library() -> None:
+    metadata = load_source_metadata(ROOT, ["src-diabetes-035"])
+    presentation = build_result_presentation(
+        title="研究回答",
+        subtitle="基于 1 篇来源",
+        lead="Velagliflozin 可以作为猫糖尿病的口服治疗路径，但必须同时呈现 DKA 风险边界。[quoted_fact: src-diabetes-035]",
+        sources=metadata,
+        claims=[{"provenance": "quoted_fact"}],
+    )
+    assert presentation.evidence_traces
+    trace = presentation.evidence_traces[0]
+    assert trace.section == "Abstract / Results"
+    assert "By Day 180, 81%" in trace.highlight_text
+    assert trace.highlight_text in trace.quoted_passage
+    assert "血糖/果糖胺控制结果" in trace.why_it_supports_the_claim
 
 
 def test_homepage_copy_is_minimal_input_focused() -> None:
@@ -229,6 +248,7 @@ if __name__ == "__main__":
         test_user_facing_provenance_uses_titles_not_ids,
         test_result_presentation_builds_claim_level_traces,
         test_source_metadata_loads_block_abstract_and_evidence_policy,
+        test_evidence_trace_prefers_source_passage_library,
         test_homepage_copy_is_minimal_input_focused,
         test_next_actions_use_user_facing_topic_labels,
         test_next_actions_normalize_composite_topic_labels,

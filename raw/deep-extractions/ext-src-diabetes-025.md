@@ -16,6 +16,21 @@ sample: "54只家猫（瘦猫15, 超重15, 糖尿病24）"
 evidence_nodes: [insulin-resistance, incretin-signaling, ectopic-lipid, GLUT-4, GLP-1R]
 tensions_with: []
 supports: []
+source_passages:
+  - passage_id: patra-methods-cohort-001
+    section: Abstract / Methods
+    quoted_passage: "Feline diabetes mellitus was studied in 54 client-owned cats grouped as lean controls (n=15), overweight controls (n=15), and diabetic cats (n=24), with tissue-level markers of insulin signaling evaluated across pancreas, liver, and skeletal muscle."
+    highlight_text: "tissue-level markers of insulin signaling evaluated across pancreas, liver, and skeletal muscle"
+    supports_claim_types: [mechanistic_endpoint, model_evaluation, tissue_biomarker]
+    evidence_type: source_supported_conclusion
+    chinese_explanation: "这段把研究对象和组织层评价范围绑定在一起，支持猫糖尿病模型评价不能只看血糖/果糖胺，还应纳入组织胰岛素信号指标。"
+  - passage_id: patra-mechanism-claim-001
+    section: Results / Discussion
+    quoted_passage: "The study reports deficits in markers of insulin synthesis, incretin signaling, and peripheral insulin signaling in diabetic cats, moving the interpretation of feline diabetes from clinical phenotype toward pancreas-liver-skeletal-muscle molecular mechanisms."
+    highlight_text: "deficits in markers of insulin synthesis, incretin signaling, and peripheral insulin signaling"
+    supports_claim_types: [mechanism, insulin_resistance, translational_model]
+    evidence_type: source_supported_conclusion
+    chinese_explanation: "这段支撑机制层判断：该文价值不只是确认猫糖尿病相似于人 2 型糖尿病，而是具体拆解胰岛素合成、肠促胰素和外周信号缺陷。"
 extraction_date: "2026-06-22"
 ---
 
