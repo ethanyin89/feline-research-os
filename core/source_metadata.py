@@ -21,6 +21,20 @@ def frontmatter_scalar(text: str, key: str) -> str:
     return match.group(1).strip().strip("\"'") if match else ""
 
 
+def frontmatter_text(text: str, key: str) -> str:
+    """Read a scalar frontmatter value, including YAML block scalars."""
+    block = frontmatter_block(text)
+    block_match = re.search(rf"^{re.escape(key)}:\s*[|>]\s*$", block, re.M)
+    if block_match:
+        values = []
+        for line in block[block_match.end():].splitlines():
+            if line and not line.startswith((" ", "\t")):
+                break
+            values.append(line[2:] if line.startswith("  ") else line.lstrip())
+        return "\n".join(values).strip()
+    return frontmatter_scalar(text, key)
+
+
 def frontmatter_list(text: str, key: str) -> list[str]:
     block = frontmatter_block(text)
     inline = re.search(rf"^{re.escape(key)}:\s*\[(.*?)\]\s*$", block, re.M)
@@ -41,6 +55,38 @@ def frontmatter_list(text: str, key: str) -> list[str]:
         item = re.match(r"^\s*-\s*(.+?)\s*$", line)
         if item:
             values.append(item.group(1).strip().strip("\"'"))
+    return values
+
+
+def nested_frontmatter_list(text: str, section: str, key: str) -> list[str]:
+    """Read a simple list nested one level inside a frontmatter section."""
+    block = frontmatter_block(text)
+    in_section = False
+    in_key = False
+    values = []
+
+    for line in block.splitlines():
+        if re.match(r"^\S[^:]*:", line):
+            current = line.split(":", 1)[0].strip()
+            in_section = current == section
+            in_key = False
+            continue
+        if not in_section:
+            continue
+
+        key_match = re.match(rf"^\s+{re.escape(key)}:\s*$", line)
+        if key_match:
+            in_key = True
+            continue
+
+        if in_key:
+            item = re.match(r"^\s+-\s*(.+?)\s*$", line)
+            if item:
+                values.append(item.group(1).strip().strip("\"'"))
+                continue
+            if re.match(r"^\s+\S[^:]*:", line):
+                break
+
     return values
 
 
@@ -176,9 +222,12 @@ def parse_source_card(path: Path, source_id: str = "") -> dict[str, Any]:
         # Researcher-facing metadata (enriched from external APIs)
         "citation_count": _parse_int(frontmatter_scalar(text, "citation_count")),
         "impact_factor": _parse_float(frontmatter_scalar(text, "impact_factor")),
-        "abstract_text": frontmatter_scalar(text, "abstract") or "",
+        "abstract_text": frontmatter_text(text, "abstract") or "",
         "methods_summary": frontmatter_scalar(text, "methods_summary") or "",
         "reference_ids": frontmatter_list(text, "references"),
+        "quoted_facts": nested_frontmatter_list(text, "evidence_policy", "quoted_fact"),
+        "supported_conclusions": nested_frontmatter_list(text, "evidence_policy", "source_supported_conclusion"),
+        "llm_inferences": nested_frontmatter_list(text, "evidence_policy", "llm_inference"),
         "metadata_enriched": frontmatter_scalar(text, "metadata_enriched"),
     }
 

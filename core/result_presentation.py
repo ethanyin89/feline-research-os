@@ -141,6 +141,9 @@ class SourceDisplay:
     abstract_text: str = ""
     methods_summary: str = ""
     reference_ids: List[str] = field(default_factory=list)
+    quoted_facts: List[str] = field(default_factory=list)
+    supported_conclusions: List[str] = field(default_factory=list)
+    llm_inferences: List[str] = field(default_factory=list)
 
     # Internal reference (not displayed to ordinary users)
     _internal_id: str = ""
@@ -167,6 +170,27 @@ class InlineCitation:
     source_ref: str             # Reference to SourceDisplay
     provenance_type: str        # Internal provenance type
     provenance_label: str       # User-facing provenance label
+
+
+@dataclass
+class EvidenceTrace:
+    """Claim-level route back to the source text used for a judgment."""
+    trace_id: str
+    claim_text: str
+    source_id: str
+    source_title: str
+    canonical_url: str = ""
+    evidence_type: str = "source_supported_conclusion"
+    evidence_label: str = "来源支持"
+    source_role: str = ""
+    quoted_passage: str = ""
+    highlight_text: str = ""
+    section: str = ""
+    paragraph_id: str = ""
+    why_it_supports_the_claim: str = ""
+
+    def has_passage_location(self) -> bool:
+        return bool(self.quoted_passage and self.highlight_text)
 
 
 @dataclass
@@ -304,6 +328,7 @@ class ResultPresentation:
 
     # Evidence
     source_cards: List[SourceDisplay] = field(default_factory=list)
+    evidence_traces: List[EvidenceTrace] = field(default_factory=list)
     boundary_notice: str = ""                       # What this result does NOT cover
     research_trace: List[ResearchTraceStep] = field(default_factory=list)
 
@@ -324,6 +349,11 @@ class ResultPresentation:
                 errors.append(f"Source card {i}: title contains internal ID")
             if card._internal_id and card._internal_id in card.title:
                 errors.append(f"Source card {i}: internal ID leaked to title")
+        for i, trace in enumerate(self.evidence_traces):
+            if trace.source_title.startswith("src-"):
+                errors.append(f"Evidence trace {i}: source title contains internal ID")
+            if trace.source_id and trace.source_id in trace.claim_text:
+                errors.append(f"Evidence trace {i}: internal ID leaked to claim text")
 
         # Check for raw internal labels
         for i, citation in enumerate(self.inline_citations):
@@ -609,6 +639,15 @@ def build_source_display(
     reference_ids = source.get("reference_ids", source.get("references", []))
     if isinstance(reference_ids, str):
         reference_ids = [r.strip() for r in reference_ids.split(",") if r.strip()]
+    quoted_facts = source.get("quoted_facts", [])
+    supported_conclusions = source.get("supported_conclusions", [])
+    llm_inferences = source.get("llm_inferences", [])
+    if isinstance(quoted_facts, str):
+        quoted_facts = [quoted_facts] if quoted_facts else []
+    if isinstance(supported_conclusions, str):
+        supported_conclusions = [supported_conclusions] if supported_conclusions else []
+    if isinstance(llm_inferences, str):
+        llm_inferences = [llm_inferences] if llm_inferences else []
 
     return SourceDisplay(
         title=title,
@@ -636,6 +675,9 @@ def build_source_display(
         abstract_text=abstract_text,
         methods_summary=methods_summary,
         reference_ids=reference_ids,
+        quoted_facts=quoted_facts,
+        supported_conclusions=supported_conclusions,
+        llm_inferences=llm_inferences,
         # Identity remains available for citation matching but is never rendered by
         # ordinary-user adapters.
         _internal_id=internal_id,
@@ -691,6 +733,115 @@ def build_inline_citation(
         provenance_type=provenance_type,
         provenance_label=translate_provenance(provenance_type),
     )
+
+
+def _claim_text_from_tag_context(text: str, match: re.Match) -> str:
+    """Extract a readable claim sentence/line around a provenance tag."""
+    start = text.rfind("\n", 0, match.start()) + 1
+    end = text.find("\n", match.end())
+    if end == -1:
+        end = len(text)
+    line = text[start:end].strip()
+    line = re.sub(r"\[(quoted_fact|source_supported_conclusion):\s*[^\]]+\]|\[llm_inference\]", "", line)
+    line = re.sub(r"^[-*]\s*", "", line).strip()
+    return line or "关键判断"
+
+
+def _select_trace_passage(card: SourceDisplay, provenance_type: str) -> tuple[str, str, str, str]:
+    """Pick the best currently available passage for a source-level trace."""
+    if provenance_type == "quoted_fact" and card.quoted_facts:
+        passage = card.quoted_facts[0]
+        return passage, passage, "evidence_policy.quoted_fact", "文献原文明确支持该判断。"
+
+    if provenance_type == "source_supported_conclusion":
+        if card.supported_conclusions:
+            passage = card.supported_conclusions[0]
+            return passage, passage, "evidence_policy.source_supported_conclusion", "该判断由来源卡片中的综合结论支持，需要按原文边界阅读。"
+        if card.quoted_facts:
+            passage = card.quoted_facts[0]
+            return passage, passage, "evidence_policy.quoted_fact", "该判断基于这条直接事实进一步综合。"
+
+    if provenance_type == "llm_inference":
+        if card.llm_inferences:
+            passage = card.llm_inferences[0]
+            return passage, "", "evidence_policy.llm_inference", "这是分析推断，不应当作原文直接表述。"
+        return "", "", "analysis", "这是分析推断，需要人工复核。"
+
+    if card.abstract_text:
+        first_sentence = re.split(r"(?<=[.!?。！？])\s+", card.abstract_text.strip())[0]
+        return card.abstract_text, first_sentence, "abstract", "该摘要段落提供了核查这个判断的最近来源上下文。"
+
+    return "", "", "", "来源可打开，但当前元数据未定位到具体段落。"
+
+
+def build_evidence_traces_from_text(
+    text: str,
+    source_cards: List[SourceDisplay],
+) -> List[EvidenceTrace]:
+    """Build claim-level evidence traces from provenance tags in answer text."""
+    source_map = {
+        card._internal_id: card
+        for card in source_cards
+        if card._internal_id
+    }
+    pattern = re.compile(
+        r"\[(quoted_fact|source_supported_conclusion):\s*([^\]]+)\]"
+        r"|\[(llm_inference)\]"
+    )
+    traces: List[EvidenceTrace] = []
+    seen: set[tuple[str, str, str]] = set()
+
+    for ordinal, match in enumerate(pattern.finditer(text), start=1):
+        provenance_type = match.group(1) or match.group(3)
+        source_ids = [
+            item.strip()
+            for item in (match.group(2) or "").split(",")
+            if item.strip()
+        ]
+        if not source_ids and provenance_type == "llm_inference":
+            source_ids = [""]
+        claim_text = _claim_text_from_tag_context(text, match)
+
+        for source_id in source_ids[:3]:
+            card = source_map.get(source_id)
+            if source_id and card is None:
+                continue
+            if card is None:
+                trace = EvidenceTrace(
+                    trace_id=f"trace-{ordinal}-inference",
+                    claim_text=claim_text,
+                    source_id="",
+                    source_title="分析推断",
+                    evidence_type=provenance_type,
+                    evidence_label=translate_provenance(provenance_type),
+                    section="analysis",
+                    why_it_supports_the_claim="这是分析推断，需要人工复核。",
+                )
+                traces.append(trace)
+                continue
+
+            dedupe_key = (claim_text, source_id, provenance_type)
+            if dedupe_key in seen:
+                continue
+            seen.add(dedupe_key)
+            passage, highlight, section, why = _select_trace_passage(card, provenance_type)
+            traces.append(EvidenceTrace(
+                trace_id=f"trace-{ordinal}-{len(traces) + 1}",
+                claim_text=claim_text,
+                source_id=source_id,
+                source_title=card.title,
+                canonical_url=card.canonical_url or "",
+                evidence_type=provenance_type,
+                evidence_label=translate_provenance(provenance_type),
+                source_role="supporting source",
+                quoted_passage=passage,
+                highlight_text=highlight,
+                section=section,
+                paragraph_id=f"{section}:{ordinal}" if section else "",
+                why_it_supports_the_claim=why,
+            ))
+
+    return traces
 
 
 def render_user_facing_provenance(
@@ -951,6 +1102,10 @@ def build_result_presentation(
     lead_clean = render_user_facing_provenance(lead, source_cards, html_output=False)
     if len(lead_clean) > 500:
         lead_clean = lead_clean[:497] + "..."
+    raw_text_for_traces = "\n".join(
+        [lead, *[sec.get("content", "") for sec in (sections or [])]]
+    )
+    evidence_traces = build_evidence_traces_from_text(raw_text_for_traces, source_cards)
 
     return ResultPresentation(
         context=PresentationContext(
@@ -964,6 +1119,7 @@ def build_result_presentation(
         sections=answer_sections,
         inline_citations=all_citations,
         source_cards=source_cards,
+        evidence_traces=evidence_traces,
         boundary_notice=boundary_notice,
         research_trace=[],  # Caller should populate if available
         next_actions=next_actions,

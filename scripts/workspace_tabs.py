@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-scripts/workspace_tabs.py — Research Workspace tab structure for three-layer architecture.
+scripts/workspace_tabs.py — Research Workspace section structure for three-layer architecture.
 
-Research Workspace provides dynamic research flow with tabs:
-1. Research Plan - Query interpretation and search scope
-2. Evidence Cards - Ranked sources with selection rationale
-3. Findings - Key findings organized by theme
-4. Methods - Study design and endpoint comparison
-5. Gaps - Uncertainty, limitations, and next steps
+Research Workspace provides a conclusion-first research flow:
+1. Direct conclusion - key findings first
+2. Source basis - ranked sources with selection rationale
+3. Model / efficacy value - study design and endpoint comparison
+4. Remaining uncertainty - limitations and next steps
 
 This is Layer 3 of the three-layer architecture:
   Quick Start → Disease Briefing → Research Workspace
@@ -107,7 +106,7 @@ class WorkspaceOutput:
 
 def render_workspace_tabs(output: WorkspaceOutput, st_module) -> None:
     """
-    Render Research Workspace with tabs.
+    Render Research Workspace as conclusion-first sections.
 
     Args:
         output: WorkspaceOutput with structured data
@@ -116,36 +115,27 @@ def render_workspace_tabs(output: WorkspaceOutput, st_module) -> None:
     st = st_module
     is_zh = output.language == "zh"
 
-    # Tab labels
-    tab_labels = [
-        "📋 Research Plan" if not is_zh else "📋 任务摘要",
-        f"📚 Evidence Map ({len(output.evidence_cards)})" if not is_zh else f"📚 证据地图 ({len(output.evidence_cards)})",
-        f"💡 Findings ({len(output.findings)})" if not is_zh else f"💡 核心发现 ({len(output.findings)})",
-        "🔬 Models & Endpoints" if not is_zh else "🔬 模型与药效评价价值",
-        "❓ Gaps & Next" if not is_zh else "❓ 缺口与下一步",
-    ]
+    status = (
+        f"已完成 · 使用 {output.sources_included} 条证据"
+        if is_zh else
+        f"Complete · {output.sources_included} evidence sources used"
+    )
+    st.caption(status)
 
-    tabs = st.tabs(tab_labels)
+    st.subheader("直接结论" if is_zh else "Direct Conclusion")
+    render_findings_tab(output.findings, is_zh, st)
 
-    # Tab 1: Research Plan
-    with tabs[0]:
-        render_plan_tab(output.research_plan, is_zh, st)
-
-    # Tab 2: Evidence Cards
-    with tabs[1]:
+    with st.expander("依据哪些文献" if is_zh else "Source Basis", expanded=False):
         render_evidence_tab(output.evidence_cards, output.excluded_sources, is_zh, st)
 
-    # Tab 3: Findings
-    with tabs[2]:
-        render_findings_tab(output.findings, is_zh, st)
-
-    # Tab 4: Methods
-    with tabs[3]:
+    with st.expander("对模型与药效评价有什么用" if is_zh else "Model / Efficacy Value", expanded=False):
         render_methods_tab(output.method_comparisons, is_zh, st)
 
-    # Tab 5: Gaps
-    with tabs[4]:
+    with st.expander("还不确定什么" if is_zh else "Remaining Uncertainty", expanded=False):
         render_gaps_tab(output.gaps, output.next_steps, is_zh, st)
+
+    with st.expander("检索范围" if is_zh else "Search Scope", expanded=False):
+        render_plan_tab(output.research_plan, is_zh, st)
 
 
 def render_plan_tab(plan: ResearchPlan, is_zh: bool, st) -> None:
@@ -216,7 +206,7 @@ def render_evidence_tab(cards: list[EvidenceCard], excluded: list[ExcludedSource
 def render_findings_tab(findings: list[Finding], is_zh: bool, st) -> None:
     """Render the Findings tab."""
     if not findings:
-        st.info("No findings extracted" if not is_zh else "暂无关键发现")
+        st.info("No direct conclusions extracted" if not is_zh else "暂无直接结论")
         return
 
     # Group by theme
@@ -237,7 +227,7 @@ def render_findings_tab(findings: list[Finding], is_zh: bool, st) -> None:
 
             st.markdown(f"{confidence_color} {f.finding}")
             if f.supporting_sources:
-                st.caption(f"Sources: {', '.join(f.supporting_sources)}")
+                st.caption(f"{len(f.supporting_sources)} source(s)" if not is_zh else f"{len(f.supporting_sources)} 条来源支持")
 
 
 def render_methods_tab(comparisons: list[MethodComparison], is_zh: bool, st) -> None:

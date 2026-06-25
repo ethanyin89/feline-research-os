@@ -135,6 +135,7 @@ try:
         get_state_warning,
         ResultPresentation,
         SourceDisplay,
+        EvidenceTrace,
         EvidenceProfile,
         ActionType,
     )
@@ -156,7 +157,7 @@ OPENROUTER_STREAMLIT_COMMAND = (
     "OPENROUTER_MODEL=openai/gpt-4.1-mini "
     ".venv/bin/python -m streamlit run scripts/app.py"
 )
-APP_RELEASE_LABEL = "research-ui-v2-depth-queue-20260619"
+APP_RELEASE_LABEL = "source-grounded-workspace-20260625"
 
 
 def get_runtime_commit() -> str:
@@ -225,7 +226,7 @@ EXAMPLE_QUESTIONS_BASIC = [
 
 # Research Workspace examples (agent.ii.inc style)
 EXAMPLE_QUESTIONS_RESEARCH = [
-    "构建 feline HCM 近三年证据地图",
+    "构建 feline HCM 近三年文献图谱",
     "比较 CKD 诊断与分期指标的研究价值",
     "梳理 FIP 治疗研究的药效终点",
     "提炼猫糖尿病模型的关键评价指标",
@@ -244,11 +245,9 @@ PROVENANCE_GUIDE_HTML = """
 """
 
 EMPTY_STATE_INTRO_HTML = """
-<div class="vault-hero">
-  <div class="vault-kicker">猫科医学与药物研发操作系统</div>
-  <h1>证据研究工作台</h1>
-  <p>面向猫疾病模型、药效评价与研究方案设计的证据工作台。<br/><br/>系统整合 1,400+ 篇结构化文献、疾病 Briefing 与深度提炼卡片，帮助研究者围绕一个具体问题，快速构建证据地图、比较研究方法、识别关键终点，并生成可追溯的研究结论。</p>
-  <div class="vault-statline">0 sources · 0 topic pages · 0 diseases</div>
+<div class="vault-hero" style="text-align: center; padding: 48px 0 24px 0;">
+  <h1 style="font-size: 32px; font-weight: 500; color: #eceff4; margin-bottom: 12px; font-family: 'Inter', sans-serif;">今天想研究什么？</h1>
+  <p style="font-size: 15px; color: #b8bfcc; max-width: 480px; margin: 0 auto; line-height: 1.6; font-family: 'Source Serif 4', serif;">输入一个猫病、模型、文献或药效评价问题。<br/>系统会帮你找依据、提炼结论，并标出原文出处。</p>
 </div>
 """
 
@@ -393,15 +392,15 @@ def render_example_question_chips(prefix: str, show_research: bool = True) -> No
     is_zh = is_session_chinese()
 
     if show_research:
-        # Side-by-side layout: Research Workspace (left, wider) and Quick Start (right, narrower)
+        # Side-by-side layout: Deep research (left, wider) and Quick ask (right, narrower)
         col_research, col_quick = st.columns([1.2, 0.8])
 
         with col_research:
-            research_label = "🔬 研究工作台" if is_zh else "🔬 Research Workspace"
+            research_label = "🔬 深度研究" if is_zh else "🔬 Deep Research"
             research_hint = (
-                "学术检索、证据地图、药效终点与评价指标比较"
+                "检索文献、比较证据、生成可追溯结论"
                 if is_zh else
-                "Evidence mapping, endpoint analysis, model evaluation"
+                "Search literature, compare evidence, generate traceable conclusions"
             )
             st.markdown(
                 f"""<div style="font-size:11px;color:#10b981;margin-bottom:2px;font-weight:600">
@@ -415,11 +414,11 @@ def render_example_question_chips(prefix: str, show_research: bool = True) -> No
                     queue_question(question)
 
         with col_quick:
-            basic_label = "⚡ 快速理解" if is_zh else "⚡ Quick Start"
+            basic_label = "⚡ 快速解释" if is_zh else "⚡ Quick Explain"
             quick_start_hint = (
-                "疾病核心概念速查，一屏即刻理解"
+                "30 秒理解疾病、指标或概念"
                 if is_zh else
-                "30s core concepts & onboarding check"
+                "30s disease, metric, or concept check"
             )
             st.markdown(
                 f"""<div style="font-size:11px;color:#d97706;margin-bottom:2px;font-weight:600">
@@ -433,7 +432,7 @@ def render_example_question_chips(prefix: str, show_research: bool = True) -> No
                     queue_question(question)
     else:
         # Fallback without research chips
-        basic_label = "⚡ 快速理解" if is_zh else "⚡ Quick Start"
+        basic_label = "⚡ 快速解释" if is_zh else "⚡ Quick Explain"
         st.markdown(
             f"""<div style="font-size:11px;color:#d97706;margin-bottom:4px;font-weight:600">
             {html.escape(basic_label)}</div>""",
@@ -3322,6 +3321,79 @@ def render_next_actions_v2(actions: list, key_prefix: str = "next") -> None:
                 queue_question(query)
 
 
+def highlight_trace_passage(passage: str, highlight_text: str) -> str:
+    """Escape and mark the supporting text inside a source passage."""
+    safe_passage = html.escape(passage or "")
+    if not passage or not highlight_text:
+        return safe_passage
+    safe_highlight = html.escape(highlight_text)
+    return safe_passage.replace(
+        safe_highlight,
+        f"<mark class='trace-highlight'>{safe_highlight}</mark>",
+        1,
+    )
+
+
+def render_evidence_traces_v2(traces: list["EvidenceTrace"], key_prefix: str = "") -> None:
+    """Render claim-level source passage traces."""
+    if not traces:
+        return
+
+    is_zh = is_session_chinese()
+    title = "原文依据" if is_zh else "Source Evidence"
+    caption = (
+        "每条关键判断都可以回到支撑它的来源片段。分析推断会明确标出人工复核边界。"
+        if is_zh else
+        "Key judgments can be traced back to the source passage. Inferences are marked for review."
+    )
+    st.markdown(
+        f"""
+        <div class="vault-panel-label" style="margin-top:20px;margin-bottom:4px">{html.escape(title)}</div>
+        <div style="font-size:12px;color:#7c8494;margin-bottom:8px">{html.escape(caption)}</div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    for i, trace in enumerate(traces[:8]):
+        label = f"{trace.evidence_label} · {trace.source_title}"
+        if len(label) > 96:
+            label = label[:93] + "..."
+        expanded = i == 0 and trace.has_passage_location()
+        with st.expander(label, expanded=expanded):
+            st.markdown(f"**判断：** {html.escape(trace.claim_text)}")
+            source_bits = []
+            if trace.section:
+                source_bits.append(trace.section)
+            if trace.paragraph_id:
+                source_bits.append(trace.paragraph_id)
+            if source_bits:
+                st.caption(" · ".join(source_bits))
+            if trace.canonical_url:
+                st.markdown(f"[打开来源]({trace.canonical_url})")
+
+            if trace.evidence_type == "llm_inference":
+                st.warning("这是分析推断，不是原文直接表述。需要人工复核。" if is_zh else "This is an inference, not direct source wording. Human review needed.")
+
+            if trace.quoted_passage:
+                passage_html = highlight_trace_passage(trace.quoted_passage, trace.highlight_text)
+                st.markdown(
+                    f"""
+                    <div class="trace-passage">
+                      {passage_html}
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.info("来源可打开，但当前元数据未定位到具体段落。" if is_zh else "The source is available, but no exact passage is stored yet.")
+
+            if trace.why_it_supports_the_claim:
+                st.markdown(f"**为什么支持：** {html.escape(trace.why_it_supports_the_claim)}")
+
+    if len(traces) > 8:
+        st.caption(f"还有 {len(traces) - 8} 条依据未展开显示。" if is_zh else f"{len(traces) - 8} more evidence traces hidden.")
+
+
 def build_presentation_from_answer(
     answer: str,
     question: str,
@@ -4155,6 +4227,7 @@ def render_answer_block_v2(
                     st.image(str(fig_path), caption=fig_title)
 
     # Sources with canonical links (v2)
+    render_evidence_traces_v2(presentation.evidence_traces, key_prefix=key_prefix)
     render_sources_section_v2(presentation.source_cards, key_prefix=key_prefix)
 
     # Next actions
@@ -5132,40 +5205,24 @@ def render_briefing_entry_cards() -> None:
 
 
 def render_empty_state() -> None:
-    """Render first-run onboarding for ordinary users."""
-    source_index = get_source_index()
-    topic_count = len(list((VAULT_ROOT / "topics").rglob("*.md")))
-    disease_count = len([p for p in (VAULT_ROOT / "topics").iterdir() if p.is_dir()])
-    
-    # 1. Title and kicker
-    st.markdown(
-        EMPTY_STATE_INTRO_HTML.replace("0 sources · 0 topic pages · 0 diseases",
-                                       f"{len(source_index)} sources · {topic_count} topic pages · {disease_count} diseases"),
-        unsafe_allow_html=True,
-    )
+    """Render minimal first-run state: title + input hint + example tasks only.
 
-    # 2. Primary Action Card (Start Evidence Research)
-    primary_action_html = """
-    <div class="vault-panel" style="background: linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(16,185,129,0) 100%); border: 1px solid rgba(16,185,129,0.18); margin-bottom: 20px; padding: 16px 20px; border-radius: 12px">
-      <div class="vault-kicker" style="color: #10b981; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;">🔬 核心工作流</div>
-      <div style="font-size: 16px; font-weight: 600; color: #eceff4; font-family: 'Inter', sans-serif;">开始研究任务</div>
-      <div style="font-size: 13px; color: #b8bfcc; margin-top: 4px; line-height: 1.5; font-family: 'Source Serif 4', serif;">
-        围绕一个具体问题，生成证据地图、关键文献、方法比较和研究建议。在下方输入框键入并提交即可 [进入 Research Workspace]。
-      </div>
-    </div>
+    Design principle: Homepage should be a "research question input box",
+    not a "system introduction page". All secondary content (disease topics,
+    saved answers, provenance guide, how it works) moved to sidebar or removed.
     """
-    st.markdown(primary_action_html, unsafe_allow_html=True)
+    # 1. Title and subtitle only (no stats, no kicker)
+    st.markdown(EMPTY_STATE_INTRO_HTML, unsafe_allow_html=True)
 
-    # 3. Two column Suggested queries (Research examples on left, Quick Start on right)
+    # 2. Mode buttons and example tasks
     render_example_question_chips("empty")
 
-    # 4. Disease Dossiers (re-compiled topic page shortcuts)
-    render_briefing_entry_cards()
-
-    # 5. Saved Answers / Guide panels
-    render_saved_answers_panel("empty")
-    render_provenance_guide()
-    render_how_it_works()
+    # NOTE: The following have been intentionally removed from homepage:
+    # - Primary Action Card ("核心工作流") — redundant with title
+    # - Disease Briefing Cards — moved to sidebar
+    # - Saved Answers Panel — moved to sidebar
+    # - Provenance Guide — moved to result page
+    # - How It Works — removed (too much explanation)
 
 
 def render_main_header() -> None:
@@ -5651,6 +5708,25 @@ st.markdown(
       border-radius: 3px;
     }
 
+    .trace-passage {
+      margin: 8px 0 12px 0;
+      padding: 12px 14px;
+      background: rgba(20,20,25,0.82);
+      border-left: 3px solid rgba(217,119,6,0.72);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .trace-highlight {
+      background: rgba(217,119,6,0.24);
+      color: #f8d48a;
+      padding: 1px 3px;
+      border-radius: 3px;
+    }
+
     .vault-answer-row {
       padding: 14px 0 12px 0;
       border-top: 1px solid var(--border-subtle);
@@ -6047,8 +6123,8 @@ with st.sidebar:
         label_visibility="collapsed",
         format_func=lambda x: {
             "Ask": "知识解答",
-            "Research Cases": "研究案例",
-            "Research Records": "研究记录"
+            "Research Cases": "示例任务",
+            "Research Records": "历史任务"
         }.get(x, x) if is_zh else x
     )
     if workspace == "Research Cases":
@@ -6663,12 +6739,12 @@ def render_quick_start_response(output: QuickStartOutput, key_prefix: str = "qs"
             st.caption("暂无简报" if is_zh else "No briefing available")
 
     with col2:
-        workspace_label = f"🔬 启动 {output.disease} 研究工作台" if is_zh else f"🔬 Start {output.disease} Research Workspace"
+        workspace_label = f"🔬 深度研究 {output.disease}" if is_zh else f"🔬 Deep Research {output.disease}"
         if st.button(workspace_label, key=f"{key_prefix}-workspace-{output.disease.lower()}", use_container_width=True):
             # Queue a task-oriented research mode query
             if is_zh:
                 research_queries = {
-                    "hcm": "构建 feline HCM 近三年证据地图",
+                    "hcm": "构建 feline HCM 近三年文献图谱",
                     "ckd": "比较 CKD 诊断与分期指标的研究价值",
                     "fip": "梳理 FIP 治疗研究的药效终点",
                     "diabetes": "提炼猫糖尿病模型的关键评价指标",
@@ -6684,7 +6760,7 @@ def render_quick_start_response(output: QuickStartOutput, key_prefix: str = "qs"
                     "ibd": "Distill differentiation of feline IBD and small cell lymphoma",
                     "fcv": "Analyze feline calicivirus immune evasion and virulence evolution",
                 }
-            query_str = research_queries.get(output.disease.lower(), f"构建 feline {output.disease.upper()} 证据研究工作台" if is_zh else f"Build feline {output.disease.upper()} research workspace")
+            query_str = research_queries.get(output.disease.lower(), f"梳理 feline {output.disease.upper()} 相关文献" if is_zh else f"Review feline {output.disease.upper()} literature")
             queue_question(query_str)
             st.rerun()
 

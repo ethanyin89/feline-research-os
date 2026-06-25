@@ -9,6 +9,7 @@ from pathlib import Path
 from core.result_presentation import (
     build_evidence_profile,
     build_next_actions,
+    build_result_presentation,
     build_source_display,
     render_user_facing_provenance,
 )
@@ -94,6 +95,19 @@ def test_source_display_includes_optional_metadata() -> None:
     assert card.canonical_url == "https://pmc.ncbi.nlm.nih.gov/articles/PMC1234567/"
 
 
+def test_source_display_keeps_evidence_snippets() -> None:
+    card = build_source_display({
+        "source_id": "src-diabetes-025",
+        "title": "Feline Diabetes Is Associated with Deficits",
+        "verification_status": "deep_extracted",
+        "quoted_facts": ["54 client-owned cats: lean, overweight, diabetic."],
+        "supported_conclusions": ["Feline diabetes involves tissue-level insulin signaling deficits."],
+        "llm_inferences": ["GLUT-4 may be a therapeutic target."],
+    })
+    assert card.quoted_facts == ["54 client-owned cats: lean, overweight, diabetic."]
+    assert card.supported_conclusions[0].startswith("Feline diabetes")
+
+
 def test_missing_source_metadata_is_explicit() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         metadata = load_source_metadata(Path(tmp), ["src-missing-001"])
@@ -114,6 +128,50 @@ def test_user_facing_provenance_uses_titles_not_ids() -> None:
     assert "分析推断" in rendered
     assert "src-ckd-001" not in rendered
     assert "source_supported_conclusion" not in rendered
+
+
+def test_result_presentation_builds_claim_level_traces() -> None:
+    presentation = build_result_presentation(
+        title="研究回答",
+        subtitle="基于 1 篇来源",
+        lead="猫糖尿病模型评价应纳入组织机制指标。[quoted_fact: src-diabetes-025]",
+        sources=[{
+            "source_id": "src-diabetes-025",
+            "title": "Feline Diabetes Is Associated with Deficits",
+            "verification_status": "deep_extracted",
+            "doi": "10.3390/ijms252313195",
+            "quoted_facts": ["54 client-owned cats: lean (n=15), overweight (n=15), diabetic (n=24)."],
+        }],
+        claims=[{"provenance": "quoted_fact"}],
+    )
+    assert presentation.evidence_traces
+    trace = presentation.evidence_traces[0]
+    assert trace.evidence_label == "直接来源"
+    assert trace.source_title == "Feline Diabetes Is Associated with Deficits"
+    assert trace.highlight_text in trace.quoted_passage
+    assert "src-diabetes-025" not in trace.claim_text
+    assert presentation.validate() == []
+
+
+def test_source_metadata_loads_block_abstract_and_evidence_policy() -> None:
+    metadata = load_source_metadata(ROOT, ["src-diabetes-035"])[0]
+    assert "The SENSATION study was a prospective" in metadata["abstract_text"]
+    assert metadata["quoted_facts"]
+    assert "252 client-owned diabetic cats" in metadata["quoted_facts"][0]
+
+
+def test_homepage_copy_is_minimal_input_focused() -> None:
+    """Homepage should be a 'research question input box', not a 'system intro page'."""
+    app_text = (ROOT / "scripts/app.py").read_text(encoding="utf-8")
+    # New minimal title
+    assert "今天想研究什么？" in app_text
+    # Old verbose titles should not appear
+    assert "<h1>从一个研究问题开始</h1>" not in app_text
+    assert "<h1>证据研究工作台</h1>" not in app_text
+    # Homepage should not render these panels (moved to sidebar or removed)
+    assert "render_briefing_entry_cards()" not in app_text.split("def render_empty_state")[1].split("def ")[0]
+    assert "render_provenance_guide()" not in app_text.split("def render_empty_state")[1].split("def ")[0]
+    assert "render_how_it_works()" not in app_text.split("def render_empty_state")[1].split("def ")[0]
 
 
 def test_next_actions_use_user_facing_topic_labels() -> None:
@@ -166,8 +224,12 @@ if __name__ == "__main__":
         test_unknown_status_is_not_promoted,
         test_source_display_uses_safe_url_fallback,
         test_source_display_includes_optional_metadata,
+        test_source_display_keeps_evidence_snippets,
         test_missing_source_metadata_is_explicit,
         test_user_facing_provenance_uses_titles_not_ids,
+        test_result_presentation_builds_claim_level_traces,
+        test_source_metadata_loads_block_abstract_and_evidence_policy,
+        test_homepage_copy_is_minimal_input_focused,
         test_next_actions_use_user_facing_topic_labels,
         test_next_actions_normalize_composite_topic_labels,
         test_overview_fixture_renders_without_internal_tokens,

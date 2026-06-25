@@ -1405,7 +1405,7 @@ def _format_chinese_paper_entry(card: SourceCard, index: int) -> str:
     # Add link to detail page if deep extraction exists
     if card.has_deep_extraction:
         lines.append("")
-        lines.append(f"📖 [查看深度提炼详情](?detail={card.id})")
+        lines.append("📖 深度提炼已入库")
 
     return "\n".join(lines)
 
@@ -1492,7 +1492,7 @@ def _format_paper_entry(card: SourceCard, index: int, chinese: bool = False) -> 
 
     # Add link to detail page if deep extraction exists
     if card.has_deep_extraction:
-        lines.append(f"   📖 [View deep extraction](?detail={card.id})")
+        lines.append("   📖 Deep extraction available in the vault")
 
     return "\n".join(lines)
 
