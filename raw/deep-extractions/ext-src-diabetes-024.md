@@ -9,6 +9,19 @@ journal: "Journal of Feline Medicine and Surgery"
 volume: "24"
 issue: "2"
 pages: "168-176"
+source_passages:
+  - evidence_type: source_supported
+    section: "论文定位"
+    quoted_passage: "这是一项小样本、前瞻性临床研究，提示甘精胰岛素 U-300（IGla-U300，Toujeo）联合低碳水饮食，可改善猫糖尿病临床症状、降低果糖胺，并在部分新诊断猫中诱导缓解。"
+    highlight: "小样本、前瞻性临床研究"
+    supports_claim_types: [insulin_glargine_u300, study_design, safety_efficacy]
+    why_it_supports: "支持把该文作为IGla-U300猫糖尿病临床证据，而不是大规模确定性证据。"
+  - evidence_type: source_supported
+    section: "一句话结论"
+    quoted_passage: "证据强度仍有限，不能直接证明其优于 U-100 甘精胰岛素、PZI 或 lente 胰岛素。"
+    highlight: "不能直接证明其优于 U-100 甘精胰岛素、PZI 或 lente 胰岛素"
+    supports_claim_types: [treatment_response, remission, evidence_limitation]
+    why_it_supports: "支持引用该研究时限制比较疗效外推。"
 extracted_date: 2026-06-25
 extraction_source: phase-0-enhanced
 ---

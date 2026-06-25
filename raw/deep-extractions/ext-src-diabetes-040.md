@@ -4,6 +4,19 @@ title: "The Cat as a Model for Human Obesity and Diabetes"
 doi: "10.1177/193229681200600306"
 url: "https://doi.org/10.1177/193229681200600306"
 year: 2012
+source_passages:
+  - evidence_type: source_supported
+    section: "肥胖与胰岛素抵抗"
+    quoted_passage: "肥胖猫存在外周组织胰岛素抵抗，但在日常状态下不一定高血糖，因为肝脏胰岛素敏感性和内源性葡萄糖生成调节仍可能维持血糖稳定。"
+    highlight: "肥胖猫存在外周组织胰岛素抵抗，但在日常状态下不一定高血糖"
+    supports_claim_types: [obesity_model, insulin_resistance, diabetes_risk]
+    why_it_supports: "支持肥胖与糖尿病风险相关但不等于糖尿病已经发生的判断。"
+  - evidence_type: source_supported
+    section: "模型解释"
+    quoted_passage: "外周胰岛素抵抗不是糖尿病发生的充分条件；当肝脏胰岛素抵抗或胰岛素分泌补偿失败时，糖尿病才更可能出现。"
+    highlight: "外周胰岛素抵抗不是糖尿病发生的充分条件"
+    supports_claim_types: [disease_mechanism, model_limitation, beta_cell_compensation]
+    why_it_supports: "帮助生成内容避免把肥胖猫模型简化为糖尿病模型。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

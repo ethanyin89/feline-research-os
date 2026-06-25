@@ -15,6 +15,19 @@ sample: "24只新诊断糖尿病猫（每组8只：glargine, PZI, lente）"
 evidence_nodes: [insulin-therapy, glargine, remission, low-carb-diet, glycemic-control, day-17-glucose]
 tensions_with: []
 supports: [early-intensive-control, remission-as-goal]
+source_passages:
+  - evidence_type: direct_source
+    section: "核心发现 / 缓解率结果"
+    quoted_passage: "第112天缓解数/总数为：Glargine 8/8，PZI 3/8，Lente 2/8；总体P=0.014。"
+    highlight: "Glargine 8/8，PZI 3/8，Lente 2/8"
+    supports_claim_types: [insulin_comparison, remission_rate, treatment_response]
+    why_it_supports: "直接支持该小样本研究中glargine组缓解率高于PZI和lente组的判断。"
+  - evidence_type: source_supported
+    section: "证据局限"
+    quoted_passage: "研究为小样本、非随机分组；所有猫均同时接受超低碳水饮食，并按严格复诊与剂量调整规则管理，不能简化为glargine单药造成100%缓解。"
+    highlight: "不能简化为glargine单药造成100%缓解"
+    supports_claim_types: [study_limitation, confounding, treatment_context]
+    why_it_supports: "支持生成内容在引用该研究时同时呈现限制条件。"
 extraction_date: "2026-06-24"
 ---
 

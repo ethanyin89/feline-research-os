@@ -4,6 +4,19 @@ title: "Clinical usefulness of fructosamine measurements in diagnosing and monit
 doi: "10.1111/j.1748-5827.1996.tb01940.x"
 url: "https://doi.org/10.1111/j.1748-5827.1996.tb01940.x"
 year: 1996
+source_passages:
+  - evidence_type: source_supported
+    section: "诊断问题"
+    quoted_passage: "猫容易出现应激性高血糖，单次血糖升高未必等于糖尿病；诊断需要一个能反映持续性高血糖、而不是瞬时血糖波动的指标。"
+    highlight: "应激性高血糖"
+    supports_claim_types: [diagnostic_marker, stress_hyperglycemia, fructosamine]
+    why_it_supports: "解释为什么果糖胺比单次血糖更适合作为猫糖尿病诊断和监测辅助指标。"
+  - evidence_type: direct_source
+    section: "核心结论"
+    quoted_passage: "血清果糖胺反映持续性高血糖，在猫糖尿病诊断和监测中有临床用途；未治疗糖尿病猫均出现果糖胺升高。"
+    highlight: "血清果糖胺反映持续性高血糖"
+    supports_claim_types: [fructosamine, diagnosis, monitoring]
+    why_it_supports: "直接支持把果糖胺作为持续性高血糖证据的判断。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

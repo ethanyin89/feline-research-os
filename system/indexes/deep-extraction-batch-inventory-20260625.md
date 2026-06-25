@@ -26,22 +26,23 @@ Current repository outputs are therefore classified separately:
 - `worksheet`: a structured abstract or deep-extraction worksheet exists under `system/indexes/`.
 - `gold paper card`: a paper card exists under `outputs/gold_standards/diabetes_model_endpoints/paper_cards/`.
 - `source-card linked`: the source card has `local_assets` pointing to the deep-extraction artifact.
-- `claim-level trace ready`: the source has at least one `source_passages` entry that can feed UI evidence trace; full batch coverage still requires a later pass.
+- `initial passage-library coverage`: the source has at least one `source_passages` entry that can feed UI evidence trace.
+- `full paragraph-level trace ready`: every key generated judgment has been audited against an original-source paragraph. This remains a later pass.
 
 ## Batch 1: User-Defined First Batch, 8 Papers
 
-Status summary: all 8 now have linked `raw/deep-extractions/` artifacts. Seven also remain represented through the diabetes model endpoint gold-standard package. None should be considered fully claim-level trace ready until source passages are normalized.
+Status summary: all 8 now have linked `raw/deep-extractions/` artifacts and initial `source_passages` coverage. Seven also remain represented through the diabetes model endpoint gold-standard package. None should be considered fully paragraph-level trace ready until each generated judgment is audited against the original source paragraph.
 
 | # | Source | Title | Current repository representation | Current gap |
 |---|---|---|---|---|
 | 1 | `src-diabetes-025` | Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling in Peripheral Tissues | `raw/deep-extractions/ext-src-diabetes-025.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand trace coverage |
-| 2 | `src-diabetes-003` | Feline Models of Type 2 Diabetes Mellitus | `raw/deep-extractions/ext-src-diabetes-003.md`; gold paper card `feline_models_t2dm_henson.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 3 | `src-diabetes-040` / duplicate newer card `src-diabetes-121` | The Cat as a Model for Human Obesity and Diabetes | `raw/deep-extractions/ext-src-diabetes-040.md`; gold paper card `cat_as_model_for_human_obesity.md`; source card is `full/deep_extracted`; `local_assets` linked | duplicate source IDs and passage-level trace need normalization |
-| 4 | `src-diabetes-055` | Insulin sensitivity in normal and diabetic cats | `raw/deep-extractions/ext-src-diabetes-055.md`; gold paper card `insulin_sensitivity_normal_diabetic.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 5 | `src-diabetes-039` | Clinical usefulness of fructosamine measurements in diagnosing and monitoring feline diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-039.md`; gold paper card `clinical_usefulness_fructosamine.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 6 | `src-diabetes-069` | Point-of-care beta-hydroxybutyrate measurement for the diagnosis of feline diabetic ketoacidaemia | `raw/deep-extractions/ext-src-diabetes-069.md`; gold paper card `poc_bhb_dka.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 7 | `src-diabetes-113` | Evaluation of routine hematology profile results and fructosamine, thyroxine, insulin, and proinsulin concentrations in lean, overweight, obese, and diabetic cats | `raw/deep-extractions/ext-src-diabetes-113.md`; gold paper card `eval_routine_hematology_fructosamine.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 8 | `src-diabetes-086` | Routine kidney variables, glomerular filtration rate and urinary cystatin C in cats with diabetes mellitus, cats with chronic kidney disease and healthy cats | `raw/deep-extractions/ext-src-diabetes-086.md`; gold paper card `routine_kidney_variables.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
+| 2 | `src-diabetes-003` | Feline Models of Type 2 Diabetes Mellitus | `raw/deep-extractions/ext-src-diabetes-003.md`; gold paper card `feline_models_t2dm_henson.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 3 | `src-diabetes-040` / duplicate newer card `src-diabetes-121` | The Cat as a Model for Human Obesity and Diabetes | `raw/deep-extractions/ext-src-diabetes-040.md`; gold paper card `cat_as_model_for_human_obesity.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; duplicate source IDs still need normalization |
+| 4 | `src-diabetes-055` | Insulin sensitivity in normal and diabetic cats | `raw/deep-extractions/ext-src-diabetes-055.md`; gold paper card `insulin_sensitivity_normal_diabetic.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 5 | `src-diabetes-039` | Clinical usefulness of fructosamine measurements in diagnosing and monitoring feline diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-039.md`; gold paper card `clinical_usefulness_fructosamine.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 6 | `src-diabetes-069` | Point-of-care beta-hydroxybutyrate measurement for the diagnosis of feline diabetic ketoacidaemia | `raw/deep-extractions/ext-src-diabetes-069.md`; gold paper card `poc_bhb_dka.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 7 | `src-diabetes-113` | Evaluation of routine hematology profile results and fructosamine, thyroxine, insulin, and proinsulin concentrations in lean, overweight, obese, and diabetic cats | `raw/deep-extractions/ext-src-diabetes-113.md`; gold paper card `eval_routine_hematology_fructosamine.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 8 | `src-diabetes-086` | Routine kidney variables, glomerular filtration rate and urinary cystatin C in cats with diabetes mellitus, cats with chronic kidney disease and healthy cats | `raw/deep-extractions/ext-src-diabetes-086.md`; gold paper card `routine_kidney_variables.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
 
 Batch 1 supporting package:
 
@@ -52,19 +53,19 @@ Batch 1 supporting package:
 
 ## Batch 2: User-Defined Second Batch, 9 Papers
 
-Status summary: all 9 now have linked `raw/deep-extractions/` artifacts. The prior gap for the two guideline papers and remission systematic review has been normalized.
+Status summary: all 9 now have linked `raw/deep-extractions/` artifacts and initial `source_passages` coverage. The prior gap for the two guideline papers and remission systematic review has been normalized.
 
 | # | Source | Title | Current repository representation | Current gap |
 |---|---|---|---|---|
 | 1 | `src-diabetes-050` | ISFM Consensus Guidelines on the Practical Management of Diabetes Mellitus in Cats | `raw/deep-extractions/ext-src-diabetes-050.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand trace coverage |
-| 2 | `src-diabetes-087` | 2018 AAHA Diabetes Management Guidelines for Dogs and Cats | `raw/deep-extractions/ext-src-diabetes-087.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 3 | `src-diabetes-007` | Systematic review of feline diabetic remission: Separating fact from opinion | `raw/deep-extractions/ext-src-diabetes-007.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 4 | `src-diabetes-054` | Predictors of clinical remission in cats with diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-zini-2010-remission-predictors.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 5 | `src-diabetes-091` | Survival, remission, and quality of life in diabetic cats | `raw/deep-extractions/ext-src-diabetes-rothlin-2023-survival-qol.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 6 | `src-diabetes-111` | Treatment of newly diagnosed diabetic cats with glargine insulin improves glycaemic control and results in higher probability of remission than protamine zinc and lente insulins | `raw/deep-extractions/ext-src-diabetes-marshall-2009-glargine.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
-| 7 | `src-diabetes-024` | Insulin glargine 300 U/ml for the treatment of feline diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-024.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
+| 2 | `src-diabetes-087` | 2018 AAHA Diabetes Management Guidelines for Dogs and Cats | `raw/deep-extractions/ext-src-diabetes-087.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 3 | `src-diabetes-007` | Systematic review of feline diabetic remission: Separating fact from opinion | `raw/deep-extractions/ext-src-diabetes-007.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 4 | `src-diabetes-054` | Predictors of clinical remission in cats with diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-zini-2010-remission-predictors.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 5 | `src-diabetes-091` | Survival, remission, and quality of life in diabetic cats | `raw/deep-extractions/ext-src-diabetes-rothlin-2023-survival-qol.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 6 | `src-diabetes-111` | Treatment of newly diagnosed diabetic cats with glargine insulin improves glycaemic control and results in higher probability of remission than protamine zinc and lente insulins | `raw/deep-extractions/ext-src-diabetes-marshall-2009-glargine.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
+| 7 | `src-diabetes-024` | Insulin glargine 300 U/ml for the treatment of feline diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-024.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
 | 8 | `src-diabetes-035` | Velagliflozin, a once-daily, liquid, oral SGLT2 inhibitor, is effective as a stand-alone therapy for feline diabetes mellitus: the SENSATION study | `raw/deep-extractions/ext-src-diabetes-035.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand trace coverage |
-| 9 | `src-diabetes-011` | SGLT2 inhibitor use in the management of feline diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-011.md`; source card is `full/deep_extracted`; `local_assets` linked | needs passage-level trace extraction |
+| 9 | `src-diabetes-011` | SGLT2 inhibitor use in the management of feline diabetes mellitus | `raw/deep-extractions/ext-src-diabetes-011.md`; source card is `full/deep_extracted`; `local_assets` linked | initial `source_passages` added; expand and audit original-source trace coverage |
 
 ## Corrected Progress View
 
@@ -74,9 +75,10 @@ Across the user's 17 named materials:
 - Raw deep-extraction artifact exists: 17/17.
 - Gold-standard paper card exists: 7/17, all from Batch 1 except Patra 2024.
 - Source card currently linked to a raw artifact: 17/17.
-- Claim-level source-passage trace ready: 3/17 with initial passage-library coverage (`src-diabetes-025`, `src-diabetes-035`, `src-diabetes-050`).
+- Initial passage-library coverage: 17/17.
+- Full paragraph-level trace ready: not complete; still requires a judgment-by-judgment audit against original-source paragraphs.
 
-This means the remaining work is no longer "deep extract or not." The real remaining work is expanding passage-level traceability from the 3-source pilot to all 17 materials.
+This means the remaining work is no longer "deep extract or not." The real remaining work is expanding initial passage entries into full original-source paragraph traceability for every key generated judgment.
 
 ## Recommended Next Pass
 

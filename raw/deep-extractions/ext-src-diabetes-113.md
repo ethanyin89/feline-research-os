@@ -4,6 +4,19 @@ title: "Evaluation of routine hematology profile results and fructosamine, thyro
 doi: "10.2460/javma.243.9.1302"
 url: "https://doi.org/10.2460/javma.243.9.1302"
 year: 2013
+source_passages:
+  - evidence_type: direct_source
+    section: "样本与设计"
+    quoted_passage: "研究纳入117只客户拥有猫，来自9家猫科诊所；包括76只非糖尿病猫（25只瘦、27只超重、24只肥胖）和41只糖尿病猫（21只新诊断未治疗、20只已治疗）。"
+    highlight: "117只客户拥有猫"
+    supports_claim_types: [study_design, obesity_diabetes_comparison, sample_description]
+    why_it_supports: "说明该研究比较了瘦、超重、肥胖和糖尿病猫的常规实验室指标。"
+  - evidence_type: source_supported
+    section: "研究问题"
+    quoted_passage: "研究关注常规血液学、生化、果糖胺、T4、胰岛素、前胰岛素和尿检能否帮助识别肥胖猫或糖尿病猫的代谢状态。"
+    highlight: "能否帮助识别肥胖猫或糖尿病猫的代谢状态"
+    supports_claim_types: [risk_marker, routine_laboratory, feline_diabetes]
+    why_it_supports: "支持把该文用于评估常规检测指标对猫糖尿病风险识别的价值。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

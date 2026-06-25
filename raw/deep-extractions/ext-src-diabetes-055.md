@@ -4,6 +4,19 @@ title: "Insulin sensitivity in normal and diabetic cats"
 doi: "10.1016/s1098-612x(99)90067-0"
 url: "https://doi.org/10.1016/s1098-612x(99)90067-0"
 year: 1999
+source_passages:
+  - evidence_type: source_supported
+    section: "研究问题"
+    quoted_passage: "仅比较正常猫与糖尿病猫的胰岛素/葡萄糖浓度只能提示抵抗，不能构成严格证明；要回答糖尿病猫是否真正存在胰岛素抵抗，需要可量化的胰岛素敏感性方法。"
+    highlight: "需要可量化的胰岛素敏感性方法"
+    supports_claim_types: [insulin_sensitivity, method_validity, model_endpoint]
+    why_it_supports: "支持把胰岛素敏感性作为模型评估终点，而不是只看血糖或胰岛素浓度。"
+  - evidence_type: direct_source
+    section: "方法选择"
+    quoted_passage: "研究使用 insulin-modified FSIVGTT 加 minimal model 估计胰岛素敏感性；在正常猫中，minimal model 与 euglycemic clamp 的相关性为 r=0.93。"
+    highlight: "minimal model 与 euglycemic clamp 的相关性为 r=0.93"
+    supports_claim_types: [minimal_model, fsivgtt, assay_validation]
+    why_it_supports: "说明该研究采用了可与金标准相参照的胰岛素敏感性测量方法。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

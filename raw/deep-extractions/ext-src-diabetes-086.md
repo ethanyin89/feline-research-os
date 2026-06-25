@@ -4,6 +4,19 @@ title: "Routine kidney variables, glomerular filtration rate and urinary cystati
 doi: "10.1177/1098612x14559788"
 url: "https://doi.org/10.1177/1098612x14559788"
 year: 2015
+source_passages:
+  - evidence_type: source_supported
+    section: "研究问题"
+    quoted_passage: "研究检验糖尿病猫是否会出现类似人类糖尿病肾病的肾损伤信号，评价指标包括GFR、蛋白尿、尿浓缩能力、尿胱抑素C、肌酐和尿素。"
+    highlight: "GFR、蛋白尿、尿浓缩能力、尿胱抑素C、肌酐和尿素"
+    supports_claim_types: [renal_endpoint, diabetic_nephropathy, model_limitation]
+    why_it_supports: "说明该研究的核心价值在于比较糖尿病猫、CKD猫和健康猫的肾脏终点。"
+  - evidence_type: analysis_inference
+    section: "模型边界"
+    quoted_passage: "猫可作为糖尿病模型，不等于自动可作为糖尿病肾病模型；是否存在肾脏损害需要独立指标验证。"
+    highlight: "不等于自动可作为糖尿病肾病模型"
+    supports_claim_types: [model_boundary, renal_risk, endpoint_selection]
+    why_it_supports: "这是从研究设计推出的模型边界判断，提醒生成内容区分糖尿病模型和糖尿病肾病模型。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

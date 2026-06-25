@@ -4,6 +4,19 @@ title: "Systematic review of feline diabetic remission: Separating fact from opi
 doi: "10.1016/j.tvjl.2014.08.014"
 url: "https://www.sciencedirect.com/science/article/abs/pii/S1090023314003359"
 year: 2014
+source_passages:
+  - evidence_type: direct_source
+    section: "研究方法 / 系统综述框架"
+    quoted_passage: "文章遵循 Cochrane Collaboration 指南，由 5 名小动物内科专家进行文献筛选、偏倚风险评估和证据分级。"
+    highlight: "遵循 Cochrane Collaboration 指南"
+    supports_claim_types: [systematic_review_method, evidence_grading]
+    why_it_supports: "说明该文不是叙述性意见，而是按系统综述方法评估猫糖尿病缓解证据。"
+  - evidence_type: source_supported
+    section: "纳入研究与证据质量"
+    quoted_passage: "最终纳入 22 项研究：14 项药物研究，4 项饮食研究，9 项诊断测试研究，5 项猫个体特征研究；总体证据质量为中等到较差。"
+    highlight: "总体证据质量为中等到较差"
+    supports_claim_types: [evidence_quality, remission_uncertainty, literature_scope]
+    why_it_supports: "支持对猫糖尿病缓解预测和干预证据保持谨慎的结论。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

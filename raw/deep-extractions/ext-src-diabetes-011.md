@@ -6,6 +6,19 @@ url: "https://doi.org/10.1111/jvp.13466"
 year: 2024
 authors: ["Audrey K. Cook", "Ellen Behrend"]
 journal: "Journal of Veterinary Pharmacology and Therapeutics"
+source_passages:
+  - evidence_type: source_supported
+    section: "Phase 0 / 段落单元 1"
+    quoted_passage: "SGLT2 抑制剂的本质不是刺激胰岛素分泌，而是通过抑制近端肾小管葡萄糖重吸收，让葡萄糖随尿排出，从而降低血糖。"
+    highlight: "抑制近端肾小管葡萄糖重吸收"
+    supports_claim_types: [sglt2_mechanism, glucose_control, pharmacology]
+    why_it_supports: "直接支持SGLT2抑制剂降糖机制的说明。"
+  - evidence_type: source_supported
+    section: "Phase 0 / 段落单元 1"
+    quoted_passage: "SGLT2 抑制剂能否安全用于猫，取决于猫是否仍有足够内源性胰岛素来防止酮症。"
+    highlight: "足够内源性胰岛素来防止酮症"
+    supports_claim_types: [safety_risk, ketosis, euglycemic_dka]
+    why_it_supports: "支持在生成治疗建议或证据摘要时同时呈现SGLT2药物的酮症风险。"
 extracted_date: 2026-06-25
 extraction_source: phase-0-enhanced
 ---

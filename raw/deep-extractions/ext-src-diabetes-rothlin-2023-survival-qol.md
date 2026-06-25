@@ -15,6 +15,19 @@ sample: "477只糖尿病猫（瑞典保险数据库）"
 evidence_nodes: [remission, relapse, survival, quality-of-life, owner-burden, low-carb-diet, wet-food]
 tensions_with: []
 supports: [low-carb-diet, remission-as-goal, owner-centered-care]
+source_passages:
+  - evidence_type: direct_source
+    section: "核心发现 / 生存结局"
+    quoted_passage: "诊断后4周内生存比例为85% (405/477存活)，超过1年为63% (299/477)，超过3年为25% (118/477)。"
+    highlight: "诊断后4周内生存比例为85% (405/477存活)"
+    supports_claim_types: [survival, real_world_outcome, cohort_result]
+    why_it_supports: "直接支持猫糖尿病真实世界生存结局的判断。"
+  - evidence_type: direct_source
+    section: "核心发现 / 缓解与复发"
+    quoted_passage: "缓解率为29% (118/405存活超过4周的猫)，复发率为38% (45/118缓解猫)，无复发缓解为62% (73/118)。"
+    highlight: "复发率为38% (45/118缓解猫)"
+    supports_claim_types: [remission, relapse, follow_up]
+    why_it_supports: "支持把缓解后复发作为糖尿病猫长期管理中的关键风险。"
 extraction_date: "2026-06-24"
 ---
 

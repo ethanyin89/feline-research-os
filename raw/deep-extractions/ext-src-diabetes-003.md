@@ -4,6 +4,19 @@ title: "Feline Models of Type 2 Diabetes Mellitus"
 doi: "10.1093/ilar.47.3.234"
 url: "https://academic.oup.com/ilarjournal/article/47/3/234/669562"
 year: 2006
+source_passages:
+  - evidence_type: source_supported
+    section: "论证主线 / 段落单元1"
+    quoted_passage: "猫糖尿病在临床、病理和生理层面都高度类似人2型糖尿病，因此可以作为研究T2DM自然发生、β细胞丢失和胰岛淀粉样变的较好模型。"
+    highlight: "猫糖尿病在临床、病理和生理层面都高度类似人2型糖尿病"
+    supports_claim_types: [model_similarity, comparative_model, beta_cell_loss]
+    why_it_supports: "直接支持将自发性猫糖尿病作为人2型糖尿病大动物模型的判断。"
+  - evidence_type: direct_source
+    section: "模型相似性对照"
+    quoted_passage: "猫糖尿病多见于 6 岁以上，胰岛淀粉样变 >80%，β细胞丢失约 50%；人T2DM胰岛淀粉样变 >90%，β细胞丢失约 40–60%。"
+    highlight: "胰岛淀粉样变 >80%，β细胞丢失约 50%"
+    supports_claim_types: [comparative_pathology, islet_amyloid, beta_cell_loss]
+    why_it_supports: "给出猫与人T2DM在胰岛病理上的数量级对照。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

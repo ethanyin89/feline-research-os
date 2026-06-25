@@ -4,6 +4,19 @@ title: "2018 AAHA Diabetes Management Guidelines for Dogs and Cats"
 doi: "10.5326/jaaha-ms-6822"
 url: "https://doi.org/10.5326/jaaha-ms-6822"
 year: 2018
+source_passages:
+  - evidence_type: source_supported
+    section: "指南目标"
+    quoted_passage: "AAHA指南把糖尿病管理目标表述为减少临床症状，同时避免低血糖；因此治疗成功不能只看血糖下降。"
+    highlight: "减少临床症状，同时避免低血糖"
+    supports_claim_types: [guideline_goal, glycemic_control, safety]
+    why_it_supports: "直接支持把安全性和临床症状纳入糖尿病疗效评价的判断。"
+  - evidence_type: source_supported
+    section: "猫糖尿病缓解"
+    quoted_passage: "文献中猫糖尿病缓解率报道范围为15%到100%；缓解可以作为目标，但不能视为所有猫都会达到的固定结局。"
+    highlight: "缓解率报道范围为15%到100%"
+    supports_claim_types: [remission, guideline_context, outcome_variability]
+    why_it_supports: "支持对缓解率进行分层解释，避免把单项研究结果外推为普遍水平。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

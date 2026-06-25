@@ -4,6 +4,19 @@ title: "Point-of-care beta-hydroxybutyrate measurement for the diagnosis of feli
 doi: "10.1111/j.1748-5827.2012.01204.x"
 url: "https://doi.org/10.1111/j.1748-5827.2012.01204.x"
 year: 2012
+source_passages:
+  - evidence_type: source_supported
+    section: "诊断问题"
+    quoted_passage: "传统尿酮试纸主要检测乙酰乙酸，而糖尿病酮症酸中毒中最重要的酮体是β-羟丁酸；因此尿酮可能不能充分反映DKA状态。"
+    highlight: "最重要的酮体是β-羟丁酸"
+    supports_claim_types: [dka_diagnosis, ketone_marker, beta_hydroxybutyrate]
+    why_it_supports: "支持将血β-羟丁酸作为猫DKA诊断关键指标的判断。"
+  - evidence_type: source_supported
+    section: "研究目的"
+    quoted_passage: "该研究验证商业即时检测仪 Precision Xtra 是否可用于糖尿病猫血β-羟丁酸测定，并评估其诊断DKA的临床用途。"
+    highlight: "Precision Xtra 是否可用于糖尿病猫血β-羟丁酸测定"
+    supports_claim_types: [point_of_care_testing, diagnostic_validation]
+    why_it_supports: "支持把该文归入猫糖尿病诊断工具和酮症评估证据。"
 extracted_date: 2026-06-25
 extraction_source: desktop-deep-extract
 ---

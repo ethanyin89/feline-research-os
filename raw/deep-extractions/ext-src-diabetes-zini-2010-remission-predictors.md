@@ -15,6 +15,19 @@ sample: "90只新诊断糖尿病猫"
 evidence_nodes: [remission, remission-predictors, age, cholesterol, body-weight, blood-glucose, beta-cell-function]
 tensions_with: []
 supports: [baseline-stratification, early-remission-window]
+source_passages:
+  - evidence_type: direct_source
+    section: "核心发现 / 缓解率与时间分布"
+    quoted_passage: "总缓解率为50% (45/90)，中位缓解时间为48天，范围8-216天；超过6个月后才缓解的猫仅1只。"
+    highlight: "总缓解率为50% (45/90)"
+    supports_claim_types: [remission_rate, remission_timing, clinical_outcome]
+    why_it_supports: "直接支持该队列中猫糖尿病缓解率和早期缓解窗口的判断。"
+  - evidence_type: direct_source
+    section: "核心发现 / 缓解预测因子"
+    quoted_passage: "年龄越大，缓解概率越高；血清胆固醇越高，缓解概率越低。体重越高，缓解持续越长；入院血糖越高，缓解持续越短。"
+    highlight: "年龄越大，缓解概率越高；血清胆固醇越高，缓解概率越低"
+    supports_claim_types: [remission_predictor, baseline_stratification, prognosis]
+    why_it_supports: "支持把年龄、胆固醇、体重和入院血糖作为缓解分析中的基线协变量。"
 extraction_date: "2026-06-24"
 ---
 
