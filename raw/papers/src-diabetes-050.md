@@ -11,22 +11,22 @@ jurisdictions: []
 evidence_level: guideline
 year: 2015
 status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
+extraction_depth: full
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [diabetes, isfm, consensus, guidelines, practical, management]
 links:
   doi: "10.1177/1098612x15571880"
   url: "https://doi.org/10.1177/1098612x15571880"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-050.md"]
 evidence_policy:
   quoted_fact:
     - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
     - "Crossref container: Journal of Feline Medicine and Surgery; year: 2015."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "This card has a linked deep-extraction artifact and can support source-grounded research claims when the artifact is consulted."
+    - "Reader-facing claims must cite the linked deep extraction or a specific source passage; do not rely on metadata alone."
   llm_inference:
     - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
 ---
@@ -35,7 +35,7 @@ evidence_policy:
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This source card now links to a deep-extraction artifact imported from the Desktop batch. The original source card metadata remains for provenance; reader-facing claims should be grounded in the linked asset or source-passage trace.
 
 ## Source Check, 2026-05-14
 
@@ -49,7 +49,7 @@ Crossref metadata was checked as a repeatable second-pass intake step.
 Use boundary:
 
 - This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
+- Reader-facing claims must cite the linked deep extraction or a specific source passage; do not rely on metadata alone.
 
 Abstract lead for scope check only: Practical relevance: Diabetes mellitus (DM) is a common endocrinopathy in cats that appears to be increasing in prevalence. The prognosis for affected cats can be good when the di...
 
@@ -66,8 +66,8 @@ The safe current use is source ownership:
 
 - preserve the title and locator
 - prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+- link the source card to the imported deep-extraction artifact
+- require reader-facing claims to cite specific extracted passages
 
 ## Key Findings
 
@@ -78,38 +78,38 @@ The safe current use is source ownership:
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- This source card has been normalized after Desktop deep-extract import; use local_assets for the deep extraction.
+- It may support research claims only through the linked deep-extraction artifact or future passage-level trace.
 
 ### llm_inference
 
-- The title suggests a possible `diabetes` role, but the actual claim-fit requires abstract or full-text review.
+- The imported deep-extraction artifact establishes diabetes claim-fit; remaining uncertainty is at the claim-level passage trace, not source identity.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+- source-grounded retrieval
+- disease-module synthesis with explicit evidence labels
+- claim-level trace construction
 
-Must not control yet:
+Must not control yet without passage trace:
 
 - reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
+- unsupported numeric claims
+- comparative ranking without cited passages
+- guideline-like recommendations without source-level boundaries
+- mechanism closure beyond the imported evidence
 
 ## Image Asset TODO
 
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
+- figures to capture: review the linked deep-extraction artifact and original source
+- why these matter: tables or figures should be tied to specific source passages before display
 
 ## Open Follow-Up Questions
 
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the diabetes module?
+- Which extracted passages should become claim-level evidence trace entries?
+- Which claims are reusable only with direct passage support?
 - Does this source deserve deep extraction, or should it remain queue context?
 - Are there tables or figures that change the module structure?
 

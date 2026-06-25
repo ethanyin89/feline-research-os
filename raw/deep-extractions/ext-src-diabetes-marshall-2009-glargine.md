@@ -1,7 +1,7 @@
 ---
 id: ext-src-diabetes-marshall-2009-glargine
 tier: deep
-source_id: src-diabetes-marshall-2009
+source_id: src-diabetes-111
 title: "Treatment of newly diagnosed diabetic cats with glargine insulin improves glycaemic control and results in higher probability of remission than protamine zinc and lente insulins"
 title_zh: "新诊断糖尿病猫使用甘精胰岛素治疗可改善血糖控制，缓解概率高于鱼精蛋白锌胰岛素和lente胰岛素"
 journal: "J Feline Med Surg"

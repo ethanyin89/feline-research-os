@@ -12,7 +12,7 @@ evidence_level: original-study
 year: 2024
 status: deep_extracted
 extraction_depth: full
-verification_status: abstract_weighted
+verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable
 tags: [diabetes, velagliflozin, SGLT2, insulin, glycemic, oral, SENSATION, DKA]

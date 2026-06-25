@@ -1,7 +1,7 @@
 ---
 id: ext-src-diabetes-rothlin-2023-survival-qol
 tier: deep
-source_id: src-diabetes-rothlin-2023
+source_id: src-diabetes-091
 title: "Survival, remission, and quality of life in diabetic cats"
 title_zh: "糖尿病猫的生存、缓解与生活质量"
 journal: "J Vet Intern Med"

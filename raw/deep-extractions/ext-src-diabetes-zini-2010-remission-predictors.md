@@ -1,7 +1,7 @@
 ---
 id: ext-src-diabetes-zini-2010-remission-predictors
 tier: deep
-source_id: src-diabetes-zini-2010
+source_id: src-diabetes-054
 title: "Predictors of clinical remission in cats with diabetes mellitus"
 title_zh: "猫糖尿病临床缓解的预测因子"
 journal: "J Vet Intern Med"

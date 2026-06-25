@@ -19,7 +19,7 @@ tags: [diabetes, remission, systematic-review, evidence-boundary]
 links:
   doi: "10.1016/j.tvjl.2014.08.014"
   url: "https://www.sciencedirect.com/science/article/abs/pii/S1090023314003359"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-007.md"]
 evidence_policy:
   quoted_fact:
     - "Systematic review included 22 studies on feline diabetic remission."

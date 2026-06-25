@@ -19,7 +19,7 @@ tags: [diabetes, model, type-2-diabetes, comparative]
 links:
   doi: "10.1093/ilar.47.3.234"
   url: "https://academic.oup.com/ilarjournal/article/47/3/234/669562"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-003.md"]
 evidence_policy:
   quoted_fact:
     - "Feline diabetes mellitus closely resembles human type 2 diabetes mellitus."
