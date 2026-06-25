@@ -41,6 +41,8 @@ Status: complete in `raw/deep-extractions/`.
 
 The 2026-06-24 handoff recorded Batch 2 as 3/6 complete, but later commit `f69c486` completed the remaining 3 files. Actual status is 6/6.
 
+Important distinction: the files exist, but three legacy-slug files still need source-card normalization. `src-diabetes-054`, `src-diabetes-091`, and `src-diabetes-111` remain marked as `partial` with empty `local_assets` even though their corresponding deep-extraction files exist under historical slugs.
+
 | Source | Title | Deep extraction artifact | Status |
 |---|---|---|---|
 | `src-diabetes-111` / legacy slug `src-diabetes-marshall-2009` | Treatment of newly diagnosed diabetic cats with glargine insulin improves glycaemic control and results in higher probability of remission than protamine zinc and lente insulins | `raw/deep-extractions/ext-src-diabetes-marshall-2009-glargine.md` | complete |
@@ -69,6 +71,17 @@ These Desktop deep-extract drafts exist, but current source cards do not yet poi
 
 The remission systematic review (`src-diabetes-007`) is already marked `extraction_depth: full` and `verification_status: deep_extracted`, but `local_assets: []`. It has a repository worksheet at `system/indexes/src-diabetes-007-deep-extraction-round1.md`; decide whether to also promote the Desktop draft into `raw/deep-extractions/` for consistency.
 
+## Source-Card Normalization Gaps
+
+These are not missing content, but they affect whether downstream retrieval can find the deep-extraction asset directly from the source card:
+
+| Source | Existing artifact | Current issue | Suggested next action |
+|---|---|---|---|
+| `src-diabetes-054` | `raw/deep-extractions/ext-src-diabetes-zini-2010-remission-predictors.md` | raw file uses legacy `source_id: src-diabetes-zini-2010`; source card has no `local_assets` | align source ID or add local asset reference |
+| `src-diabetes-091` | `raw/deep-extractions/ext-src-diabetes-rothlin-2023-survival-qol.md` | raw file uses legacy `source_id: src-diabetes-rothlin-2023`; source card has no `local_assets` | align source ID or add local asset reference |
+| `src-diabetes-111` | `raw/deep-extractions/ext-src-diabetes-marshall-2009-glargine.md` | raw file uses legacy `source_id: src-diabetes-marshall-2009`; source card has no `local_assets` | align source ID or add local asset reference |
+| `src-diabetes-035` | `raw/deep-extractions/ext-src-diabetes-035.md` | source card has `local_assets`, but still says `verification_status: abstract_weighted` | update verification status if the extraction is accepted as deep-extracted |
+
 ## Content-Layer Recommendation
 
 Use a narrow normalization pass before creating new synthesis:
@@ -76,4 +89,5 @@ Use a narrow normalization pass before creating new synthesis:
 1. Promote `src-diabetes-050` and `src-diabetes-087` from Desktop drafts into `raw/deep-extractions/`.
 2. Update both source cards to `extraction_depth: full`, `verification_status: deep_extracted`, and add `local_assets`.
 3. Decide whether `src-diabetes-007` should get a `raw/deep-extractions/` mirror or remain represented by its existing worksheet.
-4. Remove or ignore duplicate slug artifacts only after checking references; do not delete them during the normalization pass.
+4. Normalize `src-diabetes-054`, `src-diabetes-091`, `src-diabetes-111`, and `src-diabetes-035` source-card metadata so the retrieval layer can follow deep-extraction assets consistently.
+5. Remove or ignore duplicate slug artifacts only after checking references; do not delete them during the normalization pass.
