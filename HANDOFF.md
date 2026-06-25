@@ -2,12 +2,13 @@
 
 If you are a new model taking over this repo because of token loss, model switch, or usage limit, do this first.
 
-## Current Override, 2026-06-22
+## Current Override, 2026-06-25
 
 The current production-facing branch is `main`.
 
 Read this current handoff first:
 
+- [HANDOFF-2026-06-25-SOURCE-GROUNDED-RESEARCH-WORKSPACE.md](HANDOFF-2026-06-25-SOURCE-GROUNDED-RESEARCH-WORKSPACE.md) — Homepage radical simplification + conclusion-first results + evidence trace infrastructure
 - [deep-extraction-v3-handoff-20260622-next.md](file:///Users/jiawei/Desktop/insclaude/feline-research-os/system/handoffs/deep-extraction-v3-handoff-20260622-next.md)
 - [HANDOFF-2026-06-21-CONSOLIDATED.md](HANDOFF-2026-06-21-CONSOLIDATED.md)
 - [HANDOFF-2026-06-20-DEEP-EXTRACTION-COMPLETE.md](HANDOFF-2026-06-20-DEEP-EXTRACTION-COMPLETE.md)
@@ -15,12 +16,14 @@ Read this current handoff first:
 
 Current shipped state:
 
+- **Homepage simplified:** "今天想研究什么？" replaces verbose "证据研究工作台". Only title + input + modes + examples on main area.
+- **Result page conclusion-first:** Direct conclusion displayed first, details in expanders (not 5-tab layout).
+- **Evidence trace infrastructure:** EvidenceTrace dataclass for claim-level source passage tracing.
 - Deep extraction resolved for 5 key placeholder sources (`src-ckd-128`, `src-hcm-169`, `src-fip-070`, `src-diabetes-035`, `src-obesity-039`) with complete abstracts, methods summaries, clinical findings, and safety boundaries.
 - Research Mode output is Chinese-first with an English report preserved.
 - Reader-facing research recommendations should not expose internal `src-*` IDs.
 - Title-only / placeholder records are excluded from main recommendations and routed to `system/indexes/research-depth-queue.*`.
-- The Streamlit sidebar now exposes `release: research-ui-v2-depth-queue-20260619` and the runtime short commit so public screenshots can prove which build is running.
-- If the public page still appears unchanged, first check Streamlit Cloud rebuild/reboot status; local and remote `main` were confirmed at `c318ef6`.
+- Current HEAD is `47b3428` on `main`.
 
 
 ## Authoritative Current State
