@@ -11,7 +11,7 @@ jurisdictions: [United States]
 evidence_level: original-study
 year: 2024
 status: deep_extracted
-extraction_depth: partial
+extraction_depth: full
 verification_status: abstract_weighted
 decision_grade: no
 language_qa_status: not_applicable
@@ -19,7 +19,7 @@ tags: [diabetes, velagliflozin, SGLT2, insulin, glycemic, oral, SENSATION, DKA]
 links:
   doi: "10.2460/javma.24.03.0174"
   url: "https://doi.org/10.2460/javma.24.03.0174"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-035.md"]
 abstract: |
   The SENSATION study was a prospective, multicenter clinical field trial designed to evaluate the safety and effectiveness of velagliflozin, a once-daily, liquid, oral SGLT2 inhibitor, as a stand-alone therapy for feline diabetes mellitus. The trial enrolled 252 client-owned diabetic cats: 85% were newly diagnosed (insulin-naïve) and 15% were previously treated with insulin. By Day 180, 81% of the cats remaining in the study achieved glycemic control based on blood glucose and/or fructosamine levels. Significant improvements in clinical signs were noted: polyuria resolved/improved in 88.6% and polydipsia in 87.7% of cats. Diabetic neuropathy also improved. Ketonuria developed in 13.9% of cats, with diabetic ketoacidosis (DKA) occurring in 7.1% overall. DKA risk was significantly higher in insulin-experienced cats (18.4%) compared to insulin-naïve cats (5.1%). No clinical hypoglycemia occurred. Velagliflozin represents an effective, injection-free first-line alternative to traditional insulin therapy in newly diagnosed cats, but requires vigilance for DKA monitoring.
 methods_summary: "Prospective, multicenter clinical field trial evaluating velagliflozin in 252 client-owned diabetic cats (85% insulin-naïve, 15% insulin-experienced). Once-daily oral velagliflozin (SENVELGO) was administered. Efficacy (glycemic reference ranges, clinical sign resolution) and safety (ketonuria, DKA incidence, hypoglycemia) were evaluated over 180 days."

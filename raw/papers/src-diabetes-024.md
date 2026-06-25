@@ -19,7 +19,7 @@ tags: [diabetes, insulin, glargine, treatment]
 links:
   doi: "10.1177/1098612X211013018"
   url: "https://journals.sagepub.com/doi/10.1177/1098612X211013018"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-024.md"]
 evidence_policy:
   quoted_fact:
     - "Crossref abstract reports 13 client-owned diabetic cats completed the prospective clinical trial."

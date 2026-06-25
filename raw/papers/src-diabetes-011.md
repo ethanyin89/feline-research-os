@@ -19,7 +19,7 @@ tags: [diabetes, SGLT2, treatment, frontier]
 links:
   doi: "10.1111/jvp.13466"
   url: "https://doi.org/10.1111/jvp.13466"
-  local_assets: []
+  local_assets: ["../../raw/deep-extractions/ext-src-diabetes-011.md"]
 evidence_policy:
   quoted_fact:
     - "Bexagliflozin (Bexacat) and velagliflozin (Senvelgo) are FDA-approved SGLT2 inhibitors for feline diabetes."
