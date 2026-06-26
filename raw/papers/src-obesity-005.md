@@ -19,37 +19,36 @@ tags: [obesity, prevention, target-population, risk-factors, review]
 links:
   doi: "10.1177/1098612X241228042"
   url: "https://doi.org/10.1177/1098612X241228042"
-  local_assets: []
+  local_assets:
+    - "../../raw/deep-extractions/ext-src-obesity-005.md"
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: Journal of Feline Medicine and Surgery; year: 2024."
-    - "The abstract states feline obesity continues to be a priority health and welfare issue."
-    - "The abstract states treatment for feline obesity is slow, often unsuccessful and not without consequences."
-    - "The abstract identifies post-gonadectomy kittens aged 5-12 months as the primary target population for obesity prevention."
-    - "The abstract highlights dietary and feeding management strategies for obesity prevention."
+    - "The deep extraction identifies post-gonadectomy kittens aged 5-12 months as the primary target population for feline obesity prevention."
+    - "The deep extraction reports that post-gonadectomy energy needs may decrease by up to 30%, while energy intake may increase by up to 50%."
+    - "The deep extraction emphasizes growth monitoring, DER-based feeding, gram-scale food measurement, and 2-week reassessment after rapid weight gain."
+    - "The deep extraction states that kittens under 12 months should receive growth-stage or all-life-stage food and should not simply be switched to adult weight-management or weight-loss food."
   source_supported_conclusion:
-    - "This source is a bounded prevention anchor."
-    - "It supports prevention-focused architecture and target population identification."
-    - "It supports framing prevention as preferable to treatment due to treatment limitations."
-    - "It must not support specific dietary protocols or owner-facing prevention checklists without full-text verification."
+    - "This source is a full-text prevention anchor for feline obesity."
+    - "It supports target-population framing around post-gonadectomy 5-12 month kittens."
+    - "It supports a prevention workflow based on early communication, growth monitoring, DER-based feeding, food weighing, environment enrichment, and reassessment."
+    - "It supports distinguishing kitten obesity prevention from adult weight-loss treatment."
   llm_inference:
-    - "This source may anchor the obesity prevention branch."
-    - "It may help justify separating prevention from treatment in the obesity module architecture."
+    - "Owner-facing outputs can use this as a prevention-architecture source, but exact DER calculations and diet selection should still be framed as veterinary-guided."
+    - "Because the paper is a review with nutrition-industry conflicts declared, distinguish directly cited evidence from expert synthesis."
   # V2 enhanced fields
-  study_design: "综述文章，聚焦于5-12个月龄绝育后小猫，综合分析现有预防肥胖策略"
-  core_argument: "针对5-12个月龄绝育后小猫的预防干预是有效遏制猫肥胖的关键，而预防策略优于治疗手段。"
-  implicit_premise: "肥胖在绝育后幼龄猫中的发生率较高且预防措施能够显著改变其健康结局。"
-  title_gap: "标题关注目标人群与预防策略，但真正发现是强调绝育后幼龄猫为首要目标，且治疗较为缓慢且存在副作用——预防比治疗更具优越性。"
-  evidence_boundary: "未涉及具体治疗方法的效果评估及成年肥胖猫的管理策略。"
-  unexpected_finding: "确认治疗猫肥胖进展缓慢且常常失败，强调预防的重要性而非治疗效果。"
+  study_design: "开放获取综述；聚焦猫肥胖高风险窗口、绝育后幼猫、预防沟通、生长监测、DER 喂养、食物称量和环境管理。"
+  core_argument: "猫肥胖管理应从成年肥胖后的减重治疗前移到绝育后5-12月龄幼猫的预防窗口，通过沟通、监测和精确喂养减少过量增重。"
+  implicit_premise: "绝育后食欲上升与能量需求下降叠加，且5-12月龄仍处于可塑生长期，因此早期预防比成年后减重更可行。"
+  title_gap: "标题说识别目标人群和预防策略；真正高价值结论是 post-gonadectomy 5-12月龄幼猫这个具体窗口，以及不能把幼猫当成年肥胖猫处理。"
+  evidence_boundary: "综述和专家综合，不是预防方案随机试验；不能把宏量营养素范围、DER方程或食物形态建议当作已验证的统一处方。"
+  unexpected_finding: "幼猫BCS偏高时也不应简单换成成年减重粮；预防核心是控制增长轨迹，而不是传统意义上的减肥。"
 ---
 
 # Identifying the target population and preventive strategies to combat feline obesity
 
 ## Evidence-Depth Caveat
 
-This is a deep-extracted source card from the full Crossref abstract. It is usable for bounded prevention architecture and target-population framing, but it is not full-text extracted and should not be used for specific dietary protocols, feeding schedules, or owner-facing prevention checklists.
+This card now links to a user-supplied full deep extraction. It is usable as the obesity prevention anchor, especially for post-gonadectomy kittens aged 5-12 months, while preserving the boundary between kitten growth prevention and adult weight-loss treatment.
 
 ## Source Check, 2026-05-14
 
@@ -60,66 +59,67 @@ Crossref metadata was checked as a repeatable second-pass intake step.
 - Year: 2024
 - Abstract available in Crossref: yes
 
-Use boundary:
+Deep extraction artifact:
 
-- This card can support cautious prevention architecture claims and the post-gonadectomy kitten target-population frame.
-- It must not support specific dietary protocols, feeding schedules, prevention success rates, or owner-facing checklists without full-text verification.
-
-Abstract lead for scope check only: Feline obesity continues to be a priority health and welfare issue. Most research surrounding obesity currently focuses on obesity treatment. However, treatment for feline obesity...
+- `raw/deep-extractions/ext-src-obesity-005.md`
 
 ## Deep Extraction, 2026-05-17
 
-Full abstract review promoted this card from `abstract_weighted` to `deep_extracted`.
+Full abstract review promoted this card from `abstract_weighted` to `deep_extracted`. The 2026-06-26 desktop deep extraction adds full-text prevention details and passage-level support.
 
 - [src-obesity-005 deep extraction round 1](../../system/indexes/src-obesity-005-deep-extraction-round1.md)
-- safe use: prevention architecture and target population identification
-- unsafe use: specific prevention protocols, feeding schedules, or owner-facing checklists
+- safe use: prevention architecture, target population identification, growth-monitoring workflow, DER-based feeding boundary
+- unsafe use: validated prevention success rates, universal DER prescriptions, replacing veterinary nutrition guidance
 
 
 ## One-Line Summary
 
-Recent feline-specific prevention source candidate focused on target populations and obesity prevention strategy.
+Feline-specific prevention review identifying post-gonadectomy kittens aged 5-12 months as the highest-priority prevention population and emphasizing growth monitoring plus precise feeding rather than adult-style weight loss.
 
 ## Why It Matters For Feline Obesity
 
-Prevention is a different question from treatment. If the obesity module treats every obesity question as weight-loss management, it will miss the earlier and probably more reusable question: which cats are most worth watching before obesity is established?
+Prevention is a different question from treatment. If the obesity module treats every obesity question as adult weight-loss management, it will miss the earlier and more actionable window: post-gonadectomy kittens whose growth trajectory is still changing.
 
-This source matters because its title is explicitly about identifying the target population and preventive strategies. That makes it a better prevention owner than a general management review. It should be read before writing any prevention or early-risk page.
+This source matters because it gives the prevention branch a concrete target population and workflow: early owner communication, repeated growth tracking, DER-based food allocation, gram-scale measurement, and reassessment when rapid weight gain appears.
 
 ## Key Findings
 
 ### quoted_fact
 
-- Crossref metadata identifies this as a 2024 Journal of Feline Medicine and Surgery article.
-- The Crossref abstract begins by framing feline obesity as a priority health and welfare issue.
-- The title focuses on target population identification and preventive strategies.
+- The source identifies post-gonadectomy kittens aged 5-12 months as the primary target population.
+- It states that post-gonadectomy energy needs can fall while appetite/intake can rise.
+- It recommends growth monitoring and DER-based feeding rather than traditional energy restriction during growth.
+- It warns against simply switching kittens under 12 months to adult weight-management or weight-loss food.
 
 ### source_supported_conclusion
 
-- This source is a Tier A obesity bootstrap candidate because it likely defines who prevention should target.
-- The source is likely relevant to risk recognition, early-life risk, owner behavior, feeding environment, and prevention design.
-- It cannot yet support specific prevention recommendations because this card has not extracted the full abstract or article.
+- This source is a Tier A obesity prevention anchor because it defines who prevention should target.
+- It supports separating prevention from treatment in the obesity module.
+- It supports owner-communication and growth-monitoring architecture.
+- It supports the nutrition boundary that kitten prevention must preserve growth-stage nutrient adequacy.
 
 ### llm_inference
 
-- This may become the first narrow owner for obesity prevention rather than broad obesity management.
-- It likely pairs with early-life risk-factor studies in the obesity queue.
+- This is the first narrow owner for obesity prevention rather than broad obesity management.
+- It pairs with obesity mechanism and metabolic-phenotyping studies but should not be used to make disease-progression claims.
 
 ## Claim-Fit Judgment
 
 Strongest safe use:
 
 - prevention branch planning
-- target-population source triage
-- deciding whether obesity needs a prevention page separate from management
+- post-gonadectomy kitten target population
+- growth curve / home weighing workflows
+- DER-based feeding and food-scale execution
+- nutrition boundary for kittens
 
 Must not control yet:
 
-- specific target-population definitions
-- prevention program recommendations
-- owner behavior claims
-- dry-food or indoor-lifestyle conclusions
-- quantified risk statements
+- validated prevention success rates
+- one-size-fits-all DER prescriptions
+- adult weight-loss diet use in kittens
+- product-specific nutrition claims
+- claims that prevention evidence is equivalent to randomized trial proof
 
 ## Image Asset TODO
 
@@ -137,6 +137,6 @@ Must not control yet:
 
 - diseases: obesity
 - models:
-- endpoints: prevention, target population, risk factors
-- mechanisms:
+- endpoints: prevention, target population, risk factors, growth monitoring, DER feeding
+- mechanisms: post-gonadectomy appetite increase, reduced energy requirement, growth-trajectory risk
 - regulations:

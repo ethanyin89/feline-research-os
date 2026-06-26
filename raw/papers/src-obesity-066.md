@@ -5,117 +5,95 @@ title: "The effect of obesity and subsequent weight reduction on cardiac morphol
 source_kind: paper
 species: feline
 diseases: [obesity]
-models: []
-endpoints: []
+models: [prospective_observational_weight_reduction, echocardiography, dexa]
+endpoints: [left_ventricular_wall_thickness, diastolic_function, sbp, nt_probnp, hs_ctni, hrv, fat_mass]
 jurisdictions: []
 evidence_level: original-study
 year: 2024
-status: ingested
-extraction_depth: partial
-verification_status: abstract_weighted
-decision_grade: no
+status: deep_extracted
+extraction_depth: full
+verification_status: deep_extracted
+decision_grade: yes
 language_qa_status: not_applicable
-tags: [obesity, effect, subsequent, weight, reduction, cardiac, morphology, function]
+tags: [obesity, cardiac_morphology, echocardiography, weight_reduction, hcm_boundary]
 links:
   doi: "10.1186/s12917-024-04011-0"
-  url: "https://doi.org/10.1186/s12917-024-04011-0"
-  local_assets: []
+  url: "https://bmcvetres.biomedcentral.com/articles/10.1186/s12917-024-04011-0"
+  local_assets:
+    - "../../raw/deep-extractions/ext-src-obesity-066.md"
 evidence_policy:
   quoted_fact:
-    - "Crossref metadata resolves this DOI and reports abstract availability for source scope checking."
-    - "Crossref container: BMC Veterinary Research; year: 2024."
+    - "The deep extraction describes 20 obese domestic shorthair cats, with 11 reaching the weight-reduction target and completing repeat cardiovascular assessment."
+    - "At baseline, 11/20 cats had at least one maximal end-diastolic IVS or LV free-wall thickness >=6.0 mm, and 15/19 had abnormal diastolic function classification."
+    - "After weight reduction, excluding one cat considered to have progressed to primary HCM, LVFWd changed by -0.85 mm (P=0.019) and IVSd by -0.5 mm (P=0.047)."
   source_supported_conclusion:
-    - "This card is abstract-weighted only; it can guide navigation and extraction priority."
-    - "It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed."
+    - "This source supports a claim that obesity can confound feline cardiac morphology interpretation, especially HCM-like wall thickness."
+    - "It supports cautious discussion of partial reversibility of obesity-associated wall-thickness changes after controlled weight reduction."
+    - "It supports separating echocardiographic morphology signals from blood pressure, HRV, and biomarker signals."
   llm_inference:
-    - "High-reuse guideline, review, treatment-control, or risk-architecture sources remain candidates for deep extraction."
+    - "Obesity should be treated as a potential HCM phenocopy or phenotype modifier, not as proven HCM causation."
+    - "Weight reduction findings should be framed as prospective observational evidence with small-sample and no-control limitations."
+  study_design: "前瞻性观察研究；20 只临床肥胖家短猫；11 只完成目标减重和重复心血管评估；使用 DEXA、超声心动图、SBP、心脏标志物和 HRV。"
+  core_argument: "肥胖猫常见左室壁厚增加和舒张功能异常；成功减重后壁厚下降，提示肥胖相关心脏重构可能部分可逆，但证据仍受小样本和 HCM 混杂限制。"
+  implicit_premise: "如果减重后壁厚下降，肥胖或减重相关管理可能参与心肌形态改变；但需要把潜在 HCM、饮食改变和测量变异作为竞争解释保留。"
+  unexpected_finding: "肥胖猫的主要阳性信号不是普遍高血压、NT-proBNP 升高或 hs-cTnI 升高，而是超声壁厚和舒张功能异常。"
+  title_gap: "标题说肥胖和减重影响心脏形态功能；真正值得用的是它给 HCM 判读提供了肥胖混杂边界。"
+  evidence_boundary: "样本量小、无稳定体重对照、未多重校正、1 只猫疑似原发 HCM；不能证明肥胖导致 HCM，也不能建立筛查或治疗指南。"
 ---
 
 # The effect of obesity and subsequent weight reduction on cardiac morphology and function in cats
 
 ## Evidence-Depth Caveat
 
-This is a second-pass abstract-available source card. It verifies DOI metadata and Crossref abstract availability for source triage, but it is not a full abstract extraction or full-text read.
+This card has been upgraded from abstract-weighted intake to a user-supplied full deep extraction. It supports bounded claims about obesity-associated cardiac morphology and HCM diagnostic confounding, not broad cardiology guidance.
 
-## Source Check, 2026-05-14
+The linked raw extraction is the passage owner:
 
-Crossref metadata was checked as a repeatable second-pass intake step.
-
-- DOI metadata resolved: yes
-- Container: BMC Veterinary Research
-- Year: 2024
-- Abstract available in Crossref: yes
-
-Use boundary:
-
-- This card may guide navigation and extraction priority.
-- It must not support reader-facing clinical claims until a full abstract extraction or source worksheet is completed.
-
-Abstract lead for scope check only: Abstract Background In people, obesity is a risk factor for cardiovascular disease, associated with systemic hypertension, cardiac remodelling and systolic and diastolic dysfuncti...
+- `raw/deep-extractions/ext-src-obesity-066.md`
 
 ## One-Line Summary
 
-Candidate obesity source from sheet row 205. Use it for triage until abstract or full-text extraction proves a stronger role.
-
-## Why It Matters For Feline Obesity
-
-This source was included in the 2026-05-13 feline diabetes / obesity intake sheet and classified as `new-obesity` by the intake workflow.
-
-The safe current use is source ownership:
-
-- preserve the title and locator
-- prevent the row from being reprocessed as an unknown reference
-- make the row eligible for a later source-check or deep-extraction pass
-- keep claims out of topic pages until the source text is actually read
+In 20 obese cats, LV wall thickening and diastolic dysfunction were common despite mostly normal blood pressure and biomarkers; among cats completing weight reduction, LV wall thickness decreased, but the evidence remains small and observational.
 
 ## Key Findings
 
 ### quoted_fact
 
-- The intake sheet lists this title: The effect of obesity and subsequent weight reduction on cardiac morphology and function in cats.
-- The intake sheet locator is: 10.1186/s12917-024-04011-0.
+- 20 obese domestic shorthair cats were enrolled; 11 reached the weight-reduction target.
+- Baseline LV wall thickness >=6.0 mm appeared in 11/20 cats.
+- Baseline diastolic function was abnormal in 15/19 classifiable cats.
+- After weight reduction, LVFWd and IVSd decreased in the analyzed group after excluding one suspected primary HCM progression case.
 
 ### source_supported_conclusion
 
-- This is a first-pass source-card placeholder for triage and queue control.
-- It should not support prevalence, diagnostic, treatment, management, or risk-ranking claims yet.
+- This source supports a cardiac-morphology branch in feline obesity.
+- It supports clinical caution that obesity may mimic or modify HCM-like echocardiographic findings.
+- It supports partial reversibility framing for wall-thickness changes after successful weight reduction.
 
 ### llm_inference
 
-- The title suggests a possible `obesity` role, but the actual claim-fit requires abstract or full-text review.
+- In content outputs, the safest framing is diagnostic confounder and phenotype modifier, not direct HCM causation.
+- The cardiac signal should be paired with limitations: no control group, small completion sample, diet changes, and possible HCM.
 
 ## Claim-Fit Judgment
 
-Strongest safe use:
+Strong use:
 
-- intake ownership
-- source queue placement
-- deduplication and future extraction planning
+- obesity cardiac morphology
+- HCM phenocopy / diagnostic confounding
+- weight-reduction follow-up evidence
+- tissue/morphology versus biomarker distinction
 
-Must not control yet:
+Do not use for:
 
-- reader-facing medical advice
-- numeric claims
-- comparative ranking
-- guideline-like recommendations
-- mechanism closure
-
-## Image Asset TODO
-
-- figures to capture: unknown until source text is read
-- why these matter: tables or figures should remain behind the candidate gate until labels are verified
-
-## Open Follow-Up Questions
-
-- What source family is confirmed by the abstract or article body?
-- Which claims, if any, are reusable for the obesity module?
-- Does this source deserve deep extraction, or should it remain queue context?
-- Are there tables or figures that change the module structure?
+- HCM causation
+- screening thresholds
+- cardiology treatment recommendations
+- proof that weight loss reverses all cardiac dysfunction
 
 ## Linked Entities
 
 - diseases: obesity
-- models:
-- endpoints:
-- mechanisms:
-- regulations:
+- models: prospective observational weight reduction; echocardiography; DEXA
+- endpoints: LVWT; IVSd; LVFWd; diastolic function; SBP; NT-proBNP; hs-cTnI; HRV
+- mechanisms: obesity-related remodeling; metabolic/fat-associated myocardial change; HCM diagnostic confounding

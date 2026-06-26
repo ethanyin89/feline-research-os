@@ -74,7 +74,7 @@ Verification-status read:
 | IBD | 126 | `1 abstract_weighted, 24 deep_extracted, 101 title_only` | 24 | 102 | 0 | 24 | `1 abstract_weighted, 24 deep_extracted, 101 title_only` | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
 | DIABETES | 121 | `72 abstract_weighted, 41 deep_extracted, 8 title_only` | 42 | 79 | 0 | 24 seed worksheets plus extension structured-abstract worksheets where available | `72 abstract_weighted, 41 deep_extracted, 8 title_only` | Seed corpus is full; selected extension cards now include deep-extracted obesity/diabetes bridge sources |
 | FCV | 296 | `79 abstract_weighted, 24 deep_extracted, 193 title_only` | 24 | 272 | 0 | 24 | `79 abstract_weighted, 24 deep_extracted, 193 title_only` | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| OBESITY | 95 | `79 abstract_weighted, 8 deep_extracted, 1 source_checked, 7 title_only` | 10 | 85 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `79 abstract_weighted, 8 deep_extracted, 1 source_checked, 7 title_only` | Third-batch obesity additions now include `src-obesity-011` depot-specific inflammation/model-boundary and `src-obesity-030` metabolomics/MHO-MUO phenotyping anchors |
+| OBESITY | 95 | `77 abstract_weighted, 10 deep_extracted, 1 source_checked, 7 title_only` | 12 | 83 | 0 | 44 structured-abstract worksheets, 43 title-only cards, 4 deep extraction worksheets | `77 abstract_weighted, 10 deep_extracted, 1 source_checked, 7 title_only` | Third-batch obesity additions now include `src-obesity-049` gut microbiota/MHO-MUO association and `src-obesity-066` cardiac morphology/HCM-boundary anchors |
 | CANCER | 111 | `63 abstract_weighted, 40 deep_extracted, 1 publisher_verified, 2 source_checked, 5 title_only` | 72 | 11 | 28 | 29 structured-abstract worksheets, 43 deep extraction worksheets | `63 abstract_weighted, 40 deep_extracted, 1 publisher_verified, 2 source_checked, 5 title_only` | Core oncology branches outlined; most high-visibility cancer sources Triaged and verified |
 
 ## Default Next Moves
@@ -201,7 +201,7 @@ This summary uses explicit `extraction_depth` fields only. It intentionally does
 | IBD | 126 | 24 | 102 | 0 | 0 | Separate IBD depth map exists; all source cards are explicit full and deep-extracted |
 | DIABETES | 121 | 42 | 79 | 0 | 0 | Seed corpus is full; selected extension cards now include deep-extracted obesity/diabetes bridge sources |
 | FCV | 296 | 24 | 272 | 0 | 0 | Separate FCV depth map exists; core source-card layer is full, but image assets and output-level branches remain thinner |
-| OBESITY | 95 | 10 | 85 | 0 | 0 | Third-batch obesity additions now include `src-obesity-011` depot-specific inflammation/model-boundary and `src-obesity-030` metabolomics/MHO-MUO phenotyping anchors |
+| OBESITY | 95 | 12 | 83 | 0 | 0 | Third-batch obesity additions now include `src-obesity-049` gut microbiota/MHO-MUO association and `src-obesity-066` cardiac morphology/HCM-boundary anchors |
 | CANCER | 111 | 72 | 11 | 28 | 0 | Core oncology branches outlined; most high-visibility cancer sources Triaged and verified |
 
 ---
