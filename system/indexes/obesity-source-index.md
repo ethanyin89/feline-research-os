@@ -4,7 +4,7 @@ type: index
 topic: obesity
 question_type: source-index
 language: zh
-last_compiled_at: 2026-05-17
+last_compiled_at: 2026-06-26
 verification_status: compiled
 decision_grade: no
 owner: codex
@@ -24,7 +24,7 @@ This index tracks the first-pass obesity source-card layer. The full obesity she
 | Scope | Count | State |
 |---|---:|---|
 | First-pass obesity cards | 87 | `src-obesity-001` through `src-obesity-087` |
-| Deep-extracted obesity cards | 5 | Tier 1 anchors `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008`, plus `src-obesity-027` as a GLUT4/early insulin-resistance mechanism anchor |
+| Deep-extracted obesity cards | 7 | Tier 1 anchors `src-obesity-001`, `src-obesity-004`, `src-obesity-005`, and `src-obesity-008`, plus `src-obesity-011` as a depot-specific inflammation/model-boundary anchor, `src-obesity-027` as a GLUT4/early insulin-resistance mechanism anchor, and `src-obesity-030` as a metabolomics/MHO-MUO phenotyping anchor |
 | Shared diabetes/obesity sources | 10 | cross-link to existing disease-owner cards |
 
 ## First-Pass Source Cards
@@ -41,7 +41,9 @@ The table below keeps the original Tier A shell visible. The remaining `src-obes
 | src-obesity-006 | Management of obesity in cats | management | review | first-pass partial, title-only |
 | src-obesity-007 | Obesity Treatment: Environment and Behavior Modification | environment / behavior | review | first-pass partial, title-only |
 | src-obesity-008 | Insulin Sensitivity Decreases with Obesity, and Lean Cats with Low Insulin Sensitivity are at Greatest Risk of Glucose Intolerance with Weight Gain | insulin sensitivity / diabetes bridge | original-study | deep-extracted; bounded mechanism anchor |
+| src-obesity-011 | The cat as a model for human obesity: insights into depot-specific inflammation associated with feline obesity | adipose inflammation / model boundary | original-study | deep-extracted; chronic natural obesity and SAT/VAT inflammation anchor |
 | src-obesity-027 | GLUT4 but not GLUT1 expression decreases early in the development of feline obesity | molecular mechanism / insulin resistance | original-study | deep-extracted; abstract-level GLUT4 early-change anchor |
+| src-obesity-030 | Metabolic Profiles of Feline Obesity Revealed by Untargeted and Targeted Mass Spectrometry-Based Metabolomics Approaches | metabolomics / metabolic phenotyping | original-study | deep-extracted; MHO/MUO candidate biomarker anchor |
 
 ## Shared Existing Sources
 
@@ -80,4 +82,7 @@ Deep extraction should start with:
 2. ~~`src-obesity-004`~~ done, 2026-05-17; keep as risk-factor / associated-pathology architecture anchor
 3. ~~`src-obesity-005`~~ done, 2026-05-17; keep as prevention / target-population architecture anchor
 4. ~~`src-obesity-008`~~ done, 2026-05-17; keep as bounded mechanism anchor, not public guidance
-5. `src-obesity-003` or `src-obesity-006`, depending on whether the next output pressure is broad management or feline-only management.
+5. ~~`src-obesity-011`~~ done, 2026-06-26; keep as chronic natural obesity and depot-specific inflammation model-boundary anchor
+6. ~~`src-obesity-027`~~ done, 2026-06-26; keep as GLUT4/early insulin-resistance mechanism anchor
+7. ~~`src-obesity-030`~~ done, 2026-06-26; keep as metabolomics/MHO-MUO candidate-marker anchor
+8. `src-obesity-003` or `src-obesity-006`, depending on whether the next output pressure is broad management or feline-only management.
