@@ -32,6 +32,12 @@ evidence_policy:
   llm_inference:
     - "Canonical diabetes source remains src-diabetes-005; this card is a later intake duplicate alias linked to the same deep extraction."
     - "Do not duplicate independent evidence text across src-diabetes-005 and src-diabetes-119."
+  study_design: "重复别名卡；证据所有权归 canonical `src-diabetes-005`；该综述整合肥胖糖尿病猫的病理生理和管理策略。"
+  core_argument: "肥胖通过多机制推动胰岛素抵抗，但肥胖糖尿病猫的管理不能机械先减重；若就诊时已有主动体重下降或肌肉流失，应先稳糖和稳体重，再进入可控减重。"
+  implicit_premise: "同一 DOI 的多张卡必须共享同一证据源；别名卡只负责路由和防重复，不应生成独立证据文本。"
+  title_gap: "标题看似是肥胖糖尿病共病综述，真正可转化价值是管理顺序：控糖、保肌肉、稳定后再减重。"
+  evidence_boundary: "别名卡不独立扩展证据；具体低碳水、高蛋白、减重速度和药物策略仍以 canonical source 与原始研究为准。"
+  unexpected_finding: "肥胖糖尿病猫并不总是适合立即热量限制，因为不少猫就诊时已经出现疾病相关体重和肌肉下降。"
 ---
 
 # Obese Diabetic Cat Management

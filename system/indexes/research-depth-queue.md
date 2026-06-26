@@ -171,34 +171,25 @@ These records should not be treated as reader-facing evidence until abstract/ful
 
 ## OBESITY
 
-1. `src-obesity-049` Association between Gut Microbiota and Metabolic Health and Obesity Status in Cats (2024)
-   - Locator: 10.3390/ani14172524
-   - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-2. `src-obesity-053` Missense variants in MC4R gene are associated with obesity in cats (2025)
+1. `src-obesity-053` Missense variants in MC4R gene are associated with obesity in cats (2025)
    - Locator: 10.1007/s11259-025-10700-4
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-3. `src-obesity-062` Insights into the interplay between gut microbiota and lipid metabolism in the obesity management of canines and felines (2024)
+2. `src-obesity-062` Insights into the interplay between gut microbiota and lipid metabolism in the obesity management of canines and felines (2024)
    - Locator: 10.1186/s40104-024-01073-w
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-4. `src-obesity-056` Intragastric botulinum toxin‐A injection: A novel approach to successfully manage feline obesity as an alternative technique to conventional treatment (2025)
+3. `src-obesity-056` Intragastric botulinum toxin‐A injection: A novel approach to successfully manage feline obesity as an alternative technique to conventional treatment (2025)
    - Locator: 10.1002/vrc2.1030
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-5. `src-obesity-066` The effect of obesity and subsequent weight reduction on cardiac morphology and function in cats (2024)
-   - Locator: 10.1186/s12917-024-04011-0
-   - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-6. `src-obesity-082` Feline Comorbidities: A nutritional approach to management (2025)
+4. `src-obesity-082` Feline Comorbidities: A nutritional approach to management (2025)
    - Locator: 10.1177/1098612x251320877
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-7. `src-obesity-030` Metabolic Profiles of Feline Obesity Revealed by Untargeted and Targeted Mass Spectrometry-Based Metabolomics Approaches (2025)
-   - Locator: 10.3390/vetsci12080697
-   - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-8. `src-obesity-065` Evidence of obesity-induced inflammatory changes in client-owned cats (2024)
+5. `src-obesity-065` Evidence of obesity-induced inflammatory changes in client-owned cats (2024)
    - Locator: 10.14202/vetworld.2024.1685-1692
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-9. `src-obesity-050` Changes in Serum Proteins in Cats with Obesity: A Proteomic Approach (2025)
+6. `src-obesity-050` Changes in Serum Proteins in Cats with Obesity: A Proteomic Approach (2025)
    - Locator: 10.3390/ani15010091
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
-10. `src-obesity-070` Characterization of feline nonsteroidal anti-inflammatory drug activated gene-1 (fNAG-1) and its protective function in kidney cells (2025)
+7. `src-obesity-070` Characterization of feline nonsteroidal anti-inflammatory drug activated gene-1 (fNAG-1) and its protective function in kidney cells (2025)
    - Locator: 10.1186/s12917-025-04781-1
    - Reason: verification_status=abstract_weighted; status=ingested; placeholder or first-pass triage text present
 

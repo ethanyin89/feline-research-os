@@ -31,6 +31,12 @@ evidence_policy:
   llm_inference:
     - "Canonical deep extraction is maintained under src-diabetes-028; this obesity card is a shared-source alias."
     - "Use for obesity module routing, but avoid duplicating independent evidence text."
+  study_design: "共享别名卡；证据所有权归 canonical `src-diabetes-028`；综述比较人、犬、猫肥胖向糖尿病进展的机制。"
+  core_argument: "肥胖相关胰岛素抵抗并不等同于糖尿病进展；猫的关键断点是β细胞代偿、肝糖输出调节和物种特异性机制是否失控。"
+  implicit_premise: "跨物种机制不能线性外推；同一 DOI 的 obesity alias 只用于 obesity 模块路由，不应复制独立证据。"
+  unexpected_finding: "肥胖猫可通过降低空腹和餐后内源性葡萄糖生成来抵消外周葡萄糖摄取下降，因此严重肥胖也可能维持正常空腹血糖。"
+  title_gap: "标题像跨物种综述，真正价值是阻止把“肥胖/胰岛素抵抗”直接写成“糖尿病必然进展”。"
+  evidence_boundary: "这是机制综述和共享别名，不是经过长期随访验证的个体预测模型；不能把候选机制当作临床预测指标。"
 ---
 
 # Comparative Obesity and Diabetes Progression
