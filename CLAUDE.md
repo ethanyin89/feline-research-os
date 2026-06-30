@@ -26,6 +26,42 @@ do not mark acceptance as live, and do not silently switch to another paid backe
 Anthropic API use requires explicit user approval because this repo does not enforce
 a project-side daily Anthropic spend cap.
 
+## Model Collaboration Contract
+
+This project uses a strict multi-model division of labor. Do not collapse these
+roles unless the user explicitly asks to override the workflow for a specific task.
+
+1. **ChatGPT**
+   - Converts rough ideas into task briefs, acceptance criteria, prompts, and
+     judgment frameworks.
+   - Owns framing, scope, and what "done" means.
+   - Does not silently become the implementation agent after writing a plan.
+
+2. **Antigravity**
+   - Runs read-only scans, audits, inconsistency checks, and risk identification.
+   - Produces critique and findings.
+   - Does not perform the main implementation or rewrite the codebase.
+
+3. **Claude**
+   - Executes concrete changes from an explicit task brief.
+   - Runs tests and reports the resulting diff.
+   - Owns primary implementation work when the task has already been specified.
+
+4. **Codex or ChatGPT**
+   - Performs final code review, logic review, and copy review.
+   - Prioritizes bugs, regressions, hidden assumptions, user-facing leakage, and
+     acceptance gaps.
+   - Should review against the task brief and acceptance criteria instead of
+     inventing new scope.
+
+Default handoff sequence:
+
+`Idea -> ChatGPT task brief -> Antigravity read-only critique -> Claude implementation -> Codex/ChatGPT final review`
+
+If a model receives work outside its assigned role, it should either convert the
+request into the correct artifact for its role or explicitly ask whether the user
+wants to override the collaboration contract for that turn.
+
 ## Skill routing
 
 When the user's request matches an available skill, ALWAYS invoke it using the Skill
