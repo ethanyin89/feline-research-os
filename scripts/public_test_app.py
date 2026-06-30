@@ -20,6 +20,7 @@ from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).parent
 VAULT_ROOT = SCRIPTS_DIR.parent
+sys.path.insert(0, str(VAULT_ROOT))
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 from query import (  # noqa: E402
@@ -33,6 +34,11 @@ from query import (  # noqa: E402
     run_query_core,
 )
 from local_answer_surfaces import build_local_surface_answer  # noqa: E402
+from core.result_presentation import (  # noqa: E402
+    build_source_display,
+    render_user_facing_provenance,
+)
+from core.source_metadata import load_source_metadata  # noqa: E402
 
 EXAMPLE_QUESTIONS = [
     "解释CKD",
@@ -52,23 +58,90 @@ def vault_counts() -> tuple[int, int, int]:
 
 
 def render_provenance(text: str) -> str:
-    escaped = html.escape(text)
+    return render_public_answer(text, parse_source_ids_from_answer(text))
+
+
+def source_displays_for_ids(source_ids: list[str]):
+    metadata = load_source_metadata(VAULT_ROOT, source_ids)
+    return [build_source_display(item) for item in metadata]
+
+
+def sanitize_public_answer_text(text: str, source_ids: list[str]) -> str:
+    """Convert audit-oriented answer text into ordinary-user page copy."""
+    rendered = render_user_facing_provenance(
+        text,
+        source_displays_for_ids(source_ids),
+        html_output=False,
+    )
+
+    # Drop source-card inventory rows. They are useful for audit, not for a
+    # public smoke page.
+    rendered = re.sub(
+        r"^\*\*(?:来源清单|Source inventory)[：:].*?\*\*\s*\n+",
+        "",
+        rendered,
+        flags=re.M,
+    )
+    rendered = rendered.replace("[分析推断：文献 []]", "[分析推断]")
+
+    replacements = [
+        (r"这是本地 vault 的", "这是基于已整理资料的"),
+        (r"这个 vault", "这份资料库"),
+        (r"本地库", "资料库"),
+        (r"本地 vault", "资料库"),
+        (r"local vault", "curated literature index"),
+        (r"Local vault", "Curated literature index"),
+        (r"本次没有调用 API。?", ""),
+        (r"No API call was made\.?", ""),
+        (r"source cards?", "sources"),
+        (r"Source cards?", "Sources"),
+        (r"`?raw/(?:papers|regulations)/[^`\s),]+`?", "来源文献"),
+        (r"`?topics/[^`\s),]+\.md`?", "已整理主题页"),
+        (r"`?outputs/[^`\s),]+`?", "已整理报告"),
+        (r"\bSource IDs\b", "Sources"),
+        (r"`?(?:mechanism-overview|endpoint-handbook|translation-brief|current-state-dashboard)\.md`?", "相关资料页"),
+    ]
+    for pattern, replacement in replacements:
+        rendered = re.sub(pattern, replacement, rendered, flags=re.I)
+
+    # Last-resort cleanup for any loose internal identifiers or fallback labels.
+    rendered = re.sub(r"\bsrc-[a-z0-9-]+-\d{3}\b", "文献", rendered, flags=re.I)
+    rendered = re.sub(r"文献 \[[A-Z0-9-]+-\d{3}\]", "文献", rendered)
+    rendered = re.sub(r"\n{3,}", "\n\n", rendered).strip()
+    return rendered
+
+
+def render_public_answer(text: str, source_ids: list[str]) -> str:
+    public_text = sanitize_public_answer_text(text, source_ids)
+    escaped = html.escape(public_text)
     escaped = re.sub(
-        r"\[quoted_fact: ([^\]]+)\]",
+        r"\[直接来源：([^\]]+)\]",
         r'<span class="prov-badge prov-quoted">直接来源: \1</span>',
         escaped,
     )
     escaped = re.sub(
-        r"\[source_supported_conclusion: ([^\]]+)\]",
+        r"\[来源支持：([^\]]+)\]",
         r'<span class="prov-badge prov-supported">来源支持: \1</span>',
         escaped,
     )
     escaped = re.sub(
-        r"\[llm_inference\]",
+        r"\[分析推断\]",
         r'<span class="prov-badge prov-inference">分析推断</span>',
         escaped,
     )
     return escaped
+
+
+def sanitize_status_text(status: str) -> str:
+    replacements = {
+        "Checking deterministic local surfaces...": "Preparing a curated answer...",
+        "Searched vault": "Checked the evidence index",
+        "Loaded evidence": "Prepared source context",
+    }
+    cleaned = replacements.get(status, status)
+    cleaned = re.sub(r"\bsrc-[a-z0-9-]+-\d{3}\b", "source", cleaned, flags=re.I)
+    cleaned = cleaned.replace("local vault", "curated literature index")
+    return cleaned
 
 
 def provenance_counts(answer: str) -> dict[str, int]:
@@ -100,10 +173,10 @@ def render_source_titles(source_ids: list[str], limit: int = 6) -> str:
     titles = PublicTestHandler.source_titles
     rows: list[str] = []
     for sid in source_ids[:limit]:
-        title = titles.get(sid, sid)
+        title = titles.get(sid, "Source")
         rows.append(f"<div class='source-row'>· {html.escape(title)}</div>")
     if len(source_ids) > limit:
-        rows.append(f"<div class='source-more'>+ {len(source_ids) - limit} more source ids loaded</div>")
+        rows.append(f"<div class='source-more'>+ {len(source_ids) - limit} more sources</div>")
     return "\n".join(rows)
 
 
@@ -115,7 +188,6 @@ def render_page(
     disease_choice: str = "auto",
     max_hops: int = 3,
 ) -> bytes:
-    source_count, topic_count, disease_count = vault_counts()
     examples = "\n".join(
         f"<button class='chip' name='question' value='{html.escape(q, quote=True)}'>{html.escape(q)}</button>"
         for q in EXAMPLE_QUESTIONS
@@ -151,9 +223,9 @@ def render_page(
         )
         for value, label in backend_options
     )
-    engine_label = "local vault search" if backend_choice == "local" else OPENROUTER_MODEL
+    engine_label = "free evidence search" if backend_choice == "local" else OPENROUTER_MODEL
     engine_notice = (
-        "Free local mode is selected. No API call will be made."
+        "Free evidence mode is selected."
         if backend_choice == "local"
         else "OpenRouter API mode is selected. This may spend project API budget."
     )
@@ -364,7 +436,7 @@ def render_page(
       <div class="field"><input name="keyword" placeholder="Try phosphorus, SDMA, fibrosis..."></div>
       <div class="vault-panel vault-sidebar-meta">
         <div class="meta-row"><span>engine</span><strong>{html.escape(engine_label)}</strong></div>
-        <div class="meta-row"><span>vault index</span><strong>{source_count} sources</strong></div>
+        <div class="meta-row"><span>evidence</span><strong>curated literature</strong></div>
         <div class="meta-row"><span>public mode</span><strong>HTTP form</strong></div>
       </div>
     </div>
@@ -373,7 +445,7 @@ def render_page(
     <div class="main-header">
       <div class="vault-kicker">Research Chat</div>
       <h1>Ask the vault</h1>
-      <div class="statline">{source_count} sources · {topic_count} topic pages · {disease_count} diseases</div>
+      <div class="statline">Evidence-backed feline health answers</div>
     </div>
     <div class="vault-panel try-panel"><div class="vault-panel-label">Try asking</div></div>
     <form method="post" action="/ask" class="examples">
@@ -416,19 +488,19 @@ def render_health_page() -> bytes:
     return body.encode("utf-8")
 
 
-def render_decision_path(question: str, disease: str, backend: str, source_count: int) -> str:
+def render_decision_path(question: str, disease: str, backend: str) -> str:
     escaped_question = html.escape(question)
     escaped_disease = html.escape(disease)
-    escaped_backend = html.escape(backend)
+    escaped_backend = "free evidence search" if backend == "local" else html.escape(backend)
     return f"""
     <section id="decision-path" class="answer-card">
-      <div class="vault-panel-label">Decision path</div>
-      <p><strong>查看决策路径</strong></p>
+      <div class="vault-panel-label">Answer summary</div>
+      <p><strong>回答概览</strong></p>
       <ol>
-        <li>Interpret request: {escaped_question}</li>
-        <li>Selected condition scope: {escaped_disease}</li>
+        <li>Question: {escaped_question}</li>
+        <li>Condition: {escaped_disease}</li>
         <li>Answer engine: {escaped_backend}</li>
-        <li>Loaded source count: {int(source_count)}</li>
+        <li>Evidence: source titles are shown with the answer.</li>
       </ol>
       <button type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(location.href)">复制路径链接</button>
     </section>
@@ -475,8 +547,8 @@ class PublicTestHandler(BaseHTTPRequestHandler):
                 backend_choice = "local"
             answer_html = ""
             status_html = (
-                "<div class='status'><div class='vault-panel-label'>Decision path ready</div>"
-                "Use the request parameter to replay a Research Workspace path.</div>"
+                "<div class='status'><div class='vault-panel-label'>Shared view</div>"
+                "This answer view is ready.</div>"
             )
             if request:
                 statuses: list[str] = []
@@ -498,19 +570,18 @@ class PublicTestHandler(BaseHTTPRequestHandler):
                             on_status=statuses.append,
                         )
                     answer = str(result.get("answer", "")).strip()
-                    source_ids = evidence_ids_for_answer(result, answer)
                     answer_html = (
                         f"<section class='chat-message user'>{html.escape(request)}</section>"
                         "<section class='answer-card'>"
-                        f"<pre>{render_provenance(answer)}</pre>"
-                        f"{render_decision_path(request, str(result.get('disease', disease_choice)), backend_choice, len(source_ids))}"
+                        f"<pre>{render_public_answer(answer, evidence_ids_for_answer(result, answer))}</pre>"
+                        f"{render_decision_path(request, str(result.get('disease', disease_choice)), backend_choice)}"
                         "</section>"
                     )
                 except Exception as exc:  # pragma: no cover - public diagnostic path
                     answer_html = (
                         "<section class='answer-card'>"
                         f"Replay failed: {html.escape(type(exc).__name__)}: {html.escape(str(exc))}"
-                        f"{render_decision_path(request, disease_choice, backend_choice, 0)}"
+                        f"{render_decision_path(request, disease_choice, backend_choice)}"
                         "</section>"
                     )
             self._send_html(
@@ -606,17 +677,17 @@ class PublicTestHandler(BaseHTTPRequestHandler):
             counts = provenance_counts(answer)
             sourced_claims = counts["quoted"] + counts["supported"]
             engine_meta = "local" if backend_choice == "local" else OPENROUTER_MODEL
+            engine_display = "free evidence search" if backend_choice == "local" else engine_meta
             meta = (
                 f"<div class='statline'><code>{html.escape(str(result.get('disease', 'unknown')))}</code> "
-                f"<code>{html.escape(str(result.get('question_type', 'unknown')))}</code> "
-                f"<code>{html.escape(engine_meta)}</code> "
-                f"<code>{len(source_ids)} sources</code> "
+                f"<code>{html.escape(str(result.get('question_type', 'answer')))}</code> "
+                f"<code>{html.escape(engine_display)}</code> "
                 f"<code>{time.time() - started:.1f}s</code></div>"
             )
             trust = (
                 "<div class='trust'>"
-                f"Confidence: {confidence}. {sourced_claims} sourced claim tags and "
-                f"{counts['inference']} inference tags. Readings loaded: {len(source_ids)}."
+                f"Evidence note: {confidence} support signal. {sourced_claims} source-backed notes and "
+                f"{counts['inference']} analysis notes."
                 "</div>"
             )
             sources = ""
@@ -628,13 +699,13 @@ class PublicTestHandler(BaseHTTPRequestHandler):
             answer_html = (
                 f"<section class='chat-message user'>{html.escape(question)}</section>"
                 "<section class='answer-card'>"
-                f"{meta}<pre>{render_provenance(answer)}</pre>{trust}{sources}</section>"
+                f"{meta}<pre>{render_public_answer(answer, source_ids)}</pre>{trust}{sources}</section>"
             )
             status_html = ""
             if statuses:
                 status_html = (
                     "<div class='status'><div class='vault-panel-label'>Read path</div>"
-                    + "<br>".join(html.escape(s) for s in statuses[-6:])
+                    + "<br>".join(html.escape(sanitize_status_text(s)) for s in statuses[-6:])
                     + "</div>"
                 )
             self._send_html(
