@@ -1,0 +1,28 @@
+{
+  "id": "src-diabetes-025",
+  "title": "Feline Diabetes Is Associated with Deficits in Markers of Insulin Signaling in Peripheral Tissues",
+  "year": 2024,
+  "doi": "10.3390/ijms252313195",
+  "positioning": "机制研究（自然发生疾病的伴侣动物模型机制研究）",
+  "research_question": "猫糖尿病到底在哪些组织、哪些信号节点上出现了胰岛素合成、肠促胰素信号和外周胰岛素信号的缺陷？",
+  "study_design": {
+    "subjects": "54 只客户拥有猫（15 只非糖尿病瘦猫，15 只非糖尿病超重/肥胖猫，24 只糖尿病猫）。糖尿病猫分为 16 只未治疗和 8 只已接受胰岛素治疗。",
+    "methods": "检测胰腺、骨骼肌、肝脏中胰岛素、肠促胰素信号及脂质代谢相关的 mRNA (qPCR) 和蛋白丰度 (如 insulin receptor, IRS-1/2, PI3K, AKT, GLUT-1/2/4, GLP-1 receptor, ACC, HSL 等)。"
+  },
+  "key_findings": [
+    "未治疗和已治疗糖尿病猫胰腺 insulin mRNA 下降，提示胰岛素合成能力受损。",
+    "未治疗糖尿病猫骨骼肌 insulin receptor 和 PI3K 转录下降，GLUT-4 与 PI3K-p85α 蛋白丰度下降，提示外周胰岛素信号传递和葡萄糖转运能力下降。",
+    "未治疗糖尿病猫肝脏脂肪比例升高，phosphorylated ACC 和 phosphorylated HSL 蛋白上调，提示肝脏存在脂肪生成和脂解同时增强的代谢失衡（更高的 lipid flux）。",
+    "已接受外源胰岛素治疗的糖尿病猫，其胰腺中 GLP-1/GIP receptor、AKT、phosphorylated AKT、GLUT-1 蛋白反而升高，提示治疗状态会重塑组织分子信号。"
+  ],
+  "mechanism_chain": "猫糖尿病不是一个单点胰腺问题，而是“胰腺（胰岛素合成与肠促胰素响应受损）+ 骨骼肌（胰岛素信号传递与 GLUT-4 葡萄糖摄取缺陷）+ 肝脏（异位脂肪沉积与糖脂通量异常）”三组织共同参与的系统性代谢信号障碍。",
+  "methodological_value": "把猫糖尿病机制图谱从临床和生理层面（高血糖、肥胖）推进到了分子信号网络层面，确立了检测 insulin/IRS/PI3K/AKT/GLUT 轴以及异位脂肪的价值。",
+  "translational_value": "对 Feline Research OS / NewPets 的价值：1. 提示在评价糖尿病/肥胖代谢模型和药效时，不能只测血糖和果糖胺，应补充受体后信号、GLP-1/GIP 受体响应度以及肝脏/肌肉脂肪沉积读数。2. 模型入组和数据分析必须严格区分 untreated 与 treated diabetic cats，因为外源胰岛素干预会显著改变基线分子特征。",
+  "limitations": "样本量较小（尤其是 treated 组仅 8 只且用药不同）；横断面研究无法证明因果方向；未接受统一控制饮食；组织采集在安乐死后进行，病程和并发症混杂。",
+  "recommendation_reason": "这是将猫糖尿病与人 2 型糖尿病相似性真正落实到多组织分子机制层面的核心文献。对于建立糖尿病模型机制评价指标、分析肠促胰素类药物（GLP-1/GIP）受体后潜力，具有极高的定标价值。",
+  "snippets": [
+    "猫糖尿病不能只理解为胰岛素分泌不足，而应被视为胰腺、骨骼肌和肝脏共同参与的多组织代谢信号障碍。",
+    "糖尿病猫药效评价不宜只看血糖、果糖胺、体重和胰岛素用量；若要支持机制型产品，应补充 insulin/IRS/PI3K/AKT/GLUT 轴、GLP-1/GIP receptor、肝脏脂质沉积和肌肉脂肪沉积等读数。",
+    "untreated diabetic cats 与 treated diabetic cats 不能混合作为同一基线，因为外源胰岛素治疗可能重塑胰腺 GLP-1/GIP receptor、AKT、GLUT-1 等信号。"
+  ]
+}

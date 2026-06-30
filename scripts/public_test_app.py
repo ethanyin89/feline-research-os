@@ -88,6 +88,14 @@ def confidence_for_answer(answer: str) -> str:
     return "low"
 
 
+def evidence_ids_for_answer(result: dict, answer: str) -> list[str]:
+    source_ids = list(result.get("loaded_source_ids") or parse_source_ids_from_answer(answer))
+    if source_ids:
+        return source_ids
+    local_hit_ids = re.findall(r"^- `([^`]+)` —", answer, flags=re.M)
+    return list(dict.fromkeys(local_hit_ids))
+
+
 def render_source_titles(source_ids: list[str], limit: int = 6) -> str:
     titles = PublicTestHandler.source_titles
     rows: list[str] = []
@@ -120,6 +128,7 @@ def render_page(
         ("fip", "FIP"),
         ("ibd", "IBD"),
         ("diabetes", "Diabetes"),
+        ("obesity", "Obesity"),
         ("fcv", "FCV"),
     ]
     disease_select = "\n".join(
@@ -388,6 +397,44 @@ def render_page(
     return body.encode("utf-8")
 
 
+def render_health_page() -> bytes:
+    body = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ask the Vault Public Test Health</title>
+</head>
+<body>
+  <main>
+    <h1>Ask the Vault public test sentinel</h1>
+    <p>status: ok</p>
+    <p>product: Feline Research OS</p>
+  </main>
+</body>
+</html>"""
+    return body.encode("utf-8")
+
+
+def render_decision_path(question: str, disease: str, backend: str, source_count: int) -> str:
+    escaped_question = html.escape(question)
+    escaped_disease = html.escape(disease)
+    escaped_backend = html.escape(backend)
+    return f"""
+    <section id="decision-path" class="answer-card">
+      <div class="vault-panel-label">Decision path</div>
+      <p><strong>查看决策路径</strong></p>
+      <ol>
+        <li>Interpret request: {escaped_question}</li>
+        <li>Selected condition scope: {escaped_disease}</li>
+        <li>Answer engine: {escaped_backend}</li>
+        <li>Loaded source count: {int(source_count)}</li>
+      </ol>
+      <button type="button" onclick="navigator.clipboard && navigator.clipboard.writeText(location.href)">复制路径链接</button>
+    </section>
+    """
+
+
 class PublicTestHandler(BaseHTTPRequestHandler):
     source_index = build_source_index(VAULT_ROOT)
     source_weights = build_source_weights(VAULT_ROOT)
@@ -405,13 +452,76 @@ class PublicTestHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self) -> None:
-        if self.path == "/health":
+        parsed = urllib.parse.urlparse(self.path)
+        if parsed.path == "/health":
             body = b"ok"
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+            return
+        if parsed.path == "/public-test-health.html":
+            self._send_html(render_health_page())
+            return
+        if parsed.path == "/intake-parser.html":
+            params = urllib.parse.parse_qs(parsed.query)
+            request = (params.get("request") or [""])[0].strip()
+            disease_choice = (params.get("disease") or ["auto"])[0]
+            if disease_choice not in {"auto", "ckd", "hcm", "fip", "ibd", "diabetes", "fcv", "obesity"}:
+                disease_choice = "auto"
+            backend_choice = (params.get("backend") or ["local"])[0]
+            if backend_choice not in {"local", "openrouter"}:
+                backend_choice = "local"
+            answer_html = ""
+            status_html = (
+                "<div class='status'><div class='vault-panel-label'>Decision path ready</div>"
+                "Use the request parameter to replay a Research Workspace path.</div>"
+            )
+            if request:
+                statuses: list[str] = []
+                try:
+                    disease_hint = None if disease_choice == "auto" else disease_choice
+                    result = build_local_surface_answer(
+                        question=request,
+                        vault_root=VAULT_ROOT,
+                        disease_hint=disease_hint,
+                    )
+                    if result is None:
+                        result = run_local_query_core(
+                            question=request,
+                            vault_root=VAULT_ROOT,
+                            source_index=self.source_index,
+                            source_weights=self.source_weights,
+                            disease_hint=disease_hint,
+                            search_limit=6,
+                            on_status=statuses.append,
+                        )
+                    answer = str(result.get("answer", "")).strip()
+                    source_ids = evidence_ids_for_answer(result, answer)
+                    answer_html = (
+                        f"<section class='chat-message user'>{html.escape(request)}</section>"
+                        "<section class='answer-card'>"
+                        f"<pre>{render_provenance(answer)}</pre>"
+                        f"{render_decision_path(request, str(result.get('disease', disease_choice)), backend_choice, len(source_ids))}"
+                        "</section>"
+                    )
+                except Exception as exc:  # pragma: no cover - public diagnostic path
+                    answer_html = (
+                        "<section class='answer-card'>"
+                        f"Replay failed: {html.escape(type(exc).__name__)}: {html.escape(str(exc))}"
+                        f"{render_decision_path(request, disease_choice, backend_choice, 0)}"
+                        "</section>"
+                    )
+            self._send_html(
+                render_page(
+                    answer_html=answer_html,
+                    question=request,
+                    status_html=status_html,
+                    backend_choice=backend_choice,
+                    disease_choice=disease_choice,
+                )
+            )
             return
         self._send_html(render_page())
 
@@ -432,7 +542,7 @@ class PublicTestHandler(BaseHTTPRequestHandler):
             "",
         )
         disease_choice = fields.get("disease", ["auto"])[0]
-        if disease_choice not in {"auto", "ckd", "hcm", "fip", "ibd", "diabetes", "fcv"}:
+        if disease_choice not in {"auto", "ckd", "hcm", "fip", "ibd", "diabetes", "obesity", "fcv"}:
             disease_choice = "auto"
         backend_choice = fields.get("backend", ["local"])[0]
         if backend_choice not in {"local", "openrouter"}:
@@ -491,7 +601,7 @@ class PublicTestHandler(BaseHTTPRequestHandler):
                     on_status=statuses.append,
                 )
             answer = str(result.get("answer", "")).strip()
-            source_ids = list(result.get("loaded_source_ids") or parse_source_ids_from_answer(answer))
+            source_ids = evidence_ids_for_answer(result, answer)
             confidence = confidence_for_answer(answer)
             counts = provenance_counts(answer)
             sourced_claims = counts["quoted"] + counts["supported"]

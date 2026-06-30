@@ -115,6 +115,9 @@ def render_workspace_tabs(output: WorkspaceOutput, st_module) -> None:
     st = st_module
     is_zh = output.language == "zh"
 
+    # Scroll anchor for research results - keeps scroll at top of result
+    st.markdown('<div id="research-result-top"></div>', unsafe_allow_html=True)
+
     status = (
         f"已完成 · 使用 {output.sources_included} 条证据"
         if is_zh else

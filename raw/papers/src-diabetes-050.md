@@ -11,7 +11,7 @@ jurisdictions: []
 evidence_level: guideline
 year: 2015
 status: ingested
-extraction_depth: full
+extraction_depth: partial
 verification_status: deep_extracted
 decision_grade: no
 language_qa_status: not_applicable

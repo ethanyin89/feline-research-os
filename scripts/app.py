@@ -88,7 +88,16 @@ from query import (
 from expert_review import build_expert_review_prompt, expert_review_stage_label
 from search import vault_search
 
-from local_answer_surfaces import build_ckd_researcher_overview, is_researcher_overview_question, build_ckd_topic_index
+from local_answer_surfaces import (
+    build_ckd_researcher_overview,
+    is_researcher_overview_question,
+    build_ckd_topic_index,
+    is_endpoint_matrix_question,
+    build_gold_standard_endpoint_answer,
+    build_gold_standard_topic_answer,
+    GOLD_STANDARD_TOPICS,
+    _match_gold_standard_topic,
+)
 from research_case_ui import render_research_cases
 from research_record_ui import render_research_records
 from research_mode import is_research_mode_query, handle_research_query, handle_research_query_structured
@@ -994,7 +1003,7 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
         answer = (
             "这是本地 vault 的 FIP 识别解释，不是 API 综合回答；本次没有调用 API。 [inference]\n\n"
             "## 如何识别FIP？\n\n"
-            "### 🚨 需要立即就医的情况\n"
+            "## 需要立即就医的情况\n"
             "| 症状组合 | 说明 |\n"
             "|----------|------|\n"
             "| 肚子变大 + 精神差 | 可能是腹水，湿性FIP的典型表现 |\n"
@@ -1002,18 +1011,18 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| 眼睛异常 + 发烧 | 眼睛浑浊、颜色改变 |\n"
             "| 走路不稳 + 发烧 | 可能是神经型FIP |\n\n"
             "[source_supported_conclusion: src-fip-006]\n\n"
-            "### 高风险猫咪\n"
+            "## 高风险猫咪\n"
             "- **年龄**：1岁以下的幼猫风险最高\n"
             "- **来源**：猫舍、收容所、多猫家庭\n"
             "- **压力**：刚搬家、刚到新家、刚做手术\n\n"
             "[source_supported_conclusion: src-fip-003]\n\n"
-            "### 早期症状\n"
+            "## 早期症状\n"
             "- 食欲下降，以前爱吃现在不想吃\n"
             "- 精神变差，不爱玩，总是睡觉\n"
             "- 体重下降，明显变瘦\n"
             "- 发烧，摸起来比平时热\n\n"
             "[source_supported_conclusion: src-fip-015]\n\n"
-            "### 重要提示\n"
+            "## 重要提示\n"
             "- 我们不能靠一个症状或单一的诊断进行判断。FIP 诊断需要结合湿性 (effusive) 或干性 (non-effusive) 表现进行多轴评估。\n"
             "- 这些症状也可能是其他疾病，需要医生综合判断\n"
             "- FIP现在有药可治（GS-441524等），早发现早治疗效果更好\n"
@@ -1025,7 +1034,7 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
         answer = (
             "This is a local FIP recognition explanation, not API synthesis. No API call was made. [inference]\n\n"
             "## How to Recognize FIP?\n\n"
-            "### 🚨 Seek Immediate Veterinary Care If:\n"
+            "## Seek Immediate Veterinary Care If\n"
             "| Symptom Combination | What It Means |\n"
             "|---------------------|---------------|\n"
             "| Swollen belly + lethargy | Possible fluid buildup (wet FIP) |\n"
@@ -1033,18 +1042,18 @@ def build_fip_recognition_explanation(chinese: bool) -> tuple[str, list[str]]:
             "| Eye changes + fever | Cloudy eyes, color changes |\n"
             "| Unsteady walking + fever | Possible neurological FIP |\n\n"
             "[source_supported_conclusion: src-fip-006]\n\n"
-            "### High-Risk Cats\n"
+            "## High-Risk Cats\n"
             "- **Age**: Kittens under 1 year are at highest risk\n"
             "- **Environment**: Catteries, shelters, multi-cat households\n"
             "- **Stress**: Recent move, new home, recent surgery\n\n"
             "[source_supported_conclusion: src-fip-003]\n\n"
-            "### Early Warning Signs\n"
+            "## Early Warning Signs\n"
             "- Loss of appetite\n"
             "- Decreased energy, sleeping more\n"
             "- Weight loss despite eating\n"
             "- Fever (feels warmer than usual)\n\n"
             "[source_supported_conclusion: src-fip-015]\n\n"
-            "### Important Notes\n"
+            "## Important Notes\n"
             "- FIP diagnosis cannot rely on a single one-symptom or one-test result. Broad evaluation must differentiate effusive and non-effusive forms.\n"
             "- These symptoms can also indicate other diseases; a vet must evaluate\n"
             "- FIP is now treatable (GS-441524 and similar drugs); early detection improves outcomes\n"
@@ -2260,6 +2269,13 @@ def build_treatment_boundary_explanation(disease: str, chinese: bool) -> tuple[s
 def choose_local_explanation_surface(question: str, disease: str) -> Optional[str]:
     """Pick a deterministic ordinary-user answer surface for free mode."""
     lowered = question.lower()
+
+    # Priority 1: Gold standard endpoint matrix answers (structured matrix-first)
+    # These provide compressed snippets with indicator tables as primary output
+    topic_id = _match_gold_standard_topic(question)
+    if topic_id:
+        return f"gold_standard_{topic_id}"
+
     # Research-oriented endpoint/evaluation queries
     endpoint_keywords = ["endpoint", "efficacy", "trial", "outcome", "评价", "指标", "药效", "疗效评价", "评估", "判断疗效"]
     treatment_evidence_keywords = ["治疗证据", "疗效证据", "treatment evidence", "gs-441524", "remdesivir", "抗病毒"]
@@ -2301,8 +2317,17 @@ def choose_local_explanation_surface(question: str, disease: str) -> Optional[st
     return None
 
 
+def _build_gold_standard_explanation(topic_id: str, chinese: bool) -> tuple[str, list[str]]:
+    """Build endpoint matrix answer from the shared local surface builder."""
+    return build_gold_standard_topic_answer(topic_id, chinese)
+
+
 def build_local_explanation(surface: str, chinese: bool) -> tuple[str, list[str]]:
     """Build a no-API explanation for supported high-visibility surfaces."""
+    # Gold standard endpoint matrix surfaces
+    if surface.startswith("gold_standard_"):
+        topic_id = surface.removeprefix("gold_standard_")
+        return _build_gold_standard_explanation(topic_id, chinese)
     if surface.endswith("_treatment_boundary"):
         disease = surface.removesuffix("_treatment_boundary")
         return build_treatment_boundary_explanation(disease, chinese)
@@ -2383,6 +2408,18 @@ def run_app_local_query_core(
     has_sirna = "sirna" in question.lower()
     snippets = " ".join(" ".join(r.get("snippets", [])) + " " + str(r.get("title", "")) for r in selected_results)
     has_direct_sirna = "sirna" in snippets.lower()
+    rare_term_context_loaded: list[str] = []
+    if has_sirna and not has_direct_sirna:
+        context_source_ids = {
+            "obesity": ["src-obesity-001", "src-obesity-005"],
+        }.get(disease, [])
+        for sid in context_source_ids:
+            path = source_index.get(sid)
+            if path and path.exists():
+                loaded_paths.add(path)
+                rare_term_context_loaded.append(sid)
+                if sid not in loaded_source_ids:
+                    loaded_source_ids.append(sid)
     is_explanation = is_local_explanation_question(question)
     explanation_surface = choose_local_explanation_surface(question, disease)
 
@@ -2459,17 +2496,9 @@ def run_app_local_query_core(
                 loaded_paths.add(path)
                 if sid not in loaded_source_ids:
                     loaded_source_ids.append(sid)
-        evidence_lines = []
-        for result in selected_results[:5]:
-            rid = result.get("id") or result["file"]
-            title = result.get("title") or result["file"]
-            matched = ", ".join(result.get("matched_terms", [])) or "n/a"
-            evidence_lines.append(f"- `{rid}` — {title}; matched terms: {matched}")
-        if evidence_lines:
-            if chinese:
-                answer += "\n\n## 本地命中\n" + "\n".join(evidence_lines)
-            else:
-                answer += "\n\n## Local Hits\n" + "\n".join(evidence_lines)
+        # For gold standard surfaces, skip "本地命中" section - sources are already cited
+        # in the snippet and properly rendered in "来源文献" at the bottom.
+        # This avoids showing raw English paths in Chinese output.
     elif chinese:
         if has_sirna and not has_direct_sirna:
             lead = f"本地库目前没有找到“{question}”的直接证据，尤其没有找到 `{disease}` 与 `siRNA` 同时成立的 source card。这个结果没有调用 API。 [llm_inference]"
@@ -2555,7 +2584,16 @@ def run_app_local_query_core(
                     line += "\n" + "\n".join(cleaned_snippets)
             evidence_lines.append(line)
         if not evidence_lines:
-            evidence_lines.append(no_hits)
+            if rare_term_context_loaded:
+                titles = get_source_titles()
+                for sid in rare_term_context_loaded:
+                    title = titles.get(sid, sid)
+                    if chinese:
+                        evidence_lines.append(f"- **`{sid}`** — {title} (背景源；未命中 siRNA)")
+                    else:
+                        evidence_lines.append(f"- **`{sid}`** — {title} (context source; no siRNA hit)")
+            else:
+                evidence_lines.append(no_hits)
 
         guide_section = ""
         lang_key = "zh" if chinese else "en"

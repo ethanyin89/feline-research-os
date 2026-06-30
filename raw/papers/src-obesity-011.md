@@ -11,9 +11,9 @@ jurisdictions: []
 evidence_level: original-study
 year: 2013
 status: deep_extracted
-extraction_depth: full
+extraction_depth: partial
 verification_status: deep_extracted
-decision_grade: yes
+decision_grade: provisional
 language_qa_status: not_applicable
 tags: [obesity, inflammation, adipose_tissue, sat, vat, comparative_model]
 links:

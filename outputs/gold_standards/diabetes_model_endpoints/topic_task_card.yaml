@@ -1,0 +1,13 @@
+topic_id: diabetes_model_endpoints
+research_question: 猫糖尿病模型关键评价指标如何构建？
+output_type: Research Workspace gold standard
+included_papers: 8
+expected_sections:
+  - 任务理解
+  - 证据范围
+  - 核心判断
+  - 指标矩阵
+  - 方法与终点
+  - 对模型/药效评价的价值
+  - 局限与证据边界
+  - 下一步

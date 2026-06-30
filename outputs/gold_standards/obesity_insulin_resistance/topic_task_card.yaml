@@ -1,0 +1,71 @@
+topic_id: obesity_insulin_resistance
+research_question: 猫肥胖如何影响胰岛素敏感性、炎症、脂肪组织、肠道菌群和糖尿病风险？哪些指标适合用于肥胖模型和代谢干预评价？
+output_type: Research Workspace gold standard
+status: completed
+last_updated: 2026-06-26
+included_papers: 10
+papers:
+  - id: src-diabetes-005
+    title: "Pathophysiology and management of the obese diabetic cat"
+    extraction_depth: full
+    paper_card: paper_cards/obese_diabetic_cat_pathophysiology.md
+  - id: src-obesity-095
+    title: "Comparative Aspects of Human, Canine, and Feline Obesity and Factors Predicting Progression to Diabetes"
+    extraction_depth: full
+    paper_card: paper_cards/comparative_obesity_diabetes.md
+    note: "共享别名，canonical: src-diabetes-028"
+  - id: src-obesity-027
+    title: "GLUT4 but not GLUT1 expression decreases early in the development of feline obesity"
+    extraction_depth: full
+    paper_card: paper_cards/glut4_early_decrease.md
+  - id: src-obesity-008
+    title: "Insulin Sensitivity Decreases with Obesity"
+    extraction_depth: full
+    paper_card: paper_cards/insulin_sensitivity_weight_gain.md
+  - id: src-obesity-022
+    title: "Obesity-induced changes in gene expression in feline adipose and skeletal muscle tissue"
+    extraction_depth: partial
+    paper_card: paper_cards/gene_expression_adipose_muscle.md
+    note: "仅abstract-weighted，需全文深度提取"
+  - id: src-obesity-011
+    title: "The cat as a model for human obesity: insights into depot-specific inflammation"
+    extraction_depth: full
+    paper_card: paper_cards/depot_specific_inflammation.md
+  - id: src-obesity-030
+    title: "Metabolic Profiles of Feline Obesity Revealed by Metabolomics"
+    extraction_depth: full
+    paper_card: paper_cards/metabolomics_mho_muo.md
+  - id: src-obesity-049
+    title: "Association between Gut Microbiota and Metabolic Health and Obesity Status in Cats"
+    extraction_depth: full
+    paper_card: paper_cards/gut_microbiota_metabolic_health.md
+  - id: src-obesity-066
+    title: "The effect of obesity and subsequent weight reduction on cardiac morphology and function in cats"
+    extraction_depth: full
+    paper_card: paper_cards/cardiac_morphology_weight_reduction.md
+  - id: src-obesity-005
+    title: "Identifying the target population and preventive strategies to combat feline obesity"
+    extraction_depth: full
+    paper_card: paper_cards/prevention_strategies.md
+expected_sections:
+  - 任务理解
+  - 证据范围
+  - 核心判断
+  - 指标矩阵
+  - 方法与终点
+  - 对模型/药效评价的价值
+  - 局限与证据边界
+  - 下一步
+outputs:
+  evidence_map: evidence_map.md
+  research_workspace: research_workspace_gold.md
+  paper_cards_dir: paper_cards/
+key_constraints:
+  - 每个判断必须能回到原文具体段落
+  - 区分：肥胖(风险状态) → 胰岛素敏感性下降(机制) → 糖尿病(终点)
+  - 炎症、GLUT4、代谢组、菌群、心脏形态是机制层或伴随层，不自动升级为临床终点
+  - 猫内证据优先，跨物种只能作为背景
+  - Evidence label必须区分：直接原文事实、多文献来源支持、分析推断
+open_issues:
+  - src-obesity-022需要全文深度提取
+  - MHO/MUO分型标准跨研究不统一，需评估是否可统一

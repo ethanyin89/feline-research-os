@@ -1,0 +1,71 @@
+topic_id: diabetes_treatment_remission
+research_question: 猫糖尿病治疗研究中，哪些证据支持缓解、血糖控制、饮食管理、胰岛素选择和 SGLT2 抑制剂？这些证据如何转化为药效终点？
+output_type: Research Workspace gold standard
+status: completed
+last_updated: 2026-06-26
+included_papers: 9
+papers:
+  - id: src-diabetes-007
+    title: "Systematic review of feline diabetic remission"
+    extraction_depth: full
+    paper_card: paper_cards/remission_systematic_review.md
+    contribution: 缓解证据边界
+  - id: src-diabetes-006
+    title: "The Role of Diet in Prevention and Management of Feline Diabetes"
+    extraction_depth: full
+    paper_card: paper_cards/diet_architecture.md
+    contribution: 饮食架构
+  - id: src-diabetes-011
+    title: "SGLT2 inhibitor use in feline diabetes mellitus"
+    extraction_depth: full
+    paper_card: paper_cards/sglt2_inhibitors.md
+    contribution: SGLT2分支
+  - id: src-diabetes-015
+    title: "Low-carb vs moderate-carb/high-fiber diet comparison"
+    extraction_depth: full
+    paper_card: paper_cards/diet_comparison_rct.md
+    contribution: 饮食RCT
+  - id: src-diabetes-016
+    title: "Low Carbohydrates Versus High Fiber"
+    extraction_depth: full
+    contribution: 饮食综述
+  - id: src-diabetes-022
+    title: "Use of a high-protein diet"
+    extraction_depth: full
+    contribution: 高蛋白证据
+  - id: src-diabetes-024
+    title: "Insulin glargine 300 U/ml"
+    extraction_depth: full
+    paper_card: paper_cards/insulin_glargine_u300.md
+    contribution: 胰岛素选择
+  - id: src-diabetes-017
+    title: "New Approaches to Feline Diabetes Mellitus"
+    extraction_depth: full
+    contribution: GLP-1/新兴治疗
+  - id: src-diabetes-021
+    title: "Diabetes mellitus in cats"
+    extraction_depth: full
+    contribution: 临床概览
+expected_sections:
+  - 任务理解
+  - 证据范围
+  - 核心判断
+  - 指标矩阵
+  - 方法与终点
+  - 对模型/药效评价的价值
+  - 局限与证据边界
+  - 下一步
+outputs:
+  evidence_map: evidence_map.md
+  research_workspace: research_workspace_gold.md
+  paper_cards_dir: paper_cards/
+key_constraints:
+  - 缓解可能但不可预测，无单一预测因子
+  - 饮食证据等级需区分（试验vs经验）
+  - SGLT2适应证限制于无并发症糖尿病
+  - 胰岛素类型无明确优劣排名
+  - 终点需分离：血糖控制、胰岛素减量、缓解
+open_issues:
+  - 缓解定义跨研究不统一
+  - 胰岛素类型缺乏head-to-head比较
+  - SGLT2长期安全性数据需补充

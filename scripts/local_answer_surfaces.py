@@ -51,11 +51,32 @@ def _infer_disease(question: str, disease_hint: Optional[str]) -> str:
         return "fip"
     if any(term in lowered or term in question for term in ["ckd", "kidney", "renal", "肾", "慢性肾"]):
         return "ckd"
-    if any(term in lowered or term in question for term in ["obesity", "obese", "肥胖", "超重"]):
+    if any(term in lowered or term in question for term in ["diabetes", "diabetic", "糖尿病", "血糖", "胰岛素"]):
+        return "diabetes"
+    if any(term in lowered or term in question for term in ["obesity", "obese", "肥胖", "超重", "胰岛素抵抗"]):
         return "obesity"
     if any(term in lowered or term in question for term in ["cancer", "tumor", "tumour", "肿瘤", "癌"]):
         return "cancer"
     return "unknown"
+
+
+def is_endpoint_matrix_question(question: str) -> bool:
+    """Detect prompts that ask for structured endpoint/indicator matrix."""
+    lowered = question.lower()
+    markers = [
+        "评价指标",
+        "关键指标",
+        "指标矩阵",
+        "药效指标",
+        "药效终点",
+        "endpoint matrix",
+        "key indicators",
+        "efficacy endpoints",
+        "model endpoints",
+        "提炼.*指标",
+        "模型.*指标",
+    ]
+    return any(marker in lowered or marker in question for marker in markers)
 
 
 def _section(markdown: str, heading: str) -> str:
@@ -283,6 +304,142 @@ def build_ckd_topic_index(chinese: bool) -> tuple[str, list[str]]:
     return _ckd_topic_index(VAULT_ROOT, chinese)
 
 
+# ---------------------------------------------------------------------------
+# Gold Standard endpoint snippets — structured matrix-first answers
+# ---------------------------------------------------------------------------
+
+GOLD_STANDARD_TOPICS = {
+    "diabetes_model_endpoints": {
+        "disease": "diabetes",
+        "keywords": ["糖尿病模型", "糖尿病.*指标", "diabetes model", "diabetes.*endpoint"],
+        "snippet_path": "outputs/gold_standards/diabetes_model_endpoints/endpoint_snippet.md",
+        "full_path": "outputs/gold_standards/diabetes_model_endpoints/research_workspace_gold.md",
+        "source_ids": ["src-diabetes-001", "src-diabetes-002", "src-diabetes-003", "src-diabetes-004",
+                       "src-diabetes-005", "src-diabetes-008", "src-diabetes-009", "src-diabetes-010"],
+    },
+    "diabetes_treatment_remission": {
+        "disease": "diabetes",
+        "keywords": ["糖尿病治疗", "糖尿病缓解", "diabetes treatment", "diabetes remission", "胰岛素", "SGLT2"],
+        "snippet_path": "outputs/gold_standards/diabetes_treatment_remission/endpoint_snippet.md",
+        "full_path": "outputs/gold_standards/diabetes_treatment_remission/research_workspace_gold.md",
+        "source_ids": ["src-diabetes-006", "src-diabetes-007", "src-diabetes-011", "src-diabetes-015",
+                       "src-diabetes-016", "src-diabetes-017", "src-diabetes-021", "src-diabetes-022", "src-diabetes-024"],
+    },
+    "obesity_insulin_resistance": {
+        "disease": "obesity",
+        "keywords": ["肥胖.*指标", "肥胖模型", "肥胖.*终点", "胰岛素抵抗.*指标", "obesity.*endpoint", "obesity model", "insulin resistance.*endpoint", "GLUT-4", "代谢综合征", "肥胖猫.*评价"],
+        "snippet_path": "outputs/gold_standards/obesity_insulin_resistance/endpoint_snippet.md",
+        "full_path": "outputs/gold_standards/obesity_insulin_resistance/research_workspace_gold.md",
+        "source_ids": ["src-obesity-005", "src-obesity-015", "src-obesity-016", "src-obesity-020",
+                       "src-obesity-022", "src-obesity-025", "src-obesity-030", "src-obesity-055", "src-obesity-080", "src-obesity-095"],
+    },
+}
+
+
+def _match_gold_standard_topic(question: str) -> Optional[str]:
+    """Match a question to a gold_standard topic by keywords."""
+    lowered = question.lower()
+    for topic_id, config in GOLD_STANDARD_TOPICS.items():
+        for keyword in config["keywords"]:
+            if re.search(keyword, lowered) or re.search(keyword, question):
+                return topic_id
+    return None
+
+
+def _gold_standard_endpoint_snippet(vault_root: Path, topic_id: str, chinese: bool) -> tuple[str, list[str]]:
+    """Return structured endpoint matrix + full research workspace content.
+
+    Structure:
+    1. Compressed snippet (endpoint matrix) - first and prominent
+    2. Full research workspace content (inline, not file path)
+    3. NO Phase 2/3 deep extracts (those are internal assets in raw/deep-extractions/)
+    """
+    config = GOLD_STANDARD_TOPICS[topic_id]
+    snippet_path = vault_root / config["snippet_path"]
+    full_path = vault_root / config["full_path"]
+    source_ids = config["source_ids"]
+
+    # Read compressed snippet
+    if snippet_path.exists():
+        snippet = snippet_path.read_text(encoding="utf-8")
+    else:
+        snippet = "指标矩阵文件尚未生成。" if chinese else "Endpoint matrix file not yet generated."
+
+    # Read full research workspace content
+    full_content = ""
+    if full_path.exists():
+        full_content = full_path.read_text(encoding="utf-8")
+
+    cited = ", ".join(source_ids[:6])
+    disease = config["disease"]
+    inventory = get_source_inventory(vault_root, disease)
+    inv_str = format_source_inventory(inventory, chinese)
+
+    # Topic display names
+    topic_names = {
+        "diabetes_model_endpoints": ("糖尿病模型评价指标", "Diabetes Model Endpoints"),
+        "diabetes_treatment_remission": ("糖尿病治疗/缓解指标", "Diabetes Treatment/Remission"),
+        "obesity_insulin_resistance": ("肥胖/胰岛素抵抗指标", "Obesity/Insulin Resistance"),
+    }
+    topic_zh, topic_en = topic_names.get(topic_id, (topic_id, topic_id))
+
+    if chinese:
+        answer = (
+            f"**{inv_str}**\n\n"
+            f"## {topic_zh}\n\n"
+            f"[source_supported_conclusion: {cited}]\n\n"
+            f"{snippet}\n\n"
+        )
+        if full_content:
+            answer += (
+                "---\n\n"
+                "## 完整研究报告\n\n"
+                f"{full_content}"
+            )
+    else:
+        answer = (
+            f"**{inv_str}**\n\n"
+            f"## {topic_en}\n\n"
+            f"[source_supported_conclusion: {cited}]\n\n"
+            f"{snippet}\n\n"
+        )
+        if full_content:
+            answer += (
+                "---\n\n"
+                "## Full Research Report\n\n"
+                f"{full_content}"
+            )
+    return answer, source_ids
+
+
+def build_gold_standard_topic_answer(
+    topic_id: str,
+    chinese: bool,
+    vault_root: Path = VAULT_ROOT,
+) -> tuple[str, list[str]]:
+    """Build a gold-standard answer for an already matched topic id."""
+    if topic_id not in GOLD_STANDARD_TOPICS:
+        raise KeyError(f"unknown gold_standard topic: {topic_id}")
+    return _gold_standard_endpoint_snippet(vault_root, topic_id, chinese)
+
+
+def build_gold_standard_endpoint_answer(
+    question: str,
+    chinese: bool,
+    vault_root: Path = VAULT_ROOT,
+) -> Optional[tuple[str, list[str], str]]:
+    """Build an endpoint matrix answer from gold_standards if matched.
+
+    Returns:
+        Tuple of (answer, source_ids, topic_id) or None if no match.
+    """
+    topic_id = _match_gold_standard_topic(question)
+    if not topic_id:
+        return None
+    answer, source_ids = build_gold_standard_topic_answer(topic_id, chinese, vault_root)
+    return answer, source_ids, topic_id
+
+
 def _what_is(vault_root: Path, disease: str, chinese: bool) -> Optional[tuple[str, list[str]]]:
     rel_paths = {
         "fip": "topics/fip/what-is-fip.md",
@@ -316,6 +473,63 @@ def build_local_surface_answer(
     chinese = _contains_chinese(question)
     disease = _infer_disease(question, disease_hint)
     lowered = question.lower()
+
+    # Priority 1: Gold standard endpoint matrix answers (structured matrix-first)
+    if is_endpoint_matrix_question(question):
+        result = build_gold_standard_endpoint_answer(question, chinese, vault_root)
+        if result:
+            answer, source_ids, topic_id = result
+            config = GOLD_STANDARD_TOPICS[topic_id]
+            inventory = get_source_inventory(vault_root, config["disease"])
+            return {
+                "answer": answer,
+                "figures_used": [],
+                "disease": config["disease"],
+                "question_type": "endpoint_matrix",
+                "answer_mode": "gold_standard_snippet",
+                "hops_used": 0,
+                "loaded_paths": set(),
+                "loaded_source_ids": source_ids,
+                "first_family_loaded": f"gold_standard_{topic_id}",
+                "disease_maturity": "gold_standard",
+                "disease_sources": inventory["total"],
+                "disease_extraction": inventory["verification_status"],
+                "research_trace": [
+                    {
+                        "step": "Matched gold_standard endpoint snippet",
+                        "detail": f"topic={topic_id}; api_calls=0; source_ids={len(source_ids)}",
+                    }
+                ],
+                "est_tokens": 0,
+            }
+
+    # Priority 2: Also check for gold standard match without explicit endpoint keywords
+    topic_id = _match_gold_standard_topic(question)
+    if topic_id:
+        answer, source_ids = build_gold_standard_topic_answer(topic_id, chinese, vault_root)
+        config = GOLD_STANDARD_TOPICS[topic_id]
+        inventory = get_source_inventory(vault_root, config["disease"])
+        return {
+            "answer": answer,
+            "figures_used": [],
+            "disease": config["disease"],
+            "question_type": "endpoint_matrix",
+            "answer_mode": "gold_standard_snippet",
+            "hops_used": 0,
+            "loaded_paths": set(),
+            "loaded_source_ids": source_ids,
+            "first_family_loaded": f"gold_standard_{topic_id}",
+            "disease_maturity": "gold_standard",
+            "disease_sources": inventory["total"],
+            "disease_extraction": inventory["verification_status"],
+            "research_trace": [
+                {
+                    "step": "Matched gold_standard topic",
+                    "detail": f"topic={topic_id}; api_calls=0; source_ids={len(source_ids)}",
+                }
+            ],
+            "est_tokens": 0,
+        }
 
     if disease == "ckd" and is_researcher_overview_question(question):
         answer, source_ids = _ckd_researcher_overview(vault_root, chinese)

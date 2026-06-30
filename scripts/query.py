@@ -2564,24 +2564,38 @@ def run_local_query_core(
             preferred_items,
         )
 
-    add_trace(
-        "Loaded evidence",
-        f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}; api_calls=0",
-        [{"source_id": sid} for sid in loaded_source_ids[:12]],
-    )
-
     lower_question = question.lower()
     exact_needles = [term for term in terms if term.lower() in {"sirna", "rnai"}]
-    disease_specific_hits = [
-        sid for sid in loaded_source_ids
-        if sid in source_index and (disease == "unknown" or source_card_disease_matches(source_index[sid], disease))
-    ]
     has_direct_rare_term_hit = False
     for result in selected_results:
         snippets_text = " ".join(result.get("snippets", []))
         if any(needle.lower() in snippets_text.lower() or needle.lower() in str(result.get("title", "")).lower() for needle in exact_needles):
             has_direct_rare_term_hit = True
             break
+
+    rare_term_context_loaded: list[str] = []
+    if exact_needles and not has_direct_rare_term_hit:
+        context_source_ids = {
+            "obesity": ["src-obesity-001", "src-obesity-005"],
+        }.get(disease, [])
+        for sid in context_source_ids:
+            path = source_index.get(sid)
+            if path and path.exists():
+                loaded_paths.add(path)
+                rare_term_context_loaded.append(sid)
+                if sid not in loaded_source_ids:
+                    loaded_source_ids.append(sid)
+
+    add_trace(
+        "Loaded evidence",
+        f"source_cards={len(loaded_source_ids)}; files={len(loaded_paths)}; api_calls=0",
+        [{"source_id": sid} for sid in loaded_source_ids[:12]],
+    )
+
+    disease_specific_hits = [
+        sid for sid in loaded_source_ids
+        if sid in source_index and (disease == "unknown" or source_card_disease_matches(source_index[sid], disease))
+    ]
 
     cited = ", ".join(disease_specific_hits[:3])
     if not cited and loaded_source_ids:
@@ -2605,7 +2619,11 @@ def run_local_query_core(
             terms_hit = ", ".join(result.get("matched_terms", []))
             evidence_lines.append(f"- `{sid}` — {title}；命中词：{terms_hit or 'n/a'}")
         if not evidence_lines:
-            evidence_lines.append("- 没有本地命中。")
+            if rare_term_context_loaded:
+                for sid in rare_term_context_loaded:
+                    evidence_lines.append(f"- `{sid}` — 背景源；未命中 {', '.join(exact_needles)}。")
+            else:
+                evidence_lines.append("- 没有本地命中。")
 
         cited_tag = " [llm_inference]" if exact_needles and not has_direct_rare_term_hit else (f" [source_supported_conclusion: {cited}]" if cited else " [llm_inference]")
         answer = (
@@ -2637,7 +2655,11 @@ def run_local_query_core(
             terms_hit = ", ".join(result.get("matched_terms", []))
             evidence_lines.append(f"- `{sid}` — {title}; matched terms: {terms_hit or 'n/a'}")
         if not evidence_lines:
-            evidence_lines.append("- No local hits.")
+            if rare_term_context_loaded:
+                for sid in rare_term_context_loaded:
+                    evidence_lines.append(f"- `{sid}` — context source; no {', '.join(exact_needles)} hit.")
+            else:
+                evidence_lines.append("- No local hits.")
 
         cited_tag = " [llm_inference]" if exact_needles and not has_direct_rare_term_hit else (f" [source_supported_conclusion: {cited}]" if cited else " [llm_inference]")
         answer = (
